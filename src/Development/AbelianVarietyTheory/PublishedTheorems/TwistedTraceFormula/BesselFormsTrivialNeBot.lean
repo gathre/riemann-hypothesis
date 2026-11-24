@@ -147,6 +147,12 @@ namespace GlobalTheory.Published
 
 open GlobalTheory.RealBessel
 
+/-- **Gelfand–Kazhdan uniqueness theorem for Bessel models**: irreducible admissible
+representations of reductive groups over local fields admit at most one invariant
+Bessel functional (multiplicity-one theorem for Bessel models).
+
+Proposed reference:
+[I. M. Gelfand and D. A. Kazhdan, *Representations of the group ${\rm GL}(n, K)$ where $K$ is a local field*][gelfandKazhdan1975]. -/
 def BesselUniquenessReal : Prop :=
   ∀ (n m r : ℕ) (J : Matrix (Fin n) (Fin n) ℂ) (J₀ : Matrix (Fin m) (Fin m) ℂ) (F : Matrix (Fin n) (Fin m) ℂ)
     (e : Matrix (Fin n) (Fin r) ℂ) (z : Fin n → ℂ), IsFrame J J₀ F e z →
