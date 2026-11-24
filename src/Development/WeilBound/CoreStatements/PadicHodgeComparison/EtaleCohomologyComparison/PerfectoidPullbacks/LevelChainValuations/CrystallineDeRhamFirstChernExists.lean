@@ -1599,17 +1599,8 @@ theorem rhoSys_ex : Nonempty (RhoSys S Model.Sm (dat Amp) fun a c => IsFirstCher
      act := rho_act_of S hS hC fun M m s g => by
        have hL := hS.lev m
        have hRed := galRed_rHof (dOf S hS hC m) (hcOf S hS hC m) hL g M s
-       exact
-         { ℓ := rfl
-           lam c := hL.σ_lam g c
-           ι a := (hL.σ_ι g a).symm
-           o k := hL.σB_K g k
-           tS n j x := ((M.galH false j (IntermediateField.fixingSubgroupEquiv K g)).comm n x).symm
-           r n j x := hRed n j x
-           red n j z := nmHM_redM _ l s none n j z
-           b j z := nmHO_nmGB_bMap hL g M s _ j z
-           μ j v := (nm_muB (nmGB hL g M) (Category.id_comp _) 1 s (hL.σB_K g) j v).trans
-             (congrArg _ (pullR_id' M.q j v)) }
+       exact homGal_good_of_galRed hL g M s (qb_le_pf hL M s)
+         (rHof (dOf S hS hC m) (hcOf S hS hC m) M s) hRed
      nat := rho_nat_of S hS hC fun M N u hu m s => homPull_rHof_good _ _ u hu s _ _ _
      fil := rho_fil_pf S hS hC
      cup := rho_cup_pf S hS hC
