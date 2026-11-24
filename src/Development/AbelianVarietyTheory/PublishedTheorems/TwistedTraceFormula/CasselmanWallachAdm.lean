@@ -47,6 +47,12 @@ namespace GlobalTheory.Published
 
 open GlobalTheory.SmoothGlob
 
+/-- **Casselman–Wallach admissibility theorem**: every smooth representation of moderate
+growth of a real reductive Lie group whose Harish-Chandra module is admissible is canonical
+and isomorphic to the smooth vectors of a Banach representation.
+
+Proposed reference:
+[W. Casselman, *Canonical extensions of Harish-Chandra modules to representations of G*][casselman1989canonical]. -/
 def CasselmanWallachAdm : Prop :=
   ∀ (n : ℕ) (ε : Fin n → Bool)
     (H : Type) [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
