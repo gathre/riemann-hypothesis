@@ -264,19 +264,41 @@ theorem up_idx (P : M.Par) {l l' : ℕ} (hl : l ∈ Icc 1 (P.k - 1)) (hl' : l' �
 theorem not_up_up (P : M.Par) {i j l : ℕ} (hi : i ∈ Icc 1 (P.k - 1)) (hj : j ∈ Icc 1 (P.k - 1))
     (hl : l ∈ Icc 1 (P.k - 1)) {τ μ σ : M.Ty P} (h1 : M.Up P i τ μ) (h2 : M.Up P j μ σ) (h3 : M.Up P l τ σ) : False := by
   have a := Finset.mem_Icc.1 hi; have b := Finset.mem_Icc.1 hj; have c := Finset.mem_Icc.1 hl
+  have hi' : i - 1 + 1 = i := by omega
+  have hj' : j - 1 + 1 = j := by omega
+  have hl' : l - 1 + 1 = l := by omega
   have e1 := h1 ⟨l - 1, by omega⟩; have e2 := h2 ⟨l - 1, by omega⟩; have e3 := h3 ⟨l - 1, by omega⟩
   have f1 := h1 ⟨i - 1, by omega⟩; have f2 := h2 ⟨i - 1, by omega⟩; have f3 := h3 ⟨i - 1, by omega⟩
   have g1 := h1 ⟨j - 1, by omega⟩; have g2 := h2 ⟨j - 1, by omega⟩; have g3 := h3 ⟨j - 1, by omega⟩
-  simp only at e1 e2 e3 f1 f2 f3 g1 g2 g3
-  split_ifs at e1 e2 e3 f1 f2 f3 g1 g2 g3 <;> omega
+  simp only [hi', hj', hl', ↓reduceIte] at e1 e2 e3 f1 f2 f3 g1 g2 g3
+  by_cases hli : l = i <;> by_cases hlj : l = j <;> by_cases hij : i = j <;>
+    simp only [hli, hlj, hij, ↓reduceIte] at e1 e2 e3 f1 f2 f3 g1 g2 g3 <;> omega
 
 theorem not_up_down (P : M.Par) {i j l : ℕ} (hi : i ∈ Icc 1 (P.k - 1)) (hj : j ∈ Icc 1 (P.k - 1))
     (hl : l ∈ Icc 1 (P.k - 1)) {τ μ σ : M.Ty P} (h1 : M.Up P i τ μ) (h2 : M.Up P j σ μ) (h3 : M.Up P l τ σ) : False := by
-  exact not_up_up P hl hj hi h3 h2 h1
+  have a := Finset.mem_Icc.1 hi; have b := Finset.mem_Icc.1 hj; have c := Finset.mem_Icc.1 hl
+  have hi' : i - 1 + 1 = i := by omega
+  have hj' : j - 1 + 1 = j := by omega
+  have hl' : l - 1 + 1 = l := by omega
+  have e1 := h1 ⟨l - 1, by omega⟩; have e2 := h2 ⟨l - 1, by omega⟩; have e3 := h3 ⟨l - 1, by omega⟩
+  have f1 := h1 ⟨i - 1, by omega⟩; have f2 := h2 ⟨i - 1, by omega⟩; have f3 := h3 ⟨i - 1, by omega⟩
+  have g1 := h1 ⟨j - 1, by omega⟩; have g2 := h2 ⟨j - 1, by omega⟩; have g3 := h3 ⟨j - 1, by omega⟩
+  simp only [hi', hj', hl', ↓reduceIte] at e1 e2 e3 f1 f2 f3 g1 g2 g3
+  by_cases hli : l = i <;> by_cases hlj : l = j <;> by_cases hij : i = j <;>
+    simp only [hli, hlj, hij, ↓reduceIte] at e1 e2 e3 f1 f2 f3 g1 g2 g3 <;> omega
 
 theorem not_down_up (P : M.Par) {i j l : ℕ} (hi : i ∈ Icc 1 (P.k - 1)) (hj : j ∈ Icc 1 (P.k - 1))
     (hl : l ∈ Icc 1 (P.k - 1)) {τ μ σ : M.Ty P} (h1 : M.Up P i μ τ) (h2 : M.Up P j μ σ) (h3 : M.Up P l τ σ) : False := by
-  exact not_up_up P hi hl hj h1 h3 h2
+  have a := Finset.mem_Icc.1 hi; have b := Finset.mem_Icc.1 hj; have c := Finset.mem_Icc.1 hl
+  have hi' : i - 1 + 1 = i := by omega
+  have hj' : j - 1 + 1 = j := by omega
+  have hl' : l - 1 + 1 = l := by omega
+  have e1 := h1 ⟨l - 1, by omega⟩; have e2 := h2 ⟨l - 1, by omega⟩; have e3 := h3 ⟨l - 1, by omega⟩
+  have f1 := h1 ⟨i - 1, by omega⟩; have f2 := h2 ⟨i - 1, by omega⟩; have f3 := h3 ⟨i - 1, by omega⟩
+  have g1 := h1 ⟨j - 1, by omega⟩; have g2 := h2 ⟨j - 1, by omega⟩; have g3 := h3 ⟨j - 1, by omega⟩
+  simp only [hi', hj', hl', ↓reduceIte] at e1 e2 e3 f1 f2 f3 g1 g2 g3
+  by_cases hli : l = i <;> by_cases hlj : l = j <;> by_cases hij : i = j <;>
+    simp only [hli, hlj, hij, ↓reduceIte] at e1 e2 e3 f1 f2 f3 g1 g2 g3 <;> omega
 
 end Types
 
@@ -462,10 +484,10 @@ section SB
 variable {P : M.Par} {A : Type} [Ring A] [StarRing A] [Algebra ℂ A] {L0 : PreLevel A P.r}
   {QQ : ℂ → Matrix (Fin 2) (Fin 2) A} {κ : (M.Ty P → ℂ) →ₐ[ℂ] A}
 
-theorem sb_mem_GG : L0.GG ∈ L0.ops := by simp [PreLevel.ops, PreLevel.fns]
-theorem sb_mem_GGi : L0.GGi ∈ L0.ops := by simp [PreLevel.ops, PreLevel.fns]
-theorem sb_mem_ζ : L0.ζ ∈ L0.ops := by simp [PreLevel.ops, PreLevel.fns]
-theorem sb_mem_ζb : L0.ζb ∈ L0.ops := by simp [PreLevel.ops, PreLevel.fns]
+theorem sb_mem_GG : L0.GG ∈ L0.ops := Or.inl (Or.inl (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rfl)))))))
+theorem sb_mem_GGi : L0.GGi ∈ L0.ops := Or.inl (Or.inl (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr rfl)))))))
+theorem sb_mem_ζ : L0.ζ ∈ L0.ops := Or.inl (Or.inl (Or.inr (Or.inl rfl)))
+theorem sb_mem_ζb : L0.ζb ∈ L0.ops := Or.inl (Or.inl (Or.inr (Or.inr (Or.inr (Or.inl rfl)))))
 
 theorem sb_pj_GG (h : SHyp P L0 QQ κ) (ρ : M.Ty P) : proj κ ρ * L0.GG = L0.GG * proj κ ρ :=
   (H_kops h _ _ sb_mem_GG).eq
@@ -477,7 +499,7 @@ theorem sb_pj_ζb (h : SHyp P L0 QQ κ) (ρ : M.Ty P) : proj κ ρ * L0.ζb = L0
   (H_kops h _ _ sb_mem_ζb).eq
 
 theorem sb_GGi_ζb : L0.GGi * L0.ζb = L0.ζb * L0.GGi :=
-  L0.fns_comm _ (by simp) _ (by simp)
+  L0.fns_comm _ (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr rfl)))))) _ (Or.inr (Or.inr (Or.inr (Or.inl rfl))))
 
 theorem lower_left_gamma_commutator (h : SHyp P L0 QQ κ) (v : ℂ) :
     QQ v 1 0 * L0.GG = L0.GG * QQ v 1 0 - QQ v 1 1 * L0.ζb := by
@@ -878,16 +900,16 @@ theorem sn_kc (hc : RelCore (⟨L, κ, SS⟩ : Q.NFData P A)) (f : M.Ty P → �
     ∀ g ∈ L.fns ∪ {L.nab, L.nabs}, Commute (κ f) g := hc.2.1 f
 
 theorem sn_kG (hc : RelCore (⟨L, κ, SS⟩ : Q.NFData P A)) (f : M.Ty P → ℂ) : Commute (κ f) L.GG :=
-  sn_kc hc f _ (by simp [R.LevelData.fns])
+  sn_kc hc f _ (Or.inl (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rfl)))))))
 
 theorem sn_kGi (hc : RelCore (⟨L, κ, SS⟩ : Q.NFData P A)) (f : M.Ty P → ℂ) : Commute (κ f) L.GGi :=
-  sn_kc hc f _ (by simp [R.LevelData.fns])
+  sn_kc hc f _ (Or.inl (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr rfl)))))))
 
 theorem sn_kz (hc : RelCore (⟨L, κ, SS⟩ : Q.NFData P A)) (f : M.Ty P → ℂ) : Commute (κ f) L.ζ :=
-  sn_kc hc f _ (by simp [R.LevelData.fns])
+  sn_kc hc f _ (Or.inl (Or.inr (Or.inl rfl)))
 
 theorem sn_knabs (hc : RelCore (⟨L, κ, SS⟩ : Q.NFData P A)) (f : M.Ty P → ℂ) : Commute (κ f) L.nabs :=
-  sn_kc hc f _ (by simp)
+  sn_kc hc f _ (Or.inr (Or.inr rfl))
 
 theorem sn_kalg (f : M.Ty P → ℂ) (z : ℂ) : Commute (κ f) (algebraMap ℂ A z) := (Algebra.commutes z _).symm
 
@@ -896,7 +918,7 @@ theorem kappa_commute_raising (hc : RelCore (⟨L, κ, SS⟩ : Q.NFData P A)) (f
   exact ((sn_knabs hc f).neg_right).sub_right ((sn_kalg f _).mul_right ((sn_kz hc f).mul_right (sn_kGi hc f)))
 
 theorem sn_sGi (hc : RelCore (⟨L, κ, SS⟩ : Q.NFData P A)) (l : ℕ) : Commute (SS l) L.GGi :=
-  hc.2.2.1 l _ (by simp [R.LevelData.fns])
+  hc.2.2.1 l _ (Or.inl (Or.inl (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr rfl))))))))
 
 theorem sn_raises (hc : RelCore (⟨L, κ, SS⟩ : Q.NFData P A)) : Raises κ SS := hc.2.2.2.1
 
@@ -1438,24 +1460,24 @@ theorem sc_fc (L0 : PreLevel A P.r) {x y : A} (hx : x ∈ L0.fns) (hy : y ∈ L0
 
 section Mem
 variable (L0 : PreLevel A P.r)
-theorem sc_mζ : L0.ζ ∈ L0.fns := by simp [PreLevel.fns]
-theorem sc_mζb : L0.ζb ∈ L0.fns := by simp [PreLevel.fns]
-theorem sc_mGG : L0.GG ∈ L0.fns := by simp [PreLevel.fns]
-theorem sc_mGGi : L0.GGi ∈ L0.fns := by simp [PreLevel.fns]
-theorem sc_mc (l) : L0.c l ∈ L0.fns := by simp [PreLevel.fns]
-theorem sc_mci (l) : L0.ci l ∈ L0.fns := by simp [PreLevel.fns]
-theorem sc_mcb (l) : L0.cb l ∈ L0.fns := by simp [PreLevel.fns]
-theorem sc_mcbi (l) : L0.cbi l ∈ L0.fns := by simp [PreLevel.fns]
+theorem sc_mζ : L0.ζ ∈ L0.fns := Or.inr (Or.inl rfl)
+theorem sc_mζb : L0.ζb ∈ L0.fns := Or.inr (Or.inr (Or.inr (Or.inl rfl)))
+theorem sc_mGG : L0.GG ∈ L0.fns := Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rfl)))))
+theorem sc_mGGi : L0.GGi ∈ L0.fns := Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr rfl)))))
+theorem sc_mc (l) : L0.c l ∈ L0.fns := Or.inl (Or.inl (Or.inl (Or.inl ⟨l, rfl⟩)))
+theorem sc_mci (l) : L0.ci l ∈ L0.fns := Or.inl (Or.inl (Or.inl (Or.inr ⟨l, rfl⟩)))
+theorem sc_mcb (l) : L0.cb l ∈ L0.fns := Or.inl (Or.inl (Or.inr ⟨l, rfl⟩))
+theorem sc_mcbi (l) : L0.cbi l ∈ L0.fns := Or.inl (Or.inr ⟨l, rfl⟩)
 theorem sc_ops_of_fns {x : A} (hx : x ∈ L0.fns) : x ∈ L0.ops := by
   unfold PreLevel.ops; exact Or.inl (Or.inl hx)
 theorem sc_mp (l) : L0.p l ∈ L0.ops := by unfold PreLevel.ops; exact Or.inl (Or.inr ⟨l, rfl⟩)
 theorem sc_mpb (l) : L0.pb l ∈ L0.ops := by unfold PreLevel.ops; exact Or.inr ⟨l, rfl⟩
-theorem sc_crd_c (l) : L0.c l ∈ L0.crdOps := by simp [PreLevel.crdOps]
-theorem sc_crd_ci (l) : L0.ci l ∈ L0.crdOps := by simp [PreLevel.crdOps]
-theorem sc_crd_cb (l) : L0.cb l ∈ L0.crdOps := by simp [PreLevel.crdOps]
-theorem sc_crd_cbi (l) : L0.cbi l ∈ L0.crdOps := by simp [PreLevel.crdOps]
-theorem sc_crd_p (l) : L0.p l ∈ L0.crdOps := by simp [PreLevel.crdOps]
-theorem sc_crd_pb (l) : L0.pb l ∈ L0.crdOps := by simp [PreLevel.crdOps]
+theorem sc_crd_c (l) : L0.c l ∈ L0.crdOps := Or.inl (Or.inl (Or.inl (Or.inl (Or.inl ⟨l, rfl⟩))))
+theorem sc_crd_ci (l) : L0.ci l ∈ L0.crdOps := Or.inl (Or.inl (Or.inl (Or.inl (Or.inr ⟨l, rfl⟩))))
+theorem sc_crd_cb (l) : L0.cb l ∈ L0.crdOps := Or.inl (Or.inl (Or.inl (Or.inr ⟨l, rfl⟩)))
+theorem sc_crd_cbi (l) : L0.cbi l ∈ L0.crdOps := Or.inl (Or.inl (Or.inr ⟨l, rfl⟩))
+theorem sc_crd_p (l) : L0.p l ∈ L0.crdOps := Or.inl (Or.inr ⟨l, rfl⟩)
+theorem sc_crd_pb (l) : L0.pb l ∈ L0.crdOps := Or.inr ⟨l, rfl⟩
 end Mem
 
 section Core

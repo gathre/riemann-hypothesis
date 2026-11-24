@@ -4897,49 +4897,132 @@ theorem G_comm_ne (l m : Fin r) (h : l ≠ m) : ∀ x ∈ G L l, ∀ y ∈ G L m
     have := L.pb_cb a b; rwa [if_neg hab, add_zero] at this
   have pbcbi : ∀ a b : Fin r, a ≠ b → Commute (L.pb a) (L.cbi b) := fun a b hab => by
     have := L.pb_cbi a b; rwa [if_neg hab, sub_zero] at this
+  let F := Set.range L.c ∪ Set.range L.ci ∪ Set.range L.cb ∪ Set.range L.cbi ∪
+    {L.ζ, L.ζi, L.ζb, L.ζbi, L.GG, L.GGi}
+  have hcF : ∀ a, L.c a ∈ F := fun a => Or.inl (Or.inl (Or.inl (Or.inl ⟨a, rfl⟩)))
+  have hciF : ∀ a, L.ci a ∈ F := fun a => Or.inl (Or.inl (Or.inl (Or.inr ⟨a, rfl⟩)))
+  have hcbF : ∀ a, L.cb a ∈ F := fun a => Or.inl (Or.inl (Or.inr ⟨a, rfl⟩))
+  have hcbiF : ∀ a, L.cbi a ∈ F := fun a => Or.inl (Or.inr ⟨a, rfl⟩)
   intro x hx y hy
   simp only [G, Set.mem_insert_iff, Set.mem_singleton_iff] at hx hy
   rcases hx with rfl | rfl | rfl | rfl | rfl | rfl <;>
-    rcases hy with rfl | rfl | rfl | rfl | rfl | rfl <;>
-    (try simp only [Commute.neg_left_iff, Commute.neg_right_iff]) <;>
-    first
-    | exact L.p_p _ _ | exact L.p_pb _ _ | exact (L.p_pb _ _).symm | exact L.pb_pb _ _
-    | exact pc _ _ h | exact (pc _ _ h').symm | exact pci _ _ h | exact (pci _ _ h').symm
-    | exact pbcb _ _ h | exact (pbcb _ _ h').symm | exact pbcbi _ _ h | exact (pbcbi _ _ h').symm
-    | exact L.p_cb _ _ | exact (L.p_cb _ _).symm | exact L.p_cbi _ _ | exact (L.p_cbi _ _).symm
-    | exact L.pb_c _ _ | exact (L.pb_c _ _).symm | exact L.pb_ci _ _ | exact (L.pb_ci _ _).symm
-    | exact L.fns_comm _ (by simp) _ (by simp)
+    rcases hy with rfl | rfl | rfl | rfl | rfl | rfl
+  · exact L.p_p _ _
+  · exact pc _ _ h
+  · exact pci _ _ h
+  · exact Commute.neg_right (L.p_pb _ _)
+  · exact L.p_cb _ _
+  · exact L.p_cbi _ _
+  · exact (pc _ _ h').symm
+  · exact L.fns_comm _ (hcF l) _ (hcF m)
+  · exact L.fns_comm _ (hcF l) _ (hciF m)
+  · exact Commute.neg_right (L.pb_c _ _).symm
+  · exact L.fns_comm _ (hcF l) _ (hcbF m)
+  · exact L.fns_comm _ (hcF l) _ (hcbiF m)
+  · exact (pci _ _ h').symm
+  · exact L.fns_comm _ (hciF l) _ (hcF m)
+  · exact L.fns_comm _ (hciF l) _ (hciF m)
+  · exact Commute.neg_right (L.pb_ci _ _).symm
+  · exact L.fns_comm _ (hciF l) _ (hcbF m)
+  · exact L.fns_comm _ (hciF l) _ (hcbiF m)
+  · exact Commute.neg_left (L.p_pb _ _).symm
+  · exact Commute.neg_left (L.pb_c _ _)
+  · exact Commute.neg_left (L.pb_ci _ _)
+  · exact Commute.neg_right (Commute.neg_left (L.pb_pb _ _))
+  · exact Commute.neg_left (pbcb _ _ h)
+  · exact Commute.neg_left (pbcbi _ _ h)
+  · exact (L.p_cb _ _).symm
+  · exact L.fns_comm _ (hcbF l) _ (hcF m)
+  · exact L.fns_comm _ (hcbF l) _ (hciF m)
+  · exact Commute.neg_right (pbcb _ _ h').symm
+  · exact L.fns_comm _ (hcbF l) _ (hcbF m)
+  · exact L.fns_comm _ (hcbF l) _ (hcbiF m)
+  · exact (L.p_cbi _ _).symm
+  · exact L.fns_comm _ (hcbiF l) _ (hcF m)
+  · exact L.fns_comm _ (hcbiF l) _ (hciF m)
+  · exact Commute.neg_right (pbcbi _ _ h').symm
+  · exact L.fns_comm _ (hcbiF l) _ (hcbF m)
+  · exact L.fns_comm _ (hcbiF l) _ (hcbiF m)
 
 theorem gamma_family_commute_generators (l : Fin r) : ∀ x ∈ G L l,
     ∀ y ∈ ({L.ζ, L.ζb, L.GG, L.GGi, L.nab, L.nabs} : Set A), Commute x y := by
+  let F := Set.range L.c ∪ Set.range L.ci ∪ Set.range L.cb ∪ Set.range L.cbi ∪
+    {L.ζ, L.ζi, L.ζb, L.ζbi, L.GG, L.GGi}
+  have hcF : L.c l ∈ F := Or.inl (Or.inl (Or.inl (Or.inl ⟨l, rfl⟩)))
+  have hciF : L.ci l ∈ F := Or.inl (Or.inl (Or.inl (Or.inr ⟨l, rfl⟩)))
+  have hcbF : L.cb l ∈ F := Or.inl (Or.inl (Or.inr ⟨l, rfl⟩))
+  have hcbiF : L.cbi l ∈ F := Or.inl (Or.inr ⟨l, rfl⟩)
+  have hζF : L.ζ ∈ F := Or.inr (Or.inl rfl)
+  have hζbF : L.ζb ∈ F := Or.inr (Or.inr (Or.inr (Or.inl rfl)))
+  have hGGF : L.GG ∈ F := Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rfl)))))
+  have hGGiF : L.GGi ∈ F := Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr rfl)))))
   intro x hx y hy
   simp only [G, Set.mem_insert_iff, Set.mem_singleton_iff] at hx hy
   rcases hx with rfl | rfl | rfl | rfl | rfl | rfl <;>
-    rcases hy with rfl | rfl | rfl | rfl | rfl | rfl <;>
-    (try simp only [Commute.neg_left_iff, Commute.neg_right_iff]) <;>
-    first
-    | exact L.p_ζ _ | exact L.p_ζb _ | exact L.p_GG _ | exact L.p_GGi _ | exact L.p_nab _ | exact L.p_nabs _
-    | exact L.pb_ζ _ | exact L.pb_ζb _ | exact L.pb_GG _ | exact L.pb_GGi _ | exact L.pb_nab _
-    | exact L.pb_nabs _
-    | exact (L.nab_c _).symm | exact (L.nab_ci _).symm | exact (L.nab_cb _).symm | exact (L.nab_cbi _).symm
-    | exact (L.nabs_c _).symm | exact (L.nabs_ci _).symm | exact (L.nabs_cb _).symm
-    | exact (L.nabs_cbi _).symm
-    | exact L.fns_comm _ (by simp) _ (by simp)
+    rcases hy with rfl | rfl | rfl | rfl | rfl | rfl
+  · exact L.p_ζ _
+  · exact L.p_ζb _
+  · exact L.p_GG _
+  · exact L.p_GGi _
+  · exact L.p_nab _
+  · exact L.p_nabs _
+  · exact L.fns_comm _ hcF _ hζF
+  · exact L.fns_comm _ hcF _ hζbF
+  · exact L.fns_comm _ hcF _ hGGF
+  · exact L.fns_comm _ hcF _ hGGiF
+  · exact (L.nab_c _).symm
+  · exact (L.nabs_c _).symm
+  · exact L.fns_comm _ hciF _ hζF
+  · exact L.fns_comm _ hciF _ hζbF
+  · exact L.fns_comm _ hciF _ hGGF
+  · exact L.fns_comm _ hciF _ hGGiF
+  · exact (L.nab_ci _).symm
+  · exact (L.nabs_ci _).symm
+  · exact Commute.neg_left (L.pb_ζ _)
+  · exact Commute.neg_left (L.pb_ζb _)
+  · exact Commute.neg_left (L.pb_GG _)
+  · exact Commute.neg_left (L.pb_GGi _)
+  · exact Commute.neg_left (L.pb_nab _)
+  · exact Commute.neg_left (L.pb_nabs _)
+  · exact L.fns_comm _ hcbF _ hζF
+  · exact L.fns_comm _ hcbF _ hζbF
+  · exact L.fns_comm _ hcbF _ hGGF
+  · exact L.fns_comm _ hcbF _ hGGiF
+  · exact (L.nab_cb _).symm
+  · exact (L.nabs_cb _).symm
+  · exact L.fns_comm _ hcbiF _ hζF
+  · exact L.fns_comm _ hcbiF _ hζbF
+  · exact L.fns_comm _ hcbiF _ hGGF
+  · exact L.fns_comm _ hcbiF _ hGGiF
+  · exact (L.nab_cbi _).symm
+  · exact (L.nabs_cbi _).symm
 
 theorem hol_comm (l : Fin r) : ∀ x ∈ ({L.p l, L.c l, L.ci l} : Set A),
     ∀ y ∈ ({-L.pb l, L.cb l, L.cbi l} : Set A), Commute x y := by
+  let F := Set.range L.c ∪ Set.range L.ci ∪ Set.range L.cb ∪ Set.range L.cbi ∪
+    {L.ζ, L.ζi, L.ζb, L.ζbi, L.GG, L.GGi}
+  have hcF : L.c l ∈ F := Or.inl (Or.inl (Or.inl (Or.inl ⟨l, rfl⟩)))
+  have hciF : L.ci l ∈ F := Or.inl (Or.inl (Or.inl (Or.inr ⟨l, rfl⟩)))
+  have hcbF : L.cb l ∈ F := Or.inl (Or.inl (Or.inr ⟨l, rfl⟩))
+  have hcbiF : L.cbi l ∈ F := Or.inl (Or.inr ⟨l, rfl⟩)
   intro x hx y hy
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx hy
-  rcases hx with rfl | rfl | rfl <;> rcases hy with rfl | rfl | rfl <;>
-    (try simp only [Commute.neg_left_iff, Commute.neg_right_iff]) <;>
-    first
-    | exact L.p_pb _ _ | exact L.p_cb _ _ | exact L.p_cbi _ _
-    | exact (L.pb_c _ _).symm | exact (L.pb_ci _ _).symm
-    | exact L.fns_comm _ (by simp) _ (by simp)
+  rcases hx with rfl | rfl | rfl <;> rcases hy with rfl | rfl | rfl
+  · exact Commute.neg_right (L.p_pb _ _)
+  · exact L.p_cb _ _
+  · exact L.p_cbi _ _
+  · exact Commute.neg_right (L.pb_c _ _).symm
+  · exact L.fns_comm _ hcF _ hcbF
+  · exact L.fns_comm _ hcF _ hcbiF
+  · exact Commute.neg_right (L.pb_ci _ _).symm
+  · exact L.fns_comm _ hciF _ hcbF
+  · exact L.fns_comm _ hciF _ hcbiF
 
 theorem fn_cancel : L.ζb * L.ζi * L.GGi * (L.ζ * L.ζbi) = L.GGi := by
-  have c1 : L.GGi * L.ζ = L.ζ * L.GGi := L.fns_comm _ (by simp) _ (by simp)
-  have c3 : L.ζb * L.GGi = L.GGi * L.ζb := L.fns_comm _ (by simp) _ (by simp)
+  have c1 : L.GGi * L.ζ = L.ζ * L.GGi :=
+    L.fns_comm _ (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr rfl)))))) _ (Or.inr (Or.inl rfl))
+  have c3 : L.ζb * L.GGi = L.GGi * L.ζb :=
+    L.fns_comm _ (Or.inr (Or.inr (Or.inr (Or.inl rfl)))) _ (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr rfl))))))
   calc L.ζb * L.ζi * L.GGi * (L.ζ * L.ζbi) = L.ζb * (L.ζi * (L.GGi * L.ζ)) * L.ζbi := by
         simp only [mul_assoc]
     _ = L.ζb * ((L.ζi * L.ζ) * L.GGi) * L.ζbi := by rw [c1]; simp only [mul_assoc]
@@ -5047,14 +5130,12 @@ theorem startOK_of (hS : StartIsStart) (hT : T21Commute) (hSc : SSScalar) (hSh :
   · intro Y hY
     show star (kap P D fun π => x0 P l π Y) = kap P D fun π => x0 P l π Y
     rw [star_kap]
-    congr 1
-    funext π
-    exact coordinate_real P D l π Y hY
+    exact congrArg (kap P D) (funext fun π => coordinate_real P D l π Y hY)
   · intro Y g hg
     have h1 : Commute (zA P D) g := by
-      rw [← hz]; exact L.fns_comm _ (Or.inr (by simp)) g (Or.inr hg)
+      rw [← hz]; exact L.fns_comm _ (Or.inr (Or.inl rfl)) g (Or.inr hg)
     have h2 : Commute (zbiA P D) g := by
-      rw [← hzbi]; exact L.fns_comm _ (Or.inr (by simp)) g (Or.inr hg)
+      rw [← hzbi]; exact L.fns_comm _ (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rfl))))) g (Or.inr hg)
     have h3 : Commute (∑ j ∈ Icc 1 (P.k - 1), (kap P D fun π => (Y + (rho P π j : ℂ))⁻¹) * SS P D j) g := by
       obtain ⟨w, hw⟩ := hzf g hg
       rw [hw]
@@ -5074,8 +5155,8 @@ theorem startOK_of (hS : StartIsStart) (hT : T21Commute) (hSc : SSScalar) (hSh :
       L.GG * (kap P D fun π => x0 P l π Y) * (L.l0 Y + L.ζb * L.ζi * L.GGi * eeA P D Y)
     rw [hl0, kappa_sign_coordinate, hgg, hzb, hzi, hggi, ← low_sum hSh hRho P D Y hY, eeA, ← mul_assoc _ (zA P D * zbiA P D), hcan,
       mul_smul_comm, smul_mul_assoc, mul_add]
-    congr 2
-    rw [hcx, mul_assoc, ← mul_assoc (ggA P D), hgi, one_mul]
+    exact congrArg (fun t => sgn P l • (ggA P D * xA P D Y * l0A P D Y + t))
+      (by rw [hcx, mul_assoc, ← mul_assoc (ggA P D), hgi, one_mul])
 
 theorem ops_sub (P : Par) (D : DAlg P.r) [Fact (D.Laws P.TT)] (i : Fin P.r) : ∀ x ∈ ops (siteA P D i),
     x ∈ ({pA P D i, cA P D i, ciA P D i, -pbA P D i, cbA P D i, cbiA P D i} : Set (A P D)) := by
