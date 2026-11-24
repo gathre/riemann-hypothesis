@@ -144,14 +144,18 @@ theorem isVariety_of_iso (X : FlagCover Y) (Z : Formalism.L2.Pj.Comp Xo c) (C : 
 theorem dim_eq (Dw : Datum H) : Dw.dim + ∑ τ : E →+* ℂ, (Dw.mult τ).choose 2 = GlobalTheory.FlagTan.dimFlag Dw := by
   rw [GlobalTheory.FlagDimSum.dim_add_sum_choose, GlobalTheory.FlagTan.dimFlag, Nat.choose_two_right]
 
-theorem isVariety₀_flag : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (T : TorFlag Xo c) (Z : Comp Xo c), FnAlgClosed (Xo := Xo) (c := c) → IsVariety₀ T.X Z := by
-  intro E _ _ _ H Dw l Xo c T Z hF
-  have hsm := smooth_gen T.smooth
-  obtain ⟨B, j, hB, hcov⟩ := _root_.GlobalTheory.GenFibreComp.exists_vars E H Dw l Xo c c.F (RingHom.id c.F) T.Y c.F (RingEquiv.refl _) hF hsm
+/-- Identify the flag-cover component from its charts and framed points. -/
+theorem exists_component_iso (T : TorFlag Xo c) (Z : Comp Xo c) (B : Comp Xo c → GlobalTheory.ProjVar.Var c.F) (j : ∀ i, (B i).X ⟶ gen T.Y)
+    (hB : ∀ i, IsOpenImmersion (j i) ∧ ∀ p ∈ i.1, T.Y.jQ p ∈ Set.range (j i))
+    (hcov : ∀ z : gen T.Y, ∃! i, z ∈ Set.range (j i)) (C : FlagCpt T.Y (RingEquiv.refl c.F)) (f : C.Y.X ⟶ (B Z).X)
+    (hπ : C.π = f ≫ j Z)
+    (hl : ∀ (K : Type) [Field K] (χ : c.F →+* K) (x : Sp K ⟶ gen T.Y) (x' : Sp K ⟶ (B Z).X), x' ≫ j Z = x →
+      x ≫ genStr T.Y = spMap χ → ∀ g : EigFrame T.Y χ (x ≫ genι T.Y), ∃! p : Sp K ⟶ C.Y.X, p ≫ f = x' ∧ C.Carries p g) :
+    ∃ h : Y₀ T.X Z ⟶ C.Y.X, IsIso h ∧ h ≫ C.π ≫ genι T.Y = inc₀ T.X Z ≫ T.X.π ∧ h ≫ C.Y.str = str₀ T.X Z ∧
+      ∀ (K : Type) [Field K] (z : Sp K ⟶ Y₀ T.X Z), Rel T.X.F C (z ≫ inc₀ T.X Z) (z ≫ h) := by
   have := (hB Z).1
-  obtain ⟨C, f, hπ, hdim, hl⟩ := GlobalTheory.FlagBundle.exists_flagCpt T.Y (RingEquiv.refl _) (_root_.GlobalTheory.VarFlag.snc_genBdIdeal_of_snc_boundary T.snc) (B Z) (j Z) (hB Z).2.2.1
   have hJ : ∀ w : gen T.Y, genι T.Y w ∈ barComp T.Y Z ↔ w ∈ Set.range (j Z) :=
-    barComp_iff Z B j (fun i => (hB i).1) (fun i => (hB i).2.2.2) hcov
+    barComp_iff Z B j (fun i => (hB i).1) (fun i => (hB i).2) hcov
   have hX := GlobalTheory.T.flagChartFrames_eigenFrames_localRing T.X
   have hC := _root_.GlobalTheory.VarFlag.carriesTri C
 
@@ -243,7 +247,18 @@ theorem isVariety₀_flag : ∀ (E : Type) [Field E] [NumberField E] [IsCMField 
   have := C.Y.isNormalScheme
   have : IsIso h := GlobalTheory.isIso_of_isProper_of_quasiFinite_of_birational h
     (fun y => inferInstance) (Vo C) hVo
-  refine isVariety_of_iso T.X Z C h ?_ (by rw [hdim, (hB Z).2.1, dim_eq])
+  refine ⟨h, this, hh, ?_, hR⟩
   rw [← hps, ← Category.assoc, hh, Category.assoc]
+
+theorem isVariety₀_flag : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (T : TorFlag Xo c) (Z : Comp Xo c), FnAlgClosed (Xo := Xo) (c := c) → IsVariety₀ T.X Z := by
+  intro E _ _ _ H Dw l Xo c T Z hF
+  have hsm := smooth_gen T.smooth
+  obtain ⟨B, j, hB, hcov⟩ := _root_.GlobalTheory.GenFibreComp.exists_vars E H Dw l Xo c c.F (RingHom.id c.F) T.Y c.F (RingEquiv.refl _) hF hsm
+  have := (hB Z).1
+  obtain ⟨C, f, hπ, hdim, hl⟩ := GlobalTheory.FlagBundle.exists_flagCpt T.Y (RingEquiv.refl _) (_root_.GlobalTheory.VarFlag.snc_genBdIdeal_of_snc_boundary T.snc) (B Z) (j Z) (hB Z).2.2.1
+  obtain ⟨h, hh, _, hs, _⟩ :=
+    exists_component_iso T Z B j (fun i => ⟨(hB i).1, (hB i).2.2.2⟩) hcov C f hπ hl
+  letI : IsIso h := hh
+  exact isVariety_of_iso T.X Z C h hs (by rw [hdim, (hB Z).2.1, dim_eq])
 
 end GlobalTheory.VarFlag
