@@ -58,6 +58,11 @@ open ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestrictio
 
 namespace GlobalTheory.Published
 
+/-- **Grothendieck extension theorem for semiabelian schemes**: any homomorphism from a split
+torus into a semiabelian scheme over a normal base extends uniquely across codimension-one points.
+
+Proposed reference:
+[A. Grothendieck, *Mod\`eles de N\'eron et monodromie (SGA 7 I)*][grothendieck1972sga7]. -/
 def SemiAbelianHomExtension : Prop :=
   ∀ (S : Scheme.{0}) [AlgebraicGeometry.IsNoetherian S], ReciprocityTheory.ChartRestriction.G.Geo.Tor.IsNormalScheme S →
     ∀ (U : S.Opens), Dense (U : Set S) →
