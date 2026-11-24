@@ -77,7 +77,7 @@ theorem nonempty_bWit_wptOfNExt {N N' : _root_.GlobalTheory.Mem.Top.Bl.NormChoic
   have r := h.recPin
   exact ⟨⟨h.x, h.a, h.ax, h.y,
     { s := ⟨r.s.host, r.s.cols, r.s.full, r.s.g, r.s.theta, r.s.twE, r.s.twGood, r.s.chr, r.s.gal, r.s.nn, r.s.exp, r.s.chiD,
-        r.s.twF, r.s.types, r.s.cover, r.s.plB, r.s.thetaChr, r.s.dt, r.s.pieces, r.s.inK, r.s.geo, r.s.tw⟩
+        r.s.twF, r.s.types, r.s.cover, r.s.plB, r.s.thetaChr, r.s.dt, r.s.pieces, r.s.tw⟩
       k := ⟨r.k.std, r.k.O, r.k.ent, r.k.adapted, r.k.top⟩
       crd := r.crd, entC := r.entC, std := r.std, rd := r.rd },
     h.s, h.pt, h.sx, h.eF, h.fi, h.uS, h.parts, h.cW, h.d3b, h.side, h.colPins⟩⟩
