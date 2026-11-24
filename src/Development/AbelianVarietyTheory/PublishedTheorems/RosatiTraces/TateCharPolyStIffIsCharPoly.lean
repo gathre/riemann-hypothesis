@@ -54,6 +54,12 @@ attribute [local instance] Over.cartesianMonoidalCategory
 
 namespace GlobalTheory.Published
 
+/-- **Tate's theorem on Frobenius characteristic polynomials**: the characteristic polynomial
+`P_A(T)` of the Frobenius endomorphism of an abelian variety `A` over a finite field `\mathbb{F}_q`
+has integer coefficients, degree `2 \dim(A)`, and all complex roots of absolute value `\sqrt{q}`.
+
+Proposed reference:
+[J. Tate, *Endomorphisms of abelian varieties over finite fields*][tate1966endomorphisms]. -/
 def TateCharPolySt : Prop := EndCharPolySt
 
 end GlobalTheory.Published
