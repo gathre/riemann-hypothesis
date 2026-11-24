@@ -2,7 +2,7 @@
 """Download every artifact named in a Lake map that is missing from a local Lake cache.
 
 usage: fetch-artifacts.py <map.jsonl> <cache-dir> [--sha256 <file> [--verify-existing]]
-                          [--base-url <url>] [--user-agent <agent>]
+                          [--base-url <url>] [--user-agent <agent>] [--report <file>]
 Stock Lake 4.37 does not download artifacts lazily during `lake build`: a mapped module whose
 artifact is absent locally is simply compiled. So restores must prefetch. One curl process
 downloads up to 500 files at a time (fd soft limit raised to match) and retries transport
@@ -12,15 +12,34 @@ there is always complete. Objects are content-addressed and write-once (If-None-
 those downloads are verified before they are moved into the cache, and a mismatch is discarded
 and downloaded again. With --verify-existing, artifacts already in the cache are checked too
 (a symlink or mismatch is removed and downloaded again). Up to three passes; exit 1 if anything
-is still missing. scripts/ci-cache-get.py (`lake exe cache get`) uses this with its own
---user-agent.
+is still missing. curl's error lines (one per failed attempt, retries included) are grouped by
+error code and printed once per pass. --report writes the last pass's curl exit code, those
+groups and its SHA-256 failure count as JSON. scripts/ci-cache-get.py (`lake exe cache get`)
+uses this with its own --user-agent and puts the report in its final error.
 """
-import hashlib, json, os, resource, subprocess, sys, tempfile
+import hashlib, json, os, re, resource, subprocess, sys, tempfile
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 PUBLIC = "https://rh-cache.taucetiproject.org/artifacts/leanprover-community/riemann-hypothesis/"
 PARALLEL = 500
+CURL_ERROR = re.compile(r"curl: \((\d+)\)")
+
+
+def curl_errors(stderr):
+    """[[count, first line], ...] for curl's error output, most frequent first.
+
+    Lines with an error code also name a file or byte counts, so they are grouped by the code;
+    other lines (an unknown option, for example) are grouped as they are."""
+    groups = {}
+    for line in stderr.splitlines():
+        line = line.strip()
+        if not line or line.startswith("curl: try "):
+            continue
+        match = CURL_ERROR.match(line)
+        key = match.group(1) if match else line
+        groups.setdefault(key, [0, line[:300]])[0] += 1
+    return sorted(groups.values(), key=lambda group: -group[0])
 
 
 def sha256(path):
@@ -43,6 +62,7 @@ def main():
     digests = json.loads(Path(digests).read_text()) if digests else {}
     base = option(args, "--base-url", PUBLIC)
     agent = option(args, "--user-agent", "rh-buildq/1")
+    report = option(args, "--report")
     verify_existing = "--verify-existing" in args
     if verify_existing:
         args.remove("--verify-existing")
@@ -68,6 +88,7 @@ def main():
     with ThreadPoolExecutor(32) as pool:
         missing = [n for n, ok in zip(names, pool.map(present, names)) if not ok]
     print(f"fetch-artifacts: {len(names)} mapped, {len(missing)} missing locally", flush=True)
+    code, errors, corrupt = 0, [], []
     for attempt in range(1, 4):
         if not missing:
             break
@@ -77,7 +98,9 @@ def main():
             r = subprocess.run(["curl", "--disable", "--fail", "--silent", "--show-error", "--location",
                                 "--user-agent", agent, "--retry", "5", "--retry-all-errors",
                                 "--connect-timeout", "30", "--max-time", "600",
-                                "--parallel", "--parallel-max", str(PARALLEL), "--config", str(conf)])
+                                "--parallel", "--parallel-max", str(PARALLEL), "--config", str(conf)],
+                               stderr=subprocess.PIPE, text=True, errors="replace")
+            code, errors = r.returncode, curl_errors(r.stderr)
 
             def settle(n):
                 p = Path(t) / n
@@ -95,9 +118,14 @@ def main():
         corrupt = [n for n, s in zip(missing, results) if s == "corrupt"]
         missing = [n for n, s in zip(missing, results) if s != "ok"]
         print(f"fetch-artifacts: pass {attempt}: downloaded {len(results) - len(missing)}/{len(results)}"
-              f" (curl exit {r.returncode}; {len(corrupt)} failed SHA-256 verification)", flush=True)
+              f" (curl exit {code}; {len(corrupt)} failed SHA-256 verification)", flush=True)
+        for count, line in errors[:5]:
+            print(f"fetch-artifacts: {line}" + (f" (reported {count} times)" if count > 1 else ""), flush=True)
         for n in corrupt[:10]:
             print(f"fetch-artifacts: SHA-256 mismatch for {n}", flush=True)
+    if report:
+        Path(report).write_text(json.dumps({"curl_exit": code, "curl_errors": errors,
+                                            "sha256_mismatches": len(corrupt)}))
     sys.exit(1 if missing else 0)
 
 

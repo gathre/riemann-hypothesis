@@ -790,84 +790,6 @@ private theorem smooth_and_avoidsCenters_strictTransform_of_smooth
     · exact ihcl r (Nat.lt_succ_iff.mp hlt) w
     · exact hclear w
 
-theorem avoidsCenters_strictTransformι_of_smooth
-    (hres : FunctorialResolution.Blowup.StrictTransformIsBlowupOfClosedSubscheme.{u}) (hB : (canonicalAlgorithmRules hres).ReducesInductivelyOnDimension)
-    (hrad : SmoothSubschemeIdealIsRadical.{u})
-    {k : Type u} [Field k] [CharZero k] {Y : Scheme.{u}}
-    [AlgebraicGeometry.IsAffine Y] [AlgebraicGeometry.IsReduced Y]
-    {pY : Y ⟶ Spec (CommRingCat.of k)} [AlgebraicGeometry.LocallyOfFiniteType pY]
-    [AlgebraicGeometry.QuasiCompact pY] (D : EmbeddingDatum k Y pY)
-    (hsm : AlgebraicGeometry.Smooth pY) (t : ℕ)
-    (ht : t ≤ (D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).length)
-    (y : ↥((D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).strictTransform t)) :
-    (D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).AvoidsCenters t
-      (((D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).strictTransformι t).base y) :=
-  (smooth_and_avoidsCenters_strictTransform_of_smooth hres hB hrad D hsm t ht).2 t le_rfl y
-
-theorem smooth_strictTransformι_comp_chartLevelStructureMorphism
-    (hres : FunctorialResolution.Blowup.StrictTransformIsBlowupOfClosedSubscheme.{u}) (hB : (canonicalAlgorithmRules hres).ReducesInductivelyOnDimension)
-    (hrad : SmoothSubschemeIdealIsRadical.{u})
-    {k : Type u} [Field k] [CharZero k]
-    {Y : Scheme.{u}} [AlgebraicGeometry.IsAffine Y] [AlgebraicGeometry.IsReduced Y]
-    {pY : Y ⟶ Spec (CommRingCat.of k)} [AlgebraicGeometry.LocallyOfFiniteType pY]
-    [AlgebraicGeometry.QuasiCompact pY] (D : EmbeddingDatum k Y pY)
-    (hsm : AlgebraicGeometry.Smooth pY) (t : ℕ)
-    (ht : t ≤ (D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).length) :
-    AlgebraicGeometry.Smooth
-      ((D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).strictTransformι t ≫
-        chartLevelStructureMorphism k Y pY D (canonicalPrincipalization hres hrad) t) :=
-  (smooth_and_avoidsCenters_strictTransform_of_smooth hres hB hrad D hsm t ht).1
-
-theorem smooth_vanishingIdeal_image_comp_chartLevelStructureMorphism
-    (hres : FunctorialResolution.Blowup.StrictTransformIsBlowupOfClosedSubscheme.{u}) (hB : (canonicalAlgorithmRules hres).ReducesInductivelyOnDimension)
-    (hrad : SmoothSubschemeIdealIsRadical.{u})
-    {k : Type u} [Field k] [CharZero k]
-    {Y : Scheme.{u}} [AlgebraicGeometry.IsAffine Y] [AlgebraicGeometry.IsReduced Y]
-    {pY : Y ⟶ Spec (CommRingCat.of k)} [AlgebraicGeometry.LocallyOfFiniteType pY]
-    [AlgebraicGeometry.QuasiCompact pY] (D : EmbeddingDatum k Y pY)
-    (hsm : AlgebraicGeometry.Smooth pY) (t : ℕ)
-    (ht : t ≤ (D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).length)
-    (C : Set ↥((D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).strictTransform t))
-    (hC : C ∈ irreducibleComponents
-      ↥((D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).strictTransform t))
-    (hCcl : IsClosed
-      (⇑((D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).strictTransformι t).base '' C)) :
-    AlgebraicGeometry.Smooth
-      ((Scheme.IdealSheafData.vanishingIdeal
-          (⟨⇑((D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).strictTransformι t).base '' C, hCcl⟩ :
-            TopologicalSpace.Closeds
-              ↥((D.toEmbeddedBlowupSequence
-                (canonicalPrincipalization hres hrad)).schemeAt t))).subschemeι ≫
-        chartLevelStructureMorphism k Y pY D (canonicalPrincipalization hres hrad) t) :=
-  smooth_vanishingIdeal_image_of_smooth_strictTransformι D _ t ht
-    (smooth_strictTransformι_comp_chartLevelStructureMorphism hres hB hrad D hsm t ht) C hC hCcl
-
-theorem agreeNear_ideal_vanishingIdeal_image_of_smooth
-    (hres : FunctorialResolution.Blowup.StrictTransformIsBlowupOfClosedSubscheme.{u}) (hB : (canonicalAlgorithmRules hres).ReducesInductivelyOnDimension)
-    (hrad : SmoothSubschemeIdealIsRadical.{u})
-    {k : Type u} [Field k] [CharZero k]
-    {Y : Scheme.{u}} [AlgebraicGeometry.IsAffine Y] [AlgebraicGeometry.IsReduced Y]
-    {pY : Y ⟶ Spec (CommRingCat.of k)} [AlgebraicGeometry.LocallyOfFiniteType pY]
-    [AlgebraicGeometry.QuasiCompact pY] (D : EmbeddingDatum k Y pY)
-    (hsm : AlgebraicGeometry.Smooth pY) (t : ℕ)
-    (ht : t ≤ (D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).length)
-    (C : Set ↥((D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).strictTransform t))
-    (hC : C ∈ irreducibleComponents
-      ↥((D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).strictTransform t))
-    (hCcl : IsClosed
-      (⇑((D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).strictTransformι t).base '' C))
-    (x : ↥((D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).schemeAt t))
-    (hx : x ∈ ⇑((D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).strictTransformι t).base '' C) :
-    AgreeNear ((principalizationOfEmbedding k Y pY D (canonicalPrincipalization hres hrad)).ideal t)
-      (Scheme.IdealSheafData.vanishingIdeal
-        (⟨⇑((D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).strictTransformι t).base '' C, hCcl⟩ :
-          TopologicalSpace.Closeds
-            ↥((D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).schemeAt t))) x :=
-  agreeNear_vanishingIdeal_image_of_avoidsCenters_le_of_disjoint_zero D _
-    (irreducibleComponentsDisjointOfSmooth k _ _ (smooth_strictTransformι_comp_schemeAtToSpec_zero
-      (D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)) hsm))
-    t (smooth_and_avoidsCenters_strictTransform_of_smooth hres hB hrad D hsm t ht).2 ht C hC hCcl x hx
-
 theorem mem_detachedLocus_of_mem_support_ambientCenter
     (hres : FunctorialResolution.Blowup.StrictTransformIsBlowupOfClosedSubscheme.{u}) (hB : (canonicalAlgorithmRules hres).ReducesInductivelyOnDimension)
     (hrad : SmoothSubschemeIdealIsRadical.{u})
@@ -891,25 +813,6 @@ theorem mem_detachedLocus_of_mem_support_ambientCenter
     (irreducibleComponent y) (irreducibleComponent_mem_irreducibleComponents y) hfr
     y mem_irreducibleComponent hy
 
-theorem strictTransformι_notMem_support_of_mem_boundary
-    (hres : FunctorialResolution.Blowup.StrictTransformIsBlowupOfClosedSubscheme.{u}) (hB : (canonicalAlgorithmRules hres).ReducesInductivelyOnDimension)
-    (hrad : SmoothSubschemeIdealIsRadical.{u})
-    {k : Type u} [Field k] [CharZero k] {Y : Scheme.{u}}
-    [AlgebraicGeometry.IsAffine Y] [AlgebraicGeometry.IsReduced Y]
-    {pY : Y ⟶ Spec (CommRingCat.of k)} [AlgebraicGeometry.LocallyOfFiniteType pY]
-    [AlgebraicGeometry.QuasiCompact pY] (D : EmbeddingDatum k Y pY)
-    (hsm : AlgebraicGeometry.Smooth pY) (t : ℕ)
-    (ht : t ≤ (D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).length)
-    (y : ↥((D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).strictTransform t))
-    (E : ((principalizationOfEmbedding k Y pY D (canonicalPrincipalization hres hrad)).schemeAt t).IdealSheafData)
-    (hE : E ∈ (principalizationOfEmbedding k Y pY D (canonicalPrincipalization hres hrad)).boundary t) :
-    ((D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).strictTransformι t).base y ∉
-      (E.support :
-        Set ↥((principalizationOfEmbedding k Y pY D (canonicalPrincipalization hres hrad)).schemeAt t)) := by
-  intro hx
-  exact not_avoidsCenters_of_mem_boundary_support D (canonicalPrincipalization hres hrad) t ht E hE _ hx
-    (avoidsCenters_strictTransformι_of_smooth hres hB hrad D hsm t ht y)
-
 end OpenImmersionRestriction
 
 end FunctorialResolution.EmbeddedResolution
@@ -922,62 +825,7 @@ end -- clump:auto
 -- ===== clump member: Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformIsolation.SmoothStrictTransformComponents =====
 -- clump-header: {"m": "Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformIsolation.SmoothStrictTransformComponents", "h": "module\n\npublic import Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformIsolation.StrictTransformSmoothness\nimport Development.ResolutionOfSingularities.EmbeddedResolution.AlgebraicPreliminaries.GenericPointImage\nimport Development.ResolutionOfSingularities.EmbeddedResolution.AlgebraicPreliminaries.IrreducibleComponents\nimport Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.StrictNormalCrossingsOpenImmersion\nimport Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedBlowupSequence.IdealBlowupSequenceBoundary\nimport Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedBlowupSequence.SmoothComponentsDisjoint\nimport Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformIsolation.VanishingIdealGeometry\nimport Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformIsolation.VanishingIdealHypotheses\nimport Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.AffineDetachedConditions\nimport Development.ResolutionOfSingularities.Foundations.Schemes.IdealSheafData\nimport Development.ResolutionOfSingularities.Foundations.Schemes.SchemeMorphismProperties\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.SetTheory.ZFC.PSet\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\n\n"}
 section -- clump:auto
-@[expose] public section
 
-universe u
-
-open CategoryTheory AlgebraicGeometry TopologicalSpace
-
-noncomputable section
-
-namespace FunctorialResolution.EmbeddedResolution
-
-namespace OpenImmersionRestriction
-
-theorem disjoint_irreducibleComponents_strictTransform
-    (hres : FunctorialResolution.Blowup.StrictTransformIsBlowupOfClosedSubscheme.{u}) (hB : (canonicalAlgorithmRules hres).ReducesInductivelyOnDimension)
-    (hrad : SmoothSubschemeIdealIsRadical.{u})
-    {k : Type u} [Field k] [CharZero k]
-    {Y : Scheme.{u}} [AlgebraicGeometry.IsAffine Y] [AlgebraicGeometry.IsReduced Y]
-    {pY : Y ⟶ Spec (CommRingCat.of k)} [AlgebraicGeometry.LocallyOfFiniteType pY]
-    [AlgebraicGeometry.QuasiCompact pY] (D : EmbeddingDatum k Y pY)
-    (hsm : AlgebraicGeometry.Smooth pY) (t : ℕ)
-    (ht : t ≤ (D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).length)
-    {C₁ C₂ : Set ↥((D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).strictTransform t)}
-    (h₁ : C₁ ∈ irreducibleComponents
-      ↥((D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).strictTransform t))
-    (h₂ : C₂ ∈ irreducibleComponents
-      ↥((D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).strictTransform t))
-    (hne : C₁ ≠ C₂) :
-    Disjoint C₁ C₂ :=
-  FunctorialResolution.EmbeddedResolution.irreducibleComponentsDisjointOfSmooth k _ _
-    (smooth_strictTransformι_comp_chartLevelStructureMorphism hres hB hrad D hsm t ht) C₁ h₁ C₂ h₂ hne
-
-theorem isClopen_of_mem_irreducibleComponents_strictTransform
-    (hres : FunctorialResolution.Blowup.StrictTransformIsBlowupOfClosedSubscheme.{u}) (hB : (canonicalAlgorithmRules hres).ReducesInductivelyOnDimension)
-    (hrad : SmoothSubschemeIdealIsRadical.{u})
-    {k : Type u} [Field k] [CharZero k]
-    {Y : Scheme.{u}} [AlgebraicGeometry.IsAffine Y] [AlgebraicGeometry.IsReduced Y]
-    {pY : Y ⟶ Spec (CommRingCat.of k)} [AlgebraicGeometry.LocallyOfFiniteType pY]
-    [AlgebraicGeometry.QuasiCompact pY] (D : EmbeddingDatum k Y pY)
-    (hsm : AlgebraicGeometry.Smooth pY) (t : ℕ)
-    (ht : t ≤ (D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).length)
-    {C : Set ↥((D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).strictTransform t)}
-    (hC : C ∈ irreducibleComponents
-      ↥((D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)).strictTransform t)) :
-    IsClopen C := by
-  let S := D.toEmbeddedBlowupSequence (canonicalPrincipalization hres hrad)
-  have : AlgebraicGeometry.Smooth (S.strictTransformToSpec t) :=
-    smooth_strictTransformι_comp_chartLevelStructureMorphism hres hB hrad D hsm t ht
-  have := S.locallyOfFiniteType_strictTransformToSpec t ht
-  exact isClopen_of_mem_irreducibleComponents_of_smooth (S.strictTransformToSpec t) C hC
-
-end OpenImmersionRestriction
-
-end FunctorialResolution.EmbeddedResolution
-
-end
-end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformIsolation.SmoothStrictTransformComponents =====
 

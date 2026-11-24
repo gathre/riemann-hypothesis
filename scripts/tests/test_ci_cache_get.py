@@ -128,7 +128,12 @@ revisionEndpoint = "https://example.invalid/revisions"
         archive.unlink()
         published.write_bytes(b"tampered")
         with patch.object(client, "PUBLIC_BASE", public.as_uri()):
-            rejects(lambda: client.consume(root, cache, selected, identity, fetcher=fetch))
+            try:
+                client.consume(root, cache, selected, identity, fetcher=fetch)
+            except ValueError as error:
+                assert "1 of the downloads did not match the manifest's SHA-256" in str(error), error
+            else:
+                raise AssertionError("tampered artifact was accepted")
         assert not archive.exists()
         # A newly seeded stock-release baseline works before any CI receipt exists.
         baseline_map = f"revisions/{client.REPOSITORY}/tc/{client.settings.TOOLCHAIN_DIR}/{head}.jsonl"

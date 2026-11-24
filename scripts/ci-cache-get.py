@@ -373,6 +373,31 @@ def clear_output_hashes(root, modules):
                             pass
 
 
+def download_failure(code, report):
+    """Why fetch-artifacts.py failed, from its --report, and whether rerunning can help."""
+    if not isinstance(report, dict):
+        return f"the downloader exited {code} without a report (see its output above)"
+    errors = [group for group in report.get("curl_errors") or []
+              if isinstance(group, list) and len(group) == 2 and type(group[0]) is int and isinstance(group[1], str)]
+    curl, mismatches = report.get("curl_exit"), report.get("sha256_mismatches")
+    parts = []
+    if curl:
+        shown = "; ".join(line for _, line in errors[:3])
+        parts.append(f"curl exited {curl}" + (f": {shown}" if shown else ""))
+    if mismatches:
+        parts.append(f"{mismatches} of the downloads did not match the manifest's SHA-256")
+    reason = ", and ".join(parts) or f"the downloader exited {code}"
+    if any(line.endswith(": is unknown") for _, line in errors):
+        advice = "this curl is too old: lake exe cache get needs curl 7.71 or newer"
+    elif curl == 23:
+        advice = "writing the files failed: check free disk space and that .lake/cache is writable"
+    elif mismatches:
+        advice = "please report it: the public copies may be bad"
+    else:
+        advice = "if this was a network problem, rerun lake exe cache get"
+    return f"{reason}. {advice[0].upper()}{advice[1:]}"
+
+
 def consume(root, cache, record, identity, workers=24, fetcher=fetch):
     contents, shas, modules = validated_blobs(record, identity, fetcher)
     if current_identity(root) != identity:
@@ -403,12 +428,17 @@ def consume(root, cache, record, identity, workers=24, fetcher=fetch):
         downloads = subprocess.Popen(
             [sys.executable, "-I", str(FETCH_ARTIFACTS), str(temporary / "outputs.jsonl"), str(cache),
              "--sha256", str(temporary / "sha256.json"), "--verify-existing",
-             "--base-url", f"{PUBLIC_BASE}/artifacts/{REPOSITORY}/", "--user-agent", USER_AGENT])
+             "--base-url", f"{PUBLIC_BASE}/artifacts/{REPOSITORY}/", "--user-agent", USER_AGENT,
+             "--report", str(temporary / "downloads.json")])
         try:
             if fresh:
                 register(root, env, service, temporary, fresh)
         finally:
             code = downloads.wait()
+        try:
+            report = json.loads((temporary / "downloads.json").read_text())
+        except (OSError, ValueError):
+            report = None
     if code:
         missing = sorted({artifact for _, artifact in entries if not (cache / "artifacts" / artifact).is_file()})
         absent = [artifact for artifact in missing[:20] if published(artifact) is False]
@@ -418,7 +448,7 @@ def consume(root, cache, record, identity, workers=24, fetcher=fetch):
                              f" (HTTP 404: {', '.join(absent)}); rerunning will not help, please report it."
                              f" Missing or unverified: {shown}")
         raise ValueError(f"{len(missing)} cached artifacts could not be downloaded and verified ({shown});"
-                         " if this was a network problem, rerun lake exe cache get")
+                         f" {download_failure(code, report)}")
     if current_identity(root) != identity:
         raise ValueError("project inputs changed before restoration")
     jobs = unpack_jobs(root, cache, modules)

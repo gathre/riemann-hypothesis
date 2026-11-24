@@ -99,3 +99,12 @@ others with `attribute [local instance high]`. That hides a slow instance search
 fixing it, and it ties the file to instances declared elsewhere, so it is hard to undo later.
 Find the instance that sends the search the wrong way, for example with
 `set_option trace.Meta.synthInstance true in` on the slow declaration, and fix it there.
+
+### Small speed-ups to the CI scripts
+
+We get many pull requests that shave a fraction of a second off a script in `scripts/` or
+`tools/ci_native/`, such as reading a file once instead of twice or batching a few `git` calls.
+Each one still needs a review from someone who knows the CI, and the time it saves disappears in
+a build that takes hours, so please don't open these. Changes to the CI are welcome when they fix
+a bug, close a gap in what is checked, or save time someone will notice, measured on the data the
+step really handles rather than on a small fixture.
