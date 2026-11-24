@@ -49,6 +49,13 @@ namespace GlobalTheory.Published
 
 open GlobalTheory.Eis
 
+/-- **Kudla--Rallis Meromorphic Continuation of Siegel Eisenstein Series**.
+
+The Siegel Eisenstein series associated with the doubling method on unitary groups admit meromorphic
+continuation to the entire complex plane with at most simple poles at predictable integer or half-integer
+points, and are regular at all but finitely many points of any compact set.
+
+Reference: [kudlaRallis1988]; [piatetskiShapiroRallis1987]. -/
 def SiegelEisensteinContinuation : Prop :=
   ∀ (D : D7) (V : HSp D), 0 < V.rank → ∀ a : GL (Fin V.rank) (AE D), IsMaj V a →
     HasIwasawa D.sp.cm.sig (dblSp V).gram (Khat V a) →
