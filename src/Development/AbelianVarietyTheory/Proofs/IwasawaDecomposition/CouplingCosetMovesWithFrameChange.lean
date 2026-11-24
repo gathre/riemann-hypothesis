@@ -58,7 +58,7 @@ theorem frsF_ya_symm {X : Fields} {Pr : Primes X} {R : Ranks} {sel : HeightOneSp
   rw [LinearEquiv.symm_apply_eq]
   have e1 : (⟨P.1, (Finset.mem_union.mp (Finset.mem_union_right _ P.2)).resolve_left hP⟩ : QE sel (mu : Chr X.F X.E X.K)) = P :=
     Subtype.ext rfl
-  simp only [frsF, dif_neg hP, e1]
+  simp only [frsF, dite_eq_right hP, e1]
   show _ = (g.1.1 * r.1.1.1.2 P * ((g.2.2.1 P)⁻¹).1) ((g.2.2.1 P).1 ((r.1.1.1.2 P).symm y))
   have e2 : ((g.2.2.1 P)⁻¹).1 ((g.2.2.1 P).1 ((r.1.1.1.2 P).symm y)) = (r.1.1.1.2 P).symm y := by
     show (g.2.2.1 P).1.symm ((g.2.2.1 P).1 _) = _
@@ -71,7 +71,7 @@ theorem invActs_cqOf : ∀ {X : Fields} {Pr : Primes X} {R : Ranks} {sel : Heigh
   intro X Pr R sel S mu cst u j hQ Λ Θ g r P
   have hP := hQ P.1 P.2
   ext z
-  simp only [cqOf, cosetIn, Set.mem_setOf_eq, Set.mem_image, if_neg hP]
+  simp only [cqOf, cosetIn, Set.mem_setOf_eq, Set.mem_image, ite_eq_right hP]
   constructor
   · rintro ⟨_, ⟨y, hy, rfl⟩, hz⟩
     refine ⟨(g.2.2.1 P).1.symm z, ⟨y, hy, ?_⟩, LinearEquiv.apply_symm_apply _ _⟩

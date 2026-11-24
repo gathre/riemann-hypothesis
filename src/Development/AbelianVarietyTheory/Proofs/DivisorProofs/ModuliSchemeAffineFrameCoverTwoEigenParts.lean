@@ -180,7 +180,7 @@ theorem exists_affine_bases {X : Scheme.{0}} (π : X ⟶ S) (s : X ⟶ Sp c.F) (
         by_cases h : τ' = τ
         · subst h; rwa [Pi.single_eq_same]
         · rw [Pi.single_eq_of_ne h]; intro a; simp) τ
-      rwa [Finset.sum_pi_single', if_pos (Finset.mem_univ _), Pi.single_eq_same] at this
+      rwa [Finset.sum_pi_single', ite_eq_left (Finset.mem_univ _), Pi.single_eq_same] at this
     have htm : ∀ (a : 𝓞 E) (cc : Fin n → L), rho hx' a (ψ ∘ cc) = ψ ∘ rho hx a cc :=
       fun a cc => vec_inj hx' (by
         show vec t _ xc' (tmap hx' _ _) = vec t _ xc' (_ ∘ tmap hx _ _)
@@ -260,7 +260,7 @@ theorem lieMult_univ (Xo : Moduli D l) (k : Type) [Field k] [IsAlgClosed k] (φ 
   · exact hd.2 fun h' => h (congrArg Subtype.val (φ.injective h'))
 
 theorem mult_conj {τ : E →+* ℂ} (hτ : τ (H.rt : E) = H.rt0) : D.mult (conjEmb τ) = D.q := by
-  refine if_neg fun h => ?_
+  refine ite_eq_right fun h => ?_
   have h3 : starRingEnd ℂ (τ (H.rt : E)) = H.rt0 := h
   rw [hτ] at h3
   have h5 : H.rt0.im = 0 := Complex.conj_eq_iff_im.1 h3
@@ -280,7 +280,7 @@ theorem GlobalTheory.DetLine.frameCover_univ : ∀ (E : Type) [Field E] [NumberF
     exists_affine_bases (t := Xo.univ.t) c (toX Xo c) (toF Xo c) D.mult (lieMult_univ c Xo) U z hz
   have h₁ := hb τ
   have h₂ := hb (conjEmb τ)
-  rw [show D.mult τ = D.p from if_pos hτ] at h₁
+  rw [show D.mult τ = D.p from ite_eq_left hτ] at h₁
   rw [mult_conj hτ] at h₂
   obtain ⟨v, hv⟩ := h₁
   obtain ⟨w, hw⟩ := h₂

@@ -139,9 +139,9 @@ private theorem tan_isCoc (F : R →ₐ[O] DualNumber κ) (r : Γ →* GG (m := 
         ((r g).left⁻¹).val.map (dualFst F) := rfl
   rw [e, tanCoc_eq, tanCoc_eq, tanCoc_eq, map_mul, SemidirectProduct.mul_left, lder_mul]
   rcases Int.units_eq_one_or (r g).right with hs | hs
-  · rw [hs, sgnAct_one, if_pos rfl]
+  · rw [hs, sgnAct_one, ite_eq_left rfl]
   · rw [hs, sgnAct_neg_one, lder_theta]
-    simp only [hne, if_false]
+    simp only [hne, ite_false]
 
 private theorem tan_mul (F : R →ₐ[O] DualNumber κ) (r : Γ →* GG (m := 3) (R := R)) (g : Γ) :
     tanCoc F r g * (push (dualFst F) r g).mat = (r g).mat.map (sndL F) := by

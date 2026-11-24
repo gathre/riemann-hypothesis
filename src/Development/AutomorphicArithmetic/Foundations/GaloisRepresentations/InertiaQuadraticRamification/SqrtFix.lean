@@ -89,7 +89,7 @@ theorem UpperTheory.Gal.UnramifiedFromSplittingCriterion.sqrtFix :
         rw [hvs] at hs
         exact lt_irrefl _ hs
       · have hyl' : ¬ A.valuation y' < 1 := fun h' => hyl (hiff.1 h')
-        push_neg at hyl hyl'
+        push Not at hyl hyl'
         have hge : 1 ≤ A.valuation (y * y') := by
           rw [map_mul]
           exact one_le_mul hyl hyl'

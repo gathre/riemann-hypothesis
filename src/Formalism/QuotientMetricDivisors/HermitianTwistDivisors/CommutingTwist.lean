@@ -172,7 +172,7 @@ private theorem exists_fnl_apply_eq_one_of_ne_zero (c : Ω) (hc : c ≠ 0) : ∃
   letI : Algebra K Ω := j.toAlgebra
   obtain ⟨φ, hφ⟩ : ∃ φ : Module.Dual K Ω, φ c ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hc ((Module.forall_dual_apply_eq_zero_iff K c).1 h)
   refine ⟨⟨fun x => (φ c)⁻¹ * φ x, fun x y => by simp only [map_add (f := _), mul_add], fun a x => ?_⟩, ?_⟩
   · show (φ c)⁻¹ * φ (j a * x) = a * ((φ c)⁻¹ * φ x)

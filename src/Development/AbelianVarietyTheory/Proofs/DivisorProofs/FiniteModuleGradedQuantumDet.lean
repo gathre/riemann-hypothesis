@@ -100,7 +100,7 @@ theorem comm_qdet {n : ℕ} {E : Fin n → Fin n → A} {z : A} (h : ∀ a b, Co
 theorem glComm {n : ℕ} {X : Fin n → Fin n → A} (hX : Formalism.REAL.GlRel X) {a b c d : Fin n} (hbc : b ≠ c)
     (hda : d ≠ a) : Commute (X a b) (X c d) := by
   have h := hX a b c d
-  rw [if_neg hbc, if_neg hda, sub_zero] at h
+  rw [ite_eq_right hbc, ite_eq_right hda, sub_zero] at h
   exact sub_eq_zero.1 h
 
 end Alg

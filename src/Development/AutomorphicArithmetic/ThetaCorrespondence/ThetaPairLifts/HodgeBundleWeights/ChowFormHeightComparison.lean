@@ -404,7 +404,7 @@ theorem exists_bundle (Z : RatModel o Ω) {m : ℕ} (t : Fin m → Ω) (ht : Z.H
       ⨆ k, nonzeroLocus (s k) = ⊤ := by
   classical
   let d : Fin m → Ω := fun i => if t i = 0 then 1 else t i
-  have hd : ∀ i, t i ≠ 0 → d i = t i := fun i hi => if_neg hi
+  have hd : ∀ i, t i ≠ 0 → d i = t i := fun i hi => ite_eq_right hi
   have hdne : ∀ i, d i ≠ 0 := by
     intro i
     by_cases h : t i = 0
@@ -897,7 +897,7 @@ theorem mul_eq_one_of_comb {K V : Type} [Field K] [AddCommGroup V] [Module K V] 
 
   simp only [map_sum, map_smul, Module.Basis.repr_self, Finsupp.coe_finsetSum, Finset.sum_apply, Finsupp.coe_smul,
   Pi.smul_apply, Finsupp.single_apply, smul_eq_mul, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-  Finset.mem_univ, if_true] at e
+  Finset.mem_univ, ite_true] at e
   rw [Matrix.mul_apply, Matrix.one_apply]
   simp only [mul_comm (g i _), ← e, eq_comm]
 

@@ -843,7 +843,7 @@ theorem short_vectors : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (
     omega
   have hv₀ : ∃ v₀ : Λ, v₀ ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     haveI : Subsingleton Λ := ⟨fun x y => by rw [hcon x, hcon y]⟩
     have h1 := R.rank
     rw [Module.finrank_zero_of_subsingleton] at h1

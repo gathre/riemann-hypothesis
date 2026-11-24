@@ -78,10 +78,10 @@ theorem blkU_comp_equiv {R : Type} [CommRing R] (r : ℕ) (x : BlockIx a r → R
   · rw [Fintype.sum_eq_single ⟨(i, j), h⟩]
     · simp
     · intro s hs
-      rw [if_neg]
+      rw [ite_eq_right]
       rintro ⟨h1, h2⟩
       exact hs (Subtype.ext (Prod.ext h1 h2))
-  · refine Finset.sum_eq_zero fun s _ => if_neg ?_
+  · refine Finset.sum_eq_zero fun s _ => ite_eq_right ?_
     rintro ⟨h1, h2⟩
     apply h
     rw [← h1, ← h2]

@@ -420,7 +420,7 @@ theorem covAt_of_xiConst_ofPre : ∀ (D : D7) (G : Type) [Group G] [Fintype G] (
   obtain ⟨a, ha⟩ := hrat γ' hγ'
   have hv := hval k γ' ⟨hγ', h2, h3⟩
   rw [(hO.tuple t).xi _ _ (hmul _ _ _ _ ha hxk), map_mul, (hR.lev.xi (tup t)).1.2 a, _root_.one_mul] at hv
-  exact (evR_eq_of_point _ hlev.2.2.2.2.2.2.2.1 _ y₂ hpt).trans ((dif_pos hd).symm.trans hv)
+  exact (evR_eq_of_point _ hlev.2.2.2.2.2.2.2.1 _ y₂ hpt).trans ((dite_eq_left hd).symm.trans hv)
 
 end GlobalTheory.PtId
 end
@@ -559,7 +559,7 @@ theorem exact_identity_ofPre (hC : GlobalTheory.RealGeo.PreChar R) (hT : TieIn T
     ring
   have had := ad_value_ofPre hC hT O hP hka hδ t h J' hR y xs hpl g' γ hγ _ g Dc hX hp hrt _ hon hinv (hbas _) hΛ mk₂ ha₂ v _ hv
     (hfr ▸ hrd') Y hY
-  have hrdU : rdU (unfO O) f (O.dict g').1 (O.dict g').2 = _ := (dif_pos hx).trans hgeo
+  have hrdU : rdU (unfO O) f (O.dict g').1 (O.dict g').2 = _ := (dite_eq_left hx).trans hgeo
   have e1 := congrArg (clsSum (inC O.c') ((unfO O).X (O.dict g').1) Dc.hr Dc.bas Dc.idx Dc.eL (O.w t) (O.La t) (O.Nc t) (O.gam t)
     (O.vol t) (O.ep t) (fun j => O.io (xs j)) ((unfO O).X (O.dict g').1).Λ v Y) hfr
   rw [had.trans (congrArg (fun z => _ * z) e1.symm), hrdU]

@@ -86,7 +86,7 @@ theorem exists_F_mem_not_mem {S : Finset (HeightOneSpectrum (𝓞 D.host.F))} {�
   have hsep : ∀ u ∈ S, ∃ x : 𝓞 D.host.F, x ∈ u.asIdeal ∧ x ∉ v.asIdeal := by
     intro u hu
     by_contra hn
-    push_neg at hn
+    push Not at hn
     have e : u.asIdeal = v.asIdeal := u.isMaximal.eq_of_le v.isPrime.ne_top hn
     exact hv (HeightOneSpectrum.ext e ▸ hu)
   choose! x hx hxv using hsep

@@ -454,7 +454,7 @@ theorem g_pos : ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k, Fintype (ι
         (blk k (fderiv ℂ (fun u => R.lift ((R.A.chart j).symm v) ((R.A.chart j).symm u)) v w)) :=
       fun k => GP.levi_fs_nonneg (hblk k) _
     by_contra hle
-    push_neg at hle
+    push Not at hle
     have hz0 : ∀ k, levi (fun z : ι k → ℂ => Real.log ((fsMetric (ι := ι k)).ρ z))
         (blk k (R.lift ((R.A.chart j).symm v) ((R.A.chart j).symm v)))
         (blk k (fderiv ℂ (fun u => R.lift ((R.A.chart j).symm v) ((R.A.chart j).symm u)) v w)) = 0 :=

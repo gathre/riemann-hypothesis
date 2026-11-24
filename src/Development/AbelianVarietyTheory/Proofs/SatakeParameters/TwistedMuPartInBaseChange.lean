@@ -94,7 +94,7 @@ theorem exists_split_not_mem (hC : ∀ Sg : Set (PlE H), Sg.Finite →
       IsPlaceOver (F := H.E) B w ∧ IsFrob (F := H.E) B (normV w) σ} = Set.univ)
     (S : Set (PlE H)) (hS : S.Finite) : ∃ w ∉ S, IsSplitPl H w := by
   by_contra hn
-  push_neg at hn
+  push Not at hn
   have h := hC S hS
   have he : {σ : G H.E N.Om | ∃ w ∉ S, IsSplitPl H w ∧ ∃ B : ValuationSubring N.Om,
       IsPlaceOver (F := H.E) B w ∧ IsFrob (F := H.E) B (normV w) σ} = ∅ := by

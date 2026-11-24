@@ -302,7 +302,7 @@ theorem connK_transition : ∀ {R : Type} [CommRing R] [IsDomain R] {Q : DegPre 
   have hΩL : Y.q.left ⁻¹ᵁ (V i ⊓ V i') ≤ Y.q.left ⁻¹ᵁ (Q.P.L.U (h.j i) ⊓ Q.P.L.U (h.j i')) := pre_mono _ hUL
   have hG : (Y.q.left.app (V i ⊓ V i')).hom (rsT (Q.P.L.g (h.j i) (h.j i')).val (V i ⊓ V i')) =
       pbT Y.q.left (Q.P.L.g (h.j i) (h.j i')).val (Y.q.left ⁻¹ᵁ (V i ⊓ V i')) := by
-    rw [rsT_eq hUL, ← res_app Y.q.left hUL (pre_mono _ hUL), pbT, dif_pos hΩL]; rfl
+    rw [rsT_eq hUL, ← res_app Y.q.left hUL (pre_mono _ hUL), pbT, dite_eq_left hΩL]; rfl
   have hz1 : (b ≫ m₀) z ∈ V i := hz.1
   have hz2 : (b ≫ m₀) z ∈ V i' := hz.2
   rw [hD.2.1 Z a b w z i _ inf_le_left hz, hG, gs_mul b z _ hz, gs_sub b z _ hz, gs_pbT b m₀ z (pre_mono _ hUL) hz,
@@ -333,7 +333,7 @@ theorem connK_transition : ∀ {R : Type} [CommRing R] [IsDomain R] {Q : DegPre 
     simpa only [map_natCast] using
       (Nat.cast_ne_zero.2 (Nat.succ_ne_zero k) : ((k + 1 : ℕ) : K) ≠ 0).isUnit.map (cstH (b ≫ A₀.hom) z)
   have hGu : IsUnit G := by
-    simp only [G, pbT, dif_pos hΩL]; exact (Units.isUnit _).map _
+    simp only [G, pbT, dite_eq_left hΩL]; exact (Units.isUnit _).map _
   have hc : IsUnit (2 * ((k + 1 : ℕ) : Z.presheaf.stalk z) ^ 2 * π G ^ k) := (h2.mul (hk.pow 2)).mul ((hGu.map π).pow k)
   refine hc.mul_left_cancel ?_
   push_cast at e1 ⊢

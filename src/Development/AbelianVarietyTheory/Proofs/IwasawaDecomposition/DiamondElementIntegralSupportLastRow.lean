@@ -138,7 +138,7 @@ theorem exists_res [StarRing E] (P : HeightOneSpectrum (𝓞 E)) (z : AfE F E) (
     · simp
   obtain ⟨c, -, hc⟩ := PtExist.hasRes_redA P hz
   refine ⟨c, ?_⟩
-  rwa [map_mul, PtExist.adAt_idem, if_pos rfl, one_mul] at hc
+  rwa [map_mul, PtExist.adAt_idem, ite_eq_left rfl, one_mul] at hc
 
 theorem adAt_of_bc_eq_one {n : ℕ} (G : GL (Fin n) (AfE F E)) (w : HeightOneSpectrum (𝓞 E))
     (h : bc (prV (E := E) (w.under (𝓞 F))) G = 1) (i j : Fin n) :
@@ -377,13 +377,13 @@ theorem fT_kill (hLb : IsBase S π) (hv : (T : 𝓞 F) ∈ v.asIdeal) (hP : P.un
       · exact Or.inl (mul_mem (incl_mem_intV v _) ((coord_of_mem (v := v) hLb s.2 j).1 fun h => hj ((hlast j).1 h)))
     refine mem_latS_of_coords (S := S) (fun j => if hj : j = r then ⟨_, hu⟩ else ⟨_, (hjm j).resolve_right hj⟩)
       (fun j => if j = r then π else 1) (fun j => single_mem_Lb hLb j _ fun h => ?_) fun j => ?_
-    · rw [if_pos ((hlast j).1 h)]
+    · rw [ite_eq_left ((hlast j).1 h)]
     · by_cases hj : j = r
       · subst hj
-        simp only [dif_pos, if_pos]
+        simp only [dite_eq_left, ite_eq_left]
         show ι _ * s.1 j = ι _ * s.1 j * ι _
         rw [mul_right_comm, ← map_mul, mul_right_comm, inv_mul_cancel₀ hπ0, one_mul]
-      · simp only [dif_neg hj, if_neg hj, map_one, mul_one]
+      · simp only [dite_eq_right hj, ite_eq_right hj, map_one, mul_one]
         rfl
 
   have hB : S.fT v hv (kap F v i • s) = 0 := by
@@ -495,14 +495,14 @@ theorem last_row (hLb : IsBase S π) (hv : (T : 𝓞 F) ∈ v.asIdeal) (hP : P.u
   refine ⟨c, ?_, hc'⟩
   by_cases hjr : j = r
   · subst hjr
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     have hee : ej = eL := Subtype.ext (hej.trans heL.symm)
     have e4 : kap F v (c - (a : 𝓞 E)) • S.fT v hv eL = 0 := by
       rw [map_sub, sub_smul, ← hfx, ← hx, hee, map_intCast, Int.cast_smul_eq_zsmul, sub_self]
     have e5 := hdiv _ e4
     rw [← map_intCast (Ideal.Quotient.mk P.asIdeal) a]
     exact Ideal.Quotient.eq.2 e5
-  · rw [if_neg hjr]
+  · rw [ite_eq_right hjr]
     have e6 := kill ej (by
       rw [hej, ee_ne hjr, map_zero]
       simp)

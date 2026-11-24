@@ -104,13 +104,13 @@ theorem inG_of_curve {c : ℝ → Matrix (Fin m) (Fin m) ℂ} {Y : Matrix (Fin m
     filter_upwards [hG] with s hs
     rw [← congrFun (congrFun hs i) j]
     simp only [Jm, Matrix.mul_apply, Matrix.conjTranspose_apply, Matrix.diagonal_apply, mul_ite, mul_zero,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   have h3 := (h1.congr_of_eventuallyEq h2.symm).unique (hasDerivAt_const _ _)
   rw [Matrix.zero_apply, ← h3, h0, Finset.sum_add_distrib]
   simp only [Jm, Matrix.add_apply, Matrix.mul_diagonal, Matrix.diagonal_mul, Matrix.conjTranspose_apply, Matrix.one_apply,
-    mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   congr 1
-  rw [Finset.sum_eq_single i (fun a _ ha => by simp [ha]) (by simp), if_pos rfl]
+  rw [Finset.sum_eq_single i (fun a _ ha => by simp [ha]) (by simp), ite_eq_left rfl]
   split_ifs <;> simp
 
 theorem hasDerivAt_curve (hπ : IsURepOn (UJset ε) π) {v : H} (hv : v ∈ smD ε π) {c : ℝ → Matrix (Fin m) (Fin m) ℂ}

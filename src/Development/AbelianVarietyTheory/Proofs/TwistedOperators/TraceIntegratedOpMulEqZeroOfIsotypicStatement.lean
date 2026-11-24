@@ -76,7 +76,7 @@ theorem exists_homIn_ne_zero (hπ : IsUnitaryRep π) (hiso : IsIsotypic δ π) {
     (hU : IsSubrep π U) (h0 : U ≠ ⊥) : ∃ S ∈ homIn δ π U, S ≠ 0 := by
   have := hU.completeSpace
   by_contra hn
-  push_neg at hn
+  push Not at hn
   apply h0
   have hle : isoPart δ π ⊤ ≤ Uᗮ := isoPart_le U.isClosed_orthogonal fun T hT x => by
     have hS : U.starProjection ∘L T ∈ homIn δ π U :=

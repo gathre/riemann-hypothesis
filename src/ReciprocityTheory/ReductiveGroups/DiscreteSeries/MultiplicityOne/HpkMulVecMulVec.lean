@@ -83,7 +83,7 @@ theorem hpk_mulVec (v : Fin (2 * r + k + 1) → ℂ) (i : Fin (2 * r + k + 1)) :
     rw [Finset.sum_eq_single ⟨2 * r + k - i.val, by omega⟩]
     · simp
     · intro j _ hj
-      rw [if_neg, zero_mul]
+      rw [ite_eq_right, zero_mul]
       intro hj'
       exact hj (Fin.ext hj')
     · intro h
@@ -92,7 +92,7 @@ theorem hpk_mulVec (v : Fin (2 * r + k + 1) → ℂ) (i : Fin (2 * r + k + 1)) :
     rw [Finset.sum_eq_single i]
     · simp [h2]
     · intro j _ hj
-      rw [if_neg, zero_mul]
+      rw [ite_eq_right, zero_mul]
       intro hj'
       exact hj (Fin.ext hj')
     · intro h
@@ -101,7 +101,7 @@ theorem hpk_mulVec (v : Fin (2 * r + k + 1) → ℂ) (i : Fin (2 * r + k + 1)) :
     rw [Finset.sum_eq_single i]
     · simp [h2]
     · intro j _ hj
-      rw [if_neg, zero_mul]
+      rw [ite_eq_right, zero_mul]
       intro hj'
       exact hj (Fin.ext hj')
     · intro h
@@ -112,15 +112,15 @@ theorem hpk_mulVec_mulVec (v : Fin (2 * r + k + 1) → ℂ) : Hpk k r *ᵥ (Hpk 
   have hi := i.isLt
   rw [hpk_mulVec]
   split_ifs with h1 h2
-  · rw [hpk_mulVec, if_pos]
+  · rw [hpk_mulVec, ite_eq_left]
     · congr 1
       ext
       show 2 * r + k - (2 * r + k - i.val) = i.val
       omega
     · show 2 * r + k - i.val < r ∨ r + k < 2 * r + k - i.val
       omega
-  · rw [hpk_mulVec, if_neg h1, if_pos h2, neg_neg]
-  · rw [hpk_mulVec, if_neg h1, if_neg h2]
+  · rw [hpk_mulVec, ite_eq_right h1, ite_eq_left h2, neg_neg]
+  · rw [hpk_mulVec, ite_eq_right h1, ite_eq_right h2]
 
 theorem mat_eq_of_mulVec {A B : Mat k r} (h : ∀ v, A *ᵥ v = B *ᵥ v) : A = B := by
   ext i j
@@ -245,7 +245,7 @@ theorem rpow_neg_le {x y c b : ℝ} (hy : 0 < y) (hc : 0 < c) (hb : 0 ≤ b) (h 
     x ^ (-b) ≤ c ^ b * y ^ (-b) := by
   have hx : 0 < x := by
     by_contra hx
-    push_neg at hx
+    push Not at hx
     nlinarith
   have hA : 0 < x ^ b := Real.rpow_pos_of_pos hx b
   have hB : 0 < y ^ b := Real.rpow_pos_of_pos hy b
@@ -309,7 +309,7 @@ theorem C_nonneg {E : Type} [NormedAddCommGroup E] {f : Mat k r → E} {C e : �
   have h1 := h 1 gv_one
   have hp : 0 < gN (1 : Mat k r) ^ e := Real.rpow_pos_of_pos gN_one_pos e
   by_contra hC
-  push_neg at hC
+  push Not at hC
   have h2 : C * gN (1 : Mat k r) ^ e < 0 := mul_neg_of_neg_of_pos hC hp
   linarith [norm_nonneg (f 1)]
 

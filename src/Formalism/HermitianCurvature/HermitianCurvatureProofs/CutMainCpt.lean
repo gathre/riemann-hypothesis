@@ -212,13 +212,13 @@ theorem nPt_append_one (P : M.Par) (TT : ℝ) (a : C.LPt) (j : ℕ) (ha : D.IsLo
       have htop : j + 1 ≠ P.r + 1 := by omega
       have hexp : C.Mlev P.k P.r (j + 1) + 1 - 3 = C.Mlev P.k P.r (j + 1) - 2 := by ring
       simp only [List.nil_append, C.nAux, KB.levW, Nat.add_sub_cancel, htop, false_and,
-        if_false, Nat.cast_one, one_mul, mul_one, hexp]
+        ite_false, Nat.cast_one, one_mul, mul_one, hexp]
     | cons x l ih =>
       rcases x with ⟨s, t⟩
       intro b hb
       change b + (s + D.ptSize l) = j + 1 at hb
       have htop : b + s - 1 ≠ P.r + 1 := by omega
-      simp only [List.cons_append, C.nAux, htop, false_and, if_false, ih (b + s) (by omega), mul_assoc]
+      simp only [List.cons_append, C.nAux, htop, false_and, ite_false, ih (b + s) (by omega), mul_assoc]
   exact happend a 1 (by rw [ha.2, Nat.add_comm])
 
 theorem nPt_nonneg_loc (P : M.Par) (TT : ℝ) (a : C.LPt) (j : ℕ) (ha : D.IsLocPt a j) (hj : j ≤ P.r) :
@@ -235,13 +235,13 @@ theorem nPt_nonneg_loc (P : M.Par) (TT : ℝ) (a : C.LPt) (j : ℕ) (ha : D.IsLo
       intro b hb
       change b + (s + D.ptSize l) ≤ P.r + 1 at hb
       have htop : b + s - 1 ≠ P.r + 1 := by omega
-      simp only [C.nAux, htop, false_and, if_false, one_mul]
+      simp only [C.nAux, htop, false_and, ite_false, one_mul]
       exact mul_nonneg (zpow_nonneg (norm_nonneg _) _) (ih (b + s) (by omega))
   exact hnonneg a 1 (by rw [ha.2]; omega)
 
 theorem levW_nonneg_low (P : M.Par) (j : ℕ) (hj : j + 1 ≤ P.r) (c : ℂ) : 0 ≤ KB.levW P (j + 1) c := by
   simp only [KB.levW]
-  rw [if_neg (by omega)]
+  rw [ite_eq_right (by omega)]
   exact zpow_nonneg (norm_nonneg _) _
 
 theorem glFibre : GLFibre := by
@@ -318,7 +318,7 @@ theorem nPt_block {P : M.Par} (TT : ℝ) (b m : ℕ) (hb : 1 ≤ b) (hi : b + (m
   unfold TBB.nPt
   rw [e, PBD.weight_product_append, PBD.weight_product_append, PBD.weight_product_indep_of_real_parameter P.k P.r _ 0 _ h 1 le_rfl (by omega), hs1, hh]
   simp only [C.nAux, one_mul, mul_one]
-  rw [if_neg (by omega), if_neg (by omega), mul_assoc]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega), mul_assoc]
   congr 2
   · apply zpow_two_nat
     unfold C.Mlev U.Mlev
@@ -345,7 +345,7 @@ theorem nPt_long {P : M.Par} (TT : ℝ) (b m : ℕ) (hb : 1 ≤ b) (hi : b + (m 
   unfold TBB.nPt
   rw [PBD.weight_product_append, PBD.weight_product_indep_of_real_parameter P.k P.r _ 0 _ h 1 le_rfl (by omega), hh]
   simp only [C.nAux, one_mul, mul_one]
-  rw [if_neg (by omega)]
+  rw [ite_eq_right (by omega)]
   congr 1
   apply zpow_two_nat
   unfold C.Mlev U.Mlev
@@ -383,14 +383,14 @@ private theorem isLocPt_and_ptG_pos_of_vec_ne_zero {P : M.Par} {Wp Wq : Type} [N
     (p : KB.Pl P Wp Wq) (G : B.Mat P.k P.r → (Wq →L[ℂ] Wp)) (Q : C.LPt) (hQ : p.V G Q ≠ 0) :
     D.IsLocPt Q (P.r + 1) ∧ 0 < D.ptG (TBB.TTp p) P.r Q := by
   by_contra hn
-  exact hQ (by unfold KB.Pl.V D.vecV; exact dif_neg hn)
+  exact hQ (by unfold KB.Pl.V D.vecV; exact dite_eq_right hn)
 
 private theorem vecV_eq_zero_of_not_isLocPt {P : M.Par} {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp]
     [NormedAddCommGroup Wq] [InnerProductSpace ℂ Wq] [FiniteDimensional ℂ Wp] [FiniteDimensional ℂ Wq]
     (p : KB.Pl P Wp Wq) (G : B.Mat P.k P.r → (Wq →L[ℂ] Wp)) (Q : C.LPt) (hQ : ¬ D.IsLocPt Q (P.r + 1)) :
     D.vecV p.T.base p.ν' p.m₀ G Q = 0 := by
   unfold D.vecV
-  exact dif_neg fun hh => hQ hh.1
+  exact dite_eq_right fun hh => hQ hh.1
 
 private theorem hsInner_zero_left_right_and_hsVec_zero {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp]
     [NormedAddCommGroup Wq] [InnerProductSpace ℂ Wq] [FiniteDimensional ℂ Wq] (X : Wq →L[ℂ] Wp) :
@@ -410,9 +410,9 @@ private theorem rr_succ_eq_ite_hsInner_else_leading {P : M.Par} {Wp Wq : Type} [
       else Top.topOf P p.l0 p.T p.ν' p.m₀ p.Θ p.TP F w Q Q' := by
   unfold KB.Pl.RR D.RRplace
   by_cases hl : D.IsLocPt Q (P.r + 1) ∧ D.IsLocPt Q' (P.r + 1)
-  · rw [dite_eq_left hl, dif_neg (by omega), if_pos rfl]
+  · rw [dite_eq_left hl, dite_eq_right (by omega), ite_eq_left rfl]
     rfl
-  · rw [dif_neg hl]
+  · rw [dite_eq_right hl]
     have hz : ∀ G : B.Mat P.k P.r → (Wq →L[ℂ] Wp),
         D.vecV p.T.base p.ν' p.m₀ G Q = 0 ∨ D.vecV p.T.base p.ν' p.m₀ G Q' = 0 := by
       intro G
@@ -445,7 +445,7 @@ theorem top_level_gram : TopGram1 := by
     refine ⟨Unit, inferInstance, fun _ => 1 / TBB.normC nn [], fun _ => F,
       fun _ => GermRateSplit.hsLE (ContinuousLinearMap.id ℂ Wp), fun _ => by positivity, fun _ => hF, ?_⟩
     intro Q Q'
-    rw [TBB.NP, rr_succ_eq_ite_hsInner_else_leading, if_pos rfl, Fintype.sum_unique, GermRateSplit.hsLE_apply, GermRateSplit.hsLE_apply,
+    rw [TBB.NP, rr_succ_eq_ite_hsInner_else_leading, ite_eq_left rfl, Fintype.sum_unique, GermRateSplit.hsLE_apply, GermRateSplit.hsLE_apply,
       inner_smul_left, inner_smul_right, Complex.conj_ofReal]
     simp only [ContinuousLinearMap.id_comp, List.length_nil, omT, pow_zero, Real.sqrt_one, mul_one]
     unfold B.hsInner
@@ -459,7 +459,7 @@ theorem top_level_gram : TopGram1 := by
       fun i => √(Top.cW P p.l0 w i.1 i.2).re * √(Top.cW P p.l0 w i.1 i.2).re / TBB.normC nn w,
       fun i => G i.1, fun i => GermRateSplit.hsLE (p.TP.E i.2), fun i => by positivity, fun i => hG i.1, ?_⟩
     intro Q Q'
-    rw [TBB.NP, rr_succ_eq_ite_hsInner_else_leading, if_neg hw0]
+    rw [TBB.NP, rr_succ_eq_ite_hsInner_else_leading, ite_eq_right hw0]
     unfold Top.topOf
     rw [Fintype.sum_prod_type, Finset.mul_sum]
     refine Finset.sum_congr rfl fun e _ => ?_
@@ -606,13 +606,13 @@ theorem np_top_two (p : KB.Pl P Wp Wq) (nn : ℝ → ℝ) (F : B.Mat P.k P.r →
       intro b
       rw [hlast, hTT]
       rw [hT, hT'] at hc2
-      simp only [C.nAux, KB.levW, B2.zWeight, if_pos hc2.le]
-      rw [if_pos ⟨by omega, trivial⟩]
+      simp only [C.nAux, KB.levW, B2.zWeight, ite_eq_left hc2.le]
+      rw [ite_eq_left ⟨by omega, trivial⟩]
       simp
     have hlev : 0 ≤ KB.levW P (P.r + 1) c := by
       rw [← hfac a, hlast]
       simp only [C.nAux]
-      rw [if_pos ⟨by omega, trivial⟩]
+      rw [ite_eq_left ⟨by omega, trivial⟩]
       have : 0 ≤ Complex.normSq c - TBB.TTp p := by
         unfold TBB.TTp; linarith
       simpa using pow_nonneg this _
@@ -806,7 +806,7 @@ theorem field_locality : FieldLoc := by
     exact (h1.smul hg).norm.pow 2
   refine hc.congr fun z hz => ?_
   have hz0 : z ≠ 0 := fun e => h0 (e ▸ hz)
-  simp only [PBK.bz, btT, gT, hz0, if_false]
+  simp only [PBK.bz, btT, gT, hz0, ite_false]
 
 theorem field_supremum : FieldSup := by
   intro P Wp Wq _ _ _ _ _ _ I _ p nn F w c Fi L hV b s hb hs hbs h hh x hx
@@ -1046,13 +1046,13 @@ theorem _root_.Formalism.FourierDecayAlt.P.TBBx3.head_continuity_at_zero_of_stan
           KB.levW P (P.r + 1) c := by
         rw [hlast, hTT]
         rw [hT, hT'] at hc2
-        simp only [C.nAux, KB.levW, B2.zWeight, if_pos hc2.le]
-        rw [if_pos ⟨by omega, trivial⟩]
+        simp only [C.nAux, KB.levW, B2.zWeight, ite_eq_left hc2.le]
+        rw [ite_eq_left ⟨by omega, trivial⟩]
         simp
       have hlev : 0 ≤ KB.levW P (P.r + 1) c := by
         rw [← hfac, hlast]
         simp only [C.nAux]
-        rw [if_pos ⟨by omega, trivial⟩]
+        rw [ite_eq_left ⟨by omega, trivial⟩]
         have : 0 ≤ Complex.normSq c - TBB.TTp p := by
           unfold TBB.TTp; linarith
         simpa using pow_nonneg this _
@@ -1062,7 +1062,7 @@ theorem _root_.Formalism.FourierDecayAlt.P.TBBx3.head_continuity_at_zero_of_stan
   · have hfac : C.nAux P.k P.r (D.ptGG (TBB.TTp p) (h ++ [(1, c)])) (fun _ _ => 1) (1 + j) [(1, c)] =
         KB.levW P (j + 1) c := by
       simp only [C.nAux, KB.levW]
-      rw [if_neg (by omega), if_neg (by omega)]
+      rw [ite_eq_right (by omega), ite_eq_right (by omega)]
       have e : 1 + j + 1 - 1 = j + 1 := by omega
       rw [e]
       simp only [one_mul, mul_one, Nat.cast_one]
@@ -1070,7 +1070,7 @@ theorem _root_.Formalism.FourierDecayAlt.P.TBBx3.head_continuity_at_zero_of_stan
       ring
     have hlev : 0 ≤ KB.levW P (j + 1) c := by
       simp only [KB.levW]
-      rw [if_neg (by omega)]
+      rw [ite_eq_right (by omega)]
       exact zpow_nonneg (norm_nonneg _) _
     rw [hfac, Real.mul_self_sqrt (mul_nonneg hA hlev)]
     push_cast
@@ -1614,7 +1614,7 @@ theorem _root_.Formalism.FourierDecayAlt.P.CutBP.germDataLowAll_of_partsCpt (hGr
 
   have hbz : ∀ z : ℂ, z ≠ 0 → PBK.bz s bt z = Vec (h ++ [(s, z)]) := by
     intro z hz
-    simp only [PBK.bz, bt, if_neg hz, smul_smul, ← Complex.ofReal_mul]
+    simp only [PBK.bz, bt, ite_eq_right hz, smul_smul, ← Complex.ofReal_mul]
     rw [mul_inv_cancel₀, Complex.ofReal_one, one_smul]
     have : (0 : ℝ) < ‖z‖ ^ (s - 1) := pow_pos (norm_pos_iff.mpr hz) _
     have hs' : (0 : ℝ) < s := by exact_mod_cast Nat.pos_of_ne_zero hs0
@@ -1717,7 +1717,7 @@ theorem _root_.Formalism.FourierDecayAlt.P.CutBP.germDataLowAll_of_partsCpt (hGr
         have hr := (Polynomial.mem_nthRoots (by omega : 0 < s)).1 (Multiset.mem_toFinset.1 hz)
         rw [zero_pow hs0] at hr
         exact hD0 (by simpa using hr.symm)
-      exact congrArg (fun v => G.psi (-U.betaU) ((s : ℂ) * z * x) • v) (if_neg hz0)
+      exact congrArg (fun v => G.psi (-U.betaU) ((s : ℂ) * z * x) • v) (ite_eq_right hz0)
   · intro t t' ht ht'
     have hg := hgram t⁻¹ t'⁻¹ (inv_ne_zero ht) (inv_ne_zero ht')
     simp only [inv_inv] at hg
@@ -1832,7 +1832,7 @@ theorem _root_.Formalism.FourierDecayAlt.P.CutBP.GT.germDataTopAll_of_partsCpt (
         · unfold PBK.mainD
           rw [← Finset.sum_neg_distrib]
           refine Finset.sum_congr rfl fun z hzm => ?_
-          simp only [hbt, btT, if_neg (hroot z hzm), coT, ptT, smul_smul, neg_smul]
+          simp only [hbt, btT, ite_eq_right (hroot z hzm), coT, ptT, smul_smul, neg_smul]
       rw [hsum]
       have hk : ∀ j ∈ Finset.insertNone (G.rootSet s (epsT s * D)), ∀ l ∈ Finset.insertNone (G.rootSet s (epsT s * D)),
           ⟪vecT p w.length c Fi L (ptT s h x D j), vecT p w.length c Fi L (ptT s h x D l)⟫_ℂ =
@@ -1895,7 +1895,7 @@ theorem _root_.Formalism.FourierDecayAlt.P.CutBP.GT.germDataTopAll_of_partsCpt (
       rw [hr1, ← inner_vecT_np p nn F w c Fi L hV, inner_self_eq_norm_sq_to_K]
       norm_cast
     have hbz : PBK.bz s bt z = ((Real.pi ^ (s - 1) : ℝ) : ℂ) • vecT p w.length c Fi L (h ++ [(s, z)]) := by
-      simp only [PBK.bz, hbt, btT, if_neg hz, smul_smul, ← Complex.ofReal_mul]
+      simp only [PBK.bz, hbt, btT, ite_eq_right hz, smul_smul, ← Complex.ofReal_mul]
       congr 2
       have hpos : (0 : ℝ) < (s : ℝ) * ‖z‖ ^ (s - 1) := by
         have : (0 : ℝ) < ‖z‖ ^ (s - 1) := pow_pos (norm_pos_iff.mpr hz) _

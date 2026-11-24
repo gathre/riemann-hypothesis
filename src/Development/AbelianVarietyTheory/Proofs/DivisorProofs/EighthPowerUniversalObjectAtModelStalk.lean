@@ -447,9 +447,9 @@ theorem eighth_power_at_stalk : ∀ (g n : ℕ) (o : Type) [CommRing o] (ζ : o)
     have hw := hME.2 w
     apply ext.unique ⟨inferInstance, by rw [Functor.map_comp, hprOg]⟩
     by_cases hwa : w = a
-    · rw [if_pos hwa] at hw ⊢
+    · rw [ite_eq_left hwa] at hw ⊢
       exact ⟨hmonO b, by rw [hprOg, hw]⟩
-    · rw [if_neg hwa] at hw ⊢
+    · rw [ite_eq_right hwa] at hw ⊢
       exact ⟨inferInstanceAs (IsMonHom (toUnit _ ≫ η[cO.A])), by rw [hone, hw]⟩
 
 end GlobalTheory.Poinc.Eq8.StalkPow

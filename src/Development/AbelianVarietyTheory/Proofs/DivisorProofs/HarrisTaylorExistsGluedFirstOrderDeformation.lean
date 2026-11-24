@@ -706,7 +706,7 @@ theorem lie_glueFil : ∀ (p : ℕ) [Fact p.Prime] (D : GlobalTheory.UPel.HT.Dat
   have hχ : ∀ i i', i ≠ i' → ∃ c : 𝓞 D.F, tk (b.t i c) ≠ tk (b.t i' c) := by
     intro i i' hii'
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : Ideal.span (Set.range fun x ↦ b.t i x - b.t i' x) ≤ RingHom.ker tk := by
       rw [Ideal.span_le]
       rintro _ ⟨x, rfl⟩

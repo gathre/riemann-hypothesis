@@ -373,7 +373,7 @@ theorem chartMeets : ChartMeets := by
   obtain ⟨w, hwN, hwg⟩ : ∃ w : (Fin n → ℂ) × (K → ℂ),
       (w.1 ∈ Metric.ball (0 : Fin n → ℂ) 1 ∧ ∀ k, 1 + w.2 k ≠ 0) ∧ aeval (Γ w) g ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hne (hN.mono fun w hw => hcon w hw)
   have hmem := χ.mem _ hwN.1
   obtain ⟨z, hsp, hco⟩ := SheetDecomposition.ChartForm.exists_point htie (Γ w)

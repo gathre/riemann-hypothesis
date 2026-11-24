@@ -879,7 +879,7 @@ theorem card_sel (hPT : PoitouTateTotallyComplex) (hLF : LocalFiniteness) (hLE :
   refine ⟨f1, inferInstance, card_sel_of_euler _ _ L _ (fun x => ?_) ?_ ?_ hL⟩
   · obtain ⟨y, hy⟩ := GlobalTheory.LocTwoOnto.loc2_surjective hPT F Ω l Λ M S (fun v => A.1 v.1) ρ hl hS (fun v => A.2 v.1) hc hd
       fun v => if h : ((l : ℕ) : 𝓞 F) ∈ v.1.asIdeal then x ⟨v.1, h⟩ else 0
-    exact ⟨y, fun v => (hy ⟨v.1, hS _ v.2⟩).trans (dif_pos v.2)⟩
+    exact ⟨y, fun v => (hy ⟨v.1, hS _ v.2⟩).trans (dite_eq_left v.2)⟩
   · rw [eG, h0, Nat.card_unique (α := (⊥ : Submodule Λ M)), one_mul]
   · rw [Finset.prod_congr rfl fun v _ => (hloc v).2.2, Finset.prod_mul_distrib, Finset.prod_mul_distrib,
       Finset.prod_pow_eq_pow_sum, GlobalTheory.Proof.LocalDegreeSum.sum_locDeg F l, IsTotallyComplex.finrank, ← pow_mul, mul_comm 2]
@@ -960,7 +960,7 @@ theorem exists_inf (hc : ContAction ρ) (x : H1 (ρ.comp (toGS Ω _)))
       resH1 ρ (toGS Ω _) (continuous_toGS Ω _) y.1 = x := by
   obtain ⟨y, rfl⟩ := GlobalTheory.SelInfl.selAllLeInf F Ω S Λ M ρ hc A _ (fun v hv => by
     unfold Formalism.GaloisCohomology.bkCond
-    rw [if_neg fun h => hv ((hS v).2 (.inl h)), if_neg fun h => hv ((hS v).2 (.inr h))]) hx
+    rw [ite_eq_right fun h => hv ((hS v).2 (.inl h)), ite_eq_right fun h => hv ((hS v).2 (.inr h))]) hx
   exact ⟨⟨y, (inf_mem_iff l A hS ρ L y).1 hx⟩, rfl⟩
 
 end Transfer

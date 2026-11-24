@@ -77,7 +77,7 @@ theorem hasVal_map_of_isEval : ∀ (p : ℕ) [Fact p.Prime] (B O Q : Type) [Comm
         · simp [Finsupp.notMem_support_iff.1 hi]
       show α i ≤ N'
       omega
-    rw [map_sub, MvPolynomial.coeff_coe, coeff_trunc', if_pos hle, sub_self]
+    rw [map_sub, MvPolynomial.coeff_coe, coeff_trunc', ite_eq_left hle, sub_self]
   obtain ⟨b, hb⟩ := hdiv
   refine ⟨b, ?_⟩
   rw [map_sub, eval_coe_polynomial_of_isEval z E hE] at hb

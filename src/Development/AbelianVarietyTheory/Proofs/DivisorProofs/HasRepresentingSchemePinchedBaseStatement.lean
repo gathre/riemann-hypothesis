@@ -814,7 +814,7 @@ theorem ker_aeval_zero_eq_span (D κ : Type) [CommRing D] :
     rw [← Set.image_univ, MvPolynomial.mem_ideal_span_X_image]
     intro m hm
     by_contra h
-    push_neg at h
+    push Not at h
     have hm0 : m = 0 := by ext i; simpa using h i (Set.mem_univ i)
     subst hm0
     rw [RingHom.mem_ker] at hp

@@ -1450,7 +1450,7 @@ theorem transLaws_of {F : Face D A} (hL : Laws R F) (hLP : LevProd R i) : TransL
   by_cases hv : ∃ v0 : (R.MW i (sg0 D A)).Vec,
       ∏ τ, ⟪((v0 τ : (R.MW i (sg0 D A)).sm τ) : (R.MW i (sg0 D A)).H τ), (v0 τ : (R.MW i (sg0 D A)).H τ)⟫_ℂ ≠ 0
   swap
-  · push_neg at hv
+  · push Not at hv
     have hz : ∀ T : MMap (R.MW i (sg0 D A)), T = 0 := by
       intro T; ext v g
       obtain ⟨τ, -, hτ⟩ := Finset.prod_eq_zero_iff.1 (hv v)

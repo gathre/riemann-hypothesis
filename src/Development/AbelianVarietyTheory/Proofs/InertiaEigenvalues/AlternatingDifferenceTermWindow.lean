@@ -112,7 +112,7 @@ theorem exists_bound {a : K.O} (ha : K.Small a) {t : K.E} (ht : t ≠ 0) :
   obtain ⟨C, hC⟩ := FiniteMultiplicity.of_not_isUnit hnu hn0
   refine ⟨C, fun m hm => ?_⟩
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   obtain ⟨b, hb⟩ := hm
   obtain ⟨j, hj⟩ : ∃ j : ℕ, m = -(j : ℤ) := ⟨(-m).toNat, by omega⟩
   apply hC
@@ -324,7 +324,7 @@ theorem GlobalTheory.UnitLemma.Desc.term_window : ∀ (K : UQ) (B : InvAlg K) (�
       have := hCt i _ ht
       omega
     · by_contra hb
-      push_neg at hb
+      push Not at hb
       set w := (∏ j ∈ J, π j) * x
       have hw : IsUnit w := (hPu J (hJ.trans hIS)).mul hx
       have h1 := (hP i).2 _ hJM
@@ -341,14 +341,14 @@ theorem GlobalTheory.UnitLemma.Desc.term_window : ∀ (K : UQ) (B : InvAlg K) (�
       exact isIntegral_zpow_smul_of_le B ha (by push_cast; omega) h3
     · intro hiI
       by_contra hc'
-      push_neg at hc'
+      push Not at hc'
       apply hne1
       rw [indM_eq]
       refine dlt_ind_eq_zero B _ hiI (hπ i (hIS hiI)) _ fun J hJ => ?_
       exact memU J (hJ.trans hIS) i (by omega)
     · intro hiI'
       by_contra hd
-      push_neg at hd
+      push Not at hd
       apply hne2
       rw [indD_eq]
       refine dlt_ind_eq_zero B _ hiI' (hπ i (hI'S hiI')) _ fun J hJ => ?_

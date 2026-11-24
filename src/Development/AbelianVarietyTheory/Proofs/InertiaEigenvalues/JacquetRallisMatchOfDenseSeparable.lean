@@ -111,7 +111,7 @@ theorem charpoly_companion {k : Type} [CommRing k] :
           have hjn : (j : ℕ) ≠ n := fun h => hj (Fin.ext (by simp [h]))
           rw [charmatrix_apply, diagonal_apply_ne _ (Fin.succ_ne_zero j).symm]
           simp only [companion, of_apply, Fin.val_succ, Fin.val_zero]
-          rw [if_neg (by omega)]
+          rw [ite_eq_right (by omega)]
           simp
         rw [this, mul_zero, zero_mul]
       · simp

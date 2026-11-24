@@ -66,7 +66,7 @@ theorem exists_thAd_of_models : ∀ (D : D7) (G : Type) [Group G] [Fintype G] (P
       (hrange.le (LinearMap.mem_range_self _ y')) fun k => (h1 k).trans (h2 k).symm)
   refine ⟨fun x => if hx : ∃ y, Place R i t h c0' y x then onQ (Wc D i) (R.thF i t hx.choose v₀) else 0, fun y x hy => ?_⟩
   have hx : ∃ y, Place R i t h c0' y x := ⟨y, hy⟩
-  simp only [dif_pos hx]
+  simp only [dite_eq_left hx]
   rw [huniq _ _ _ hx.choose_spec hy]
 
 end GlobalTheory.AdelicSide

@@ -107,7 +107,7 @@ theorem coeff_subst_tyS {τ : Type} [Finite τ] {l : ℕ} (hl : 2 ≤ l) {T : Mv
       rw [coeff_tyS_pow hl, Finset.sum_eq_single s']
       · simp
       · intro s _ hs
-        rw [if_neg, smul_zero]
+        rw [ite_eq_right, smul_zero]
         intro h
         exact hs (Nat.pow_right_injective hl h).symm
       · intro h
@@ -119,7 +119,7 @@ theorem coeff_subst_tyS {τ : Type} [Finite τ] {l : ℕ} (hl : 2 ≤ l) {T : Mv
       rw [coeff_tyS_of_ne a m h]
       symm
       refine Finset.sum_eq_zero fun s _ => ?_
-      rw [if_neg (h s).symm, smul_zero]
+      rw [ite_eq_right (h s).symm, smul_zero]
   have hAg : Formalism.G.LogCR.Agree N (tyS l a : MvPowerSeries Unit C) (P : MvPowerSeries Unit C) := by
     intro e he
     have hes : e = Finsupp.single () (e ()) := Finsupp.unique_single e

@@ -61,7 +61,7 @@ theorem exists_psiAt_ne_one : ∀ {F : Type} [Field F] [NumberField F] (ψ : Add
     ∀ w : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Pl (F := F), ∃ t, GlobalTheory.LatVac.psiAt ψ w t ≠ 1 := by
   intro F _ _ ψ hψ w
   by_contra h
-  push_neg at h
+  push Not at h
   refine GlobalTheory.PsiNontriv.psiAt_ne_one ψ hψ w ?_
   ext t
   rw [h t, AddChar.one_apply]

@@ -129,8 +129,8 @@ theorem avg_restr_prod : ∀ {X V : Type} {Y : V → Type} [Group X] [Topologica
     let z : ∀ v, Y v := fun v => if h : v ∈ S then (y ⟨v, h⟩ : Y v) else 1
     have hz : ∀ v, z v ∈ K v := fun v => by
       by_cases h : v ∈ S
-      · simp only [z, dif_pos h]; exact (y ⟨v, h⟩).2
-      · simp only [z, dif_neg h]; exact one_mem _
+      · simp only [z, dite_eq_left h]; exact (y ⟨v, h⟩).2
+      · simp only [z, dite_eq_right h]; exact one_mem _
     obtain ⟨x, -, hx⟩ := hX.exists_eq (fun w => w.elim) z (Eventually.of_forall hz)
     have hxK : x ∈ Kg := Subgroup.mem_iInf.2 fun v => by
       show pf v x ∈ K v

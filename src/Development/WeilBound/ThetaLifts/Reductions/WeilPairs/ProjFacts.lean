@@ -177,7 +177,7 @@ theorem pairing {B : Base F E} (hB : B.IsGood σ) {JS : Matrix (Fin nS) (Fin nS)
     conv_lhs => rw [← (adB b').sum_repr v, ← (adB b).sum_repr u]
 
     simp only [map_sum, map_smul, LinearMap.sum_apply, LinearMap.smul_apply, h0, smul_eq_mul, mul_ite, mul_one, mul_zero,
-    Finset.sum_ite_eq, Finset.mem_univ, if_true, dotProduct, Module.Basis.equivFun_apply]
+    Finset.sum_ite_eq, Finset.mem_univ, ite_true, dotProduct, Module.Basis.equivFun_apply]
     exact Finset.sum_congr rfl fun i _ => mul_comm _ _
   refine ⟨_, (adB b').equivFun, (adB b).equivFun, b'.equivFun, b.equivFun, fun v u => ?_, adB_rat b', adB_rat b⟩
   rw [← hP]

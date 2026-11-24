@@ -119,7 +119,7 @@ theorem eq_zero_of_linear_zero_coboundary_zero_fractions : ∀ (p : ℕ) [Fact p
           omega
         have hs0 : Finsupp.single i 1 ≠ 0 := Finsupp.single_ne_zero.2 one_ne_zero
         have := hcoef a (Finsupp.single i 1) hae
-        rw [GlobalTheory.CobHom.coeff_cob1_additive_law_binomial, if_neg hs0, if_neg ha0, sub_zero, sub_zero, hae] at this
+        rw [GlobalTheory.CobHom.coeff_cob1_additive_law_binomial, ite_eq_right hs0, ite_eq_right ha0, sub_zero, sub_zero, hae] at this
         have hpos : (∏ s, (α s).choose (a s)) ≠ 0 := by
           refine Finset.prod_ne_zero_iff.2 fun s _ => (Nat.choose_pos ?_).ne'
           rw [← hae]; simp

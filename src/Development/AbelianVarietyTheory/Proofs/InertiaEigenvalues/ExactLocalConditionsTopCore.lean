@@ -804,7 +804,7 @@ def ofWindow {n r : ℕ} (t : ℕ) (h η : ZMod n → ℕ) (typ : ZMod n → Boo
     have hi' : typ i = false := by by_contra hn; simp at hn; simp [hn] at hi
     rw [Multiset.mem_filter] at hu
     have := hu.2
-    simp only [InWin, hi', Bool.false_eq_true, if_false, not_le] at this
+    simp only [InWin, hi', Bool.false_eq_true, ite_false, not_le] at this
     exact this
 
 theorem exists_topData (l n t r : ℕ) (h η : ZMod n → ℕ) (typ : ZMod n → Bool) (w : ZMod n → ℤ)

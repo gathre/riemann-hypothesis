@@ -235,7 +235,7 @@ theorem schur : ∀ (F : Type) [Field F] [NumberField F] (κ : Type) [Fintype κ
     rw [add_sub_cancel] at h2
     rw [Pi.smul_apply, smul_eq_mul, div_mul_eq_mul_div, eq_div_iff hs]
     exact (mul_comm _ _).trans h2
-  · push_neg at h0
+  · push Not at h0
     refine ⟨0, fun φ hφ => ?_⟩
     have : φ = 0 := funext fun x => h0 φ hφ x
     rw [this, map_zero, smul_zero]
@@ -304,7 +304,7 @@ theorem splittings_differ_by_character :
   choose z hz using key
   by_cases h0 : ∃ φ₀ ∈ schA F κ, φ₀ ≠ 0
   swap
-  · push_neg at h0
+  · push Not at h0
     refine ⟨fun _ => 1, fun g _ φ hφ => ?_, fun _ _ _ _ => by simp, continuousOn_const, fun _ _ => one_ne_zero⟩
     rw [h0 φ hφ, map_zero, map_zero, smul_zero]
   obtain ⟨φ₀, hφ₀, hne⟩ := h0
@@ -369,7 +369,7 @@ theorem herm_rot_pos {ι : Type} [Fintype ι] {P Q R S : ι → ℕ} (c : ∀ w,
   simp only [Complex.im_sum, h, Finset.sum_neg_distrib]
   obtain ⟨w, a, b, hw⟩ : ∃ w a b, c w a b ≠ 0 := by
     by_contra h0
-    push_neg at h0
+    push Not at h0
     exact hc (by ext w a b; exact h0 w a b)
   have : 0 < ∑ w, ∑ a, ∑ b, Complex.normSq (c w a b) :=
     Finset.sum_pos' (fun _ _ => Finset.sum_nonneg fun _ _ => Finset.sum_nonneg fun _ _ => Complex.normSq_nonneg _)
@@ -1007,7 +1007,7 @@ theorem decomp (c : ∀ w, MD P Q R S w) :
   rw [Finset.sum_eq_single w]
   · simp only [eS_same]
     rw [Finset.sum_eq_single a, Finset.sum_eq_single b]
-    · simp only [Matrix.single_apply, and_self, if_true, Complex.real_smul, mul_one]
+    · simp only [Matrix.single_apply, and_self, ite_true, Complex.real_smul, mul_one]
       exact (Complex.re_add_im _).symm
     · intro y _ hy; simp [hy]
     · simp
@@ -1045,7 +1045,7 @@ theorem dual {l : Type} [Fintype l] (φ : (∀ w, MD P Q R S w) ≃ₗ[ℝ] (l �
   congr 1
   conv_rhs => rw [decomp c]
   rw [sum_idx]
-  simp only [cu, cv, if_true, Bool.false_eq_true, if_false, hφ, sum_eS]
+  simp only [cu, cv, ite_true, Bool.false_eq_true, ite_false, hφ, sum_eS]
   refine Finset.sum_congr rfl fun w _ => Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun b _ => ?_
   rw [smul_smul, smul_smul, lineSign_eq_sgn]
   have h2 := sgn_mul_self a b
@@ -1068,7 +1068,7 @@ theorem cu_true_mul (Y : ∀ w, Mat (R w) (S w)) (w : ι) (a : Ix (P w) (Q w)) (
       (Pi.single w ((sgn a b / 2) • (Matrix.single a b (1 : ℂ) * (Y w)ᵀ)) : ∀ w', MD P Q R S w') w' := by
   by_cases h : w' = w
   · subst h
-    simp only [cu, eS, if_true, Pi.smul_apply, Pi.single_eq_same, Matrix.smul_mul]
+    simp only [cu, eS, ite_true, Pi.smul_apply, Pi.single_eq_same, Matrix.smul_mul]
   · simp [cu, eS, h]
 
 theorem cu_false_mul (Y : ∀ w, Mat (R w) (S w)) (w : ι) (a : Ix (P w) (Q w)) (b : Ix (R w) (S w)) (w' : ι) :
@@ -1076,7 +1076,7 @@ theorem cu_false_mul (Y : ∀ w, Mat (R w) (S w)) (w : ι) (a : Ix (P w) (Q w)) 
       (Pi.single w ((-(sgn a b / 2)) • (Matrix.single a b Complex.I * (Y w)ᵀ)) : ∀ w', MD P Q R S w') w' := by
   by_cases h : w' = w
   · subst h
-    simp only [cu, eS, Bool.false_eq_true, if_false, Pi.smul_apply, Pi.single_eq_same, Matrix.smul_mul]
+    simp only [cu, eS, Bool.false_eq_true, ite_false, Pi.smul_apply, Pi.single_eq_same, Matrix.smul_mul]
   · simp [cu, eS, h]
 
 theorem cv_true (w : ι) (a : Ix (P w) (Q w)) (b : Ix (R w) (S w)) :

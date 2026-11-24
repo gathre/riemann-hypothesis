@@ -532,7 +532,7 @@ theorem exists_row_mem_span_of_det_eq_zero {n : ℕ} (Z : Fin (n + 1) → Fin (n
     exact ((Matrix.isUnit_iff_isUnit_det _).mp hu).ne_zero hZ
   have hex : ∃ i, Z i ∈ Submodule.span ℂ (Z '' (Set.univ \ {i})) := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     apply hli
     first
     | exact linearIndependent_iff_notMem_span.mpr hno

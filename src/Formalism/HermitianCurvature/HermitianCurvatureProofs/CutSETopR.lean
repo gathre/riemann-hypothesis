@@ -428,7 +428,7 @@ theorem resG_last_eq {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] (J :
   congr 1
   rw [Complex.ofReal_prod]
   refine Finset.prod_congr rfl (fun a _ => ?_)
-  rw [if_pos (show (a : ℕ) < (Fin.last r : ℕ) from a.isLt)]
+  rw [ite_eq_left (show (a : ℕ) < (Fin.last r : ℕ) from a.isLt)]
 
 end Gauge
 
@@ -769,7 +769,7 @@ theorem spectral_pairing_orbital_membership : RDSPJFMem := by
   refine ⟨(radial_orbital_niceness k r Wp Wq D F hnice).1, ?_⟩
   intro g _ hne
   by_contra hno
-  push_neg at hno
+  push Not at hno
   apply hne
   show ∫ p, _ ∂D.μSS = 0
   refine integral_eq_zero_of_ae ?_

@@ -1108,7 +1108,7 @@ theorem exists_factor {F : IntermediateField ℚ_[l] (Om l)} {r : ℕ}
       exact inv_lt_one_of_one_lt₀ (by exact_mod_cast hl.1.one_lt)
     · obtain ⟨a0, b0, hab⟩ : ∃ a b, B a b ≠ 0 := by
         by_contra hc
-        push_neg at hc
+        push Not at hc
         exact h0 (Matrix.ext hc)
       obtain ⟨s, -, hs⟩ := Finset.exists_max_image (Finset.univ : Finset (Fin r × Fin r))
         (fun s => ‖B s.1 s.2‖) ⟨(a0, b0), Finset.mem_univ _⟩

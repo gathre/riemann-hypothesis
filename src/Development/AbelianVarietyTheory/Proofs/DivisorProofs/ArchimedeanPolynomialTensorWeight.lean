@@ -227,8 +227,8 @@ theorem kstab_skew : GlobalTheory.RealLift.ActsLaws → GlobalTheory.RealLift.Li
   set Ys : ℝ → InfinitePlace F → Mat R S := fun s w' => if w' = w then (s : ℂ) • Y else 0 with hYsdef
   have hYsKC : ∀ s w', IsKC (Ys s w') := by
     intro s w'; by_cases h : w' = w
-    · simp only [hYsdef, if_pos h]; exact isKC_smul hY _
-    · simp only [hYsdef, if_neg h]; exact isKC_zero R S
+    · simp only [hYsdef, ite_eq_left h]; exact isKC_smul hY _
+    · simp only [hYsdef, ite_eq_right h]; exact isKC_zero R S
   have hYsU : ∀ s w', Ys s w' ∈ upq R S := by
     intro s w'; apply mem_upq (hYsKC s w'); by_cases h : w' = w
     · simp [hYsdef, h, Matrix.conjTranspose_smul, hYs]
@@ -240,7 +240,7 @@ theorem kstab_skew : GlobalTheory.RealLift.ActsLaws → GlobalTheory.RealLift.Li
     rw [Finset.sum_eq_single w]
     · rw [hL0, ← atPl_smul']
       congr 1
-      simp only [hYsdef, if_pos rfl, map_smul, Matrix.trace_smul, smul_add, smul_smul, smul_eq_mul]
+      simp only [hYsdef, ite_eq_left rfl, map_smul, Matrix.trace_smul, smul_add, smul_smul, smul_eq_mul]
       congr 2; ring
     · intro w' _ hw'; simp [hYsdef, hw', atPl_zero']
     · simp

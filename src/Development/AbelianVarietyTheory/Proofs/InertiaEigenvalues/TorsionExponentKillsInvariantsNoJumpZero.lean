@@ -1592,8 +1592,8 @@ theorem two_add_sum_jumps_le_intervalExponent (S : LocalSituation.Sit) (Y : LocL
     · intro u _
       by_cases hj : IsJumpV S.PD Y.ρ τ u
       · have hu0 : u ≠ 0 := by rintro rfl; exact h0 hj
-        simp only [if_pos hj, if_pos (mem_Jset_of_isJumpV S Y τ u hj), if_pos hu0, le_refl]
-      · simp only [if_neg hj]
+        simp only [ite_eq_left hj, ite_eq_left (mem_Jset_of_isJumpV S Y τ u hj), ite_eq_left hu0, le_refl]
+      · simp only [ite_eq_right hj]
         exact Nat.zero_le _
   omega
 

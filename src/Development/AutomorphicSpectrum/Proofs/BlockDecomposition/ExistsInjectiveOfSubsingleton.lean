@@ -69,7 +69,7 @@ theorem exists_injective_of_subsingleton {G V Y : Type} [Group G] [Subsingleton 
   obtain ⟨w, hw⟩ := exists_ne (0 : Y)
   obtain ⟨f, hf⟩ : ∃ f : Module.Dual ℂ V, f v ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hv ((Module.forall_dual_apply_eq_zero_iff ℂ v).1 h)
   let φ : π.IntertwiningMap τ :=
     { toFun := fun u => f u • w

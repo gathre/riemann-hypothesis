@@ -170,7 +170,7 @@ theorem firstLocalChar_wild_eq_one_away_from_l (D : D7) (i : D.nd.Loc) (v : Heig
           rwa [Nat.cast_sub (D.host.g_prime k).one_le, Nat.cast_one, sub_sub_cancel] at this
         exact char_eq_one_of_wild (D.ntw.twistBaseCoefficientRing_isAdic _) hA _ hg1 _
           (D.ntw.twistCharacterFamily_continuous _ _ _) σ hσ (D.ntw.twistCharacterFamily_tame _ _ _ k v hvg hvl' _ hA σ hI)
-      · push_neg at hg
+      · push Not at hg
         exact D.ntw.twistCharacterFamily_unramified _ _ _ v hvl' hg hpD _ hA σ hI
   rw [D.ntw.chi_tw i]
   simp [hψ, hc]

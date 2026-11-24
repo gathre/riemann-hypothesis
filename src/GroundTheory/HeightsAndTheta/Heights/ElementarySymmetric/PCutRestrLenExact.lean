@@ -160,7 +160,7 @@ theorem idealMod_sup_mul_le (L : LineBundle S x) (σ : Ω) {pp : Ideal (Poly S N
     obtain ⟨a, ha, b, hb, hab⟩ := Submodule.mem_sup.mp hf
     have hf' : f = homogeneousComponent d a + homogeneousComponent d b := by
       rw [← map_add (f := _), hab, homogeneousComponent_of_mem ((mem_homogeneousSubmodule _ _).mpr hfd),
-        if_pos rfl]
+        ite_eq_left rfl]
     rw [hf', map_add (f := _), add_div, add_mul]
     refine Submodule.add_mem_sup (Submodule.mul_mem_mul (Submodule.subset_span ⟨_, t, d, hpp a ha d, ht,
       homogeneousComponent_isHomogeneous d a, htd, rfl⟩) hδ) ?_

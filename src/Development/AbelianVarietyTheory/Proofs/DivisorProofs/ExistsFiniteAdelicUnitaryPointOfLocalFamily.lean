@@ -147,9 +147,9 @@ theorem GlobalTheory.BCT.exists_finU_of_loc : ∀ (E : Type) [Field E] [NumberFi
     exact hne ((hS v).unique ⟨h, hund⟩ ⟨hv, rfl⟩)
   let z : ∀ v : Pl E, GLw n v := fun v => if v ∈ S then (y v).1 else
     invT n _ (GeneralLinearGroup.map (conjLoc c v) (y (conjSrc c v)).1)
-  have hz_in : ∀ v ∈ S, z v = (y v).1 := fun v hv => if_pos hv
+  have hz_in : ∀ v ∈ S, z v = (y v).1 := fun v hv => ite_eq_left hv
   have hz_out : ∀ v, v ∉ S → z v = invT n _ (GeneralLinearGroup.map (conjLoc c v) (y (conjSrc c v)).1) :=
-    fun v hv => if_neg hv
+    fun v hv => ite_eq_right hv
   have hint : ∀ᶠ v in cofinite, z v ∈ GlobalTheory.LFun.KGL v (n := n) := by
     have h1 : ∀ᶠ v in cofinite, (y v).1 ∈ GlobalTheory.LFun.KGL v (n := n) := hy.mono fun v hv => Subgroup.mem_subgroupOf.1 hv
     have h2 := (conjSrc_injective c).tendsto_cofinite.eventually h1
@@ -178,7 +178,7 @@ theorem GlobalTheory.BCT.exists_finU_of_loc : ∀ (E : Type) [Field E] [NumberFi
         have key : ∀ g : GLw n u, g ∈ UL n u → g ∈ UJ (cj u) 1 := by
           intro g hg
           unfold UL at hg
-          rwa [if_neg hsp] at hg
+          rwa [ite_eq_right hsp] at hg
         have hUL : (y u).1 ∈ UJ (cj u) 1 := key _ (y u).2
         have h3 : cT (cj u) (y u).1.val * 1 * (y u).1.val = 1 := hUL
         rw [Matrix.mul_one] at h3

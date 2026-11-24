@@ -216,7 +216,7 @@ theorem nonneg_of_cosets {μ : Measure V} [μ.IsAddHaarMeasure] {f : V → ℝ} 
     (hi : ∀ (L : AddSubgroup V) (a : V), IsCompact (L : Set V) → IsOpen (L : Set V) →
       0 ≤ ∫ x in coset L a, f x ∂μ) (x : V) : 0 ≤ f x := by
   by_contra hx
-  push_neg at hx
+  push Not at hx
   have hU : (fun t => f (t + x)) ⁻¹' Set.Iio 0 ∈ 𝓝 (0 : V) :=
     ((isOpen_Iio.preimage (hf.comp (continuous_id.add continuous_const))).mem_nhds (by simpa using hx))
   obtain ⟨L, hK, hO, hLU⟩ := hb _ hU

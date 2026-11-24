@@ -413,11 +413,11 @@ theorem tv_mem_unipRad (e : (Σ a, m a) ≃ Fin N) {p q : Fin N} (hpq : blk e p 
   · have hne : i ≠ j := by rintro rfl; exact lt_irrefl _ hij
     change (transvection p q c) i j = 0
     rw [transvection, Matrix.add_apply, Matrix.one_apply_ne hne, Matrix.single_apply]
-    rw [if_neg, zero_add]
+    rw [ite_eq_right, zero_add]
     rintro ⟨rfl, rfl⟩
     exact lt_asymm hpq hij
   · change (transvection p q c) (e ⟨a, i⟩) (e ⟨a, j⟩) = _
-    rw [transvection, Matrix.add_apply, Matrix.single_apply, if_neg, add_zero]
+    rw [transvection, Matrix.add_apply, Matrix.single_apply, ite_eq_right, add_zero]
     · by_cases hij : i = j
       · subst hij; simp
       · have hne : e ⟨a, i⟩ ≠ e ⟨a, j⟩ := fun h => hij (by simpa using e.injective h)

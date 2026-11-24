@@ -95,7 +95,7 @@ def blk (b : O → Matrix (Fin m) (Fin m) ℂ) (a : O → Matrix (Fin n) (Fin n)
 theorem blockDiagonal_mulVec {κ : Type} [Fintype κ] (M : O → Matrix κ κ ℂ) (v : κ × O → ℂ) (i : κ) (τ : O) :
     (blockDiagonal M *ᵥ v) (i, τ) = (M τ *ᵥ fun j => v (j, τ)) i := by
   simp only [mulVec, dotProduct, Fintype.sum_prod_type, blockDiagonal_apply, ite_mul, zero_mul, Finset.sum_ite_eq,
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
 
 theorem cpt_blk (b : O → Matrix (Fin m) (Fin m) ℂ) (a : O → Matrix (Fin n) (Fin n) ℂ)
     (v : (Fin m × Fin n) × O → ℂ) (τ : O) : cpt (blk b a *ᵥ v) τ = b τ * cpt v τ * a τ := by

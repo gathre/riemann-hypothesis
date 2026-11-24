@@ -79,7 +79,7 @@ private theorem sum_eq_sum_castLE_of_eq_zero {n m : ℕ} (h : m ≤ n) (f : Fin 
   refine Eq.trans ?_ (Finset.sum_map (Finset.univ : Finset (Fin m)) ⟨Fin.castLE h, Fin.castLE_injective h⟩ f)
   refine (Finset.sum_subset (Finset.subset_univ _) fun j _ hj => hf j ?_).symm
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   exact hj (Finset.mem_map.2 ⟨⟨j.val, hlt⟩, Finset.mem_univ _, Fin.ext rfl⟩)
 
 private alias gram_eq_lemma := _root_.ReciprocityTheory.ChartRestriction.G.FD.FrameDegreeData.gram_eq

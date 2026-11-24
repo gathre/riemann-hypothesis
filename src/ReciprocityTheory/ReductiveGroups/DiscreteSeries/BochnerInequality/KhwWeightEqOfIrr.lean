@@ -210,7 +210,7 @@ theorem kirrPs_le (hA : IsGlRep A) (hV : IsKIrrHW ε A Λ V) {u : X} (hu : u ∈
       exact kirrH_apply k (kirrWord_wt hA hν.1 l))
   have hwS := hle (by rw [hspan]; exact hw)
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hwE : w ∈ Module.End.eigenspace (kirrH A k) ((kirrPs k μ : ℝ) : ℂ) := by
     rw [Module.End.mem_eigenspace_iff]; exact kirrH_apply k hμ
   have hx : ((kirrPs k μ : ℝ) : ℂ) ∉ {z : ℂ | ∃ r : ℝ, r ≤ kirrPs k ν ∧ z = r} := by

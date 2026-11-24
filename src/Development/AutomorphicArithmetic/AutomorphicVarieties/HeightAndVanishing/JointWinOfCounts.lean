@@ -1231,7 +1231,7 @@ theorem UpperTheory.V.HV.point :
   obtain ⟨Cl, hCl⟩ : ∃ Cl : ℕ → ℕ, ∀ (l : Nat.Primes) (hl : (l:ℕ) ∈ Bchi χ),
       Cl l = Classical.choose (hin χ l (j l) hl) :=
     ⟨fun n => if hn : n.Prime ∧ n ∈ Bchi χ then Classical.choose (hin χ ⟨n, hn.1⟩ (j n) hn.2) else 0,
-      fun l hl => dif_pos (show (l:ℕ).Prime ∧ (l:ℕ) ∈ Bchi χ from ⟨l.2, hl⟩)⟩
+      fun l hl => dite_eq_left (show (l:ℕ).Prime ∧ (l:ℕ) ∈ Bchi χ from ⟨l.2, hl⟩)⟩
   obtain ⟨D, hD⟩ : ∃ D : ℕ, ∀ l ∈ Bchi χ, Cl l ≤ D :=
     ⟨∑ l ∈ Bchi χ, Cl l, fun l hl => Finset.single_le_sum (fun _ _ => Nat.zero_le _) hl⟩
   refine ⟨C0 + D + (Bchi χ).card + (Bchi χ).card * D, r₁, r₂, hr₁, hr₂, ?_⟩
@@ -1494,14 +1494,14 @@ theorem UpperTheory.V.HV.sumOut :
         · exact Finset.empty_subset _)
       (by
         intro e he1 he2
-        simp only [he2, if_true, Nat.cast_zero, zero_mul, add_zero]
+        simp only [he2, ite_true, Nat.cast_zero, zero_mul, add_zero]
         exact ⟨hfin l hl e he1 he2, hred e he1.ne'⟩)
     refine ⟨r.1, ?_⟩
     have r2 := r.2
     simp only [Nat.cast_zero, Finset.sum_const_zero, mul_zero, add_zero] at r2
     refine r2.trans (le_of_eq (Finset.sum_congr rfl fun e he => ?_))
     simp only [Finset.mem_Ico] at he
-    simp only [if_pos he.2]
+    simp only [ite_eq_left he.2]
     rfl
   have hstep : ∀ e, 0 < e → e < t →
       ∑ l ∈ S, Real.log ((l:ℕ):ℝ) * ∑ ψ ∈ h.X (c l) e, Vn Ω0 (c l) e ψ ≤
@@ -1641,7 +1641,7 @@ private theorem exists_coprime_modEq_one_chi_ne_one_of_primitive {Q p : ℕ} [Ne
     (hχ : χ.IsPrimitive) (hp : p.Prime) (hpQ : p ∣ Q) :
     ∃ w : ℕ, w.Coprime Q ∧ w ≡ 1 [MOD Q / p] ∧ χ (w : ZMod Q) ≠ 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hd : Q / p ∣ Q := Nat.div_dvd_of_dvd hpQ
   have hft : χ.FactorsThrough (Q / p) := by
     rw [DirichletCharacter.factorsThrough_iff_ker_unitsMap hd]
@@ -1844,7 +1844,7 @@ theorem UpperTheory.V.HV.hostCond :
     rw [← Nat.factorization_le_iff_dvd hN0 hM.ne'] at hnd
     obtain ⟨p, hp⟩ : ∃ p, M.factorization p < h.N.factorization p := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hnd (Finsupp.le_def.2 hcon)
     have hpp : p.Prime := by
       by_contra hnp

@@ -85,12 +85,12 @@ theorem tsum_odd (p y : ℝ) (hp : 2 ≤ p) (Q : ℕ → Prop) [DecidablePred Q]
   have he : ∀ k : ℕ, f (2 * k) = 0 := by
     intro k
     rw [hf]
-    exact if_neg (fun h => by have := (hQ _).1 h; exact (Nat.not_odd_iff_even.2 (even_two_mul k)) this)
+    exact ite_eq_right (fun h => by have := (hQ _).1 h; exact (Nat.not_odd_iff_even.2 (even_two_mul k)) this)
   have ho : ∀ k : ℕ, f (2 * k + 1) = y / p * (1 / p ^ 2) ^ k := by
     intro k
     rw [hf]
     have : Q (2 * k + 1) := (hQ _).2 (odd_two_mul_add_one k)
-    simp only [if_pos this]
+    simp only [ite_eq_left this]
     rw [pow_succ, pow_mul, one_div, inv_pow]
     field_simp
   have hp2 : (1 : ℝ) / p ^ 2 < 1 := by
@@ -141,9 +141,9 @@ theorem tsum_pos_le (p y : ℝ) (hp : 2 ≤ p) (hy : 0 ≤ y) (w : ℕ → ℝ) 
     (summable_if_of_le p y hp _ Q (fun e => le_max_left _ _)
       (fun e => max_le (hpe e) (by have := hw e; linarith))) (summable_odd p y hp _)
   by_cases h : Q e
-  · rw [if_pos h, if_pos (hQ e h)]
+  · rw [ite_eq_left h, ite_eq_left (hQ e h)]
     exact max_le (hpe e) (by have := hw e; linarith)
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     split_ifs
     · exact hpe e
     · exact le_rfl
@@ -166,10 +166,10 @@ theorem tsum_truncated_shift_le (p y c A : ℝ) (hp : 2 ≤ p) (hc : 0 ≤ c) (h
     summable_if_of_le p (y - 2 * c) hp _ Q (fun e => le_max_left _ _)
       (fun e => max_le (hpe' e) (by have := hw0 e; linarith))
   have sH : Summable (fun e : ℕ => if e ∈ Finset.Icc 1 M then 3 * c else 0) :=
-    summable_of_ne_finset_zero (s := Finset.Icc 1 M) (fun e he => if_neg he)
+    summable_of_ne_finset_zero (s := Finset.Icc 1 M) (fun e he => ite_eq_right he)
   have hH : ∑' e : ℕ, (if e ∈ Finset.Icc 1 M then 3 * c else 0) ≤ 3 * c * Real.logb p A := by
-    rw [tsum_eq_sum (s := Finset.Icc 1 M) (fun e he => if_neg he)]
-    rw [Finset.sum_congr rfl (fun e he => if_pos he), Finset.sum_const, Nat.card_Icc, nsmul_eq_mul]
+    rw [tsum_eq_sum (s := Finset.Icc 1 M) (fun e he => ite_eq_right he)]
+    rw [Finset.sum_congr rfl (fun e he => ite_eq_left he), Finset.sum_const, Nat.card_Icc, nsmul_eq_mul]
     have h1 : ((M + 1 - 1 : ℕ) : ℝ) ≤ Real.logb p A := by
       rw [Nat.add_sub_cancel]
       exact Nat.floor_le hlog
@@ -183,11 +183,11 @@ theorem tsum_truncated_shift_le (p y c A : ℝ) (hp : 2 ≤ p) (hc : 0 ≤ c) (h
       · linarith
       · exact le_rfl
     by_cases h : Q e
-    · rw [if_pos h, if_pos h]
+    · rw [ite_eq_left h, ite_eq_left h]
       by_cases hpos : y / p ^ e ≤ w e
       · rw [max_eq_left (by linarith)]
         exact add_nonneg (le_max_left _ _) h3c
-      · push_neg at hpos
+      · push Not at hpos
         have hpp : (0 : ℝ) < p ^ e := by positivity
         have h1 : 1 < y / p ^ e := lt_of_le_of_lt (hw e) hpos
         have h2 : p ^ e < y := by rwa [lt_div_iff₀ hpp, one_mul] at h1
@@ -199,13 +199,13 @@ theorem tsum_truncated_shift_le (p y c A : ℝ) (hp : 2 ≤ p) (hc : 0 ≤ c) (h
           refine ⟨?_, Nat.le_floor h3⟩
           obtain ⟨k, hk⟩ := hQ e h
           omega
-        rw [if_pos h4, max_eq_right (by linarith)]
+        rw [ite_eq_left h4, max_eq_right (by linarith)]
         have h5 : 2 * c / p ^ e ≤ 2 * c := div_le_self (by linarith) (one_le_pow₀ (by linarith))
         have h6 : (y - 2 * c) / p ^ e = y / p ^ e - 2 * c / p ^ e := sub_div _ _ _
         have h7 := hw' e
         have h8 : (y - 2 * c) / p ^ e - w' e ≤ max 0 ((y - 2 * c) / p ^ e - w' e) := le_max_right _ _
         linarith
-    · rw [if_neg h, if_neg h]
+    · rw [ite_eq_right h, ite_eq_right h]
       linarith
   have := Summable.tsum_le_tsum hterm sF (sG.add sH)
   rw [sG.tsum_add sH] at this

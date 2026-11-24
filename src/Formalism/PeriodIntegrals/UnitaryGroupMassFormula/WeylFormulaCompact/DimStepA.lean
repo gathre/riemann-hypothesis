@@ -191,7 +191,7 @@ theorem exists_hit (hρ : Good ρ) (hρ' : Good ρ') (hcomm : ∀ i j v, ρ i (�
   have hPc : Comm ρ P := proj_comm hρ hWs
   have hρ'c : ∀ j, Comm ρ (ρ' j : H →ₗ[ℂ] H) := fun j i v => (hcomm i j v).symm
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hzero : ∀ j, ∀ x ∈ X, P (ρ' j x) = 0 := by
     intro j
     have hcj : Comm ρ (P ∘ₗ (ρ' j : H →ₗ[ℂ] H)) := comm_comp hPc (hρ'c j)

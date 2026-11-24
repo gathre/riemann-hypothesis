@@ -250,7 +250,7 @@ theorem bound {s : ℝ} (hs : 1 < s) {U : Set (Fin (Module.finrank F E) → Af F
       simp only [hy, crd_eq]
     have hfz : finiteZetaBound L s (IdeleGroup.toFinite E (idl F E l)) =
         finiteModule (ofFinite (IdeleGroup.toFinite E (idl F E l))) ^ s := by
-      rw [finiteZetaBound, if_pos]
+      rw [finiteZetaBound, ite_eq_left]
       exact hfin
     rw [hfz, absE_eq, ideleModule_rpow_eq]
     set fm := finiteModule (ofFinite (IdeleGroup.toFinite E (idl F E l))) ^ s

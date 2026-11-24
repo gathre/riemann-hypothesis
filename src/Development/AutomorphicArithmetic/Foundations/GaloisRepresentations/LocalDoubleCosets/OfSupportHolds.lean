@@ -430,7 +430,7 @@ theorem eigZero : EigZero := by
     obtain ⟨y, hy⟩ := exists_ne (0 : J)
     have hex : ∃ g : Module.Dual ℂ J, g y ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hy ((Module.forall_dual_apply_eq_zero_iff ℂ y).1 h)
     obtain ⟨g, hg⟩ := hex
     exact ⟨g, 0, fun h => hg (by simp [h])⟩
@@ -445,7 +445,7 @@ theorem eigZero : EigZero := by
     simpa [LinearMap.dualMap_apply] using this
   obtain ⟨y₀, hy₀⟩ : ∃ y, l y ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hl0 (LinearMap.ext h)
   let am : T →* ℂ :=
     { toFun := a
@@ -468,7 +468,7 @@ theorem eigZero : EigZero := by
     obtain ⟨χ, y, hy, hly⟩ : ∃ (χ : T → ℂ) (y : J),
         y ∈ (⨅ t, Module.End.maxGenEigenspace (ρ t) (χ t) : Submodule ℂ J) ∧ l y ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       have : (⊤ : Submodule ℂ J) ≤ LinearMap.ker l := by
         rw [← htop]
         exact iSup_le fun χ y hy => LinearMap.mem_ker.2 (h χ y hy)
@@ -619,7 +619,7 @@ private theorem ker_isOpen {B : Subgroup G} {χ : B →* ℂˣ} {π : Representa
     IsOpen (χ.ker : Set B) := by
   obtain ⟨v₀, hv₀⟩ : ∃ v, l v ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hl (LinearMap.ext h)
   refine Subgroup.isOpen_of_mem_nhds _ (g := 1) ?_
   have h1 : IsOpen ((↑) ⁻¹' {g : G | π g v₀ = v₀} : Set B) := (hπ v₀).preimage continuous_subtype_val
@@ -823,7 +823,7 @@ theorem funInv (hBi : BiInv) (hMem : PrMem) (hLeft : PrLeft) (hAuto : PrAuto) (h
   obtain ⟨f, hf, rfl⟩ := hSurj G B hB μ χ K hKo hKc hBK φ hφ
   by_cases hne : ∃ f ∈ Cc G, ∃ g, pr B μ χ f g ≠ 0
   swap
-  · push_neg at hne
+  · push Not at hne
     have h0 : pr B μ χ f = 0 := funext (hne f hf)
     rw [h0]
     rfl
@@ -1377,7 +1377,7 @@ theorem prSurj : PrSurj := by
   refine ⟨fun g => if g ∈ K then c * φ g else 0, ?_, ?_⟩
   · let K' : OpenSubgroup G := ⟨K ⊓ K0, hKo.inter hK0o⟩
     apply GroundTheory.Automorphic.mem_locallyConstantCompactSupport_of_forall_mul_right (R := ℂ) K'
-    · exact HasCompactSupport.intro hKc (fun g hg => if_neg hg)
+    · exact HasCompactSupport.intro hKc (fun g hg => ite_eq_right hg)
     · intro g k hk
       have hk' : k ∈ K ∧ k ∈ K0 := Subgroup.mem_inf.1 hk
       simp only [K.mul_mem_cancel_right hk'.1, hφK0 k hk'.2 g]
@@ -1395,14 +1395,14 @@ theorem prSurj : PrSurj := by
         = ((fun x : B => b0'⁻¹ * x) ⁻¹' S).indicator (fun _ => c * φ (b0 * k0)) := by
       funext b
       by_cases h : ((b:G)⁻¹ * (b0 * k0)) ∈ K
-      · rw [if_pos h, Set.indicator_of_mem ((key b).1 h)]
+      · rw [ite_eq_left h, Set.indicator_of_mem ((key b).1 h)]
         have h1 := hφB b⁻¹ (b0 * k0)
         rw [Subgroup.coe_inv] at h1
         rw [h1]
         have hu : (χ b : ℂ) * (χ b⁻¹ : ℂ) = 1 := by
           rw [← Units.val_mul, ← map_mul, mul_inv_cancel, map_one, Units.val_one]
         linear_combination (c * φ (b0 * k0)) * hu
-      · rw [if_neg h, Set.indicator_of_notMem (fun h' => h ((key b).2 h')), mul_zero]
+      · rw [ite_eq_right h, Set.indicator_of_notMem (fun h' => h ((key b).2 h')), mul_zero]
     simp only [pr]
     rw [hint, integral_indicator_const _ hTm, measureReal_def, measure_preimage_mul]
     rw [hc, Complex.real_smul]
@@ -1563,7 +1563,7 @@ namespace UpperTheory.Gal.LocD
 theorem tracePow : TracePow := by
   intro J _ _ _ _ φ hφ k₀
   by_contra hne
-  push_neg at hne
+  push Not at hne
   set p := φ.charpoly with hp
   have hc : p.coeff 0 ≠ 0 := by
     intro h0
@@ -1590,7 +1590,7 @@ theorem tracePow : TracePow := by
     rw [map_smul, smul_eq_mul]
     by_cases hi : k₀ ≤ i
     · rw [hne i hi, mul_zero]
-    · rw [hQ, mul_pow, Polynomial.coeff_X_pow_mul', if_neg hi, zero_mul]
+    · rw [hQ, mul_pow, Polynomial.coeff_X_pow_mul', ite_eq_right hi, zero_mul]
   rw [hQ1, LinearMap.trace_one] at htr
   exact (Nat.cast_ne_zero.2 (Module.finrank_pos (R := ℂ) (M := J)).ne') htr
 

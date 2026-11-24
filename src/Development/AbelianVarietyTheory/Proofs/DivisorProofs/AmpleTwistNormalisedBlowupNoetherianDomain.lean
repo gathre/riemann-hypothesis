@@ -78,7 +78,7 @@ namespace GlobalTheory.ProjBlowup
 
 private theorem gm_id_val_eq_germ {X : Scheme.{0}} {V : X.Opens} (y : X) (hy : y ∈ V) (a : Γ(X, V)ˣ) :
     (gm (𝟙 X) y V a).val = X.presheaf.germ V y hy a.val := by
-  simp only [gm, pullU, dif_pos (show (𝟙 X) y ∈ V from hy)]
+  simp only [gm, pullU, dite_eq_left (show (𝟙 X) y ∈ V from hy)]
   simp
   rfl
 

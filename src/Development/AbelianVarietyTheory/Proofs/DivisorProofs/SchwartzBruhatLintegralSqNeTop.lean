@@ -96,7 +96,7 @@ theorem schwartzBruhat_memL2_inner_self : ∀ {k : Type} [Field k] [ValuativeRel
   · intro hne
     obtain ⟨x, hx⟩ : ∃ x, f x ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hne (funext h)
     have hmeas : Measurable fun y => ‖f y‖ₑ ^ 2 := (hfc.measurable.enorm).pow_const 2
     rw [← pos_iff_ne_zero, lintegral_pos_iff_support hmeas]

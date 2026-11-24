@@ -147,7 +147,7 @@ private theorem place {K Γ : Type*} [Field K] [LinearOrderedCommGroupWithZero �
     rw [this]
     refine (val.map_add _ _).trans (max_le (hd.trans hm2) (by simp))
   by_cases h : val d = 1
-  · simp only [h, if_true] at he
+  · simp only [h, ite_true] at he
     subst he
     have hd0 : d ≠ 0 := by
       rintro rfl
@@ -157,7 +157,7 @@ private theorem place {K Γ : Type*} [Field K] [LinearOrderedCommGroupWithZero �
       rw [mul_zero, add_zero, neg_sub, sub_mul, mul_inv_cancel₀ hd0, one_mul]
     rw [this, map_mul, map_inv₀, Valuation.map_neg, h]
     simpa using hd
-  · simp only [h, if_false] at he
+  · simp only [h, ite_false] at he
     subst he
     have hlt : val d < 1 := lt_of_le_of_ne hd1 h
     have hc1 : val c = 1 := hcd.resolve_right h
@@ -196,9 +196,9 @@ theorem UpperTheory.ConvolutionTheory.R2.C.lvEps :
   have he_int : ∀ v : HeightOneSpectrum (𝓞 F), e v ∈ v.adicCompletionIntegers F := by
     intro v
     by_cases h : Valued.v (d.2 v) = 1
-    · simp only [e, h, if_true]
+    · simp only [e, h, ite_true]
       exact zero_mem _
-    · simp only [e, h, if_false]
+    · simp only [e, h, ite_false]
       exact one_mem _
   let ef : FiniteAdeleRing (𝓞 F) F := ⟨e, Filter.Eventually.of_forall he_int⟩
   let ε : A F := ((0 : InfiniteAdeleRing F), ef)
@@ -435,7 +435,7 @@ private theorem unit_alt {F : Type} [Field F] [NumberField F] (g : G1 F)
     (v : HeightOneSpectrum (𝓞 F)) :
     Valued.v ((g 1 0).2 v) = 1 ∨ Valued.v ((g 1 1).2 v) = 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hc, hd⟩ := hcon
   have le1 : ∀ {x : A F}, Dv 1 x → Valued.v (x.2 v) ≤ 1 := fun {x} hx => by
     have := hx v

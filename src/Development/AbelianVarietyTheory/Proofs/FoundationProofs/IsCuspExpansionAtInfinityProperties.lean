@@ -100,7 +100,7 @@ theorem fn_hahnSeries_inv_converges : ∀ (Ω : Type) [Field Ω] (ε : Ω →+* 
     · obtain ⟨k, rfl⟩ := hr
       rw [hcoef k, (hdiv _ n₀ k).2 rfl, hΦ1]
       simp [p]
-    · push_neg at hr
+    · push Not at hr
       rw [hzero r hr, hΦ0]
       intro k hk
       exact hr k ((hdiv r n₀ k).1 hk)
@@ -125,7 +125,7 @@ theorem fn_hahnSeries_inv_converges : ∀ (Ω : Type) [Field Ω] (ε : Ω →+* 
   · rw [hg]
     refine ⟨N, hN, fun r hr => ?_⟩
     by_contra H
-    push_neg at H
+    push Not at H
     exact hr (hgz r fun k hk => H _ hk)
 
   set A : ℕ → ℂ := fun k => ε (a k) with hAdef

@@ -113,7 +113,7 @@ theorem nontrivial_sec_iff (N : LB X) : Nontrivial (LB.Sec N) ↔ ∃ (s : LB.Se
   constructor
   · intro h
     by_contra hn
-    push_neg at hn
+    push Not at hn
     have : sf = fun _ => 0 := funext hn
     subst this
     exact h rfl

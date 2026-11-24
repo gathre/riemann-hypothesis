@@ -120,7 +120,7 @@ theorem geom_tail (q N m : ℕ) (hq : 2 ≤ q) (hN : 2 ≤ N) (hm : m ≤ N) :
     set S := ∑ j ∈ Finset.Icc 2 m, (p + 2) ^ (N - j)
     set Q := (p + 2) ^ (N - 2)
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have h4 := Nat.mul_le_mul_right (p + 1) (show 2 * Q + 1 ≤ S by omega)
     clear_value S Q
     ring_nf at h h4

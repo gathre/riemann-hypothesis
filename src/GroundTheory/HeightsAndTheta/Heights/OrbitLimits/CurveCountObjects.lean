@@ -90,9 +90,9 @@ theorem sum_single_chart_apply (k' : K) (j : ι k') (b : ℕ) (k : K) :
   by_cases h : k' = k
   · subst h
     simp [Finsupp.single_apply]
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     refine Finset.sum_eq_zero fun i _ => ?_
-    rw [Finsupp.single_apply, if_neg]
+    rw [Finsupp.single_apply, ite_eq_right]
     intro he
     exact h (Sigma.mk.inj_iff.mp he).1
 
@@ -106,7 +106,7 @@ theorem isMultiHomog_curveChartMono (c : ∀ k, ι k) (d : K → ℕ) :
     funext k
     simp only [Finsupp.finsetSum_apply]
     rw [Finset.sum_comm]
-    simp only [sum_single_chart_apply, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    simp only [sum_single_chart_apply, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   rw [h]
   have hm := ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.isMultiHomog_monomial (ι := ι)
     (∑ k, Finsupp.single (⟨k, c k⟩ : Σ k, ι k) (d k)) (1 : ℤ)

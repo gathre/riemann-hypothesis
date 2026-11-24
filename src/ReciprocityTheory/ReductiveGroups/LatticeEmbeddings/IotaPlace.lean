@@ -55,7 +55,7 @@ namespace ReciprocityTheory.ChartRestriction.B3.IotaPl
 theorem norm_le_one_of_isIntegral_int {p : ℕ} [Fact p.Prime] {x : ℂ_[p]} (hx : IsIntegral ℤ x) :
     ‖x‖ ≤ 1 := by
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   obtain ⟨f, hf, hfx⟩ := hx
   set n := f.natDegree with hn
   have hsum := hf.as_sum
@@ -129,7 +129,7 @@ theorem smallIdeal_isPrime (ι : K →+* ℂ_[p]) : (smallIdeal ι).IsPrime := b
     have e : ι ((a * b : 𝓞 K) : K) = ι (a : K) * ι (b : K) := by simp
     rw [e, norm_mul] at hab
     by_contra hc
-    push_neg at hc
+    push Not at hc
     obtain ⟨ha, hb⟩ := hc
     nlinarith [norm_int_le ι a, norm_int_le ι b]
 

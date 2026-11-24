@@ -232,7 +232,7 @@ theorem exists_cut_prod (ψ : ∀ w : HeightOneSpectrum (𝓞 E), AddChar (w.adi
         · rw [hT₂ W hN hKW (y * k) (by rw [hyh k hk]; exact hyw), Set.indicator_of_mem]
           rw [Set.mem_setOf_eq, hyh k hk]; exact hyc
       · rw [act_congr T₁ (f' := 0) fun k hk => ?_]
-        · simp only [Set.indicator, Set.mem_setOf_eq, Finset.forall_mem_insert, hyc, false_and, if_false]
+        · simp only [Set.indicator, Set.mem_setOf_eq, Finset.forall_mem_insert, hyc, false_and, ite_false]
           unfold GlobalTheory.JSW.Cut.act; simp
         · rw [hT₂ W hN hKW (y * k) (by rw [hyh k hk]; exact hyw), Set.indicator_of_notMem]
           · rfl
@@ -304,7 +304,7 @@ theorem exists_charSum_eq_on_compact : ∀ {F : Type} [NormedField F] (ψ : AddC
   classical
   obtain ⟨t, ht⟩ : ∃ t, ψ t ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hψ1 (AddChar.ext _ _ h)
   let χ : (ι → F) → (ι → F) → ℂ := fun v r => ψ (r ⬝ᵥ v)
   let S : Set ((ι → F) → ℂ) := Set.range χ
@@ -472,7 +472,7 @@ theorem isCompact_charAnnihilator_of_mem_nhds_zero {F : Type} [NormedField F] [P
     rw [mem_closedBall_zero_iff, pi_norm_le_iff_of_nonneg hR]
     intro i
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hri : r i ≠ 0 := by
       intro h0; rw [h0, norm_zero] at hlt; linarith
     have hpos : 0 < ‖r i‖ := norm_pos_iff.2 hri
@@ -741,7 +741,7 @@ theorem pLoc_list_prod {n : ℕ} (u : ∀ w : HeightOneSpectrum (𝓞 E), GL (Fi
     rw [List.map_cons, List.prod_cons, map_mul, ih (List.nodup_cons.1 hl).2]
     by_cases h : v = w
     · subst h
-      rw [pLoc_locGL, if_neg (List.nodup_cons.1 hl).1, if_pos (by simp), mul_one]
+      rw [pLoc_locGL, ite_eq_right (List.nodup_cons.1 hl).1, ite_eq_left (by simp), mul_one]
     · rw [pLoc_locGL_of_ne h, one_mul]
       simp only [List.mem_cons, h, false_or]
 
@@ -862,10 +862,10 @@ theorem cell_decomp : ∀ (E : Type) [Field E] [NumberField E] [_root_.NumberFie
       rw [pLoc_list_prod cc _ S.nodup_toList v]
       simp only [Finset.mem_toList]
     refine ⟨k i * g, mul_mem (hkA i).1 hgK, fun w hw => ?_, fun w hw => ⟨uu w, huu w hw, ?_⟩⟩
-    · rw [← mul_assoc, map_mul, hg w, if_neg hw, mul_one]
+    · rw [← mul_assoc, map_mul, hg w, ite_eq_right hw, mul_one]
       exact (hkA i).2 w hw
     · refine (heq w hw).trans ?_
-      rw [← mul_assoc qf, map_mul (GeneralLinearGroup.map (pLoc E w)) (qf * k i) g, hg w, if_pos hw, mul_assoc]
+      rw [← mul_assoc qf, map_mul (GeneralLinearGroup.map (pLoc E w)) (qf * k i) g, hg w, ite_eq_left hw, mul_assoc]
 
 end GlobalTheory.JSW.MirPatch
 end -- clump:auto
@@ -1135,7 +1135,7 @@ theorem indicator_cell_mul_left {ψ : AddChar F ℂ} {n : ℕ} {z : GL (Fin n) F
   classical
   by_cases hg : g ∈ cell z U
   · rw [Set.indicator_of_mem hg, Set.indicator_of_mem ((mul_mem_cell_iff hu g).2 hg), hf u hu]
-  · rw [Set.indicator_apply, Set.indicator_apply, if_neg hg, if_neg (fun h => hg ((mul_mem_cell_iff hu g).1 h)),
+  · rw [Set.indicator_apply, Set.indicator_apply, ite_eq_right hg, ite_eq_right (fun h => hg ((mul_mem_cell_iff hu g).1 h)),
       mul_zero]
 
 end Red
@@ -1148,7 +1148,7 @@ theorem cuts_mir_of_res : ∀ {F : Type} [NormedField F] [ProperSpace F] [IsUltr
   by_cases hz : ∃ h₀ : GL (Fin (m + 1)) F, cor h₀ ∈ cell z (U : Set (GL (Fin (m + 2)) F))
   swap
   · refine ⟨0, fun f _ _ p hp => ?_⟩
-    rw [act_zero, Set.indicator_apply, if_neg]
+    rw [act_zero, Set.indicator_apply, ite_eq_right]
     intro hpc
     obtain ⟨h, x, rfl⟩ := exists_mir hp
     rw [mir_eq, mul_mem_cell_iff (mir_mem_iff.2 (one_mem _))] at hpc
@@ -1179,7 +1179,7 @@ theorem cuts_mir_of_res : ∀ {F : Type} [NormedField F] [ProperSpace F] [IsUltr
     rw [← Finset.indicator_biUnion_apply s _ hsd, ← hsU, hzc]
     by_cases hh : h ∈ cell h₀ (B : Set (GL (Fin (m + 1)) F))
     · rw [Set.indicator_of_mem hh, Set.indicator_of_mem ((hcell h₀ h).2 hh)]
-    · rw [Set.indicator_apply, Set.indicator_apply, if_neg hh, if_neg fun h' => hh ((hcell h₀ h).1 h')]
+    · rw [Set.indicator_apply, Set.indicator_apply, ite_eq_right hh, ite_eq_right fun h' => hh ((hcell h₀ h).1 h')]
   intro p hp
   obtain ⟨h, x, rfl⟩ := exists_mir hp
   have hu : mir 1 x ∈ unipB F (Fin (m + 2)) := mir_mem_iff.2 (one_mem _)
@@ -1272,8 +1272,8 @@ theorem cuts_mir {F : Type} [NormedField F] [ProperSpace F] [IsUltrametricDist F
       fun f _ _ g hg => ?_⟩
     rw [h1 g hg, act_single, mul_one]
     by_cases h : (1 : GL (Fin (0 + 1)) F) ∈ cell z (U : Set (GL (Fin (0 + 1)) F))
-    · rw [if_pos h, one_mul, Set.indicator_of_mem h]
-    · rw [if_neg h, zero_mul, Set.indicator_of_notMem h]
+    · rw [ite_eq_left h, one_mul, Set.indicator_of_mem h]
+    · rw [ite_eq_right h, zero_mul, Set.indicator_of_notMem h]
   | succ m ih =>
     refine _root_.GlobalTheory.JSW.Cut.cuts_mir_of_res ψ hψ hψ1 m (_root_.GlobalTheory.JSW.Cut.exists_cut_cor_of_sub ψ hψ hψ1 m (fun V hVc hVo z' => ?_)) U hUc hUo z
     refine _root_.GlobalTheory.JSW.Cut.cuts_mul_open_subgroup ψ V hVo _ _ (fun x hx u hu => ?_) (ih V hVc hVo z')
@@ -1658,7 +1658,7 @@ theorem exists_NA_of_mem_Zset {S : Finset (HeightOneSpectrum (𝓞 E))} {m : ℕ
         rw [List.nodup_cons] at hl
         rw [List.map_cons, List.prod_cons, map_mul, ih hl.2]
         by_cases h : w = v
-        · subst h; rw [pLoc_locGL, if_neg hl.1, if_pos List.mem_cons_self, mul_one]
+        · subst h; rw [pLoc_locGL, ite_eq_right hl.1, ite_eq_left List.mem_cons_self, mul_one]
         · rw [pLoc_locGL_of_ne h, one_mul]; simp [h]
     rw [key _ (Finset.nodup_toList _)]; simp
   set k := cf⁻¹ * L
@@ -1684,7 +1684,7 @@ theorem exists_NA_of_mem_Zset {S : Finset (HeightOneSpectrum (𝓞 E))} {m : ℕ
       exact FiniteAdeleRing.ext _ fun w => (hkUT w).2 i
   refine ⟨_, huNA, fun w hw => ?_, fun j => ?_⟩
   · change GeneralLinearGroup.map (pLoc E w) (GeneralLinearGroup.map (pFin E) (finGL E (m + 1) k * c)) = 1
-    rw [map_mul, pFin_finGL, map_mul, hk, if_neg hw, inv_mul_cancel]
+    rw [map_mul, pFin_finGL, map_mul, hk, ite_eq_right hw, inv_mul_cancel]
   · rw [last_row_mul huNA]; exact hc.1 j
 
 theorem exists_base {S : Finset (HeightOneSpectrum (𝓞 E))} {m : ℕ} {d : GA E (m + 1)} (hd : d ∈ Zset E S m)
@@ -1739,7 +1739,7 @@ theorem exists_cover : ∀ (E : Type) [Field E] [NumberField E] [_root_.NumberFi
   have hrep : ∀ x ∈ t2, rep (cell K x) ∈ t2 ∧ cell K (rep (cell K x)) = cell K x := by
     intro x hx
     have h : ∃ y ∈ t2, cell K y = cell K x := ⟨x, hx, rfl⟩
-    simp only [rep, dif_pos h]
+    simp only [rep, dite_eq_left h]
     exact h.choose_spec
   refine ⟨K, t2.image fun x => rep (cell K x), fun x => q (dj x), hKo, hKc, ?_, ?_, ?_⟩
   · intro x hx

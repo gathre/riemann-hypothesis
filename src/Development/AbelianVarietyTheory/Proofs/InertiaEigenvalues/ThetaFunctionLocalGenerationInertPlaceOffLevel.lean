@@ -284,8 +284,8 @@ theorem exists_pair (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp D) (χS χT : (A
     fun n i j => by
       rw [Matrix.one_apply, Matrix.one_apply]
       by_cases hij : i = j
-      · rw [if_pos hij, if_pos hij.symm, σ.map_one]
-      · rw [if_neg hij, if_neg (Ne.symm hij), σ.map_zero]
+      · rw [ite_eq_left hij, ite_eq_left hij.symm, σ.map_one]
+      · rw [ite_eq_right hij, ite_eq_right (Ne.symm hij), σ.map_zero]
   refine ⟨ϖ, σ, q, δ, 1, 1, ψ', ρ, ω, ιS, ιT, kap h βS βT c,
     ⟨hU, odd_of_v_two hU h2, one_mem _, one_mem _, hone _, hone _, hδ, p1, p2, ?_, fun x y => ?_, ?_, fun g k x => ?_,
       fun g k hg hk s hs => ?_⟩, hhyp gS, hω, hvac, hρ, kap_half h, fun u hu => kap_surj h hc.1 hu⟩

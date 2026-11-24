@@ -86,7 +86,7 @@ theorem linDisjoint_disc (l : ℕ) [Fact l.Prime] (K : FinExt l) (bk : BK K) (A 
     exact e
   obtain ⟨i₀, hi₀⟩ : ∃ i₀, TB.c i₀ y ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hy (hz y hc)
   refine ⟨TB.c i₀ y, TB.c i₀ x, hi₀, ?_⟩
   rw [← sub_eq_zero]

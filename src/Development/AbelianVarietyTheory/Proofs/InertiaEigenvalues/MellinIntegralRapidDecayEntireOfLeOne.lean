@@ -78,7 +78,7 @@ theorem integral_mul_cpow_of_rapid_decay_entire :
     have hpK : 0 < δ x ^ K := pow_pos h0 K
     have hC0 : 0 ≤ C := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       have := mul_neg_of_neg_of_pos hc hpK
       linarith [norm_nonneg (F x)]
     have hpt : 0 ≤ δ x ^ t := Real.rpow_nonneg h0.le t

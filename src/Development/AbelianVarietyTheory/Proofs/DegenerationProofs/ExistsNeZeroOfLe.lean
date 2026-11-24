@@ -95,7 +95,7 @@ theorem exists_ne_zero_of_le {T T' : AddSubgroup S.Gam} (h : T' ≤ T) (hT : S.I
     {K : Type} [Field K] (ψ : o →+* K) (v : S.J → K) {i : S.J} (hi : ∑ j, ψ (S.proj T 0 j i) * v j ≠ 0) :
     ∃ i, ∑ j, ψ (S.proj T' 0 j i) * v j ≠ 0 := by
   by_contra hn
-  push_neg at hn
+  push Not at hn
   apply hi
   rw [← GlobalTheory.ThetaBound.proj_mul_proj S T T' h hT.1 hT' 0 0 fun _ => rfl]
 

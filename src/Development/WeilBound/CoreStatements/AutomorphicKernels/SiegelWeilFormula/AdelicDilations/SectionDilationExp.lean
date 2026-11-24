@@ -63,10 +63,10 @@ theorem dilV_off (h : IsCMExt F E σ) {n : ℕ} (w : InfinitePlace F) (i₀ : Fi
   rcases k with j | j
   · have hj : j ≠ i₀ := fun hj => hk (by subst hj; simp)
     show (if j = i₀ then _ else (1 : AE F E)) = 1
-    rw [if_neg hj]
+    rw [ite_eq_right hj]
   · have hj : j ≠ i₀ := fun hj => hk (by subst hj; simp)
     show (if j = i₀ then _ else (1 : AE F E)) = 1
-    rw [if_neg hj]
+    rw [ite_eq_right hj]
 
 theorem j_comm_dil {d : SD σ} (R : RD d) (L : LD d) (w : InfinitePlace F) (τ : ℝ) (y : GR d.n)
     (hy : IsDil (Pi.single L.i₀ 1) τ y) (g : L.sd.G) : L.j g * R.ι w y = R.ι w y * L.j g := by
@@ -114,9 +114,9 @@ theorem dilV_mul (h : IsCMExt F E σ) {n : ℕ} (w : InfinitePlace F) (i₀ : Fi
   haveI := h.1
   show (if j = i₀ then _ else (1 : AE F E)) * (if j = i₀ then _ else (1 : AE F E)) = 1
   by_cases hj : j = i₀
-  · rw [if_pos hj, if_pos hj, ← map_mul, adr_mul, ← Real.exp_add, add_neg_cancel, Real.exp_zero,
+  · rw [ite_eq_left hj, ite_eq_left hj, ← map_mul, adr_mul, ← Real.exp_add, add_neg_cancel, Real.exp_zero,
       adr_one, map_one]
-  · rw [if_neg hj, if_neg hj, mul_one]
+  · rw [ite_eq_right hj, ite_eq_right hj, mul_one]
 
 theorem dilV_mul' (h : IsCMExt F E σ) {n : ℕ} (w : InfinitePlace F) (i₀ : Fin n) (τ : ℝ) (j : Fin n) :
     dilV h w i₀ τ (Sum.inr j) * dilV h w i₀ τ (Sum.inl j) = 1 := by
@@ -137,10 +137,10 @@ theorem det_dilT (h : IsCMExt F E σ) {n : ℕ} (w : InfinitePlace F) (i₀ : Fi
     algebraMap (AF F) (AE F E) (adr w (Real.exp τ))
   rw [Matrix.det_diagonal, Finset.prod_eq_single i₀]
   · show (if i₀ = i₀ then _ else (1 : AE F E)) = _
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
   · intro j _ hj
     show (if j = i₀ then _ else (1 : AE F E)) = 1
-    rw [if_neg hj]
+    rw [ite_eq_right hj]
   · intro hi
     exact absurd (Finset.mem_univ i₀) hi
 

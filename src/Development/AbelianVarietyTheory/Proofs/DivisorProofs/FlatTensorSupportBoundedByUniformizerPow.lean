@@ -136,7 +136,7 @@ theorem flatTensor_support : ∀ {k : Type} [Field k] [ValuativeRel k] [Topologi
   refine ⟨(oppositePath G.m).toFinset.sup N, fun x y hne => ?_⟩
   obtain ⟨v, hv⟩ : ∃ v, flatIntegrand hs ψ (moved G keep g T) x y v ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hne
     unfold flatTensor
     simp [h]

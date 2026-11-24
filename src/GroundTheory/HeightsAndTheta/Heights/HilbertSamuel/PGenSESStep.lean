@@ -79,7 +79,7 @@ theorem isMultiHomog_X (k : K) (i : ι k) :
     simp [Finsupp.single_apply]
   · have : ∀ j : ι l, (Finsupp.single (⟨k, i⟩ : Σ k, ι k) 1) ⟨l, j⟩ = 0 := by
       intro j
-      rw [Finsupp.single_apply, if_neg]
+      rw [Finsupp.single_apply, ite_eq_right]
       intro h
       exact hl (congrArg Sigma.fst h).symm
     simp [this, hl]

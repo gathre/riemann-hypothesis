@@ -169,7 +169,7 @@ theorem toG_pG (he : Function.Bijective e) (hl : IsLt (mv e lt)) (h : IsTyp D H)
     conv_rhs => rw [← m1, Finset.prod_range]
     refine Finset.prod_congr rfl fun i _ => ?_
     have hi : (i : ℕ) < Dw.p := lt_of_lt_of_eq i.2 m1
-    rw [map_pow, dite_eq_left (by omega), if_pos ((h.1 _).2 ⟨e t, rfl⟩), toG_minorP]
+    rw [map_pow, dite_eq_left (by omega), ite_eq_left ((h.1 _).2 ⟨e t, rfl⟩), toG_minorP]
     congr 1
     · rw [minorPlus]
       congr 1
@@ -186,7 +186,7 @@ theorem toG_pG (he : Function.Bijective e) (hl : IsLt (mv e lt)) (h : IsTyp D H)
     conv_rhs => rw [← m2, Finset.prod_range]
     refine Finset.prod_congr rfl fun i _ => ?_
     have hi : (i : ℕ) < Dw.q := lt_of_lt_of_eq i.2 m2
-    rw [map_pow, dite_eq_left (by omega), if_neg ((h.2 _).2 ⟨e t, rfl⟩), toG_minorP]
+    rw [map_pow, dite_eq_left (by omega), ite_eq_right ((h.2 _).2 ⟨e t, rfl⟩), toG_minorP]
     congr 1
     · rw [minorMinus]
       congr 1
@@ -225,10 +225,10 @@ theorem toG_gaStar (he : Function.Injective e) (hl : IsLt (mv e lt)) (h : IsTyp 
     rw [IsCMField.complexEmbedding_complexConj]
     rcases (hl ℓ).2 with ⟨h1, h2⟩ | ⟨h1, h2⟩
     · replace h2 : ((lt ℓ).2.1 : ℕ) = ℓ.2.1 := h2
-      rw [if_pos (h2 ▸ (hl.pos h h1).2.2)]
+      rw [ite_eq_left (h2 ▸ (hl.pos h h1).2.2)]
       exact congrArg (fun σ : D.host.E →+* ℂ => conj (σ _)) ((congrArg (relab c φ) h1).trans (r1 _))
     · replace h2 : ((lt ℓ).2.1 : ℕ) = Dw.p + ℓ.2.1 := h2
-      rw [if_neg (by omega)]
+      rw [ite_eq_right (by omega)]
       exact congrArg (fun σ : D.host.E →+* ℂ => conj (σ _)) ((congrArg (relab c φ) h1).trans (r2 _))
 
 end Letters

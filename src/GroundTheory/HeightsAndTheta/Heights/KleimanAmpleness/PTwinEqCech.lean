@@ -166,12 +166,12 @@ theorem cechD_apply_pos {ι k : Type} [CommRing k] [LinearOrder ι] (C : Indefin
     (v : ∀ I, C.V I) (J : Finset ι) (h : C.good J) :
     IndefiniteRowSideFullHecke.Kleiman.cechD C v J =
       ∑ j ∈ J, IndefiniteRowSideFullHecke.Kleiman.cechSign J j • C.res (Finset.erase_subset j J) (v (J.erase j)) := by
-  simp only [IndefiniteRowSideFullHecke.Kleiman.cechD, LinearMap.pi_apply, if_pos h, LinearMap.sum_apply]
+  simp only [IndefiniteRowSideFullHecke.Kleiman.cechD, LinearMap.pi_apply, ite_eq_left h, LinearMap.sum_apply]
   rfl
 
 theorem cechD_apply_neg {ι k : Type} [CommRing k] [LinearOrder ι] (C : IndefiniteRowSideFullHecke.Kleiman.CechSystem ι k)
     (v : ∀ I, C.V I) (J : Finset ι) (h : ¬ C.good J) : IndefiniteRowSideFullHecke.Kleiman.cechD C v J = 0 := by
-  simp only [IndefiniteRowSideFullHecke.Kleiman.cechD, LinearMap.pi_apply, if_neg h]
+  simp only [IndefiniteRowSideFullHecke.Kleiman.cechD, LinearMap.pi_apply, ite_eq_right h]
   rfl
 
 variable {S N M}
@@ -193,12 +193,12 @@ variable (G : IndefiniteRowSideFullHecke.Kleiman.GradedMod S N M) (c : ℤ)
 theorem extC_apply_pos {i : ℕ} (v : Kleiman.Cech.Cochain (Kleiman.locSys S N M) i)
     (I : Finset (Fin (N + 1))) (h : I.Nonempty ∧ I.card = i + 1) :
     extC G c i v I = (locEquiv S N M I).symm (v ⟨⟨I, h.1, Finset.subset_univ I⟩, h.2⟩) := by
-  simp only [extC, LinearMap.pi_apply, dif_pos h]
+  simp only [extC, LinearMap.pi_apply, dite_eq_left h]
   rfl
 
 theorem extC_apply_neg {i : ℕ} (v : Kleiman.Cech.Cochain (Kleiman.locSys S N M) i)
     (I : Finset (Fin (N + 1))) (h : ¬ (I.Nonempty ∧ I.card = i + 1)) : extC G c i v I = 0 := by
-  simp only [extC, LinearMap.pi_apply, dif_neg h]
+  simp only [extC, LinearMap.pi_apply, dite_eq_right h]
   rfl
 
 theorem resC_apply {i : ℕ} (w : ∀ I, (IndefiniteRowSideFullHecke.Kleiman.gradedSys S N M G c).V I)
@@ -365,7 +365,7 @@ theorem GradedCech.proof : GradedCech.Statement := by
     funext J
     change locEquiv S N M J.1.1 (z.1 J.1.1) =
       (LocalizedModule.mk m 1 : LocalizedModule (Kleiman.monos (S := S) J.1.1) M)
-    rw [hz, IndefiniteRowSideFullHecke.Kleiman.unitCochain, if_pos (show J.1.1.card = 1 from J.2)]
+    rw [hz, IndefiniteRowSideFullHecke.Kleiman.unitCochain, ite_eq_left (show J.1.1.card = 1 from J.2)]
     change (LocalizedModule.mk m ⟨IndefiniteRowSideFullHecke.Kleiman.Xprod S N J.1.1 ^ 0, _⟩ :
       LocalizedModule (Kleiman.monos (S := S) J.1.1) M) = LocalizedModule.mk m 1
     congr 1

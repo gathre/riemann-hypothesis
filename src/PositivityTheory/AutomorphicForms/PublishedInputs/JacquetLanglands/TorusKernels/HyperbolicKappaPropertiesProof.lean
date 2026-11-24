@@ -71,11 +71,11 @@ theorem pos_den {z w : ℂ} (h : 0 < z.im * w.im) : 0 < ‖z - conj w‖ ^ 2 := 
 theorem kap_of {z w : P} (h : 0 < z.1.im * w.1.im) :
     kap z w = 4 * (z.1.im * w.1.im) / ‖z.1 - conj w.1‖ ^ 2 := by
   unfold kap
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 theorem kap_of_not {z w : P} (h : ¬ 0 < z.1.im * w.1.im) : kap z w = 0 := by
   unfold kap
-  rw [if_neg h]
+  rw [ite_eq_right h]
 
 theorem kap_nonneg (z w : P) : 0 ≤ kap z w := by
   unfold kap

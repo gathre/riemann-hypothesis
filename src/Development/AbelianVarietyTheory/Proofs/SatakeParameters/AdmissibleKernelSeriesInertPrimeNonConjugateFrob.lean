@@ -759,14 +759,14 @@ theorem fOf_fOf'_dual : ∀ (D : D7) (p : ℕ) [Fact p.Prime] (σ : MaximalUnram
       by_cases htt : t' = t + 1
       · subst htt
         have hodd : ¬ (t.val + 1) % 2 = 0 := by omega
-        rw [if_pos rfl, h1, if_pos ht, if_pos ht, if_neg hodd, iterate_mul_ringHom]
+        rw [ite_eq_left rfl, h1, ite_eq_left ht, ite_eq_left ht, ite_eq_right hodd, iterate_mul_ringHom]
         by_cases hc : r0 = r1 ∧ a = a' ∧ b = b'
         · obtain ⟨rfl, rfl, rfl⟩ := hc
           simp
-        · rw [if_neg hc, if_neg]
+        · rw [ite_eq_right hc, ite_eq_right]
           rintro ⟨hp, ha, hb⟩
           exact hc ⟨reps _ _ hp, ha, hb⟩
-      · rw [if_neg htt]
+      · rw [ite_eq_right htt]
         by_cases ht' : t'.val % 2 = 0
         · simp [ht']
         · by_cases hc : posPl D p r0 (t.val + 1) = posPl D p r1 t'.val
@@ -778,7 +778,7 @@ theorem fOf_fOf'_dual : ∀ (D : D7) (p : ℕ) [Fact p.Prime] (σ : MaximalUnram
           · simp [hc]
     · simp [ht]
   rw [h2, Finset.sum_congr rfl fun t _ => Finset.sum_congr rfl fun t' _ => key t t']
-  simp only [Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   rw [← Finset.sum_mul]
   have h3 : ∑ t : ZMod (nP D p), (if t.val % 2 = 0 then σ^[t.val + 1] (om k * oms k') else 0) =
       σ (∑ t : ZMod (nP D p), if t.val % 2 = 0 then σ^[t.val] (om k * oms k') else 0) := by
@@ -941,7 +941,7 @@ theorem sum_sigma_comb_mul_comb (D : D7) (p : ℕ) [Fact p.Prime] (σ : MaximalU
             (σ (c t) * c' t') * (h (posPl D p (OrbitPlaces.orbMap D p r t) 1) a b i *
               g (OrbitPlaces.orbMap D p r' t') a' b' i) := fun i => by ring
         simp only [e]
-        rw [← Finset.mul_sum, hp, if_neg (fun hh => hne hh.1), mul_zero]
+        rw [← Finset.mul_sum, hp, ite_eq_right (fun hh => hne hh.1), mul_zero]
       · simp [hc' t' h2]
     · simp [hc t h1]
 
@@ -958,13 +958,13 @@ theorem fOf_isotropic : ∀ (D : D7) (p : ℕ) [Fact p.Prime] (σ : MaximalUnram
     have key := sum_sigma_comb_mul_comb D p σ R g h hO.even hR hg hp e.1.1.2 e'.1.1.2 e.2.1 e'.2.1 e.2.2 e'.2.2
       (fun t => if t.val % 2 = 0 then σ^[t.val] (om e.1.2) else 0)
       (fun t => if t.val % 2 = 0 then σ^[t.val] (om e'.1.2) else 0) 0
-      (fun t ht => if_neg ht) (fun t ht => if_neg ht)
+      (fun t ht => ite_eq_right ht) (fun t ht => ite_eq_right ht)
     simpa only [fOf, ite_mul, zero_mul] using key
   · intro e e'
     have key := sum_sigma_comb_mul_comb D p σ R g h hO.even hR hg hp e.1.1.2 e'.1.1.2 e.2.1 e'.2.1 e.2.2 e'.2.2
       (fun t => if t.val % 2 = 0 then 0 else σ^[t.val] (oms e.1.2))
       (fun t => if t.val % 2 = 0 then 0 else σ^[t.val] (oms e'.1.2)) 1
-      (fun t ht => if_pos (by omega)) (fun t ht => if_pos (by omega))
+      (fun t ht => ite_eq_left (by omega)) (fun t ht => ite_eq_left (by omega))
     simpa only [fOf', ite_mul, zero_mul] using key
 
 end GlobalTheory.KerStd.HypCoord
@@ -1053,31 +1053,31 @@ theorem sum_coef_fOf (D : D7) (p : ℕ) [Fact p.Prime] (σ : MaximalUnramifiedEx
     ∑ k, (if s.val % 2 = 0 then fOf D p σ om R g ((r₀, k), a, b) i * σ^[s.val] (oms k)
       else fOf' D p σ oms R g ((r₀, k), a, b) i * σ^[s.val] (om k)) = g (OrbitPlaces.orbMap D p r₀ s) a b i := by
   by_cases hs : s.val % 2 = 0
-  · simp only [hs, if_true, fOf, Finset.sum_mul]
+  · simp only [hs, ite_true, fOf, Finset.sum_mul]
     rw [Finset.sum_comm, Finset.sum_eq_single s]
-    · simp only [hs, if_true]
+    · simp only [hs, ite_true]
       have h := hdual s s rfl
-      rw [if_pos rfl] at h
+      rw [ite_eq_left rfl] at h
       calc ∑ k, σ^[s.val] (om k) * g (OrbitPlaces.orbMap D p r₀ s) a b i * σ^[s.val] (oms k)
           = g (OrbitPlaces.orbMap D p r₀ s) a b i * ∑ k, σ^[s.val] (om k) * σ^[s.val] (oms k) := by
             rw [Finset.mul_sum]; exact Finset.sum_congr rfl fun k _ => by ring
         _ = _ := by rw [h, mul_one]
     · intro t _ hts
       by_cases ht : t.val % 2 = 0
-      · simp only [ht, if_true]
+      · simp only [ht, ite_true]
         have h := hdual t s (by rw [ht, hs])
-        rw [if_neg hts] at h
+        rw [ite_eq_right hts] at h
         calc ∑ k, σ^[t.val] (om k) * g (OrbitPlaces.orbMap D p r₀ t) a b i * σ^[s.val] (oms k)
             = g (OrbitPlaces.orbMap D p r₀ t) a b i * ∑ k, σ^[t.val] (om k) * σ^[s.val] (oms k) := by
               rw [Finset.mul_sum]; exact Finset.sum_congr rfl fun k _ => by ring
           _ = 0 := by rw [h, mul_zero]
       · simp [ht]
     · intro h; exact absurd (Finset.mem_univ s) h
-  · simp only [hs, if_false, fOf', Finset.sum_mul]
+  · simp only [hs, ite_false, fOf', Finset.sum_mul]
     rw [Finset.sum_comm, Finset.sum_eq_single s]
-    · simp only [hs, if_false]
+    · simp only [hs, ite_false]
       have h := hdual s s rfl
-      rw [if_pos rfl] at h
+      rw [ite_eq_left rfl] at h
       calc ∑ k, σ^[s.val] (oms k) * g (OrbitPlaces.orbMap D p r₀ s) a b i * σ^[s.val] (om k)
           = g (OrbitPlaces.orbMap D p r₀ s) a b i * ∑ k, σ^[s.val] (om k) * σ^[s.val] (oms k) := by
             rw [Finset.mul_sum]; exact Finset.sum_congr rfl fun k _ => by ring
@@ -1085,9 +1085,9 @@ theorem sum_coef_fOf (D : D7) (p : ℕ) [Fact p.Prime] (σ : MaximalUnramifiedEx
     · intro t _ hts
       by_cases ht : t.val % 2 = 0
       · simp [ht]
-      · simp only [ht, if_false]
+      · simp only [ht, ite_false]
         have h := hdual s t (by omega)
-        rw [if_neg (Ne.symm hts)] at h
+        rw [ite_eq_right (Ne.symm hts)] at h
         calc ∑ k, σ^[t.val] (oms k) * g (OrbitPlaces.orbMap D p r₀ t) a b i * σ^[s.val] (om k)
             = g (OrbitPlaces.orbMap D p r₀ t) a b i * ∑ k, σ^[s.val] (om k) * σ^[t.val] (oms k) := by
               rw [Finset.mul_sum]; exact Finset.sum_congr rfl fun k _ => by ring
@@ -1312,7 +1312,7 @@ theorem GlobalTheory.KerStd.HypCoord.hK_gK_dual : ∀ (D : D7) (p : ℕ) [Fact p
     have hsimp : ∀ k m : Fin N' × Fin N, ((tauPl D w, k.1, k.2) = (tauPl D w, m.1, m.2)) ↔ k = m := by
       intro k m
       simp [Prod.ext_iff]
-    simp only [hsimp, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    simp only [hsimp, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
     have e1 : ∑ k : Fin N' × Fin N, A b₀ k.1 * rhoK D lam w (P (tauPl D w) k.2 a) *
         (rhoK D lam w (P' (tauPl D w) k.1 b₁) * B a₁ k.2) =
         (A * (P' (tauPl D w)).map (rhoK D lam w)) b₀ b₁ * (B * (P (tauPl D w)).map (rhoK D lam w)) a₁ a := by
@@ -1322,9 +1322,9 @@ theorem GlobalTheory.KerStd.HypCoord.hK_gK_dual : ∀ (D : D7) (p : ℕ) [Fact p
       Matrix.one_apply, Matrix.one_apply]
     by_cases h1 : b₀ = b₁ <;> by_cases h2 : a = a₁ <;> simp [h1, h2, eq_comm]
   · have hne : tauPl D w ≠ tauPl D z := fun h => hwz ((tauPl_bij D).1 h)
-    rw [if_neg (fun h => hwz h.1)]
+    rw [ite_eq_right (fun h => hwz h.1)]
     refine Finset.sum_eq_zero fun k _ => Finset.sum_eq_zero fun m _ => ?_
-    rw [if_neg (fun h => hne (congrArg Prod.fst h)), mul_zero]
+    rw [ite_eq_right (fun h => hne (congrArg Prod.fst h)), mul_zero]
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.SatakeParameters.OrthonormalLocalBasisCoordinatesDual =====
@@ -1414,7 +1414,7 @@ theorem sum_range_even (m : ℕ) (G : ℕ → K) :
   | zero => simp
   | succ m ih =>
     rw [show 2 * (m + 1) = 2 * m + 1 + 1 by ring, Finset.sum_range_succ, Finset.sum_range_succ, ih,
-      Finset.sum_range_succ, if_pos (by omega), if_neg (by omega), add_zero]
+      Finset.sum_range_succ, ite_eq_left (by omega), ite_eq_right (by omega), add_zero]
 
 theorem even_case {m d : ℕ} [NeZero d] (hd : 2 * m = d) (σ : K →+* K) (om oms : Fin m → K)
     (h : ∀ r r' : Fin m, (∑ s : ZMod d, if s.val % 2 = 0 then σ^[s.val] (om r * oms r') else 0) =

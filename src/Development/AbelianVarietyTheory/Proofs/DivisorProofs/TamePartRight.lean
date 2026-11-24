@@ -147,18 +147,18 @@ theorem exists_sum_box (X : Type) [TopologicalSpace X] [LocallyCompactSpace X] [
     refine ⟨hσ.comp fun s => if s = x.1 ∧ x.1.Nonempty then c x.1 x.2 else 0, ?_⟩
     by_cases hx : x.1.Nonempty
     · obtain ⟨i, hi⟩ := hx
-      refine HasCompactSupport.intro (hUc i) fun a ha => if_neg fun hs => ha ?_
+      refine HasCompactSupport.intro (hUc i) fun a ha => ite_eq_right fun hs => ha ?_
       rw [← hs.1] at hi
       simpa [σ] using hi
-    · exact HasCompactSupport.intro isCompact_empty fun a _ => if_neg fun hs => hx hs.2
+    · exact HasCompactSupport.intro isCompact_empty fun a _ => ite_eq_right fun hs => hx hs.2
   · intro x
     refine ⟨hτ.comp fun s => if s = x.2 ∧ x.2.Nonempty then (1 : ℂ) else 0, ?_⟩
     by_cases hx : x.2.Nonempty
     · obtain ⟨i, hi⟩ := hx
-      refine HasCompactSupport.intro (hVc i) fun b hb => if_neg fun hs => hb ?_
+      refine HasCompactSupport.intro (hVc i) fun b hb => ite_eq_right fun hs => hb ?_
       rw [← hs.1] at hi
       simpa [τ] using hi
-    · exact HasCompactSupport.intro isCompact_empty fun b _ => if_neg fun hs => hx hs.2
+    · exact HasCompactSupport.intro isCompact_empty fun b _ => ite_eq_right fun hs => hx hs.2
   · funext z
     rw [Finset.sum_apply, hgh z]
     generalize z ∘ Sum.inl = a
@@ -169,10 +169,10 @@ theorem exists_sum_box (X : Type) [TopologicalSpace X] [LocallyCompactSpace X] [
         have ht : (τ b).Nonempty := hst.mono Finset.inter_subset_right
         have hmem := Finset.mem_inter.1 hst.choose_spec
         simp only [σ, τ, Finset.mem_filter, Finset.mem_univ, true_and] at hmem
-        have hc : c (σ a) (τ b) = h (hst.choose : (κ → X) × (κ' → X)) := dif_pos hst
-        simp only [hs, ht, and_self, if_true, hc, mul_one]
+        have hc : c (σ a) (τ b) = h (hst.choose : (κ → X) × (κ' → X)) := dite_eq_left hst
+        simp only [hs, ht, and_self, ite_true, hc, mul_one]
         exact hconst _ a hmem.1 b hmem.2
-      · have hc : c (σ a) (τ b) = 0 := dif_neg hst
+      · have hc : c (σ a) (τ b) = 0 := dite_eq_right hst
         simp only [hc, ite_self, zero_mul]
         by_contra hne
         obtain ⟨i, hi, hab⟩ := mem_iUnion₂.1 (hF (subset_tsupport h hne))

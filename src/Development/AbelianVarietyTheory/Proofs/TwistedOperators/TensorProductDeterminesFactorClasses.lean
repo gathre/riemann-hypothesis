@@ -72,7 +72,7 @@ theorem exists_contr_ne_zero (j : β) {y : PiTensorProduct ℂ X} (hy : y ≠ 0)
   let B := Basis.piTensorProduct b
   obtain ⟨p, hp⟩ : ∃ p, B.repr y p ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hy (B.repr.map_eq_zero_iff.1 (Finsupp.ext hcon))
   refine ⟨fun a => (b a).coord (p a), fun h => hp ?_⟩
   have e : (b j).coord (p j) ∘ₗ contr (fun a => (b a).coord (p a)) j = B.coord p := by

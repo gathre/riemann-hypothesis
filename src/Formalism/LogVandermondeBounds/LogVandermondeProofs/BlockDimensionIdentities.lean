@@ -79,7 +79,7 @@ theorem eulerProductBounds : EulerProductBounds := by
       by have : 0 ≤ x ^ (i + 1) := pow_nonneg hx0.le _; linarith⟩
   refine ⟨?_, Finset.prod_le_one₀ (fun i hi => (hfac i hi).1) (fun i hi => (hfac i hi).2)⟩
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have h1 : (1 - x) * ∏ i ∈ range n, (1 - x ^ (i + 1)) < (1 - x) * (1 / 2) :=
     mul_lt_mul_of_pos_left hlt (by linarith)
   have := key n

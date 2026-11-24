@@ -509,7 +509,7 @@ theorem exists_ortho {σ : c.F →+* ℂ} {r : ℕ} {U : Unf Xo c σ r} {ξ : �
     rw [h2]
     rfl
   have hrd : ‖rdU U f k z‖ = cabs (evR Xo c f (U.un k ⟨z, hz⟩)) := by
-    have e : rdU U f k z = toC (evR Xo c f (U.un k ⟨z, hz⟩)) := dif_pos hz
+    have e : rdU U f k z = toC (evR Xo c f (U.un k ⟨z, hz⟩)) := dite_eq_left hz
     rw [e]; rfl
   rw [ReciprocityTheory.ChartRestriction.G.PullbackSections.PfSupAtUnit.pnorm_unit _ _ _ (ReciprocityTheory.ChartRestriction.G.PullbackSections.PfSupAtUnit.dmin_ortho _ ho), hrd] at hp
   rw [hev, GlobalTheory.FrameNorm.Comparison₂.cabs_mul, hw, homN, lieFacZ_wtZ, modelWt_wtZ, hp]
@@ -526,10 +526,10 @@ theorem integral_and_norm_le : ∀ (E : Type) [Field E] [NumberField E] [IsCMFie
   refine le_trans (le_of_eq hn) ?_
   clear hn hy hZ
   by_cases hσ : GoodEmb c σ
-  · have e : goodOf c σ = σ := if_pos hσ
+  · have e : goodOf c σ = σ := ite_eq_left hσ
     have := cabs_le_matNorm P hd hr hx hm
     exact this.trans (le_of_eq (by rw [e]))
-  · have e : goodOf c σ = (starRingEnd ℂ).comp σ := if_neg hσ
+  · have e : goodOf c σ = (starRingEnd ℂ).comp σ := ite_eq_right hσ
     exact cabs_le_matNorm_conj hpq P hd hf hr (by rw [e]; ext b; simp) hx hm
 
 end GlobalTheory.DefPt.IntNorm
@@ -1161,7 +1161,7 @@ theorem matChar_transvection [CharZero K] {i j : Fin n} (hij : i ≠ j) (c : K) 
       simp only [and_self, ite_true]
       ring
     · have h' : ¬(i = a ∧ j = b) := fun h' => h ⟨h'.1.symm, h'.2.symm⟩
-      rw [if_neg h', if_neg h']
+      rw [ite_eq_right h', ite_eq_right h']
       simp only [add_zero]
       by_cases hab : a = b
       · subst hab; ring
@@ -1806,11 +1806,11 @@ theorem main : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Recip
   have hsub : ∀ f : (E →+* ℂ) → ℝ, (∀ τ, Dw.mult τ = 0 → f τ = 0) → ∑ τ, f τ = ∑ τ : Psi H, f τ.1 := fun f hf => by
     rw [← Fintype.sum_subtype_add_sum_subtype (fun τ : E →+* ℂ => τ (H.rt : E) = H.rt0) f,
       Finset.sum_eq_zero (s := Finset.univ) (f := fun τ : {τ : E →+* ℂ // ¬ τ (H.rt : E) = H.rt0} => f τ.1)
-        fun τ _ => hf _ (by rw [Datum.mult, if_neg τ.2, h.q]), add_zero]
+        fun τ _ => hf _ (by rw [Datum.mult, ite_eq_right τ.2, h.q]), add_zero]
     convert rfl
   have h1 : ∑ τ, (Dw.mult τ : ℝ) = (Fintype.card (Psi H) : ℝ) * Dw.p := by
     rw [hsub _ fun τ h => by rw [h, Nat.cast_zero],
-      Finset.sum_congr rfl fun (τ : Psi H) _ => show (Dw.mult τ.1 : ℝ) = Dw.p by rw [Datum.mult, if_pos τ.2]]
+      Finset.sum_congr rfl fun (τ : Psi H) _ => show (Dw.mult τ.1 : ℝ) = Dw.p by rw [Datum.mult, ite_eq_left τ.2]]
     simp
   have h2 : (Fintype.card (Σ τ : E →+* ℂ, Fin (Dw.mult τ)) : ℝ) = (Fintype.card (Psi H) : ℝ) * Dw.p := by
     rw [← h1]; simp [Fintype.card_sigma]

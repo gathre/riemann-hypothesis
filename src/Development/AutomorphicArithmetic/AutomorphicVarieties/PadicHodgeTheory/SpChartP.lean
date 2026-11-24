@@ -838,7 +838,7 @@ private theorem hom_iff (χ : Fin 4 → H →* Eˣ) (γ : H → M4 E) :
   · rintro ⟨r, hr⟩ g h a b
     have key := congrArg (fun M => (M a b).snd) (r.map_mul g h)
     simp only [dualNumber_matrix_mul_snd_apply, hr, TrivSqZeroExt.fst_mk, TrivSqZeroExt.snd_mk, ite_mul, mul_ite, zero_mul, mul_zero,
-      Finset.sum_add_distrib, Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, if_true, map_mul,
+      Finset.sum_add_distrib, Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, ite_true, map_mul,
       Units.val_mul] at key
     have h1 := Units.ne_zero (χ b g)
     have h2 := Units.ne_zero (χ b h)
@@ -870,7 +870,7 @@ private theorem hom_iff (χ : Fin 4 → H →* Eˣ) (γ : H → M4 E) :
         show (if a = b then ((χ a (g * h) : Eˣ) : E) else 0) =
           ∑ c, (if a = c then ((χ a g : Eˣ) : E) else 0) * (if c = b then ((χ c h : Eˣ) : E) else 0)
         simp only [ite_mul, mul_ite, zero_mul, mul_zero,
-          Finset.sum_ite_eq', Finset.mem_univ, if_true, map_mul, Units.val_mul]
+          Finset.sum_ite_eq', Finset.mem_univ, ite_true, map_mul, Units.val_mul]
         split_ifs with hab
         · subst hab
           rfl
@@ -880,7 +880,7 @@ private theorem hom_iff (χ : Fin 4 → H →* Eˣ) (γ : H → M4 E) :
           ∑ c, ((if a = c then ((χ a g : Eˣ) : E) else 0) * (γ h c b * ((χ b h : Eˣ) : E)) +
             (γ g a c * ((χ c g : Eˣ) : E)) * (if c = b then ((χ c h : Eˣ) : E) else 0))
         simp only [ite_mul, mul_ite, zero_mul, mul_zero,
-          Finset.sum_add_distrib, Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, if_true, map_mul,
+          Finset.sum_add_distrib, Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, ite_true, map_mul,
           Units.val_mul, hc g h a b]
         have h2 := Units.ne_zero (χ b g)
         field_simp
@@ -927,12 +927,12 @@ private theorem dim_root [CharZero E] (χ : Fin 4 → H →* Eˣ) (I : H → Pro
       fun _ _ _ => rfl⟩
   have hQ : Q χ I (wt a b) v0 := by
     unfold Q
-    refine ⟨?_, ?_, ⟨X0, hX0, fun g a' b' h => by rw [hv0, if_neg h]⟩, fun s _ a' => by rw [hv0, if_pos rfl], ?_, ?_⟩
+    refine ⟨?_, ?_, ⟨X0, hX0, fun g a' b' h => by rw [hv0, ite_eq_right h]⟩, fun s _ a' => by rw [hv0, ite_eq_left rfl], ?_, ?_⟩
     · intro g h a' b'
       rw [hv0, hv0, hv0]
       by_cases h' : a' = b'
       · simp [h']
-      · simp only [if_neg h', map_mul, Units.val_mul]
+      · simp only [ite_eq_right h', map_mul, Units.val_mul]
         have h1 := Units.ne_zero (χ b' g)
         have h2 := Units.ne_zero (χ b' h)
         field_simp
@@ -945,7 +945,7 @@ private theorem dim_root [CharZero E] (χ : Fin 4 → H →* Eˣ) (I : H → Pro
       · subst h'
         simp
       · have h'' : b'.rev ≠ a'.rev := fun e => h' (Fin.rev_injective e).symm
-        rw [if_neg h', if_neg h'']
+        rw [ite_eq_right h', ite_eq_right h'']
         have hr : (χ b'.rev g : E) / χ a'.rev g = (χ a' g : E) / χ b' g := by
           have e1 := hθ g a'
           have e2 := hθ g b'
@@ -959,9 +959,9 @@ private theorem dim_root [CharZero E] (χ : Fin 4 → H →* Eˣ) (I : H → Pro
         linear_combination (1 - (χ a' g : E) / χ b' g) * hs
     · intro a' b'
       by_cases h' : a' = b'
-      · simp only [hv0, if_pos h']
+      · simp only [hv0, ite_eq_left h']
         exact continuous_const
-      · simp only [hv0, if_neg h']
+      · simp only [hv0, ite_eq_right h']
         exact (continuous_const.sub (hc a' b')).mul continuous_const
     · intro g a' b' hw
       rw [hv0]
@@ -974,7 +974,7 @@ private theorem dim_root [CharZero E] (χ : Fin 4 → H →* Eˣ) (I : H → Pro
     have h1 : v0 g0 a b = 0 := by
       have := congrArg (fun w : S => (w : H → M4 E) g0 a b) h
       simpa using this
-    rw [hv0, if_neg hab] at h1
+    rw [hv0, ite_eq_right hab] at h1
     rcases mul_eq_zero.1 h1 with h2 | h2
     · apply h0
       apply Units.ext
@@ -992,9 +992,9 @@ private theorem dim_root [CharZero E] (χ : Fin 4 → H →* Eˣ) (I : H → Pro
   rw [hv0]
   by_cases h' : a' = b'
   · subst h'
-    rw [if_pos rfl, mul_zero]
+    rw [ite_eq_left rfl, mul_zero]
     exact (hwsupp g a' a' (by rw [(wt_eq_zero a' a').2 rfl]; exact hwab.symm)).symm
-  · rw [if_neg h', hXwe g a' b' h']
+  · rw [ite_eq_right h', hXwe g a' b' h']
     by_cases hw' : wt a' b' = wt a b
     · rcases wt_fib a b a' b' hab hw' with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
       · field_simp
@@ -1092,35 +1092,35 @@ private theorem dim_zero (χ : Fin 4 → H →* Eˣ) (I : H → Prop) (σ : H)
       · rw [hγ, hγ, hγ]
         by_cases hab : a = b
         · subst hab
-          rw [if_pos rfl, if_pos rfl, if_pos rfl, div_self (Units.ne_zero _), one_mul, hdadd]
-        · rw [if_neg hab, if_neg hab, if_neg hab, mul_zero, add_zero]
+          rw [ite_eq_left rfl, ite_eq_left rfl, ite_eq_left rfl, div_self (Units.ne_zero _), one_mul, hdadd]
+        · rw [ite_eq_right hab, ite_eq_right hab, ite_eq_right hab, mul_zero, add_zero]
       · rw [mem_sp4_iff]
         intro a b
         rw [hγ, hγ]
         by_cases hab : a = b
         · subst hab
-          rw [if_pos rfl, if_pos rfl, hdrev]
+          rw [ite_eq_left rfl, ite_eq_left rfl, hdrev]
           have h2 : sgn a * sgn a = 1 := by
             fin_cases a <;> decide
           rw [h2, one_smul]
         · have hne : b.rev ≠ a.rev := fun h => hab (Fin.rev_injective h).symm
-          rw [if_neg hne, if_neg hab, smul_zero, neg_zero]
-      · rw [hγ, if_neg hab]
+          rw [ite_eq_right hne, ite_eq_right hab, smul_zero, neg_zero]
+      · rw [hγ, ite_eq_right hab]
         show (0 : E) = _ * (0 : E)
         rw [mul_zero]
-      · rw [hγ, if_pos rfl]
+      · rw [hγ, ite_eq_left rfl]
         exact hdI s hs a
       · show Continuous fun g => if a = b then d g a else 0
         by_cases hab : a = b
-        · simp only [if_pos hab]
+        · simp only [ite_eq_left hab]
           exact hdc a
-        · simp only [if_neg hab]
+        · simp only [ite_eq_right hab]
           exact continuous_const
       · have hne : a ≠ b := fun h => hab (by rw [h]; exact (wt_eq_zero b b).2 rfl)
-        rw [hγ, if_neg hne]
+        rw [hγ, ite_eq_right hne]
     refine ⟨⟨γ, (hS γ).2 hQ⟩, ?_⟩
     show (γ σ 0 0, γ σ 1 1) = (e0, e1)
-    rw [hγ, hγ, if_pos rfl, if_pos rfl]
+    rw [hγ, hγ, ite_eq_left rfl, ite_eq_left rfl]
     simp [d, huσ, huσ']
   have e := LinearEquiv.ofBijective L ⟨hinj, hsurj⟩
   rw [e.finrank_eq]
@@ -1317,7 +1317,7 @@ theorem UpperTheory.tangent_space_deformation_dual_numbers :
     rw [← hχ, ← hχ, h]
   have hs : ∃ s ∈ D.Ip q, D.ψ s ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hmap : Subgroup.map D.ψ (D.Ip q) = ⊥ := by
       rw [eq_bot_iff]
       rintro _ ⟨s, hs, rfl⟩
@@ -1416,7 +1416,7 @@ private theorem card_ten {n : ℕ} (u : Fin n → ℤ × ℤ) (hu : ∀ j, Nat.c
     by_contra h
     have h0 : u i ≠ 0 := fun e => h (e ▸ by decide)
     have h3 := hu (u i)
-    rw [dimsP, if_neg h0, if_neg h] at h3
+    rw [dimsP, ite_eq_right h0, ite_eq_right h] at h3
     haveI : Nonempty {k // u k = u i} := ⟨⟨i, rfl⟩⟩
     exact Nat.card_pos.ne' h3
   have h2 := Finset.card_eq_sum_card_fiberwise (s := Finset.univ) (t := wts) (f := u) fun i _ => h1 i

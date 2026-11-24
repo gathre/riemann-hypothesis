@@ -140,7 +140,7 @@ theorem deriv_characterTrace_realLift : _root_.GlobalTheory.FunPr.ThetaLocalInpu
     exact hu.subtype_mk _
   classical
   let χ : (InfinitePlace F → Mat R S) → ℂ := fun h => if hh : h ∈ U then ν (G ⟨h, hh⟩) else 0
-  have χG : ∀ h : U, χ h = ν (G h) := fun h => by simp only [χ, dif_pos h.2]
+  have χG : ∀ h : U, χ h = ν (G h) := fun h => by simp only [χ, dite_eq_left h.2]
   have memU : ∀ h h' : InfinitePlace F → Mat R S, h ∈ U → h' ∈ U → h * h' ∈ U := fun h h' hh hh' w =>
     mem_mul (hh w) (hh' w)
   obtain ⟨n, hn⟩ := prod_char (R := R) (S := S) χ

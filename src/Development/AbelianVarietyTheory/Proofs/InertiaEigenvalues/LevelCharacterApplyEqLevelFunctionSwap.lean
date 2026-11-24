@@ -62,10 +62,10 @@ theorem locC_conj {τ : ℂ ≃+* ℂ} {ν ν' : Twist D Circle} (h : ConjChar �
   unfold Twist.locC
   by_cases hP : PP ∈ ν.Q
   · have hP' : PP ∈ ν'.Q := by rw [h.1]; exact hP
-    rw [if_pos hP, if_pos hP']
+    rw [ite_eq_left hP, ite_eq_left hP']
     exact (h.res hν hν' hP u).symm
   · have hP' : PP ∉ ν'.Q := by rw [h.1]; exact hP
-    rw [if_neg hP, if_neg hP']
+    rw [ite_eq_right hP, ite_eq_right hP']
     simp
 
 theorem levPOf_ext1_apply_eq_units_map_inv {r : ℕ} {Pg : Finset (Pl D.host.E)} (P : LevelP Pg r ℂ) {τ : ℂ ≃+* ℂ}

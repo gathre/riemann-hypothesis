@@ -209,7 +209,7 @@ theorem redM_uMat (V W : HSp D) (hV : V.gram = 1) (βV : GL (Fin V.rank) (EAf D)
     rw [uMat_eq V W hV]
     exact sum_mem fun b' _ => mul_mem (hβ b b') (hi b' a)
   refine ⟨h, fun PP b a => ?_⟩
-  rw [redM, dif_pos (h b a)]
+  rw [redM, dite_eq_left (h b a)]
 
   simp only [← map_mul, ← map_sum]
   congr 1
@@ -230,7 +230,7 @@ theorem omega_congr {a b : ℕ} (Pg Q : Finset (Pl D.host.E)) (r : ℕ) (ξ : �
       forall₂_congr fun PP hPP => by rw [h PP (Or.inr hPP)]
     unfold omegaQ
     by_cases c : ∀ PP ∈ Q, LowZero r (y PP) ∧ IsUnit (topL r (y PP)).det
-    · rw [dif_pos c, dif_pos (e.1 c)]
+    · rw [dite_eq_left c, dite_eq_left (e.1 c)]
       refine Finset.prod_congr rfl fun PP _ => ?_
       have : (c PP.1 PP.2).2.unit = (e.1 c PP.1 PP.2).2.unit := Units.ext (by
         rw [IsUnit.unit_spec, IsUnit.unit_spec, h PP.1 (Or.inr PP.2)])
@@ -327,7 +327,7 @@ theorem exists_thAd {F : Face D A} (hR : R.Char F) (t : T0) {K' : Type} [Field K
       fun k => (h1 k).trans (h2 k).symm)
   refine ⟨fun x => if hx : ∃ y, Place R i t h c0' y x then onQ (Wc D i) (R.thF i t hx.choose v₀) else 0, fun y x hy => ?_⟩
   have hx : ∃ y, Place R i t h c0' y x := ⟨y, hy⟩
-  simp only [dif_pos hx]
+  simp only [dite_eq_left hx]
   rw [huniq _ _ _ hx.choose_spec hy]
 
 alias latEmb_iotaW := _root_.GlobalTheory.LevelAction.latEmb_iotaW

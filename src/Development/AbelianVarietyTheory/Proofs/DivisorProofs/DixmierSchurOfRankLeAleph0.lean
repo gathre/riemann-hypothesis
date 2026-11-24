@@ -115,7 +115,7 @@ theorem dixmier_schur_of_rank_le_aleph0 :
       (∀ i, T * ρ i = ρ i * T) → ∃ c : ℂ, T = c • 1 := by
   intro V ι _ _ ρ T hV hrank hirr hcomm
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hunit : ∀ c : ℂ, IsUnit (T - algebraMap ℂ (Module.End ℂ V) c) := by
     intro c
     set S := T - algebraMap ℂ (Module.End ℂ V) c with hS

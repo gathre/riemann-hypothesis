@@ -187,7 +187,7 @@ theorem slopeInequality_of (h : SlopeLeMuMax.{v}) : SlopeInequality.{u, v} := by
     have h2 : 0 < ‖((φ ⟨x, hxL⟩ : M) : F)‖ := norm_pos_iff.mpr hφx
     have h3 : 0 < ‖x‖ := norm_pos_iff.mpr hx0
     by_contra hc
-    push_neg at hc
+    push Not at hc
     nlinarith [mul_nonpos_of_nonpos_of_nonneg hc h3.le]
   have h1 : slope N ≤ muMax M := h F M N hM hNM hNne
 

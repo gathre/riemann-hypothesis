@@ -161,7 +161,7 @@ theorem gShift_gen {R : Type*} [CommRing R] {n : ℕ} (a b : Fin r) (v : Fin r �
         simp only [htW]
         rw [hb]
         ring
-      · rw [if_neg hk0, if_neg hk1, add_zero]
+      · rw [ite_eq_right hk0, ite_eq_right hk1, add_zero]
         exact h0 _
   · rw [Polynomial.coeff_add, Polynomial.coeff_C, Polynomial.coeff_zero, add_zero]
     split_ifs with hk0
@@ -431,12 +431,12 @@ theorem dl_pos (O Kf : Type) [CommRing O] [IsDomain O] [Field Kf] [Algebra O Kf]
     rw [Matrix.det_mul]; exact hg.mul (lb_D_det _ _ _ hw)
   unfold Dl0 at hF ⊢
   by_cases hlam : Antitone lam
-  · rw [if_pos hlam] at hF ⊢
+  · rw [ite_eq_left hlam] at hF ⊢
     have h1 : F ∈ deltaLTw O Kf m lam g := (iInf₂_le g ⟨hg, rfl⟩ : _ ≤ deltaLTw O Kf m lam g) hF
     have h2 := dl_P O Kf m r lam hlam w hw g F h1
     exact (le_iInf₂ fun h hh => dl_indep O Kf hinj m lam _ h hgD hh.2 :
       deltaLTw O Kf m lam (g * lb_D (m + 1) r (algebraMap O Kf w)) ≤ _) h2
-  · rw [if_neg hlam] at hF ⊢
+  · rw [ite_eq_right hlam] at hF ⊢
     rw [Submodule.mem_bot] at hF ⊢
     rw [hF, smul_zero]
 

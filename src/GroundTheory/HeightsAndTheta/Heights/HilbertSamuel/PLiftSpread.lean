@@ -496,16 +496,16 @@ theorem exists_sections_of_generatedV {n : K → ℤ} (hg : KH.GeneratedV ℚ (K
     · obtain ⟨c', j⟩ := p
       by_cases h : c' = c
       · subst h
-        simp only [if_true]
+        simp only [ite_true]
         have := locPart_mem hc (hu (chartCell c') j)
         simpa only [Pi.neg_apply, neg_neg] using this
-      · simp only [h, if_false]
+      · simp only [h, ite_false]
         exact zero_mem _
     · have e : ∀ j, (if c = c then evL y _ (u (chartCell c) j) * ∏ k, y ⟨k, c k⟩ ^ (n k) else 0) *
           (val y (z (chartCell c) j) (chartCell c) * ∏ k, y ⟨k, c k⟩ ^ (-n k)) =
           evLHom hT (u (chartCell c) j * z (chartCell c) j (chartCell c)) := by
         intro j
-        rw [if_pos rfl, map_mul, evLHom_apply, evLHom_apply, val]
+        rw [ite_eq_left rfl, map_mul, evLHom_apply, evLHom_apply, val]
         have h1 := GenOnFibres.prod_zpow_neg_mul y c hc n
         linear_combination (evL y _ (u (chartCell c) j) * evL y _ (z (chartCell c) j (chartCell c))) * h1
       rw [Fintype.sum_sigma, Finset.sum_eq_single c]

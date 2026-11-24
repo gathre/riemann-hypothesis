@@ -126,7 +126,7 @@ theorem mackey_product : MackeyProd := by
   · intro h hh
     have hex : ∃ v0, h v0 ∉ U v0 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       apply hh
       show ∀ v ∈ (Set.univ : Set ι), h v ∈ U v
       exact fun v _ => hc v

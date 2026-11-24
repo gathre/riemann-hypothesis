@@ -76,7 +76,7 @@ theorem exists_integer_coset_trace_eq (L : Type) [Field L] (v : Valuation L ℝ�
 
   obtain ⟨i, hi⟩ : ∃ i, v e < v (cosetTrace U (b i)) := by
     by_contra h
-    push_neg at h
+    push Not at h
     have : v (∑ i, a i * cosetTrace U (b i)) ≤ v e := by
       apply v.map_sum_le
       intro i _

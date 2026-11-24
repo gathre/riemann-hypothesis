@@ -121,7 +121,7 @@ theorem exists_anti {F E : Type} [Field F] [NumberField F] [Field E] [NumberFiel
   have hsq : ∀ x, σ (σ x) = x := fun x => v.embedding.injective (by rw [hs, hs]; simp)
   have hx : ∃ x, σ x ≠ x := by
     by_contra hn
-    push_neg at hn
+    push Not at hn
     apply NumberField.InfinitePlace.not_isReal_iff_isComplex.2 hv
     rw [NumberField.InfinitePlace.isReal_iff, NumberField.ComplexEmbedding.isReal_iff]
     ext x

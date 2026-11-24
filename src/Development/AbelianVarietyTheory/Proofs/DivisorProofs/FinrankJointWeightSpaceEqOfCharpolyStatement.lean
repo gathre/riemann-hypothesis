@@ -190,7 +190,7 @@ theorem ringHom_sep_of_finite_range (k : Type) [Field k] (C : Type) [CommRing C]
   have hsep : ∀ χ ∈ S, χ ≠ χ₀ → χ g = χ₀ g → ∃ a, χ a = 0 ∧ χ₀ a ≠ 0 := by
     intro χ hχ hne hgeq
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hχ' : χ ∈ insert χ₀ S := Finset.mem_insert_of_mem hχ
     have hk : ∀ b, χ₀ b = 0 → χ b = 0 := by
       intro b hb
@@ -220,10 +220,10 @@ theorem ringHom_sep_of_finite_range (k : Type) [Field k] (C : Type) [CommRing C]
     exact Finset.prod_eq_zero hχ (ha χ hχ).1
   refine ⟨g * A ^ M, fun χ hχ hne => ?_⟩
   have hχ' : χ ∈ insert χ₀ S := Finset.mem_insert_of_mem hχ
-  rw [map_mul, map_mul, hpow' χ₀ (Finset.mem_insert_self _ _), if_neg hA0, mul_one,
+  rw [map_mul, map_mul, hpow' χ₀ (Finset.mem_insert_self _ _), ite_eq_right hA0, mul_one,
     hpow' χ hχ']
   by_cases hgeq : χ g = χ₀ g
-  · rw [if_pos (hAV χ (Finset.mem_filter.2 ⟨hχ, hne, hgeq⟩)), mul_zero]
+  · rw [ite_eq_left (hAV χ (Finset.mem_filter.2 ⟨hχ, hne, hgeq⟩)), mul_zero]
     exact fun h => hg0 h.symm
   · split_ifs
     · rw [mul_zero]; exact fun h => hg0 h.symm

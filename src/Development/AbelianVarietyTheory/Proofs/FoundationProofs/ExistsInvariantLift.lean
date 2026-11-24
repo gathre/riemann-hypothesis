@@ -87,7 +87,7 @@ theorem hilbert_ninety : ∀ (Ω K Γ : Type) [Field Ω] [Field K] [Algebra Ω K
   have hli := (linearIndependent_monoidHom L K).comp _ hinj
   obtain ⟨x, hx⟩ : ∃ x : L, ∑ q : Γ ⧸ D, c q.out * ρ q.out x ≠ 0 := by
     by_contra hx
-    push_neg at hx
+    push Not at hx
     have := Fintype.linearIndependent_iff.1 hli (fun q => c q.out)
       (by funext x; simpa [Finset.sum_apply, χ] using hx x) ((1 : Γ) : Γ ⧸ D)
     exact c0 _ this

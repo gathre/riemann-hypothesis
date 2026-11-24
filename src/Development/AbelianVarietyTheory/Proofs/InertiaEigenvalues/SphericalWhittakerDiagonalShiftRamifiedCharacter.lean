@@ -193,11 +193,11 @@ theorem main_of_fixed (m : ℕ) (π : CuspSub E (m + 1)) (w : HeightOneSpectrum 
     · have hpos : ∀ i, 0 ≤ ν i := fun i => hν.trans (hanti (Fin.le_last i))
       have hsat := hα.2 φ hφ h0
       have hmain := _root_.GlobalTheory.JSW.shintani_formula E w (m + 1) _ hψ (f φ) α hN hK ?_ ϖ hϖ (fun i => (ν i).toNat)
-      · rw [GlobalTheory.RSCell.sphZ, if_pos hanti, tD_eq_diagPow ϖ ν hpos]
+      · rw [GlobalTheory.RSCell.sphZ, ite_eq_left hanti, tD_eq_diagPow ϖ ν hpos]
         exact hmain
       · intro ϖ' hϖ' j hj
         rw [← map_heckeVec (Final.GLintComm E w (m + 1)) (Tj_mem_hecke hϖ' j) f hf, hsat.2.2.2 ϖ' hϖ' j hj, map_smul]
-    · rw [GlobalTheory.RSCell.sphZ, if_neg hanti, zero_mul]
+    · rw [GlobalTheory.RSCell.sphZ, ite_eq_right hanti, zero_mul]
       set M : ℕ := ∑ i, (ν i).natAbs
       have hM : ∀ i, (ν i).natAbs ≤ M := fun i =>
         Finset.single_le_sum (f := fun i => (ν i).natAbs) (fun _ _ => Nat.zero_le _) (Finset.mem_univ i)

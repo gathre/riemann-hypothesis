@@ -102,7 +102,7 @@ theorem isZLattice_latOf : ∀ (F : Type) [Field F] [NumberField F] [IsTotallyRe
   rintro _ ⟨a, rfl⟩
   have hc : ∃ c ∈ N, c ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hN
     ext x
     rw [FractionalIdeal.mem_zero_iff]

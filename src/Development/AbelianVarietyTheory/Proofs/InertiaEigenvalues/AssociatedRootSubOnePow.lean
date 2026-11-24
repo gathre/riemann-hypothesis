@@ -337,7 +337,7 @@ theorem assoc_l {l : ℕ} [Fact l.Prime] {O : Type} [CommRing O] [IsDomain O] (�
       rw [hcoe, Polynomial.coeToPowerSeries.ringHom_apply, Polynomial.coeff_coe]
       simpa [Polynomial.coeff_one_add_X_pow]
     rw [map_sub] at hc'
-    simp only [coeff_one, one_ne_zero, if_false, sub_zero, hp] at hc'
+    simp only [coeff_one, one_ne_zero, ite_false, sub_zero, hp] at hc'
     exact hc'
   rw [h1, map_prod] at h
   rw [h]
@@ -724,7 +724,7 @@ theorem lvlPoly_distinguished {l : ℕ} [Fact l.Prime] {O : Type} [CommRing O] [
   rw [h1, Polynomial.natDegree_X_pow] at h2
   have h3 := congrArg (fun p => _root_.AddMonoidAlgebra.coeff (M := ℕ) p n) h1
   rw [← h2] at hn
-  simp only [Polynomial.coeff_map, Polynomial.coeff_X_pow, hn.ne, if_false] at h3
+  simp only [Polynomial.coeff_map, Polynomial.coeff_X_pow, hn.ne, ite_false] at h3
   exact (IsLocalRing.residue_eq_zero_iff _).1 h3
 
 end GlobalTheory.CycFr.LvlInv
@@ -967,7 +967,7 @@ theorem lvlPoly_distinguished [hl : Fact l.Prime] [IsLocalRing R] (h : ¬ IsUnit
       Polynomial.natDegree_X_pow]
   have h3 := congrArg (fun p => _root_.AddMonoidAlgebra.coeff (M := ℕ) p n) h1
   rw [h2] at hn
-  simp only [Polynomial.coeff_map, Polynomial.coeff_X_pow, hn.ne, if_false] at h3
+  simp only [Polynomial.coeff_map, Polynomial.coeff_X_pow, hn.ne, ite_false] at h3
   exact (IsLocalRing.residue_eq_zero_iff _).1 h3
 
 theorem lvlPoly_separable {K : Type} [Field K] [CharZero K] [hl : Fact l.Prime] (k : ℕ) :

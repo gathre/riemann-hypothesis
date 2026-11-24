@@ -307,7 +307,7 @@ lemma thetaSummable_ratpos (G : Matrix ι ι ℚ)
   have hpos := hZ c hc0
   rw [hcw, Matrix.mulVec_smul, dotProduct_smul, smul_dotProduct, smul_eq_mul, smul_eq_mul] at hpos
   by_contra hneg
-  push_neg at hneg
+  push Not at hneg
   nlinarith [mul_pos hdpos hdpos]
 
 lemma thetaSummable_castform (G : Matrix ι ι ℚ) (w : ι → ℚ) :

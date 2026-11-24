@@ -964,8 +964,8 @@ theorem prod_eq (hJ : V.J = (1 : D.host.E) • W.gram) {k : GlobalTheory.Indefin
       show (Eqv.matA D W _).map (Eqv.psiT D τ) = _
       rw [← Eqv.infMat_thetaC]
       by_cases e : τ = t
-      · subst e; rw [if_pos rfl, (hat τ 1).2.1, one_smul, (hZ τ).2]
-      · rw [if_neg e]; exact (hat t 1).2.2 τ e
+      · subst e; rw [ite_eq_left rfl, (hat τ 1).2.1, one_smul, (hZ τ).2]
+      · rw [ite_eq_right e]; exact (hat t 1).2.2 τ e
     rw [Eqv.infMat_thetaC]
     show φ _ = gsOf k τ
     rw [map_list_prod, List.map_map]

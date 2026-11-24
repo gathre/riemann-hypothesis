@@ -130,7 +130,7 @@ theorem lu_exists {M : Matrix (Fin n) (Fin n) ℂ} (hM : ∀ i : Fin (n + 1), lm
           exact Finset.mem_map.mpr ⟨⟨k, h⟩, Finset.mem_univ _, Fin.ext rfl⟩
         rw [dite_eq_right hk']
     rw [Matrix.mul_apply, Finset.sum_congr rfl fun k _ => e1 k, Finset.sum_add_distrib,
-      Finset.sum_ite_eq' Finset.univ r (fun k => M k c), if_pos (Finset.mem_univ _), hsub]
+      Finset.sum_ite_eq' Finset.univ r (fun k => M k c), ite_eq_left (Finset.mem_univ _), hsub]
     have h := hx r ⟨c, hcr⟩
     have hc : Fin.castLE r.isLt.le (⟨c, hcr⟩ : Fin r) = c := Fin.ext rfl
     rw [hc] at h
@@ -218,7 +218,7 @@ theorem BC_subset_image : BC ι r ⊆ lu '' sS ι r := by
   refine ⟨fun i => if i.2.2 < i.2.1 then N i.1 i.2.1 i.2.2 else U i.1 i.2.1 i.2.2, ?_, ?_⟩
   · intro τ b
     show (if b < b then N τ b b else U τ b b) ≠ 0
-    rw [if_neg (lt_irrefl b)]
+    rw [ite_eq_right (lt_irrefl b)]
     intro h0
     have hdet : (U τ).det = ∏ b, U τ b b := Matrix.det_of_upperTriangular (hU τ)
     exact hUd τ (hdet ▸ Finset.prod_eq_zero (Finset.mem_univ b) h0)

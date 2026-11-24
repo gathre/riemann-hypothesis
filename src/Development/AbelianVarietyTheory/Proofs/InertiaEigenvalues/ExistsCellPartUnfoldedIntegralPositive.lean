@@ -77,7 +77,7 @@ theorem single_last_eq {R : Type} [Zero R] [One R] (j : Fin (m + 1)) :
   by_cases h : j = Fin.last m
   · subst h; simp
   · have : (j : ℕ) ≠ m := fun e => h (Fin.ext e)
-    rw [Pi.single_apply, if_neg h, if_neg (by omega)]
+    rw [Pi.single_apply, ite_eq_right h, ite_eq_right (by omega)]
 
 
 omit [_root_.NumberField.IsTotallyComplex E] in
@@ -116,8 +116,8 @@ theorem continuous_indN {N : ℕ} (hN : 0 < N) : Continuous fun y : Fin (m + 1) 
   have e2 : (fun y : Fin (m + 1) → Af E => indN N y) = T.indicator (fun _ => (1 : ℂ)) := by
     funext y
     by_cases h : y ∈ T
-    · rw [Set.indicator_of_mem h]; unfold indN; exact if_pos h
-    · rw [Set.indicator_of_notMem h]; unfold indN; exact if_neg h
+    · rw [Set.indicator_of_mem h]; unfold indN; exact ite_eq_left h
+    · rw [Set.indicator_of_notMem h]; unfold indN; exact ite_eq_right h
   rw [e2]
   exact continuous_indicator (by simp [hTc.frontier_eq]) continuous_const.continuousOn
 
@@ -239,7 +239,7 @@ theorem exists_compact_support {S : Finset (HeightOneSpectrum (𝓞 E))} {b φ :
       (if (i : ℕ) + 1 = m + 1 then 1 else 0) ∈ natLat E N := by
     by_contra hc
     apply h0
-    have : indN N (fun i => GlobalTheory.RSJ.pFin E (GlobalTheory.ZEul.lastRow g i)) = 0 := by unfold indN; exact if_neg hc
+    have : indN N (fun i => GlobalTheory.RSJ.pFin E (GlobalTheory.ZEul.lastRow g i)) = 0 := by unfold indN; exact ite_eq_right hc
     rw [hdef, this]; ring
   have hi : (fun i => pInf E (Matrix.vecMul (Pi.single (Fin.last m) 1) (g : Matrix _ _ (Ad E)) i)) ∈
       GlobalTheory.RSTheta.rowSet E (Fin.last m) := by
@@ -318,7 +318,7 @@ theorem exists_cellPart_unfoldedIntegral_positive_alt : ∀ (E : Type) [Field E]
     funext i; rw [single_last_eq]; rfl
   have hf1 : indN N (fun i => GlobalTheory.RSJ.pFin E (GlobalTheory.ZEul.lastRow (1 : GA E (m + 1)) i)) = 1 := by
     unfold indN
-    refine if_pos fun i => ?_
+    refine ite_eq_left fun i => ?_
     have : GlobalTheory.RSJ.pFin E (GlobalTheory.ZEul.lastRow (1 : GA E (m + 1)) i) = if (i : ℕ) + 1 = m + 1 then 1 else 0 := by
       rw [← single_last_eq (R := Af E)]
       by_cases h : i = Fin.last m

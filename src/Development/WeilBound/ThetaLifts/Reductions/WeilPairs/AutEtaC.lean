@@ -252,7 +252,7 @@ theorem exists_half_character_eta_product {σ : E →ₐ[F] E} {B : Base F E} (h
         GlobalTheory.LFun.normSign_localIdele, GlobalTheory.QuadSymbol.eta_eq_neg_one_iff.2
           (GlobalTheory.LFun.not_mem_normGroup_of_inert hcm.2.2.1 hns hu (Formalism.L2.Host.unif_spec (P.under (𝓞 F))))]
       change ((if (-1 : ℤˣ) = 1 then (1 : Circle) else -1 : Circle) : ℂ) = -1
-      rw [if_neg (by decide)]
+      rw [ite_eq_right (by decide)]
       simp
   have hlamP : ∀ P : HeightOneSpectrum (𝓞 E),
       (Fx σ P → lam (Ideal.absNorm P.asIdeal) = -(Real.sqrt (Ideal.absNorm P.asIdeal) : ℂ)) ∧

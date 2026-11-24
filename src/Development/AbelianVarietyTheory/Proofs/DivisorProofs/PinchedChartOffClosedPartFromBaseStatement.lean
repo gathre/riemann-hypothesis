@@ -95,7 +95,7 @@ theorem pinched_off : ∀ (R : Type) [CommRing R] (R' : Type) [CommRing R'] [Alg
   intro R _ R' _ _ hinj c hc g B' C Y b' e i q hsm x hx
   obtain ⟨f, hfc, hfx⟩ : ∃ f ∈ c, f ∉ ((b' ≫ spMap (algebraMap R R')) x).asIdeal := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     apply hx
     have hr : Set.range (spMap (Ideal.Quotient.mk c)) =
         PrimeSpectrum.zeroLocus (RingHom.ker (Ideal.Quotient.mk c)) :=

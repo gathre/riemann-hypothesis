@@ -80,6 +80,6 @@ theorem nFun_eq_bigN (D : D7) : BlochKatoReduction.Gen.NFun D.R = GlobalTheory.G
   obtain ⟨b, hb⟩ := D.R.m_even
   have h : Odd (D.R.r + 6) := by
     rw [Nat.odd_iff]; unfold Ranks.r; omega
-  simp only [BlochKatoReduction.Gen.NFun, BlochKatoReduction.Gen.sFun, if_pos h, GlobalTheory.Grid.bigN, GlobalTheory.Grid.sLen]
+  simp only [BlochKatoReduction.Gen.NFun, BlochKatoReduction.Gen.sFun, ite_eq_left h, GlobalTheory.Grid.bigN, GlobalTheory.Grid.sLen]
 
 end GlobalTheory.LamTie

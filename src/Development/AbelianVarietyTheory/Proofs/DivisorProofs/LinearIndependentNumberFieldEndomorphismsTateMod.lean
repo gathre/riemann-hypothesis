@@ -117,7 +117,7 @@ theorem linearIndependent_actTate : ∀ (K Ω : Type) [Field K] [Field Ω] [Alge
   rw [Fintype.linearIndependent_iff]
   intro c hc
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨j, hj⟩ := hne
   obtain ⟨N, hN⟩ := _root_.GlobalTheory.padicInt_toZModPow_not_dvd_mul l (c j) hj e he
   haveI : NeZero (l ^ N) := ⟨pow_ne_zero _ (Fact.out : l.Prime).ne_zero⟩

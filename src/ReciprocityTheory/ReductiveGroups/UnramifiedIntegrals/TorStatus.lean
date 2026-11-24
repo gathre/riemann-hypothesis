@@ -178,7 +178,7 @@ theorem norm_x_sub_le_of_formalGroup (W : WeierstrassCurve C) (h1 : W.a₁ = 0) 
   have hs0 := norm_nonneg (px W A - px W B)
   have hq0 : 0 ≤ ‖xd‖ / ‖yd‖ := div_nonneg (norm_nonneg _) (norm_nonneg _)
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hsq : (‖xd‖ / ‖yd‖) ^ 2 < ‖px W A - px W B‖ ^ 2 := by
     nlinarith [mul_pos (sub_pos.2 hlt) (by linarith : 0 < ‖px W A - px W B‖ + ‖xd‖ / ‖yd‖)]
   nlinarith
@@ -321,11 +321,11 @@ theorem chord_eval_est [CompleteSpace C] {F : MvPowerSeries (Fin 2) C} (hF : For
       rcases hcases with rfl | rfl | rfl
       · rw [MvPowerSeries.coeff_zero_eq_constantCoeff_apply, hG]
         simp [h00]
-      · rw [hG, map_sub, map_sub, h10, MvPowerSeries.coeff_X, MvPowerSeries.coeff_X, if_pos rfl,
-          if_neg hne]
+      · rw [hG, map_sub, map_sub, h10, MvPowerSeries.coeff_X, MvPowerSeries.coeff_X, ite_eq_left rfl,
+          ite_eq_right hne]
         ring
-      · rw [hG, map_sub, map_sub, h01, MvPowerSeries.coeff_X, MvPowerSeries.coeff_X, if_pos rfl,
-          if_neg hne.symm]
+      · rw [hG, map_sub, map_sub, h01, MvPowerSeries.coeff_X, MvPowerSeries.coeff_X, ite_eq_left rfl,
+          ite_eq_right hne.symm]
         ring
     rw [FormalGroupPointsHom.term, hz, zero_mul, norm_zero]
     exact pow_nonneg hr0 2

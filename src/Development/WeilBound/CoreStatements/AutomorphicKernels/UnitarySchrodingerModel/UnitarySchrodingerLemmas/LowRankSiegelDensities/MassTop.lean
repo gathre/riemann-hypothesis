@@ -213,7 +213,7 @@ theorem sharp (hF : ringChar k ≠ 2) (M : ℕ) (hM : Fintype.card ι = 2 * M) (
     have hall : ∑ t : k, ψ (-(t * s)) = 0 := by
       have hp := AddChar.IsPrimitive.of_ne_one hψ1
       have := AddChar.sum_mulShift (-s) hp
-      simp only [neg_eq_zero, hs, if_false] at this
+      simp only [neg_eq_zero, hs, ite_false] at this
       simpa [mul_neg] using this
     have hsplit : ψ (-((0 : k) * s)) + ∑ t ∈ Finset.univ.erase (0 : k), ψ (-(t * s)) =
         ∑ t, ψ (-(t * s)) := Finset.add_sum_erase Finset.univ (fun t : k => ψ (-(t * s))) (Finset.mem_univ (0 : k))

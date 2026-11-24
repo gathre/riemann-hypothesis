@@ -533,7 +533,7 @@ theorem topForm_eq_zero (h : DiffVanish (d + 1) φ) {n : ℕ} (hn : n ≠ d) {x 
     (hx : x ∈ symDeg G n) : topForm h x = 0 := by
   refine (Submodule.span_le (p := LinearMap.ker (topForm h))).2 ?_ hx
   rintro _ ⟨g, rfl⟩
-  exact (topForm_prod h g).trans (if_neg (by simpa using hn))
+  exact (topForm_prod h g).trans (ite_eq_right (by simpa using hn))
 
 theorem topForm_eq_add {χ : G → ℤ} (h : DiffVanish (d + 1) χ) (h₁ : DiffVanish (d + 1) φ)
     (h₂ : DiffVanish (d + 1) ψ) (a : G) (e : ∀ x, χ x = φ (a + x) + ψ x) :

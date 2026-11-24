@@ -753,11 +753,11 @@ theorem UpperTheory.exists_place_of_splitIdempotent_cmExt :
     exact mul_left_cancel₀ hQ (h.trans (mul_one _).symm)
   obtain ⟨P, hP⟩ : ∃ P, ev F E P e ≠ 0 := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     exact hne (exists_lift_sub_mem_pow_of_mem_wtPart_zero e hie hall)
   obtain ⟨R, hR⟩ : ∃ R, ev F E R (cAF σ e) ≠ 0 := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     exact hnes (exists_lift_sub_mem_pow_of_mem_wtPart_zero _ his hall)
   have hPv := hover e P heη hP
   have hRv := hover _ R hsη hR

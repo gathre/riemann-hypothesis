@@ -62,7 +62,7 @@ theorem h_fe (a b : Fin D.R.rS) : (VS D).hT (X.fY a) (X.eX b) = if a = b then 1 
   rw [h_symm, X.ef b a]
   by_cases h : b = a
   · subst h; simp
-  · rw [if_neg h, if_neg (Ne.symm h), star_zero]
+  · rw [ite_eq_right h, ite_eq_right (Ne.symm h), star_zero]
 
 theorem inW_pW (y : (VS D).V) : InW X (pW X y) := by
   intro c
@@ -71,8 +71,8 @@ theorem inW_pW (y : (VS D).V) : InW X (pW X y) := by
   simp only [map_sub, map_sum, map_smul, smul_eq_mul, X.ee, X.ef, h_fe, X.ff, mul_ite, mul_one, mul_zero,
   Finset.sum_const_zero, sub_zero]
   constructor
-  · simp only [Finset.sum_ite_eq, Finset.mem_univ, if_true, sub_self]
-  · simp only [Finset.sum_ite_eq, Finset.mem_univ, if_true, sub_self]
+  · simp only [Finset.sum_ite_eq, Finset.mem_univ, ite_true, sub_self]
+  · simp only [Finset.sum_ite_eq, Finset.mem_univ, ite_true, sub_self]
 
 theorem decomp (y : (VS D).V) :
     y = ∑ c, (VS D).hT (X.fY c) y • X.eX c + ∑ c, (VS D).hT (X.eX c) y • X.fY c + pW X y := by

@@ -97,13 +97,13 @@ theorem edgeSum_supEdge_eq (M : GL (Fin r) κ) :
     unfold Formalism.MainNotions.ArithmeticCylinders.entN
     by_cases hi : i.val + 1 < r
     · rw [Finset.sum_eq_single ⟨i.val + 1, hi⟩]
-      · rw [if_pos (show supEdge i ⟨i.val + 1, hi⟩ from rfl), dite_eq_left ⟨i.isLt, hi⟩]
+      · rw [ite_eq_left (show supEdge i ⟨i.val + 1, hi⟩ from rfl), dite_eq_left ⟨i.isLt, hi⟩]
       · intro j _ hj
-        rw [if_neg (show ¬ supEdge i j from fun e => hj (Fin.ext e))]
+        rw [ite_eq_right (show ¬ supEdge i j from fun e => hj (Fin.ext e))]
       · intro h; exact absurd (Finset.mem_univ _) h
     · rw [dite_eq_right (by omega)]
       refine Finset.sum_eq_zero fun j _ => ?_
-      rw [if_neg (show ¬ supEdge i j from fun e => by
+      rw [ite_eq_right (show ¬ supEdge i j from fun e => by
         have := j.isLt
         unfold supEdge at e
         omega)]

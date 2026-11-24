@@ -266,7 +266,7 @@ theorem UpperTheory.V.Z.Win.Dn.rigEnd3_alt :
     rfl
   have n5 : ∀ v i, ∀ g ∈ Φ.Iv v, (ν.ψ v i g).val =
       algebraMap c.O A (Chr.Psi l e (Chr.dirG ℚ Ω ψ) (k.j v g) ^ Fr.w 3 i).val := fun v i g hg => by
-    rw [n3 v i g hg, Fr.w, if_pos rfl]
+    rw [n3 v i g hg, Fr.w, ite_eq_left rfl]
     rfl
   have hi : Af.IsIrr (ρ'.comp (galEmb K L Ω)) :=
     Db.irr_of_matIrr (show 1 ≤ 3 by decide) ⊤ _ hiL (MonoidHom.id _) (fun g _ => ⟨g, rfl⟩) _ fun _ => rfl
@@ -286,11 +286,11 @@ theorem UpperTheory.V.Z.Win.Dn.rigEnd3_alt :
     rw [theta_val, ← Matrix.mul_assoc, ← Matrix.mul_assoc, Matrix.mul_assoc _ (Jmat _ 3) (Jmat _ 3), Jmat_mul_Jmat,
       Matrix.mul_one, ← Matrix.transpose_mul, ← Units.val_mul, inv_mul_cancel, Units.val_one, Matrix.transpose_one, Matrix.one_mul]
   · show (UnitaryThreeInertia.push A.val r' (galEmb ℚ K Ω s)).adFun X = _
-    rw [GG.adFun, if_pos (hK s), hρ']
+    rw [GG.adFun, ite_eq_left (hK s), hρ']
     rfl
   · have hl1 : (UnitaryThreeInertia.push A.val r' σ).left = 1 := Units.ext hatc
     show (UnitaryThreeInertia.push A.val r' σ).adFun X = _
-    rw [GG.adFun, hc, if_neg (by decide), hatc, hl1, inv_one, Units.val_one, Matrix.one_mul, Matrix.mul_one]
+    rw [GG.adFun, hc, ite_eq_right (by decide), hatc, hl1, inv_one, Units.val_one, Matrix.one_mul, Matrix.mul_one]
     rfl
   · obtain rfl : galEmb K L Ω g = t := AlgEquiv.ext fun x => DFunLike.congr_fun ht x
     exact t1 g

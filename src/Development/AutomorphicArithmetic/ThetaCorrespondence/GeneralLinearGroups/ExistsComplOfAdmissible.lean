@@ -116,7 +116,7 @@ private theorem isIrreducible_of_occurs (hBZ : GlobalTheory.Published.BernsteinZ
   have hnz : ∀ A : Subrepresentation π, A ≠ ⊥ → ∃ v, v ∈ A.toSubmodule ∧ v ≠ 0 := by
     intro A hA
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hA
     apply Subrepresentation.ext
     show A.toSubmodule = ⊥
@@ -183,7 +183,7 @@ private theorem isIrreducible_of_occurs (hBZ : GlobalTheory.Published.BernsteinZ
     have hA1 := hone A a haA ha0
     have hnt : ∃ v, v ∉ A.toSubmodule := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply hAt
       apply Subrepresentation.ext
       show A.toSubmodule = ⊤

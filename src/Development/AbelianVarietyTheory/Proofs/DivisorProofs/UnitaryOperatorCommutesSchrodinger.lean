@@ -89,7 +89,7 @@ theorem fin_exists_ne_one (ψ : AddChar (AF F) ℂ) (hψ : ∀ w : Pl (F := F), 
   classical
   obtain ⟨v, hv⟩ : ∃ v, evalV F v a ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact ha (af_ext fun u => by rw [h u, map_zero])
   obtain ⟨t, ht⟩ := hψ v
   refine ⟨singleFin v (t / evalV F v a), ?_⟩

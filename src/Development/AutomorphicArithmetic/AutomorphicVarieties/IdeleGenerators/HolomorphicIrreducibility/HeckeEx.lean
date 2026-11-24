@@ -119,7 +119,7 @@ private lemma matV_det (p : ℕ) [NeZero p] : (matV p).det.val = p := by
 
 private lemma smul_slash_pos (k : ℤ) (g : GL (Fin 2) ℝ) (hg : 0 < g.det.val) (f : ℍ → ℂ) (c : ℂ) :
     (c • f) ∣[k] g = c • f ∣[k] g := by
-  rw [ModularForm.smul_slash, σ, if_pos hg]
+  rw [ModularForm.smul_slash, σ, ite_eq_left hg]
   rfl
 
 private lemma slash_factor {N k : ℕ} {χ : DirichletCharacter ℂ N} {f : ℍ → ℂ}
@@ -341,7 +341,7 @@ private lemma slash_U_apply (k : ℤ) (p : ℕ) [NeZero p] (j : ℤ) (f : ℍ �
     (f ∣[k] matU p j) τ = (p : ℂ)⁻¹ * f (matU p j • τ) := by
   have hp : (p : ℂ) ≠ 0 := by exact_mod_cast NeZero.ne p
   have hd : denom (matU p j) τ = p := by simp [denom, matU_val]
-  rw [ModularForm.slash_apply, σ, if_pos (by rw [matU_det]; exact_mod_cast NeZero.pos p),
+  rw [ModularForm.slash_apply, σ, ite_eq_left (by rw [matU_det]; exact_mod_cast NeZero.pos p),
     matU_det, hd, Nat.abs_cast, Complex.ofReal_natCast, mul_assoc, ← zpow_add₀ hp,
     show k - 1 + -k = -1 by ring]
   simp [mul_comm]
@@ -349,7 +349,7 @@ private lemma slash_U_apply (k : ℤ) (p : ℕ) [NeZero p] (j : ℤ) (f : ℍ �
 private lemma slash_V_apply (k : ℤ) (p : ℕ) [NeZero p] (f : ℍ → ℂ) (τ : ℍ) :
     (f ∣[k] matV p) τ = (p : ℂ) ^ (k - 1) * f (matV p • τ) := by
   have hd : denom (matV p) τ = 1 := by simp [denom, matV_val]
-  rw [ModularForm.slash_apply, σ, if_pos (by rw [matV_det]; exact_mod_cast NeZero.pos p),
+  rw [ModularForm.slash_apply, σ, ite_eq_left (by rw [matV_det]; exact_mod_cast NeZero.pos p),
     matV_det, hd, Nat.abs_cast, Complex.ofReal_natCast]
   simp [mul_comm]
 
@@ -376,7 +376,7 @@ private lemma hasSum_V (p : ℕ) [NeZero p] {f : ℍ → ℂ} {a : ℕ → ℂ}
       ring
     simp [this, pow_mul, Nat.mul_div_cancel_left _ (NeZero.pos p)]
   · intro n hn
-    rw [if_neg, zero_mul]
+    rw [ite_eq_right, zero_mul]
     rintro ⟨m, rfl⟩
     exact hn ⟨m, rfl⟩
 
@@ -414,9 +414,9 @@ private lemma hasSum_U (p : ℕ) [NeZero p] {f : ℍ → ℂ} {a : ℕ → ℂ}
       rw [qParam, qParam, ← Complex.exp_nat_mul]
       congr 1
       field_simp
-    simpa only [Function.comp_def, dvd_mul_right, if_true, pow_mul, this] using h1
+    simpa only [Function.comp_def, dvd_mul_right, ite_true, pow_mul, this] using h1
   · intro n hn
-    rw [if_neg]
+    rw [ite_eq_right]
     rintro ⟨m, rfl⟩
     exact hn ⟨m, rfl⟩
 

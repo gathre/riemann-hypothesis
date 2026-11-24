@@ -135,12 +135,12 @@ private theorem eqs_iff (s : ℤˣ) (X : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin
       obtain ⟨a, ha, hb⟩ := ex_theta _ _ (sub_eq_zero.1 h1)
       refine ⟨⟨a, s⟩, rfl, ?_⟩
       rw [← Matrix.fromBlocks_toBlocks X, h2, h3, ← ha, ← hb]
-      exact if_pos hs
+      exact ite_eq_left hs
     · obtain ⟨h1, h2, h3, -⟩ := Matrix.fromBlocks_inj.1 h
       obtain ⟨a, ha, hb⟩ := ex_theta _ _ (sub_eq_zero.1 h1)
       refine ⟨⟨a, s⟩, rfl, ?_⟩
       rw [← Matrix.fromBlocks_toBlocks X, h2, h3, ← ha, ← hb]
-      exact if_neg hs
+      exact ite_eq_right hs
   · rintro ⟨x, rfl, rfl⟩
     rw [emb_def]
     unfold eqs
@@ -341,7 +341,7 @@ private theorem totDisc_quot {G : Type} [Group G] [TopologicalSpace G] [IsTopolo
     have key := ProfiniteGrp.closedSubgroup_eq_sInf_open (⟨N, hN⟩ : ClosedSubgroup G)
     have hmem : g ∉ (⟨N, hN⟩ : ClosedSubgroup G).toSubgroup := hgN
     rw [key, Subgroup.mem_sInf] at hmem
-    push_neg at hmem
+    push Not at hmem
     obtain ⟨K, ⟨hKo, hNK⟩, hgK⟩ := hmem
     let H : Subgroup (G ⧸ N) := K.map (QuotientGroup.mk' N)
     have hHo : IsOpen (H : Set (G ⧸ N)) := by

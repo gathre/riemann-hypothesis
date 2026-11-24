@@ -73,7 +73,7 @@ def contr (N : ℤ) (hN : 0 < N) (b : Lau p) : Lau p where
     have h1 := neg_abs_le b.order
     have h2 := abs_nonneg b.order
     by_contra hc
-    push_neg at hc
+    push Not at hc
     nlinarith
 
 theorem sum_ite {M : Type} [AddCommMonoid M] (N : ℕ) (hN : 0 < N) (r : ℤ) (f : ℕ → M) :
@@ -82,9 +82,9 @@ theorem sum_ite {M : Type} [AddCommMonoid M] (N : ℕ) (hN : 0 < N) (r : ℤ) (f
   have h0 := Int.emod_nonneg r hN'.ne'
   have h1 := Int.emod_lt_of_pos r hN'
   rw [Finset.sum_eq_single (⟨(r % (N : ℤ)).toNat, by omega⟩ : Fin N)]
-  · rw [if_pos (by simp only; omega)]
+  · rw [ite_eq_left (by simp only; omega)]
   · intro i _ hi
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h
     exact hi (Fin.ext (by simp only; omega))
   · intro h; exact absurd (Finset.mem_univ _) h

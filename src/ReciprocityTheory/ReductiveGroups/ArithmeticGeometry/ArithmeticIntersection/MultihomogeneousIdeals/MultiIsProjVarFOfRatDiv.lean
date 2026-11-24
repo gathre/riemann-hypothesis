@@ -89,13 +89,13 @@ theorem isRatSection_sec {V : Ideal (MRingOver F ι)} (hV : IsMultiProjPrime V) 
   classical
   have hr := hV.2.2
   refine ⟨fun k => (a k).toNat, fun k => (-a k).toNat, ?_, ?_, ?_, ?_, ?_⟩
-  · simp only [secNum, dif_pos hr]
+  · simp only [secNum, dite_eq_left hr]
     exact isMultiHomog_coordProd _ _
-  · simp only [secDen, dif_pos hr]
+  · simp only [secDen, dite_eq_left hr]
     exact isMultiHomog_coordProd _ _
-  · simp only [secNum, dif_pos hr]
+  · simp only [secNum, dite_eq_left hr]
     exact coordProd_not_mem hV.1 _ (fun k => (hr k).choose_spec) _
-  · simp only [secDen, dif_pos hr]
+  · simp only [secDen, dite_eq_left hr]
     exact coordProd_not_mem hV.1 _ (fun k => (hr k).choose_spec) _
   · intro k
     simp

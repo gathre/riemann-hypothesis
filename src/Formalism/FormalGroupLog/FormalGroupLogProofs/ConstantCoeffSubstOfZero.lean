@@ -96,7 +96,7 @@ theorem constantCoeff_subst_of_zero {σ τ : Type*} [Finite σ] [Finite τ]
   · intro d hd
     obtain ⟨i, hi⟩ : ∃ i, d i ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hd (Finsupp.ext h)
     have h0 : constantCoeff (d.prod fun s e => b s ^ e) = 0 := by
       rw [Finsupp.prod, map_prod]
@@ -319,7 +319,7 @@ theorem derivative_logF : PowerSeries.derivative (R := R) (logF F) = lam F := by
   ext n
   rw [PowerSeries.coeff_derivative]
   unfold logF
-  rw [PowerSeries.coeff_mk, if_neg (Nat.succ_ne_zero n), Nat.add_sub_cancel, mul_comm, ← mul_assoc]
+  rw [PowerSeries.coeff_mk, ite_eq_right (Nat.succ_ne_zero n), Nat.add_sub_cancel, mul_comm, ← mul_assoc]
   have h : ((n : R) + 1) * algebraMap ℚ R (1 / ((n + 1 : ℕ) : ℚ)) = 1 := by
     rw [show ((n : R) + 1) = algebraMap ℚ R ((n + 1 : ℕ) : ℚ) by simp, ← map_mul,
       mul_one_div_cancel (by positivity), map_one]
@@ -331,9 +331,9 @@ theorem logF_isLog : IsLog F (logF F) := by
   have hX1s : PowerSeries.HasSubst (MvPowerSeries.X 1 : MvPowerSeries (Fin 2) R) :=
     PowerSeries.HasSubst.of_constantCoeff_zero hX1
   have hc0 : PowerSeries.constantCoeff (logF F) = 0 := by
-    rw [← PowerSeries.coeff_zero_eq_constantCoeff_apply, logF, PowerSeries.coeff_mk, if_pos rfl]
+    rw [← PowerSeries.coeff_zero_eq_constantCoeff_apply, logF, PowerSeries.coeff_mk, ite_eq_left rfl]
   refine ⟨hc0, ?_, ?_⟩
-  · rw [logF, PowerSeries.coeff_mk, if_neg one_ne_zero, Nat.sub_self,
+  · rw [logF, PowerSeries.coeff_mk, ite_eq_right one_ne_zero, Nat.sub_self,
       PowerSeries.coeff_zero_eq_constantCoeff_apply, lam, PowerSeries.constantCoeff_invOfUnit]
     simp
   · have hω := omega_mul_lam F

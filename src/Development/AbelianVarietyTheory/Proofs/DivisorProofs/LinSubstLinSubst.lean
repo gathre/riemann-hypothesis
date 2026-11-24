@@ -175,7 +175,7 @@ theorem _root_.GlobalTheory.HeightUnique.gaussAbs_C {K σ : Type} [Field K] [Num
   by_cases hc : c = 0
   · subst hc
     simp
-  · rw [C_apply, support_monomial, if_neg hc]
+  · rw [C_apply, support_monomial, ite_eq_right hc]
     simp [Real.coe_toNNReal _ (apply_nonneg w c)]
 
 open CategoryTheory AlgebraicGeometry NumberField MvPolynomial in

@@ -127,7 +127,7 @@ lemma norm_sq_le_pow_gs (b : Fin d → E) (hr : IsRed b) (i : Fin d) :
       have hq : mu b i j ^ 2 ≤ 1 / 4 := by
         nlinarith [abs_nonneg (mu b i j), sq_abs (mu b i j)]
       have := mul_le_mul_of_nonneg_right hq (sq_nonneg ‖gs b j‖)
-      simp only [h, h.ne, if_true, if_false, add_zero]
+      simp only [h, h.ne, ite_true, ite_false, add_zero]
       linarith
     · subst h; simp [mu_self b hb]
     · simp [mu_of_lt b h, h.ne', not_lt.mpr h.le]

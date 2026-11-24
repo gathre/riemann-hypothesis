@@ -116,7 +116,7 @@ theorem charIdem_self {τ : Representation ℂ G W} (hτ : τ.IsIrreducible) : c
     LinearMap.ext fun w => (congrArg (fun f : τ.IntertwiningMap τ => f w) hc).symm
   haveI : Invertible (Nat.card G : ℂ) := invertibleOfNonzero (Nat.cast_ne_zero.2 Nat.card_pos.ne')
   have ho := Representation.char_orthonormal τ τ
-  rw [if_pos ⟨.refl _⟩, Nat.card_eq_fintype_card] at ho
+  rw [ite_eq_left ⟨.refl _⟩, Nat.card_eq_fintype_card] at ho
   have hd : (Module.finrank ℂ W : ℂ) ≠ 0 := Nat.cast_ne_zero.2 Module.finrank_pos.ne'
   have h2 : LinearMap.trace ℂ W (charIdem τ τ) = Module.finrank ℂ W := by
 

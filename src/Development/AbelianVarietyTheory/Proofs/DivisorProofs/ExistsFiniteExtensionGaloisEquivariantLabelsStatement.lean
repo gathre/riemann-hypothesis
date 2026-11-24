@@ -1449,7 +1449,7 @@ theorem GlobalTheory.Mum.values_galois_scalar : ∀ (R : Type) [CommRing R] [IsD
     have hne : em (v p₀') ≠ 0 := (map_ne_zero em).2 hv₀
     rw [Units.val_mk0, map_mul, map_div₀, key p p' h, key p₀ p₀' h₀]
     field_simp
-  · push_neg at hex
+  · push Not at hex
     refine ⟨1, fun p p' h => ?_⟩
     have k := key p p' h
     rw [hex p p' h, map_zero, mul_zero] at k

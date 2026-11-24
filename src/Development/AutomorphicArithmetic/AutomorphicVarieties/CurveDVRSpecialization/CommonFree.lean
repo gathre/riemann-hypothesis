@@ -54,7 +54,7 @@ theorem UpperTheory.V.Pr.commonFree :
   have hK : ∀ i h, h ∈ K i ↔ χ i h ^ N = 1 := fun i h => by
     simp [K, MonoidHom.mem_ker]
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have _ : Fintype ι := Fintype.ofFinite ι
   have hcov : ⋃ i ∈ (Finset.univ : Finset ι), (fun _ => (1 : H)) i • ((K i : Set H)) = Set.univ := by
     apply Set.eq_univ_of_forall

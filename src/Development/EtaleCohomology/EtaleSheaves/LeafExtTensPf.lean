@@ -62,7 +62,7 @@ theorem res_injective (R : Type) [CommRing R] (F : Shv R) (n : ℤ) : Injective 
   by_cases h : ∃ k : ℕ, ComplexShape.embeddingUpNat.f k = n
   · obtain ⟨k, hk⟩ := h
     exact Injective.of_iso (HomologicalComplex.extendXIso _ _ hk).symm inferInstance
-  · push_neg at h
+  · push Not at h
     exact (HomologicalComplex.isZero_extend_X _ _ n h).injective
 
 section

@@ -406,7 +406,7 @@ theorem T_D_dg_k {Φ : d.Fn} (hΦ : Φ ∈ d.sch) {Z : Mx F E d.m d.n} (hZ : At 
     rw [map_add (f := _), Box.D_add_left, _root_.PositivityTheory.SiegelWeilFormula.KK.td_T_add_k] at E
     simp only [_root_.PositivityTheory.SiegelWeilFormula.KK.mZ_k]
     linear_combination E
-  push_neg at hB hC
+  push Not at hB hC
   have hz := _root_.PositivityTheory.SiegelWeilFormula.KK.all_zero_k (d := d) hB hC
   have hu := _root_.PositivityTheory.SiegelWeilFormula.KK.td_at_mul_k hZ (_root_.PositivityTheory.SiegelWeilFormula.KK.dg_k d)ᵀ
   have hu0 : Z * (_root_.PositivityTheory.SiegelWeilFormula.KK.dg_k d)ᵀ = 0 := _root_.PositivityTheory.SiegelWeilFormula.KK.eq_zero_of_nf_k hu ha (hz _)
@@ -450,7 +450,7 @@ theorem hasDerivAt_translate_secondColumns {Φ : d.Fn} (hΦ : Φ ∈ d.sch) {Z :
     simp only [_root_.PositivityTheory.SiegelWeilFormula.KK.mZ_k]
     push_cast
     ring
-  push_neg at hB
+  push Not at hB
   have hsp : ∀ v, At (evI F) v → _root_.PositivityTheory.SiegelWeilFormula.KK.sp_k d (Z * (_root_.PositivityTheory.SiegelWeilFormula.KK.secondFrameColumns d)ᵀ) v = 0 := by
     intro v hv
     obtain ⟨Z₁, Z₂, h1, h2, rfl⟩ := _root_.PositivityTheory.SiegelWeilFormula.KK.split_arch_k hv

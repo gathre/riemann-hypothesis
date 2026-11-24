@@ -92,9 +92,9 @@ theorem Staircase.ker_alt_succ (R : Type) [CommRing R] (q : ℕ) :
     LinearMap.ker (Staircase.alt R (q + 1)) = LinearMap.range (Staircase.alt R q) := by
   unfold Staircase.alt
   rcases Nat.mod_two_eq_zero_or_one q with hq | hq
-  · rw [if_pos (by omega), if_neg (by omega)]
+  · rw [ite_eq_left (by omega), ite_eq_right (by omega)]
     simp
-  · rw [if_neg (by omega), if_pos (by omega)]
+  · rw [ite_eq_right (by omega), ite_eq_left (by omega)]
     simp
 
 theorem Staircase.hyps :

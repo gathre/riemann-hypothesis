@@ -1092,7 +1092,7 @@ theorem UpperTheory.V.Ws.exists_iwasawaRank_bound_of_ferreroWashington :
     erw [cyclotomicCharacter.toZModPow] at h
     exact h
   have hμ : ∃ ζ : K, IsPrimitiveRoot ζ (if l = 2 then 4 else l) := by
-    rw [if_neg hl2]
+    rw [ite_eq_right hl2]
     have := (muIff Ω K (l ^ 1)).2 (by
       rw [hgal]
       intro σ hσ
@@ -1577,7 +1577,7 @@ theorem UpperTheory.V.Ws.card_localCocycles_le_of_place_above_prime :
     exact (hρ m).continuous
   obtain ⟨f1, h1⟩ := local_h1_finite_mod_l hF hT hE F Ω l M A v ρ' hA hc
   obtain ⟨fz, hz⟩ := cocycle_card_euler_formula _ _ M ρ' hc f1
-  rw [if_pos hv] at h1
+  rw [ite_eq_left hv] at h1
   have h0 : 0 < Nat.card (H0 ρ') := by
     haveI : Finite (H0 ρ') := Subtype.finite
     haveI : Nonempty (H0 ρ') := ⟨0⟩
@@ -1718,7 +1718,7 @@ theorem UpperTheory.V.Ws.rank_localCocycleSpaces_le :
   have hsum : ∑ v : T.ι, (2 + locDeg (pl v)) ≤ T.d + 2 * g := by
     have h1 := sum_local_degree_above_l_le_finrank T.F l (Finset.univ.map ⟨pl, hinj⟩)
     rw [Finset.sum_map] at h1
-    simp only [Function.Embedding.coeFn_mk, (hpl _).2, if_true] at h1
+    simp only [Function.Embedding.coeFn_mk, (hpl _).2, ite_true] at h1
     rw [Finset.sum_add_distrib, Finset.sum_const, Finset.card_univ, ← Nat.card_eq_fintype_card, smul_eq_mul]
     have : T.d = Module.finrank ℚ T.F := rfl
     omega

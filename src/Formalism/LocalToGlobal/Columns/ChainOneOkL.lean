@@ -219,7 +219,7 @@ theorem ookPhiGS_congr (hq : ((q : ℕ) : 𝓞 E) ∈ P.asIdeal) (hq0 : (q : E) 
       · rw [k3 p p' (by omega) (by omega)]; exact (h3 p' hp').2 p hp hne hc
       · rw [k3 p p' (by omega) hp']; exact h4 p p' h0 hp' hp hpp
   by_cases hC : symPhiCond P q k₀ rS r t j c n M
-  · rw [if_pos (hc.2 hC), if_pos hC]
+  · rw [ite_eq_left (hc.2 hC), ite_eq_left hC]
     have htrip : ∀ p p', p < a → p' < a → IntAt P (M p p') ∧ IntAt P (M' p p') ∧ redP P (M' p p') = redP P (M p p') :=
       fun p p' hp hp' => ⟨hC.1 p p' (by omega) hp', (hc.2 hC).1 p p' (by omega) hp', k3 p p' (by omega) hp'⟩
     congr 1
@@ -231,7 +231,7 @@ theorem ookPhiGS_congr (hq : ((q : ℕ) : 𝓞 E) ∈ P.asIdeal) (hq0 : (q : E) 
       congr 1
       ext s s'
       exact (htrip s.1 s'.1 s.2 s'.2).2.2
-  · rw [if_neg (fun h => hC (hc.1 h)), if_neg hC]
+  · rw [ite_eq_right (fun h => hC (hc.1 h)), ite_eq_right hC]
 
 theorem ookEntB_joinX (q : ℕ) {k₀ n' c' n c : ℕ} (hc' : c' = 1) (hc : c = 0) (hk : k₀ ≤ n') (x₀ : HomE E n' n) (y' : Sp E n)
     {p s : ℕ} (hp : p < n) (hs : s < n') :
@@ -252,7 +252,7 @@ theorem ookEntB_joinX (q : ℕ) {k₀ n' c' n c : ℕ} (hc' : c' = 1) (hc : c = 
     simp only [Fin.val_castAdd, Pi.single_apply, Fin.ext_iff]
   have e2 : Loc.eN E (n' + 1) s ⟨n', by omega⟩ = 0 := by
     unfold Loc.eN
-    rw [if_neg (by simp; omega)]
+    rw [ite_eq_right (by simp; omega)]
   rw [e1, e2, zero_mul, add_zero, sub_zero, zpow_zero, mul_one]
 
 theorem ookFIdx_lt {k₀ c' n' p' : ℕ} (hc' : c' = 1) (hk : k₀ ≤ n') (hp' : p' < n' + c') (hne : p' ≠ k₀) :

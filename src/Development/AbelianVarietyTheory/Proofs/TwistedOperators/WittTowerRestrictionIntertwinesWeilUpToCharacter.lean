@@ -195,7 +195,7 @@ theorem exists_coords_all (ψ : AddChar (AF D.host.F) ℂ) (hψ : IsStdChar D ψ
     have h4 : ∀ l, Λ l = 0 := fun l => LinearMap.congr_fun h3 l
     obtain ⟨i, j, hij⟩ : ∃ i j, (y - y') i j ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hd (Matrix.ext hcon)
     obtain ⟨_, ⟨g, rfl⟩, hγ⟩ := GlobalTheory.RatAnnih.exists_symplO_eq S T (rat (y - y')) i j ((y - y') i j)⁻¹
     have h5 : symplO S T (rat (y - y')) (rat g) = algebraMap D.host.F (AF D.host.F) 2 := by
@@ -566,7 +566,7 @@ theorem core (D : D7) (V W S : HSp D) (hS : S.gram = 1) (C C' : Matrix (Fin V.ra
     · rw [h0, norm_zero]
       exact hBd0 y
     · simp only [Bd]
-      rw [if_pos ⟨k, hk, h0⟩, le_div_iff₀ (hPpos y)]
+      rw [ite_eq_left ⟨k, hk, h0⟩, le_div_iff₀ (hPpos y)]
       have hx := hCb (ratW W S y + k)
       have hprod : ∏ i, (1 + ℓ (ratW W S y) i ^ 2) ≤ A * ∏ i, (1 + ℓ (ratW W S y + k) i ^ 2) := by
         rw [← Finset.prod_mul_distrib]
@@ -589,7 +589,7 @@ theorem core (D : D7) (V W S : HSp D) (hS : S.gram = 1) (C C' : Matrix (Fin V.ra
     · have hc' : ∃ k ∈ K, T (ratW W S y + k) F G ≠ 0 := by
         by_contra hcon
         apply hy
-        simp only [Bd, if_neg hcon, Complex.ofReal_zero]
+        simp only [Bd, ite_eq_right hcon, Complex.ofReal_zero]
       obtain ⟨k, hk, hne⟩ := hc'
       exact hint y (hkey y k hk hne)
     · rw [Complex.norm_real, Real.norm_eq_abs, abs_of_nonneg (hBd0 y)]
@@ -977,7 +977,7 @@ theorem exists_pair_ne_one (ψ : AddChar (AF D.host.F) ℂ) (hψ : IsStdChar D �
   classical
   obtain ⟨i, j, hij⟩ : ∃ i j, c i j ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hc (Matrix.ext h)
   obtain ⟨x₀, hx₀⟩ := hψ.1.2.2.2
   set q : D.host.F := Algebra.trace D.host.F D.host.E 1 with hq
@@ -1561,7 +1561,7 @@ theorem per_h {V V' W : HSp D} {r : ℕ} {C : Matrix (Fin V.rank) (Fin r) D.host
   have hdiag : ∃ x, ∫ w in 𝓕', heisO ψ V' W x (ω' (1, h) (res V V' W C B μ 𝓨 f₀)) w *
       star (ω' (1, h) (res V V' W C B μ 𝓨 f₀) w) ∂μ' ≠ 0 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     obtain ⟨c', -, h'⟩ := GlobalTheory.ThetaCoefficient.exists_unit_smul_of_coefficient_eq D ψ hψ V' W μ' 𝓕' hμ' h𝓕'
       0 (ω' (1, h) (res V V' W C B μ 𝓨 f₀)) GlobalTheory.WeilVacMove.isTheta_zero hv0t (fun w => by
         rw [hne w]
@@ -1596,7 +1596,7 @@ theorem per_h {V V' W : HSp D} {r : ℕ} {C : Matrix (Fin V.rank) (Fin r) D.host
   by_cases hx : ∃ x, ∫ w in 𝓕', heisO ψ V' W x (ω' (1, h) (res V V' W C B μ 𝓨 f₀)) w *
       star (ω' (1, h) (res V V' W C B μ 𝓨 g) w) ∂μ' ≠ 0
   · exact hA g hg hx
-  · push_neg at hx
+  · push Not at hx
     obtain ⟨x₁, hx₁⟩ := hdiag
     have hRadd : ∀ a b, IsThetaFunO ψ V W a → IsThetaFunO ψ V W b →
         res V V' W C B μ 𝓨 (a + b) = res V V' W C B μ 𝓨 a + res V V' W C B μ 𝓨 b := fun a b ha hb => by

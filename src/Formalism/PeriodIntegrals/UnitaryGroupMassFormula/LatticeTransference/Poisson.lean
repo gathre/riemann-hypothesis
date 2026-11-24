@@ -163,7 +163,7 @@ private theorem summable_exp_neg_mul_norm_add_sq {E : Type} [NormedAddCommGroup 
         linarith
       simp [hz]
     · have hu : 0 < ‖(z : E) + w‖ := norm_pos_iff.2 hz
-      simp only [hz, if_false, add_zero, sub_neg_eq_add]
+      simp only [hz, ite_false, add_zero, sub_neg_eq_add]
       exact key _ hu
   · refine (hs.mul_left C).add ?_
     apply summable_of_hasFiniteSupport

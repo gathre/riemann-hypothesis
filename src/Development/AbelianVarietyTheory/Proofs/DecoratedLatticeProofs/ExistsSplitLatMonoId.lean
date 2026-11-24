@@ -97,7 +97,7 @@ theorem decomp (y : Fin S.rank → D.host.E) : y = d.e *ᵥ (d.qX *ᵥ y) + d.i�
 
 theorem exists_ne_zero {𝔟 : FI D} (h : 𝔟 ≠ 0) : ∃ b ∈ 𝔟, b ≠ 0 := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   exact h (FractionalIdeal.eq_zero_iff.2 hc)
 
 theorem exists_ne_zero_dualC (𝔟 : FI D) : ∃ c ∈ dualC 𝔟, c ≠ 0 := by

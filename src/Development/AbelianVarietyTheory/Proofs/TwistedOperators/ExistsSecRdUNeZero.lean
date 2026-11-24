@@ -121,7 +121,7 @@ theorem exists_sec_rdU_ne_zero (U : Formalism.L2.PjFree.Unf Xo c σ r) (hσ : Go
     rw [fock, Pi.zero_apply, zero_add, zero_add]
     exact mul_ne_zero (Complex.exp_ne_zero _) (hq b)
   rw [map_one, map_one, thP, polyDeriv_one] at hval
-  exact fun h0 => h3 (hval.symm.trans ((dif_pos x.2).symm.trans h0))
+  exact fun h0 => h3 (hval.symm.trans ((dite_eq_left x.2).symm.trans h0))
 
 end NonZero
 

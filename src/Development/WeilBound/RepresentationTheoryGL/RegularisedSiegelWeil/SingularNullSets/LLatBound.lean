@@ -170,7 +170,7 @@ theorem exists_exchange {E : Type} [Field E] {a d : ℕ} (γ : Matrix (Fin d) (F
     exact ((Matrix.isUnit_iff_isUnit_det _).1 this).ne_zero
   refine ⟨s, ?_⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hv
   set B := γ.submatrix s id with hB
   have hz : Bᵀ.cramer v = 0 := by
@@ -262,7 +262,7 @@ theorem one_le_mul_norm_rowMap (R : Subring E) [Nonempty ι] (ε : ι → E →+
       _ ≤ ∏ _i : ι, L := Finset.prod_le_prod₀ (fun _ _ => norm_nonneg _) fun i _ => hbound i
       _ = L ^ Fintype.card ι := by simp [Finset.card_univ]
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   exact absurd h6 (not_le.2 (pow_lt_one₀ hL0 hlt Fintype.card_ne_zero))
 
 theorem card_le_of_rows_le (R : Subring E) [Nonempty ι] (ε : ι → E →+* ℂ)
@@ -366,7 +366,7 @@ theorem tsum_schwartz_fullRank_le (E : Type) [Field E] (R : Subring E) (ι : Typ
     obtain ⟨j, hj1, hj2⟩ := exists_nat_pow_near (x := 1 + ‖y‖) (y := (2 : ℝ))
       (by linarith [norm_nonneg y]) one_lt_two
     refine le_trans ?_ (ENNReal.le_tsum j)
-    rw [if_pos]
+    rw [ite_eq_left]
     · rw [← ofReal_norm]
       refine ENNReal.ofReal_le_ofReal ?_
       show ‖φ y‖ ≤ Cφ / (2 ^ j) ^ (M + 1)

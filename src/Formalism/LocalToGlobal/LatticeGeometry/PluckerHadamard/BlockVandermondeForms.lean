@@ -72,15 +72,15 @@ theorem dS_X (τ : Ψ) (S : Finset (Fin N)) (σ : Ψ) (a : Fin N) :
   simp only [pderiv_X]
   by_cases h : σ = τ ∧ a ∈ S
   · obtain ⟨rfl, ha⟩ := h
-    rw [if_pos ⟨rfl, ha⟩, Finset.sum_eq_single a]
+    rw [ite_eq_left ⟨rfl, ha⟩, Finset.sum_eq_single a]
     · simp
     · intro b _ hb
       simp [Ne.symm hb]
     · intro h'
       exact absurd ha h'
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     refine Finset.sum_eq_zero fun i hi => ?_
-    rw [Pi.single_apply, if_neg]
+    rw [Pi.single_apply, ite_eq_right]
     intro he
     simp only [Prod.mk.injEq] at he
     exact h ⟨he.1, by rw [he.2]; exact hi⟩
@@ -155,7 +155,7 @@ theorem pairs_eq {N : ℕ} (S : Finset (Fin N)) :
     · exact fun h => lt_asymm h (hm x hx)
   have h2 : ∀ a ∈ S, ((insert m S).filter (fun b => a < b)).card = (S.filter (fun b => a < b)).card + 1 := by
     intro a ha
-    rw [Finset.filter_insert, if_pos (hm a ha),
+    rw [Finset.filter_insert, ite_eq_left (hm a ha),
       Finset.card_insert_of_notMem (fun h => hmS (Finset.mem_filter.mp h).1)]
   rw [h1, zero_add, Finset.sum_congr rfl h2, Finset.sum_add_distrib, ih, Finset.sum_const, smul_eq_mul, mul_one,
     Nat.choose_succ_succ', Nat.choose_one_right]

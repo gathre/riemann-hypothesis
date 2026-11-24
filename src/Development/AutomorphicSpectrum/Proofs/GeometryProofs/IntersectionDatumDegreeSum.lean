@@ -173,7 +173,7 @@ theorem exists_unit_of_sum {p : Cpt ξ} {m : ℕ} {f cc : Fin m → Ω} (hf : �
     (hc : ∀ l, cc l ∈ regAt ξ p) (h : ∑ l, cc l * f l = 1) : ∃ l, unitAt ξ p (f l) := by
   haveI := isLocalRing_regAt' (ξ := ξ) (p := p)
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hnu : ∀ l, ¬ IsUnit (⟨f l, hf l⟩ : regAt ξ p) :=
     fun l hu => hne l (unitAt_of_isUnit' _ hu)
   have hsum : (∑ l, (⟨cc l, hc l⟩ : regAt ξ p) * ⟨f l, hf l⟩) = 1 := by

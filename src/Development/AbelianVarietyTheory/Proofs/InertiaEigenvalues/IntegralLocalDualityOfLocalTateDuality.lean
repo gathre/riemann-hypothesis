@@ -509,7 +509,7 @@ theorem exists_pairKO_eq_inv_unif : ∀ {O : Type} [CommRing O] [IsDomain O] [Is
     ext
     simp [hff']
   have hnot' : ¬ ∀ x ∈ D.T, D.bT x f' ∈ (1 : Submodule O (FractionRing O)) := hnot
-  push_neg at hnot'
+  push Not at hnot'
   obtain ⟨v, hvT, hu⟩ := hnot'
   set u := D.bT v f' with hu_def
   have hu0 : u ≠ 0 := by
@@ -686,7 +686,7 @@ theorem exists_cocycle_cup_not_cob : Formalism.GaloisCohomology.LocalTateDuality
   intro hTate p _ K O _ _ _ _ _ _ _ VT VT' _ _ _ _ _ _ _ _ _ _ _ _ _ _ G _ _ hK hOr hOc hOt hOa hpm hp0
     hemb i D hcyc hlat hperf hcontT hTo hT2 hT2' hcs hcs' ϖ hϖ c hc hcB r hr n hrn
   by_contra H
-  push_neg at H
+  push Not at H
   apply hcB
   haveI : CompactSpace G := i.toHomeomorph.symm.compactSpace
   haveI : ContinuousMul G := ⟨by

@@ -119,8 +119,8 @@ private theorem wcomp_self_eq_of_mem_wtPart {O σ X : Type} [CommRing O] [AddCom
   ext n
   rw [coeff_wcomp]
   by_cases h1 : Finsupp.weight wt n = j
-  · rw [if_pos h1]
-  · rw [if_neg h1]
+  · rw [ite_eq_left h1]
+  · rw [ite_eq_right h1]
     exact (hf' n h1).symm
 
 private theorem wcomp_eq_zero_of_mem_wtPart_of_ne {O σ X : Type} [CommRing O] [AddCommGroup X] {wt : σ → X} {j : X}
@@ -129,9 +129,9 @@ private theorem wcomp_eq_zero_of_mem_wtPart_of_ne {O σ X : Type} [CommRing O] [
   ext n
   rw [coeff_wcomp, map_zero]
   by_cases h1 : Finsupp.weight wt n = j'
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     exact hf' n (by rw [h1]; exact hj)
-  · rw [if_neg h1]
+  · rw [ite_eq_right h1]
 
 private theorem aGraded_internal {Ω : Type} [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] {l : ℕ} [Fact l.Prime]
     {c : Coef l} {D : Raw Ω c} (M : Model D) : DirectSum.IsInternal M.gr := by
@@ -767,7 +767,7 @@ private theorem ts_agree (hι : Function.Injective ι)
       obtain ⟨c, hc, hc'⟩ := ts_step W ξ ι t g hg (J ^ N) J {n | Finsupp.weight W.wt n = 0 ∧ n ≠ 0} 0
         (fun n hn => hn.1) (fun n hn => by
           have := GlobalTheory.algHom_sub_constantCoeff_mem g hJ (monomial n 1)
-          rwa [← coeff_zero_eq_constantCoeff_apply, coeff_monomial, if_neg hn.2.symm, map_zero,
+          rwa [← coeff_zero_eq_constantCoeff_apply, coeff_monomial, ite_eq_right hn.2.symm, map_zero,
             sub_zero] at this) ih
         (b - algebraMap O _ (constantCoeff b)) (fun n hn => by
           rw [map_sub, MvPowerSeries.algebraMap_apply, coeff_C]

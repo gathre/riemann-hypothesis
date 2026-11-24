@@ -102,7 +102,7 @@ theorem psd_det_re_le_prod_diag (N : ℕ) (G : Matrix (Fin N) (Fin N) ℂ) (hG :
       simpa [Matrix.mulVec, dotProduct, Pi.single_apply] using h
     rw [hdet, Complex.zero_re]
     exact Finset.prod_nonneg fun c _ => hnn c
-  · push_neg at hz
+  · push Not at hz
     have hpos : ∀ c, 0 < (G c c).re := fun c => lt_of_le_of_ne (hnn c) (Ne.symm (hz c))
     set d : Fin N → ℝ := fun c => (Real.sqrt (G c c).re)⁻¹ with hd_def
     have hdr : ∀ c, d c * (G c c).re * d c = 1 := fun c => by
@@ -135,7 +135,7 @@ theorem psd_det_re_le_prod_diag (N : ℕ) (G : Matrix (Fin N) (Fin N) ℂ) (hG :
     have hp : 0 < (∏ c, d c) ^ 2 :=
       pow_pos (Finset.prod_pos fun c _ => inv_pos.mpr (Real.sqrt_pos.mpr (hpos c))) 2
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have := mul_lt_mul_of_pos_left hlt hp
     linarith
 

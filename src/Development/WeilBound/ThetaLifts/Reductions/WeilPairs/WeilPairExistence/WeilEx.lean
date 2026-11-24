@@ -125,7 +125,7 @@ theorem restrict_core : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Nu
   have hth := _root_.GlobalTheory.DblTargetThetaF.main F E σ B hB nS nT JS JT hS hT ξ₀ hξ hσξ
   by_cases h0 : ∃ f₀, IsThetaFunOF σ JS JT ξ₀ B.ψ f₀ ∧ f₀ ≠ 0
   swap
-  · push_neg at h0
+  · push Not at h0
     rw [h0 f₁ hf₁]
     have hz : ∀ g : WOF F E nS nT → ℂ, deltaT (0 : WOF F E nS nT → ℂ) g = 0 := fun g => by
       funext x; simp [deltaT]

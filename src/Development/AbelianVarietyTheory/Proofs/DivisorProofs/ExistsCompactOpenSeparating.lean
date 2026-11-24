@@ -172,7 +172,7 @@ theorem exists_compact_open_separating {ψ : AddChar (AF F) ℂ} (hψ : IsStd ψ
     exact Set.mem_iInter.mp h3 i
   · intro x₀ hx₀
     rw [mem_ann] at hx₀
-    push_neg at hx₀
+    push Not at hx₀
     obtain ⟨y, hy, hne⟩ := hx₀
     exact ⟨y, fun u hu => hu y hy, hne⟩
 

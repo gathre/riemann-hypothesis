@@ -132,10 +132,10 @@ theorem wMat_conjTranspose (d : ℕ) : (G.wMat d)ᴴ = G.wMat d := by
   simp only [G.wMat, Matrix.conjTranspose_apply, Matrix.of_apply]
   by_cases h : i = b.rev
   · have h' : b = i.rev := by rw [h, Fin.rev_rev]
-    rw [if_pos h, if_pos h', star_one]
+    rw [ite_eq_left h, ite_eq_left h', star_one]
   · have h' : ¬ b = i.rev := by
       intro h'; apply h; rw [h', Fin.rev_rev]
-    rw [if_neg h, if_neg h', star_zero]
+    rw [ite_eq_right h, ite_eq_right h', star_zero]
 
 theorem hpk_conjTranspose (k r : ℕ) : (Hpk k r)ᴴ = Hpk k r := by
   ext i b

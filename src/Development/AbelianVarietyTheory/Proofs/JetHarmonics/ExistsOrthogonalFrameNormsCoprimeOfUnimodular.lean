@@ -332,7 +332,7 @@ private lemma exists_orthogonal_vector_norm_coprime {q : ℕ} (hq : q.Prime) (S 
 
     rw [e, hP, map_sub, map_smul, map_sum]
     simp only [map_smul, smul_eq_mul, _root_.GlobalTheory.MomOne.OrthFrame.betaL, LinearMap.coe_mk,
-      AddHom.coe_mk, horth, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      AddHom.coe_mk, horth, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     rw [mul_assoc, mul_comm (_root_.Formalism.L2.Ker.JMB.beta S.d S.Hm y (x j)), ← mul_assoc, ← Nat.cast_mul,
       Nat.div_mul_cancel (hdvd j)]
     ring
@@ -345,7 +345,7 @@ private lemma exists_orthogonal_vector_norm_coprime {q : ℕ} (hq : q.Prime) (S 
     rw [hP (P y)]
     simp [hPorth]
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hdivall : ∀ y ∈ S.La, ∃ m : ℤ, _root_.Formalism.L2.Ker.JMB.beta S.d S.Hm (P y) (P y) = q * m := by
     intro y hy
     by_cases h0 : P y = 0
@@ -375,7 +375,7 @@ private lemma exists_orthogonal_vector_norm_coprime {q : ℕ} (hq : q.Prime) (S 
     exact ⟨v, im_hf_eq_of_beta_eq hd huv⟩
   have hex : ∃ y ∈ S.La, P y ≠ 0 := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     have hle : Submodule.span ℝ (S.La : Set (Fin g → ℂ)) ≤ LinearMap.ker (P.restrictScalars ℝ) :=
       Submodule.span_le.2 fun y hy => hall y hy
     rw [hspan, top_le_iff] at hle
@@ -464,7 +464,7 @@ theorem _root_.GlobalTheory.MomOne.exists_orthFrame : ∀ (q g : ℕ) (S : _root
       · simpa using hnw
       · simp [hwo, (Fin.castSucc_lt_last j).ne']
       · simp only [Fin.snoc_castSucc, Fin.snoc_last]
-        rw [← conj_beta_eq_beta_swap _ hH, hwo, map_zero, if_neg (Fin.castSucc_lt_last i).ne]
+        rw [← conj_beta_eq_beta_swap _ hH, hwo, map_zero, ite_eq_right (Fin.castSucc_lt_last i).ne]
       · simp [horth]
     · intro i
       refine Fin.lastCases ?_ (fun i => ?_) i

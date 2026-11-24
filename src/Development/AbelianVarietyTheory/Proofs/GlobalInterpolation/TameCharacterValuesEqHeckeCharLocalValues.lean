@@ -113,7 +113,7 @@ theorem value_of_congr2 (h : Reads σ μ ξ) (ht : ∀ P, ξ.TameAt P) {P : Heig
       rw [e2, e3] at e1
       rw [← e1, ← sub_one_mul, map_mul] at a1
       by_contra hn
-      push_neg at hn
+      push Not at hn
       exact absurd (lt_of_lt_of_le hb (le_mul_of_one_le_left' hn)) (not_lt.2 a1)
     · rw [ev_local_ne hQ] at e2
       rw [e2, mul_one] at e1

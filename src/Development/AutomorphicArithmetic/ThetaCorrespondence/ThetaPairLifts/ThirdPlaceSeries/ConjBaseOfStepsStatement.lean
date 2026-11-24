@@ -1157,7 +1157,7 @@ theorem exists_coord_of_indep {K V W : Type} [Field K] [AddCommGroup V] [Module 
     have := (LinearIndependent.pair_iff.1 h2') (-μ) 1 (by rw [h, one_smul, neg_smul, neg_add_cancel])
     exact absurd this.2 one_ne_zero
   · rw [LinearIndependent.pair_iff] at hli
-    push_neg at hli
+    push Not at hli
     obtain ⟨s, t, hst, hne⟩ := hli
     have ht : t ≠ 0 := by
       intro ht0

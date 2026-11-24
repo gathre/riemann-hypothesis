@@ -127,7 +127,7 @@ theorem exists_point (D : D7) (M : MtFam D) (HT : HeckeTied D M) (AV : AVTied D 
         ∀ y ∈ D.naut.typeV i P, NG.tN (M.loc i).J s ϖ k ((M.loc i).real y) =
           φ (algebraMap _ _ (κF v k)) • (M.loc i).real y := by
     intro v k hvk
-    simp only [κF, dif_pos hvk]
+    simp only [κF, dite_eq_left hvk]
     exact Classical.choose_spec (key v k hvk)
 
   obtain ⟨e, hene, he⟩ := GlobalTheory.PtLocalEig.eig_descends D M NL.B (D.nd.j i) (D.nd.w i) (D.nd.mu i) hj1 hj2 hμ φ hφ

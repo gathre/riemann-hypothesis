@@ -170,8 +170,8 @@ theorem GlobalTheory.Poinc.EighthPow.main : ∀ (R : Type) [CommRing R] [IsDomai
         set_option synthInstance.maxHeartbeats 100000 in
           rw [map_sum]; simp [hmc]
       have hR : ∑ w, c w (t' w) = c b (Mq (e y) a) := by
-        rw [Finset.sum_eq_single b (fun w _ hw => by simp only [t', if_neg hw, map_zero]) (by simp)]
-        simp only [t', if_pos rfl]
+        rw [Finset.sum_eq_single b (fun w _ hw => by simp only [t', ite_eq_right hw, map_zero]) (by simp)]
+        simp only [t', ite_eq_left rfl]
       rw [hL, hR]
     have hkey : Mq (e (m y)) = t' := Φ.injective (by rw [he, hmy])
     intro v

@@ -358,7 +358,7 @@ theorem mem_idAt_of_colMul {S S₀ : HSp D} {ρ : ℕ} (d : HypDec S S₀ ρ) (j
     {P : GlobalTheory.FinPl.Pl D → Prop} {a : AE D} (h : colMul d.jX j a ∈ latV S L P) : a ∈ idAt D P := by
   obtain ⟨k, hk⟩ : ∃ k, d.e k j ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact col_ne_zero d j (funext hc)
   have h1 : a * incA D (d.e k j) ∈ idAt D P := GlobalTheory.FinPlLoc.latV_idAt h k
   have h2 := (idAt D P).mul_mem_right (incA D (d.e k j)⁻¹) h1
@@ -969,7 +969,7 @@ theorem smul_eX_mem_iff (X : HidaSetting D) (i : Fin D.R.rS) (c : D.host.E) :
   constructor
   · intro hc
     have := hT_fY_mem X i hc
-    rwa [map_smul, smul_eq_mul, _root_.Formalism.L2.SG.Pf.LatDict.hT_herm, X.ef, if_pos rfl, star_one, mul_one] at this
+    rwa [map_smul, smul_eq_mul, _root_.Formalism.L2.SG.Pf.LatDict.hT_herm, X.ef, ite_eq_left rfl, star_one, mul_one] at this
   · intro hc
     rw [X.Lam_split]
     exact Submodule.mem_sup_left (Submodule.mem_sup_left (Submodule.subset_span ⟨i, c, hc, rfl⟩))
@@ -979,7 +979,7 @@ theorem smul_fY_mem_iff (X : HidaSetting D) (i : Fin D.R.rS) (c : D.host.E) :
   constructor
   · intro hc
     have := hT_eX_mem X i hc
-    rwa [map_smul, smul_eq_mul, X.ef, if_pos rfl, mul_one] at this
+    rwa [map_smul, smul_eq_mul, X.ef, ite_eq_left rfl, mul_one] at this
   · intro hc
     rw [X.Lam_split]
     exact Submodule.mem_sup_right (Submodule.subset_span ⟨i, c, hc, rfl⟩)

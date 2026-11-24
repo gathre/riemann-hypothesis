@@ -154,7 +154,7 @@ theorem exists_minimal_of_no_family_below
     intro S hSL hS0 hS
     by_cases hmin : ∀ T ∈ L, T ≤ S → T = ⊥ ∨ T = S
     · exact ⟨S, hSL, hS0, hmin⟩
-    · push_neg at hmin
+    · push Not at hmin
       obtain ⟨T, hTL, hTS, hT0, hTne⟩ := hmin
       refine ih T hTL hT0 ?_
       intro f hfL hf0 hfT hpw
@@ -283,7 +283,7 @@ theorem exists_chain (A S : Set R) (E : R) (m : ℕ) (q : ℕ → R)
     have hkm : k < m := by omega
     obtain ⟨s, hs, hsy⟩ : ∃ s ∈ S, q k * s * y ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hne k hkm.le (hprime _ (hA k hkm.le) y hyA hy0 hcon)
     have hqs : q k * s ∈ A := hmul _ (hA k hkm.le) _ (hS hs)
     have hxk : q k * s * q (k + 1) ∈ A := hmul _ hqs _ (hA (k + 1) hkm)
@@ -356,7 +356,7 @@ theorem no_orthogonal_idempotents : ∀ (R : Type) [Ring R] (A S : Set R) (E : R
   intro R _ A S E m q hmul hS hprime hstd hA hne hid horth hE
   let qq : ℕ → R := fun i => if h : i < m + 1 then q ⟨i, h⟩ else 0
   have hqq : ∀ i (h : i ≤ m), qq i = q ⟨i, Nat.lt_succ_of_le h⟩ := fun i h =>
-    dif_pos (Nat.lt_succ_of_le h)
+    dite_eq_left (Nat.lt_succ_of_le h)
   refine no_chain_nat A S E m qq hmul hS hprime hstd ?_ ?_ ?_ ?_ ?_
   · intro i h
     rw [hqq i h]

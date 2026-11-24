@@ -319,7 +319,7 @@ private theorem exists_orth (h2 : (2 : K) ≠ 0) (hΔ : Δ ≠ 0) {b c d n : K} 
     (hu : Δ * b ^ 2 - c ^ 2 + Δ * d ^ 2 = n) :
     ∃ p q r, Δ * b * p - c * q + Δ * d * r = 0 ∧ -Δ * p ^ 2 + q ^ 2 - Δ * r ^ 2 ≠ 0 := by
   by_contra H
-  push_neg at H
+  push Not at H
   have E1 := H c (Δ * b) 0 (by ring)
   have E2 := H d 0 (-b) (by ring)
   have E3 := H 0 (Δ * d) c (by ring)

@@ -312,13 +312,13 @@ lemma trQsq_upper (B : ∀ u, Matrix (Fin D) (Fin (d u)) ℂ) (ga : ι → ℝ) 
         + (if u = u' then (1 + Real.sqrt e0) ^ 2 * (d u : ℝ) else 0) := by
     intro u u'
     by_cases h : u = u'
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       rw [← h]
       have h0 : 0 ≤ (1 + η0) * (d u : ℝ) * (d u : ℝ) / Dstar :=
         div_nonneg (mul_nonneg (mul_nonneg hη' (Nat.cast_nonneg _)) (Nat.cast_nonneg _)) hD.le
       have := hdiag u
       linarith
-    · rw [if_neg h, add_zero]
+    · rw [ite_eq_right h, add_zero]
       exact hP u u' h
   have e1 : ∑ u, ∑ u', (1 + η0) * (d u : ℝ) * (d u' : ℝ) / Dstar = (1 + η0) * Rs d ^ 2 / Dstar := by
     unfold Rs
@@ -630,7 +630,7 @@ lemma cor_common (B : ∀ u, Matrix (Fin D) (Fin (d u)) ℂ) (ga : ι → ℝ) (
     · exact_mod_cast h0
   have hL : 0 ≤ 1 + η1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h1 := mul_neg_of_neg_of_pos h hD
     linarith
   have hF2 := trQsq_upper B ga hga hD hη0 he hP hK

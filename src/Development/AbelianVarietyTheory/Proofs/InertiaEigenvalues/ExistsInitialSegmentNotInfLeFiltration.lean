@@ -61,7 +61,7 @@ theorem exists_initialSegment_not_inf_le :
   have h : ∃ t, A ⊓ R t ≤ B := ⟨m, by rw [hm]; simp⟩
   refine ⟨Nat.find h, fun t => ⟨fun ht => Nat.find_min h ht, fun hn => ?_⟩⟩
   by_contra hc
-  push_neg at hc
+  push Not at hc
   exact hn (le_trans (inf_le_inf_left A (hR hc)) (Nat.find_spec h))
 
 end GlobalTheory.PMon.Ram

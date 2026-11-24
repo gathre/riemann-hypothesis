@@ -173,7 +173,7 @@ theorem UpperTheory.V.AlgebraTools.monomialOfComm :
     by_contra hij
     have h1 := congrArg (fun v => b.repr v j) (h.symm.trans ha')
     simp only [map_smul, Module.Basis.repr_self, Finsupp.smul_apply, Finsupp.single_apply, hij,
-      if_true, if_false, smul_eq_mul, mul_one, mul_zero] at h1
+      ite_true, ite_false, smul_eq_mul, mul_one, mul_zero] at h1
     apply hne g i
     rw [h, h1, zero_smul]
   let F : G →* Function.End (Fin n) :=
@@ -459,7 +459,7 @@ theorem UpperTheory.V.AlgebraTools.permChar :
       rwa [MonoidHom.mem_ker, map_pow] at hm'
   have hall : (∀ g : G, χ g ^ 3 = 1) ∨ (∀ g : G, χ g ^ 4 = 1) := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     obtain ⟨⟨g, hg⟩, ⟨g', hg'⟩⟩ := hne
     have h4 : χ g ^ 4 = 1 := (hχ g).resolve_left hg
     have h3 : χ g' ^ 3 = 1 := (hχ g').resolve_right hg'
@@ -500,7 +500,7 @@ theorem UpperTheory.V.Ws.exists_noncommuting_images_in_finiteIndex_normal_subgro
   intro K k B G _ _ _ _ _ r j φ χ hj hpoly hspan hst Z _ u huZ hsep N hN hfi
   haveI := hN
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hd0 : 0 < N.index := Nat.pos_of_ne_zero Subgroup.FiniteIndex.index_ne_zero
   let N' : Subgroup G := N.map Z.subtype
   have hcore : u ^ N.index ∈ N'.normalCore := by

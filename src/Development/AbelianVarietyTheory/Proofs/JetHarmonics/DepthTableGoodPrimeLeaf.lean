@@ -546,9 +546,9 @@ theorem zero_of_pkg (hM : RF.MONSupply) (P : RF.Par) (l : ℕ) (Pk : RF.PkgZero 
             · simp
         _ = Pk.ga o g a k := by
             by_cases hk : 1 ≤ k ∧ k ≤ min Pk.K ((Pk.R.X o).rkF g a)
-            · simp only [if_pos hk]
+            · simp only [ite_eq_left hk]
               exact hpc2 o g a ho k
-            · simp only [if_neg hk, Finset.sum_const_zero]
+            · simp only [ite_eq_right hk, Finset.sum_const_zero]
               symm
               by_contra hne
               have hs := Pk.supp o ho g a k hne
@@ -637,9 +637,9 @@ theorem zero_of_pkgC (hM : RF.MONSupply) (P : RF.Par) (l : ℕ) (Pk : RF.PkgZero
             · simp
         _ = Pk.gaC o σ k := by
             by_cases hk : 1 ≤ k ∧ k ≤ min Pk.K ((Pk.R.X o).rkF 0 σ)
-            · simp only [if_pos hk]
+            · simp only [ite_eq_left hk]
               exact hpc2 o σ k
-            · simp only [if_neg hk, Finset.sum_const_zero]
+            · simp only [ite_eq_right hk, Finset.sum_const_zero]
               symm
               by_contra hne
               have hs := Pk.supp o σ k hne
@@ -856,7 +856,7 @@ theorem nu_le (hC : RF.CHSupply) (hM : RF.MONSupply) (P : RF.Par) (l : ℕ) (C1 
     have hs := hW.supp z hz g a k
     have hmain := hW.main z hz a
     fin_cases g
-    · simp only [Fin.zero_eta, true_and, zero_ne_one, false_and, if_false, zero_add] at hs hmain ⊢
+    · simp only [Fin.zero_eta, true_and, zero_ne_one, false_and, ite_false, zero_add] at hs hmain ⊢
       by_cases hkn : k = P.k - 1
       · subst hkn
         rw [hmain]
@@ -865,14 +865,14 @@ theorem nu_le (hC : RF.CHSupply) (hM : RF.MONSupply) (P : RF.Par) (l : ℕ) (C1 
         by_cases hz0 : ga z 0 a k = 0
         · simp [e0, hkn, this, hz0]
         · have h2 := hs hz0
-          rw [if_pos (by omega)]
+          rw [ite_eq_left (by omega)]
           simp [e0, hkn, this]
-    · simp only [Fin.mk_one, true_and, one_ne_zero, false_and, if_false, zero_add,
+    · simp only [Fin.mk_one, true_and, one_ne_zero, false_and, ite_false, zero_add,
         Finset.sum_const_zero, add_zero] at hs ⊢
       by_cases hz0 : ga z 1 a k = 0
       · simp [hz0]
       · have h2 := hs hz0
-        rw [if_pos (by omega)]
+        rw [ite_eq_left (by omega)]
 
 theorem splitBd_of_supplies (hC : RF.CHSupply) (hM : RF.MONSupply) : SplitBd := by
   intro C1 hC1
@@ -1067,14 +1067,14 @@ theorem UpperTheory.pkgZeroCs_nu_nonpos_of_monSupply :
         ≤ ∑ k ∈ Finset.Icc 1 Pk.K, (fun k => if a = σ then pc o σ u k else 0) k := monAl_le_first _ _ _ _
       _ ≤ l - 1 := by
         by_cases ha : a = σ
-        · simp only [ha, if_true]
+        · simp only [ha, ite_true]
           exact hpcB o σ u
         · simp [ha]
       _ < l := by omega
   · intro o q hq g e N hqe
     obtain ⟨σ, u, rfl⟩ := hmem o q hq
     obtain ⟨-, rfl, -⟩ := RF.GlobalTheory.mon.inj hqe
-    exact ⟨σ, fun a k ha => if_neg ha⟩
+    exact ⟨σ, fun a k ha => ite_eq_right ha⟩
   · have hrow : ∀ o, (List.map (fun q => RF.GlobalTheory.what₂ (Pk.R.X o).n q.1) (L o)).sum = 2 * P.d * Pk.s * Pk.K := by
       intro o
       simp [L, blk, RF.GlobalTheory.what₂]
@@ -1133,7 +1133,7 @@ theorem degHyp2_parOf {N : NumDatum} {j : ℕ} {W : RPl N.R → ℕ} {T θ0 rest
 
 private theorem odd_ordP_of_conjIn {N : NumDatum} {l : ℕ} (h : ConjIn N l) : Odd (N.ordP l) := by
   unfold NumDatum.ordP
-  rw [if_neg (by rw [h.1]; simp)]
+  rw [ite_eq_right (by rw [h.1]; simp)]
   exact h.2
 
 theorem nuGood : NuGoodSt := by
@@ -1409,7 +1409,7 @@ theorem normalizedLattice_exponent_eq_roundedDepth_goodPlace : ∀ (E : Type) [F
     rw [hE v j, hσ v j, hs, DepthTie.ramw_eq_below (F := c.F) v]
     unfold EAt expE DepPage.eLam nuStarAt DepPage.nuN DepPage.cP
     simp only []
-    rw [DepthTie.resChar_below (F := c.F) v, if_neg hg1, if_neg hg2, if_neg hram, if_neg hbad]
+    rw [DepthTie.resChar_below (F := c.F) v, ite_eq_right hg1, ite_eq_right hg2, ite_eq_right hram, ite_eq_right hbad]
     simp only [Nat.cast_zero, add_zero, Int.cast_zero, sub_zero, Nat.cast_mul, Int.cast_mul, Int.cast_natCast]
     rw [mul_div_mul_left _ _ (by linarith)]
     congr 1

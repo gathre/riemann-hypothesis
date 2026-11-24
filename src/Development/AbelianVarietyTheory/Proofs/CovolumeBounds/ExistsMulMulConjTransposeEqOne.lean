@@ -329,7 +329,7 @@ theorem IsOrthonormal.linearIndependent {ι : Type*} [DecidableEq ι] {s : ι �
   have := congrArg (fun v => h v (s i)) hg
 
   simp only [map_sum, map_smul, LinearMap.sum_apply, LinearMap.smul_apply, hs _ i, smul_eq_mul,
-  mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', hi, if_true, map_zero,
+  mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', hi, ite_true, map_zero,
   LinearMap.zero_apply] at this
   exact this
 
@@ -400,7 +400,7 @@ private theorem isOrthonormal_cons (hh : ∀ x y, h y x = star (h x y)) {v : V} 
   refine Fin.cases ?_ (fun i => ?_) i <;> refine Fin.cases ?_ (fun j => ?_) j
   · simp [hv]
   · simp only [Fin.cons_zero, Fin.cons_succ]
-    rw [hh, h0, star_zero, if_neg (Fin.succ_ne_zero j).symm]
+    rw [hh, h0, star_zero, ite_eq_right (Fin.succ_ne_zero j).symm]
   · simp [h0]
   · simpa [res, LinearMap.domRestrict₁₂_apply] using hs i j
 

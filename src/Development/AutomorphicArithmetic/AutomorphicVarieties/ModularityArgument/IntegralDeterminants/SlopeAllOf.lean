@@ -381,7 +381,7 @@ theorem norm_eval_esymm_le (f : σ → ℂ) {c : ℝ} (hc0 : 0 ≤ c) (hc : c �
 theorem exists_one_le_norm_psum (f : σ → ℂ) (hn : 1 ≤ Fintype.card σ) (hf : ‖∏ i, f i‖ = 1) :
     ∃ r, 1 ≤ r ∧ r ≤ Fintype.card σ ∧ 1 ≤ ‖∑ i, f i ^ r‖ := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hne : (Icc 1 (Fintype.card σ)).Nonempty := ⟨1, by simp [hn]⟩
   set c := (Icc 1 (Fintype.card σ)).sup' hne (fun r => ‖∑ i, f i ^ r‖)
   have hc1 : c < 1 := by
@@ -532,7 +532,7 @@ theorem locL_conj_tendsto_one_and_ne_zero : ∀ (q : ℕ) (A B : Multiset ℂˣ)
     have hprod : ‖(p.1 : ℂ)‖ * ‖(β : ℂ)‖ < q := by
       have h0 : 0 ≤ ‖(p.1 : ℂ)‖ * ‖(β : ℂ)‖ := by positivity
       by_contra hc
-      push_neg at hc
+      push Not at hc
       have : (q : ℝ) * q ≤ (‖(p.1 : ℂ)‖ * ‖(β : ℂ)‖) * (‖(p.1 : ℂ)‖ * ‖(β : ℂ)‖) :=
         mul_le_mul hc hc (by positivity) h0
       have h3 : (‖(p.1 : ℂ)‖ * ‖(β : ℂ)‖) * (‖(p.1 : ℂ)‖ * ‖(β : ℂ)‖) = ‖(p.1 : ℂ)‖ ^ 2 * ‖(β : ℂ)‖ ^ 2 := by ring
@@ -821,7 +821,7 @@ theorem norm_sq_lt_absNorm : ∀ (E : Type) [Field E] [NumberField E] [_root_.Nu
   have hle : ∀ γ ∈ sat σ w, ‖(γ : ℂ)‖ ^ 2 ≤ (q : ℝ) := by
     intro γ hγ
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hγ0 : (0 : ℝ) < ‖(γ : ℂ)‖ ^ 2 := by
       have : (γ : ℂ) ≠ 0 := γ.ne_zero
       positivity
@@ -848,7 +848,7 @@ theorem norm_sq_lt_absNorm : ∀ (E : Type) [Field E] [NumberField E] [_root_.Nu
     have : L1 x0 = 0 := by exact_mod_cast h
     linarith
   by_contra hnot
-  push_neg at hnot
+  push Not at hnot
   have heq : ‖(α : ℂ)‖ ^ 2 = q := le_antisymm (hle α hα) hnot
   set t : ℝ → ℝ := fun x => (q : ℝ) * (q : ℝ) ^ (-x) with ht
   have ht1 : ∀ x, 1 < x → t x < 1 := by
@@ -1268,7 +1268,7 @@ theorem vanish (T : Finset (HeightOneSpectrum (𝓞 E))) (S : Finset ((Σ a, CG 
     ∀ p ∈ S, c p = 0 := by
   classical
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨p1, hp1S, hp1⟩ := hne
   set S' := S.filter fun p => c p ≠ 0 with hS'
   have hS'ne : S'.Nonempty := ⟨p1, Finset.mem_filter.2 ⟨hp1S, hp1⟩⟩

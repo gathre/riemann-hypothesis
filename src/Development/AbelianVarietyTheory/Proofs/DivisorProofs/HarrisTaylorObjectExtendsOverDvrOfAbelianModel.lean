@@ -250,7 +250,7 @@ theorem rhoPart_splits_by_idempotents : ∀ (W L : Type) [CommRing W] [IsDomain 
         simp [Finsupp.sum, map_sum, map_mul]
     rw [act_list β v _ _ hZ]
     by_cases hki : k = i
-    · rw [if_pos hki]
+    · rw [ite_eq_left hki]
       subst hki
       refine congrArg (· • v) ?_
       apply List.prod_eq_one
@@ -259,11 +259,11 @@ theorem rhoPart_splits_by_idempotents : ∀ (W L : Type) [CommRing W] [IsDomain 
       split_ifs with hj
       · rfl
       · rw [← map_sub, hf k j (Ne.symm hj), map_one]
-    · rw [if_neg hki]
+    · rw [ite_eq_right hki]
       refine congrArg (· • v) ?_
       apply List.prod_eq_zero
       refine List.mem_map.2 ⟨k, List.mem_finRange k, ?_⟩
-      rw [if_neg hki, sub_self]
+      rw [ite_eq_right hki, sub_self]
   have hQ : ∀ (R' : Type) [CommRing R'] (β : W →+* R') (k i : Fin a) (v : Fin n → R'),
       (∀ c, ((A c).map β) *ᵥ v = β (t k c) • v) → ((Q i).map β) *ᵥ v = (if k = i then (1 : R') else 0) • v := by
     intro R' _ β k i v hv
@@ -299,8 +299,8 @@ theorem rhoPart_splits_by_idempotents : ∀ (W L : Type) [CommRing W] [IsDomain 
     show ((E i * P).map βL) *ᵥ x = w i
     rw [Matrix.map_mul, ← mulVec_mulVec, hsum, mulVec_sum]
     rw [Finset.sum_eq_single i]
-    · rw [hE L βL i i (w i) (hw i), if_pos rfl, one_smul]
-    · intro k _ hk; rw [hE L βL k i (w k) (hw k), if_neg hk, zero_smul]
+    · rw [hE L βL i i (w i) (hw i), ite_eq_left rfl, one_smul]
+    · intro k _ hk; rw [hE L βL k i (w k) (hw k), ite_eq_right hk, zero_smul]
     · intro h; exact absurd (Finset.mem_univ i) h
   choose w hwQ hwA hwP using hdec
   have hsumQ : ∑ i, Q i = P := by
@@ -317,7 +317,7 @@ theorem rhoPart_splits_by_idempotents : ∀ (W L : Type) [CommRing W] [IsDomain 
     apply ext_mulVec
     intro x
     simp only
-    rw [Matrix.map_mul, ← mulVec_mulVec, hwQ x i, hQ L βL i i _ (hwA x i), if_pos rfl, one_smul]
+    rw [Matrix.map_mul, ← mulVec_mulVec, hwQ x i, hQ L βL i i _ (hwA x i), ite_eq_left rfl, one_smul]
   · apply hinj
     apply ext_mulVec
     intro x
@@ -328,7 +328,7 @@ theorem rhoPart_splits_by_idempotents : ∀ (W L : Type) [CommRing W] [IsDomain 
     have : (∑ i, Q i).map β = ∑ i, (Q i).map β := by ext; simp [Matrix.sum_apply]
     rw [← Matrix.sum_mulVec, ← this, hsumQ, hP R' β v hv]
   · intro R' _ β i v hv
-    rw [hQ R' β i i v hv, if_pos rfl, one_smul]
+    rw [hQ R' β i i v hv, ite_eq_left rfl, one_smul]
 
 end GlobalTheory.LieExtProj
 end -- clump:auto
@@ -414,11 +414,11 @@ theorem exists_conj_diag (W : Type) [CommRing W] [IsLocalRing W] (n : ℕ)
     · have : (finSumFinEquiv.trans (finCongr hrs)).symm j = Sum.inl ⟨j, h⟩ := by
         apply (finSumFinEquiv.trans (finCongr hrs)).injective
         ext; simp
-      rw [this, if_pos h, one_smul, hbs1]
+      rw [this, ite_eq_left h, one_smul, hbs1]
     · have : (finSumFinEquiv.trans (finCongr hrs)).symm j = Sum.inr ⟨j.val - r, by omega⟩ := by
         apply (finSumFinEquiv.trans (finCongr hrs)).injective
         ext; simp; omega
-      rw [this, if_neg h, zero_smul, hbs2]
+      rw [this, ite_eq_right h, zero_smul, hbs2]
   have hdiag : LinearMap.toMatrix b b f = Matrix.diagonal (fun i : Fin n => if i.val < r then (1 : W) else 0) := by
     ext i j
     rw [LinearMap.toMatrix_apply, hb j, map_smul, b.repr_self]

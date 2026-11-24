@@ -147,7 +147,7 @@ theorem gradedSer_eq_range {r : ℕ} (u : Fin r → ℤ) (d : Fin r → M) (A : 
     refine Submodule.sum_mem _ fun k _ => ?_
     refine Submodule.mem_iSup_of_mem (u k) ⟨fun m hm => ?_, fun m => ?_⟩
     · unfold serLine
-      rw [if_neg (by omega)]
+      rw [ite_eq_right (by omega)]
     · unfold serLine
       split_ifs
       · rw [hA]

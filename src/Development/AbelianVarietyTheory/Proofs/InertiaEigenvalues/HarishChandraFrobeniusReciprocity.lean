@@ -140,7 +140,7 @@ theorem fibre_sum (χ : Gn g (a + b) → ℂ) (Φ : Gn g a → Gn g b → ℂ) (
   rw [fz_eq]
   by_cases h : InPar a (x : Mt g (a + b))
   · have hu := isUnit_blocks x h
-    rw [if_pos h]
+    rw [ite_eq_left h]
     have hc : ∀ p : Gn g a × Gn g b, (InPar a (x : Mt g (a + b)) ∧ tl a (x : Mt g (a + b)) = (p.1 : Mt g a) ∧
         br a b (x : Mt g (a + b)) = (p.2 : Mt g b)) ↔ (toG (tl a (x : Mt g (a + b))), toG (br a b (x : Mt g (a + b)))) = p := by
       intro p

@@ -827,7 +827,7 @@ theorem mem_span_translates_of_fixed {G V : Type} [AddCommGroup G] [AddCommGroup
       have := L'.sub_mem t.2 (hLL' htr)
       simpa using this
     refine ⟨⟨r, hr⟩, ?_⟩
-    simp only [φ, dif_pos hrL']
+    simp only [φ, dite_eq_left hrL']
     rw [QuotientAddGroup.eq, AddSubgroup.mem_addSubgroupOf, AddSubgroup.coe_add, AddSubgroup.coe_neg]
     convert htr using 1
     simp only
@@ -927,7 +927,7 @@ theorem mem_span_translates_of_fixed {G V : Type} [AddCommGroup G] [AddCommGroup
         exact hK
       obtain ⟨x, hx, hxy⟩ : ∃ x ∈ L', χ x ((q'.out : P) : G) ≠ 1 := by
         by_contra hc
-        push_neg at hc
+        push Not at hc
         exact hnK (hsep _ (hPY _ (q'.out).2) hc)
       have hyP := (q'.out).2
       have shift : ∀ q : L' ⧸ L.addSubgroupOf L',

@@ -97,13 +97,13 @@ theorem val_mul_val {R : Ranks} (H : Formalism.BasicNotions.Host R) (χ : HChar 
   by_cases hw : w = w'
   · subst hw
     rw [hab, Finset.insert_eq_of_mem (Finset.mem_singleton_self _), Finset.prod_singleton, etaFin, hab,
-      Finset.insert_eq_of_mem (Finset.mem_singleton_self _), if_pos (Finset.card_singleton _), _root_.GlobalTheory.Mem.Chr.ordF_unif_self, zpow_one] at hr
+      Finset.insert_eq_of_mem (Finset.mem_singleton_self _), ite_eq_left (Finset.card_singleton _), _root_.GlobalTheory.Mem.Chr.ordF_unif_self, zpow_one] at hr
     change χ.locK w (upF H.F (unif v)) = -1 at hr
     rw [hloc w hwm] at hr
     rw [hr]
     simp
   · rw [hab, Finset.prod_insert (by simpa using hw), Finset.prod_singleton, etaFin, hab,
-      if_neg (by rw [Finset.card_insert_of_notMem (by simpa using hw), Finset.card_singleton]; omega)] at hr
+      ite_eq_right (by rw [Finset.card_insert_of_notMem (by simpa using hw), Finset.card_singleton]; omega)] at hr
     change χ.locK w (upF H.F (unif v)) * χ.locK w' (upF H.F (unif v)) = 1 at hr
     rw [hloc w hwm, hloc w' hwm'] at hr
     exact hr

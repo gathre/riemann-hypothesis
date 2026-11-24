@@ -120,14 +120,14 @@ theorem UpperTheory.Gal.W2.Seed.pCEx :
     ring
   have hneg : (τ₀ w).re < 0 := by
     have hb := hbound τ₀
-    rw [if_pos rfl] at hb
+    rw [ite_eq_left rfl] at hb
     have := (abs_lt.mp hb).2
     rw [hτw, hτz]
     nlinarith
   have hpos : ∀ τ : E →+* ℂ, InfinitePlace.mk τ ≠ InfinitePlace.mk τ₀ → 0 < (τ w).re := by
     intro τ hτ
     have hb := hbound τ
-    rw [if_neg hτ] at hb
+    rw [ite_eq_right hτ] at hb
     have := (abs_lt.mp hb).1
     rw [hτw, hτz]
     nlinarith
@@ -189,7 +189,7 @@ private lemma hensel_root (p : ℕ) [Fact p.Prime] (tr nm r : ℤ) (hd : ¬ (p :
     rw [hder]
     refine le_antisymm (PadicInt.norm_le_one _) ?_
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     exact hF1 ((PadicInt.norm_int_lt_one_iff_dvd _).1 hlt)
   have hn0 : ‖Polynomial.aeval (r : ℤ_[p]) F‖ < 1 := by
     rw [hval]
@@ -794,7 +794,7 @@ private theorem laurent_adjoin_eq_of_image_eq {E : Type} [Field E] [NumberField 
     ring
   obtain ⟨b, hb⟩ : ∃ b : E, Algebra.trace ℚ E (A.δ * ((A.hd n i : 𝓞 E) : E) * (x i : E) * b) ≠ 0 := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     exact hw ((traceForm_nondegenerate ℚ E).1 _ fun b => by simpa [Algebra.traceForm_apply] using hall b)
   obtain ⟨m, hm, hy⟩ := IsAlgebraic.exists_integral_multiple (R := ℤ) ((IsFractionRing.isAlgebraic_iff ℤ ℚ E).2 (Algebra.IsAlgebraic.isAlgebraic b))
   obtain ⟨c, hc⟩ : ∃ c : 𝓞 E, (c : E) = (m : ℚ) • b := by
@@ -859,14 +859,14 @@ theorem UpperTheory.Gal.W2.Seed.pHdSign :
     split_ifs <;> simp [Complex.mul_im, hc]
   · rintro ⟨h, hi0⟩
     have hr := hre h
-    simp only [Arith.hd, Arith.dg, if_pos hi0]
+    simp only [Arith.hd, Arith.dg, ite_eq_left hi0]
     simp
     linarith
   · intro hn
     by_cases hp : InfinitePlace.mk τ = InfinitePlace.mk A.τ₀
     · have hi : (i : ℕ) ≠ 0 := fun hi0 => hn ⟨hp, hi0⟩
       have hr := hre hp
-      simp only [Arith.hd, Arith.dg, if_neg hi]
+      simp only [Arith.hd, Arith.dg, ite_eq_right hi]
       simp [Complex.mul_re, hc]
       nlinarith
     · have hr : 0 < (τ (A.c : E)).re := A.c_pos τ hp
@@ -1137,9 +1137,9 @@ theorem UpperTheory.Gal.W2.Seed.pOrbEx :
   have hrep : ∀ q, Quotient.mk R (rep q) = q := by
     intro q
     by_cases hq : q = Quotient.mk R s₁
-    · simp only [rep, if_pos hq]
+    · simp only [rep, ite_eq_left hq]
       exact hq.symm
-    · simp only [rep, if_neg hq]
+    · simp only [rep, ite_eq_right hq]
       exact Quotient.out_eq q
   let eq := Finite.equivFin (Quotient R)
   refine ⟨Nat.card (Quotient R), fun i => (rep (eq.symm i)).1, eq (Quotient.mk R s₁), ?_, ?_, ?_, ?_⟩
@@ -1598,7 +1598,7 @@ theorem UpperTheory.Gal.W2.Seed.pSigSt :
     simp only [gramAt, Arith.H, transpose_apply, map_apply, diagonal_apply]
     by_cases h : i = j
     · subst h
-      rw [if_pos rfl, if_pos rfl, Complex.ext_iff]
+      rw [ite_eq_left rfl, ite_eq_left rfl, Complex.ext_iff]
       simp [(hS E A n τ i).1]
     · simp [h, Ne.symm h]
   have aux : ∀ (r : Fin n → ℝ) (M : Matrix (Fin n) (Fin n) ℂ) (hM : M.IsHermitian),

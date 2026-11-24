@@ -663,7 +663,7 @@ theorem exists_annihilator (N : ℕ) (hN : ∀ n, N ≤ n → hankel c n = 0) :
         rw [smul_eq_C_mul]; ring, map_smul, smul_eq_mul]
   refine ⟨q, hqm.ne_zero, ?_⟩
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hs : ev c (q * X ^ Nat.find hne) ≠ 0 := Nat.find_spec hne
   have hlt : ∀ j < Nat.find hne, ev c (q * X ^ j) = 0 := fun j hj => by
     by_contra h; exact Nat.find_min hne hj h
@@ -671,7 +671,7 @@ theorem exists_annihilator (N : ℕ) (hN : ∀ n, N ≤ n → hankel c n = 0) :
   generalize Nat.find hex = d at hmin hqd hdN
   have hNs : N < s := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hs
     rw [hqe, hq0 s h, mul_zero]
   obtain ⟨r, hr0, hrd, hr⟩ := exists_kill c s (hN s hNs.le)
@@ -728,11 +728,11 @@ theorem isRat_of_ann (φ : PowerSeries F) (q : F[X]) (hq : q ≠ 0)
     have := congrArg (fun p => _root_.AddMonoidAlgebra.coeff (M := ℕ) p 0) h0
     simp only [R, Polynomial.finsetSum_coeff, coeff_C_mul_X_pow, coeff_zero] at this
     rw [Finset.sum_eq_single q.natDegree] at this
-    · simp only [Nat.sub_self, if_true] at this
+    · simp only [Nat.sub_self, ite_true] at this
       exact hq (leadingCoeff_eq_zero.1 this)
     · intro k hk hkd
       have := Finset.mem_range.1 hk
-      rw [if_neg (by omega)]
+      rw [ite_eq_right (by omega)]
     · intro hk; exact absurd (Finset.self_mem_range_succ _) hk
   · ext n
     rw [Polynomial.coeff_coe, PowerSeries.coeff_trunc]
@@ -749,7 +749,7 @@ theorem isRat_of_ann (φ : PowerSeries F) (q : F[X]) (hq : q ≠ 0)
       rw [hR, Finset.sum_mul, map_sum, ← h m, ev_X_pow_mul]
       refine Finset.sum_congr rfl fun k hk => ?_
       have hk' := Finset.mem_range.1 hk
-      rw [mul_assoc, PowerSeries.coeff_C_mul, PowerSeries.coeff_X_pow_mul', if_pos (by omega)]
+      rw [mul_assoc, PowerSeries.coeff_C_mul, PowerSeries.coeff_X_pow_mul', ite_eq_left (by omega)]
       rw [show m + q.natDegree - (q.natDegree - k) = m + k by omega]
 
 end GlobalTheory.Nef.Kron
@@ -907,7 +907,7 @@ theorem isRat_of_adelic : ∀ (k F : Type) [Field k] [IsAlgClosed k] [CharZero k
   have h6 : (n + 1 : ℤ) * (n * D - 2 * δ) ≤ 0 := by linarith [hsum]
   have h7 : (n : ℤ) * D - 2 * δ ≤ 0 := by
     by_contra h8
-    push_neg at h8
+    push Not at h8
     have : (0 : ℤ) < (n + 1 : ℤ) * (n * D - 2 * δ) := mul_pos (by positivity) h8
     linarith
   have h9 : (n : ℤ) ≤ n * D := by nlinarith [(Nat.cast_nonneg n : (0 : ℤ) ≤ n)]
@@ -961,7 +961,7 @@ theorem isRatPath_of_integral_at_places : ∀ (k K E : Type) [Field k] [IsAlgClo
   have hFF : IsFF k E := (_root_.GlobalTheory.Nef.isFF_main k K (_root_.GlobalTheory.Nef.CurveFF.isFF_of_isGenOver k K C x hx)).2 E
   obtain ⟨p₀, -⟩ : ∃ p, ord p (u p) ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     rw [finsum_eq_zero_of_forall_eq_zero hc] at hpos
     exact lt_irrefl _ hpos
   apply _root_.GlobalTheory.Nef.isRatPath_of_isRat E G.left ξ
@@ -1855,7 +1855,7 @@ theorem linesLE_zero_of_sub_lie : ∀ (k K : Type) [Field k] [IsAlgClosed k] [Ch
   intro E _ _ _ _ _ ρ hρ w hw
   simp only [zero_mul]
   by_contra hpos
-  push_neg at hpos
+  push Not at hpos
   have hpos' : 0 < degLine (pullAd ρ g) w := by exact_mod_cast hpos
   haveI : CharZero E := charZero_of_injective_algebraMap (algebraMap k E).injective
   letI : Algebra ℚ E := DivisionRing.toRatAlgebra

@@ -536,7 +536,7 @@ theorem weyl_sq_compact_open : ∀ (X : Type) [AddCommGroup X] [TopologicalSpace
   have hcut : ∫ y in (L : Set X), q y * J y ∂m = ∫ y in S, q y * J y ∂m := by
     refine setIntegral_eq_of_subset_of_forall_diff_eq_zero hLm hSL fun y hy => ?_
     have : ¬ ∀ l ∈ L, B l y = 1 := fun h => hy.2 ⟨hy.1, h⟩
-    push_neg at this
+    push Not at this
     obtain ⟨l, hl, hne⟩ := this
     simp [hJ0 y l hl hne]
   have hbound : ‖∫ y in S, q y * J y ∂m‖ ≤ (m (L : Set X)).toReal * (m S).toReal := by
@@ -886,7 +886,7 @@ theorem pair_single : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Numb
       simpa [Matrix.mulVec, dotProduct] using h1
     unfold hR Formalism.UG.hform
     rw [Finset.sum_eq_single i₀]
-    · simp only [if_true, JR, ratTuple, Matrix.map_apply]
+    · simp only [ite_true, JR, ratTuple, Matrix.map_apply]
       rw [← hv]
 
       simp only [map_mul, map_sum, Finset.mul_sum]
@@ -1649,7 +1649,7 @@ theorem finite_bound : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Num
               intro a i
               by_cases h : a = c₀ ∧ i = i₀
               · simpa [h] using hx
-              · simp only [h, if_false]
+              · simp only [h, ite_false]
                 exact (latN b n M N).zero_mem a i)
             rw [hB, hbc, GlobalTheory.T.pairing_on_rational_tuple_formula F E σ M J hJ n (psiFin F ψ) c c₀ i₀ x s₂ _] at h1
             exact h1)

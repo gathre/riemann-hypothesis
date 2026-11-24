@@ -326,7 +326,7 @@ theorem exists_unit_mul_pow (hm : maximalIdeal B = Ideal.span {ϖ}) (x : B) (hx 
   classical
   have hex : ∃ n, ¬ ϖ ^ n ∣ x := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hx (Ideal.mem_iInf.2 fun n => Ideal.mem_span_singleton.2 (h n))
   obtain ⟨N, hN, hmin⟩ : ∃ N, ¬ ϖ ^ N ∣ x ∧ ∀ m < N, ϖ ^ m ∣ x :=
     ⟨Nat.find hex, Nat.find_spec hex, fun m hm => not_not.1 (Nat.find_min hex hm)⟩
@@ -351,7 +351,7 @@ theorem isPrime_powInf (hm : maximalIdeal B = Ideal.span {ϖ}) (hϖ : ϖ ∈ non
     exact pow_not_mem_span_succ hm hϖ 0 (by simpa using Ideal.mem_iInf.1 h 1)
   · intro a b hab
     by_contra h
-    push_neg at h
+    push Not at h
     obtain ⟨m, u, rfl⟩ := exists_unit_mul_pow hm a h.1
     obtain ⟨k, v, rfl⟩ := exists_unit_mul_pow hm b h.2
     have hmem := Ideal.mem_iInf.1 hab (m + k + 1)
@@ -803,7 +803,7 @@ theorem exists_lift (n : ℕ) : ∀ (V : Type) [CommRing V] [IsDomain V] [IsDisc
       exact (RingEquiv.ofBijective _ hb).symm_apply_apply x
   · obtain ⟨α, hα⟩ : ∃ α : k'', α ∉ Set.range (algebraMap (ResidueField V') k'') := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hs h
     have hint : IsIntegral (ResidueField V') α := .of_finite (ResidueField V') α
     have hmon := minpoly.monic hint
@@ -1215,7 +1215,7 @@ theorem isTorsionFree_of_free (E : Type) [Field E] [NumberField E] (X : Type) [A
     [Module.Free ℤ X] : Module.IsTorsionFree (𝓞 E) X := by
   refine Module.IsTorsionFree.of_smul_eq_zero fun c x h => ?_
   by_contra hcx
-  push_neg at hcx
+  push Not at hcx
   obtain ⟨r, hr, α, hα⟩ := (Algebra.IsAlgebraic.isAlgebraic (R := ℤ) c).exists_nonzero_dvd
     (mem_nonZeroDivisors_of_ne_zero hcx.1)
   have : r • x = 0 := by
@@ -1661,7 +1661,7 @@ theorem exists_rsp_of_isEtaleCompletion : ∀ (A : Type) [CommRing A] [IsLocalRi
       rw [bdParam, MvPowerSeries.X_def, MvPowerSeries.coeff_mul_monomial] at h
       simpa using h
     · intro j _ hj
-      rw [bdParam, MvPowerSeries.X_def, MvPowerSeries.coeff_mul_monomial, if_neg]
+      rw [bdParam, MvPowerSeries.X_def, MvPowerSeries.coeff_mul_monomial, ite_eq_right]
       simp [Finsupp.single_le_iff, hj.symm]
     · simp
 

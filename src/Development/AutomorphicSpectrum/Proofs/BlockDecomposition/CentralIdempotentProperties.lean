@@ -111,7 +111,7 @@ theorem centralIdemAct : ReciprocityTheory.Ty.Fin.St.CentralIdemAct := by
   rw [Representation.char_orthonormal σ ρ] at htr
   rw [hT]
   by_cases h : Nonempty (Representation.Equiv ρ σ)
-  · rw [if_pos h] at htr ⊢
+  · rw [ite_eq_left h] at htr ⊢
     obtain ⟨φ⟩ := h
     have hd : Module.finrank ℂ V = Module.finrank ℂ W := φ.toLinearEquiv.finrank_eq
     rw [hd] at htr
@@ -119,7 +119,7 @@ theorem centralIdemAct : ReciprocityTheory.Ty.Fin.St.CentralIdemAct := by
       apply mul_right_cancel₀ hW0
       simpa using htr
     rw [this, one_smul]
-  · rw [if_neg h] at htr ⊢
+  · rw [ite_eq_right h] at htr ⊢
     have : μ = 0 := by
       have h0 : μ * (Module.finrank ℂ W : ℂ) = 0 := by simpa using htr
       exact (mul_eq_zero.mp h0).resolve_right hW0
@@ -256,8 +256,8 @@ theorem zIdem_act (τ σ : FDRep ℂ Γ) (hτ : Simple τ) (hσ : Simple σ) :
   have h := centralIdemAct Γ τ σ τ.ρ σ.ρ ((_root_.GlobalTheory.CompanionTheory.TyFin.simpleIffIrr.1 Γ τ).1 hτ) ((_root_.GlobalTheory.CompanionTheory.TyFin.simpleIffIrr.1 Γ σ).1 hσ)
   rw [zIdem_eq_centralIdem, h]
   by_cases hc : Nonempty (τ ≅ σ)
-  · rw [if_pos hc, if_pos ((nonempty_iso_iff_equiv τ σ).1 hc)]
-  · rw [if_neg hc, if_neg (fun h' => hc ((nonempty_iso_iff_equiv τ σ).2 h'))]
+  · rw [ite_eq_left hc, ite_eq_left ((nonempty_iso_iff_equiv τ σ).1 hc)]
+  · rw [ite_eq_right hc, ite_eq_right (fun h' => hc ((nonempty_iso_iff_equiv τ σ).2 h'))]
 
 theorem eq_of_act (x y : MonoidAlgebra ℂ Γ)
     (h : ∀ τ : FDRep ℂ Γ, Simple τ → Representation.asAlgebraHom τ.ρ x = Representation.asAlgebraHom τ.ρ y) :
@@ -281,7 +281,7 @@ theorem zIdemFacts : ReciprocityTheory.Ty.Fin.St.ZIdemFacts := by
       · simp [h2]
     · simp [h1]
   · intro Γ _ _ τ σ hτ hσ hiso
-    rw [zIdem_act τ σ hτ hσ, if_pos hiso]
+    rw [zIdem_act τ σ hτ hσ, ite_eq_left hiso]
   · intro Γ _ _ I _ V hV hinj hex
     classical
     refine eq_of_act _ _ fun W hW => ?_
@@ -292,8 +292,8 @@ theorem zIdemFacts : ReciprocityTheory.Ty.Fin.St.ZIdemFacts := by
       rw [zIdem_act (V i) W (hV i) hW]
       by_cases hi : i = i₀
       · subst hi
-        rw [if_pos ⟨e.symm⟩, if_pos rfl]
-      · rw [if_neg (fun ⟨f⟩ => hi (hinj _ _ ⟨f ≪≫ e⟩)), if_neg hi]
+        rw [ite_eq_left ⟨e.symm⟩, ite_eq_left rfl]
+      · rw [ite_eq_right (fun ⟨f⟩ => hi (hinj _ _ ⟨f ≪≫ e⟩)), ite_eq_right hi]
 
     rw [map_sum, map_one, Finset.sum_congr rfl fun i _ => hact i]
     simp

@@ -238,10 +238,10 @@ theorem cd_eq_half_exp : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [N
   have hχz : ∀ t : ℝ, (χ (z t) : ℂ) = Complex.exp (((m w₀ : ℂ) * Complex.I) * t) := by
     intro t
     rw [hχ (z t) (hzat t), Finset.prod_eq_single w₀]
-    · rw [hzpi, if_pos rfl, Complex.norm_exp_ofReal_mul_I, Complex.ofReal_one, div_one, ← Complex.exp_int_mul]
+    · rw [hzpi, ite_eq_left rfl, Complex.norm_exp_ofReal_mul_I, Complex.ofReal_one, div_one, ← Complex.exp_int_mul]
       congr 1; ring
     · intro w _ hw
-      rw [hzpi, if_neg hw]; simp
+      rw [hzpi, ite_eq_right hw]; simp
     · intro h; exact absurd (Finset.mem_univ _) h
   let tt : ℝ → GL β (AE F E) := fun t =>
     Units.map (Matrix.scalar β : AE F E →+* Matrix β β (AE F E)).toMonoidHom (z t)
@@ -299,7 +299,7 @@ theorem cd_eq_half_exp : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [N
       rfl
     · intro w _ hw
       rw [atPl_tprod]
-      simp only [if_neg hw, map_zero, Matrix.trace_zero, mul_zero, zero_smul, add_zero, LinearMap.zero_apply]
+      simp only [ite_eq_right hw, map_zero, Matrix.trace_zero, mul_zero, zero_smul, add_zero, LinearMap.zero_apply]
       exact (PiTensorProduct.tprod ℂ).map_update_zero _ _
     · intro h; exact absurd (Finset.mem_univ _) h
   rw [hT, map_smul, hlint] at huniq

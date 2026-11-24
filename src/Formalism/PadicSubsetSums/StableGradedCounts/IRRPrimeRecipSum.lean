@@ -66,7 +66,7 @@ theorem prime_of_gcd {r p : ℕ} (h1 : r < p) (h2 : p < (r + 1) * (r + 1))
   have hq := Nat.minFac_prime (by omega : p ≠ 1)
   have hqr : r < p.minFac := by
     by_contra hle
-    push_neg at hle
+    push Not at hle
     have h5 : p.minFac ∣ Nat.gcd p r.factorial := Nat.dvd_gcd (Nat.minFac_dvd p) (Nat.dvd_factorial hq.pos hle)
     rw [h3] at h5
     exact hq.one_lt.ne' (Nat.dvd_one.1 h5)

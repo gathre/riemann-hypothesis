@@ -188,7 +188,7 @@ theorem rs_smul [Fact (g ∈ UH (Hpk k r))] (hμ : IsHaarOn (RStab k r g) μR) :
     set ν := μR.comap (Subtype.val : RT k r g → Mt k r) with hνdef
     obtain ⟨n, hn⟩ : ∃ n, (haar : Measure (RT k r g)) (spanningSets ν n) ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hU : (haar : Measure (RT k r g)) (⋃ n, spanningSets ν n) = 0 := measure_iUnion_null hcon
       rw [iUnion_spanningSets] at hU
       exact isOpen_univ.measure_ne_zero haar Set.univ_nonempty hU
@@ -301,10 +301,10 @@ private theorem hpk_sq_lemma (k r : ℕ) : Hpk k r * Hpk k r = 1 := by
   rw [Finset.sum_eq_single (⟨_, hs⟩ : Fin (2 * r + k + 1))]
   · by_cases hij : i = j
     · subst hij
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       simp only [Hpk, Fin.ext_iff]
       split_ifs <;> first | (exfalso; (try simp only at *); omega) | (simp_all; done)
-    · rw [if_neg hij]
+    · rw [ite_eq_right hij]
       rw [Fin.ext_iff] at hij
       simp only [Hpk, Fin.ext_iff]
       split_ifs <;> first | (exfalso; (try simp only at *); omega) | (simp_all; done)

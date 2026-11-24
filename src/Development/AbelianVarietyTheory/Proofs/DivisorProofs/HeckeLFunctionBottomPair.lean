@@ -537,7 +537,7 @@ theorem single_mem {n : ℕ} (i : Fin n) {M : Submodule (𝓞 D.host.E) D.host.E
     (Pi.single i u : Fin n → D.host.E) j ∈ M := by
   by_cases hj : j = i
   · subst hj; simpa using hu
-  · simp only [Pi.single_apply, hj, if_false]; exact zero_mem _
+  · simp only [Pi.single_apply, hj, ite_false]; exact zero_mem _
 
 theorem sd_scaleLat (hs : IsScale D ⊤ r) (n : ℕ) : SD D (scaleLat D r n) := by
   have hr := scale_ne hs
@@ -901,7 +901,7 @@ theorem ip_heisO_eq_zero {ΛS : Lat S} {ΛT : Lat T} (hψ : IsStdChar D ψ (-1))
     show infPart D (u i j - u' i j) = 0
     rw [RingHom.map_sub, a, b, sub_self]
   rw [h1 _ h0] at hn
-  push_neg at hn
+  push Not at hn
   obtain ⟨l, hl, hne⟩ := hn
   obtain ⟨ε, hε, hεf⟩ := h3 f hv l hl
   have t1 := GlobalTheory.FinTranslate.isThetaFunO_heisO hψ.1.1 hψ.1.2.1 hf hu

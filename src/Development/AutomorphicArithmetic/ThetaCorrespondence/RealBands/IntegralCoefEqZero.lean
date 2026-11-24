@@ -1144,7 +1144,7 @@ theorem UpperTheory.Lit.Cusp.exists_split :
   choose a ha using key
   have hs : ∀ t, IsSplit ε W (fun _ => t) (a t) := fun t => by
     convert isSplit_of_tor hW h0 h1 h2 (ha t) using 2 with i
-    rw [if_pos (Fin.le_last _)]
+    rw [ite_eq_left (Fin.le_last _)]
   refine ⟨a, ?_, fun s t => ?_, hs⟩
   · refine (Formalism.REAL.isClosedEmbeddingMatrix n ε).1.isInducing.continuous_iff.2 ?_
     refine Continuous.congr (f := fun r : ℝ => GlobalTheory.IsoTorus.tor P (Jm ε * P * Jm ε) (Real.exp r) (Real.exp (-r)))

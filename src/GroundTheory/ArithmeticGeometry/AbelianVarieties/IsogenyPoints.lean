@@ -112,7 +112,7 @@ theorem degree_pos (φ : Isogeny E E') : 0 < φ.degree := by
     rw [relfinrank_top_right]; exact Module.finrank_pos
   rw [degree, ← relfinrank_top_right]
   by_contra h
-  push_neg at h
+  push Not at h
   rw [Nat.le_zero.mp h, mul_zero] at t
   omega
 

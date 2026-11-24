@@ -74,7 +74,7 @@ theorem exists_isUnit_esymm_of_eq_one :
         IsUnit ((Finset.univ.val.map y).esymm k) := by
   intro R _ _ A _ y a₀ h
   by_contra hne
-  push_neg at hne
+  push Not at hne
   set s := Finset.univ.val.map y with hs
   have hcard : Multiset.card s = Fintype.card A := by simp [s, Finset.card_univ]
   have key := congrArg (Polynomial.eval (1 : R)) (Multiset.prod_X_sub_X_eq_sum_esymm s)

@@ -56,7 +56,7 @@ theorem natW_wtOf_le (n : ℕ) (E : Finset ℚ) (lo hi : ℝ) (hM : lo ≤ hi) (
     (((wtOf n E).natW a : ℕ) : ℝ) ≤ hi - lo + 1 := by
   have hn : 0 < n := a.pos
   have key : (wtOf n E).natW a = ((wtOf n E).w a - (wtOf n E).w ⟨n - 1, by omega⟩).toNat := by
-    simp only [DomWeight.natW, DomWeight.detShift, dif_pos hn]
+    simp only [DomWeight.natW, DomWeight.detShift, dite_eq_left hn]
   have hd : (((wtOf n E).w a - (wtOf n E).w ⟨n - 1, by omega⟩ : ℤ) : ℝ) ≤ hi - lo + 1 := by
     unfold wtOf
     split_ifs with h

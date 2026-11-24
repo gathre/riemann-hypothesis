@@ -230,7 +230,7 @@ theorem ind_eq_finprod {κ : Type} [Fintype κ] {N : ℕ} {c : FiniteAdeleRing (
     have hex : ∃ v, (fun i => evFin F v (x i)) ∉
         {x' : κ → Fv F v | ∀ i, c v * (x' i - r i v) ∈ v.adicCompletionIntegers F} := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       refine hy ((AddSubgroup.mem_pi _).2 fun i _ => ?_)
       intro v
       exact hcon v i

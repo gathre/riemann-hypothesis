@@ -339,7 +339,7 @@ theorem UpperTheory.Gal.Int.Geo.Pl.nearNbhd_holds :
     UpperTheory.Gal.Int.Geo.Pl.NearNbhd := by
   intro E _ _ n w O hO h1
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   choose e' he g hgK hN hgO using hcon
   have hv : ∀ (e : ℕ) i k, Valued.v (((g e).val - 1) i k) ≤ WithZero.exp (-(e : ℤ)) := by
     intro e i k

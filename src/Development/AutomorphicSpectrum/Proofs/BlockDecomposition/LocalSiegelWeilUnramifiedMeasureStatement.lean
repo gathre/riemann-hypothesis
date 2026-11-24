@@ -1785,7 +1785,7 @@ theorem GlobalTheory.CompanionTheory.AvgFree.bad_density : ∀ (F E : Type) [Fie
       have h1 : ∃ p ∈ S, X ∈ nearNF (M := M) (n := n) (Fv F v) (O : Set (Fv F v ⊗[F] E))
           (L : Set (Fv F v ⊗[F] E)) (p.1 : Fv F v ⊗[F] E) j := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         refine hX2 ⟨hX1, ?_⟩
         simp only [Set.mem_iUnion, not_exists]
         exact fun p hpS => hcon p hpS

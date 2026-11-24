@@ -82,7 +82,7 @@ theorem first_orbit_mul_fixed {γ r : d.G}
   have e : ∀ i, inFrame d.b (γ * r) (Sum.inr i) (Sum.inl L.i₀) = inFrame d.b γ (Sum.inr i) (Sum.inl L.i₀) := by
     intro i
     rw [GlobalTheory.EisBL.DoubledParabolic.inFrame_mul, Matrix.mul_apply]
-    simp only [hx, Matrix.one_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    simp only [hx, Matrix.one_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   simp only [_root_.PositivityTheory.SiegelWeilFormula.Act.FirstOrbit, e]
 theorem first_orbit_parabolic_invariant {p g : d.G} (hp : p ∈ par2 σ d.Y) : _root_.PositivityTheory.SiegelWeilFormula.Act.FirstOrbit L (p * g) ↔ _root_.PositivityTheory.SiegelWeilFormula.Act.FirstOrbit L g := by
   have h21 : ∀ {q : d.G}, q ∈ par2 σ d.Y → ∀ i j, inFrame d.b q (Sum.inr i) (Sum.inl j) = 0 := by
@@ -330,7 +330,7 @@ theorem heis'_k (h : _root_.PositivityTheory.SiegelWeilFormula.Act.C5.Hyp_k L nb
         simp only [Matrix.add_apply, Matrix.mul_apply, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.sum_split_k L, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.hz_uA_i0i0_k, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.hz_uA_i0em_k, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.unipotent_block_entry_zero, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.hz_uA_emem_k,
           _root_.PositivityTheory.SiegelWeilFormula.Act.C5.hz_D_i0i0_k, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.hz_D_i0em_k, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.derivation_block_entry, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.hz_D_emem_k, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.hz_aB_i0i0_k, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.hz_aB_i0em_k, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.centre_block_entry_zero, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.hz_aB_emem_k, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.sB_i0i0_k,
           _root_.PositivityTheory.SiegelWeilFormula.Act.C5.sB_i0em_k, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.section_entry_embedded_row, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.sB_emem_k, Pi.add_apply, map_add, mul_one, one_mul, mul_zero, zero_mul, add_zero, zero_add,
-          mul_ite, ite_mul, Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, if_true, Finset.sum_const_zero]
+          mul_ite, ite_mul, Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, ite_true, Finset.sum_const_zero]
       rw [add_smul, add_smul, hZ]
       simp only [y, mul_neg, mul_add, neg_add, Finset.sum_neg_distrib, Finset.sum_add_distrib]
       ring
@@ -373,13 +373,13 @@ variable {L : _root_.PositivityTheory.SiegelWeilFormula.LD_k d}
 theorem pad_col_k {M : _root_.PositivityTheory.SiegelWeilFormula.Act.C5.JC.Mt_k d} (hM : _root_.PositivityTheory.SiegelWeilFormula.Act.C5.JC.IsPad_k L M) : M *ᵥ Pi.single (Sum.inl L.i₀) 1 = Pi.single (Sum.inl L.i₀) 1 := by
   funext r
   simp only [Matrix.mulVec, dotProduct, Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
   rw [(hM _ (by simp) r).2]
   simp [Matrix.one_apply]
 theorem pad_row_k {M : _root_.PositivityTheory.SiegelWeilFormula.Act.C5.JC.Mt_k d} (hM : _root_.PositivityTheory.SiegelWeilFormula.Act.C5.JC.IsPad_k L M) : Pi.single (Sum.inr L.i₀) 1 ᵥ* M = Pi.single (Sum.inr L.i₀) 1 := by
   funext r
   simp only [Matrix.vecMul, dotProduct, Pi.single_apply, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
   rw [(hM _ (by simp) r).1]
   simp [Matrix.one_apply, eq_comm]
 theorem pad_vecMul_inl_k {M : _root_.PositivityTheory.SiegelWeilFormula.Act.C5.JC.Mt_k d} (hM : _root_.PositivityTheory.SiegelWeilFormula.Act.C5.JC.IsPad_k L M) (x : Fin d.n ⊕ Fin d.n → AE F E) :
@@ -734,12 +734,12 @@ theorem j_move'_k (h : _root_.PositivityTheory.SiegelWeilFormula.Act.C5.Hyp_k L 
     · show (_root_.PositivityTheory.SiegelWeilFormula.Act.C5.JC.vV_k L u b ᵥ* _) (Sum.inr (L.em k)) = b k + B k
       rw [_root_.PositivityTheory.SiegelWeilFormula.Act.C5.JC.vV_vecMul_apply_k]
       simp only [k12, k22, Matrix.one_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ,
-        if_true, hB, mul_neg, Finset.sum_neg_distrib]
+        ite_true, hB, mul_neg, Finset.sum_neg_distrib]
       ring
     · show (_root_.PositivityTheory.SiegelWeilFormula.Act.C5.JC.vV_k L u b ᵥ* _) (Sum.inl (L.em k)) = u k
       rw [_root_.PositivityTheory.SiegelWeilFormula.Act.C5.JC.vV_vecMul_apply_k]
       simp only [k11, k21, Matrix.one_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ,
-        if_true, Finset.sum_const_zero, add_zero]
+        ite_true, Finset.sum_const_zero, add_zero]
   refine ⟨B, ellA δ (_root_.PositivityTheory.SiegelWeilFormula.Act.C5.JC.hh_k L u B), fun b a => ?_⟩
   have e := _root_.PositivityTheory.SiegelWeilFormula.Act.C5.JC.conj_eq_k (R := R) h (nb' β'') b u a
   have hQ : _root_.PositivityTheory.SiegelWeilFormula.Act.C5.JC.QQ_k L δ (inFrame d.b (L.j (nb' β''))⁻¹) (b, u) = ellA δ (_root_.PositivityTheory.SiegelWeilFormula.Act.C5.JC.hh_k L u B) := by
@@ -871,7 +871,7 @@ theorem nb_split_k (h : _root_.PositivityTheory.SiegelWeilFormula.Act.C5.Hyp_k L
   ext i j
   rcases _root_.PositivityTheory.SiegelWeilFormula.Act.C5.idx_k L i with rfl | ⟨k, rfl⟩ <;> rcases _root_.PositivityTheory.SiegelWeilFormula.Act.C5.idx_k L j with rfl | ⟨l, rfl⟩ <;>
     simp only [Matrix.add_apply, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.sB_i0i0_k, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.sB_i0em_k, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.section_entry_embedded_row, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.sB_emem_k, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.pad_block_row_zero, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.pad_block_column_zero, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.padB_em_k, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.aB_k,
-      Matrix.single_apply, _root_.PositivityTheory.SiegelWeilFormula.Act.C4.prj_val_k, Matrix.submatrix_apply, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.pb_k, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.pa_k, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.eA_eq_k, fun k => (_root_.PositivityTheory.SiegelWeilFormula.Act.ComplexParameterFamilyContinuity.em_ne_k L k).symm, and_self, and_false, false_and, if_true, if_false, add_zero, zero_add]
+      Matrix.single_apply, _root_.PositivityTheory.SiegelWeilFormula.Act.C4.prj_val_k, Matrix.submatrix_apply, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.pb_k, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.pa_k, _root_.PositivityTheory.SiegelWeilFormula.Act.C5.eA_eq_k, fun k => (_root_.PositivityTheory.SiegelWeilFormula.Act.ComplexParameterFamilyContinuity.em_ne_k L k).symm, and_self, and_false, false_and, ite_true, ite_false, add_zero, zero_add]
   · have hy : cA σ (β.1 L.i₀ L.i₀) = -(((R.ε : ℤ) : AE F E)) * β.1 L.i₀ L.i₀ := by
       have e := hcij L.i₀ L.i₀
       calc cA σ (β.1 L.i₀ L.i₀) = -(((R.ε : ℤ) : AE F E)) * -(((R.ε : ℤ) : AE F E) * cA σ (β.1 L.i₀ L.i₀)) := by

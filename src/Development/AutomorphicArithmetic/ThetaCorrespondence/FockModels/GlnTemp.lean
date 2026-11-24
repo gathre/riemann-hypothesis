@@ -638,7 +638,7 @@ private theorem isCoatom_of_compl {G V : Type} [Group G] [AddCommGroup V] [Modul
   · intro hT
     obtain ⟨s, hsS, hs0⟩ : ∃ s ∈ S.toSubmodule, s ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply hS.1
       apply Subrepresentation.ext
       ext v

@@ -55,7 +55,7 @@ theorem UpperTheory.TP.RP.tprodNe :
   intro ι _ V _ _ f hf h
   have hex : ∀ i, ∃ l : Module.Dual ℂ (V i), l (f i) ≠ 0 := fun i => by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hf i ((Module.forall_dual_apply_eq_zero_iff ℂ (f i)).1 hc)
   choose l hl using hex
   have h0 := congrArg

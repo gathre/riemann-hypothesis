@@ -432,7 +432,7 @@ theorem arc_surj [NeZero n] (A : ArcP n) (hA : A.OK) (i : ZMod n) :
   obtain ⟨hl1, -, hprev, -⟩ := hA.2.2.1 _ hdc
   have hdl : Nat.find hex ≤ A.len (i + (Nat.find hex : ZMod n)) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply Nat.find_min hex (m := Nat.find hex - A.len (i + (Nat.find hex : ZMod n))) (by omega)
     refine ⟨by omega, ?_⟩
     have e : i + ((Nat.find hex - A.len (i + (Nat.find hex : ZMod n)) : ℕ) : ZMod n) =

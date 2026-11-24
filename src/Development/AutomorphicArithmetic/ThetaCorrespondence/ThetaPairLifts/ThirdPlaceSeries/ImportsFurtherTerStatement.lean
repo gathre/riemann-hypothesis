@@ -127,7 +127,7 @@ theorem embU_iff (D : D7) (i : D.nd.Loc) (w : HeightOneSpectrum (𝓞 D.host.E))
       have hy' : y = D.embE (D.host.sigmaOf g' x) :=
         (D.nd.embK i).injective ((Br.toLLK (D.nbr i w hw)).injective (hy.trans (key x)))
       rw [hy', hemb]
-  · simp only [EmbeddingTypes.EmbTypeUe, if_true, AdmissibleParameterJ.TypeU, iff_true]
+  · simp only [EmbeddingTypes.EmbTypeUe, ite_true, AdmissibleParameterJ.TypeU, iff_true]
     exact hU
 
 theorem ppm_int (D : D7) (hd : AdmissibleParameterJ.AdmDict D) (i : D.nd.Loc)
@@ -333,8 +333,8 @@ theorem shape (D : D7) (L : SizeData₂ D) (hP : AdmissibleParameterJ.AdmPar L) 
         tauto
     show (if (a : ℚ) ∈ AdmissibleParameterJ.JJ D up j ρ then (1 : ℤ) else 0) = _
     by_cases h : (a : ℚ) ∈ AdmissibleParameterJ.JJ D up j ρ
-    · rw [if_pos h, if_pos (hiff.1 h)]
-    · rw [if_neg h, if_neg (mt hiff.2 h)]
+    · rw [ite_eq_left h, ite_eq_left (hiff.1 h)]
+    · rw [ite_eq_right h, ite_eq_right (mt hiff.2 h)]
 
 end GlobalTheory.JumpShapeAt
 end -- clump:auto
@@ -375,8 +375,8 @@ theorem main_alt_alt : Hypotheses₂ → ∀ (D : D7) (L : SizeData₂ D) (P : P
   refine ⟨Cl, Lo, fun x => ?_⟩
   have hsg : (if EmbeddingTypes.EmbU C ep τ then (1 : ℤ) else -1) = (if decide (AdmissibleParameterJ.TypeU D ep g) then 1 else -1) := by
     by_cases hT : AdmissibleParameterJ.TypeU D ep g
-    · rw [if_pos ((embU_iff D i w hw C τ ep g ρ hRd).2 hT), decide_eq_true hT]; rfl
-    · rw [if_neg (mt (embU_iff D i w hw C τ ep g ρ hRd).1 hT), decide_eq_false hT]; rfl
+    · rw [ite_eq_left ((embU_iff D i w hw C τ ep g ρ hRd).2 hT), decide_eq_true hT]; rfl
+    · rw [ite_eq_right (mt (embU_iff D i w hw C τ ep g ρ hRd).1 hT), decide_eq_false hT]; rfl
   rw [hsg]
   convert hS using 1
   funext a

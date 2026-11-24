@@ -400,7 +400,7 @@ theorem fin_small_gen {r : ℕ} (U : ∀ σ : c.F →+* ℂ, Unf Xo c σ r) (Z :
     (hf : ∀ v ∈ (recVals Xo c).1 la, (τ : EReal) * depthOn U Z G v ≤ v (f : Rul Xo c)) :
     ∃ l ∈ latOn U Z G, ν (genVal Z (f : Rul Xo c)) ≤ ν (genVal Z (l : Rul Xo c)) ^ τ := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hGF, hGT⟩ := GlobalTheory.Reg.genFrEx_and_genFromTest E H Dw l Xo c
   obtain ⟨n, w, hw⟩ := Submodule.fg_iff_exists_fin_generating_family.1 hFG
   have hspan : Submodule.span c.F (Set.range w) = ⊤ := by
@@ -408,7 +408,7 @@ theorem fin_small_gen {r : ℕ} (U : ∀ σ : c.F →+* ℂ, Unf Xo c σ r) (Z :
   let a : Fin n → Om Z := fun i => genVal Z (w i : Rul Xo c)
   have hex : ∃ i, a i ≠ 0 := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     exact hB.1 (LinearMap.ext_on_range hspan fun i => hall i)
   obtain ⟨i₁, hi₁⟩ := hex
   have : Nonempty (Fin n) := ⟨i₁⟩

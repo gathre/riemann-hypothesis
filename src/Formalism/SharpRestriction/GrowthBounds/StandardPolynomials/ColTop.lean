@@ -214,9 +214,9 @@ theorem column_partial_sum_W {s : ℕ} (i : Fin s) (w : Fin s → ℝ) {Ai T N1 
         intro l _
         by_cases h1 : l = i
         · subst h1
-          simp only [le_refl, if_true]
+          simp only [le_refl, ite_true]
           linarith
-        · rw [if_neg h1]
+        · rw [ite_eq_right h1]
           split_ifs with h2
           · have : (l : ℕ) < (i : ℕ) := lt_of_le_of_ne h2 (fun h => h1 (Fin.ext h))
             linarith [hl l this]
@@ -406,16 +406,16 @@ theorem floor_cap {s r : ℕ} (p : ℕ) (S : SegData s) (b : SegBlock s r) (mu :
     by_cases h1 : (l : ℕ) < S.sigma
     · have h2 := hL l h1
       have h3 : 2 * (l : ℕ) + 2 ≤ 2 * L0 + 1 := by omega
-      simp only [if_pos h1, if_pos h2, if_pos h3]
+      simp only [ite_eq_left h1, ite_eq_left h2, ite_eq_left h3]
       rw [Nat.cast_sub (hw l h1)]
       push_cast; ring
     · by_cases h2 : (l : ℕ) < L0
       · have h3 : 2 * (l : ℕ) + 2 ≤ 2 * L0 + 1 := by omega
-        simp only [if_neg h1, if_pos h2, if_pos h3]
+        simp only [ite_eq_right h1, ite_eq_left h2, ite_eq_left h3]
         rw [Nat.cast_sub (ho l (not_lt.1 h1))]
         ring
       · have h3 : ¬ 2 * (l : ℕ) + 2 ≤ 2 * L0 + 1 := by omega
-        simp only [if_neg h1, if_neg h2, if_neg h3]
+        simp only [ite_eq_right h1, ite_eq_right h2, ite_eq_right h3]
         ring
   unfold cap
   rw [hD]
@@ -447,20 +447,20 @@ theorem first_row_le {n N : ℕ} [NeZero n] {Lt : Letters (Fin N)} {B : Fin N �
       · have hne : a.val ≠ i.val := fun h => ha (Fin.ext h)
         have hiff : a.val < i.succ.val ↔ a.val < i.castSucc.val := by
           simp only [Fin.val_succ, Fin.val_castSucc]; omega
-        rw [if_neg ha, add_zero]
+        rw [ite_eq_right ha, add_zero]
         simp only [hiff]
     rw [hsplit]
     by_cases hv : Lt.vec i = true
-    · rw [if_pos hv] at hs
-      rw [if_pos hv]
+    · rw [ite_eq_left hv] at hs
+      rw [ite_eq_left hv]
       obtain ⟨h1, -, h3⟩ := hs
       have h4 : P.mu i.succ 0 - P.mu i.castSucc 0 ≤ ∑ a, (P.mu i.succ a - P.mu i.castSucc a) :=
         Finset.single_le_sum (f := fun a => P.mu i.succ a - P.mu i.castSucc a)
           (fun a _ => sub_nonneg.2 (h1 a)) (Finset.mem_univ 0)
       rw [h3] at h4
       linarith
-    · rw [if_neg hv] at hs
-      rw [if_neg hv, add_zero]
+    · rw [ite_eq_right hv] at hs
+      rw [ite_eq_right hv, add_zero]
       exact (hs.1 0).trans ih
 
 theorem deg_even_le {s r : ℕ} (p : ℕ) (S : SegData s) (aTop : Fin s → ℕ) (aPlus : ℕ) (m : ℝ) (b : SegBlock s r)
@@ -475,7 +475,7 @@ theorem deg_even_le {s r : ℕ} (p : ℕ) (S : SegData s) (aTop : Fin s → ℕ)
   have ht : topOf ⟨2 * l.val, by have := l.2; omega⟩ hne = l := Fin.ext (by show 2 * l.val / 2 = l.val; omega)
   unfold segChain
   simp only
-  rw [dif_neg hne, if_pos (by omega), ht, if_pos hl]
+  rw [dite_eq_right hne, ite_eq_left (by omega), ht, ite_eq_left hl]
 
 theorem sum_deg_le {s r : ℕ} (p : ℕ) (S : SegData s) (aTop : Fin s → ℕ) (aPlus : ℕ) (m : ℝ) (b : SegBlock s r)
     (lv : Fin (blockData p S aTop aPlus m b).T.t → ℕ) (jp : ℕ) (l : Fin s) (hl : (l : ℕ) < S.sigma) :
@@ -489,7 +489,7 @@ theorem sum_deg_le {s r : ℕ} (p : ℕ) (S : SegData s) (aTop : Fin s → ℕ) 
       ((blockData p S aTop aPlus m b).lettersAt lv jp).vec ⟨2 * s, by omega⟩ = true) := by
     have := l.2
     intro h; omega
-  rw [if_neg hlast, add_zero]
+  rw [ite_eq_right hlast, add_zero]
   refine Finset.sum_le_sum fun l' _ => ?_
   have hodd : ¬ (2 * l'.val + 1 < 2 * l.val + 1 ∧
       ((blockData p S aTop aPlus m b).lettersAt lv jp).vec ⟨2 * l'.val + 1, by have := l'.2; omega⟩ = true) := by
@@ -497,29 +497,29 @@ theorem sum_deg_le {s r : ℕ} (p : ℕ) (S : SegData s) (aTop : Fin s → ℕ) 
     rw [hvec] at h
     simp only [decide_eq_true_eq] at h
     omega
-  rw [if_neg hodd, add_zero]
+  rw [ite_eq_right hodd, add_zero]
   by_cases h : (l' : ℕ) ≤ (l : ℕ)
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     split_ifs
     · exact_mod_cast deg_even_le p S aTop aPlus m b lv jp l' (by omega)
     · positivity
-  · rw [if_neg h, if_neg (by rintro ⟨h1, -⟩; simp only at h1; omega)]
+  · rw [ite_eq_right h, ite_eq_right (by rintro ⟨h1, -⟩; simp only at h1; omega)]
 
 theorem bd_J_last {s r : ℕ} (p : ℕ) (S : SegData s) (aTop : Fin s → ℕ) (aPlus : ℕ) (m : ℝ) (b : SegBlock s r) :
     (blockData p S aTop aPlus m b).T.J (Fin.last S.t) = 2 * s + 1 :=
-  dif_neg (lt_irrefl _)
+  dite_eq_right (lt_irrefl _)
 
 theorem bd_thr_last {s r : ℕ} (p : ℕ) (S : SegData s) (aTop : Fin s → ℕ) (aPlus : ℕ) (m : ℝ) (b : SegBlock s r) :
     (blockData p S aTop aPlus m b).T.thr (Fin.last S.t) = ((⌊((cap p S b s : ℤ) : ℝ) - m⌋ : ℤ) : WithTop ℤ) := by
   show WithTop.map _ (segmentCapacities p S b (Fin.last S.t)) = _
   unfold segmentCapacities
-  rw [dif_neg (show ¬ ((Fin.last S.t : Fin (S.t + 1)) : ℕ) < S.t from lt_irrefl _)]
+  rw [dite_eq_right (show ¬ ((Fin.last S.t : Fin (S.t + 1)) : ℕ) < S.t from lt_irrefl _)]
   rfl
 
 theorem bd_J_lt {s r : ℕ} (p : ℕ) (S : SegData s) (aTop : Fin s → ℕ) (aPlus : ℕ) (m : ℝ) (b : SegBlock s r)
     (q : ℕ) (h : q < S.t) :
     (blockData p S aTop aPlus m b).T.J (⟨q, Nat.lt_succ_of_lt h⟩ : Fin (S.t + 1)) = 2 * (S.sigma + q) + 1 :=
-  dif_pos h
+  dite_eq_left h
 
 theorem bd_thr_lt {s r : ℕ} (p : ℕ) (S : SegData s) (aTop : Fin s → ℕ) (aPlus : ℕ) (m : ℝ) (b : SegBlock s r)
     (q : ℕ) (h : q < S.t) :
@@ -527,7 +527,7 @@ theorem bd_thr_lt {s r : ℕ} (p : ℕ) (S : SegData s) (aTop : Fin s → ℕ) (
       ((⌊((cap p S b (S.sigma + q) : ℤ) : ℝ) - m⌋ : ℤ) : WithTop ℤ) := by
   show WithTop.map _ (segmentCapacities p S b ⟨q, Nat.lt_succ_of_lt h⟩) = _
   unfold segmentCapacities
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   rfl
 
 theorem ph_seg {C0 Cde CE1 CE2 mu E : ℝ} {X : Loc} [NeZero X.m] {β : GlobalTheory X} (L : LvDat C0 CE1 CE2 mu X β)
@@ -552,7 +552,7 @@ theorem ph_seg {C0 Cde CE1 CE2 mu E : ℝ} {X : Loc} [NeZero X.m] {β : GlobalTh
       ∑ l : Fin (segS X.TT j), (if 2 * (l : ℕ) + 2 ≤ T then (zxS C0 CE1 CE2 X β j l : ℤ) else 0) := by
     intro T h
     unfold nuS
-    rw [if_neg h]
+    rw [ite_eq_right h]
   have hge : ∀ T, T ≠ 0 → a0Z C0 CE1 CE2 mu X β j ≤ nuS C0 CE1 CE2 mu X β j T := by
     intro T h
     rw [hnu T h]
@@ -567,7 +567,7 @@ theorem ph_seg {C0 Cde CE1 CE2 mu E : ℝ} {X : Loc} [NeZero X.m] {β : GlobalTh
     rfl
   have h0 : nuS C0 CE1 CE2 mu X β j 0 = 0 := by
     unfold nuS
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
   refine ⟨y.1.1.zero, y.1.1.dom, y.1.1.step, h0, ?_, ?_, ?_, hm⟩
   · intro t
     by_cases ht : t = 0
@@ -577,8 +577,8 @@ theorem ph_seg {C0 Cde CE1 CE2 mu E : ℝ} {X : Loc} [NeZero X.m] {β : GlobalTh
     · rw [hnu t ht, hnu (t + 1) (by omega)]
       refine add_le_add_right (Finset.sum_le_sum fun l _ => ?_) _
       by_cases h : 2 * (l : ℕ) + 2 ≤ t
-      · rw [if_pos h, if_pos (by omega)]
-      · rw [if_neg h]
+      · rw [ite_eq_left h, ite_eq_left (by omega)]
+      · rw [ite_eq_right h]
         split_ifs
         · positivity
         · exact le_rfl
@@ -675,9 +675,9 @@ theorem change_count (h : PH vecc B ka nu) (S : Finset ℤ) (hS : colRange ka �
     (S.filter fun c => colH (ka i.castSucc) c ≠ colH (ka i.succ) c).card = B i := by
   have hs := h.kastep i
   by_cases hv : vecc i = true
-  · rw [if_pos hv] at hs
+  · rw [ite_eq_left hv] at hs
     exact strip_count _ _ _ hs S fun a c h1 h2 => hS (mem_colRange_of ka _ _ a c h1 h2)
-  · rw [if_neg hv] at hs
+  · rw [ite_eq_right hv] at hs
     rw [← strip_count _ _ _ hs S fun a c h1 h2 => hS (mem_colRange_of ka _ _ a c h1 h2)]
     congr 1
     exact Finset.filter_congr fun c _ => ne_comm
@@ -687,16 +687,16 @@ theorem oc_sum (h : PH vecc B ka nu) (S : Finset ℤ) (hS : colRange ka ⊆ S) (
   rw [Finset.sum_congr rfl fun c _ => h.oc_eq om c, Finset.sum_comm]
   refine Finset.sum_congr rfl fun i _ => ?_
   by_cases hv : vecc i = true
-  · rw [if_pos hv, ← change_count h S hS i, Finset.card_filter, Finset.mul_sum]
+  · rw [ite_eq_left hv, ← change_count h S hS i, Finset.card_filter, Finset.mul_sum]
     refine Finset.sum_congr rfl fun c _ => ?_
     have := (h.stepV i hv c).1
     by_cases hlt : colH (ka i.castSucc) c < colH (ka i.succ) c
-    · rw [if_pos hlt, if_pos (by omega), mul_one]
-    · rw [if_neg hlt, if_neg (by omega), mul_zero]
-  · rw [if_neg hv, mul_zero]
+    · rw [ite_eq_left hlt, ite_eq_left (by omega), mul_one]
+    · rw [ite_eq_right hlt, ite_eq_right (by omega), mul_zero]
+  · rw [ite_eq_right hv, mul_zero]
     refine Finset.sum_eq_zero fun c _ => ?_
     have := (h.stepC i (by simpa using hv) c).1
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
 
 theorem pl_sum {σ : Type*} (nu : ℕ → ℤ) (h0 : 0 ≤ nu 0) (hm : ∀ t, nu t ≤ nu (t + 1)) (n : ℕ) (S : Finset ℤ)
     (hS : Finset.Icc 1 (nu n) ⊆ S) (v : Fin n → σ) (P : Fin n → ℕ) :
@@ -733,7 +733,7 @@ theorem Kcol_above (R : Type) [CommRing R] (ka : Fin (N + 1) → Fin K → ℤ) 
     split_ifs with h
     · rw [colH_above ka c hc, colH_above ka c hc, ih]
       unfold colStep
-      rw [if_neg (lt_irrefl _), if_neg (lt_irrefl _)]
+      rw [ite_eq_right (lt_irrefl _), ite_eq_right (lt_irrefl _)]
     · exact ih
 
 theorem Psi_eq_prod (R : Type) [CommRing R] (ka : Fin (N + 1) → Fin K → ℤ) (I : ℤ → Finset (Fin K))
@@ -781,16 +781,16 @@ theorem PS_last : PS X j (⟨2 * segS X.TT j, by omega⟩ : Fin (2 * segS X.TT j
 
 theorem nuS_zero : nuS C0 CE1 CE2 mu X β j 0 = 0 := by
   unfold nuS
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 theorem nuS_one : nuS C0 CE1 CE2 mu X β j (0 + 1) = a0Z C0 CE1 CE2 mu X β j := by
   unfold nuS
-  rw [if_neg (by omega), Finset.sum_eq_zero fun l _ => if_neg (by omega), add_zero]
+  rw [ite_eq_right (by omega), Finset.sum_eq_zero fun l _ => ite_eq_right (by omega), add_zero]
 
 theorem nuS_step (l : Fin (segS X.TT j)) :
     nuS C0 CE1 CE2 mu X β j (2 * l.val + 1 + 1) = nuS C0 CE1 CE2 mu X β j (2 * l.val + 1) + zxS C0 CE1 CE2 X β j l := by
   unfold nuS
-  rw [if_neg (by omega), if_neg (by omega), add_assoc (a0Z C0 CE1 CE2 mu X β j)]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega), add_assoc (a0Z C0 CE1 CE2 mu X β j)]
   congr 1
   have e : ∀ l' : Fin (segS X.TT j), (if 2 * (l' : ℕ) + 2 ≤ 2 * l.val + 1 + 1 then (zxS C0 CE1 CE2 X β j l' : ℤ) else 0) =
       (if 2 * (l' : ℕ) + 2 ≤ 2 * l.val + 1 then (zxS C0 CE1 CE2 X β j l' : ℤ) else 0) +
@@ -798,23 +798,23 @@ theorem nuS_step (l : Fin (segS X.TT j)) :
     intro l'
     by_cases e : l' = l
     · subst e
-      rw [if_pos (by omega), if_neg (by omega), if_pos rfl, zero_add]
+      rw [ite_eq_left (by omega), ite_eq_right (by omega), ite_eq_left rfl, zero_add]
     · have : l'.val ≠ l.val := fun x => e (Fin.ext x)
-      rw [if_neg e, add_zero]
+      rw [ite_eq_right e, add_zero]
       exact if_congr (by omega) rfl rfl
-  rw [Finset.sum_congr rfl fun l' _ => e l', Finset.sum_add_distrib, Finset.sum_ite_eq', if_pos (Finset.mem_univ _)]
+  rw [Finset.sum_congr rfl fun l' _ => e l', Finset.sum_add_distrib, Finset.sum_ite_eq', ite_eq_left (Finset.mem_univ _)]
 
 theorem nuS_cov (l : ℕ) :
     nuS C0 CE1 CE2 mu X β j (2 * l + 1 + 1 + 1) = nuS C0 CE1 CE2 mu X β j (2 * l + 1 + 1) := by
   unfold nuS
-  rw [if_neg (by omega), if_neg (by omega)]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega)]
   congr 1
   exact Finset.sum_congr rfl fun l' _ => if_congr (by omega) rfl rfl
 
 theorem nuS_last :
     nuS C0 CE1 CE2 mu X β j (2 * segS X.TT j + 1 + 1) = nuS C0 CE1 CE2 mu X β j (2 * segS X.TT j + 1) := by
   unfold nuS
-  rw [if_neg (by omega), if_neg (by omega)]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega)]
   congr 1
   exact Finset.sum_congr rfl fun l' _ => if_congr (by have := l'.2; omega) rfl rfl
 
@@ -877,7 +877,7 @@ theorem oSum_seg (h : Col.PH (L.LL j).vec (L.LL j).deg y.1.1.mu (nuS C0 CE1 CE2 
   have v3 : (L.LL j).vec ⟨2 * segS X.TT j, by omega⟩ = true := by
     show decide ((2 * segS X.TT j) % 2 = 0) = true
     simp
-  rw [if_pos v3, PS_last, one_mul]
+  rw [ite_eq_left v3, PS_last, one_mul]
   congr 1
   refine Finset.sum_congr rfl fun l _ => ?_
   have v1 : (L.LL j).vec ⟨2 * l.val, by have := l.2; omega⟩ = true := by
@@ -886,7 +886,7 @@ theorem oSum_seg (h : Col.PH (L.LL j).vec (L.LL j).deg y.1.1.mu (nuS C0 CE1 CE2 
   have v2 : (L.LL j).vec ⟨2 * l.val + 1, by have := l.2; omega⟩ = false := by
     show decide ((2 * l.val + 1) % 2 = 0) = false
     simp
-  rw [if_pos v1, if_neg (by rw [v2]; simp), mul_zero, add_zero, PS_even C0 CE1 CE2]
+  rw [ite_eq_left v1, ite_eq_right (by rw [v2]; simp), mul_zero, add_zero, PS_even C0 CE1 CE2]
 
 theorem dKsum_seg (h : Col.PH (L.LL j).vec (L.LL j).deg y.1.1.mu (nuS C0 CE1 CE2 mu X β j))
     (i : Fin (2 * segS X.TT j + 1)) :
@@ -899,8 +899,8 @@ theorem dKsum_seg (h : Col.PH (L.LL j).vec (L.LL j).deg y.1.1.mu (nuS C0 CE1 CE2
   refine Finset.sum_congr rfl fun c _ => ?_
   unfold dKS
   by_cases e : colH (y.1.1.mu i.castSucc) c = colH (y.1.1.mu i.succ) c
-  · rw [if_pos e, if_neg (not_not.2 e)]
-  · rw [if_neg e, if_pos e]
+  · rw [ite_eq_left e, ite_eq_right (not_not.2 e)]
+  · rw [ite_eq_right e, ite_eq_left e]
 
 theorem Kprod_seg (R : Type) [CommRing R] :
     ∏ c ∈ colsS C0 CE1 CE2 mu X β j y.1.1.mu, Kcol R y.1.1.mu c (2 * segS X.TT j + 1) (y.1.2 c) =
@@ -1080,7 +1080,7 @@ private theorem PH_ka_le_nu {N K : ℕ} {vecc : Fin N → Bool} {B : Fin N → �
     rw [Fin.val_succ]
     by_cases hv : vecc a = true
     · exact h.C a hv b
-    · rw [if_neg hv] at hs
+    · rw [ite_eq_right hv] at hs
       have h1 := hs.1 b
       have h2 := ih b
       rw [Fin.coe_castSucc] at h2
@@ -1114,7 +1114,7 @@ private theorem colH_ka_eq_zero_of_PH_of_nu_lt {N K : ℕ} {vecc : Fin N → Boo
   constructor
   · intro hv
     have hs := h.kastep a
-    rw [if_pos hv] at hs
+    rw [ite_eq_left hv] at hs
     constructor
     · apply colH_eq_zero_of_forall_lt c
       intro b
@@ -1139,10 +1139,10 @@ private theorem colH_ka_le_by_vecc_of_PH {N K : ℕ} {vecc : Fin N → Bool} {B 
   have hs := h.kastep a
   constructor
   · intro hv
-    rw [if_pos hv] at hs
+    rw [ite_eq_left hv] at hs
     exact _root_.Formalism.MainNotions.LemmaBAlt.column_height_mono hs.1 c
   · intro hv
-    rw [if_neg (by simp [hv])] at hs
+    rw [ite_eq_right (by simp [hv])] at hs
     exact ⟨_root_.Formalism.MainNotions.LemmaBAlt.column_height_mono hs.1 c, h.nucov a hv⟩
 
 private theorem wN_phiS_castAdd_zero_eq_ite_lamS (X : Loc) (j : Fin (numSeg X.TT)) (t : Fin (2 * segS X.TT j + 1 + 1)) :
@@ -1362,10 +1362,10 @@ theorem col_sym_eq (h : PH vecc B ka (nuS C0 CE1 CE2 mu X β j)) (c : ℤ) :
   rw [monomial_sum_eq_prod, Finset.prod_range]
   refine Finset.prod_congr rfl fun t _ => ?_
   by_cases hc : nuS C0 CE1 CE2 mu X β j t.val < c ∧ c ≤ nuS C0 CE1 CE2 mu X β j (t.val + 1)
-  · rw [if_pos hc, if_pos hc]
+  · rw [ite_eq_left hc, ite_eq_left hc]
     unfold xOf
     rw [dite_eq_left t.isLt, colPsiS_X, X_pow_eq_monomial]
-  · rw [if_neg hc, if_neg hc]
+  · rw [ite_eq_right hc, ite_eq_right hc]
     rfl
 
 theorem col_powSubst_int {N k : ℕ} (LL : LiftLetters (Fin N)) (z : ℤ) (F : MvPolynomial (Fin N × Fin k) O) :

@@ -152,7 +152,7 @@ theorem exists_block_action {Γ X O : Type} [Group Γ] [CommRing O] [IsDomain O]
       then h.choose.2 j else 0, ?_, ?_⟩
   · intro a ha u
     have hex := hact (a π) (eval_mem_span ha π)
-    simp only [dif_pos hex]
+    simp only [dite_eq_left hex]
     exact hex.choose_spec u
   · intro P
     have hP : P ∈ Submodule.span O (Set.range (mat ρ)) := hspan ▸ Submodule.mem_top
@@ -171,7 +171,7 @@ theorem exists_block_action {Γ X O : Type} [Group Γ] [CommRing O] [IsDomain O]
       have hex : ∃ p : Matrix (Fin r) (Fin r) O × (Fin t → O),
           ActsAs e ((∑ k, c k • (fun x => mat (rep x) (γ k))) π) p.1 p.2 :=
         ⟨(∑ k, c k • mat ρ (γ k), fun j => ∑ k, c k * ((χ ((j : ℕ) + 1) (γ k) : Oˣ) : O)), hA⟩
-      simp only [dif_pos hex]
+      simp only [dite_eq_left hex]
       rw [ActsAs.unique hex.choose_spec hA, ← hsum]
       simp only [hγ]
 

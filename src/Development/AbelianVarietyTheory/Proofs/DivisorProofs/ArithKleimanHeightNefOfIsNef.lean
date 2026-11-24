@@ -412,7 +412,7 @@ open GlobalTheory GlobalTheory.ArInt GlobalTheory.CxPts GlobalTheory.Cartier Glo
 theorem GlobalTheory.HSNef.height_generic_nonneg_of_ample : GlobalTheory.Published.ArCalc → AmpleHS → ∀ (k : Type) [CommRing k] (X : Scheme.{0}) [IsIntegral X] (p : X ⟶ Sp k) (D : ℕ), IsArithVar p D → 1 ≤ D → ∀ (C : HermLB p) (h : X → ℝ), IsAmpleLB C.B → C.SemiPos D → C.IsArithHeight h → (∀ z, z ≠ genericPoint X → 0 ≤ h z) → 0 ≤ h (genericPoint X) := by
   intro hAr hHS k _ X _ p D hX hD C h hA hS hH hnn
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have hg : 0 < gdeg C D := _root_.GlobalTheory.HSNef.gdeg_pos_of_ample hAr hHS k X p D hX C hA hS
   set c := h (genericPoint X) with hcdef
   set g := gdeg C D with hgdef
@@ -451,7 +451,7 @@ theorem GlobalTheory.HSNef.height_generic_nonneg_of_ample : GlobalTheory.Publish
     simpa using lt_of_lt_of_le this hm
   have hn : 1 < (P.Bl ((m : ℤ) * 1) ((m : ℤ) * 0) 1).ncard := by
     by_contra hle
-    push_neg at hle
+    push Not at hle
     have : ((P.Bl ((m : ℤ) * 1) ((m : ℤ) * 0) 1).ncard : ℝ) ≤ 1 := by exact_mod_cast hle
     exact absurd hlc (not_lt.2 (Real.log_nonpos (Nat.cast_nonneg _) this))
   have hfin : (P.Bl ((m : ℤ) * 1) ((m : ℤ) * 0) 1).Finite :=
@@ -552,7 +552,7 @@ theorem htNef_of_isNef : GlobalTheory.Published.ArCalc → AmpleHS → SemiPull 
         exact (Specializes.antisymm (h0 h1) (genericPoint_specializes _)).eq
       have heD : e < D := by
         by_contra hle
-        push_neg at hle
+        push Not at hle
         obtain ⟨c, hc'⟩ : ∃ c : ℕ, Order.coheight (i (genericPoint Z)) = c := by
           refine ⟨(Order.coheight (i (genericPoint Z))).toNat, (ENat.coe_toNat fun ht => ?_).symm⟩
           rw [ht, top_add] at hco

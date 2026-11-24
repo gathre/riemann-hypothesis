@@ -77,15 +77,15 @@ theorem lx_herm_eI (k r : ℕ) (v : Fin (2 * r + k + 1) → ℂ) (a : Fin r) :
     herm (Hpk k r) v (bvec (eI k r a)) = v (esI k r a) := by
   unfold herm
   rw [dotProduct, Finset.sum_eq_single (eI k r a)]
-  · rw [Pi.star_apply, lf_bvec_apply, if_pos rfl, star_one, one_mul, lx_mulVec_apply,
+  · rw [Pi.star_apply, lf_bvec_apply, ite_eq_left rfl, star_one, one_mul, lx_mulVec_apply,
       Finset.sum_eq_single (esI k r a)]
-    · rw [lf_H_eI, if_pos rfl, one_mul]
+    · rw [lf_H_eI, ite_eq_left rfl, one_mul]
     · intro q _ hq
-      rw [lf_H_eI, if_neg hq, zero_mul]
+      rw [lf_H_eI, ite_eq_right hq, zero_mul]
     · intro hn
       exact absurd (Finset.mem_univ _) hn
   · intro t _ ht
-    rw [Pi.star_apply, lf_bvec_apply, if_neg ht, star_zero, zero_mul]
+    rw [Pi.star_apply, lf_bvec_apply, ite_eq_right ht, star_zero, zero_mul]
   · intro hn
     exact absurd (Finset.mem_univ _) hn
 
@@ -136,7 +136,7 @@ theorem coef_left_aa : CoefLeftAA := by
         apply hj
         refine ⟨⟨b.val, by simp only [Fin.val_castLE] at hb; omega⟩, ?_⟩
         rw [he]; rfl
-      rw [hrow _ j hc, if_neg]
+      rw [hrow _ j hc, ite_eq_right]
       intro he; exact hj ⟨a, he.symm⟩
     rw [h0, zero_mul]
   have hM : (Matrix.of fun a l : Fin m => herm (Hpk k r) ((s * g) *ᵥ bvec (c l)) (bvec (eI k r (Fin.castLE hm a)))) =
@@ -149,13 +149,13 @@ theorem coef_left_aa : CoefLeftAA := by
   · intro a b hab
     simp only [of_apply]
     have hab' : a.val < b.val := hab
-    rw [hrow _ _ ?_, if_neg]
+    rw [hrow _ _ ?_, ite_eq_right]
     · exact lx_esI_ne k r _ _ (by simp only [Fin.val_castLE]; omega)
     · intro c hc
       exact lx_esI_ne k r _ _ (by simp only [Fin.val_castLE] at hc ⊢; omega)
   · intro a
     simp only [of_apply]
-    rw [hrow _ _ ?_, if_pos rfl]
+    rw [hrow _ _ ?_, ite_eq_left rfl]
     intro c hc
     exact lx_esI_ne k r _ _ (by omega)
 
@@ -180,12 +180,12 @@ theorem coef_left_aa_vector : CoefLeftAAv := by
     · intro j hj
       show g⁻¹ (B l) j * s⁻¹ j (eI k r (Fin.castLE hm a)) = 0
       by_cases hle : (Fin.castLE hm a).val ≤ j.val
-      · rw [lf_S_invCol k r z s hs (Fin.castLE hm a) j hle, if_neg, mul_zero]
+      · rw [lf_S_invCol k r z s hs (Fin.castLE hm a) j hle, ite_eq_right, mul_zero]
         intro he
         exact hj ⟨a, he.symm⟩
       · exfalso
         apply hj
-        push_neg at hle
+        push Not at hle
         simp only [Fin.coe_castLE] at hle
         have := a.isLt
         refine ⟨⟨j.val, by omega⟩, ?_⟩
@@ -200,9 +200,9 @@ theorem coef_left_aa_vector : CoefLeftAAv := by
       simp only [lf_eI_val, Fin.coe_castLE]
       omega
     rw [Matrix.of_apply, lf_S_invCol k r z s hs (Fin.castLE hm a) _ hle,
-      if_neg (lx_eI_ne k r _ _ (by simp only [Fin.coe_castLE]; omega))]
+      ite_eq_right (lx_eI_ne k r _ _ (by simp only [Fin.coe_castLE]; omega))]
   · intro a
-    rw [Matrix.of_apply, lf_S_invCol k r z s hs (Fin.castLE hm a) _ (lf_eI_val k r _).ge, if_pos rfl]
+    rw [Matrix.of_apply, lf_S_invCol k r z s hs (Fin.castLE hm a) _ (lf_eI_val k r _).ge, ite_eq_left rfl]
 
 end AAInvW
 end -- clump:auto

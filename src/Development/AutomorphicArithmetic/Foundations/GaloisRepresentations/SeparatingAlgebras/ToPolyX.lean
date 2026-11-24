@@ -82,7 +82,7 @@ theorem UpperTheory.Gal.Gen.toPolyX_pf :
   obtain ⟨X, b, hbd, hdef, hne⟩ := hFr
   obtain ⟨g₀, i₀, hz⟩ : ∃ g i, f.1 (b g i) g ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hf0 (hdef f h)
   set z₀ := f.1 (b g₀ i₀) g₀ with hz₀
   let f₁ : algForms W := z₀⁻¹ • f

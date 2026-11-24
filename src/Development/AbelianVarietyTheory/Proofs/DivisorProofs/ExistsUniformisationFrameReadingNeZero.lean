@@ -68,7 +68,7 @@ theorem exists_rdU_ne_zero_of_mem_secZ : ∀ (E : Type) [Field E] [NumberField E
     ∀ (e : Ix Dw → ℤ), ∀ F ∈ GlobalTheory.AllWt.secZ Xo c e, F ≠ 0 → ∃ k, ∃ x ∈ (U.X k).dom, rdU U F k x ≠ 0 := by
   intro E _ _ _ H Dw l Xo c σ r U hU e F hF hF0
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hF0
   funext p y
   show F p y = 0

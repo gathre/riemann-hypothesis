@@ -323,11 +323,11 @@ theorem finsum_char_det_fix_hyperplane_eq_zero :
     {g : GL (Fin r) k | ∀ v, a ⬝ᵥ v = 0 → (g : Matrix (Fin r) (Fin r) k).mulVec v = v} with hS
   obtain ⟨c, hc⟩ : ∃ c : kˣ, ξ c ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hξ (MonoidHom.ext h)
   obtain ⟨i, hi⟩ : ∃ i, a i ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact ha (funext h)
   set v₀ : Fin r → k := Pi.single i (a i)⁻¹ with hv₀
   have hav₀ : a ⬝ᵥ v₀ = 1 := by
@@ -567,7 +567,7 @@ theorem mem_span_sum (O K : Type) [CommRing O] [IsDomain O] [IsDiscreteValuation
         simp [Matrix.map_one]
       have hg' := (diag_mem_ball_iff hϖ (lift g) w).1 hg
       rw [hl] at hg'
-      rw [Finset.sum_eq_single g, if_pos hg, mul_one,
+      rw [Finset.sum_eq_single g, ite_eq_left hg, mul_one,
         H0 w (Matrix.GeneralLinearGroup.det g)⁻¹ hg'.2]
       · simp
       · have := congrArg Matrix.det hg'.1
@@ -575,7 +575,7 @@ theorem mem_span_sum (O K : Type) [CommRing O] [IsDomain O] [IsDiscreteValuation
         rw [Units.val_inv_eq_inv_val, Matrix.GeneralLinearGroup.val_det_apply]
         exact (eq_inv_of_mul_eq_one_right this).symm
       · intro g' _ hne
-        rw [if_neg, mul_zero]
+        rw [ite_eq_right, mul_zero]
         intro h'
         have h2 := ((diag_mem_ball_iff hϖ (lift g') w).1 h').1
         rw [hl] at h2
@@ -583,7 +583,7 @@ theorem mem_span_sum (O K : Type) [CommRing O] [IsDomain O] [IsDiscreteValuation
         ext1
         exact Matrix.left_inv_eq_left_inv h2 hg'.1
       · simp
-    · rw [Finset.sum_eq_zero (fun g _ => by rw [if_neg (fun h => hy ⟨g, h⟩), mul_zero])]
+    · rw [Finset.sum_eq_zero (fun g _ => by rw [ite_eq_right (fun h => hy ⟨g, h⟩), mul_zero])]
       by_contra h0
       obtain ⟨w, rfl, h2, h1⟩ := H1 y (Ne.symm h0)
       obtain ⟨g, hg⟩ := (Matrix.isUnit_iff_isUnit_det _).2 h1
@@ -971,7 +971,7 @@ theorem mem_span_translT : ∀ (D : D7) (S T : HSp D) (βS : GL (Fin S.rank) (Fo
       rw [hu, ← hxR, det_topL_mapE ι]
     show adjDat S T βS βT e ω x = _
     unfold adjDat
-    rw [if_pos ⟨hxH, hxI⟩, hω, omegaQ_single PP T.rank ξ _ hLZ
+    rw [ite_eq_left ⟨hxH, hxI⟩, hω, omegaQ_single PP T.rank ξ _ hLZ
       (Units.map (ι.symm : IsLocalRing.ResidueField (GlobalTheory.SplitHecke.Ov D v) ≃+* kP PP).toMonoidHom u)]
     · rfl
     · simp [← hdet]
@@ -1011,9 +1011,9 @@ theorem mem_span_translT : ∀ (D : D7) (S T : HSp D) (βS : GL (Fin S.rank) (Fo
       rw [mem_blockTri]
       intro i j hij
       have hj : j.val < T.rank := by
-        by_contra hj; simp only [blk2, if_neg hj] at hij; split_ifs at hij <;> omega
+        by_contra hj; simp only [blk2, ite_eq_right hj] at hij; split_ifs at hij <;> omega
       have hi : T.rank ≤ i.val := by
-        by_contra hi; simp only [blk2, if_pos (Nat.lt_of_not_le hi)] at hij; omega
+        by_contra hi; simp only [blk2, ite_eq_left (Nat.lt_of_not_le hi)] at hij; omega
       have h1 := congrFun (congrFun hrκ i) j
       simp only [Matrix.map_apply] at h1
       have h4 := hLZ i j hi hj
@@ -1059,7 +1059,7 @@ theorem mem_span_translT : ∀ (D : D7) (S T : HSp D) (βS : GL (Fin S.rank) (Fo
         rw [GlobalTheory.SplitHecke.actO_inv_actO] at this
         exact hx this
       unfold adjDat
-      rw [if_neg (fun h' => hgH h'.1)]
+      rw [ite_eq_right (fun h' => hgH h'.1)]
 
 end GlobalTheory.DownLift.ConjHalfGen
 end

@@ -64,7 +64,7 @@ theorem UpperTheory.V.KT.spanpsd :
     rfl
   have hc0 : ∃ i, c i ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     apply hf0
     refine LinearMap.ext fun x => ?_
     rw [hfc]

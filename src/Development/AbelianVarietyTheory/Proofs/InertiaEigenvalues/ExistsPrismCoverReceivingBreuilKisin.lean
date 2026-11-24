@@ -744,7 +744,7 @@ theorem exists_cover_receiving_bk : ∀ (l : ℕ) [Fact l.Prime] (K : FinExt l) 
   intro 𝔪 hm
   obtain ⟨i, hi⟩ : ∃ i, s i ∉ 𝔪 := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     exact hm.ne_top (eq_top_iff.2 (hspan ▸ Ideal.span_le.2 (Set.range_subset_iff.2 hall)))
   exact map_ne_top_of_comp c (π i) _ (hc i) 𝔪
     (map_ne_top_of_isLoc_ff (s i) (h i) (hL i) (En i).inl ((hcov i).ff 1) 𝔪 hm hi)

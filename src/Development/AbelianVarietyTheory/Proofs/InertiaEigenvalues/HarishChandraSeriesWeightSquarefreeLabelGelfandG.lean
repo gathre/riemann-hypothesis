@@ -121,7 +121,7 @@ private theorem card_filter_unipotent_eq_pow_card_free {N : ℕ} (Q : Fin N × F
           simp [Matrix.of_apply, (hU i i).2 rfl]
         · by_cases hin : (i, j) ∈ s
           · simp [Matrix.of_apply, hij, hin]
-          · simp only [Matrix.of_apply, hij, hin, if_false, dif_neg, not_false_eq_true]
+          · simp only [Matrix.of_apply, hij, hin, ite_false, dite_eq_right, not_false_eq_true]
             rcases lt_or_gt_of_ne hij with hlt | hgt
             · have hq : Q (i, j) := by
                 by_contra hq

@@ -287,7 +287,7 @@ theorem GlobalTheory.PerfectCompl.exists_dual_complement : ∀ (D : D7) (V W : H
     by_contra hne
     have hex : ∃ i j, g i j ≠ 0 := by
       by_contra hall
-      push_neg at hall
+      push Not at hall
       apply hne
       ext i j
       show incA D (g i j) = 0

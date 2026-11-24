@@ -99,7 +99,7 @@ theorem exists_ne_zero_iff {O K k J : Type} [CommRing O] [Field K] [Algebra O K]
     exact hi' (by rw [h1, map_zero, zero_mul])
   · rintro ⟨i, hI, hw⟩
     by_contra hz
-    push_neg at hz
+    push Not at hz
     have hm : b i ∈ Submodule.span O (Set.range fun i j => algebraMap O K (A i j)) :=
       hs ▸ Submodule.subset_span ⟨i, hI, rfl⟩
     obtain ⟨c, hc⟩ := (Submodule.mem_span_range_iff_exists_fun O).1 hm

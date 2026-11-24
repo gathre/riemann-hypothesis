@@ -438,7 +438,7 @@ theorem cover_rs (hPQ : redIdeal O (mcIdeal O x) ≤ Q) {s : ∀ k, ι k} (hs : 
   rw [hsum, rs_one hPQ] at h
   refine ⟨h.symm, ?_⟩
   by_contra hne
-  push_neg at hne
+  push Not at hne
   simp [hne] at h
 
 

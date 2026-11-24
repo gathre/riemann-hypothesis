@@ -213,7 +213,7 @@ open Matrix
 variable {k : Type} [CommRing k] {n : ℕ}
 
 theorem sdot (p q : Fin n) (x : k) (h : q ≠ p) : Pi.single q 1 ⬝ᵥ Pi.single p x = 0 := by
-  rw [single_dotProduct, Pi.single_apply, if_neg h, mul_zero]
+  rw [single_dotProduct, Pi.single_apply, ite_eq_right h, mul_zero]
 
 theorem comm_a (p0 p1 pm : Fin n) (h01 : p0 ≠ p1) (h0m : p0 ≠ pm) (h1m : p1 ≠ pm) :
     (tU (Pi.single pm (1 : k)) (Pi.single p0 1) (sdot _ _ _ h0m))⁻¹ *
@@ -222,7 +222,7 @@ theorem comm_a (p0 p1 pm : Fin n) (h01 : p0 ≠ p1) (h0m : p0 ≠ pm) (h1m : p1 
       tU (Pi.single pm (-1)) (Pi.single p1 1) (sdot _ _ _ h1m) := by
   apply Units.ext
   simp only [Units.val_mul, tU_val, tU_inv_val, add_mul, mul_add, sub_mul, mul_sub, one_mul, mul_one, vmv_mul_vmv,
-    Matrix.mul_smul, single_dotProduct, Pi.single_apply, h0m, h1m, h01.symm, if_false, if_true, mul_zero, zero_smul, add_zero, sub_zero, mul_one]
+    Matrix.mul_smul, single_dotProduct, Pi.single_apply, h0m, h1m, h01.symm, ite_false, ite_true, mul_zero, zero_smul, add_zero, sub_zero, mul_one]
   ext p q
   simp only [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply, vecMulVec_apply, Pi.single_apply, smul_eq_mul]
   split_ifs <;> simp_all
@@ -233,7 +233,7 @@ theorem comm_b (p0 p1 pm : Fin n) (h01 : p0 ≠ p1) (h0m : p0 ≠ pm) (h1m : p1 
       tU (Pi.single p0 (a * b)) (Pi.single p1 1) (sdot _ _ _ h01.symm) := by
   apply Units.ext
   simp only [Units.val_mul, tU_val, tU_inv_val, add_mul, mul_add, sub_mul, mul_sub, one_mul, mul_one, vmv_mul_vmv,
-    Matrix.smul_mul, single_dotProduct, Pi.single_apply, h1m, h01.symm, h0m.symm, if_false, if_true, mul_zero, zero_smul, add_zero, zero_mul, mul_one]
+    Matrix.smul_mul, single_dotProduct, Pi.single_apply, h1m, h01.symm, h0m.symm, ite_false, ite_true, mul_zero, zero_smul, add_zero, zero_mul, mul_one]
   ext p q
   simp only [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply, vecMulVec_apply, Pi.single_apply, smul_eq_mul]
   split_ifs <;> simp_all [mul_comm]
@@ -283,9 +283,9 @@ theorem entry_zero : ∀ (k : Type) [CommRing k], IsField k → ∀ n r : ℕ, 2
     ext l
     simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, ψ, Pi.single_apply]
     rcases lt_trichotomy l j with hl | hl | hl
-    · rw [if_neg (not_lt.mpr hl.le), if_neg hl.ne, hlow l hl]; ring
+    · rw [ite_eq_right (not_lt.mpr hl.le), ite_eq_right hl.ne, hlow l hl]; ring
     · rw [hl]; simp
-    · rw [if_pos hl, if_neg hl.ne']; linear_combination (-(φ l)) * ht
+    · rw [ite_eq_left hl, ite_eq_right hl.ne']; linear_combination (-(φ l)) * ht
   have KEY : ∀ (v : Fin n → k) (hv : Pi.single j 1 ⬝ᵥ v = 0), tU v (Pi.single j 1) hv ∈ H := by
     intro v hv
     have hw : φ ⬝ᵥ (t • (((tU (Pi.single j 1) ψ hψ)⁻¹).val *ᵥ v)) = 0 := by
@@ -688,7 +688,7 @@ theorem para_of_colMat_fixed : ∀ (L : Type) [Field L] [NumberField L] [IsCMFie
         by_cases h1 : a = i ∧ c = j
         · obtain ⟨rfl, rfl⟩ := h1
           simp [hij, hjr, hne, x']
-        · rw [if_neg h1]
+        · rw [ite_eq_right h1]
           split_ifs with h4
           · have h2 : a ≠ c := fun h => by subst h; omega
             simp [h2]
@@ -716,7 +716,7 @@ theorem para_of_colMat_fixed : ∀ (L : Type) [Field L] [NumberField L] [IsCMFie
         exact h1.symm
       obtain ⟨z, hz⟩ : ∃ z, f z ≠ 0 := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         exact hf (funext hcon)
       have h0 : (ψ₀ x0 - 1) • f z = 0 := by rw [sub_smul, one_smul, ← key, sub_self]
       rcases smul_eq_zero.1 h0 with h | h
@@ -770,11 +770,11 @@ theorem colMat_blocks (hn : n' = n) (h : n = r + t) (ht : 0 < t) (hr : r ≤ n')
     have := hx a c
     simpa [colMat, Matrix.one_apply, Matrix.vecMulVec_apply, Pi.single_apply] using this
   have hb : x ∈ blockTri (blk2 r) := mem_twoBlockTriangular_of_blockTriangular fun a c ha hc => by
-    rw [hx', if_neg (by rintro rfl; omega), if_neg (by rintro rfl; omega)]; simp
+    rw [hx', ite_eq_right (by rintro rfl; omega), ite_eq_right (by rintro rfl; omega)]; simp
   rw [blkOf_eq h ht]
   refine ⟨hb, Units.ext ?_, Units.ext ?_⟩
   · rw [diag_block_det_val 1 hb]
-    have hm1 : blk2 r m = 1 := by unfold blk2; rw [if_neg (by omega)]
+    have hm1 : blk2 r m = 1 := by unfold blk2; rw [ite_eq_right (by omega)]
     have e : (x : Matrix (Fin n') (Fin n') k).submatrix (Subtype.val : {a : Fin n' // blk2 r a = 1} → Fin n') Subtype.val =
         1 + Matrix.replicateCol Unit (fun a : {a : Fin n' // blk2 r a = 1} => v a.1) *
           Matrix.replicateRow Unit (Pi.single (⟨m, hm1⟩ : {a : Fin n' // blk2 r a = 1}) (1 : k)) := by
@@ -800,7 +800,7 @@ theorem conj_blocks (hn : n' = n) (h : n = r + t) (ht : 0 < t) (hr : r ≤ n) (h
   obtain rfl : x = b * e * b⁻¹ := Units.ext (Matrix.ext fun a c => hx a c)
   have hb' : b ∈ blockTri (blk2 r) := mem_twoBlockTriangular_of_blockTriangular hb
   have he' : e ∈ blockTri (blk2 r) := mem_twoBlockTriangular_of_blockTriangular fun a c ha hc => by
-    rw [he, dite_eq_right (by omega), if_neg (by rintro rfl; omega)]
+    rw [he, dite_eq_right (by omega), ite_eq_right (by rintro rfl; omega)]
   have hd : dBlk (blk2 r) 1 e = 1 := by
     refine Units.ext ?_
     rw [diag_block_det_val 1 he']
@@ -809,7 +809,7 @@ theorem conj_blocks (hn : n' = n) (h : n = r + t) (ht : 0 < t) (hr : r ≤ n) (h
       have ha : ¬ ((a.1 : ℕ) < r) := fun h' => by
         have := a.2
         unfold blk2 at this
-        rw [if_pos h'] at this
+        rw [ite_eq_left h'] at this
         omega
       rw [Matrix.submatrix_apply, he, dite_eq_right (fun h' => ha h'.1)]
       simp [Matrix.one_apply, Subtype.ext_iff]
@@ -871,9 +871,9 @@ theorem red_of_isLiftAt (s : ReciprocityTheory.Aut.SplitPlace L) {k : Type} [Com
   · rw [dite_eq_right hac] at h ⊢
     rw [← hy a c] at h
     by_cases e : a = c
-    · rw [if_pos e] at h ⊢
+    · rw [ite_eq_left e] at h ⊢
       rw [show y.val a c = 1 from Subtype.ext h, map_one]
-    · rw [if_neg e] at h ⊢
+    · rw [ite_eq_right e] at h ⊢
       rw [show y.val a c = 0 from Subtype.ext h, map_zero]
 
 end Loc

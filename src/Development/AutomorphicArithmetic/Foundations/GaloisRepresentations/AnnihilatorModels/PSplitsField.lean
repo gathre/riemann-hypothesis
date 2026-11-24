@@ -61,7 +61,7 @@ private theorem exists_forall_algHom_pi_eq_apply_of_finite {K P : Type} [Field K
   classical
   have hex : ∃ p, ψ (Pi.single p 1) ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have := Fintype.ofFinite P
     have h1 : (1 : P → K) = ∑ p, Pi.single p 1 := by
       simpa using (Finset.univ_sum_single (1 : P → K)).symm

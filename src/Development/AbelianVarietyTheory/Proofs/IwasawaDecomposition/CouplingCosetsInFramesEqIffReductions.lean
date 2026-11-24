@@ -75,7 +75,7 @@ theorem cosetIn_eqG (q : PtAt R sel mu cst u j) {y : Sp X.E (R.N j)} (hy0 : y �
     unfold frsF
     rw [dite_eq_left hP]
   ext z
-  simp only [cosetIn, Set.mem_setOf_eq, if_pos hP, pow_zero, inv_one, one_smul, hfr]
+  simp only [cosetIn, Set.mem_setOf_eq, ite_eq_left hP, pow_zero, inv_one, one_smul, hfr]
   constructor
   · rintro ⟨y', hy', hz⟩
     have h1 : (q.1.1.deco.1.liftFr ⟨P.1, hP⟩).symm y' - (q.1.1.deco.1.liftFr ⟨P.1, hP⟩).symm y ∈ stdAt X.E (R.N j) P.1 := by

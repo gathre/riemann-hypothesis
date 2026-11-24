@@ -370,7 +370,7 @@ theorem sec_mul_neg (hη : η = 1 ∨ η = -1) {β : Fin k → ℂ} (h : nsq β 
     simp only [Matrix.mul_apply, Fin.sum_univ_castSucc, sec_cc, sec_cl, sec_lc, dd_neg, ← ha, ← hdd, Pi.neg_apply, map_neg, neg_mul_neg, e,
       Finset.sum_add_distrib, Finset.sum_sub_distrib, ← Finset.mul_sum]
     simp only [Matrix.one_apply, ite_mul, one_mul, zero_mul, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true, Fin.castSucc_inj]
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true, Fin.castSucc_inj]
     generalize ∑ j, β j * conj (β j) = n at h3
     linear_combination (conj (β i) * β j) * ((-a ^ 2 * n) * h2 + (a ^ 2 * η) * h3 + (a * η * (1 - d) - 1) * h4 + (a * (1 - d)) * h2)
   · have e : ∀ l, ((1 : Matrix (Fin k) (Fin k) ℂ) i l - a * (conj (β i) * β l)) * (η * conj (β l)) =
@@ -379,7 +379,7 @@ theorem sec_mul_neg (hη : η = 1 ∨ η = -1) {β : Fin k → ℂ} (h : nsq β 
     simp only [Matrix.mul_apply, Fin.sum_univ_castSucc, sec_cc, sec_cl, sec_ll, dd_neg, ← ha, ← hdd, Pi.neg_apply, map_neg, neg_mul_neg, e,
       Finset.sum_sub_distrib, ← Finset.mul_sum]
     simp only [Matrix.one_apply, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq,
-      Finset.mem_univ, if_true, Fin.castSucc_ne_last, if_false]
+      Finset.mem_univ, ite_true, Fin.castSucc_ne_last, ite_false]
     generalize ∑ j, β j * conj (β j) = n at h3
     linear_combination (conj (β i)) * ((-a) * h3 + (d - 1) * h4)
   · have e : ∀ l, β l * ((1 : Matrix (Fin k) (Fin k) ℂ) l j - a * (conj (β l) * β j)) =
@@ -388,7 +388,7 @@ theorem sec_mul_neg (hη : η = 1 ∨ η = -1) {β : Fin k → ℂ} (h : nsq β 
     simp only [Matrix.mul_apply, Fin.sum_univ_castSucc, sec_cc, sec_lc, sec_ll, dd_neg, ← ha, ← hdd, Pi.neg_apply, map_neg, neg_mul_neg, e,
       Finset.sum_sub_distrib, ← Finset.mul_sum]
     simp only [Matrix.one_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-      Finset.mem_univ, if_true, (Fin.castSucc_ne_last _).symm, if_false]
+      Finset.mem_univ, ite_true, (Fin.castSucc_ne_last _).symm, ite_false]
     generalize ∑ j, β j * conj (β j) = n at h3
     linear_combination (β j) * ((a * n - (1 - d)) * h2 + (-a * η) * h3 + (η * (d - 1)) * h4)
   · have e : ∀ l, β l * (η * conj (β l)) = η * (β l * conj (β l)) := fun l => by ring
@@ -405,7 +405,7 @@ theorem sec_herm (hη : η = 1 ∨ η = -1) (β : Fin k → ℂ) : (sec η β)�
   unfold Hd
   refine _root_.GlobalTheory.MatrixExtLast.matrix_ext_last (fun i j => ?_) (fun i => ?_) (fun j => ?_) ?_ <;>
     simp only [Matrix.mul_diagonal, Matrix.diagonal_mul, Matrix.conjTranspose_apply, sec_cc, sec_cl, sec_lc, sec_ll,
-      dd_neg, Fin.castSucc_ne_last, if_false, if_true, Pi.neg_apply, map_neg]
+      dd_neg, Fin.castSucc_ne_last, ite_false, ite_true, Pi.neg_apply, map_neg]
   · simp [Matrix.one_apply, eq_comm, mul_comm]
   · simp [mul_comm]
   · simp only [star_mul', star_neg, Complex.star_def, Complex.conj_conj, Complex.conj_ofReal]; ring
@@ -439,7 +439,7 @@ theorem kap_mem_iff (hη : η = 1 ∨ η = -1) (A : Matrix (Fin k) (Fin k) ℂ) 
     refine _root_.GlobalTheory.MatrixExtLast.matrix_ext_last (fun i j => ?_) (fun i => ?_) (fun j => ?_) ?_ <;>
       rw [Matrix.mul_apply] <;>
       simp only [Matrix.mul_diagonal, Fin.sum_univ_castSucc, kap, Matrix.conjTranspose_apply, blk_cc, blk_cl, blk_lc, blk_ll,
-        Fin.castSucc_ne_last, if_false, if_true, Matrix.mul_one]
+        Fin.castSucc_ne_last, ite_false, ite_true, Matrix.mul_one]
     · simp [Matrix.mul_apply]
     · simp
     · simp
@@ -478,8 +478,8 @@ theorem col_id {g : Matrix (Fin (k + 1)) (Fin (k + 1)) ℂ} (hg : g ∈ UH (Hd k
     ∑ i : Fin k, ‖g i.castSucc j‖ ^ 2 + η * ‖g (Fin.last k) j‖ ^ 2 = if j = Fin.last k then η else 1 := by
   have h := congrFun (congrFun (show gᴴ * Hd k η * g = Hd k η from hg) j) j
   rw [Matrix.mul_apply] at h
-  simp only [Hd, Matrix.mul_diagonal, Fin.sum_univ_castSucc, Matrix.conjTranspose_apply, Fin.castSucc_ne_last, if_false,
-    if_true, mul_one, Matrix.diagonal_apply_eq, Complex.star_def, Complex.conj_mul'] at h
+  simp only [Hd, Matrix.mul_diagonal, Fin.sum_univ_castSucc, Matrix.conjTranspose_apply, Fin.castSucc_ne_last, ite_false,
+    ite_true, mul_one, Matrix.diagonal_apply_eq, Complex.star_def, Complex.conj_mul'] at h
   have e : conj (g (Fin.last k) j) * η * g (Fin.last k) j = η * (‖g (Fin.last k) j‖ : ℂ) ^ 2 := by
     rw [← Complex.conj_mul']; ring
   rw [e] at h
@@ -502,7 +502,7 @@ theorem herm_mem (hη : η = 1 ∨ η = -1) {g : Matrix (Fin (k + 1)) (Fin (k + 
 theorem row_id (hη : η = 1 ∨ η = -1) {g : Matrix (Fin (k + 1)) (Fin (k + 1)) ℂ} (hg : g ∈ UH (Hd k η)) :
     ‖g (Fin.last k) (Fin.last k)‖ ^ 2 = 1 - η * nsq (row g) := by
   have h := col_id (herm_mem hη hg) (Fin.last k)
-  simp only [Matrix.conjTranspose_apply, norm_star, if_true] at h
+  simp only [Matrix.conjTranspose_apply, norm_star, ite_true] at h
   have : nsq (row g) = ∑ i : Fin k, ‖g (Fin.last k) i.castSucc‖ ^ 2 := rfl
   rw [← this] at h
   rcases hη with h' | h' <;> rw [h'] at h ⊢ <;> linarith
@@ -556,7 +556,7 @@ theorem decomp (hη : η = 1 ∨ η = -1) {g : Matrix (Fin (k + 1)) (Fin (k + 1)
     simp only [Matrix.mul_apply, hrow, Finset.mul_sum, mul_assoc]
   have hc := col_id hm (Fin.last k)
   rw [hl] at hc
-  simp only [Matrix.one_apply_eq, mul_one, hp, one_pow, if_true, add_eq_right] at hc
+  simp only [Matrix.one_apply_eq, mul_one, hp, one_pow, ite_true, add_eq_right] at hc
   rw [Finset.sum_eq_zero_iff_of_nonneg (fun _ _ => by positivity)] at hc
   have e : g * sec η (-bet g) = kap (top η g) (ph g) := by
     refine _root_.GlobalTheory.MatrixExtLast.matrix_ext_last (fun i j => ?_) (fun i => ?_) (fun j => ?_) ?_
@@ -1159,7 +1159,7 @@ theorem chart_hasStrictFDerivAt (k : ℕ) (η : ℝ) (i j : Fin (k + 1)) :
     refine Jet.congr (Jet.sum fun l => (jet_kap (k := k) i l).mul (jet_sec η l j))
       (fun x => by unfold chart; rw [Matrix.mul_apply]) rfl (fun v => ?_)
     simp only [Matrix.one_apply, ite_mul, one_mul, zero_mul, Finset.sum_add_distrib, Finset.sum_ite_eq,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     unfold tang kap blk
     induction i using Fin.lastCases <;> induction j using Fin.lastCases <;> simp
   obtain ⟨D, hD, -, hd⟩ := h

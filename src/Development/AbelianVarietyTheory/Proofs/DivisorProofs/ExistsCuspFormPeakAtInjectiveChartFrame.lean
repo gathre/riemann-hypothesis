@@ -1549,7 +1549,7 @@ theorem lintegral_orbit_le (X : Data E r) {x y : Frame X.Ψ r} (hx : IsOrth X x)
       · intro γ hne
         exact Set.indicator_of_notMem (s := (fun u => lact (γ.1)⁻¹ u) ⁻¹' GlobalTheory.Unfold.satFrames X x A)
           (fun hm => hne (huniq u γ γ0 hm hγ0)) φ
-    · push_neg at hT
+    · push Not at hT
       have h0 : ∀ γ : X.Γ, χ γ u = 0 := fun γ =>
         Set.indicator_of_notMem (s := (fun u => lact (γ.1)⁻¹ u) ⁻¹' GlobalTheory.Unfold.satFrames X x A) (hT γ) φ
       simp [h0]

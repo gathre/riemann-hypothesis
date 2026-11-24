@@ -153,7 +153,7 @@ theorem eq_zero_of_mem_eigenSub_of_sum {O k N : Type} [CommRing O] [Field k] [Ad
     intro m y hm hy h
     obtain ⟨c, hc⟩ : ∃ c, χ j c ≠ σ c := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hχ j (RingHom.ext hcon)
     let f : Module.End k N := ρ c - χ j c • LinearMap.id
     have hfm : f m = (σ c - χ j c) • m := by
@@ -227,7 +227,7 @@ theorem exists_ringHom_avoid {F : Type} [Field F] [NumberField F] [IsCMField F] 
   have htot : T.card + Tc.card = Module.finrank ℚ F := by
     rw [Finset.card_filter_add_card_filter_not, Finset.card_univ, NumberField.Embeddings.card]
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsub : T.image (fun τ => τ.comp (algebraMap (𝓞 F) F)) ⊆ Finset.univ.image χ := by
     intro σ hσ
     obtain ⟨τ, hτ, rfl⟩ := Finset.mem_image.1 hσ
@@ -528,7 +528,7 @@ theorem exists_unit_coeff {W V ι : Type} [CommRing W] [IsDomain W] [IsDiscreteV
     rw [hv i]; ring
   refine ⟨v, ?_, ?_⟩
   · by_contra hnu
-    push_neg at hnu
+    push Not at hnu
     have h1 : (1 : W) ∈ IsLocalRing.maximalIdeal W := by
       rw [← hsum]
       exact Ideal.sum_mem _ fun i _ =>
@@ -546,7 +546,7 @@ theorem exists_vecMul_eq_zero {W Ω ι κ : Type} [CommRing W] [IsDomain W] [Fie
     ∃ w : ι → W, w ≠ 0 ∧ w ᵥ* A = 0 := by
   classical
   by_contra H
-  push_neg at H
+  push Not at H
   let L := FractionRing W
   let g : L →+* Ω := IsFractionRing.lift hf
   have hg : ∀ r, g (algebraMap W L r) = f r := fun r => IsFractionRing.lift_algebraMap hf r
@@ -804,7 +804,7 @@ theorem finrank_eq_zero_of_dual_killed : ∀ (F : Type) [Field F] [NumberField F
   by_contra hX
   haveI : Nontrivial X := Module.finrank_pos_iff.mp (Nat.pos_of_ne_zero hX)
   obtain ⟨i0, hi0⟩ : ∃ i, w i ≠ 0 := by
-    by_contra hc; push_neg at hc; exact hw (funext hc)
+    by_contra hc; push Not at hc; exact hw (funext hc)
   set B := Module.Free.chooseBasis ℤ X
   have key : ∀ (χ : X) (r : Module.Free.ChooseBasisIndex ℤ X),
       ∑ i, (B.repr (ρ (b i) χ) r) • w i = 0 := by
@@ -824,7 +824,7 @@ theorem finrank_eq_zero_of_dual_killed : ∀ (F : Type) [Field F] [NumberField F
     haveI : CharP k p := ringChar.charP k
     letI : Algebra (ZMod p) k := ZMod.algebra k p
     obtain ⟨π, hπ⟩ : ∃ π : Module.Dual (ZMod p) k, π (w i0) ≠ 0 := by
-      by_contra hc; push_neg at hc
+      by_contra hc; push Not at hc
       exact hi0 ((Module.forall_dual_apply_eq_zero_iff (ZMod p) (w i0)).mp hc)
     set e : ι → ℤ := fun i => ((π (w i)).val : ℤ) with hedef
     have hdiv : ∀ (χ : X) (r : Module.Free.ChooseBasisIndex ℤ X),
@@ -849,7 +849,7 @@ theorem finrank_eq_zero_of_dual_killed : ∀ (F : Type) [Field F] [NumberField F
       have := ringChar.charP k; rw [hp] at this; exact CharP.charP_to_charZero k
     letI : Algebra ℚ k := DivisionRing.toRatAlgebra
     obtain ⟨π, hπ⟩ : ∃ π : Module.Dual ℚ k, π (w i0) ≠ 0 := by
-      by_contra hc; push_neg at hc
+      by_contra hc; push Not at hc
       exact hi0 ((Module.forall_dual_apply_eq_zero_iff ℚ (w i0)).mp hc)
     set c : ι → ℚ := fun i => π (w i) with hcdef
     set e : ι → ℤ := fun i => (c i).num * ∏ j ∈ Finset.univ.erase i, ((c j).den : ℤ) with hedef

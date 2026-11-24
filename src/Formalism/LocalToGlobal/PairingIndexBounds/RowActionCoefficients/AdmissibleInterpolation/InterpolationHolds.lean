@@ -53,7 +53,7 @@ theorem interpolation_holds : Interp := by
   by_contra hne
   obtain ⟨φ, hφ⟩ : ∃ φ : Module.Dual K W, φ (w m) ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hne ((Module.forall_dual_apply_eq_zero_iff K (w m)).1 hcon)
   let P : MvPolynomial τ K := ∑ m' ∈ S, monomial m' (φ (w m'))
   have hP : P = 0 := by
@@ -70,7 +70,7 @@ theorem interpolation_holds : Interp := by
     classical
     simp only [P, coeff_sum, coeff_monomial]
     rw [Finset.sum_ite_eq' S m]
-    rw [if_pos hm]
+    rw [ite_eq_left hm]
   simp only [hP, AddMonoidAlgebra.coeff_zero] at hc
   exact hφ hc.symm
 

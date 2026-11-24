@@ -218,7 +218,7 @@ theorem closure_tor {M : Type} [Monoid M] {l : ℕ} (T : (Fin l → ℕ) → M) 
         · rw [h, h0]; exact one_mem _
         · obtain ⟨j₀, hj₀⟩ : ∃ j, r j ≠ 0 := by
             by_contra hc
-            push_neg at hc
+            push Not at hc
             exact h (funext hc)
           have hS : (Finset.univ.filter fun j => r j ≠ 0).Nonempty := ⟨j₀, by simp [hj₀]⟩
           obtain ⟨i, hidef⟩ : ∃ i, i = (Finset.univ.filter fun j => r j ≠ 0).max' hS := ⟨_, rfl⟩

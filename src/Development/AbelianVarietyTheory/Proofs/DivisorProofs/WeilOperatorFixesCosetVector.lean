@@ -221,7 +221,7 @@ theorem GlobalTheory.NuTrivSq.nuH_finIdl_eq_one : ∀ {D : D7} {T : Type} {L : L
       refine (vl_sub_le' G.pl hc1 hc2 hS).trans ?_
       have : 1 ≤ condExp G.pl ((_root_.IsDedekindDomain.HeightOneSpectrum.under (𝓞 D.host.F) PP)) := by unfold condExp; split_ifs <;> omega
       exact WithZero.exp_le_exp.2 (by omega)
-    · push_neg at hg
+    · push Not at hg
       exact (L.C.isMu0 j).unr PP hg x hunit
   have hχ : (G.ch.chiH (D.R.m - i)).loc PP x = 1 := by
     have h1 : 1 ≤ D.R.m - (i : ℕ) := by omega
@@ -230,10 +230,10 @@ theorem GlobalTheory.NuTrivSq.nuH_finIdl_eq_one : ∀ {D : D7} {T : Type} {L : L
     · have hb := vl_sub_le' G.pl hc1 hc2 hS
       rw [← hsub] at hb
       rcases G.pl.mem_S0_of_sum_eq.1 hS with h0 | h1'
-      · rw [condExp, if_pos h0] at hb
+      · rw [condExp, ite_eq_left h0] at hb
         exact (G.ch.lev0 _ h1 h2 PP h0).1 x hunit (by simpa using hb)
       · have hne : (_root_.IsDedekindDomain.HeightOneSpectrum.under (𝓞 D.host.F) PP) ≠ G.pl.v0 := fun e => G.ch.basePlace_not_mem_chiGridBadPlaces (e ▸ h1')
-        rw [condExp, if_neg hne] at hb
+        rw [condExp, ite_eq_right hne] at hb
         exact (G.ch.lev1 _ h1 h2 PP h1').1 x hunit (by simpa using hb)
     · exact G.ch.unr _ h1 h2 PP hS x hunit
   show (nuH G μ₀ i j).loc PP x = 1

@@ -99,11 +99,11 @@ theorem crd_mul (M : Matrix (Fin d.m) (Fin d.m) (AE F E)) (Y : Mx F E d.m d.n) :
   rw [Matrix.mul_apply, Finset.sum_congr rfl fun i' _ => by rw [hY i']]
 
   simp only [Matrix.mulVec, dotProduct, Fintype.sum_prod_type, mh, ite_mul, zero_mul, Finset.sum_ite_eq,
-  Finset.mem_univ, if_true, Finset.mul_sum, mul_smul_comm, map_sum, map_smul, Finsupp.coe_finsetSum,
+  Finset.mem_univ, ite_true, Finset.mul_sum, mul_smul_comm, map_sum, map_smul, Finsupp.coe_finsetSum,
   Finset.sum_apply, Finsupp.smul_apply, smul_eq_mul]
   refine Finset.sum_congr rfl fun i' _ => ?_
   rw [Finset.sum_eq_single j (fun b _ hb => by simp [Ne.symm hb]) (fun h => absurd (Finset.mem_univ j) h)]
-  simp only [if_true]
+  simp only [ite_true]
   exact Finset.sum_congr rfl fun k' _ => mul_comm _ _
 
 theorem mulVec_ext {A B : Matrix (Ix d) (Ix d) (AF F)} (h : ∀ c, A *ᵥ c = B *ᵥ c) : A = B := by

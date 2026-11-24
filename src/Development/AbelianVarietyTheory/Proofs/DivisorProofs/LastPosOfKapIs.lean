@@ -68,7 +68,7 @@ theorem lastPos_of_kapIs :
   have hg := (D.hc τ).gap_be i
   have hq : (((D.R.sigW ((i : ℕ) + 1)).1 : ℕ) : ℚ) = ((k : ℕ) : ℚ) + 1 := by
     exact_mod_cast hk.symm
-  simp only [aPl, if_pos k.2]
+  simp only [aPl, ite_eq_left k.2]
   rw [lamAt_last (D.hc τ) i k hp, hq]
   have h1 : (1 : ℤ) ≤ ⌊-(D.hc τ).b i + (D.hc τ).e i - (((k : ℕ) : ℚ) + 1 - (((k : ℕ) : ℚ) + 1)) -
       ((D.R.t : ℚ) + 1) / 2⌋ := by

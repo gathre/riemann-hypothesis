@@ -152,7 +152,7 @@ theorem exists_selfDual (ψ : AddChar (AF F) ℂ) (v : Pl (F := F)) (hψ : PsiUn
 theorem isUnitVol_measV (ψ : AddChar (AF F) ℂ) (v : Pl (F := F)) (hψ : PsiUnr ψ v) :
     GlobalTheory.SplitWeil.IsUnitVol (measV ψ v) := by
   have hex := exists_selfDual ψ v hψ
-  have hm : measV ψ v = hex.choose := by simp only [measV, dif_pos hex]
+  have hm : measV ψ v = hex.choose := by simp only [measV, dite_eq_left hex]
   have hs := hex.choose_spec
   rw [hm]
   exact (GlobalTheory.SplitWeil.isUnitVol_iff_isSelfDual (hasConductor_psiC ψ v hψ) _).2 ⟨hs.1, fun f hf => hs.2 f hf⟩

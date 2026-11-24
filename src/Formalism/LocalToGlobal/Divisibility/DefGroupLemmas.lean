@@ -625,16 +625,16 @@ open Classical in
 def idemAd (P : HeightOneSpectrum (𝓞 F) → Prop) : intAd F :=
   mkAd (fun v => if P v then 1 else 0) (fun v => by
     by_cases h : P v
-    · simp only [h, if_true]; exact one_mem _
-    · simp only [h, if_false]; exact zero_mem _)
+    · simp only [h, ite_true]; exact one_mem _
+    · simp only [h, ite_false]; exact zero_mem _)
 
 theorem idemAd_pos {P : HeightOneSpectrum (𝓞 F) → Prop} {v : HeightOneSpectrum (𝓞 F)} (h : P v) :
     ((idemAd P : intAd F) : Af F) v = 1 := by
-  unfold idemAd; rw [mkAd_apply, if_pos h]
+  unfold idemAd; rw [mkAd_apply, ite_eq_left h]
 
 theorem idemAd_neg {P : HeightOneSpectrum (𝓞 F) → Prop} {v : HeightOneSpectrum (𝓞 F)} (h : ¬ P v) :
     ((idemAd P : intAd F) : Af F) v = 0 := by
-  unfold idemAd; rw [mkAd_apply, if_neg h]
+  unfold idemAd; rw [mkAd_apply, ite_eq_right h]
 
 theorem resS_idemAd_neg (PP : Pl E) (v : HeightOneSpectrum (𝓞 F))
     (hv : v.asIdeal = PP.asIdeal.comap (algebraMap (𝓞 F) (𝓞 E))) {P : HeightOneSpectrum (𝓞 F) → Prop}
@@ -1158,12 +1158,12 @@ theorem exists_selector (F : Type) {E : Type} [Field F] [NumberField F] [Field E
   refine ⟨adS F E (idemAd P) * oToS F E c0, ?_, ?_⟩
   · intro QQ hQ
     have h1 := hc0 QQ (mem_primesOf.2 ⟨hD0E, hDT QQ hQ⟩)
-    rw [if_pos hQ, ← Ideal.Quotient.eq_zero_iff_mem, map_sub, map_one, sub_eq_zero] at h1
+    rw [ite_eq_left hQ, ← Ideal.Quotient.eq_zero_iff_mem, map_sub, map_one, sub_eq_zero] at h1
     rw [map_mul, resS_idemAd_pos QQ (underPl F QQ) rfl ((hPiff QQ).2 (hDT QQ hQ)), resS_oToS, h1, one_mul]
   · intro QQ hQ
     by_cases hDQ : (D : 𝓞 E) ∈ QQ.asIdeal
     · have h1 := hc0 QQ (mem_primesOf.2 ⟨hD0E, hDQ⟩)
-      rw [if_neg hQ, sub_zero, ← Ideal.Quotient.eq_zero_iff_mem] at h1
+      rw [ite_eq_right hQ, sub_zero, ← Ideal.Quotient.eq_zero_iff_mem] at h1
       rw [map_mul, resS_oToS, h1, mul_zero]
     · rw [map_mul, resS_idemAd_neg QQ (underPl F QQ) rfl (fun h => hDQ ((hPiff QQ).1 h)), zero_mul]
 
@@ -1179,7 +1179,7 @@ theorem exists_matrix_lift (F : Type) {E : Type} [Field F] [NumberField F] [Fiel
   ext i j
   show resS F PP.1 (oToS F E (M0 i j)) = _
   have h1 := hM0 i j PP.1 PP.2
-  rw [dif_pos PP.2, ← Ideal.Quotient.eq_zero_iff_mem, map_sub, hlift, sub_eq_zero] at h1
+  rw [dite_eq_left PP.2, ← Ideal.Quotient.eq_zero_iff_mem, map_sub, hlift, sub_eq_zero] at h1
   rw [resS_oToS, h1]
 
 section Surj

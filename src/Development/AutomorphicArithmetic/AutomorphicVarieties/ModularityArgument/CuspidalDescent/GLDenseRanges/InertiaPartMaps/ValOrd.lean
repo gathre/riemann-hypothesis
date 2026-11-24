@@ -220,7 +220,7 @@ private theorem chr_el {a b : Fin n} (hab : (b : ℕ) = a + 1) (h : a ≠ b) (ψ
     simp only [Finset.mem_filter] at hpq
     have hpq' : p ≠ q := fun e => by subst e; omega
     have hn : ¬ (a = p ∧ b = q) := fun ⟨e1, e2⟩ => hne (by rw [e1, e2])
-    rw [conj_apply, el_apply, Matrix.one_apply_ne hpq', Matrix.single_apply, if_neg hn]
+    rw [conj_apply, el_apply, Matrix.one_apply_ne hpq', Matrix.single_apply, ite_eq_right hn]
     simp
   · intro hab'
     exact absurd (Finset.mem_filter.2 ⟨Finset.mem_univ (a, b), hab⟩) hab'
@@ -253,7 +253,7 @@ private theorem dom {ψ : AddChar k Circle} {t : Fin n → k} (hnt : ∃ x : k, 
     exact i.elim0
   refine Fin.antitone_iff_succ_le.2 fun i => ?_
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hab : i.castSucc < i.succ := Fin.castSucc_lt_succ
   have habn : ((i.succ : Fin (m + 1)) : ℕ) = (i.castSucc : Fin (m + 1)) + 1 := by simp
   have hta : t i.castSucc ≠ 0 := fun e => by
@@ -347,7 +347,7 @@ theorem isoNe : IsoNe := by
   obtain ⟨w0, hw0, hw0ne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hfix
   obtain ⟨p, hp⟩ : ∃ p, l (τ p w0) ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hw0ne (hnd w0 fun p _ => hcon p)
   obtain ⟨u, hu, d, κ, hκ, rfl⟩ := iwasawa p
   set D := diagT k (Fin n) d with hD

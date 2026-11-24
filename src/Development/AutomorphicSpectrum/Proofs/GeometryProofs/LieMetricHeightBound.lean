@@ -514,7 +514,7 @@ theorem PositivityTheory.Xgn.quotient_uniformization_lower : ∀ (E : Type) [Fie
     obtain ⟨M', hM'⟩ := hpull u Mz
     obtain ⟨core, hcoreip⟩ := h.herm _ (Fin C.g → ℂ) M'
     refine ⟨core, fun i j => ?_, fun x v₀ hx => ?_⟩
-    · simp only [Γ, dif_pos hu]
+    · simp only [Γ, dite_eq_left hu]
       rw [hcoreip, hkey u hu Mz hl M' hM' i, hkey u hu Mz hl M' hM' j]
     · have hpt : M'.pt x = v₀ := Over.OverMorphism.ext (by rw [← hM']; exact hx)
       rw [hcoreip, hpt]
@@ -523,7 +523,7 @@ theorem PositivityTheory.Xgn.quotient_uniformization_lower : ∀ (E : Type) [Fie
     obtain ⟨F, hF, hFeq⟩ := h.cont (s i) (s j)
     have heq : ∀ u ∈ ball (0 : Fin n → ℂ) 1, F (ww u) = Γ u i j := by
       intro u hu
-      simp only [Γ, dif_pos hu]
+      simp only [Γ, dite_eq_left hu]
       exact hFeq _ (ww u) _ _ (hco u hu) (hvv u hu i).1 (hvv u hu j).1
     refine ContinuousOn.congr (hF.comp hww ?_) (fun u hu => (heq u hu).symm)
     intro u hu
@@ -1195,7 +1195,7 @@ theorem local_bound (𝔐 : HodgeCpt Y S y) (h : LieMetric 𝔐.M y) (hpq : 1 �
     have h3 : 0 ≤ ∑ i, ‖x i‖ ^ 2 := Finset.sum_nonneg fun i _ => by positivity
     have h4 : 0 ≤ (h.ip _ v₀ v₀).re := by
       by_contra hn
-      push_neg at hn
+      push Not at hn
       nlinarith
     calc c'.re ≤ K₂ * ∑ i, ‖x i‖ ^ 2 := h1
       _ ≤ |K₂| * ∑ i, ‖x i‖ ^ 2 := mul_le_mul_of_nonneg_right (le_abs_self _) h3

@@ -152,7 +152,7 @@ private theorem intertwiner_of_ker {F : Type} [Field F] {σ : Type} (d : σ → 
     exact zero_ne_one h1
   obtain ⟨a, b, hab⟩ : ∃ a b, xx i0 s a b ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (Matrix.ext h)
   refine ⟨Matrix.of fun u j => xx j s u b, ?_, ?_⟩
   · intro hV
@@ -182,7 +182,7 @@ private theorem separate {F : Type} [Field F] {σ : Type} (d : σ → Type)
   obtain ⟨x, hxS, hxt, hxs⟩ := hk
   obtain ⟨a, b, hab⟩ : ∃ a b, x s a b ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hxs (Matrix.ext h)
   choose p hpS hps using fun i => hs (Matrix.single i a (x s a b)⁻¹)
   choose q hqS hqs using fun i => hs (Matrix.single b i (1 : F))
@@ -238,7 +238,7 @@ theorem UpperTheory.V.AlgebraTools.density_prod :
     intro s t hst
     apply separate d S s t (hsurj s)
     by_contra hno
-    push_neg at hno
+    push Not at hno
     obtain ⟨V, hV0, hV⟩ := intertwiner_of_ker d S s t (hsurj t) hno
     exact hV0 (hint s t hst V fun g => hV _ (hmem g))
   have he : ∀ s, ∃ e ∈ S, e s = 1 ∧ ∀ t, t ≠ s → e t = 0 := by
@@ -356,7 +356,7 @@ theorem UpperTheory.V.AlgebraTools.intertwiner_iso :
     have surj : Function.Surjective (Matrix.toLin' V) := by
       obtain ⟨i0, k0, h0⟩ : ∃ i k, V i k ≠ 0 := by
         by_contra h
-        push_neg at h
+        push Not at h
         exact hV0 (Matrix.ext fun i k => by simp [h i k])
       intro y
       let A : Matrix m m F := Matrix.of fun i a => if a = i0 then y i * (V i0 k0)⁻¹ else 0
@@ -1365,9 +1365,9 @@ theorem UpperTheory.V.Pa.Det.flagBasis :
     refine Infinite.of_injective (fun m : ℕ => ι (PowerSeries.X ^ m)) ?_
     intro m k hmk
     have h := congrArg (fun p => PowerSeries.coeff (R := K) m p) (hιi hmk)
-    simp only [PowerSeries.coeff_X_pow, if_true] at h
+    simp only [PowerSeries.coeff_X_pow, ite_true] at h
     by_contra hne
-    rw [if_neg hne] at h
+    rw [ite_eq_right hne] at h
     exact one_ne_zero h
   have hev' : ∀ g, mat (pushRep ι r) g ∈ Ev (FractionRing (PowerSeries K)) (FractionRing (PowerSeries K)) n a := by
     intro g

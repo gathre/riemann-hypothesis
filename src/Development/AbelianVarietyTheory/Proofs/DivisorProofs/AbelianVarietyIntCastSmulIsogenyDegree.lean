@@ -354,7 +354,7 @@ theorem natCast_algClosed (k : Type) [Field k] [IsAlgClosed k] (A : AbVar k) (n 
     exact ⟨hfin, hsurj⟩
   refine ⟨hiso, ?_⟩
   unfold deg
-  rw [if_pos hiso, e]
+  rw [ite_eq_left hiso, e]
   exact GlobalTheory.UU.MulDegree.finrank_mul_eq k A.X A.dim n A.ab A.smooth hn _
 
 theorem natCast (K : Type) [Field K] (A : AbVar K) (n : ℕ) (hn : n ≠ 0) :
@@ -372,7 +372,7 @@ theorem neg_one (K : Type) [Field K] (A : AbVar K) : IsIsogeny (-𝟙 A) ∧ deg
   have hiso : IsIsogeny (-𝟙 A) := ⟨inferInstance, inferInstance⟩
   refine ⟨hiso, ?_⟩
   unfold deg
-  rw [if_pos hiso]
+  rw [ite_eq_left hiso]
   exact congrFun (Scheme.Hom.finrank_eq_one_of_isIso _) _
 
 theorem mul_isogeny : ∀ (K : Type) [Field K] (A : AbVar K) (n : ℤ), n ≠ 0 → IsIsogeny (n • 𝟙 A) ∧ deg (n • 𝟙 A) = n.natAbs ^ (2 * A.dim) := by

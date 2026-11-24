@@ -170,7 +170,7 @@ theorem coeff_expS (f : MvPowerSeries σ K) (hf : MvPowerSeries.constantCoeff f 
     rw [Function.mem_support] at hn
     rw [Finset.coe_range, Set.mem_Iio]
     by_contra hnN
-    push_neg at hnN
+    push Not at hnN
     apply hn
     rw [low_pow hf n d (by omega), smul_zero]
 

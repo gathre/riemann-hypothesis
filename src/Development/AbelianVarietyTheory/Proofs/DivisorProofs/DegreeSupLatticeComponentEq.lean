@@ -185,7 +185,7 @@ theorem deg_eq_neg_log_ht : ∀ (K V : Type) [Field K] [NumberField K] [AddCommG
     · have hc : v.IsComplex := IsTotallyComplex.isComplex v
       rw [InfinitePlace.isComplex_iff, ComplexEmbedding.isReal_iff] at hc
       by_contra hall
-      push_neg at hall
+      push Not at hall
       apply hc
       ext a
       rw [ComplexEmbedding.conjugate_coe_eq]

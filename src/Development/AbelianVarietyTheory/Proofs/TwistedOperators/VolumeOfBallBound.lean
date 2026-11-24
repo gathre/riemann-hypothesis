@@ -104,7 +104,7 @@ theorem main : ∀ {G E : Type} [inst : Group G] [inst_1 : TopologicalSpace G] [
     have far : ∀ h ∈ T, 2 * r < ‖φ g - φ h‖ := by
       intro h hh
       by_contra hle
-      push_neg at hle
+      push Not at hle
       exact hne h hh (hW g h (hT.1 h hh) hle)
     have hP : P (insert g T) := by
       refine ⟨?_, ?_⟩

@@ -1135,7 +1135,7 @@ theorem rsT_pbT' {Z X : Scheme.{0}} (m : Z ⟶ X) {O₀ : X.Opens} {O₁ O₂ : 
     (s : Γ(X, O₀)) : rsT (pbT m s O₁) O₂ = pbT m s O₂ := by
   rw [_root_.GlobalTheory.KS.rsT_of_le h₂]
   unfold pbT
-  rw [dif_pos h₁, dif_pos (h₂.trans h₁), ← CommRingCat.comp_apply, Scheme.Hom.appLE_map]
+  rw [dite_eq_left h₁, dite_eq_left (h₂.trans h₁), ← CommRingCat.comp_apply, Scheme.Hom.appLE_map]
 
 theorem rsT_constFn' {R : Type} [CommRing R] {Z : Scheme.{0}} (p : Z ⟶ Sp R) {O₀ O : Z.Opens} (h : O ≤ O₀) (a : R) :
     rsT (constFn p O₀ a) O = constFn p O a := by

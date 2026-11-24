@@ -66,7 +66,7 @@ theorem sdSet_zero : (0 : ZMod a → K⟦X⟧) ∈ SdSet t K e :=
 
 theorem sdSet_one : (1 : ZMod a → K⟦X⟧) ∈ SdSet t K e := by
   refine ⟨fun n => if n = 0 then 1 else 0, lTo0_atTop.2 fun r => ⟨1, fun n hn => ?_⟩, fun τ n => ?_⟩
-  · rw [if_neg (by omega)]; exact dvd_zero _
+  · rw [ite_eq_right (by omega)]; exact dvd_zero _
   · rw [Pi.one_apply, coeff_one]
     by_cases hn : n = 0
     · subst hn; simp

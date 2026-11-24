@@ -83,7 +83,7 @@ theorem stalkMap_gm_comp {X Y Z : Scheme.{0}} (f : Z ⟶ Y) (g : Y ⟶ X) (z : Z
     rw [Units.coe_map, gm_val g (f z) U h, gm_val (f ≫ g) z U h]
     exact (Scheme.Hom.germ_stalkMap_apply f _ z h _).trans rfl
   · have h' : (f ≫ g) z ∉ U := h
-    simp only [gm, dif_neg h, dif_neg h', MonoidHom.one_apply, map_one]
+    simp only [gm, dite_eq_right h, dite_eq_right h', MonoidHom.one_apply, map_one]
 
 theorem val_stalk {X Y Y' Z : Scheme.{0}} {L : LB X} {K : Type} [Fintype K] {φ : K → (Y ⟶ X)} {ε : K → ℤ}
     (t : LB.Gen (LB.LinComb L φ ε)) (r : Z ⟶ Y') (g : Y' ⟶ Y) (q : Z ⟶ Y) (hq : r ≫ g = q) (z : Z)

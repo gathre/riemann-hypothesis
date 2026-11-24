@@ -731,7 +731,7 @@ theorem exists_et (I : WIo R RA RW inclR φR gR πA)
     · intro i j g hg
       have h := repr_semi (e T) (TWact (gR g) T g) (gR g) (act_smul _ T g) (x j) i
       simp only [hx g hg, hfix T g hg, Module.Basis.repr_self, Finsupp.single_apply, ite_mul, one_mul,
-        zero_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true] at h
+        zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true] at h
       exact h.symm
     · ext i j
       have h := repr_semi (e T) (TWmap φR T) φR (phi_smul _ T) (x j) i

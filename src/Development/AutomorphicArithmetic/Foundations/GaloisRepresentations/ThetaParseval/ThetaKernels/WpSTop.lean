@@ -133,20 +133,20 @@ theorem resEtaF_of_resEtaPow_k : ∀ (F E : Type) [Field F] [NumberField F] [Fie
   apply Circle.ext
   rw [key a, Circle.coe_pow]
   by_cases ha : a ∈ normGrp F E
-  · rw [if_pos ha, hS a ha]; simp
-  rw [if_neg ha]
+  · rw [ite_eq_left ha, hS a ha]; simp
+  rw [ite_eq_right ha]
   rcases Nat.even_or_odd n with ⟨k, rfl⟩ | hn
   · rw [← two_mul, pow_mul, pow_mul, neg_one_sq, one_pow, ← Circle.coe_pow, sq, hsq a]; simp
   have hn1 : ((-1 : ℂ)) ^ n = -1 := hn.neg_one_pow
   obtain ⟨b, hb⟩ : ∃ b, η b ≠ 1 := by
     by_contra hh
-    push_neg at hh
+    push Not at hh
     exact h3 (MonoidHom.ext hh)
   have hbS : b ∉ normGrp F E := fun hm => hb (hS b hm)
   have hab : a * b ∈ normGrp F E := by
     by_contra hn2
     have e := key (a * b)
-    rw [map_mul, map_mul, Circle.coe_mul, key a, key b, if_neg ha, if_neg hbS, if_neg hn2, hn1] at e
+    rw [map_mul, map_mul, Circle.coe_mul, key a, key b, ite_eq_right ha, ite_eq_right hbS, ite_eq_right hn2, hn1] at e
     norm_num at e
   have hηb : (η b : ℂ) = -1 := GlobalTheory.VolHeckeCompare.circle_eq_neg_one (hsq b) hb
   have e2 : (η a : ℂ) * η b = 1 := by rw [← Circle.coe_mul, ← map_mul, hS _ hab]; simp
@@ -389,7 +389,7 @@ theorem exists_lagrInt_ne_zero_k : ∀ (F E : Type) [Field F] [NumberField F] [F
     obtain ⟨i, rfl⟩ := finSumFinEquiv.surjective i
     rcases i with i | i <;> by_cases h : i = j <;>
       simp only [hC, hC₀, incM, diagCols, Matrix.submatrix_apply, Matrix.map_apply, Equiv.symm_apply_apply, id,
-        Matrix.fromRows_apply_inl, Matrix.fromRows_apply_inr, Matrix.one_apply, h, if_true, if_false, map_one, map_zero]
+        Matrix.fromRows_apply_inl, Matrix.fromRows_apply_inr, Matrix.one_apply, h, ite_true, ite_false, map_one, map_zero]
   let mC : WOF F E nS nT →ₗ[AF F] Matrix (Fin (nT + nT)) (Fin nS) (AF F ⊗[F] E) :=
     { toFun := fun u => C * u
       map_add' := fun u v => Matrix.mul_add _ _ _
@@ -617,7 +617,7 @@ theorem lagrInt_eq_zero_k (hB : _root_.UpperTheory.TP.W.GoodK σ B) (hS : IsHerm
     (fun a b t => GlobalTheory.SplitVacF.commF_add_left a b t.1) L hL
     (fun x hx => by
       have hx' : ¬ ∀ g ∈ G, commF σ JS JT ξ₀ B.ψ g (x : WOF F E nS nT) = 1 := hx
-      push_neg at hx'
+      push Not at hx'
       obtain ⟨g, hg, hne⟩ := hx'
       exact ⟨g, fun l hl => hl g hg, hne⟩)
     (fun t => prof σ JS JT ξ₀ B.ψ ν 𝓕 f t) K hK hKs (fun t l hl => hUf t l (hG l hl))
@@ -982,7 +982,7 @@ theorem lagr_law_k : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Numbe
   by_cases h0 : ∀ g, IsThetaFunOF σ JS (GlobalTheory.WeilSchrodinger.DblTargetF.dblG JT) ξ₀ B.ψ g →
       GlobalTheory.LagrTheta.lagrInt ν 𝓕 ((diagCols (Fin nT) : Matrix (Fin nT ⊕ Fin nT) (Fin nT) (AF F ⊗[F] E)).submatrix finSumFinEquiv.symm id) g = 0
   · rw [h0 _ (hωd.om_pres _ f hf), h0 f hf, mul_zero]
-  push_neg at h0
+  push Not at h0
   obtain ⟨f₀, hf₀, hne⟩ := h0
   have hsp := _root_.PositivityTheory.ThKW.fundamental_domain_parseval_global F E σ B hB nS nT JS JT hS hT ξ₀ hξ₀ hσ ν 𝓕 hν h𝓕 χS ωd hωd α hlaw f₀ hf₀ hne
   have hα : ∀ a : GL (Fin nT) (AF F ⊗[F] E), α a = χS (Matrix.GeneralLinearGroup.det a) := by

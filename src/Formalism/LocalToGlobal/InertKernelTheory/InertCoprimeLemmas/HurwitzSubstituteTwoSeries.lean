@@ -159,7 +159,7 @@ theorem fc_add_single [DecidableEq σ] (n : σ →₀ ℕ) (i : σ) :
   have e : ∏ x ∈ (insert i n.support).erase i, ((((n + Finsupp.single i 1 : σ →₀ ℕ) x).factorial : ℕ) : K) =
       ∏ x ∈ (insert i n.support).erase i, (((n x).factorial : ℕ) : K) :=
     Finset.prod_congr rfl (fun x hx => by
-      rw [Finsupp.add_apply, Finsupp.single_apply, if_neg (Ne.symm (Finset.ne_of_mem_erase hx)), add_zero])
+      rw [Finsupp.add_apply, Finsupp.single_apply, ite_eq_right (Ne.symm (Finset.ne_of_mem_erase hx)), add_zero])
   rw [e, Finsupp.add_apply, Finsupp.single_eq_same, Nat.factorial_succ]
   push_cast
   ring
@@ -188,7 +188,7 @@ private theorem sub_single_one_add_single_one_of_ne_zero (n : σ →₀ ℕ) (i 
   · subst hk
     simp only [Finsupp.coe_add, Finsupp.coe_tsub, Pi.add_apply, Pi.sub_apply, Finsupp.single_eq_same]
     omega
-  · simp only [Finsupp.coe_add, Finsupp.coe_tsub, Pi.add_apply, Pi.sub_apply, Finsupp.single_apply, if_neg hk]
+  · simp only [Finsupp.coe_add, Finsupp.coe_tsub, Pi.add_apply, Pi.sub_apply, Finsupp.single_apply, ite_eq_right hk]
     omega
 
 private theorem hur_of_closed_under_pderiv [DecidableEq σ] (Q : MvPowerSeries σ K → Prop)
@@ -205,7 +205,7 @@ private theorem hur_of_closed_under_pderiv [DecidableEq σ] (Q : MvPowerSeries �
     simpa using h0 f hf
   · obtain ⟨i, hi⟩ : ∃ i, n i ≠ 0 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact hn (Finsupp.ext hc)
     have hlt : n - Finsupp.single i 1 < n := by
       refine lt_of_le_of_ne tsub_le_self (fun heq => ?_)
@@ -317,7 +317,7 @@ theorem hur_gamma [DecidableEq σ] [CharZero K] {f : MvPowerSeries σ K} (hf : H
   have hC : ∀ (c : K) (i : σ), pderiv (R := K) i (C c : MvPowerSeries σ K) = 0 := by
     intro c i
     ext n
-    rw [MvPowerSeries.coeff_pderiv, MvPowerSeries.coeff_C, if_neg, zero_mul, map_zero]
+    rw [MvPowerSeries.coeff_pderiv, MvPowerSeries.coeff_C, ite_eq_right, zero_mul, map_zero]
     intro h
     have e := congrArg (fun g => g i) h
     simp at e
@@ -681,7 +681,7 @@ theorem hur_of_pderiv [DecidableEq σ] {f : MvPowerSeries σ K} (h0 : constantCo
     simpa using h0
   · obtain ⟨i, hi⟩ : ∃ i, n i ≠ 0 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact hn (Finsupp.ext hc)
     rw [← sub_single_one_add_single_one_of_ne_zero n i hi, ← fc_coeff_pderiv]
     exact hd i _

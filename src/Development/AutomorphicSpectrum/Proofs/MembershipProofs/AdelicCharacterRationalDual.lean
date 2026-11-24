@@ -204,7 +204,7 @@ theorem cosetInd_mem_SB : ∀ (F : Type) [Field F] [NumberField F] (κ : Type) [
   have hK : IsCompact ((fun x => x - c) ⁻¹' (levelSub F κ N : Set (κ → FiniteAdeleRing (𝓞 F) F))) :=
     (Homeomorph.subRight c).isCompact_preimage.2 (levelSub_isCompact F κ N)
   refine HasCompactSupport.intro hK fun x hx => ?_
-  rw [GroundTheory.Automorphic.GJMatrix.cosetInd_apply, if_neg (show ¬ (x - c ∈ levelSub F κ N) from hx)]
+  rw [GroundTheory.Automorphic.GJMatrix.cosetInd_apply, ite_eq_right (show ¬ (x - c ∈ levelSub F κ N) from hx)]
 
 theorem levelSub_basis (F : Type) [Field F] [NumberField F] (κ : Type) [Fintype κ]
     (W : Set (κ → FiniteAdeleRing (𝓞 F) F)) (hW : W ∈ nhds (0 : κ → FiniteAdeleRing (𝓞 F) F)) :
@@ -500,14 +500,14 @@ theorem level_zero (hψ : Continuous ψ) (h1 : ψ ≠ 1) (hn : ∀ x, ‖ψ x‖
     exact congrArg (fun z => ω.repr z j) h2
   rw [← hinj.tsum_eq]
   · refine tsum_congr fun m => ?_
-    rw [_root_.GlobalTheory.CompanionTheory.ThetaAdm.pureA_rat, hB, cosetInd_apply, if_pos ((inCoset_rat_iff F hN _).2 ⟨_, rfl⟩), mul_one]
+    rw [_root_.GlobalTheory.CompanionTheory.ThetaAdm.pureA_rat, hB, cosetInd_apply, ite_eq_left ((inCoset_rat_iff F hN _).2 ⟨_, rfl⟩), mul_one]
   · intro ξ hξ
     rw [Function.mem_support, _root_.GlobalTheory.CompanionTheory.ThetaAdm.pureA_rat, cosetInd_apply] at hξ
     by_cases h : InCoset F N 0 (fun i => algebraMap F _ (ξ i))
     · obtain ⟨a, rfl⟩ := (inCoset_rat_iff F hN _).1 h
       refine ⟨fun p => ω.repr (a p.1) p.2, ?_⟩
       simp only [e, Module.Basis.sum_repr]
-    · rw [if_neg h, mul_zero] at hξ
+    · rw [ite_eq_right h, mul_zero] at hξ
       exact absurd rfl hξ
 
 theorem level_span
@@ -595,7 +595,7 @@ theorem theta_unique : ∀ (F : Type) [Field F] [NumberField F] [LocallyCompactS
     obtain ⟨M', hM', h'⟩ := key Φ₀ hΦ₀
     rw [h _ (Nat.mul_pos hM hM') (dvd_mul_right _ _), h' _ (Nat.mul_pos hM hM') (dvd_mul_left _ _),
       mul_div_cancel_right₀ _ h0]
-  · push_neg at h0
+  · push Not at h0
     refine ⟨0, fun Φ hΦ => ?_⟩
     obtain ⟨M, hM, h⟩ := key Φ hΦ
     rw [h M hM dvd_rfl, h0 Φ hΦ, mul_zero, mul_zero]

@@ -524,7 +524,7 @@ theorem res_eq {ι : Type} {n : ℕ} {lam : ι → DomWeight n} {lamW : ι → �
   have h2 := h τ ⟨n - 1, by omega⟩
   have h3 : (lam τ).w ⟨n - 1, by omega⟩ ≤ (lam τ).w a := (lam τ).anti (by
     rw [Fin.le_def]; have := a.2; simp only; omega)
-  simp only [res, DomWeight.natW, DomWeight.detShift, dif_pos hn] at h2 ⊢
+  simp only [res, DomWeight.natW, DomWeight.detShift, dite_eq_left hn] at h2 ⊢
   omega
 
 theorem liftPol_mem {K C : Type} [Field K] [Field C] (e0 : K →+* C) {ι : Type} {n : ℕ} {lam : ι → DomWeight n}

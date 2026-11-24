@@ -129,8 +129,8 @@ theorem eS_apply (w : ι) (a : Ix P Q) (b : Ix R S) (x : ℂ) (w' : ι) (a' : Ix
   · subst hw
     simp only [eS, Pi.single_eq_same, Matrix.single_apply, true_and]
     by_cases h : a' = a ∧ b' = b
-    · rw [if_pos h, if_pos ⟨h.1.symm, h.2.symm⟩]
-    · rw [if_neg h, if_neg (fun h' => h ⟨h'.1.symm, h'.2.symm⟩)]
+    · rw [ite_eq_left h, ite_eq_left ⟨h.1.symm, h.2.symm⟩]
+    · rw [ite_eq_right h, ite_eq_right (fun h' => h ⟨h'.1.symm, h'.2.symm⟩)]
   · simp [eS, hw]
 
 theorem sum_eS (w : ι) (a : Ix P Q) (b : Ix R S) (x : ℂ) (c : ι → Matrix (Ix P Q) (Ix R S) ℂ) :
@@ -149,7 +149,7 @@ theorem decomp (c : ι → Matrix (Ix P Q) (Ix R S) ℂ) :
   simp only [Finset.sum_apply, Matrix.sum_apply, Pi.add_apply, Pi.smul_apply, Matrix.add_apply,
     Matrix.smul_apply]
   rw [Finset.sum_eq_single w, Finset.sum_eq_single a, Finset.sum_eq_single b]
-  · simp only [eS_apply, and_self, if_true, Complex.real_smul, mul_one]
+  · simp only [eS_apply, and_self, ite_true, Complex.real_smul, mul_one]
     exact (Complex.re_add_im _).symm
   all_goals first
     | (intro y _ hy; simp [eS_apply, Ne.symm hy]; done)
@@ -178,7 +178,7 @@ theorem dual {l : Type} [Fintype l] (φ : (ι → Matrix (Ix P Q) (Ix R S) ℂ) 
   simp only [e1, ← map_sum]
   congr 1
   conv_rhs => rw [decomp c]
-  simp only [Fintype.sum_prod_type, Fintype.sum_bool, cu, cv, if_true, Bool.false_eq_true, if_false, hφ, sum_eS]
+  simp only [Fintype.sum_prod_type, Fintype.sum_bool, cu, cv, ite_true, Bool.false_eq_true, ite_false, hφ, sum_eS]
   refine Finset.sum_congr rfl fun w _ => Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun b _ => ?_
   rw [smul_smul, smul_smul, lineSign_eq_sgn]
   have h2 := sgn_mul_self a b
@@ -193,7 +193,7 @@ theorem cu_true_mul (Y : ι → Mat R S) (w : ι) (a : Ix P Q) (b : Ix R S) (w' 
       (Pi.single w ((sgn a b / 2) • (Matrix.single a b (1 : ℂ) * (Y w)ᵀ)) : ι → Matrix (Ix P Q) (Ix R S) ℂ) w' := by
   by_cases h : w' = w
   · subst h
-    simp only [cu, eS, if_true, Pi.smul_apply, Pi.single_eq_same, Matrix.smul_mul]
+    simp only [cu, eS, ite_true, Pi.smul_apply, Pi.single_eq_same, Matrix.smul_mul]
   · simp [cu, eS, h]
 
 theorem cu_false_mul (Y : ι → Mat R S) (w : ι) (a : Ix P Q) (b : Ix R S) (w' : ι) :
@@ -201,7 +201,7 @@ theorem cu_false_mul (Y : ι → Mat R S) (w : ι) (a : Ix P Q) (b : Ix R S) (w'
       (Pi.single w ((-(sgn a b / 2)) • (Matrix.single a b Complex.I * (Y w)ᵀ)) : ι → Matrix (Ix P Q) (Ix R S) ℂ) w' := by
   by_cases h : w' = w
   · subst h
-    simp only [cu, eS, Bool.false_eq_true, if_false, Pi.smul_apply, Pi.single_eq_same, Matrix.smul_mul]
+    simp only [cu, eS, Bool.false_eq_true, ite_false, Pi.smul_apply, Pi.single_eq_same, Matrix.smul_mul]
   · simp [cu, eS, h]
 
 theorem cv_true (w : ι) (a : Ix P Q) (b : Ix R S) :

@@ -64,7 +64,7 @@ theorem tl_eq (M : Matrix (Fin (a + b)) (Fin (a + b)) F) : tl a M = (sm M).toBlo
   ext i j
   have hi : (i : ℕ) < a + b := by omega
   have hj : (j : ℕ) < a + b := by omega
-  simp only [tl, ent, hi, hj, and_self, dif_pos, sm, Matrix.toBlocks₁₁, Matrix.of_apply,
+  simp only [tl, ent, hi, hj, and_self, dite_eq_left, sm, Matrix.toBlocks₁₁, Matrix.of_apply,
     Matrix.submatrix_apply, finSumFinEquiv_apply_left]
   rfl
 
@@ -72,7 +72,7 @@ theorem br_eq (M : Matrix (Fin (a + b)) (Fin (a + b)) F) : br a b M = (sm M).toB
   ext i j
   have hi : a + (i : ℕ) < a + b := by omega
   have hj : a + (j : ℕ) < a + b := by omega
-  simp only [br, ent, hi, hj, and_self, dif_pos, sm, Matrix.toBlocks₂₂, Matrix.of_apply,
+  simp only [br, ent, hi, hj, and_self, dite_eq_left, sm, Matrix.toBlocks₂₂, Matrix.of_apply,
     Matrix.submatrix_apply, finSumFinEquiv_apply_right]
   rfl
 
@@ -123,7 +123,7 @@ theorem charpoly_eq {M : Matrix (Fin (a + b)) (Fin (a + b)) F} (h : (sm M).toBlo
   rw [this, sm_eq h, Matrix.charpoly_fromBlocks_zero₂₁]
 
 theorem toG_val {m : ℕ} {M : Matrix (Fin m) (Fin m) F} (h : IsUnit M) : ((toG M : GL (Fin m) F) : Matrix (Fin m) (Fin m) F) = M := by
-  unfold toG; rw [dif_pos h]; rfl
+  unfold toG; rw [dite_eq_left h]; rfl
 
 theorem units_of_par (x : GL (Fin (a + b)) F) (h : InPar a x) :
     IsUnit (tl a (x : Matrix (Fin (a + b)) (Fin (a + b)) F)) ∧ IsUnit (br a b (x : Matrix (Fin (a + b)) (Fin (a + b)) F)) := by

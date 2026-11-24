@@ -269,7 +269,7 @@ theorem exists_twist_k (d : _root_.PositivityTheory.SiegelWeilFormula.SD_k σ) (
     rw [e1, psi_trace_at d.std hcm τ w z hf hw]
     have hzw : (piInf (τ w) z).re = 1 / 4 := by
       rw [hz, map_neg, map_mul, hc, hs1, ← hq]
-      simp only [hx, if_pos rfl, Complex.neg_re, Complex.mul_re, Complex.ofReal_re, Complex.ofReal_im, zero_mul, sub_zero]
+      simp only [hx, ite_eq_left rfl, Complex.neg_re, Complex.mul_re, Complex.ofReal_re, Complex.ofReal_im, zero_mul, sub_zero]
       rw [hr]
       field_simp
     rw [hzw]

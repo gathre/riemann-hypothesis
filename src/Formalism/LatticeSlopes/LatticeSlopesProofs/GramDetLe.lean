@@ -189,7 +189,7 @@ theorem gram_det_le : GramDetLe := by
     · simp [Matrix.det_isEmpty]
     have hC0 : 0 ≤ C := by
       by_contra hneg
-      push_neg at hneg
+      push Not at hneg
       obtain ⟨i⟩ := hι
       have h1 := hvw (EuclideanSpace.single i 1)
       have h3 : ‖linearCombinationMap v (EuclideanSpace.single i 1)‖ ≤ 0 := by

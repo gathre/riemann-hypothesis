@@ -253,7 +253,7 @@ theorem UpperTheory.Esk.diagonal_terms_contribution_proof : UpperTheory.Esk.B1a 
     fun _ _ _ _ => rfl
   obtain ⟨v, hv⟩ : ∃ v, 4 * (D.r v γ.out : Matrix (Fin 2) (Fin 2) ℝ).det < (D.r v γ.out : Matrix (Fin 2) (Fin 2) ℝ).trace ^ 2 := by
     unfold Dat.TotEll at hTE
-    push_neg at hTE
+    push Not at hTE
     obtain ⟨v, hv⟩ := hTE
     refine ⟨v, ?_⟩
     have e1 : (D.r v γ.out : Matrix (Fin 2) (Fin 2) ℝ).det = D.σ v (γ.out : Matrix (Fin 2) (Fin 2) F).det := by

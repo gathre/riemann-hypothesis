@@ -153,10 +153,10 @@ theorem isMultiHomog_rename {κ : K → K'} {v : (Σ k, ι k) → Σ k, ι' k} (
     rw [hb.1.extend_apply, Finset.sum_eq_single k]
     · simpa using hf m₀ hm₀ k
     · intro k₂ _ hne
-      exact Finset.sum_eq_zero fun i _ => if_neg (hb.1.ne hne)
+      exact Finset.sum_eq_zero fun i _ => ite_eq_right (hb.1.ne hne)
     · simp
   · rw [Function.extend_apply' _ _ _ hk]
-    exact Finset.sum_eq_zero fun k _ => Finset.sum_eq_zero fun i _ => if_neg fun h => hk ⟨k, h⟩
+    exact Finset.sum_eq_zero fun k _ => Finset.sum_eq_zero fun i _ => ite_eq_right fun h => hk ⟨k, h⟩
 
 end Forms
 

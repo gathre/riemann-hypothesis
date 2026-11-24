@@ -1192,7 +1192,7 @@ theorem ev_resG_top {V : (Sp Ω).Opens} (hV : ⊤ ≤ V) (x : Ω) :
 
 theorem ev_appLE {X : Scheme.{0}} (x : Sp Ω ⟶ X) {U : X.Opens} {V : (Sp Ω).Opens} (hV : ⊤ ≤ V) (h : V ≤ x ⁻¹ᵁ U)
     (f : Γ(X, U)) : ev V hV ((x.appLE U V h).hom f) = valF x U f := by
-  simp only [ev, RingHom.comp_apply, resG_appLE, valF, dif_pos (hV.trans h)]
+  simp only [ev, RingHom.comp_apply, resG_appLE, valF, dite_eq_left (hV.trans h)]
 
 end GlobalTheory.TupleBundle
 

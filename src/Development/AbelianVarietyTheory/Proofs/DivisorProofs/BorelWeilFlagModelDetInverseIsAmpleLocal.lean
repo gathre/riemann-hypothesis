@@ -522,7 +522,7 @@ theorem prod_zpow_neg_ind {G : Type} [CommGroup G] (σ : E →+* ℂ) (m : Fin (
     · simp [ind]
     · have : ind σ m (some ⟨τ, j⟩) = 0 := by
         simp only [ind, Option.elim]
-        rw [if_neg]
+        rw [ite_eq_right]
         rintro ⟨rfl, hj⟩
         exact hb ⟨⟨j, Nat.lt_succ_of_le hj⟩, rfl⟩
       rw [this, zpow_zero]
@@ -684,7 +684,7 @@ theorem exists_mem_basicOpen_plkMinor (F : Frames Y π) (Mc : MChart Y) (k : F.J
   obtain ⟨B, hB⟩ := exists_mul_plkU_eq_one F Mc k σ
   obtain ⟨cf, hc⟩ := exists_sum_minors_eq_one (d := (m : ℕ) + 1) m.2 _ B hB
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hmax : (Z.presheaf.germ _ z hz).hom (∑ r, cf r * plkMinor F Mc k σ m r) ∈
       IsLocalRing.maximalIdeal (Z.presheaf.stalk z) := by
 

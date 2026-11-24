@@ -119,7 +119,7 @@ theorem _root_.GlobalTheory.Avoid.exists_orderEmbedding_minor_ne_zero {K V ι : 
     ∃ J : Fin r ↪o ι, pairingDual K V r (ιMulti K r fun k => c (J k)) x ≠ 0 := by
   classical
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hall : ∀ φ : ⋀[K]^r (Dual K V), pairingDual K V r φ x = 0 := by
     intro φ
     have hφ : φ ∈ Submodule.span K (Set.range (ιMulti_family K r c)) := by

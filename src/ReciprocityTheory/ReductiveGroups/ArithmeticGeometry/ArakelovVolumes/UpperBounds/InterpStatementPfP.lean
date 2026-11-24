@@ -83,7 +83,7 @@ private theorem submatrix_castLE_mul_of_left_zero {i : ℕ} (h : i ≤ r) (M N :
         refine Finset.sum_subset (Finset.subset_univ _) (fun k _ hk => ?_)
         have hik : i ≤ (k : ℕ) := by
           by_contra hlt
-          push_neg at hlt
+          push Not at hlt
           exact hk (Finset.mem_map.2 ⟨⟨k, hlt⟩, Finset.mem_univ _, Fin.ext rfl⟩)
         rw [hM a k hik, zero_mul]
 
@@ -101,7 +101,7 @@ private theorem submatrix_castLE_mul_of_right_zero {i : ℕ} (h : i ≤ r) (N U 
         refine Finset.sum_subset (Finset.subset_univ _) (fun k _ hk => ?_)
         have hik : i ≤ (k : ℕ) := by
           by_contra hlt
-          push_neg at hlt
+          push Not at hlt
           exact hk (Finset.mem_map.2 ⟨⟨k, hlt⟩, Finset.mem_univ _, Fin.ext rfl⟩)
         rw [hU k c hik, mul_zero]
 

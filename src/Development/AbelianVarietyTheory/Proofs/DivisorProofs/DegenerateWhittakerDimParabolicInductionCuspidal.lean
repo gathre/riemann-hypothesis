@@ -160,13 +160,13 @@ theorem eig_eq_bot_of_radical : ∀ (F : Type) [Field F] (ψ : AddChar F ℂ) (r
   have hgb : g ∈ blockTri (κ := F) b := by
     refine mem_blockTri.2 fun k l hkl => ?_
     have hkl' : k ≠ l := fun h => by rw [h] at hkl; exact lt_irrefl _ hkl
-    rw [hg, Matrix.one_apply_ne hkl', if_neg, add_zero]
+    rw [hg, Matrix.one_apply_ne hkl', ite_eq_right, add_zero]
     rintro ⟨rfl, rfl⟩
     exact lt_asymm hb hkl
   have h1 : σ ⟨g, hgb⟩ = 1 := by
     refine hσ.infl _ fun k l hkl => ?_
     show (g : Matrix (Fin r) (Fin r) F) k l = _
-    rw [hg, if_neg, add_zero]
+    rw [hg, ite_eq_right, add_zero]
     rintro ⟨rfl, rfl⟩
     exact hb.ne hkl
   have hc : ∀ k l, ((x⁻¹ * g * x : GL (Fin r) F) : Matrix (Fin r) (Fin r) F) k l =
@@ -177,10 +177,10 @@ theorem eig_eq_bot_of_radical : ∀ (F : Type) [Field F] (ψ : AddChar F ℂ) (r
   have hu : x⁻¹ * g * x ∈ unip F r := by
     refine ⟨mem_blockTri.2 fun k l hkl => ?_, fun k => ?_⟩
     · have hkl' : k ≠ l := fun h => by rw [h] at hkl; exact lt_irrefl _ hkl
-      rw [hc, Matrix.one_apply_ne hkl', if_neg, add_zero]
+      rw [hc, Matrix.one_apply_ne hkl', ite_eq_right, add_zero]
       rintro ⟨rfl, rfl⟩
       exact lt_asymm hlt hkl
-    · rw [hc, Matrix.one_apply_eq, if_neg, add_zero]
+    · rw [hc, Matrix.one_apply_eq, ite_eq_right, add_zero]
       rintro ⟨rfl, rfl⟩
       exact lt_irrefl _ hlt
   have hs : edgeSum (cutEdge j) (x⁻¹ * g * x) = t := by
@@ -190,9 +190,9 @@ theorem eig_eq_bot_of_radical : ∀ (F : Type) [Field F] (ψ : AddChar F ℂ) (r
       intro k l
       by_cases h : cutEdge j k l
       · have hkl : k ≠ l := fun e => by have := h.1; rw [e] at this; omega
-        rw [if_pos h, hc, Matrix.one_apply_ne hkl, zero_add]
+        rw [ite_eq_left h, hc, Matrix.one_apply_ne hkl, zero_add]
         by_cases h1 : l = c <;> by_cases h2 : k = a <;> simp [h1, h2, @eq_comm _ a k, @eq_comm _ c l]
-      · rw [if_neg h]
+      · rw [ite_eq_right h]
         by_cases h1 : l = c <;> by_cases h2 : k = a <;> simp [h1, h2]
         subst h1 h2
         exact absurd hac h
@@ -257,16 +257,16 @@ theorem bd_mul (b : Fin r → ℕ) {M N : Matrix (Fin r) (Fin r) F} (hM : M.Bloc
   · refine Finset.sum_congr rfl fun l _ => ?_
     rcases lt_trichotomy (b l) (b i) with h1 | h1 | h1
     · rw [hM h1]; simp
-    · rw [if_pos h1.symm, if_pos (h1.trans h)]
+    · rw [ite_eq_left h1.symm, ite_eq_left (h1.trans h)]
     · rw [hN (show b k < b l by omega)]; simp
   · refine (Finset.sum_eq_zero fun l _ => ?_).symm
     by_cases h1 : b i = b l
-    · rw [if_neg (show ¬ b l = b k by omega), mul_zero]
-    · rw [if_neg h1, zero_mul]
+    · rw [ite_eq_right (show ¬ b l = b k by omega), mul_zero]
+    · rw [ite_eq_right h1, zero_mul]
 
 theorem bd_tri (b : Fin r → ℕ) (M : Matrix (Fin r) (Fin r) F) : (bd b M).BlockTriangular b := by
   intro i k h
-  rw [bd_apply, if_neg (by omega)]
+  rw [bd_apply, ite_eq_right (by omega)]
 
 def levi (b : Fin r → ℕ) (p : blockTri (κ := F) b) : blockTri (κ := F) b :=
   ⟨⟨bd b ((p : GL (Fin r) F) : Matrix (Fin r) (Fin r) F), bd b (((p⁻¹ : blockTri (κ := F) b) : GL (Fin r) F) : Matrix (Fin r) (Fin r) F),
@@ -289,7 +289,7 @@ theorem sigma_levi {V : Type} [AddCommGroup V] [Module ℂ V] {b : Fin r → ℕ
       rw [this, ← bd_mul b (p⁻¹).2 p.2, ← Units.val_mul]
       simp [bd_one]
     have h2 := congrFun (congrFun h1 i) k
-    rwa [bd_apply, if_pos hik] at h2
+    rwa [bd_apply, ite_eq_left hik] at h2
   have : levi b p = p * (p⁻¹ * levi b p) := by group
   rw [this, map_mul, h, mul_one]
 
@@ -298,7 +298,7 @@ theorem edgeSum_levi (b : Fin r → ℕ) (p : blockTri (κ := F) b) :
   unfold edgeSum
   refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun k _ => ?_
   split_ifs with h
-  · rw [levi_apply, if_pos h.2]
+  · rw [levi_apply, ite_eq_left h.2]
   · rfl
 
 section Perm
@@ -362,7 +362,7 @@ theorem eig_conj_eq_leviWh : ∀ (F : Type) [Field F] (ψ : AddChar F ℂ) (r : 
     rw [hx]
     by_cases h : b (w a) = b (w c)
     · simp only [edge_iff hσ.mono h1 h2 h4 h]
-    · rw [if_neg (show ¬ blkEdge b (w a) (w c) from fun h' => h h'.2)]
+    · rw [ite_eq_right (show ¬ blkEdge b (w a) (w c) from fun h' => h h'.2)]
       split_ifs with hc
       · exact p.2 (lt_of_le_of_ne (h3 a c hc) (Ne.symm h))
       · rfl
@@ -377,7 +377,7 @@ theorem eig_conj_eq_leviWh : ∀ (F : Type) [Field F] (ψ : AddChar F ℂ) (r : 
         split_ifs with h
         · exact unip_lower hp' (h1 c a hac h.symm)
         · rfl
-      · rw [hx, levi_apply, if_pos rfl, unip_diag hp']
+      · rw [hx, levi_apply, ite_eq_left rfl, unip_diag hp']
     have := H (levi b p) hm
     rw [sigma_levi hσ, hsum, edgeSum_levi] at this
     exact this
@@ -393,7 +393,7 @@ theorem eig_conj_eq_leviWh : ∀ (F : Type) [Field F] (ψ : AddChar F ℂ) (r : 
           exact unip_lower hp' ((lt_iff h1 h.symm).2 hik)
         · rfl
       · obtain ⟨a, rfl⟩ := w.surjective i
-        rw [levi_apply, if_pos rfl, ← hx, unip_diag hp']
+        rw [levi_apply, ite_eq_left rfl, ← hx, unip_diag hp']
     have := H (levi b p) hm
     rw [sigma_levi hσ, edgeSum_levi] at this
     rw [hsum]
@@ -481,11 +481,11 @@ theorem surj (h1 : χ 1 = 1) (hχ : ∀ u ∈ U, ∀ u' ∈ U, χ (u * u') = χ 
   have hf : ∀ g w, R g w → f g = w := by
     intro g w hw
     have h : ∃ w, R g w := ⟨w, hw⟩
-    simp only [f, dif_pos h]
+    simp only [f, dite_eq_left h]
     exact huniq g _ _ h.choose_spec hw
   have hf0 : ∀ g, (¬ ∃ w, R g w) → f g = 0 := by
     intro g h
-    simp only [f, dif_neg h]
+    simp only [f, dite_eq_right h]
   have hL : ∀ (q : P) g w, R g w → R (q * g) (σ q w) := by
     rintro q g w ⟨i, p, u, hu, rfl, rfl⟩
     refine ⟨i, q * p, u, hu, by push_cast; group, ?_⟩
@@ -565,7 +565,7 @@ def pm (F : Type) [Field F] (w : Equiv.Perm (Fin r)) : GL (Fin r) F where
     rw [Finset.sum_eq_single (w.symm a)]
     · simp [eq_comm]
     · intro l _ hl
-      rw [if_neg, zero_mul]
+      rw [ite_eq_right, zero_mul]
       rintro rfl
       exact hl (by simp)
     · simp
@@ -575,7 +575,7 @@ def pm (F : Type) [Field F] (w : Equiv.Perm (Fin r)) : GL (Fin r) F where
     rw [Finset.sum_eq_single (w a)]
     · simp
     · intro l _ hl
-      rw [if_neg hl, zero_mul]
+      rw [ite_eq_right hl, zero_mul]
     · simp
 
 theorem pm_val (w : Equiv.Perm (Fin r)) (a c : Fin r) :

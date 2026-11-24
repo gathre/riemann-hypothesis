@@ -201,7 +201,7 @@ theorem _root_.GlobalTheory.SympDualNbhd.exists_dual_nbhd : ∀ {F : Type} [Fiel
   intro F _ _ v ψ hψ hne κ _ N hN
   obtain ⟨t₀, ht₀⟩ : ∃ t, ψ t ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (AddChar.ext _ _ fun t => by rw [h t, AddChar.one_apply])
   obtain ⟨U₀, hU₀⟩ := _root_.GlobalTheory.HeisLatVac.lc_exists_open_ker ψ hψ
   obtain ⟨δ, hδ, hδU⟩ := Metric.isOpen_iff.mp U₀.isOpen 0 (zero_mem U₀)
@@ -228,7 +228,7 @@ theorem _root_.GlobalTheory.SympDualNbhd.exists_dual_nbhd : ∀ {F : Type} [Fiel
     have h1 : ∀ i, ‖w'.1 i‖ < ε := by
       intro i
       by_contra h
-      push_neg at h
+      push Not at h
       have h0 : w'.1 i ≠ 0 := norm_pos_iff.mp (hε.trans_le h)
       have hy : ((0 : κ → _root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Fv F v), (Pi.single i (t₀ / w'.1 i) : κ → _)) ∈ Y := by
         rw [hmemY]
@@ -242,7 +242,7 @@ theorem _root_.GlobalTheory.SympDualNbhd.exists_dual_nbhd : ∀ {F : Type} [Fiel
     have h2 : ∀ i, ‖w'.2 i‖ < ε := by
       intro i
       by_contra h
-      push_neg at h
+      push Not at h
       have h0 : w'.2 i ≠ 0 := norm_pos_iff.mp (hε.trans_le h)
       have hy : ((Pi.single i (-t₀ / w'.2 i) : κ → _), (0 : κ → _root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Fv F v)) ∈ Y := by
         rw [hmemY]
@@ -358,7 +358,7 @@ theorem exists_twisted_sum_ne_zero : ∀ {G Y X : Type} [AddCommGroup G] [Fintyp
   intro G Y X _ _ _ _ _ θ hθ hsep c hc0
   classical
   by_contra hall
-  push_neg at hall
+  push Not at hall
   have h1 : θ 0 = 1 := by
     have := hθ 0 0
     rw [add_zero] at this
@@ -374,7 +374,7 @@ theorem exists_twisted_sum_ne_zero : ∀ {G Y X : Type} [AddCommGroup G] [Fintyp
     intro a ha
     obtain ⟨w, hw⟩ : ∃ w, θ w a ≠ 1 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact ha (hsep a h)
     let s₀ : S := ⟨θ w, w, rfl⟩
     have e : ∑ s : S, (s : AddChar G ℂ) a = θ w a * ∑ s : S, (s : AddChar G ℂ) a := by

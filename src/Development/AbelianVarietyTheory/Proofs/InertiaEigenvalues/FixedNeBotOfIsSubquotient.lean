@@ -103,7 +103,7 @@ theorem piTensor_isSubquotient_jac_degZero : ∀ (k : Type) [Field k] [Valuative
   obtain ⟨φ, hφ⟩ : ∃ φ : Module.Dual ℂ (Jacquet π (unipRad k e)),
       φ (Submodule.Quotient.mk v) ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hx ((Module.forall_dual_apply_eq_zero_iff ℂ _).1 h)
   let L : Jacquet π (unipRad k e) →ₗ[ℂ] PiTensorProduct ℂ X :=
     (PiTensorProduct.isEmptyEquiv (Fin 0)).symm.toLinearMap ∘ₗ φ
@@ -457,7 +457,7 @@ theorem jMinus_contract (e : (Σ a, m a) ≃ n) : ∀ U ∈ 𝓝 (1 : GL n k), �
     · subst h
       rw [leviEmb_apply_same]
       simp [S, T, Matrix.scalar_apply, diagonal_pow, diagonal_apply, inv_pow]
-    · rw [leviEmb_apply_ne k e _ h, if_neg fun h' => h (congrArg Sigma.fst (e.injective h'))]
+    · rw [leviEmb_apply_ne k e _ h, ite_eq_right fun h' => h (congrArg Sigma.fst (e.injective h'))]
   have hcomm : ∀ x (d : Levi k m), d * S x = S x * d := fun x d => funext fun a => Units.ext
     ((Matrix.scalar_commute _ (fun _ => Commute.all _ _) _).eq).symm
   let F : Filter (kˣ × jMinus k e) := (comap (fun x : kˣ => (x : k)) (𝓝 0)) ×ˢ ⊤

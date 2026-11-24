@@ -390,8 +390,8 @@ theorem idx_cases (i : Fin N) : (∃ a : Fin (d 0), i = stdBlocks d h ⟨0, a⟩
 
 theorem blk_two (i : Fin N) : blk (stdBlocks d h) i = if (i : ℕ) < d 0 then 0 else 1 := by
   rcases idx_cases d h i with ⟨a, rfl⟩ | ⟨a, rfl⟩
-  · rw [blk_apply, stdBlocks_zero_val, if_pos a.2]
-  · rw [blk_apply, stdBlocks_one_val, if_neg (by omega)]
+  · rw [blk_apply, stdBlocks_zero_val, ite_eq_left a.2]
+  · rw [blk_apply, stdBlocks_one_val, ite_eq_right (by omega)]
 
 theorem mem_unipRad_iff {g : GL (Fin N) k} :
     g ∈ unipRad k (stdBlocks d h) ↔
@@ -754,7 +754,7 @@ theorem exists_irr_sub : ∀ (k : Type) [Field k] [ValuativeRel k] [TopologicalS
   obtain ⟨f, hf⟩ : ∃ f : (s 0).ρ.IntertwiningMap (subQuot (whitImg ψ d J T) (whitImg ψ d J T')),
       f.toLinearMap ≠ 0 := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have : (⨆ f : (s 0).ρ.IntertwiningMap (subQuot (whitImg ψ d J T) (whitImg ψ d J T')),
         LinearMap.range f.toLinearMap) = ⊥ := by
       refine le_antisymm (iSup_le fun f => ?_) bot_le

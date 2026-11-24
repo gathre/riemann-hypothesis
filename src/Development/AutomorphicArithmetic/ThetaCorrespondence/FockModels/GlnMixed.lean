@@ -388,8 +388,8 @@ theorem UpperTheory.Lit.Full.diag3 :
     · subst hij
       have r := hr i
       rw [Finset.sum_eq_single i (fun j _ hj => hz i j hj) (by simp)] at r
-      exact r.trans (if_pos rfl).symm
-    · exact (hz i j (Ne.symm hij)).trans (if_neg hij).symm
+      exact r.trans (ite_eq_left rfl).symm
+    · exact (hz i j (Ne.symm hij)).trans (ite_eq_right hij).symm
   · simp
 end -- clump:auto
 end -- clump:auto
@@ -591,7 +591,7 @@ private theorem exists_irr_quot {G V W : Type} [Group G] [TopologicalSpace G] [I
   choose c hc using hcen
   let ω : GL (Fin b) k → ℂ := fun z => if h : z ∈ Subgroup.center (GL (Fin b) k) then c z h else 0
   have hων : GroundTheory.Automorphic.Parabolic.HasCentralChar (ν.comp ψ : Representation ℂ _ U) ω := fun z hz u => by
-    simp only [ω, dif_pos hz]
+    simp only [ω, dite_eq_left hz]
     exact hc z hz u
   have hωA : GroundTheory.Automorphic.Parabolic.HasCentralChar A ω := fun z hz =>
     scalar_of_subquot hν (hων z hz)
@@ -973,7 +973,7 @@ private theorem eq_single_of_monomial {ι σ : Type*} (Ψ : (ι →₀ ℤ) ≃+
       exact hx (hU w x hw' hx0).symm
   have h2 : C w * AddMonoidAlgebra.coeff (Ψ (Finsupp.single w 1)) m = 1 := by
     have h3 := congrArg (fun p => AddMonoidAlgebra.coeff (Ψ p) m) h1
-    simp only [map_zsmul, ep, MvPolynomial.coeff_monomial, if_true, MvPolynomial.coeff_smul, smul_eq_mul] at h3
+    simp only [map_zsmul, ep, MvPolynomial.coeff_monomial, ite_true, MvPolynomial.coeff_smul, smul_eq_mul] at h3
     exact h3.symm
   have h4 : C w = 1 := by
     have := hnn w

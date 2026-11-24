@@ -223,7 +223,7 @@ theorem gram_re_posdef_adj : ∀ (O : Type) [Ring O] (bar : O → O) (g : ℕ) (
     rw [hq, ← hexp, ← hexp]
     have hor : (fun i => (z i).re) ≠ 0 ∨ (fun i => (z i).im) ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       apply hz
       funext i
       exact Complex.ext (congrFun h.1 i) (congrFun h.2 i)
@@ -682,7 +682,7 @@ theorem retype : ∀ (O : Type) [Ring O] (bar : O → O) (g : ℕ) (ρ : O →+*
   let F : (Fin m → ℂ) → (S →ₐ[ℂ] Matrix (Fin g) (Fin g) ℂ) := fun b =>
     if hb : b ∈ B' then restr (V b) (R b) S (hVR b hb) (hSV b hb.1)
     else restr (V b₀) (R b₀) S (hVR b₀ hb₀') (hSV b₀ hb₀)
-  have hF : ∀ b (hb : b ∈ B'), F b = restr (V b) (R b) S (hVR b hb) (hSV b hb.1) := fun b hb => dif_pos hb
+  have hF : ∀ b (hb : b ∈ B'), F b = restr (V b) (R b) S (hVR b hb) (hSV b hb.1) := fun b hb => dite_eq_left hb
   have hFd : ∀ a i j, DifferentiableOn ℂ (fun b => F b a i j) B' := by
     intro a i j
     refine DifferentiableOn.congr (f := fun b => (V b * a.1 * R b) i j) ?_ ?_

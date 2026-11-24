@@ -85,7 +85,7 @@ theorem hk_star_eps (k r : ℕ) (i : Fin (2 * r + k + 1)) : star (hkEps k r i) =
 theorem hk_mul_self (k r : ℕ) : Hpk k r * Hpk k r = 1 := by
   ext i j
   rw [Matrix.mul_apply]
-  simp_rw [hk_apply, ite_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true,
+  simp_rw [hk_apply, ite_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true,
     hk_sig_sig, hk_eps_sig]
   by_cases h : j = i
   · subst h; simp [hk_eps_mul_self]

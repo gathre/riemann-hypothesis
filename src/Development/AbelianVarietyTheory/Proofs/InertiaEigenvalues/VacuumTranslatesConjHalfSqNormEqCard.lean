@@ -83,7 +83,7 @@ theorem vacuumTranslates_conjHalf_sq_norm_eq_card_alt : ∀ (D : D7) (ψ : AddCh
     show infPart D (y i j - y' i j) = 0
     rw [RingHom.map_sub, h1, h2, sub_zero]
   rw [hd _ hm0] at hnot
-  push_neg at hnot
+  push Not at hnot
   obtain ⟨l, hl, hne'⟩ := hnot
   obtain ⟨ε, hε, hεf⟩ := hsign f₀ hf.lat l hl
   exact ⟨l, ε, by rcases hε with rfl | rfl <;> simp, hεf f₀ hf.lat, hne'⟩

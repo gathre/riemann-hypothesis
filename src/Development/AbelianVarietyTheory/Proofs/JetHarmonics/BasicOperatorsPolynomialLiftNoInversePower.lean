@@ -121,7 +121,7 @@ theorem cell_apply (c : Fin r → ℂ) (g : Mx k r) (p q : Fin (2 * r + k + 1)) 
 theorem swp_e (a : Fin r) : PI.QnWCellW.swp k r (eI k r a) = esI k r a := by
   have := a.isLt
   apply Fin.ext
-  rw [PI.QnWCellW.swp_val, if_neg (by rw [eI_val]; omega), eI_val, _root_.PI.UnitaryGroupMassFormula.DLm.NBk.esI_val]
+  rw [PI.QnWCellW.swp_val, ite_eq_right (by rw [eI_val]; omega), eI_val, _root_.PI.UnitaryGroupMassFormula.DLm.NBk.esI_val]
 
 theorem swp_es (a : Fin r) : PI.QnWCellW.swp k r (esI k r a) = eI k r a := by
   rw [← swp_e, PI.QnWCellW.swp_swp]
@@ -132,7 +132,7 @@ theorem cf_e (c : Fin r → ℂ) (a : Fin r) : PI.QnWCellW.cf k r c (eI k r a) =
 theorem cf_es (c : Fin r → ℂ) (a : Fin r) : PI.QnWCellW.cf k r c (esI k r a) = c a := by
   have := a.isLt
   unfold PI.QnWCellW.cf
-  rw [if_neg (by rw [_root_.PI.UnitaryGroupMassFormula.DLm.NBk.esI_val]; omega), if_neg (by rw [_root_.PI.UnitaryGroupMassFormula.DLm.NBk.esI_val]; omega), _root_.PI.UnitaryGroupMassFormula.DLm.NBk.esI_val, show 2 * r + k - (2 * r + k - a.val) = a.val by omega,
+  rw [ite_eq_right (by rw [_root_.PI.UnitaryGroupMassFormula.DLm.NBk.esI_val]; omega), ite_eq_right (by rw [_root_.PI.UnitaryGroupMassFormula.DLm.NBk.esI_val]; omega), _root_.PI.UnitaryGroupMassFormula.DLm.NBk.esI_val, show 2 * r + k - (2 * r + k - a.val) = a.val by omega,
     PI.QnWCellW.cN_val]
 
 theorem swp_eq_iff (p q : Fin (2 * r + k + 1)) : PI.QnWCellW.swp k r p = q ↔ p = PI.QnWCellW.swp k r q := by
@@ -234,7 +234,7 @@ theorem cell_mul_hX (hg : g ∈ Glev k r (Fin.last r)) {c : Fin r → ℂ} (hc :
       by_cases hp : p = eI k r b
       · subst hp
         rw [Matrix.single_mul_apply_same, row_e hg, star_div₀]
-        simp only [if_true, smul_eq_mul]
+        simp only [ite_true, smul_eq_mul]
         field_simp
       · rw [Matrix.single_mul_apply_of_ne _ _ _ _ _ hp]; simp [hp]
     · rw [Matrix.mul_single_apply_of_ne _ _ _ _ _ hq, Matrix.smul_apply]
@@ -276,7 +276,7 @@ theorem ell_hX {z : Fin (2 * r + k + 1) → ℂ} (hz : inWb k r z) {a b : Fin r}
     simp [eI, Fin.ext_iff]
   · intro l _ hl
     split_ifs with h
-    · rw [hrow, if_neg (fun h => hl h.1)]
+    · rw [hrow, ite_eq_right (fun h => hl h.1)]
     · simp only [Matrix.mulVec, dotProduct, hrow]
       simp [hl]
   · simp
@@ -351,7 +351,7 @@ theorem hX_diag (a : Fin r) (s : ℂ) :
     · by_cases h2 : p = esI k r a
       · subst h2; simp [hne, hne.symm]
       · simp [h1, h2, Ne.symm h1, Ne.symm h2]
-  · rw [if_neg hpq, if_neg (fun h => hpq (h.1.symm.trans h.2)), if_neg (fun h => hpq (h.1.symm.trans h.2))]
+  · rw [ite_eq_right hpq, ite_eq_right (fun h => hpq (h.1.symm.trans h.2)), ite_eq_right (fun h => hpq (h.1.symm.trans h.2))]
     simp
 
 theorem cf_update (c : Fin r → ℂ) (a : Fin r) (v : ℂ) {p : Fin (2 * r + k + 1)} (h1 : p ≠ eI k r a)
@@ -382,18 +382,18 @@ theorem cell_mul_exp (hg : g ∈ Glev k r (Fin.last r)) (c : Fin r → ℂ) (a :
     split_ifs <;> simp_all
   · by_cases h2 : q = esI k r a
     · subst h2
-      rw [col_es hg, col_es hg, if_neg h1, if_pos rfl]
+      rw [col_es hg, col_es hg, ite_eq_right h1, ite_eq_left rfl]
       split_ifs
       · rw [Function.update_self, star_mul', mul_inv, mul_neg, Complex.exp_neg]
         simp [← Complex.exp_conj]
       · simp
-    · rw [if_neg h1, if_neg h2, mul_zero, Complex.exp_zero, mul_one]
+    · rw [ite_eq_right h1, ite_eq_right h2, mul_zero, Complex.exp_zero, mul_one]
       by_cases h3 : p = eI k r a
       · subst h3
-        rw [row_e hg, row_e hg, if_neg (Ne.symm h2), if_neg (Ne.symm h2)]
+        rw [row_e hg, row_e hg, ite_eq_right (Ne.symm h2), ite_eq_right (Ne.symm h2)]
       · by_cases h4 : p = esI k r a
         · subst h4
-          rw [row_es hg, row_es hg, if_neg (Ne.symm h1), if_neg (Ne.symm h1)]
+          rw [row_es hg, row_es hg, ite_eq_right (Ne.symm h1), ite_eq_right (Ne.symm h1)]
         · rw [cell_apply, cell_apply, cf_update c a _ h3 h4]
 
 theorem gauge_update (c : Fin r → ℂ) (a : Fin r) (w : ℂ) :
@@ -401,7 +401,7 @@ theorem gauge_update (c : Fin r → ℂ) (a : Fin r) (w : ℂ) :
       else 1) : ℝ) =
       Real.exp (((Mdim k r a - 1 : ℕ) : ℝ) * w.re) *
         ∏ l : Fin r, (if l.val < (Fin.last r).val then ‖c l‖ ^ (Mdim k r l - 1) else 1) := by
-  simp only [Fin.val_last, Fin.is_lt, if_true]
+  simp only [Fin.val_last, Fin.is_lt, ite_true]
   rw [← Finset.mul_prod_erase _ _ (Finset.mem_univ a), ← Finset.mul_prod_erase _ _ (Finset.mem_univ a),
     Function.update_self, norm_mul, Complex.norm_exp, mul_pow, Real.exp_nat_mul, ← mul_assoc, mul_comm (‖c a‖ ^ _)]
   congr 1
@@ -479,7 +479,7 @@ theorem torus_rule {D : Set (Mx k r)} {Ψ : Mx k r → E} (hS : SmoothLev k r 0 
     (ContinuousLinearMap.single ℝ (fun _ : Fin r => ℂ) a)) (c a)
   simp only [ContinuousLinearMap.comp_apply, ContinuousLinearMap.single_apply] at h3
   unfold pOp wirt
-  rw [if_pos hc, ← h3, h1, h2]
+  rw [ite_eq_left hc, ← h3, h1, h2]
   have hM : ((Mdim k r a - 1 : ℕ) : ℂ) = 2 * ((r : ℂ) - (a.val : ℂ)) + k := by
     unfold Mdim
     rw [Nat.add_sub_cancel]
@@ -679,7 +679,7 @@ theorem res_ap_torus (hD : IsOpen D) {J : Mx k r → E} (hS : SmoothLev k r 0 D 
       ((x : Module.End ℂ (VS k r 0 D E)) (PBG.vK hD J hS)) hxG
     rw [PBG.position_level_zero_coord] at h
     unfold ap
-    rw [← h, Tm, if_pos rfl, add_mul, ← Algebra.smul_def]
+    rw [← h, Tm, ite_eq_left rfl, add_mul, ← Algebra.smul_def]
     rfl
   simp only [resG, e]
   push_cast
@@ -731,14 +731,14 @@ theorem res_mn_succ {z z' : Fin (2 * r + k + 1) → ℂ} (hz : inWb k r z) (hz' 
       (Tm (LevelPointCoordinates.EB hD) (Y + ((2 * r + k : ℕ) : ℂ) / 2 - ((m + 1 : ℕ) : ℂ)) (eI k r ⟨m + 1, by omega⟩)
         (eI k r ⟨m + 1, by omega⟩)) := by
     unfold Tm
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     refine Commute.add_right (Algebra.commutes _ _).symm (qminor_commute _ _ _ _ _ fun i j => ?_)
     have hi := i.isLt
     have hj := j.isLt
     have h := LevelPointCoordinates.EB_gl (E := E) hD (C3.xR k r (m + 1) (by omega) i) (C3.xR k r (m + 1) (by omega) j)
       (eI k r ⟨m + 1, by omega⟩) (eI k r ⟨m + 1, by omega⟩)
-    rw [if_neg (by simp only [C3.xR, Fin.ext_iff, eI_val, Fin.val_castLE]; omega),
-      if_neg (by simp only [C3.xR, Fin.ext_iff, eI_val, Fin.val_castLE]; omega), sub_zero, sub_eq_zero] at h
+    rw [ite_eq_right (by simp only [C3.xR, Fin.ext_iff, eI_val, Fin.val_castLE]; omega),
+      ite_eq_right (by simp only [C3.xR, Fin.ext_iff, eI_val, Fin.val_castLE]; omega), sub_zero, sub_eq_zero] at h
     exact h
   rw [← res_ap_torus hD hS hg hc hx Y ⟨m + 1, by omega⟩, ← hcomm.eq]
   simp only [resG, ← hLa']
@@ -765,7 +765,7 @@ theorem res_AAop (hD : IsOpen D) {J : Mx k r → E} (hS : SmoothLev k r 0 D J) (
     rw [this]
     rfl
   · intro a p ha hp
-    rw [hxi, if_neg]
+    rw [hxi, ite_eq_right]
     rintro rfl
     rw [eI_val] at hp; omega
   · intro a b
@@ -799,8 +799,8 @@ theorem exists_polyOp_AAop (k r o κ : ℕ) (ho : r ≤ o) (hκ : r ≤ κ) (u :
     (fun b => b) u (fun b g => if StrictMono b then (Matrix.of fun a l : Fin r =>
       herm (Hpk k r) (g *ᵥ bvec (b l)) (bvec (eI k r (Fin.castLE le_rfl a)))).det else 0) (fun b => by
       by_cases hb : StrictMono b
-      · simp only [if_pos hb]; exact isPolyDeg_pluecker κ hκ b
-      · simp only [if_neg hb]; exact ⟨0, by simp, fun g => by simp⟩)
+      · simp only [ite_eq_left hb]; exact isPolyDeg_pluecker κ hκ b
+      · simp only [ite_eq_right hb]; exact ⟨0, by simp, fun g => by simp⟩)
   refine ⟨Θ, fun T hT => ⟨(hΘ T hT).1.trans ho, (hΘ T hT).2⟩, fun F g hg V hV hgV hF => ?_⟩
   rw [he F g hg V hV hgV hF]
   unfold C3.AAop
@@ -1001,10 +1001,10 @@ theorem left_star (z : Fin (2 * r + k + 1) → ℂ) (D : Set (Mx k r)) (f : Mx k
   have hb1 : (b.succ : Fin (r + 1)).val < r := by simp; omega
   have hga : g *ᵥ bvec (eI k r a) = bvec (eI k r a) := (hg.2 a (by simp)).1
   have hTa := hTe a hba
-  rw [if_pos (by simp)] at hTa
+  rw [ite_eq_left (by simp)] at hTa
   have hy : yv k r z b.succ (T * g) ⟨2 * r + k - a.val - b.val - 1, hjlt⟩ =
       star (if a.val = b.val + 1 then c a else 0) := by
-    simp only [yv, hpos, fvec, dif_pos hb1]
+    simp only [yv, hpos, fvec, dite_eq_left hb1]
     obtain ⟨h1, h2⟩ := _root_.CovecW.covec_entries k r z z (T * g) ⟨_, hb1⟩ a hg₁.1
     rw [h2, ← h1]
     congr 1
@@ -1012,12 +1012,12 @@ theorem left_star (z : Fin (2 * r + k + 1) → ℂ) (D : Set (Mx k r)) (f : Mx k
     simp only [Pi.smul_apply, smul_eq_mul, bvec, Pi.single_apply, esI, Fin.ext_iff, Fin.val_succ]
     by_cases hh : a.val = b.val + 1
     · simp [hh]
-    · rw [if_neg, if_neg hh, mul_zero]
+    · rw [ite_eq_right, ite_eq_right hh, mul_zero]
       have := a.isLt; omega
   rw [hy]
   by_cases hh : a.val = b.val + 1
-  · rw [if_pos hh, if_pos hh, div_eq_inv_mul]
-  · rw [if_neg hh, if_neg hh, star_zero, mul_zero]
+  · rw [ite_eq_left hh, ite_eq_left hh, div_eq_inv_mul]
+  · rw [ite_eq_right hh, ite_eq_right hh, star_zero, mul_zero]
 
 theorem pbOp_line {F₁ F₂ : (Fin r → ℂ) → E} {c : Fin r → ℂ} (l : Fin r) (h₁ : DifferentiableAt ℝ F₁ c)
     (h₂ : DifferentiableAt ℝ F₂ c) (h : ∀ c' : Fin r → ℂ, (∀ a, a ≠ l → c' a = c a) → F₁ c' = F₂ c') :
@@ -1277,7 +1277,7 @@ theorem mirror_apply_block {A : Type} [Ring A] [Algebra ℂ A] (U : Fin (2 * r +
 theorem tm_emir {A : Type} [Ring A] [Algebra ℂ A] (U : Fin (2 * r + k + 1) → Fin (2 * r + k + 1) → A) (u : ℂ)
     (a : Fin r) : Tm (Emir U) u (eI k r a) (eI k r a) = algebraMap ℂ _ u - U (esI k r a) (esI k r a) := by
   unfold Tm
-  rw [if_pos rfl, mirror_apply_block, ← mul_pow]
+  rw [ite_eq_left rfl, mirror_apply_block, ← mul_pow]
   simp [sub_eq_add_neg]
 
 theorem chain_mirror {A M : Type} [Ring A] [Algebra ℂ A] [AddCommGroup M] [Module ℂ M]
@@ -1296,22 +1296,22 @@ theorem chain_mirror {A M : Type} [Ring A] [Algebra ℂ A] [AddCommGroup M] [Mod
   have hG := Formalism.FourierDecayAlt.P.PBG.Emir_gl hU
   have main := chainX1' k r c (Emir U) Λ hG m h u
     (fun x l hl => by
-      rw [mirror_apply_block, mul_neg, mul_smul_comm, map_neg, map_smul, hRR _ _ _ (by simp; omega), if_neg (by simp; omega)]
+      rw [mirror_apply_block, mul_neg, mul_smul_comm, map_neg, map_smul, hRR _ _ _ (by simp; omega), ite_eq_right (by simp; omega)]
       simp)
     (fun x => by
-      rw [mirror_apply_block, mul_neg, mul_smul_comm, map_neg, map_smul, hRR _ _ _ (by simp), if_pos (by simp)]
+      rw [mirror_apply_block, mul_neg, mul_smul_comm, map_neg, map_smul, hRR _ _ _ (by simp), ite_eq_left (by simp)]
       simp only [pow_succ, ← mul_assoc, ← mul_pow]
       simp)
     (fun x q hq => by
       rw [mirror_apply_block, neg_mul, smul_mul_assoc, map_neg, map_smul, hLL _ _ _ (by simp; omega)]
       by_cases hqm : q = m
       · subst hqm
-        rw [if_pos (by simp), if_pos rfl]
+        rw [ite_eq_left (by simp), ite_eq_left rfl]
         have : ((-1 : ℂ) ^ (q + 1) * (-1) ^ q) = -1 := by
           rw [pow_succ, mul_right_comm, ← mul_pow]; simp
         simp only [this]
         simp
-      · rw [if_neg (by simp; omega), if_neg hqm]
+      · rw [ite_eq_right (by simp; omega), ite_eq_right hqm]
         simp)
   have hcomm := Formalism.FourierDecayAlt.P.CutHL.comm_qminor (Emir U) hG (xR k r (m + 1) h.le) (xR k r (m + 1) h.le)
     u (eI k r ⟨m + 1, h⟩) (fun i => by have := i.isLt; simp [xR, eI, Fin.ext_iff]; omega)
@@ -1323,13 +1323,13 @@ theorem chain_mirror {A M : Type} [Ring A] [Algebra ℂ A] [AddCommGroup M] [Mod
 
 theorem mq_zero (hD : IsOpen D) (ℓ : ℂ) : mq (E := E) hD ℓ 0 = 1 := by
   unfold mq
-  rw [dif_pos (Nat.zero_le r)]
+  rw [dite_eq_left (Nat.zero_le r)]
   simp [qminor]
 
 theorem mq_one (hD : IsOpen D) (ℓ : ℂ) (h : 0 < r) :
     mq (E := E) hD ℓ 1 = algebraMap ℂ _ (-ℓ) - EA hD (esI k r ⟨0, h⟩) (esI k r ⟨0, h⟩) := by
   unfold mq
-  rw [dif_pos (show 1 ≤ r from h), ← tm_emir]
+  rw [dite_eq_left (show 1 ≤ r from h), ← tm_emir]
   simp only [qminor, Finset.univ_unique, Finset.sum_singleton, List.ofFn_succ, List.ofFn_zero, List.prod_cons, List.prod_nil]
   simp
   rfl
@@ -1369,10 +1369,10 @@ theorem la_step (hD : IsOpen D) {z z' : Fin (2 * r + k + 1) → ℂ} (hz : inWb 
       unfold dpsiP
       have ea : (esI k r a).val = 2 * r + k - a.val := rfl
       have eb : (esI k r b).val = 2 * r + k - b.val := rfl
-      rw [if_neg (by omega), if_neg (by omega), if_neg (by omega), if_pos (by omega)]
+      rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left (by omega)]
       by_cases h : b.val = a.val + 1
-      · rw [if_pos (by omega), if_pos h]
-      · rw [if_neg (by omega), if_neg h]
+      · rw [ite_eq_left (by omega), ite_eq_left h]
+      · rw [ite_eq_right (by omega), ite_eq_right h]
     rw [h2] at h1
     exact h1
   have hvL : LeftEq k r z 0 D (v : Mx k r → E) := by
@@ -1394,7 +1394,7 @@ theorem la_step (hD : IsOpen D) {z z' : Fin (2 * r + k + 1) → ℂ} (hz : inWb 
   have main := chain_mirror (EA hD) (EA_gl (E := E) hD) (La hD v W) (fun a => star (c a)) hRR hLL (-ℓ) m h
   rw [la_torus hD v hg hc hW] at main
   unfold mq
-  rw [dif_pos (show m + 2 ≤ r from h), dif_pos h.le, dif_pos (show m ≤ r by omega), main, sub_neg_eq_add]
+  rw [dite_eq_left (show m + 2 ≤ r from h), dite_eq_left h.le, dite_eq_left (show m ≤ r by omega), main, sub_neg_eq_add]
 
 end group
 
@@ -1430,7 +1430,7 @@ theorem aav_cell {E : Type} [NormedAddCommGroup E] [NormedSpace ℂ E] (hD : IsO
     ← map_smul (La _ _ _)]
   · congr 1
     unfold mq
-    rw [dif_pos le_rfl, quantumMinor_mirror _ (EA_gl hD), La_apply]
+    rw [dite_eq_left le_rfl, quantumMinor_mirror _ (EA_gl hD), La_apply]
     have := map_qminor (SA E hD).val (EA hD) (sR k r r le_rfl) (sR k r r le_rfl) (ℓ + (r : ℂ) - 1)
     simp only [Subalgebra.coe_val] at this
     rw [this]

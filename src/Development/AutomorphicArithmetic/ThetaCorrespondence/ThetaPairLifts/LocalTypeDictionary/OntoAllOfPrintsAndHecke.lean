@@ -335,7 +335,7 @@ theorem parIndep : ∀ D : D7, ParIndep D := by
   obtain ⟨hne0, _⟩ := hpar i₀
   obtain ⟨v, hv⟩ : ∃ v, PiLocalization₂.val (x i₀) v ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hne0
     apply Subtype.ext
     apply LinearMap.ext
@@ -658,7 +658,7 @@ attribute [local instance] Formalism.BasicNotions.Host.cmStar
 theorem exists_tprod_ne_zero_of_cc {D : D7} {c : Com D} {s : PiLocalization₂ D} (z : s.CC c) (hz : z ≠ 0) :
     ∃ v : s.M.Vec, PiTensorProduct.tprod ℂ v ≠ 0 := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   apply hz
   apply Subtype.ext
   show (z : SmT s.M →ₗ[ℂ] (GA D s.V → ℂ)) = 0
@@ -829,12 +829,12 @@ theorem stepLevLawT (D : D7) (c : Com D) (hc : c.Is) (k : ℕ) (hk : k < D.R.m) 
           fun H' => GlobalTheory.SplitHecke.isHalf_actO _ _ H'⟩
       by_cases hx : IsHalf e x ∧ IsIntM (frMapO s.V s'.V s.β s'.β x)
       · beta_reduce
-        rw [if_pos hx, if_pos ⟨i0.2 hx.1, i1.2 hx.2⟩, funext (i2 hx.2), StepLevLaw.omegaQ_empty, StepLevLaw.omegaQ_empty,
+        rw [ite_eq_left hx, ite_eq_left ⟨i0.2 hx.1, i1.2 hx.2⟩, funext (i2 hx.2), StepLevLaw.omegaQ_empty, StepLevLaw.omegaQ_empty,
           mul_one, mul_one]
         simp only [map_one, redFn_one, Units.val_one, Matrix.mul_one]
         exact hoT (fun PP => redM PP (frMapO s.V s'.V s.β s'.β x))
       · beta_reduce
-        rw [if_neg hx, if_neg fun H' => hx ⟨i0.1 H'.1, i1.1 H'.2⟩, mul_zero])
+        rw [ite_eq_right hx, ite_eq_right fun H' => hx ⟨i0.1 H'.1, i1.1 H'.2⟩, mul_zero])
   rw [h2]
   congr 1
   have hchi : (Lev.datY s'.V.rank D.R.r D.R.t (k + 1) hr' c.Pg ∅ c.P c.chi ξ2 Lev.Frm.B).P.chi ⟨_, hlev.2⟩ =
@@ -989,7 +989,7 @@ theorem ontoAll_of_chainUp : ∀ D : D7, FinDim D → MetEx D → EigSpan D → 
     intro i i' hii'
     have := hne i i' hii'
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact this hcon
   · intro u B hu
     exact hadj ipD₀ ip₀ ipD ip hm₀ hm u B hu

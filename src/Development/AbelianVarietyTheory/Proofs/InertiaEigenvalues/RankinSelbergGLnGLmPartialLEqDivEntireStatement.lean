@@ -146,7 +146,7 @@ theorem blockGL_cornerGL (hj : j ≤ n) (s : R →ₙ+* S) (g : GL (Fin j) R) :
   rw [GroundTheory.Automorphic.FourierWhittaker.blockMat_apply, GroundTheory.Automorphic.FourierWhittaker.blockMat_apply]
   by_cases ha : a.val < j
   · by_cases hb : b.val < j
-    · simp only [dif_pos ha, dif_pos hb, Matrix.add_apply, Matrix.sub_apply, Matrix.map_apply, Matrix.one_apply,
+    · simp only [dite_eq_left ha, dite_eq_left hb, Matrix.add_apply, Matrix.sub_apply, Matrix.map_apply, Matrix.one_apply,
         Fin.ext_iff]
     · have hab : a ≠ b := fun h => hb (h ▸ ha)
       simp [ha, hb, hab]
@@ -293,8 +293,8 @@ theorem chart_whit (F : GA E a → ℂ) (g : GA E a) :
       chart F (uGL X * g) y * (GroundTheory.Global.adelicChar E (-supSum 0 X) : ℂ) ∂vecMeasure E (Pos a) := by
   funext y
   by_cases h : IsUnit (Matrix.of y)
-  · simp only [chart, dif_pos h, GlobalTheory.JSW.WhitAlg.whit_eq, mul_assoc]
-  · simp only [chart, dif_neg h, zero_mul, integral_zero]
+  · simp only [chart, dite_eq_left h, GlobalTheory.JSW.WhitAlg.whit_eq, mul_assoc]
+  · simp only [chart, dite_eq_right h, zero_mul, integral_zero]
 
 theorem hasFDerivAt_chart_whit {φ : Sm E a} (h : Good φ) (g : GA E a) :
     HasFDerivAt (chart (GlobalTheory.JSW.whit φ.1) g)
@@ -406,7 +406,7 @@ theorem continuous_of_chart (b : GA E a → ℂ) (U : Subgroup (GL (Fin a) (Af E
   have heq : ∀ g', pF (g⁻¹ * g') ∈ U → b g' = chart b g (F g') := by
     intro g' hg'
     have hx : IsUnit (Matrix.of (F g')) := (pI (g⁻¹ * g')).isUnit
-    rw [chart, dif_pos hx]
+    rw [chart, dite_eq_left hx]
     have hu : hx.unit = pI (g⁻¹ * g') := Units.ext rfl
     rw [hu]
     have e : g' = g * infGL E a (pI (g⁻¹ * g')) * finGL E a (pF (g⁻¹ * g')) := by
@@ -496,7 +496,7 @@ theorem GlobalTheory.KappaCut.exists_kappa : ∀ (E : Type) [Field E] [NumberFie
     refine h3.congr fun x hx => ?_
     have hx' : IsUnit (Matrix.of x) := hx
     have hL' : IsUnit (Matrix.of (L x)) := hmaps hx
-    simp only [Function.comp, chart, dif_pos hx', dif_pos hL']
+    simp only [Function.comp, chart, dite_eq_left hx', dite_eq_left hL']
     congr 3
     have hu : hL'.unit = A * hx'.unit * A⁻¹ := Units.ext (by rw [IsUnit.unit_spec, hLx]; simp)
     rw [hu, ← hconjI]; group
@@ -1081,11 +1081,11 @@ theorem rs_nm_partialL_eq_div : ∀ (E : Type) [Field E] [NumberField E] [_root_
   classical
   let αe : HeightOneSpectrum (𝓞 E) → Fin (m₀ + r + 1 + 1) → ℂˣ := fun w => if h : w ∉ T then α ⟨w, h⟩ else fun _ => 1
   let βe : HeightOneSpectrum (𝓞 E) → Fin (m₀ + 1) → ℂˣ := fun w => if h : w ∉ T then β ⟨w, h⟩ else fun _ => 1
-  have hαe : ∀ w : {w : HeightOneSpectrum (𝓞 E) // w ∉ T}, αe w.1 = α w := fun w => dif_pos w.2
-  have hβe : ∀ w : {w : HeightOneSpectrum (𝓞 E) // w ∉ T}, βe w.1 = β w := fun w => dif_pos w.2
+  have hαe : ∀ w : {w : HeightOneSpectrum (𝓞 E) // w ∉ T}, αe w.1 = α w := fun w => dite_eq_left w.2
+  have hβe : ∀ w : {w : HeightOneSpectrum (𝓞 E) // w ∉ T}, βe w.1 = β w := fun w => dite_eq_left w.2
   have hsatσ : ∀ {a : ℕ} (ρ : CuspSub E a) (w : HeightOneSpectrum (𝓞 E)), (∃ B, (CG.mk ρ).HasSat w B) →
       HasSatGL w (ρ.locRep w) (sat (CG.mk ρ) w) := fun ρ w h => by
-    rw [← CG.hasSat_mk, sat, dif_pos h]
+    rw [← CG.hasSat_mk, sat, dite_eq_left h]
     exact h.choose_spec
   have hsat : ∀ w ∉ T, HasSatGL w (π.locRep w) (Finset.univ.val.map (αe w)) := fun w hw => by
     rw [hαe ⟨w, hw⟩, hα ⟨w, hw⟩]; exact hsatσ π w (hT w hw)

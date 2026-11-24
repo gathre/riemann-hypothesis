@@ -283,14 +283,14 @@ theorem pow_div_mem_of_esymm_pow_div_mem (K : Type) [Field K] (V : ValuationSubr
     rw [← V.valuation_le_one_iff, ← hv, map_div₀, div_le_one₀ (zero_lt_iff.mpr hvc)]
   rw [mem_iff]
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   rw [Valuation.map_pow] at hlt
   have key : ∀ k, 1 ≤ k → k ≤ Multiset.card s → v (s.esymm k) < v (x a) ^ k := by
     intro k hk1 hkn
     obtain ⟨hkD, hmem⟩ := h k hk1 (hcard ▸ hkn)
     rw [mem_iff, Valuation.map_pow] at hmem
     by_contra hge
-    push_neg at hge
+    push Not at hge
     have hp : (v (x a) ^ k) ^ (D / k) ≤ v (s.esymm k) ^ (D / k) := pow_le_pow_left₀ zero_le' hge _
     rw [← pow_mul, Nat.mul_div_cancel' hkD] at hp
     exact absurd (hp.trans hmem) (not_le.mpr hlt)
@@ -1032,7 +1032,7 @@ theorem keyVals : ∀ κ : Rule, Homog (fun _ => 1) κ → Funct κ →
   have hf : ∀ c i, genericPoint S ∈ (VB.det (LieVB.omega G) g).U c ⊓ δ.U i → KeyVals.IsKeyVal κ g L σ c i (f c i) := by
     intro c i h
     have ex := exists_keyVal κ S G g L δ σ hg hsa hsm hne hop hsym hδ hpol hnz c i h
-    simp only [f, dif_pos ex]
+    simp only [f, dite_eq_left ex]
     exact ex.choose_spec
   have hgen : ∀ U : S.Opens, (U : Set S).Nonempty → genericPoint S ∈ U := fun U ⟨p, hp⟩ =>
     ((genericPoint_spec S).mem_open_set_iff U.isOpen).2 ⟨p, trivial, hp⟩

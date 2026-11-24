@@ -145,17 +145,17 @@ theorem UpperTheory.Esk.e5_of_reproducing_formula : UpperTheory.Esk.B1b → Uppe
     change D.ee ((D.rep y.1)⁻¹ * x) * (qq k z y.2 * f (y.2, D.rep y.1)) = a y.1 * h0 y.2
     rw [supp D k f hf z x y]
     by_cases hy : y.1 = ((x : Gf) : Gf ⧸ D.H)
-    · rw [if_pos hy]
+    · rw [ite_eq_left hy]
       have ha : a y.1 = 1 := by
         classical
         simp only [a]
-        rw [Set.indicator_apply, if_pos (show y.1 ∈ ({ω₀} : Set D.Om) from hy)]
+        rw [Set.indicator_apply, ite_eq_left (show y.1 ∈ ({ω₀} : Set D.Om) from hy)]
       rw [ha, one_mul]
-    · rw [if_neg hy]
+    · rw [ite_eq_right hy]
       have ha : a y.1 = 0 := by
         classical
         simp only [a]
-        rw [Set.indicator_apply, if_neg (show y.1 ∉ ({ω₀} : Set D.Om) from hy)]
+        rw [Set.indicator_apply, ite_eq_right (show y.1 ∉ ({ω₀} : Set D.Om) from hy)]
       rw [ha, zero_mul]
   have hqc : Continuous fun w : X I => qq k z w := by
     unfold qq

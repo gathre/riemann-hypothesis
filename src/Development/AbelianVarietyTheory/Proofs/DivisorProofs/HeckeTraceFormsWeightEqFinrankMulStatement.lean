@@ -441,7 +441,7 @@ theorem rightReg_dual_ne_zero (lam : InfinitePlace E → DomWeight n) [Nontrivia
   obtain ⟨v, hv⟩ := exists_ne (0 : Wsp lam)
   obtain ⟨φ, hφ⟩ : ∃ φ : Module.Dual ℂ (Wsp lam), φ v ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hv ((Module.forall_dual_apply_eq_zero_iff ℂ v).1 hc)
   intro h
   have := congrFun (LinearMap.congr_fun h (fun _ => φ)) 1
@@ -1237,7 +1237,7 @@ theorem hasWeightAt_of_wInf (lam : InfinitePlace E → DomWeight n) (π : Submod
     HasWeightAt π v.embedding (lam v) := by
   obtain ⟨e, he⟩ : ∃ e : ∀ v, nablaSq ℂ n (lam v), f' (PiTensorProduct.tprod ℂ e) ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact h0 (PiTensorProduct.ext (MultilinearMap.ext fun e => by simpa using hc e))
   refine ⟨GlobalTheory.DefU.isIrreducible_sqRep n (lam v), f' ∘ₗ (PiTensorProduct.tprod ℂ).toLinearMap e v, ?_,
     fun a => hπ _, fun x a => ?_⟩
@@ -1365,8 +1365,8 @@ theorem trOn_forms_eq_finrank_mul : ∀ (E : Type) [Field E] [NumberField E] [Is
       _ = ((e (TensorProduct.map A LinearMap.id (e.symm v)) : forms S lam K') : UA E n → ℂ) := (hev _).symm
       _ = ((e.conj (TensorProduct.map A LinearMap.id) v : forms S lam K') : UA E n → ℂ) :=
           congrArg (fun u : forms S lam K' => (u : UA E n → ℂ)) (LinearEquiv.conj_apply_apply _ _ _).symm
-  have h1 : trOn (forms S lam K') (hop S K' f) = LinearMap.trace ℂ _ ((hop S K' f).restrict hF) := dif_pos hF
-  have h2 : trOn (vecM S lam K') (hopM S lam K' f) = LinearMap.trace ℂ _ A := dif_pos hM
+  have h1 : trOn (forms S lam K') (hop S K' f) = LinearMap.trace ℂ _ ((hop S K' f).restrict hF) := dite_eq_left hF
+  have h2 : trOn (vecM S lam K') (hopM S lam K' f) = LinearMap.trace ℂ _ A := dite_eq_left hM
   rw [h1, h2]
   exact (congrArg (LinearMap.trace ℂ _) he).trans
     ((LinearMap.trace_conj' _ e).trans ((trace_map_id A).trans (mul_comm _ _)))

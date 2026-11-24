@@ -382,7 +382,7 @@ theorem eq_of_frBor {T : Type} [CommRing T] [Nontrivial T] [Algebra c.F T] (h : 
   · exact AlgHom.congr_fun hψ r
   · obtain ⟨τ, ⟨i, j⟩, hij⟩ := v
     have := hcoef τ i j
-    simp only [genCoef, dif_pos (show i < j from hij)] at this
+    simp only [genCoef, dite_eq_left (show i < j from hij)] at this
     exact this.symm
 
 end GlobalTheory.Reg.GenericFlagInj
@@ -678,7 +678,7 @@ theorem cuspRatioField_eq_top_of_toroidalCompactification (hP : _root_.GlobalThe
     rw [Fin.sum_univ_two, hvι, hvι]
     show (i₁ _)⁻¹ * i₁ _ + -(i₂ _)⁻¹ * i₂ _ = 0
     rw [neg_mul, ← div_eq_inv_mul, ← div_eq_inv_mul, e, add_neg_cancel]
-  · push_neg at h0
+  · push Not at h0
     refine main (fun _ => 1) (fun _ => one_ne_zero) fun g => ?_
     simp [hvι, h0]
 end Geometry

@@ -130,10 +130,10 @@ theorem isMultiHomog_rename_block (hb : IsBlockMap κ v) {f : MRing ι} {b : K �
     rw [hb.1.extend_apply, Finset.sum_eq_single k]
     · simpa using hf m₀ hm₀ k
     · intro k₂ _ hne
-      exact Finset.sum_eq_zero fun i _ => if_neg (hb.1.ne hne)
+      exact Finset.sum_eq_zero fun i _ => ite_eq_right (hb.1.ne hne)
     · simp
   · rw [Function.extend_apply' _ _ _ hk]
-    exact Finset.sum_eq_zero fun k _ => Finset.sum_eq_zero fun i _ => if_neg fun h => hk ⟨k, h⟩
+    exact Finset.sum_eq_zero fun k _ => Finset.sum_eq_zero fun i _ => ite_eq_right fun h => hk ⟨k, h⟩
 
 theorem comp_mem_mcPts {Ω Ω' : Type} [Field Ω] [Field Ω'] (hv : IsBlockMap κ v)
     {x : (Σ k, ι k) → Ω} {x' : (Σ k, ι' k) → Ω'} (φ : Ω →+* Ω') (hx : ∀ q, x' (v q) = φ (x q))

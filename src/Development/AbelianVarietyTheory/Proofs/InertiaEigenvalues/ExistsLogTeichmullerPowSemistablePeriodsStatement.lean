@@ -217,9 +217,9 @@ theorem exists_kummer_flat : ∀ (l : ℕ) [Fact l.Prime] (K : FinExt l) (bk : B
   classical
   refine ⟨fun g => if bk.FixFlat g then 0 else (good g).choose, fun g m => ?_, fun g hg => by simp [hg]⟩
   by_cases hg : bk.FixFlat g
-  · simp only [hg, if_true, map_zero, ZMod.val_zero, pow_zero, one_mul]
+  · simp only [hg, ite_true, map_zero, ZMod.val_zero, pow_zero, one_mul]
     rw [show Per.σF (g : GQ l) bk.flat = bk.flat from hg]
-  · simp only [hg, if_false]
+  · simp only [hg, ite_false]
     exact (good g).choose_spec m
 
 end GlobalTheory.FlatKummer
@@ -1538,7 +1538,7 @@ theorem norm_pow_natDegree_eq_of_eisenstein {R : Type*} [CommRing R] (P : Polyno
     refine (IsUltrametricDist.norm_add_le_max _ _).trans (max_le hc0.le hSl)
   have hzlt : ‖z‖ < 1 := by
     by_contra hge
-    push_neg at hge
+    push Not at hge
     have : 1 ≤ ‖z‖ ^ (m + 1) := one_le_pow₀ hge
     rw [norm_pow] at hup
     linarith

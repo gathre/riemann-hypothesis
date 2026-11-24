@@ -122,7 +122,7 @@ theorem mem_P_iff (h : IsCompl P q ι ϖ) (hu : GlobalTheory.IndefiniteRowSideFu
       rw [mem_vI, mem_vI, ← hu, ← hu] at *
       rw [coe_mul', map_mul, map_mul] at hab
       by_contra hn
-      push_neg at hn
+      push Not at hn
       have ha : valuation k (ι (a : E)) = 1 := le_antisymm (v_int_le_one h a) hn.1
       have hb : valuation k (ι (b : E)) = 1 := le_antisymm (v_int_le_one h b) hn.2
       rw [ha, hb, one_mul] at hab; exact lt_irrefl _ hab

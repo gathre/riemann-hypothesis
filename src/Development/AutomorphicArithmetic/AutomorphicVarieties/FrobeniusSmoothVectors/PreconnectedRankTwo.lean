@@ -270,7 +270,7 @@ theorem UpperTheory.V.Fr.preconnected_rank_two :
   let qb : PrimeSpectrum S.A := ⟨RingHom.ker ξb, RingHom.ker_isPrime ξb⟩
   have hnz : ∃ g, b g ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hb0 (funext hc)
   obtain ⟨g1, hg1⟩ := hnz
   have hqb : qb ∈ S.BB := by

@@ -187,7 +187,7 @@ theorem eq_of_card_filter (n : ℕ) : ∀ P Q : ℚ_[l][X], P.natDegree = n → 
     rw [aroots_mul hP.ne_zero, aroots_mul hQ.ne_zero, Multiset.filter_add, Multiset.filter_add,
       Multiset.card_add, Multiset.card_add] at h
     omega
-  · push_neg at hr
+  · push Not at hr
     have hr' : ∀ b : PadicAlgCl l, b ∉ Q.aroots (PadicAlgCl l) := by
       intro b hb
       obtain ⟨a, haP, hab⟩ := exists_root_minpoly_eq_of_card_eq Q P hP.ne_zero (fun c => (hc c).symm) b hb

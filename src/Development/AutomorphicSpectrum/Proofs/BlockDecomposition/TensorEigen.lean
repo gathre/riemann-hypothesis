@@ -169,7 +169,7 @@ theorem exists_contr_eigen [Nonempty Y]
   set φ := GlobalTheory.CompanionTheory.TensContr.contr v with hφ
   have hne : ∃ l, φ l ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hv (GlobalTheory.CompanionTheory.TensContr.eq_zero_of_contr v hcon)
   obtain ⟨l₀, hl₀⟩ := hne
   by_cases hX : IsEmpty X

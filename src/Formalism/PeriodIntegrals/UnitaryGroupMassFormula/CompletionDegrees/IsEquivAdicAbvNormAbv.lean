@@ -127,14 +127,14 @@ private lemma le_one_lemma_2 {E : Type} [Field E] [NumberField E] (w : AbsoluteV
   constructor
   · refine ⟨hle u, fun h => ?_⟩
     by_contra hn
-    push_neg at hn
+    push Not at hn
     have h1 : v.valuation E u⁻¹ < 1 := by rw [map_inv₀]; exact inv_lt_one_of_one_lt₀ hn
     have h2 := hlt _ h1
     rw [map_inv₀] at h2
     exact absurd h (not_le.mpr ((inv_lt_one₀ hnpos).mp h2))
   · refine ⟨hlt u, fun h => ?_⟩
     by_contra hn
-    push_neg at hn
+    push Not at hn
     have h1 : v.valuation E u⁻¹ ≤ 1 := by rw [map_inv₀]; exact inv_le_one_of_one_le₀ hn
     have h2 := hle _ h1
     rw [map_inv₀] at h2

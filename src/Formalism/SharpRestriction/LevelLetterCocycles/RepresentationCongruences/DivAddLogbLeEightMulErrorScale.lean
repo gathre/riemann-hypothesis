@@ -187,7 +187,7 @@ theorem case2b (l : ℕ) (hl : 11 ≤ l) (b wm w S η b₀ : ℕ) (hb : 1 ≤ b)
     have hSl : (S:ℝ) ≤ l * S := by nlinarith
     have key : (l:ℝ) * η - 2 * η < 2 * ((l:ℝ) * Sg l (b + η + S) wm S η) := by linarith
     by_contra hc
-    push_neg at hc
+    push Not at hc
     linarith [mul_le_mul_of_nonneg_left hc (show (0:ℝ) ≤ (l:ℝ) - 2 by linarith),
       mul_nonneg (show (0:ℝ) ≤ (l:ℝ) - 4 by linarith)
         (show (0:ℝ) ≤ Sg l (b + η + S) wm S η by linarith)]
@@ -352,7 +352,7 @@ theorem le_band_add_errorScale (l : ℕ) (hl : 11 ≤ l) (b wm w S η b₁ : ℕ
         linarith
       have hηb : (η:ℝ) ≤ 77 / 6 * Sg l (b + η + S) wm S η := by
         by_contra hcc
-        push_neg at hcc
+        push Not at hcc
         linarith [mul_le_mul_of_nonneg_left hcc.le (show (0:ℝ) ≤ (l:ℝ) - 2 by linarith),
           mul_nonneg (show (0:ℝ) ≤ (l:ℝ) - 11 by linarith)
             (show (0:ℝ) ≤ Sg l (b + η + S) wm S η by linarith)]

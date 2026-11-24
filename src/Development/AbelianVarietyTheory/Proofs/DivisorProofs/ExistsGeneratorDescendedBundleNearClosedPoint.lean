@@ -273,7 +273,7 @@ theorem exists_sec_of_flat {R R' : Type} [CommRing R] [CommRing R'] (g : R →+*
     have hu2 := isUnit_of_mul_isUnit_right hu1
     rw [ha i j X' π z k hk] at hu2
     exact TopologicalSpace.Opens.mem_iSup.2 ⟨k, (_root_.GlobalTheory.LBGerm.isUnit_gs_iff π z _ hk _).1 (isUnit_of_mul_isUnit_left hu2)⟩
-  · push_neg at hne
+  · push Not at hne
     refine ⟨⟨fun _ => 0, fun _ _ => by simp⟩, fun z hz => False.elim ?_⟩
     obtain ⟨k, hk⟩ := exists_chart hM (π z)
     have hz' : z ∈ (M.pull π).U (fun _ => k) := mem_pull.2 hk

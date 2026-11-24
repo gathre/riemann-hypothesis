@@ -83,7 +83,7 @@ theorem GlobalTheory.WhitBump.exists_bump_glob : ∀ (E : Type) [Field E] [Numbe
         intro h; apply hp; simp only [h, mul_zero]
       obtain ⟨t, ht⟩ : ∃ t, f (toL (nu t * Matrix.of (toL (pI p : Matrix (Fin (m + 1)) (Fin (m + 1)) (Cinf E))))) ≠ 0 := by
         by_contra hall
-        push_neg at hall
+        push Not at hall
         have hall' : ∀ t, f (toL (nu t * (pI p : Matrix (Fin (m + 1)) (Fin (m + 1)) (Cinf E)))) = 0 := hall
         apply hI
         unfold bumpInf

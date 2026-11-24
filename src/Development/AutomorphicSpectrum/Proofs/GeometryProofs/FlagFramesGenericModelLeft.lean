@@ -177,7 +177,7 @@ theorem exists_notMem_span {F M : Type} [Field F] [AddCommGroup M] [Module F M] 
     ∃ l, w l ∉ Submodule.span F (q '' {a : Fin r | (a : ℕ) < k}) := by
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   let q' : Fin k → M := fun j => if hj : (j : ℕ) < r then q ⟨j, hj⟩ else 0
   have hS : Submodule.span F (q '' {a : Fin r | (a : ℕ) < k}) ≤ Submodule.span F (Set.range q') := by
     apply Submodule.span_le.mpr
@@ -370,7 +370,7 @@ theorem exists_adapted : ∀ (K : Type) [Field K] (R : Subring K) [IsLocalRing R
     show flagStep K (fun a j => (p a j : K)) i = flagStep K g i
     by_cases hi : i ≤ r
     · exact hfl i hi
-    · push_neg at hi
+    · push Not at hi
       rw [flagStep_of_le _ hi.le, flagStep_of_le g hi.le]
       exact hfl r le_rfl
 

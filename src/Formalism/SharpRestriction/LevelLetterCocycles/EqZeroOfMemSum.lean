@@ -90,7 +90,7 @@ theorem eq_zero_of_mem_sum (τ : K →ₐ[Qp] LL) :
     have hτs : τ ∉ s := fun h => hτ (Finset.mem_insert_of_mem h)
     obtain ⟨c, hc⟩ : ∃ c : K, τ c ≠ a c := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact haτ (AlgHom.ext fun c => (h c).symm)
 
     let φ : Module.End LL (V ⊗[Qp] BdR) :=

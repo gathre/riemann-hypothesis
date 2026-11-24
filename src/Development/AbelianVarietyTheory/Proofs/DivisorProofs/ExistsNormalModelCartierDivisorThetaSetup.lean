@@ -496,7 +496,7 @@ theorem one_lattice {g n : ℕ} {o : Type} [CommRing o] {ζ : o} {F : SFam g n �
     omega
   by_cases hex : ∃ T ψ, P T ψ
   swap
-  · push_neg at hex
+  · push Not at hex
     exact ⟨PUnit, inferInstance, fun _ => 0, 1, le_rfl, fun T ψ hP => absurd hP (hex T ψ)⟩
   obtain ⟨T₀, ψ₀, hP₀⟩ := hex
   obtain ⟨e₀, -, he₀⟩ := h T₀ ψ₀ hP₀

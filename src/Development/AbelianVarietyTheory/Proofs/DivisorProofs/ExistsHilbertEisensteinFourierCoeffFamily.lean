@@ -194,7 +194,7 @@ theorem fourier_with_support :
     exact qClass_eq 𝔞 𝔟 k z c
   refine ⟨Z, fun ξ ↦ a' ξ + if ξ = 0 then C else 0, hZ, ?_, ?_, ?_, ?_⟩
   · show a' 0 + (if (0 : F) = 0 then C else 0) = C
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     have : IsEmpty (p ⁻¹' {0}) :=
       ⟨fun ⟨c, hc⟩ ↦ pairPt_ne_zero 𝔞 𝔟 c
         (Subtype.ext (Set.mem_singleton_iff.1 (Set.mem_preimage.1 hc)))⟩
@@ -212,7 +212,7 @@ theorem fourier_with_support :
     obtain ⟨m, hm⟩ := tsum_natCast_eq _ hsum
     refine ⟨m, ?_⟩
     show a' ξ + (if ξ = 0 then C else 0) = _
-    rw [if_neg hξ, add_zero, ha']
+    rw [ite_eq_right hξ, add_zero, ha']
     simp only [hm]
     simp
   · intro ξ hξ hne
@@ -220,7 +220,7 @@ theorem fourier_with_support :
       intro h
       apply hne
       show a' ξ + (if ξ = 0 then C else 0) = 0
-      rw [if_neg hξ, h, add_zero]
+      rw [ite_eq_right hξ, h, add_zero]
     by_cases hem : IsEmpty (p ⁻¹' {ξ})
     · exact absurd (by rw [ha']; exact tsum_empty) hne'
     obtain ⟨c, hc⟩ := not_isEmpty_iff.1 hem

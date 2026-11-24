@@ -192,7 +192,7 @@ theorem khw_layer_weight (hE : IsGlRep E) (hU : IsInfUnitary ε E)
   by_cases h0 : w₀ = 0
   · have hex : ∃ j, ws j ≠ 0 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       apply hw0
       rw [hsum, h0]
       simp [hc]

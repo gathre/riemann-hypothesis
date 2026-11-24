@@ -95,9 +95,9 @@ theorem sum_mult_le (D : D7) (hZ : SumRepresentations.ConclusionZ D) (i : D.nd.L
     rw [← Finset.sum_subset (Finset.subset_univ (D.nd.Zgood i))]
     · apply Finset.sum_congr rfl
       intro x hx
-      rw [if_pos ((D.Zgood_tie i x).1 hx)]
+      rw [ite_eq_left ((D.Zgood_tie i x).1 hx)]
     · intro x _ hx
-      rw [if_neg (fun h => hx ((D.Zgood_tie i x).2 h))]
+      rw [ite_eq_right (fun h => hx ((D.Zgood_tie i x).2 h))]
 
 end GlobalTheory.MultiplicityBound
 

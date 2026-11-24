@@ -322,7 +322,7 @@ theorem descent {R₁ E : Type} [CommRing R₁] [CommRing E] [IsLocalRing E] (a 
     simp only [smul_eq_mul, _root_.mul_one]
   obtain ⟨l, hl⟩ : ∃ l, α (ev 0) l ∉ q := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     have : (1 : E) ∈ maximalIdeal E := by
       rw [← h1, hy]
       exact Ideal.sum_mem _ fun l _ => Ideal.mul_mem_right _ _ (hq _ (hall l))

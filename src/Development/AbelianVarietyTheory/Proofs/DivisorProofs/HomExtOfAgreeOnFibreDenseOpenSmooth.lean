@@ -635,7 +635,7 @@ theorem mem_of_mul_mem {B : Type} [CommRing B] (u : Ideal B) [u.IsPrime] (I₀ :
     exact Ideal.mul_mem_right _ _ h3
   by_contra hyJ
   rw [← hJrad.radical, ← Ideal.sInf_minimalPrimes, Ideal.mem_sInf] at hyJ
-  push_neg at hyJ
+  push Not at hyJ
   obtain ⟨P, hP, hyP⟩ := hyJ
   haveI : P.IsPrime := hP.1.1
   have hgP : algebraMap B L g ∈ P := ((Ideal.IsPrime.mem_or_mem inferInstance (hP.1.2 hy)).resolve_right hyP)

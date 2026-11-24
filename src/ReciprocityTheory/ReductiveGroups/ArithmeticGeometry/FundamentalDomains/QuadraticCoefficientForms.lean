@@ -79,11 +79,11 @@ theorem coef_zero {r : ℕ} {ξ x : Fin r → E} (hξ0 : ξ ≠ 0) (hne : ∀ e 
     (τ : E →+* ℂ) (p q : ℂ) (h : p • Data.emb τ ξ + q • Data.emb τ x = 0) : q = 0 := by
   obtain ⟨a, ha⟩ : ∃ a, ξ a ≠ 0 := by
     by_contra h0
-    push_neg at h0
+    push Not at h0
     exact hξ0 (funext h0)
   obtain ⟨b, hb⟩ : ∃ b, x b ≠ (x a / ξ a) * ξ b := by
     by_contra h0
-    push_neg at h0
+    push Not at h0
     exact hne (x a / ξ a) (funext fun b => by rw [Pi.smul_apply, smul_eq_mul, h0 b])
   have hm : ξ a * x b - ξ b * x a ≠ 0 := by
     intro h0

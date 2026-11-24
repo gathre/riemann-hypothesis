@@ -173,7 +173,7 @@ theorem _root_.GlobalTheory.SeparatingCharacters.eq_zero_of_coefficients_eq_zero
     have hnot : -x + y ∉ Γ := fun h => hqr (QuotientAddGroup.eq.mpr h)
     obtain ⟨a, ha⟩ : ∃ a, χ a (-x + y) ≠ 1 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hnot ((hsep _).1 h)
     refine ⟨ψ a, ⟨ψ a, hSψ a, rfl⟩, ?_⟩
     simp only [hψ]

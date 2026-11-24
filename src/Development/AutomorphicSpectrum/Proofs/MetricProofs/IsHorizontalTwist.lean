@@ -204,7 +204,7 @@ def twLine (p : ℕ) (A : HermLine ι) : HermLine (Tb ι) where
   a := twDeg A.a
   h := twH p A
   pos z hz := by
-    rw [twH, if_pos hz]; exact Real.exp_pos _
+    rw [twH, ite_eq_left hz]; exact Real.exp_pos _
   smul c z hc := by
     classical
     have hsame : (∀ o, ∃ i, (fun q : Σ o, Tb ι o => c q.1 * z q) ⟨o, i⟩ ≠ 0) ↔
@@ -212,7 +212,7 @@ def twLine (p : ℕ) (A : HermLine ι) : HermLine (Tb ι) where
       refine forall_congr' fun o => exists_congr fun i => ?_
       simp [hc o]
     by_cases hz : ∀ o, ∃ i, z ⟨o, i⟩ ≠ 0
-    · rw [twH, twH, if_pos (hsame.mpr hz), if_pos hz, chi_smul p c (hc none)]
+    · rw [twH, twH, ite_eq_left (hsame.mpr hz), ite_eq_left hz, chi_smul p c (hc none)]
       have hz1 : ∀ k, ∃ i, basePart₂ z ⟨k, i⟩ ≠ 0 := oldPart_ne hz
       have hz2 : ∀ k, ∃ i, (fun q => starRingEnd ℂ (basePart₂ z q)) ⟨k, i⟩ ≠ 0 := fun k => by
         obtain ⟨i, hi⟩ := hz1 k
@@ -234,7 +234,7 @@ def twLine (p : ℕ) (A : HermLine ι) : HermLine (Tb ι) where
       congr 1
       simp only [RCLike.norm_conj]
       ring
-    · rw [twH, twH, if_neg (fun h => hz (hsame.mp h)), if_neg hz, mul_zero]
+    · rw [twH, twH, ite_eq_right (fun h => hz (hsame.mp h)), ite_eq_right hz, mul_zero]
 
 theorem eval_inc (z : (Σ k, ι k) → ℂ) (v : Fin 2 → ℂ) (f : MRing ι) :
     eval (glue z v) (map (Int.castRingHom ℂ) (inc f)) = eval z (map (Int.castRingHom ℂ) f) := by
@@ -298,10 +298,10 @@ theorem xN_not_mem_twist (p : ℕ) {W : Ideal (MRing ι)} (hW : W ≠ ⊤) :
     exact congrArg (fun g => g f) this
   have h1 : θ (xN) = Polynomial.X := by
     simp only [θ, xN, AlgHom.toRingHom_eq_coe, RingHom.coe_coe, aeval_X]
-    exact if_pos rfl
+    exact ite_eq_left rfl
   have h2 : θ (yN) = 0 := by
     simp only [θ, yN, AlgHom.toRingHom_eq_coe, RingHom.coe_coe, aeval_X]
-    exact if_neg (show ¬ ((1 : Fin 2) = 0) by decide)
+    exact ite_eq_right (show ¬ ((1 : Fin 2) = 0) by decide)
   have hle : twist p W ≤ (Ideal.span {(Polynomial.X : Polynomial (MRing ι ⧸ W)) ^ 2}).comap θ := by
     refine sup_le (Ideal.map_le_iff_le_comap.mpr fun f hf => ?_) ?_
     · rw [Ideal.mem_comap, Ideal.mem_comap, hinc, Ideal.Quotient.eq_zero_iff_mem.mpr hf]

@@ -154,7 +154,7 @@ theorem finGL_mem_finPts (hι : GlobalTheory.BlockForms.IsBlockEmb σ J Xf Yf h 
     rw [Matrix.one_apply, Matrix.one_apply]
     by_cases hab : a = b
     · subst hab; simp
-    · rw [if_neg (Ne.symm hab), if_neg hab, map_zero]
+    · rw [ite_eq_right (Ne.symm hab), ite_eq_right hab, map_zero]
   simp only [finPts, MonoidHom.mem_ker, MonoidHom.comp_apply]
   apply Units.ext
   change (RingHom.mapMatrix (GlobalTheory.LFun.infTens F E)) (matHom (AF F) σ J (ι (GlobalTheory.CuspRep.finGL E d k))).1 = 1

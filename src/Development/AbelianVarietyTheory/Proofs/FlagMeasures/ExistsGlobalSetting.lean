@@ -284,7 +284,7 @@ theorem exists_mem_notMem_coeIdeal_mul {R K : Type} [CommRing R] [IsDedekindDoma
     (P : Ideal R) (hP : P ≠ ⊤) :
     ∃ b : K, b ∈ c ∧ b ∉ (P : FractionalIdeal (nonZeroDivisors R) K) * c := by
   by_contra h
-  push_neg at h
+  push Not at h
   have h1 : c ≤ (P : FractionalIdeal (nonZeroDivisors R) K) * c := fun b hb => h b hb
   have h2 : c * c⁻¹ ≤ (P : FractionalIdeal (nonZeroDivisors R) K) * c * c⁻¹ := by
     gcongr
@@ -387,14 +387,14 @@ theorem exists_add_mul_notMem_of_maximal_ge {R : Type*} [CommRing R] [IsDedekind
   refine ⟨s, fun p hp hJp hmem => ?_⟩
   have h1 := Ideal.Quotient.eq.1 (hs ⟨p, hp, hJp⟩)
   by_cases hx : x ∈ p
-  · simp only [hx, if_true] at h1
+  · simp only [hx, ite_true] at h1
     have h2 : n * s ∈ p := by simpa using p.sub_mem hmem hx
     have h3 : n ∈ p := by
       have := p.sub_mem h2 (p.mul_mem_left n h1)
       have e : n * s - n * (s - 1) = n := by ring
       rwa [e] at this
     exact h p hp hJp h3 hx
-  · simp only [hx, if_false, sub_zero] at h1
+  · simp only [hx, ite_false, sub_zero] at h1
     apply hx
     simpa using p.sub_mem hmem (p.mul_mem_left n h1)
 
@@ -408,7 +408,7 @@ theorem exists_unimodular_lift_of_unimodular_mod :
     by_cases h0 : y₀ = 0
     · obtain ⟨t, ht, ht0⟩ : ∃ t : F, t ∈ b ∧ t ≠ 0 := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         exact hb (FractionalIdeal.eq_zero_iff.2 hcon)
       exact ⟨t, ht, by rw [h0, zero_add]; exact mul_ne_zero hnF ht0⟩
     · exact ⟨0, b.zero_mem, by simpa using h0⟩
@@ -946,7 +946,7 @@ theorem exists_primitive_norm_neg : ∀ (F E : Type) [Field F] [NumberField F] [
     obtain ⟨r, hr, hr0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hP0
     obtain ⟨s, hs, hs0⟩ : ∃ s ∈ c, s ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       apply hc
       ext y
       simp only [FractionalIdeal.mem_zero_iff]

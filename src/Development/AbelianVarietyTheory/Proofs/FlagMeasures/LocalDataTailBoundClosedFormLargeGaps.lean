@@ -441,7 +441,7 @@ private lemma splitForm_mulVec_apply_eq_sgn_mul_sig (k r : ℕ) (u : Fin (2 * r 
     (i : Fin (2 * r + k + 1)) :
     (_root_.Formalism.QuantumDeterminants.Hpk k r *ᵥ u) i = _root_.Formalism.QuantumDeterminants.GBasic.sgn k r i * u (_root_.Formalism.QuantumDeterminants.GBasic.sig k r i) := by
   simp only [Matrix.mulVec, dotProduct, _root_.Formalism.QuantumDeterminants.GBasic.Hpk_eq, ite_mul, zero_mul, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
 
 open Matrix MeasureTheory Finset in
 open scoped InnerProductSpace ENNReal in
@@ -613,12 +613,12 @@ theorem lintegral_prod_pow_le_of_moments : ∀ (Ω : Type) [MeasurableSpace Ω] 
     have hum : ∀ a, AEMeasurable (u a) ν := fun a => by
       by_cases ha : a ∈ s
       · simpa [u, ha] using hρm a
-      · simp only [u, ha, if_false]; exact aemeasurable_const
+      · simp only [u, ha, ite_false]; exact aemeasurable_const
     have hint : ∀ a, ∫⁻ x, ENNReal.ofReal (u a x ^ N * Ph x) ∂ν ≤ ENNReal.ofReal (Rr ^ N) := by
       intro a
       by_cases ha : a ∈ s
       · simpa [u, ha] using hbd a
-      · simp only [u, ha, if_false]
+      · simp only [u, ha, ite_false]
         have hRN : (0:ℝ) ≤ Rr ^ N := pow_nonneg hR0 _
         simp_rw [ENNReal.ofReal_mul hRN]
         rw [lintegral_const_mul' _ _ ENNReal.ofReal_ne_top]
@@ -1421,7 +1421,7 @@ theorem tailP_of_gap : GlobalTheory.GapIn.Hyp → TailP := by
     intro w
     have hk : 0 ≤ Formalism.MainNotions.S.Bridge.kaS D ^ (2 * D.R.rS) := (even_two_mul _).pow_nonneg _
     by_contra hneg
-    push_neg at hneg
+    push Not at hneg
     have h0 : Tr D w * Formalism.MainNotions.S.Bridge.kaS D ^ (2 * D.R.rS) ≤ 0 :=
       mul_nonpos_of_nonpos_of_nonneg hneg hk
     linarith [hTr w]

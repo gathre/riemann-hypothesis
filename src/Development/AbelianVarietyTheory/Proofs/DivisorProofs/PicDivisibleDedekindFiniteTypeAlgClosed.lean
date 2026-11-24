@@ -115,7 +115,7 @@ theorem classGroup_nthPower_of_codim_one_mod : ∀ (k A : Type) [Field k] [IsAlg
   have hI0 : (I : Ideal A) ≠ ⊥ := nonZeroDivisors.coe_ne_zero I
   by_cases hex : ∃ P₀ : Ideal A, P₀.IsMaximal ∧ P₀ ≠ ⊥
   swap
-  · push_neg at hex
+  · push Not at hex
     have htop : (I : Ideal A) = ⊤ := by
       by_contra h
       obtain ⟨M, hM, hIM⟩ := Ideal.exists_le_maximal _ h
@@ -137,7 +137,7 @@ theorem classGroup_nthPower_of_codim_one_mod : ∀ (k A : Type) [Field k] [IsAlg
     have hj : (⊥ : Ideal A).jacobson = ⊥ :=
       IsJacobsonRing.out' _ (Ideal.isPrime_bot).isRadical
     by_contra hne
-    push_neg at hne
+    push Not at hne
     apply hx
     have : x ∈ (⊥ : Ideal A).jacobson := by
       rw [Ideal.jacobson]
@@ -786,10 +786,10 @@ theorem hasse_mul (l : ℕ) (φ ψ : PowerSeries R) :
   set g : R[X] := PowerSeries.trunc M ψ
   have hf : ∀ m < M, PowerSeries.coeff m φ = PowerSeries.coeff m (f : PowerSeries R) := by
     intro m hm
-    rw [Polynomial.coeff_coe, PowerSeries.coeff_trunc, if_pos hm]
+    rw [Polynomial.coeff_coe, PowerSeries.coeff_trunc, ite_eq_left hm]
   have hg : ∀ m < M, PowerSeries.coeff m ψ = PowerSeries.coeff m (g : PowerSeries R) := by
     intro m hm
-    rw [Polynomial.coeff_coe, PowerSeries.coeff_trunc, if_pos hm]
+    rw [Polynomial.coeff_coe, PowerSeries.coeff_trunc, ite_eq_left hm]
   have hpoly : hasse l ((f : PowerSeries R) * (g : PowerSeries R)) =
       ∑ p ∈ Finset.range (l + 1), hasse p (f : PowerSeries R) * hasse (l - p) (g : PowerSeries R) := by
     rw [← Polynomial.coe_mul, hasse_coe, hasseDeriv_mul,
@@ -1238,7 +1238,7 @@ theorem formal_deformation : ∀ (k A : Type) [Field k] [IsAlgClosed k] [CommRin
   · intro j; exact (b j).2
   · exact b.linearIndependent.map' V.subtype (Submodule.ker_subtype V)
   · by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hz : ∀ j, y₀ j = 0 := by
       intro j
       have := hcon j

@@ -344,7 +344,7 @@ private theorem frat (l : ℕ) [Fact l.Prime] {G : Type} [Group G] [TopologicalS
   have hne' : Multiplicative.toAdd (ψ v) ≠ 0 := fun h0 => hne (by simpa using congrArg Multiplicative.ofAdd h0)
   have hf : ∃ f : M →ₗ[ZMod l] ZMod l, f (Multiplicative.toAdd (ψ v)) ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hne' (dual_zero (ZMod l) M _ hc)
   obtain ⟨f, hf⟩ := hf
   let φ : H →* Multiplicative (ZMod l) := (AddMonoidHom.toMultiplicative f.toAddMonoidHom).comp ψ
@@ -387,7 +387,7 @@ private theorem lev_open {k G : Type} [CommRing k] [Group G] [TopologicalSpace G
       intro N
       rw [TwoSidedIdeal.mem_iInf]
       exact hall N
-    push_neg at hx1
+    push Not at hx1
     obtain ⟨N, H, hN⟩ := hx1
     refine ⟨(N, H), fun x hx hxmem => hN ?_⟩
     have hd : x - x0 ∈ closureIdeal I S := (mk_eq _ _).1 (by rw [map_sub, hx, sub_self])

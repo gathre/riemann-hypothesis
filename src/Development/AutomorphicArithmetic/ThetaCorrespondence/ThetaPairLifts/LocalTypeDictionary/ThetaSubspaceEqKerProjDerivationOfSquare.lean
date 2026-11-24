@@ -235,7 +235,7 @@ theorem exists_finset_sep (S : Submodule ℂ (SchwartzMap Y ℂ)) [FiniteDimensi
   by_contra hne
   obtain ⟨y, hy⟩ : ∃ y, s y ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (SchwartzMap.ext h)
   have hlt : zeroOn S (insert y P) < zeroOn S P := by
     refine lt_of_le_of_ne (fun a ha z hz => ha z (Finset.mem_insert_of_mem hz)) fun heq => ?_
@@ -422,7 +422,7 @@ theorem span_finiteDimensional : ∀ (F E : Type) [Field F] [NumberField F] [Fie
         (fun w => (hP.herm.cartan w).1) (fun w => (hP.skew.cartan w).1) f g hg hg0 hf
       exact Submodule.smul_mem _ _ (Submodule.subset_span rfl)
     exact Submodule.finiteDimensional_of_le hle
-  · push_neg at h
+  · push Not at h
     have hb : Submodule.span ℂ {f₀ : SInf F (Fin n × Fin d) | M.IsGauss B.ψ B.emb f₀} = ⊥ :=
       Submodule.span_eq_bot.2 fun f hf => by_contra fun h0 => h0 (h f hf)
     rw [hb]
@@ -1277,7 +1277,7 @@ theorem exists_finset_sep (C : Submodule ℂ (α → ℂ)) [FiniteDimensional �
   by_contra hne
   obtain ⟨y, hy⟩ : ∃ y, s y ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (funext h)
   have hlt : zeroOnF C (insert y P) < zeroOnF C P := by
     refine lt_of_le_of_ne (fun a ha z hz => ha z (Finset.mem_insert_of_mem hz)) fun heq => ?_

@@ -580,7 +580,7 @@ theorem exists_basis_vec (R : RealDat D A Ks) (i : Fin D.R.m) (t : T) (μ : Meas
       rintro ⟨a, ha⟩ ⟨c, hc⟩
       rw [Set.mem_singleton_iff] at ha hc
       subst ha hc
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       show ⟪((‖w‖⁻¹ : ℝ) : ℂ) • w, ((‖w‖⁻¹ : ℝ) : ℂ) • w⟫_ℂ = 1
       rw [inner_self_eq_norm_sq_to_K, norm_smul, Complex.norm_real, Real.norm_eq_abs, abs_inv, abs_norm,
         inv_mul_cancel₀ hwn]
@@ -742,7 +742,7 @@ theorem finSumAt_of (hC : GlobalTheory.Published.CuspRapidDecay) (R : RealDat D 
     obtain ⟨v, hv, n, b, k0, hk0⟩ := exists_basis_vec R i t μ 𝓕 (hVN μ 𝓕 hμ).2
     exact finSumAt_core hC R F hL hRal i t hAdj hLF hFI hRL hLP hTL th hth μ 𝓕 hμ (hVN μ 𝓕 hμ).1 v hv n b k0 hk0
       x₀ hx₀
-  · push_neg at hx
+  · push Not at hx
     obtain ⟨-, -, tC, -, -, -⟩ := hTL
     refine ⟨1, one_pos, fun x y => ?_⟩
     have ex : LinearMap.adjoint th x = 0 := by rw [hx x, map_zero]

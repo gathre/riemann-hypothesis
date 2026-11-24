@@ -119,7 +119,7 @@ theorem ringModHigh : ∀ (O K : Type) [CommRing O] [NormedField K] [IsUltrametr
       refine ⟨g, gA, ⟨f - g, (S O K e).sub_mem hf (A_le_S l e gA)⟩,
         GlobalTheory.IndefiniteRowSideFullHecke.ImageStableDegreeBounds.mem_SHigh.2 (X_pow_dvd_iff.2 fun m hm => ?_), by simp⟩
       change coeff m (f - g) = 0
-      rw [map_sub, hg, if_pos hm, sub_self]
+      rw [map_sub, hg, ite_eq_left hm, sub_self]
     · rintro ⟨g, hg, h, -, rfl⟩
       exact (S O K e).add_mem (A_le_S l e hg) h.2
   · intro f

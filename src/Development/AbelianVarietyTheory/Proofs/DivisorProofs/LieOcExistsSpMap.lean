@@ -1886,7 +1886,7 @@ theorem lieHer_closed (b : Base D R) (s : S ⟶ Sp R) (A : Over S) [GrpObj A] [I
     · intro k _ _ g' i
       have hex : ∃ r ∈ t, g' (g r) ≠ 0 := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         have : Ideal.span (t : Set R') ≤ RingHom.ker (g'.comp g) :=
           Ideal.span_le.2 fun r hr => by simpa using hcon r hr
         rw [ht] at this

@@ -162,7 +162,7 @@ theorem _root_.GlobalTheory.CharVal.MaxV.inv (h : _root_.GlobalTheory.CharVal.Ma
     rwa [← mul_le_mul_iff_of_pos_left (zero_lt_iff.2 h0), mul_inv_cancel₀ h0]
   refine ⟨hle, ?_⟩
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hlt : ∀ b ∈ J, P.valuation E b < γ⁻¹ := fun b hb => lt_of_le_of_ne (hle b hb) (hne b hb)
   have hS : ∀ z ∈ (I : Set E) * (J : Set E), P.valuation E z < 1 := by
     intro z hz

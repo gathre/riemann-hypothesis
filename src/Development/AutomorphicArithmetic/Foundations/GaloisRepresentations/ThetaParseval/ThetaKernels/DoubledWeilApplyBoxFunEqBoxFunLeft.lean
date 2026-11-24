@@ -368,7 +368,7 @@ theorem exists_vac_split_k : ∀ (F E : Type) [Field F] [NumberField F] [Field E
     ⟨0, X.zero_mem, fun q _ => _root_.GlobalTheory.SplitVacF.commF_zero_left _, by funext y; simp only [Pi.one_apply, _root_.GlobalTheory.SplitVacF.commF_zero_left]⟩
     (fun y hy => by
       have hy' : ¬ ∀ g ∈ G, commF σ JS JT ξ₀ B.ψ g (y : WOF F E nS nT) = 1 := hy
-      push_neg at hy'
+      push Not at hy'
       obtain ⟨g, hg, hne⟩ := hy'
       exact ⟨_, ⟨g, hGX' g hg, fun q hq => hq g hg, rfl⟩, hne⟩)
   have hspan_theta : Submodule.span ℂ (Set.range fun y : YK => heisL σ JS JT ξ₀ B.ψ (y : WOF F E nS nT) f₀) ≤
@@ -398,7 +398,7 @@ theorem exists_vac_split_k : ∀ (F E : Type) [Field F] [NumberField F] [Field E
       conv_rhs => rw [← h1]
       exact (GlobalTheory.WeilPartsF.heisOF_smul _ _ _).symm
     · right
-      push_neg at hyK
+      push Not at hyK
       obtain ⟨k, hk, hkf, hne⟩ := hyK
       refine ⟨k, ?_, hne⟩
       rw [heisOF_comm, _root_.GlobalTheory.SplitVacF.commF_half he' hk (X.neg_mem hxX), one_smul]
@@ -874,7 +874,7 @@ theorem restrict_core_k : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [
   have hth := _root_.GlobalTheory.DblTargetThetaF.main_k F E σ B hB nS nT JS JT hS hT ξ₀ hξ hσξ
   by_cases h0 : ∃ f₀, IsThetaFunOF σ JS JT ξ₀ B.ψ f₀ ∧ f₀ ≠ 0
   swap
-  · push_neg at h0
+  · push Not at h0
     rw [h0 f₁ hf₁]
     have hz : ∀ g : WOF F E nS nT → ℂ, deltaT (0 : WOF F E nS nT → ℂ) g = 0 := fun g => by
       funext x; simp [deltaT]

@@ -656,7 +656,7 @@ theorem exists_diagonal : ∀ (K : Type) [Field K] [IsAlgClosed K] (G₀ G₁ H�
     refine GlobalTheory.TorsionDense.eq_one_of_torsion_comp_eq_one K H₀ H₁ hH₀ hH₁ l hl hlK _ inferInstance
       (fun _ _ y k hy => ?_)
     have := htor (y ≫ j₀ b) 1 (htors b y k hy) ⟨0, _root_.one_pow _⟩ a a
-      (by rw [Category.assoc, hpj, if_neg hab, MonObj.comp_one, MonObj.one_comp])
+      (by rw [Category.assoc, hpj, ite_eq_right hab, MonObj.comp_one, MonObj.one_comp])
     rw [MonObj.one_comp (F ≫ p₁ a)] at this
     simpa [Category.assoc] using this
 
@@ -680,7 +680,7 @@ theorem exists_diagonal : ∀ (K : Type) [Field K] [IsAlgClosed K] (G₀ G₁ H�
     have h1 := GlobalTheory.TorsionDense.eq_one_of_torsion_comp_eq_one K H₀ H₁ hH₀ hH₁ l hl hlK _ hmon
       (fun _ _ y k hy => by
         have := htor (y ≫ j₀ a) (y ≫ j₀ 0) (htors a y k hy) (htors 0 y k hy) a 0
-          (by rw [Category.assoc, Category.assoc, hpj, hpj, if_pos rfl, if_pos rfl])
+          (by rw [Category.assoc, Category.assoc, hpj, hpj, ite_eq_left rfl, ite_eq_left rfl])
         rw [hpt, _root_.mul_inv_eq_one]
         simpa [Category.assoc] using this)
     exact _root_.mul_inv_eq_one.mp h1

@@ -136,7 +136,7 @@ theorem antisym_shift_sum {A : Type*} [CommRing A] (m d : ℕ) (h : ℕ → A) (
     rw [← Finset.prod_mul_distrib, ← Finset.prod_mul_distrib]
     refine Finset.prod_congr rfl fun j _ => ?_
     have e : (((k + μ) j : ℕ) : ℤ) - μ j = k j := by simp
-    rw [e, antisymHExt, if_neg (not_lt.2 (Int.natCast_nonneg _)), Int.toNat_natCast, Pi.add_apply, pow_add]
+    rw [e, antisymHExt, ite_eq_right (not_lt.2 (Int.natCast_nonneg _)), Int.toNat_natCast, Pi.add_apply, pow_add]
     ring
   rw [Finset.mul_sum, Finset.sum_congr rfl fun k _ => key k]
   rw [← Finset.sum_image (g := fun k => k + μ) (by intro a _ b _ hab; exact add_right_cancel hab)]
@@ -157,11 +157,11 @@ theorem antisym_shift_sum {A : Type*} [CommRing A] (m d : ℕ) (h : ℕ → A) (
         omega
       · funext j
         simp [Nat.sub_add_cancel (hle j)]
-    · push_neg at hle
+    · push Not at hle
       obtain ⟨j, hj⟩ := hle
       simp only [hF]
       rw [Finset.prod_eq_zero (Finset.mem_univ j), zero_mul]
-      rw [antisymHExt, if_pos (by omega), map_zero]
+      rw [antisymHExt, ite_eq_left (by omega), map_zero]
 
 theorem antisym_lhs_eq {A : Type*} [CommRing A] (m d : ℕ) (h : ℕ → A) :
     alternant A m (staircase m) *

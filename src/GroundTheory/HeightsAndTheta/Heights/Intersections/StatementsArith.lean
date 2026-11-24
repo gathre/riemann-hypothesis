@@ -128,7 +128,7 @@ theorem isMultiHomog_Xc (n : ℕ) (i : Fin n) : IsMultiHomog (Xc n i) (fun _ => 
   rw [Finset.sum_eq_single i]
   · simp
   · intro b _ hb
-    rw [Finsupp.single_apply, if_neg]
+    rw [Finsupp.single_apply, ite_eq_right]
     intro h
     exact hb (sigma_mk_injective h).symm
   · simp

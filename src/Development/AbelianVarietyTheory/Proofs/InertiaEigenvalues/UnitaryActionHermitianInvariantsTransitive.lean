@@ -127,7 +127,7 @@ theorem comp_mulVec_ev (p : Fin r → K) (j : ℕ) (hj : j + 1 < r) : companion 
   rw [Finset.sum_eq_single ⟨j, by omega⟩]
   · simp [companion, show j + 1 ≠ r by omega]
   · intro l _ hl
-    rw [if_neg]
+    rw [ite_eq_right]
     exact fun h => hl (Fin.ext h)
   · simp
 
@@ -146,7 +146,7 @@ theorem comp_pow_r (p : Fin r → K) : companion p ^ r *ᵥ ev r K 0 = -p := by
     rw [Finset.sum_eq_single ⟨s, by omega⟩]
     · simp [companion]
     · intro l _ hl
-      rw [if_neg]
+      rw [ite_eq_right]
       exact fun h => hl (Fin.ext h)
     · simp
 
@@ -168,7 +168,7 @@ theorem mom_sec_lt (a : Inv r K) (i : Fin r) : mom (sec a) i = a.2.1 i := by
   simp only [dotProduct, ev, mul_ite, mul_one, mul_zero]
   rw [Finset.sum_eq_single i]
   · simp [show (sec a).2.2.1 = a.2.1 from rfl]
-  · intro l _ hl; rw [if_neg]; exact fun h => hl (Fin.ext h)
+  · intro l _ hl; rw [ite_eq_right]; exact fun h => hl (Fin.ext h)
   · simp
 
 end Gen
@@ -277,7 +277,7 @@ theorem Bm_ev (Y : Gl r K) : Bm Y *ᵥ ev r K 0 = Y.2.1 := by
   simp only [mulVec, dotProduct, ev, mul_ite, mul_one, mul_zero]
   rw [Finset.sum_eq_single ⟨0, i.pos⟩]
   · simp [Bm]
-  · intro l _ hl; rw [if_neg]; exact fun h => hl (Fin.ext h)
+  · intro l _ hl; rw [ite_eq_right]; exact fun h => hl (Fin.ext h)
   · simp
 
 end Gen2
@@ -446,7 +446,7 @@ theorem mulVec_ev {K : Type} [CommRing K] (M : Matrix (Fin r) (Fin r) K) (j : Fi
   simp only [mulVec, dotProduct, ev, mul_ite, mul_one, mul_zero]
   rw [Finset.sum_eq_single j]
   · simp
-  · intro l _ hl; rw [if_neg]; exact fun h => hl (Fin.ext h)
+  · intro l _ hl; rw [ite_eq_right]; exact fun h => hl (Fin.ext h)
   · simp
 
 theorem part4 [Unram F E] (a : Inv r F) (hΔ : Delta a ≠ 0) :

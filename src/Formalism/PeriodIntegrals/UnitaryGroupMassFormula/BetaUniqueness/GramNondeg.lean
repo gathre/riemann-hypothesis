@@ -115,7 +115,7 @@ theorem key {r : ℕ} (Z : Matrix (Fin (r + 1)) (Fin (r + 1)) E) (T T' : E) (c c
     exact (mul_eq_zero.mp h5).resolve_left hG
   have hnd : det Z ≠ 0 ∨ d ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     apply hG
     rw [hc.1, hc.2]
     simp

@@ -253,7 +253,7 @@ theorem gaussStep : GaussStep := by
   intro hP E _ _ _ Λ _ _ lam u hn hlam hdual
   obtain ⟨sA, sQ, c, hc, PE⟩ := hP E Λ
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   set n : ℝ := (finrank ℝ E : ℝ) with hndef
   have hn2 : (2 : ℝ) ≤ n := by rw [hndef]; exact_mod_cast hn
   set m : ℝ := n / 2 with hmdef

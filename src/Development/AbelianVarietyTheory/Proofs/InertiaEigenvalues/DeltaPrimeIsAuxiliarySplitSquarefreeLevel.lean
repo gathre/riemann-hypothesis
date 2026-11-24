@@ -169,10 +169,10 @@ theorem isLevDatum_vec {S T : HSp D} {F : Frame S T} (hF : F.Good) {G : TypeDat 
     unfold Frame.datumFn at ht
     have a1 : IsHalf (halfIdem G.Pg Q) t ∧ IsIntM (frMapAdj S T F.βS F.βT t) := by
       by_contra hc
-      exact left_ne_zero_of_mul ht (if_neg hc)
+      exact left_ne_zero_of_mul ht (ite_eq_right hc)
     have a2 : IsHalf (halfIdem G.Pg Q) t ∧ IsIntM (frMapO S T F.βS F.βT t) := by
       by_contra hc
-      exact right_ne_zero_of_mul ht (if_neg hc)
+      exact right_ne_zero_of_mul ht (ite_eq_right hc)
     exact ⟨(GlobalTheory.T.mem_selfDualLattice_iff_integral_frameMatrices_half hF h hP a1.1).2 ⟨a1.2, a2.2⟩, a1.1⟩
   · intro u hu hue t
     obtain ⟨i1, i2⟩ := (GlobalTheory.T.mem_selfDualLattice_iff_integral_frameMatrices_half hF h hP hue).1 hu
@@ -194,13 +194,13 @@ theorem isLevDatum_vec {S T : HSp D} {F : Frame S T} (hF : F.Good) {G : TypeDat 
     rw [f1, f2]
     congr 1
     · by_cases hc : IsHalf (halfIdem G.Pg Q) t ∧ IsIntM (frMapAdj S T F.βS F.βT t)
-      · rw [if_pos ⟨hh.2 hc.1, (GlobalTheory.RefDatumLev.isIntM_add_nsmul_iff i1 _).2 hc.2⟩, if_pos hc]
+      · rw [ite_eq_left ⟨hh.2 hc.1, (GlobalTheory.RefDatumLev.isIntM_add_nsmul_iff i1 _).2 hc.2⟩, ite_eq_left hc]
         exact GlobalTheory.PlaceDatum.omegaG_congr _ _ _ _ fun PP hPP => GlobalTheory.RefDatumLev.redM_add_nsmul PP hc.2 i1 _ (hN PP (Or.inl hPP))
-      · rw [if_neg hc, if_neg fun h' => hc ⟨hh.1 h'.1, (GlobalTheory.RefDatumLev.isIntM_add_nsmul_iff i1 _).1 h'.2⟩]
+      · rw [ite_eq_right hc, ite_eq_right fun h' => hc ⟨hh.1 h'.1, (GlobalTheory.RefDatumLev.isIntM_add_nsmul_iff i1 _).1 h'.2⟩]
     · by_cases hc : IsHalf (halfIdem G.Pg Q) t ∧ IsIntM (frMapO S T F.βS F.βT t)
-      · rw [if_pos ⟨hh.2 hc.1, (GlobalTheory.RefDatumLev.isIntM_add_nsmul_iff i2 _).2 hc.2⟩, if_pos hc]
+      · rw [ite_eq_left ⟨hh.2 hc.1, (GlobalTheory.RefDatumLev.isIntM_add_nsmul_iff i2 _).2 hc.2⟩, ite_eq_left hc]
         exact hω _ _ fun PP hPP => GlobalTheory.RefDatumLev.redM_add_nsmul PP hc.2 i2 _ (hN PP (Or.inr hPP))
-      · rw [if_neg hc, if_neg fun h' => hc ⟨hh.1 h'.1, (GlobalTheory.RefDatumLev.isIntM_add_nsmul_iff i2 _).1 h'.2⟩]
+      · rw [ite_eq_right hc, ite_eq_right fun h' => hc ⟨hh.1 h'.1, (GlobalTheory.RefDatumLev.isIntM_add_nsmul_iff i2 _).1 h'.2⟩]
   · intro t
     unfold Frame.datumFn
     refine mul_mem ?_ ?_ <;> split_ifs

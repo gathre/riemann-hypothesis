@@ -232,7 +232,7 @@ theorem proof : GraphIsometricForms.Statement := by
     rcases x with k | k
     · rw [pullDeg, pullDeg, extend_inl_inl, extend_inr_inl, ha k]
       simp only [Finset.sum_apply, Pi.add_apply, Pi.smul_apply, smul_eq_mul, extend_inl_inl, Pi.single_apply,
-        reduceCtorEq, if_false, mul_zero, add_zero, zero_add]
+        reduceCtorEq, ite_false, mul_zero, add_zero, zero_add]
       push_cast
       rw [← Finset.sum_sub_distrib, sub_zero]
       refine Finset.sum_congr rfl fun k₂ _ => ?_

@@ -241,9 +241,9 @@ theorem mul_row_out_k (a b : AE F E) {k : Fin d.n} (hk : k ≠ L.i₀)
 theorem mul_row_y_k (a b : AE F E) (M : Matrix (Fin d.n ⊕ Fin d.n) (Fin d.n ⊕ Fin d.n) (AE F E))
     (c : Fin d.n ⊕ Fin d.n) : (_root_.PositivityTheory.SiegelWeilFormula.Act.C6.W.Wm_k L a b * M) (Sum.inr L.i₀) c = b * M (Sum.inl L.i₀) c := by
   rw [Matrix.mul_apply, Finset.sum_eq_single (Sum.inl L.i₀)]
-  · rw [_root_.PositivityTheory.SiegelWeilFormula.Act.C6.W.Wm_row_y_k, if_pos rfl]
+  · rw [_root_.PositivityTheory.SiegelWeilFormula.Act.C6.W.Wm_row_y_k, ite_eq_left rfl]
   · intro m _ hm
-    rw [_root_.PositivityTheory.SiegelWeilFormula.Act.C6.W.Wm_row_y_k, if_neg hm, zero_mul]
+    rw [_root_.PositivityTheory.SiegelWeilFormula.Act.C6.W.Wm_row_y_k, ite_eq_right hm, zero_mul]
   · simp
 theorem mul_col_out_k (M : Matrix (Fin d.n ⊕ Fin d.n) (Fin d.n ⊕ Fin d.n) (AE F E)) (a b : AE F E) {l : Fin d.n}
     (hl : l ≠ L.i₀) (r : Fin d.n ⊕ Fin d.n) : (M * _root_.PositivityTheory.SiegelWeilFormula.Act.C6.W.Wm_k L a b) r (Sum.inl l) = M r (Sum.inl l) := by
@@ -255,9 +255,9 @@ theorem mul_col_out_k (M : Matrix (Fin d.n ⊕ Fin d.n) (Fin d.n ⊕ Fin d.n) (A
 theorem mul_col_x_k (M : Matrix (Fin d.n ⊕ Fin d.n) (Fin d.n ⊕ Fin d.n) (AE F E)) (a b : AE F E)
     (r : Fin d.n ⊕ Fin d.n) : (M * _root_.PositivityTheory.SiegelWeilFormula.Act.C6.W.Wm_k L a b) r (Sum.inl L.i₀) = M r (Sum.inr L.i₀) * b := by
   rw [Matrix.mul_apply, Finset.sum_eq_single (Sum.inr L.i₀)]
-  · rw [_root_.PositivityTheory.SiegelWeilFormula.Act.C6.W.Wm_col_x_k, if_pos rfl]
+  · rw [_root_.PositivityTheory.SiegelWeilFormula.Act.C6.W.Wm_col_x_k, ite_eq_left rfl]
   · intro m _ hm
-    rw [_root_.PositivityTheory.SiegelWeilFormula.Act.C6.W.Wm_col_x_k, if_neg hm, mul_zero]
+    rw [_root_.PositivityTheory.SiegelWeilFormula.Act.C6.W.Wm_col_x_k, ite_eq_right hm, mul_zero]
   · simp
 end W
 open W in

@@ -341,12 +341,12 @@ theorem wdb_cutoff_sq_le : ∀ (χ : ℝ → ℝ) (A : ℝ), ContDiff ℝ ∞ χ
       _ = A ^ 2 / ρ ^ 2 * ∑ j, ‖ξ j‖ ^ 2 := by field_simp
   · have hd0 : deriv χ t = 0 := by
       rcases not_and_or.mp hann with h | h
-      · push_neg at h
+      · push Not at h
         have ht4 : t ≤ 1 / 4 := by
           rw [ht, div_le_iff₀ (by positivity)]; nlinarith [norm_nonneg z]
         apply IsLocalMax.deriv_eq_zero
         exact Filter.Eventually.of_forall fun s => by rw [h1 t ht4]; exact (h01 s).2
-      · push_neg at h
+      · push Not at h
         have ht1 : 1 ≤ t := by
           rw [ht, le_div_iff₀ (by positivity)]; nlinarith
         apply IsLocalMin.deriv_eq_zero
@@ -846,7 +846,7 @@ theorem cutLog_bounds (χ : ℝ → ℝ) (A : ℝ) (hχ : ContDiff ℝ ∞ χ) (
     rw [hz.1, hz.2]
     have : 0 ≤ χ t * u := mul_nonneg hc0.1 hu.le
     constructor <;> nlinarith
-  · push_neg at hc
+  · push Not at hc
     have hx1 : (t + δ) / 2 ≤ 1 := by linarith
     have hx0 : 1 / 8 ≤ (t + δ) / 2 := by linarith
     have hL0 : L ≤ 0 := Real.log_nonpos (by linarith) hx1
@@ -962,7 +962,7 @@ theorem levi_cutLog_lower : ∀ (χ : ℝ → ℝ) (A : ℝ), ContDiff ℝ ∞ �
   · have := mul_le_mul_of_nonneg_right b1 hP0
     have := mul_nonneg hs hN0
     nlinarith
-  · push_neg at hs
+  · push Not at hs
     have h3 : deriv (deriv k) (v z) * (v z * P) ≤ deriv (deriv k) (v z) * N :=
       mul_le_mul_of_nonpos_left hNt hs.le
     have := mul_le_mul_of_nonneg_right b2 hP0
@@ -990,10 +990,10 @@ theorem nmat_hasDerivAt (X : Data E r) {f : ℂ → V (nd X)} {f' : V (nd X)} {t
     HasDerivAt (fun s => nmat X (f s) τ a c) (nmat X f' τ a c - if a = c then 1 else 0) t := by
   unfold nmat
   by_cases h : c < a
-  · simp only [h, dif_pos, h.ne', if_false, sub_zero]
+  · simp only [h, dite_eq_left, h.ne', ite_false, sub_zero]
     exact
       ((PiLp.proj 2 (fun _ : Fin (nd X) => ℂ) ((Fintype.equivFin (Ent X)) ⟨τ, ⟨(a, c), h⟩⟩)).hasFDerivAt).comp_hasDerivAt t hf
-  · simp only [h, dif_neg, not_false_eq_true, sub_self]
+  · simp only [h, dite_eq_right, not_false_eq_true, sub_self]
     exact hasDerivAt_const _ _
 
 theorem nmat_zero_apply (X : Data E r) (τ : X.Ψ) (a c : Fin r) :
@@ -1105,7 +1105,7 @@ theorem levi_transport_origin : ∀ (E : Type) [Field E] [NumberField E] [IsCMFi
     simp only [Matrix.mul_apply, Matrix.sub_apply, Matrix.add_apply, Matrix.one_apply, mat, Matrix.of_apply,
       WithLp.toLp_ofLp]
     rw [heq]
-    simp only [mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true, mul_add,
+    simp only [mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true, mul_add,
       Finset.sum_add_distrib, Finset.mul_sum, Finset.sum_mul, mul_assoc]
     rw [Finset.sum_comm]
 
@@ -1407,7 +1407,7 @@ theorem levi_ball (X : Data E r) {x : Frame X.Ψ r} (hx : IsOrth X x) (hr : 0 < 
   · simp [mat, nmat, not_lt.2 h.le, h.ne]
   · simp [mat, nmat]
   · have := GlobalTheory.ChartNearOne.nmat_entry_le X z τ a c
-    rwa [if_neg h.ne', sub_zero] at this
+    rwa [ite_eq_right h.ne', sub_zero] at this
   · rw [low_apply, dite_eq_right (not_lt.2 h)]
   · rw [low_apply, dite_eq_right (not_lt.2 h)]
   · rw [Matrix.mul_assoc, hm, Matrix.nonsing_inv_mul_cancel_left _ _ hu]
@@ -1832,10 +1832,10 @@ theorem peak_weight : ∃ C1 : ℝ, 0 ≤ C1 ∧ ∀ (E : Type) [Field E] [Numbe
       (measurableSet_lt measurable_norm measurable_const)
   · have h := _root_.GlobalTheory.wdb_cutoff_sq_le χ A hχ hχr hχ1 hχ0 hd1 (nd X) ρ hρ0 z ξ
     by_cases hz' : ρ / 2 ≤ ‖z‖ ∧ ‖z‖ < ρ
-    · rw [if_pos hz'] at h
+    · rw [ite_eq_left hz'] at h
       rw [Set.indicator_of_mem (by exact hz'), one_mul, weight_levi X hx la bb (hsm k).2 hz]
       exact ENNReal.ofReal_le_ofReal (h.trans ((hlevi k).1 z (hz'.2.trans hρR) ξ))
-    · rw [if_neg hz'] at h
+    · rw [ite_eq_right hz'] at h
       rw [ENNReal.ofReal_eq_zero.2 h]
       exact zero_le
   · refine annulus_integral X x (Real.exp_pos _).le fun z h1 h2 => ?_

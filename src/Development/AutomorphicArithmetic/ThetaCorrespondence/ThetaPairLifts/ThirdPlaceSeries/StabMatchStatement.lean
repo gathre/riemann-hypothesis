@@ -243,13 +243,13 @@ theorem exists_div_indP (v : GlobalTheory.FinPl.Pl D) (g : ℕ) (hg : (g : 𝓞 
     · subst hw
       have h2 : Valued.v (algebraMap D.host.F (w.adicCompletion D.host.F) (g : D.host.F)⁻¹) =
           w.valuation D.host.F (g : D.host.F)⁻¹ := HeightOneSpectrum.valuedAdicCompletion_eq_valuation' w _
-      rw [if_pos rfl, one_mul, HeightOneSpectrum.mem_adicCompletionIntegers, h2, map_inv₀]
+      rw [ite_eq_left rfl, one_mul, HeightOneSpectrum.mem_adicCompletionIntegers, h2, map_inv₀]
       have h1 : w.valuation D.host.F (g : D.host.F) = 1 := by
         have := HeightOneSpectrum.valuation_of_algebraMap (K := D.host.F) w (g : 𝓞 D.host.F)
         rw [HeightOneSpectrum.intValuation_eq_one_iff.2 hg] at this
         simpa using this
       rw [h1, inv_one]
-    · rw [if_neg hw, zero_mul]; exact zero_mem _
+    · rw [ite_eq_right hw, zero_mul]; exact zero_mem _
   · rw [mul_left_comm, ← map_natCast (algebraMap D.host.F (Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Af D.host.F)) g, ← map_mul,
       mul_inv_cancel₀ hg0, map_one, mul_one]
 
@@ -638,7 +638,7 @@ theorem GlobalTheory.Core.Mi.LatMatch.lastAt_of_goodBF : ∀ (D : D7) (ψ : AddC
       ∀ a ∈ idAt D (· = v), a • ratV (col J.d j) ∈ latV J.W LW (· = v) ↔ a ∈ idV (𝔟 j) v := by
     intro j
     have hs := Classical.choose_spec (GlobalTheory.T.selfDualLattice_rationalLineTrace_fractionalIdeal D J.W LW (col J.d j) hG.sdW (col_ne_zero _ _))
-    simp only [𝔟, dif_pos j.2, Fin.eta]
+    simp only [𝔟, dite_eq_left j.2, Fin.eta]
     exact ⟨hs.1, hs.2.2 v⟩
   have hmono : GlobalTheory.SeeSaw.MonoId J.d LW LW₀ 𝔟 v :=
     ⟨hG.monoW, fun j a ha => by rw [colMul_jX]; exact (h𝔟 j).2 a ha⟩
@@ -893,15 +893,15 @@ theorem wShape_of_besFrame_loc : ∀ {D : D7} {c : Comm D} {v : VCom c} (G : GLo
     intro i j hj
     have h : j.1 < ρ := hj ▸ i.2
     have : (⟨j.1, h⟩ : Fin ρ) = i := Fin.ext hj
-    simp only [Yr, dif_pos h, this]
+    simp only [Yr, dite_eq_left h, this]
   have YrZ : ∀ (j : Fin (G.s + 1)), j.1 = ρ → Yr j = t / G.sc 0 := by
     intro j hj
-    simp only [Yr, dif_neg (show ¬ j.1 < ρ by omega), if_pos hj]
+    simp only [Yr, dite_eq_right (show ¬ j.1 < ρ by omega), ite_eq_left hj]
   have YrE' : ∀ (i : Fin ρ) (j : Fin (G.s + 1)), j.1 + i.1 = 2 * ρ → Yr j = x' i / cE' i := by
     intro i j hj
     have h : 2 * ρ - j.1 < ρ := by omega
     have : (⟨2 * ρ - j.1, h⟩ : Fin ρ) = i := Fin.ext (by simp; omega)
-    simp only [Yr, dif_neg (show ¬ j.1 < ρ by omega), if_neg (show ¬ j.1 = ρ by omega), dif_pos h, this]
+    simp only [Yr, dite_eq_right (show ¬ j.1 < ρ by omega), ite_eq_right (show ¬ j.1 = ρ by omega), dite_eq_left h, this]
   have hlat : (∀ a, Y (Sum.inl a) ∈ 𝒪[G.k]) ↔ (fun r => G.q.sec (y r)) ∈ GlobalTheory.FinPl.latV (c.X 0) (c.x 0).L (· = G.q.v) := by
     have h := G.latX 0 (by omega) ((G.FX 0 (by omega)).γ *ᵥ y)
     rw [Matrix.mulVec_mulVec, (G.FX 0 (by omega)).βγ, Matrix.one_mulVec] at h
@@ -1498,7 +1498,7 @@ theorem unit_at {v : GlobalTheory.FinPl.Pl D} {T : ℕ} (hT : (T : 𝓞 D.host.F
   rw [Algebra.smul_def, map_mul, AlgHom.commutes, GlobalTheory.FinPlLoc.evalV_ePl]
   by_cases hw : w = v
   · subst hw
-    rw [HeightOneSpectrum.mem_adicCompletionIntegers, if_pos rfl, mul_one]
+    rw [HeightOneSpectrum.mem_adicCompletionIntegers, ite_eq_left rfl, mul_one]
     show Valued.v (((T : D.host.F)⁻¹ : D.host.F) : w.adicCompletion D.host.F) ≤ 1
     rw [HeightOneSpectrum.valuedAdicCompletion_eq_valuation', map_inv₀]
     have h1 : w.valuation D.host.F (T : D.host.F) = 1 := by
@@ -1506,7 +1506,7 @@ theorem unit_at {v : GlobalTheory.FinPl.Pl D} {T : ℕ} (hT : (T : 𝓞 D.host.F
       rw [HeightOneSpectrum.intValuation_eq_one_iff.2 hT] at this
       simpa using this
     rw [h1, inv_one]
-  · rw [if_neg hw, mul_zero]; exact zero_mem _
+  · rw [ite_eq_right hw, mul_zero]; exact zero_mem _
 
 def traceLine {S A L : HSp D} (o : OrthDec S A L) (M' : Lat S) (v : GlobalTheory.FinPl.Pl D) :
     AddSubgroup (Fin L.rank → AE D) where

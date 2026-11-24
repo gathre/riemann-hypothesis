@@ -684,7 +684,7 @@ theorem exists_unif : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H 
     fun x => ?_⟩
   have h : ∃ x' : (U.X k).dom, flat (domPt (U.X k) (Nat.le_add_right Dw.p Dw.q) (Equiv.refl (U.X k).Ψ) x'.1) =
       flat (domPt (U.X k) (Nat.le_add_right Dw.p Dw.q) (Equiv.refl (U.X k).Ψ) x.1) := ⟨x, rfl⟩
-  simp only [dif_pos h]
+  simp only [dite_eq_left h]
   rw [hlf]
   exact hwell _ _ (flat_inj h.choose_spec)
 

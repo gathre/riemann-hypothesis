@@ -165,13 +165,13 @@ theorem coefTr_casimirK (ε : Fin n → Bool) (A : Fin n → Fin n → Module.En
 
 theorem coefB_sum_ite_left (a : Fin n) (x : D) (v : Fin n → D) :
     ∑ c, inner ℂ (if c = a then x else 0) (v c) = inner ℂ x (v a) := by
-  rw [Finset.sum_eq_single a (fun c _ hc => by rw [if_neg hc, inner_zero_left])
-    (fun h => absurd (Finset.mem_univ a) h), if_pos rfl]
+  rw [Finset.sum_eq_single a (fun c _ hc => by rw [ite_eq_right hc, inner_zero_left])
+    (fun h => absurd (Finset.mem_univ a) h), ite_eq_left rfl]
 
 theorem coefB_sum_ite_right (a : Fin n) (x : D) (v : Fin n → D) :
     ∑ c, inner ℂ (v c) (if c = a then x else 0) = inner ℂ (v a) x := by
-  rw [Finset.sum_eq_single a (fun c _ hc => by rw [if_neg hc, inner_zero_right])
-    (fun h => absurd (Finset.mem_univ a) h), if_pos rfl]
+  rw [Finset.sum_eq_single a (fun c _ hc => by rw [ite_eq_right hc, inner_zero_right])
+    (fun h => absurd (Finset.mem_univ a) h), ite_eq_left rfl]
 
 end Tr
 

@@ -63,7 +63,7 @@ theorem ev_map_dD_eq_diagCx_d {C : Type u} [Category.{v} C] [Preadditive C]
     (ev Y).map (dD (n + 1) n) = (diagCx Y).d (n + 1) n := by
   refine Eq.trans ?_ (AlternatingFaceMapComplex.obj_d_eq (diag.obj Y) n).symm
 
-  rw [dD, if_pos rfl, Functor.map_sum, ← Fin.sum_univ_eq_sum_range]
+  rw [dD, ite_eq_left rfl, Functor.map_sum, ← Fin.sum_univ_eq_sum_range]
   refine Finset.sum_congr rfl (fun i _ => ?_)
   rw [Functor.map_zsmul, ev_map_bop, fc_succ_eq_delta]
   rfl

@@ -119,7 +119,7 @@ theorem weighted_le_of_irrel {P : Ideal (MRingOver F ι)} {k : K}
   have hw := hx (mem_support_iff.mp hm)
   obtain ⟨i, hi⟩ : ∃ i, m ⟨k, i⟩ ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h0 : Finsupp.weight (mw (ι := ι)) m k = 0 := by
       rw [Finsupp.weight_apply, Finsupp.sum, Finset.sum_apply]
       refine Finset.sum_eq_zero fun p _ => ?_

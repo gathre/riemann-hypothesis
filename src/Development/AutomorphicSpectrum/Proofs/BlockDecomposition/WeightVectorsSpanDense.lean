@@ -77,7 +77,7 @@ theorem stepWtSpan : PositivityTheory.RgDs.Hilb.StepWtSpan := by
   let e' : (S.comap (smD ε (rreg ε)).subtype) →ₗ[ℂ] N :=
     e.comp (Submodule.comapSubtypeEquivOfLe hSD).toLinearMap
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hle : ∀ χ : Fin n → ℂ, (⨅ c, Module.End.eigenspace (T c) (χ c)) ≤ LinearMap.ker e' := by
     intro χ x hx
     by_cases hx0 : x = 0

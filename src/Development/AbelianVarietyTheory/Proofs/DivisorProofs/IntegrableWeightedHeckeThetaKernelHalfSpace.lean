@@ -251,7 +251,7 @@ theorem integrable_weight_theta : ∀ (I : Type) [Fintype I] {ι : Type} (e : ι
     intro y hy hs
     obtain ⟨k, hk⟩ : ∃ k, 0 ≤ y k := by
       by_contra h
-      push_neg at h
+      push Not at h
       have := Finset.sum_lt_sum_of_nonempty Finset.univ_nonempty (fun i (_ : i ∈ Finset.univ) => h i)
       simp only [Finset.sum_const_zero] at this
       linarith
@@ -319,7 +319,7 @@ theorem integrable_weight_theta : ∀ (I : Type) [Fintype I] {ι : Type} (e : ι
     have hyR : ∀ i, -R' ≤ y i := by
       obtain ⟨k, hk⟩ : ∃ k, 0 ≤ y k := by
         by_contra h
-        push_neg at h
+        push Not at h
         have := Finset.sum_lt_sum_of_nonempty Finset.univ_nonempty (fun i (_ : i ∈ Finset.univ) => h i)
         simp only [Finset.sum_const_zero] at this
         linarith

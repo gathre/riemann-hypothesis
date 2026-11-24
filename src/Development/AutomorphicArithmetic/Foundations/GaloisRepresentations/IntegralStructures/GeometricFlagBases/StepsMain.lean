@@ -863,7 +863,7 @@ private theorem mem_range_of_fEt_of_lies_of_mem_range {k L O : Type} [Field k] [
   haveI := hj.op
   have hD := genDense O T (s ≫ C.p) inferInstance
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨x, hx, hxt⟩ := hne
   have hopen : IsOpen ({x | s x ∈ Set.range j} ∩ {x | t x ∈ Set.range j}ᶜ) :=
     IsOpen.inter (j.isOpenEmbedding.isOpen_range.preimage s.continuous)

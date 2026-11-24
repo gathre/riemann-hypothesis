@@ -190,7 +190,7 @@ theorem exists_of_good (hσ : IsCMExt F E σ) (hΦ : Comp Φ) {N : ℕ} (hN : 0 
 
 theorem exists_not_fixed (hσ : IsCMExt F E σ) : ∃ δ : 𝓞 E, cO σ δ ≠ δ := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hs : Function.Surjective (algebraMap F E) := fun x => by
     obtain ⟨a, b, -, rfl⟩ := IsFractionRing.div_surjective (𝓞 E) x
     have ha : σ (a : E) = a := congrArg (fun t : 𝓞 E => (t : E)) (h a)

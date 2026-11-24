@@ -85,7 +85,7 @@ theorem qExpansion_coeff_zero_of_isBigO_qParam_pow {F : Type*} [FunLike F ℍ �
   have ha := ModularFormClass.analyticAt_cuspFunction_zero f one_pos hΓ
   have h1 : (m : ℕ∞) ≤ analyticOrderAt (cuspFunction 1 f) 0 := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     obtain ⟨j, hj⟩ := ENat.ne_top_iff_exists.mp hlt.ne_top
     rw [← hj] at hlt
     have hjm : j < m := by exact_mod_cast hlt

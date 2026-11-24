@@ -83,7 +83,7 @@ def chartMap (k : Fin (m + 1)) : CSpec c ⟶ PSpace ℤ (n k) :=
 
 theorem chartMap_top (k : Fin (m + 1)) : ⊤ ≤ chartMap c k ⁻¹ᵁ chart ℤ (n k) (c k) := ofChartHom_preimage _ _
 
-theorem coordVal_self (k : Fin (m + 1)) : coordVal c k (c k) = 1 := dif_pos rfl
+theorem coordVal_self (k : Fin (m + 1)) : coordVal c k (c k) = 1 := dite_eq_left rfl
 
 theorem pullRatio_chartMap (k : Fin (m + 1)) (j : Bk n k) :
     pullRatio (chartMap c k) ⊤ (c k) (chartMap_top c k) j =

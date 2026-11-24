@@ -196,13 +196,13 @@ private theorem Dz.all {E : Type} [Field E] [StarRing E] [CharZero E] :
   by_cases hd : ∃ i, T i i ≠ 0
   · obtain ⟨i, hi⟩ := hd
     exact Dz.pivot ih T hT i hi
-  push_neg at hd
+  push Not at hd
   by_cases h0 : T = 0
   · subst h0
     exact ⟨1, by simp, 0, by ext i j; simp [Matrix.diagonal]⟩
   obtain ⟨i, j, hij⟩ : ∃ i j, T i j ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact h0 (by ext a b; simpa using hc a b)
   have hne : j ≠ i := by
     rintro rfl
@@ -309,7 +309,7 @@ theorem UpperTheory.Reformulated.B.Gka4.diag_hermitian :
     exact this hr
   obtain ⟨α, hα⟩ : ∃ α, σ α ≠ α := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hnr
     rw [NumberField.ComplexEmbedding.isReal_iff]
     ext x

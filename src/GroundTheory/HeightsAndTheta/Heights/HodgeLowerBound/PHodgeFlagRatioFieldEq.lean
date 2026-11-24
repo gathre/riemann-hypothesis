@@ -299,8 +299,8 @@ theorem span_eq_top_of_dual {Ω E : Type} [Field Ω] [AddCommGroup E] [Module Ω
       · rintro rfl
         rfl
     by_cases hTT : T' = T
-    · rw [if_pos hTT, if_pos (hiff.2 hTT)]
-    · rw [if_neg hTT, if_neg (fun h' => hTT (hiff.1 h'))]
+    · rw [ite_eq_left hTT, ite_eq_left (hiff.2 hTT)]
+    · rw [ite_eq_right hTT, ite_eq_right (fun h' => hTT (hiff.1 h'))]
   rw [hT]
   exact Submodule.sum_mem _ fun m _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨m, rfl⟩)
 

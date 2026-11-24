@@ -182,10 +182,10 @@ def extend (A : Cube.{v} ι R) (p : ℕ) : Term A p →ₗ[R] ∀ s, A.obj s whe
   map_smul' r x := by ext s; by_cases h : s.card = p <;> simp [h]
 
 theorem extend_apply_of_eq (A : Cube.{v} ι R) {p : ℕ} (x : Term A p) {s : Finset ι}
-    (h : s.card = p) : extend A p x s = x ⟨s, h⟩ := dif_pos h
+    (h : s.card = p) : extend A p x s = x ⟨s, h⟩ := dite_eq_left h
 
 theorem extend_apply_of_ne (A : Cube.{v} ι R) {p : ℕ} (x : Term A p) {s : Finset ι}
-    (h : s.card ≠ p) : extend A p x s = 0 := dif_neg h
+    (h : s.card ≠ p) : extend A p x s = 0 := dite_eq_right h
 
 def termMap {A B : Cube.{v} ι R} (φ : A ⟶ B) (p : ℕ) : Term A p →ₗ[R] Term B p where
   toFun x s := (φ.app s.1).hom (x s)
@@ -906,7 +906,7 @@ theorem Cube.directSumIncl_proj (A : κ → Cube.{v} ι R) (k : κ) :
 theorem Cube.directSumIncl_proj_of_ne (A : κ → Cube.{v} ι R) {k j : κ} (h : k ≠ j) :
     Cube.directSumIncl A k ≫ Cube.directSumProj A j = 0 := by
   ext s x
-  exact (DirectSum.component.of (M := fun k => (A k).obj s) R j k x).trans (dif_neg h)
+  exact (DirectSum.component.of (M := fun k => (A k).obj s) R j k x).trans (dite_eq_right h)
 
 theorem Cube.exists_sum_directSum [Finite ι] (A : κ → Cube.{v} ι R) (p : ℕ)
     (z : Cube.Term (Cube.directSum A) p) : ∃ T : Finset κ,

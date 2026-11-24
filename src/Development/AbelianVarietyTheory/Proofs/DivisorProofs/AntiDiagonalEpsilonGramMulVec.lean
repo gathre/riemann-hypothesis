@@ -68,11 +68,11 @@ theorem antiDiagonalEpsilonGram_mulVec {c : ℕ} (ε : E) (u : Fin c → E) (p :
   rw [Finset.sum_eq_single p.rev]
   · have := p.2
     simp only [antiDiagonalSignGramMatrix, Fin.val_rev]
-    rw [if_pos (by omega)]
+    rw [ite_eq_left (by omega)]
   · intro q _ hq
     have := p.2
     simp only [antiDiagonalSignGramMatrix]
-    rw [if_neg, zero_mul]
+    rw [ite_eq_right, zero_mul]
     intro h
     exact hq (Fin.ext (by rw [Fin.val_rev]; omega))
   · intro h; exact absurd (Finset.mem_univ _) h

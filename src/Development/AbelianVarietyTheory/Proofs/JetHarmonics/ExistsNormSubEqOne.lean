@@ -68,7 +68,7 @@ theorem _root_.GlobalTheory.SplitEmbSep.norm_le_one_of_isIntegral {C : Type*} [N
     {x : C} (hx : IsIntegral ℤ x) : ‖x‖ ≤ 1 := by
   obtain ⟨p, hm, hp⟩ := hx
   by_contra h
-  push_neg at h
+  push Not at h
   rw [← Polynomial.aeval_def, hm.as_sum] at hp
 
   simp only [map_add (f := _), map_pow, Polynomial.aeval_X, map_sum, map_mul, Polynomial.aeval_C,

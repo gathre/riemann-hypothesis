@@ -86,7 +86,7 @@ theorem signs_of_overK {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T0 : Type}
   have hs : (Wc D i).sig (tauE D ρ) = D.R.sigW ((i : ℕ) + 1) := D.sp.W_sigval _ (inR i).1 (inR i).2 _
   have he := (R.MW i σ).enum ρ
   unfold Links.parAt at he
-  rw [if_pos (((labels_overK σ).1 hσ).2 ρ)] at he
+  rw [ite_eq_left (((labels_overK σ).1 hσ).2 ρ)] at he
   exact (GlobalTheory.HolDict.isEnum_holPar_kapW _ (rank_Wc i) (by rw [hs]; exact sigW_add i) he a).2
 
 end GlobalTheory.GalOne.Facts

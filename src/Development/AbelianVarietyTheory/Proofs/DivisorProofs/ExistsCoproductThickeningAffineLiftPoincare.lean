@@ -380,11 +380,11 @@ theorem lie_pow_smul_mDR (hv : ∀ b, v (α b) = 0) (e : ℕ → P) (he0 : v (e 
   | succ k ih =>
     rw [pow_succ', Module.End.mul_apply, ih]
     by_cases hk : k ≤ n
-    · rw [if_pos hk, lie_smul_mDR v h hv]
+    · rw [ite_eq_left hk, lie_smul_mDR v h hv]
       by_cases hk' : k + 1 ≤ n
-      · rw [if_pos hk', show n - k = (n - (k + 1)) + 1 by omega, hs]
-      · rw [if_neg hk', show n - k = 0 by omega, he0]
-    · rw [if_neg hk, if_neg (by omega), zero_smul, map_zero]
+      · rw [ite_eq_left hk', show n - k = (n - (k + 1)) + 1 by omega, hs]
+      · rw [ite_eq_right hk', show n - k = 0 by omega, he0]
+    · rw [ite_eq_right hk, ite_eq_right (by omega), zero_smul, map_zero]
 
 end Gen
 
@@ -392,7 +392,7 @@ theorem alt_sum_choose_succ (n : ℕ) :
     ∑ k ∈ Finset.range (n + 1), (-1 : ℤ) ^ k * ((n + 1).choose (k + 1) : ℤ) = 1 := by
   have h0 := Int.alternating_sum_range_choose (n := n + 1)
   rw [Finset.sum_range_succ'] at h0
-  simp only [pow_succ, Nat.choose_zero_right, pow_zero, Nat.cast_one, mul_one, if_neg (Nat.succ_ne_zero n)] at h0
+  simp only [pow_succ, Nat.choose_zero_right, pow_zero, Nat.cast_one, mul_one, ite_eq_right (Nat.succ_ne_zero n)] at h0
   have : ∑ k ∈ Finset.range (n + 1), (-1 : ℤ) ^ k * -1 * ((n + 1).choose (k + 1) : ℤ) =
       -∑ k ∈ Finset.range (n + 1), (-1 : ℤ) ^ k * ((n + 1).choose (k + 1) : ℤ) := by
     rw [← Finset.sum_neg_distrib]; exact Finset.sum_congr rfl fun _ _ ↦ by ring

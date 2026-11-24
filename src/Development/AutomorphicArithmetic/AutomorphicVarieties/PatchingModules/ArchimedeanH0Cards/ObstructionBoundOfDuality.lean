@@ -523,7 +523,7 @@ private theorem od_dec {K : Type} [Field K] {X : Type} [CommRing X] [Algebra (Po
   simp only [odOf, Submodule.coe_add, Submodule.coe_smul, Matrix.add_apply, Matrix.smul_apply, Matrix.of_apply]
   by_cases hij : ((i : ℕ) < a ↔ (j : ℕ) < a)
   · simp [hij, (od_iff _).1 Y.2 i j hij]
-  · simp only [hij, if_false]
+  · simp only [hij, ite_false]
     rw [← hb i j, hcd i j, map_add (f := _), Algebra.smul_def, map_mul]
 
 end SlopeTestRemainingChoices
@@ -854,7 +854,7 @@ theorem UpperTheory.V.Pa.B2.genTrick :
       omega
     rw [hp, mul_smul, hm, smul_zero]
   by_contra hne
-  push_neg at hne
+  push Not at hne
   set e := C + 1 with he
   have hem : e ≤ m := by omega
   let φ : (Fin (g + 1) → A) →ₗ[A] H := Fintype.linearCombination A ξ
@@ -873,7 +873,7 @@ theorem UpperTheory.V.Pa.B2.genTrick :
       · intro i
         obtain ⟨w, hw⟩ := hall i
         exact ⟨w, by rw [hd' i, hw, pow_succ, mul_assoc]⟩
-      · push_neg at hall
+      · push Not at hall
         obtain ⟨i0, hi0⟩ := hall
         exfalso
         have hdd : d = t ^ k • d' := funext fun i => by simp [hd' i]
@@ -1060,7 +1060,7 @@ private theorem low_ann {l : ℕ} [Fact l.Prime] {F : GFrame l} {n : ℕ} (x : N
   have hne : ∀ (v : F.Vl) (i j : Fin n), i ≠ j → ∃ g : F.Gv v, x.ψ v i g ≠ x.ψ v j g := by
     intro v i j hij
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact (x.N1 v).1 i j hij (MonoidHom.ext hc)
   let fac : F.Vl → Fin n → Fin n → PowerSeries x.K := fun v i j =>
     if h : i = j then 1 else
@@ -1128,7 +1128,7 @@ private theorem low_ann {l : ℕ} [Fact l.Prime] {F : GFrame l} {n : ℕ} (x : N
     · rw [hdg g i, hdg g⁻¹ j, ← map_mul, ← map_one (algebraMap x.A X), ← map_sub]
       apply map_dvd
       have hf : fac v i j = (x.ψ v i g : PowerSeries x.K) * (x.ψ v j g⁻¹ : PowerSeries x.K) - 1 := by
-        simp only [fac, dif_neg hij']
+        simp only [fac, dite_eq_right hij']
         rfl
       rw [← hf]
       exact (Finset.dvd_prod_of_mem (fun j => fac v i j) (Finset.mem_univ j)).trans
@@ -1186,7 +1186,7 @@ theorem UpperTheory.V.Pa.B2.H0_local_card_bounded_of_cls_ker_le_ker :
     rw [← hch q1, ← hch q2, ← sub_eq_zero, ← map_sub, hker, hZsub]
     intro i j hij
     have h3 := congrArg (fun f => ((f i j : S) : x.Am e)) hq
-    simp only [φ, dif_pos hij] at h3
+    simp only [φ, dite_eq_left hij] at h3
     rw [Matrix.sub_apply, h3, sub_self]
   have hK : 1 < Nat.card x.K := Finite.one_lt_card
   calc Nat.card (ReciprocityTheory.Gal.H0 (D.Q (inV G v)).ρ) ≤ Nat.card (Fin n → Fin n → S) :=
@@ -1596,7 +1596,7 @@ private theorem finAm (K : Type) [Field K] [Finite K] (m : ℕ) :
   rw [Finset.sum_eq_single ⟨n, hn⟩]
   · simp
   · intro b _ hb
-    rw [if_neg]
+    rw [ite_eq_right]
     intro e
     exact hb (Fin.ext e.symm)
   · simp

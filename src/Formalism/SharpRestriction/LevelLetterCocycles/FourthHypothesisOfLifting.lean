@@ -210,7 +210,7 @@ theorem ktyTie_of_spec (P : Pend D) : KtyTie P := by
 theorem idem_mul_eSer (P : Pend D) (k : Fin 2) (τ : (P.lz k).Irr D.R.r) :
     (P.lz k).idem τ * D.ntypes.eSer k ((P.lz k).lab τ) = (P.lz k).idem τ := by
   rw [P.eSer_eq, Finset.mul_sum, Finset.sum_eq_single τ]
-  · rw [if_pos rfl, (P.lz k).idem_idem τ]
+  · rw [ite_eq_left rfl, (P.lz k).idem_idem τ]
   · intro σ _ hne
     split_ifs
     · exact (P.lz k).idem_orth τ σ (fun h => hne h.symm)

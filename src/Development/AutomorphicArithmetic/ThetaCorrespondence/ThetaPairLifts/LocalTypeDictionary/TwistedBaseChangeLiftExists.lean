@@ -251,13 +251,13 @@ theorem isFinVec_of_isCosetVec {ψ : AddChar (AF D.host.F) ℂ} {θ : InfFam D} 
     funext x
     unfold cosetInd
     by_cases hx : IsHalf e x
-    · rw [if_pos hx]
+    · rw [ite_eq_left hx]
       by_cases hx' : InCosetOf S T I c x
-      · rw [if_pos ⟨hx, hx'⟩]
-        exact (if_pos hx').symm
-      · rw [if_neg fun h => hx' h.2]
-        exact (if_neg hx').symm
-    · rw [if_neg hx, if_neg fun h => hx h.1]
+      · rw [ite_eq_left ⟨hx, hx'⟩]
+        exact (ite_eq_left hx').symm
+      · rw [ite_eq_right fun h => hx' h.2]
+        exact (ite_eq_right hx').symm
+    · rw [ite_eq_right hx, ite_eq_right fun h => hx h.1]
   have hS' := GlobalTheory.FlipPath.isSelfDualC_sgn ε hS
   refine GlobalTheory.FlipPath.isFinVec_of_own hv hS hT he (φ := φ) ⟨?_, ?_⟩
   · rw [← hfun]
@@ -273,7 +273,7 @@ theorem isFinVec_of_isCosetVec {ψ : AddChar (AF D.host.F) ℂ} {θ : InfFam D} 
     refine ⟨fun t ht => ?_, K * (Ideal.absNorm I * M), Nat.mul_pos hK (Nat.mul_pos hN hM), fun u hu hh t => ?_,
       fun t ht => ?_⟩
     · by_contra h
-      exact ht (if_neg fun h' => h h'.1)
+      exact ht (ite_eq_right fun h' => h h'.1)
     · have hH : IsHalf e (t + (K * (Ideal.absNorm I * M)) • u) ↔ IsHalf e t := by
         refine forall_congr' fun i => forall_congr' fun j => ?_
         have e1 : (t + (K * (Ideal.absNorm I * M)) • u) i j = t i j + ((K * (Ideal.absNorm I * M) : ℕ) : AE D) * u i j := by
@@ -304,11 +304,11 @@ theorem isFinVec_of_isCosetVec {ψ : AddChar (AF D.host.F) ℂ} {θ : InfFam D} 
           exact ⟨hmem.2 h2, (mk_eq_of_eq_add _ (hmem.2 h2) h2 hz hKN (hadd i j)).trans h⟩
       unfold cosetInd
       by_cases ht : IsHalf e t ∧ InCosetOf S T I c t
-      · rw [if_pos ⟨hH.2 ht.1, hC'.2 ht.2⟩, if_pos ht]
-      · rw [if_neg fun h => ht ⟨hH.1 h.1, hC'.1 h.2⟩, if_neg ht]
+      · rw [ite_eq_left ⟨hH.2 ht.1, hC'.2 ht.2⟩, ite_eq_left ht]
+      · rw [ite_eq_right fun h => ht ⟨hH.1 h.1, hC'.1 h.2⟩, ite_eq_right ht]
     · have h : IsHalf e t ∧ InCosetOf S T I c t := by
         by_contra h
-        exact ht (if_neg h)
+        exact ht (ite_eq_right h)
       have hK' := hC t (GlobalTheory.PlaceDatum.infPart_of_half hinf h.1) fun i j => (h.2 i j).1
       rw [mul_nsmul]
       exact nsmul_mem hK' _

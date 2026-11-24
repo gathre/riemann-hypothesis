@@ -80,7 +80,7 @@ theorem le_height_of_specializingMap {X Z : Type*} [TopologicalSpace X] [Topolog
     intro y hy
     have hex : ∃ b < f y, (n : ℕ∞) ≤ Order.height b := by
       by_contra hne
-      push_neg at hne
+      push Not at hne
       have h1 : Order.height (f y) ≤ n := by
         rw [Order.height_eq_iSup_lt_height]
         exact iSup₂_le fun b hb => Order.add_one_le_of_lt (hne b hb)

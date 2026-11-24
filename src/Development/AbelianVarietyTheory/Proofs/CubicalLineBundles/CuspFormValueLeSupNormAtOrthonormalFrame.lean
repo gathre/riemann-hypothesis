@@ -131,7 +131,7 @@ theorem cabs_evR_le_supC : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E
     congr 1
     exact Finset.prod_congr rfl fun p _ => by rw [hsome p]; rfl
   have hrd : ‖rdU (U σ) F k x.1‖ = cabs (evR Xo c F ((U σ).un k x)) := by
-    have e : rdU (U σ) F k x.1 = toC (evR Xo c F ((U σ).un k x)) := dif_pos x.2
+    have e : rdU (U σ) F k x.1 = toC (evR Xo c F ((U σ).un k x)) := dite_eq_left x.2
     rw [e]; rfl
   have hle := Formalism.L2.Pj.abelian₂.pnorm_le_supN (U σ).X (laU (U σ) a n) (rdU (U σ) F) (supE_cusp_ne_top hσ hF) k x.1 x.2
   rw [PullbackSections.PfSupAtUnit.pnorm_unit _ _ _ (PullbackSections.PfSupAtUnit.dmin_ortho _ hx), hrd] at hle

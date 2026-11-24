@@ -71,7 +71,7 @@ theorem isClosed_singleton_of_dim_closure {Y : Type*} [TopologicalSpace Y] [T0Sp
   have hne' : closure ({z} : Set Y) ≠ {z} := fun e => hne (e ▸ isClosed_closure)
   obtain ⟨y, hy, hyz⟩ : ∃ y ∈ closure ({z} : Set Y), y ≠ z := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     exact hne' (Set.Subset.antisymm (fun y hy => hall y hy) subset_closure)
   let T := closure ({z} : Set Y)
   let z' : T := ⟨z, subset_closure rfl⟩
@@ -104,20 +104,20 @@ theorem isMultiHomog_C (c : ℤ) : IsMultiHomog (C c : MRing ι) 0 := fun m hm k
   classical
   have hm0 : m = 0 := by
     by_contra h
-    exact (MvPolynomial.mem_support_iff.1 hm) (by rw [coeff_C, if_neg (Ne.symm h)])
+    exact (MvPolynomial.mem_support_iff.1 hm) (by rw [coeff_C, ite_eq_right (Ne.symm h)])
   simp [hm0]
 
 open Classical in
 theorem isMultiHomog_X (p : Σ k, ι k) : IsMultiHomog (X p : MRing ι) (Pi.single p.1 1) := fun m hm k => by
   classical
-  rw [X, support_monomial, if_neg one_ne_zero, Finset.mem_singleton] at hm
+  rw [X, support_monomial, ite_eq_right one_ne_zero, Finset.mem_singleton] at hm
   subst hm
   obtain ⟨l, i⟩ := p
   by_cases hk : k = l
   · subst hk
     simp [Finsupp.single_apply]
   · have : ∀ j : ι k, (Finsupp.single (⟨l, i⟩ : Σ k, ι k) 1) ⟨k, j⟩ = 0 := fun j => by
-      rw [Finsupp.single_apply, if_neg]
+      rw [Finsupp.single_apply, ite_eq_right]
       intro e
       exact hk (congrArg Sigma.fst e).symm
     simp [this, hk]

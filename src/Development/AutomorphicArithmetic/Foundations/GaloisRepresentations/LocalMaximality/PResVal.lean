@@ -137,7 +137,7 @@ theorem UpperTheory.Gal.productCup_of_system.resVal_of :
       rw [h1, map_prod]
       obtain ⟨l, hl⟩ : ∃ l, a l ≠ 0 := by
         by_contra hc
-        push_neg at hc
+        push Not at hc
         exact ha (funext hc)
       exact Finset.prod_eq_zero (Finset.mem_univ l) (by rw [map_pow, e.2 l, zero_pow hl])
   have key : ∀ g (hg : g ∈ Submodule.span ℂ

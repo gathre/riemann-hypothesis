@@ -544,7 +544,7 @@ private theorem main (hn : 0 < n) (hr : Module.finrank (ZMod g) K = n) (θ : Kˣ
   have hA := card_cj hθ
   refine ⟨?_, ?_⟩
   · by_contra hno
-    push_neg at hno
+    push Not at hno
     have hdif : ∀ z ∉ D, dif (cj g n θ) ∅ z = 0 := by
       intro z hz
       unfold dif

@@ -104,7 +104,7 @@ theorem negCycBlock_jumps : ∀ (l : ℕ) [Fact l.Prime] (P : LocPrime l) (AI : 
     · unfold IsDR
       rw [Module.finrank_zero_of_subsingleton, Module.finrank_zero_of_subsingleton (M := Fin 0 → ↥LL.1), mul_zero]
     · unfold multV
-      rw [Module.finrank_zero_of_subsingleton, Module.finrank_zero_of_subsingleton, if_neg (by omega)]
+      rw [Module.finrank_zero_of_subsingleton, Module.finrank_zero_of_subsingleton, ite_eq_right (by omega)]
       simp
   | succ t ih =>
     intro ρ hρ

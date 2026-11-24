@@ -445,23 +445,23 @@ theorem frameOp_holds : FrameOp := by
     rcases lt_trichotomy c a with h | h | h
     · obtain ⟨o, ho⟩ := hBd (Fin.castSucc c) (Fin.castSucc a) (Fin.castSucc_lt_castSucc_iff.mpr h)
       refine ⟨((Tu D u : ℕ) : 𝓞 D.host.E) * o, ?_⟩
-      simp only [hUE, hUdef, ho, if_neg h.ne, sub_zero, hm]
+      simp only [hUE, hUdef, ho, ite_eq_right h.ne, sub_zero, hm]
       push_cast
       ring
     · subst h
       exact ⟨0, by simp [hUE, hUd1]⟩
-    · exact ⟨0, by simp [hUE, hUlo c a h, if_neg h.ne']⟩
+    · exact ⟨0, by simp [hUE, hUlo c a h, ite_eq_right h.ne']⟩
   have hW : ∀ d c, ∃ w : 𝓞 D.host.E,
       (if d = c then (1 : 𝓞 D.host.E) else 0) - U d c = ((N ^ D.R.rS : ℕ) : 𝓞 D.host.E) * w := by
     intro d c
     rcases lt_trichotomy d c with h | h | h
     · obtain ⟨o, ho⟩ := hBd (Fin.castSucc d) (Fin.castSucc c) (Fin.castSucc_lt_castSucc_iff.mpr h)
       refine ⟨-(((Tu D u : ℕ) : 𝓞 D.host.E) * o), ?_⟩
-      simp only [hUdef, ho, if_neg h.ne, zero_sub]
+      simp only [hUdef, ho, ite_eq_right h.ne, zero_sub]
       ring
     · subst h
       exact ⟨0, by simp [hUd1]⟩
-    · exact ⟨0, by simp [hUlo d c h, if_neg h.ne']⟩
+    · exact ⟨0, by simp [hUlo d c h, ite_eq_right h.ne']⟩
   choose W hW using hW
   have hUi1 : U⁻¹ - 1 = U⁻¹ * (1 - U) := by rw [Matrix.mul_sub, Matrix.mul_one, hUiU]
   have hUi1' : ∀ a c, U⁻¹ a c - (if a = c then 1 else 0) =
@@ -516,7 +516,7 @@ theorem frameOp_holds : FrameOp := by
             ⟨c, show c.1 < j from lt_of_lt_of_le (Fin.lt_def.mp h) (Nat.lt_succ_iff.mp hi), rfl⟩)
         · subst h
           simp [hUE, hUd1]
-        · simp [hUE, hUlo c i h, if_neg h.ne']
+        · simp [hUE, hUlo c i h, ite_eq_right h.ne']
       have := hsub hx
       rw [hnL]
       exact this

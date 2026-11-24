@@ -242,7 +242,7 @@ theorem GlobalTheory.CompanionTheory.SW.Core.exists_finset_row_completion :
     if h : ∃ r, Adapted (A g) r then h.choose else 1
   have hr : ∀ g, (∃ r, Adapted (A g) r) → Adapted (A g) (r g) := by
     intro g h
-    simp only [r, dif_pos h]
+    simp only [r, dite_eq_left h]
     exact h.choose_spec
   refine ⟨Finset.univ.image r, ∑ g, (Ideal.absNorm (J g : Ideal (𝓞 F)) : ℝ), ?_⟩
   intro c d hcd
@@ -418,7 +418,7 @@ theorem exists_small {ι : Type} [Fintype ι] [DecidableEq ι] {κ : Type} [Fint
   have hx' : x ∈ Submodule.span ℤ (Set.range b₂) := hx
   refine ⟨_, hproj x hx' 0, _, hproj x hx' 1, ?_, fun w => ?_⟩
   · by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hne
     apply Subtype.ext
     funext ⟨k, w⟩
@@ -626,7 +626,7 @@ theorem balanced_lower {ι : Type} [Fintype ι] (z : ι → ℝ) (hz : ∀ i, 0 
     (hκ : 0 < κ) (hbal : ∀ v w, κ * z w ≤ z v) (hprod : P ≤ ∏ i, z i) (w : ι) :
     κ * min 1 P ≤ z w := by
   by_contra h
-  push_neg at h
+  push Not at h
   set q := z w / κ with hq
   have hqpos : 0 < q := div_pos (hz w) hκ
   have hqlt : q < min 1 P := by

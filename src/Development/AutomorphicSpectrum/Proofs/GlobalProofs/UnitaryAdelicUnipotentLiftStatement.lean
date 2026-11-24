@@ -425,7 +425,7 @@ theorem glPart_eq_range : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [
   have hB : block T k = Set.range (bIdx h) := block_eq h hk hd hT hl
   have hT1 : ∀ k' ∈ T, k'.val + 1 ≤ l ∨ l + d ≤ k'.val + 1 := fun k' hk' => by
     by_contra c
-    push_neg at c
+    push Not at c
     exact hT k' (by omega) (by omega) hk'
   have hblk : ∀ g, IsBlockPoint σ J X Y h (ι g) := fun g => ⟨_, _, hι g⟩
   refine le_antisymm (fun m hm => ?_) ?_

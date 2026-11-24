@@ -184,7 +184,7 @@ theorem UpperTheory.Gal.CertificateRingHomMap.pSatVal_of :
   have hrep : ∀ g v, repG (locE hw) g (f.1 v) = (((algRep W).comp (locF hw)) g f).1 v := fun _ _ => rfl
   obtain ⟨v₀, hv₀⟩ : ∃ v, f.1 v ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hf0 (Subtype.ext (LinearMap.ext h))
   refine ⟨hf0, GlobalTheory.LGrp.mem_fixed.2 fun k hk => hK k hk, (hsat v₀ hv₀).2.2.1, fun ϖ hϖ j hj => ?_⟩
   have hcm := Formalism.UG.Final.GLintComm E w n

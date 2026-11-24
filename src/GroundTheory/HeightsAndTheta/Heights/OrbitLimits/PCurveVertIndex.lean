@@ -97,7 +97,7 @@ theorem CurveVertIndex.proof (hF : CurveSectionQuotFinite.Statement) (hV : Curve
           (locLen (curvePtIdeal y W) (curveSectionQuot y (fun k => (d k : ℤ)) (aeval y s)) : ℝ) *
             Real.log (Nat.card (curveRing y ⧸ curvePtIdeal y W)) := by
         refine finsum_mem_congr rfl fun W hW => ?_
-        rw [if_neg (IndefiniteRowSideFullHecke.HeightsSet.CurveDivVertical.full K ι _ s d hP hs hsP W hW), hmult W hW,
+        rw [ite_eq_right (IndefiniteRowSideFullHecke.HeightsSet.CurveDivVertical.full K ι _ s d hP hs hsP W hW), hmult W hW,
           ← hR K ι Ω y s d hP hs hsP W hW]
         congr 3
     _ = ∑ᶠ m ∈ {m : Ideal (curveRing y) |

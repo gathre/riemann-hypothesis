@@ -127,7 +127,7 @@ private lemma le_iSup_eigPart_inf_of_invariant {I A : Type} [NormedAddCommGroup 
       rw [inf_eq_right.mpr hle]
       exact hbot
     exact le_iSup₂_of_le c hocc (le_inf hle le_rfl)
-  push_neg at hsc
+  push Not at hsc
   obtain ⟨i, hi⟩ := hsc
   have hex : ∃ μ : ℂ, ∃ v : A, v ∈ W ∧ v ≠ 0 ∧ op i v = μ • v := by
     haveI : Nontrivial W := Submodule.nontrivial_iff_ne_bot.mpr hbot

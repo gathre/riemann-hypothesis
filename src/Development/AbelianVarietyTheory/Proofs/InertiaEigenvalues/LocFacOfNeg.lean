@@ -70,11 +70,11 @@ def bInt {E : Type} [Field E] [NumberField E] [_root_.NumberField.IsTotallyCompl
 
 theorem locFac_zero (q : ℕ) {n : ℕ} (α : Fin n → ℂ) (x : ℝ) : locFac q α x 0 = 1 := by
   have h : (fun i : Fin n => ((0 : Fin n → ℤ) i).toNat) = fun _ => 0 := funext fun _ => rfl
-  rw [locFac, if_pos (show Antitone (0 : Fin n → ℤ) ∧ ∀ i, (0 : ℤ) ≤ (0 : Fin n → ℤ) i from ⟨fun _ _ _ => le_rfl, fun _ => le_rfl⟩), h]
+  rw [locFac, ite_eq_left (show Antitone (0 : Fin n → ℤ) ∧ ∀ i, (0 : ℤ) ≤ (0 : Fin n → ℤ) i from ⟨fun _ _ _ => le_rfl, fun _ => le_rfl⟩), h]
   simp [GlobalTheory.JSW.schurAt, GlobalTheory.JSW.schur_zero]
 
 theorem locFac_of_neg (q : ℕ) {n : ℕ} (α : Fin n → ℂ) (x : ℝ) {ν : Fin n → ℤ} {i : Fin n} (h : ν i < 0) :
     locFac q α x ν = 0 := by
-  rw [locFac, if_neg fun h' => absurd (h'.2 i) (not_le.2 h)]
+  rw [locFac, ite_eq_right fun h' => absurd (h'.2 i) (not_le.2 h)]
 
 end GlobalTheory.RSCell

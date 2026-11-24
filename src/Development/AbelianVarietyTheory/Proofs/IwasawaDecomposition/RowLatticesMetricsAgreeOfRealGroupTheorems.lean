@@ -650,7 +650,7 @@ variable {D : D7} {V : HSp D} {S : D.what₂.Tau → SPar}
 theorem sm_ne_zero_of_ne {M : DSModel V S} {u : MMap M} (hu : u ≠ 0) : ∀ τ, ∃ w : M.sm τ, w ≠ 0 := by
   intro τ
   by_contra h
-  push_neg at h
+  push Not at h
   exact hu (MultilinearMap.ext fun v => (u.map_coord_zero τ (h (v τ))).trans rfl)
 
 theorem ipM_smul_measure_self (M : DSModel V S) (μ : Measure (GA D V)) (𝓕 : Set (GA D V)) {u : MMap M} {a : ℝ} (ha : 0 ≤ a)
@@ -833,7 +833,7 @@ end Polar
 theorem exists_nonreal {K : Type} [Field K] (v : InfinitePlace K) (hv : v.IsComplex) :
     ∃ a : K, star (v.embedding a) ≠ v.embedding a := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   apply InfinitePlace.not_isReal_iff_isComplex.2 hv
   rw [InfinitePlace.isReal_iff]
   ext a

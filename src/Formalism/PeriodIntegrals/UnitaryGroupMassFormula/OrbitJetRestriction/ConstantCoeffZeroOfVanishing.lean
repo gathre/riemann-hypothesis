@@ -83,7 +83,7 @@ theorem killCompl_subst_of (e : υ ↪ τ) (g : τ → MvPowerSeries τ R) (K : 
   · rfl
   · obtain ⟨t, ht, hnot⟩ : ∃ t ∈ d.support, ¬ ∃ w, e w = t := by
       by_contra hall
-      push_neg at hall
+      push Not at hall
       exact hd ⟨_, embDomain_comapDomain (f := e) (g := d) (fun t ht => hall t ht)⟩
     have hz : (d.prod fun s n => killCompl e (g s) ^ n) = 0 :=
       Finset.prod_eq_zero ht (by
@@ -96,14 +96,14 @@ theorem cc_jetLogG (l d : ℕ) [Fact l.Prime] {β : Type*} (w : ZMod d × β) :
     constantCoeff (jetLogG l d w) = 0 := by
   show jetLogG l d w 0 = 0
   unfold jetLogG
-  refine Finset.sum_eq_zero fun e _ => if_neg fun h => ?_
+  refine Finset.sum_eq_zero fun e _ => ite_eq_right fun h => ?_
   exact pow_ne_zero _ (pow_ne_zero _ (Fact.out : l.Prime).ne_zero) (Finsupp.single_eq_zero.mp h.symm)
 
 theorem cc_logPl (D : D7) (p : ℕ) [Fact p.Prime] {β : Type} (v : Pl D × β) :
     constantCoeff (logPl D p v) = 0 := by
   show logPl D p v 0 = 0
   unfold logPl
-  refine Finset.sum_eq_zero fun e _ => if_neg fun h => ?_
+  refine Finset.sum_eq_zero fun e _ => ite_eq_right fun h => ?_
   exact pow_ne_zero _ (pow_ne_zero _ (Fact.out : p.Prime).ne_zero) (Finsupp.single_eq_zero.mp h.symm)
 
 theorem constant_coeff_zero_of_vanishing_alt (l d : ℕ) [Fact l.Prime] [NeZero d] (be : MvPowerSeries (ZMod d) ℂ_[l]) (h : OJ.B3 l d be) :
@@ -117,7 +117,7 @@ private theorem killCompl_X_of_not_mem_range (e : υ ↪ τ) (t : τ) (ht : ¬ �
     killCompl e (X t : MvPowerSeries τ R) = 0 := by
   ext x
   rw [show coeff x (killCompl e (X t : MvPowerSeries τ R)) =
-      coeff (embDomain e x) (X t : MvPowerSeries τ R) from coeff_killCompl _ _, coeff_X, if_neg, map_zero]
+      coeff (embDomain e x) (X t : MvPowerSeries τ R) from coeff_killCompl _ _, coeff_X, ite_eq_right, map_zero]
   intro hx
   have h1 : (embDomain e x) t ≠ 0 := by rw [hx]; simp
   rw [← Finsupp.mem_support_iff, Finsupp.support_embDomain, Finset.mem_map] at h1
@@ -154,8 +154,8 @@ private theorem killCompl_X_emb (e : υ ↪ τ) (w : υ) :
   rw [show coeff x (killCompl e (X (e w) : MvPowerSeries τ R)) =
       coeff (embDomain e x) (X (e w) : MvPowerSeries τ R) from coeff_killCompl _ _, coeff_X, coeff_X]
   by_cases hx : x = single w 1
-  · rw [if_pos hx, if_pos (by rw [hx, embDomain_single])]
-  · rw [if_neg hx, if_neg (fun h => hx (embDomain_injective e (h.trans (embDomain_single e w 1).symm)))]
+  · rw [ite_eq_left hx, ite_eq_left (by rw [hx, embDomain_single])]
+  · rw [ite_eq_right hx, ite_eq_right (fun h => hx (embDomain_injective e (h.trans (embDomain_single e w 1).symm)))]
 
 theorem killCompl_beAll (D : D7) (p : ℕ) [Fact p.Prime] {N0 N1 : ℕ} (R : Finset (Pl D)) (hR : IsReps D p R)
     (sg : Pl D → ℂ_[p]) (be : Pl D → MvPowerSeries (ZMod (nP D p)) ℂ_[p])

@@ -91,7 +91,7 @@ theorem discreteTopology_span_range_of_linearIndependent {E : Type*} [NormedAddC
       exact Finset.sum_congr rfl fun i _ => Int.cast_smul_eq_zsmul ℝ (n i) (c i)
     obtain ⟨i, hi⟩ : ∃ i, n i ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply hx0
       simp [hcon]
     have h1 : (1 : ℝ) ≤ ‖(fun i => (n i : ℝ))‖ := by
@@ -304,11 +304,11 @@ theorem degree_quotient : DegQuot := by
     | inl i0 =>
       simp only [M, v2, Matrix.fromBlocks_apply₁₁, Matrix.fromBlocks_apply₂₁, Sum.elim_inl,
         Sum.elim_inr, Matrix.zero_apply, zero_smul, Finset.sum_const_zero, add_zero,
-        Matrix.one_apply, ite_smul, one_smul, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+        Matrix.one_apply, ite_smul, one_smul, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     | inr j0 =>
       simp only [M, v2, Matrix.fromBlocks_apply₁₂, Matrix.fromBlocks_apply₂₂, Sum.elim_inl,
         Sum.elim_inr, Matrix.of_apply, Matrix.one_apply, ite_smul, one_smul, zero_smul,
-        Finset.sum_ite_eq', Finset.mem_univ, if_true]
+        Finset.sum_ite_eq', Finset.mem_univ, ite_true]
       rw [hα, sub_add_cancel]
   have hdetM : M.det = 1 := by
     simp only [M]

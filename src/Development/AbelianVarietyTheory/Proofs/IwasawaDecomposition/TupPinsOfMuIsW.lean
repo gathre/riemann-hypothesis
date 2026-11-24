@@ -498,8 +498,8 @@ def logLamOf (Z : ReadL R F X0 Y) (hH : Holds R F) (j : ℕ) (σ : D.what₂.FT)
 theorem lamAre_of_eq (Z : ReadL R F X0 Y) (hH : Holds R F) (Xd : DivX D) (hX : Xd.logLam = logLamOf Z hH) : Bl.LamAre Z Xd := by
   refine ⟨labOf Z hH, overIx_labOf Z hH, fun i σ e he => ?_⟩
   have h : (i : ℕ) + 1 - 1 < D.R.m := i.2
-  rw [hX, logLamOf, if_neg he, dite_eq_left h]
-  exact ⟨fun h0 => if_neg h0, fun h0 => if_pos h0⟩
+  rw [hX, logLamOf, ite_eq_right he, dite_eq_left h]
+  exact ⟨fun h0 => ite_eq_right h0, fun h0 => ite_eq_left h0⟩
 
 def x0 (Z : ReadL R F X0 Y) (hP : Pins R F cG) (hH : Holds R F) : DivX D where
   geo := Formalism.BasicNotions.Examples₂.geoExample _
@@ -557,7 +557,7 @@ def x0 (Z : ReadL R F X0 Y) (hP : Pins R F cG) (hH : Holds R F) : DivX D where
   iMj := fun _ c => c.elim
   iMj_mem := fun _ c => c.elim
   logLam := logLamOf Z hH
-  logLam_base := fun _ _ => if_pos rfl
+  logLam_base := fun _ _ => ite_eq_left rfl
   kapR := fun _ => kapSharp D
   kapR_pos := fun _ => RowSide.kapOf_pos _ _
   kapR_conj := fun _ => rfl

@@ -135,7 +135,7 @@ theorem val_le_one (t : kˣ) (h : nabs k t ≤ 1) : valuation k (t : k) ≤ 1 :=
   rw [GlobalTheory.LGrp.nabs_eq_zpow] at h
   have hord : 0 ≤ GlobalTheory.SmGL.ord k t := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have : (1 : ℝ) < (resCard k : ℝ) ^ (-GlobalTheory.SmGL.ord k t) := one_lt_zpow₀ hq (by omega)
     linarith
   set φ := IsNonarchimedeanLocalField.valueGroupWithZeroIsoInt k
@@ -209,7 +209,7 @@ theorem conj_mem (d : ℕ) (t : kˣ) (ht : valuation k (t : k) ≤ 1) {m : ℕ} 
       ext; simp only [Fin.lt_iff_val_lt_val] at hgt; omega
     have hij : i ≠ j := fun h => by rw [h] at hgt; exact lt_irrefl _ hgt
     rw [Matrix.one_apply_ne hij, sub_zero]
-    simp only [zd, hi, hj, if_pos, one_ne_zero, if_false, inv_one, Units.val_one, one_mul]
+    simp only [zd, hi, hj, ite_eq_left, one_ne_zero, ite_false, inv_one, Units.val_one, one_mul]
     have h1 := hzc i j
     rw [Matrix.one_apply_ne hij, sub_zero] at h1
     refine ⟨?_, ?_⟩
@@ -558,7 +558,7 @@ def stabG (ρ : Representation ℂ G V) (v : V) : Subgroup G where
 theorem nondeg {ρ : Representation ℂ G V} (hi : ρ.IsIrreducible) (C : V →ₗ[ℂ] V →ₛₗ[starRingEnd ℂ] ℂ) (hC0 : C ≠ 0)
     (hCi : ∀ g v w, C (ρ g v) (ρ g w) = C v w) (v : V) (hv : v ≠ 0) : ∃ x, C v x ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   let R : Submodule ℂ V :=
     { carrier := {v | ∀ x, C v x = 0}
       add_mem' := fun {a b} ha hb x => by simp [ha x, hb x]
@@ -1679,7 +1679,7 @@ theorem someRed_of (h1 : Complementary) (h2 : Compact k) (h3 : Bound k) (h4 : He
     SomeRed k := by
   intro x hx hu
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   set d := x.1 with hdd
   have hd2 : ∀ s : ℝ, ∑ a, (![x.nu (-(s : ℂ)), x.nu (s : ℂ)] a).1 = x.1 + x.1 := fun s => by
     simp [Fin.sum_univ_two, IrrGL.nu, IrrGL.tw]

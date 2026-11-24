@@ -130,7 +130,7 @@ end marg
 
 theorem frobenius_step_large_order (p : ℕ) (h : IsResidueClassZero D p) : stepP D p = hP D p := by
   unfold stepP
-  rw [if_neg]
+  rw [ite_eq_right]
   intro hs
   simp only [IsSg] at hs
   simp only [IsResidueClassZero] at h
@@ -275,14 +275,14 @@ theorem slopeEstimate_of_lemmaB_slopeLine (X : Inst D L) (K : Consts) (hK : K.No
       _ ≤ _ := this
   by_cases hp : (p : ℝ) < L.sc.p0 D.R.k
   · constructor
-    · simp only [kapLoc, if_pos hp]
+    · simp only [kapLoc, ite_eq_left hp]
       exact le_trans (meanLoc_const_le K L.sc _ _ _ (kapIIf_nonneg K hK L _)) hII
     · intro _ a b
       unfold kapv kapLoc
-      rw [if_pos hp]
+      rw [ite_eq_left hp]
       exact hII
   · constructor
-    · simp only [kapLoc, if_neg hp]
+    · simp only [kapLoc, ite_eq_right hp]
       refine le_trans (kappa_nonneg_and_mean_bound X K Cm h8 N hI hρ p hc (not_lt.1 hp) t0 ht0).2 ?_
       rw [hN]
       have := mul_le_mul_of_nonneg_left N.kI (Nat.cast_nonneg (topsPos D p t0).card : (0 : ℝ) ≤ _)

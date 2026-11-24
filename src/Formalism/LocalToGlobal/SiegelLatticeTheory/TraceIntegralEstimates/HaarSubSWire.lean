@@ -434,7 +434,7 @@ theorem finite_bi {H : Set G} (hHm : MeasurableSet H) (hinvH : ∀ h ∈ H, h⁻
     rw [not_lt, top_le_iff] at hinf
     obtain ⟨i, hi⟩ : ∃ i, μ (spanningSets μ i) ≠ 0 := by
       by_contra hall
-      push_neg at hall
+      push Not at hall
       have h0 : μ Set.univ = 0 := by
         rw [← iUnion_spanningSets μ]
         exact measure_iUnion_null hall
@@ -697,7 +697,7 @@ theorem span_facts (k : ℕ) {v : Fin n → ℂ} (hv : v ∈ spanLt e k) :
   | mem x hx =>
     obtain ⟨d, hd, rfl⟩ := hx
     refine ⟨fun b hb => ?_, fun b => hG.ee b d, Pw_e hG d⟩
-    rw [fe hG, if_neg]
+    rw [fe hG, ite_eq_right]
     rintro rfl
     exact (not_lt.2 hb) hd
   | zero => exact ⟨fun b _ => hJ_zero ε _, fun b => hJ_zero ε _, Pw_zero⟩

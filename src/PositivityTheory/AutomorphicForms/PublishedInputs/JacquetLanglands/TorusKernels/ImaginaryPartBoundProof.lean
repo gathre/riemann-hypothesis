@@ -136,7 +136,7 @@ theorem kap_lb (C c U : ℝ) (hc : 0 < c) (z w : P) (hz : |z.1.re| ≤ C ∧ c �
   obtain ⟨hzr, hzi1, hzi2⟩ := hz
   obtain ⟨hwr, hwi1, hwi2⟩ := hw
   unfold kap
-  rw [if_pos hzw]
+  rw [ite_eq_left hzw]
   have hnorm : ‖z.1 - conj w.1‖ ^ 2 = (z.1.re - w.1.re) ^ 2 + (z.1.im + w.1.im) ^ 2 := by
     rw [Complex.sq_norm, Complex.normSq_apply]; simp; ring
   rw [hnorm]

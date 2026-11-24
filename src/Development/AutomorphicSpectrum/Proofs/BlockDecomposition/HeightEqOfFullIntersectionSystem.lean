@@ -120,7 +120,7 @@ theorem rec_eq (h₅ : ExistsRat) (h₆ : CycleOfRat) (h₇ : ArchIntEq) (hR : R
     funext j
     refine Fin.lastCases ?_ (fun j => ?_) j <;> simp
   rw [hs] at hrr
-  rw [hint, hcyc, cycVal, if_pos hP.2.2.1, hrr]
+  rw [hint, hcyc, cycVal, ite_eq_left hP.2.2.1, hrr]
   rfl
 
 theorem mp_var (m : ℕ) (n : Fin (m + 1) → ℕ) : GlobalTheory.IsArithVar (mpStr ℤ m n) (∑ i, n i) :=
@@ -150,7 +150,7 @@ theorem curve_eq (h₃ : PtDict) (h₄ : CodimOne) (h₅ : ExistsRat) (h₆ : Cy
   by_cases hz : ((N.restr i).div hr).mult z = 0
   · simp [hz]
   have hd := h₄ Z _ 0 hZ z (CartierDiv.coheight_eq_one_of_mult_ne_zero hz)
-  rw [cycVal, if_neg (not_horizontal_of_dim_zero h₃ i z hd), hPt m n Z i z hd]
+  rw [cycVal, ite_eq_right (not_horizontal_of_dim_zero h₃ i z hd), hPt m n Z i z hd]
 
 theorem rec_eq' (h₅ : ExistsRat) (h₆ : CycleOfRat) (h₇ : ArchIntEq) (hR : RatRStatement)
     (II : IntersectionSystem) (hII : IsFullIntersectionSystem II) (N : HermLB (mpStr ℤ m n)) (A : HermLine (Bk n))
@@ -236,7 +236,7 @@ theorem heightEq_of (h₃ : PtDict) (h₄ : CodimOne) (h₅ : ExistsRat) (h₆ :
       have e₁ := H.vertical Z j (ZMod p) d hZd
       have e₂ : topSelfIntersection (ZMod p) ((N.restr i).B.pull j) d = _ := hV m n N A hN X i Z j p d hZd
       rw [e₁, e₂, Nat.card_zmod]
-    rw [key _ hpr hz, cycVal, if_neg hW]
+    rw [key _ hpr hz, cycVal, ite_eq_right hW]
 
 theorem heightEq_holds : PtDict → CodimOne → ExistsRat → CycleOfRat → ArchIntEq → VertEq → PtLen → CurveInt →
     RatRStatement → ∀ II : IntersectionSystem, IsFullIntersectionSystem II → HeightEq II :=

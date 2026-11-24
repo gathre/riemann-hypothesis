@@ -78,7 +78,7 @@ theorem repIso_of_zIdem_eq_of_simple {Γ : Type} [Group Γ] [Fintype Γ] (τ τ'
         = Module.finrank ℂ τ' * Module.finrank ℂ τ' := by exact_mod_cast h1
     exact Nat.mul_self_inj.1 h2
   have hs0 := FDRep.char_orthonormal τ τ
-  rw [if_pos ⟨Iso.refl _⟩] at hs0
+  rw [ite_eq_left ⟨Iso.refl _⟩] at hs0
   have hpos : (Module.finrank ℂ τ : ℂ) ≠ 0 := by
     intro h0
     have h1 : Module.finrank ℂ τ = 0 := by exact_mod_cast h0
@@ -96,7 +96,7 @@ theorem repIso_of_zIdem_eq_of_simple {Γ : Type} [Group Γ] [Fintype Γ] (τ τ'
   rw [hs0] at hs
   have hne : Nonempty (τ ≅ τ') := by
     by_contra hn
-    rw [if_neg hn] at hs
+    rw [ite_eq_right hn] at hs
     exact one_ne_zero hs
   obtain ⟨i⟩ := hne
   refine ⟨FDRep.isoToLinearEquiv i, fun γ v => ?_⟩

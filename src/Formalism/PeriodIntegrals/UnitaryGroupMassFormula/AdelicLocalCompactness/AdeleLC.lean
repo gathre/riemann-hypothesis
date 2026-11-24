@@ -81,7 +81,7 @@ private theorem exists_ringOfIntegers_valuation_sub_lt_one_of_le (k : F) (hk : v
   have hn : ∀ w : HeightOneSpectrum (𝓞 F),
       ∃ n : ℕ, WithZero.exp (-(n : ℤ)) ≤ w.intValuation (b : 𝓞 F) := by
     intro w
-    rw [intValuation_def, if_neg hb0]
+    rw [intValuation_def, ite_eq_right hb0]
     exact ⟨_, le_rfl⟩
   choose n hn using hn
   have hdist : ∀ i ∈ insert v hfin.toFinset, ∀ j ∈ insert v hfin.toFinset, i ≠ j →

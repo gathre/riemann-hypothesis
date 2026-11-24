@@ -102,7 +102,7 @@ theorem exists_family (t : ∀ i : Fin D.R.m, ℕ → PlE D.host → Module.End 
   refine ⟨fun j => match j with
     | 0 => fun _ _ => 0
     | n + 1 => fun k P => if h : n < D.R.m then (e ⟨n, h⟩).symm.conj (t ⟨n, h⟩ k P) else 0, fun i k P => ?_⟩
-  simp only [dif_pos i.2]
+  simp only [dite_eq_left i.2]
   exact (e i).conj.apply_symm_apply (t i k P)
 
 end Local

@@ -138,7 +138,7 @@ theorem cong_on_adjoin : ∀ (W K : Type) [CommRing W] [IsDomain W] [IsDiscreteV
       rw [← map_mul, ← map_mul, Units.mul_inv, map_one, map_one]
     refine le_antisymm a1 ?_
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have := mul_lt_one_of_lt_of_le hc a2
     rw [e] at this
     exact lt_irrefl _ this

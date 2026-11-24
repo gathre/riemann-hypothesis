@@ -78,7 +78,7 @@ theorem lse_pos (w y : ι → ℝ) (hw0 : ∀ i, 0 ≤ w i) (hw1 : ∑ i, w i = 
     0 < ∑ i, w i * Real.exp (t * y i) := by
   have hex : ∃ i, 0 < w i := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h0 : ∑ i, w i = 0 := Finset.sum_eq_zero (fun i _ => le_antisymm (h i) (hw0 i))
     linarith
   obtain ⟨i, hi⟩ := hex

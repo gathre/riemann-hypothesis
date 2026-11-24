@@ -229,10 +229,10 @@ theorem perVal_bound (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Rec
       have h5 : ∀ j', ∑ m, ρ j m * p.1.2.2.2.1 m j' = (Pi.single j (1 : ℂ) : Fin g → ℂ) j' := fun j' => by
         simpa [Finset.sum_apply] using congrFun (p.2.2.2.2.1 j) j'
       simp only [hQ, AddEquiv.apply_symm_apply, Pi.single_apply, Int.cast_ite, Int.cast_one, Int.cast_zero, ite_mul,
-        _root_.one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true, Finset.mul_sum]
+        _root_.one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true, Finset.mul_sum]
       rw [Finset.sum_comm]
       simp only [← _root_.mul_assoc, ← Finset.sum_mul, h5, Pi.single_apply, ite_mul,
-        _root_.one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+        _root_.one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     ext i i'
     have h6 := congrFun (congrFun p.2.2.1 ⟨t, i'⟩) ⟨t, i⟩
     have h7 : (1 : Matrix (Letter Dw) (Letter Dw) ℂ) ⟨t, i'⟩ ⟨t, i⟩ =
@@ -306,24 +306,24 @@ theorem exists_log_lift {n : ℕ} (a : ℕ) (z : Fin n → ℂ) (hz : ‖z‖ < 
   refine ⟨s, ?_, ?_, ?_, ?_⟩
   · intro k
     by_cases hk : (k : ℕ) < a
-    · simp only [hk, if_true, hs]
+    · simp only [hk, ite_true, hs]
       rw [Complex.log_re]
       exact hlogneg k hk
-    · simp only [hk, if_false, hs]
+    · simp only [hk, ite_false, hs]
       linarith [hzk k]
   · funext k
     by_cases hk : (k : ℕ) < a
-    · simp only [logExp, hk, if_true, hs]
+    · simp only [logExp, hk, ite_true, hs]
       exact Complex.exp_log (h0 k hk)
-    · simp only [logExp, hk, if_false, hs]
+    · simp only [logExp, hk, ite_false, hs]
   · intro j hj
-    simp only [hj, if_true, hs]
+    simp only [hj, ite_true, hs]
     rw [Complex.log_im]
     exact Complex.abs_arg_le_pi _
   · have hsk : ∀ k, ‖s k‖ ≤ ℓ + 4 := by
       intro k
       by_cases hk : (k : ℕ) < a
-      · simp only [hk, if_true, hs]
+      · simp only [hk, ite_true, hs]
         have h1 : ‖Complex.log (z k)‖ ≤ |(Complex.log (z k)).re| + |(Complex.log (z k)).im| :=
           Complex.norm_le_abs_re_add_abs_im _
         rw [Complex.log_re, Complex.log_im] at h1
@@ -331,7 +331,7 @@ theorem exists_log_lift {n : ℕ} (a : ℕ) (z : Fin n → ℂ) (hz : ‖z‖ < 
         have h3 := Complex.abs_arg_le_pi (z k)
         have h4 := hℓk k hk
         linarith [Real.pi_lt_four]
-      · simp only [hk, if_false, hs]
+      · simp only [hk, ite_false, hs]
         linarith [hzk k]
     have : ‖s‖ ≤ ℓ + 4 := (pi_norm_le_iff_of_nonneg (by linarith)).mpr hsk
     linarith

@@ -152,7 +152,7 @@ theorem perp_relIndex (c : O ≃+* O) (cK : K ≃+* K)
   classical
   obtain ⟨l0, hl0, hβ⟩ : ∃ l0 ∈ L, hf cK J v l0 ∉ (algebraMap O K).range := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hv ((hSD v).2 hcon)
   set β := hf cK J v l0 with hβdef
   have hβ' : algebraMap O K ϖ * β ∈ (algebraMap O K).range :=

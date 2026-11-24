@@ -499,9 +499,9 @@ theorem tendsto_integral_normalised_pow_peak :
     refine integral_mono_ae ((integrable_const (η ^ m)).indicator hWm) (hfm_int m) ?_
     filter_upwards [hKae] with x hx
     by_cases hxW : x ∈ {x | η < f x}
-    · rw [Set.indicator_apply, if_pos hxW]
+    · rw [Set.indicator_apply, ite_eq_left hxW]
       exact pow_le_pow_left₀ hη (le_of_lt hxW) m
-    · rw [Set.indicator_apply, if_neg hxW]
+    · rw [Set.indicator_apply, ite_eq_right hxW]
       exact pow_nonneg (hf01 x hx).1 m
   rw [Metric.tendsto_atTop]
   intro ε hε

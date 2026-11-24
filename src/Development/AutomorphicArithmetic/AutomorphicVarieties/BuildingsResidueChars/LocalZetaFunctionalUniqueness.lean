@@ -241,7 +241,7 @@ theorem UpperTheory.local_zeta_functional_uniqueness :
   obtain ⟨f, hf⟩ : ∃ f : Module.Dual ℂ (fixedVectors σ ((congruenceSubgroup F n (m0 + 1)).subgroupOf (levi F n β))),
       f ⟨v, hvK⟩ ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hv' ((Module.forall_dual_apply_eq_zero_iff ℂ _).1 hc)
   let E := fixedContragredientEquiv (ρ := σ) hadm.1 hKc hKo
   let x := E.symm f

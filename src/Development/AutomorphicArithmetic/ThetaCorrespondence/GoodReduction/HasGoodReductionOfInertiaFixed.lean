@@ -120,7 +120,7 @@ theorem partialSum_mul_pow_mem {R Ω : Type} [CommRing R] [Field Ω] [Algebra R 
     rw [Finset.mem_Ico] at hi
     rw [smul_mul_assoc, ← pow_add]
     exact hmem _ (by omega) _
-  · push_neg at htm
+  · push Not at htm
     have hsplit := Finset.sum_range_add_sum_Ico (fun i => c i • x ^ i) (show m ≤ n + 1 by omega)
     rw [h] at hsplit
     have e1 : (∑ i ∈ Finset.Ico m (n + 1), c i • x ^ (i - m)) * x ^ t
@@ -149,7 +149,7 @@ theorem isIntegral_of_mul_pow_mem {R Ω : Type} [CommRing R] [Field Ω] [Algebra
   refine isIntegral_of_smul_mem_submodule
     (Submodule.span R ((fun i : ℕ => x ^ i) '' Set.Iic n)) ?_ (Submodule.fg_span ((Set.finite_Iic n).image _)) z ?_
   · rw [Ne, Submodule.span_eq_bot]
-    push_neg
+    push Not
     refine ⟨1, ?_, one_ne_zero⟩
     exact ⟨0, Set.mem_Iic.2 (Nat.zero_le n), pow_zero x⟩
   · intro w hw
@@ -199,7 +199,7 @@ theorem exists_integral_mul_eq_of_isAbove : ∀ (R K Ω : Type) [CommRing R] [Is
     simp only [map_mul, map_one] at h
     refine le_antisymm (hle _) ?_
     by_contra hlt'
-    push_neg at hlt'
+    push Not at hlt'
     have : V.valuation (algebraMap R Ω ↑u) * V.valuation (algebraMap R Ω ↑u⁻¹) < 1 :=
       lt_of_le_of_lt (mul_le_of_le_one_right' (hle _)) hlt'
     rw [h] at this
@@ -228,7 +228,7 @@ theorem exists_integral_mul_eq_of_isAbove : ∀ (R K Ω : Type) [CommRing R] [Is
   obtain ⟨g, hg⟩ := hdiv (Nat.find hex) (fun k hk => Nat.find_min hex hk)
   have hgunit : ∃ i, IsUnit (g.coeff i) := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     apply Nat.find_spec hex
     have hmax : maximalIdeal R = Ideal.span {ϖ} :=
       (IsDiscreteValuationRing.irreducible_iff_uniformizer ϖ).1 hϖ
@@ -988,7 +988,7 @@ theorem isDiscreteValuationRing_fixedField_inertia : ∀ (R K Ω : Type) [CommRi
   have hirr : Irreducible ϖ := by
     refine ⟨hϖnu, fun a b hab => ?_⟩
     by_contra hne
-    push_neg at hne
+    push Not at hne
     obtain ⟨a', rfl⟩ := hdvd a hne.1
     obtain ⟨b', rfl⟩ := hdvd b hne.2
     apply hϖnu

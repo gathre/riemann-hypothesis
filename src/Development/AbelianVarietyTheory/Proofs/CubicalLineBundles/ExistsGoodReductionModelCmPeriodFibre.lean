@@ -189,7 +189,7 @@ theorem exists_model : CMCurve → CMPoint → ThetaUnifAV → Out.Laws → Out.
   have hρ : ∀ b : Bool, 2 * cond b ω' (1 - ω') - 1 = if b then H.rt0 else -H.rt0 := fun b => by
     have : 2 * ω' - 1 = H.rt0 := hω' ▸ hω
     cases b
-    · simp only [cond_false, Bool.false_eq_true, if_false]
+    · simp only [cond_false, Bool.false_eq_true, ite_false]
       linear_combination -this
     · exact this
   choose ε hε using fun b => exists_sign (H := H) (hρ b) (by split_ifs <;> simp [H.sqrt_neg_disc_sq])

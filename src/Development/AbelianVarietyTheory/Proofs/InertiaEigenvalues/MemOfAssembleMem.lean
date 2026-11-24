@@ -108,7 +108,7 @@ theorem mem_iff (s : ℤ) (x : k⸨X⸩) :
   rw [p_zpow]
   constructor
   · rintro ⟨b, rfl⟩ m hm
-    rw [HahnSeries.coeff_single_mul, PowerSeries.coeff_coe, if_pos (by omega), mul_zero]
+    rw [HahnSeries.coeff_single_mul, PowerSeries.coeff_coe, ite_eq_left (by omega), mul_zero]
   · intro h
     refine ⟨PowerSeries.mk fun n => x.coeff (s + n), ?_⟩
     ext m
@@ -131,7 +131,7 @@ theorem comp_pow_mul {i j : ℕ} (hi : i < l) (hj : j < l) (a : k⸨X⸩) :
   by_cases h : j = i
   · subst h
     simp [Int.mul_ediv_cancel_left _ hl']
-  · rw [if_neg h, if_neg]
+  · rw [ite_eq_right h, ite_eq_right]
     · simp
     · intro hd
       have : (l : ℤ) ∣ (i : ℤ) - j := by
@@ -315,9 +315,9 @@ theorem psi_pow_mul {j : ℕ} (hj : j < l) (a : k⸨X⸩) :
 theorem psi_assemble (y : Fin l → k⸨X⸩) : psiPi k l (assemble k l y) = y 0 := by
 
   rw [assemble, map_sum, Finset.sum_eq_single 0]
-  · rw [psi_pow_mul k l (0 : Fin l).2, if_pos (by simp)]
+  · rw [psi_pow_mul k l (0 : Fin l).2, ite_eq_left (by simp)]
   · intro j _ hj
-    rw [psi_pow_mul k l j.2, if_neg (by simpa using hj)]
+    rw [psi_pow_mul k l j.2, ite_eq_right (by simpa using hj)]
   · simp
 
 theorem psi_coeff (y : k⸨X⸩) (m : ℤ) :
@@ -374,7 +374,7 @@ theorem psi_comm (σ : k⸨X⸩ →+* k⸨X⸩) (hφ : ∀ x, σ (phiPi k l x) =
     simpa [hφ] using this
   · intro j _ hj0
     obtain ⟨i, w, h0, h1, h2⟩ := hj j (Nat.pos_of_ne_zero (by simpa using hj0)) j.2
-    rw [map_mul, h2, hφ, mul_assoc, ← map_mul, psi_pow_mul k l h1, if_neg h0.ne']
+    rw [map_mul, h2, hφ, mul_assoc, ← map_mul, psi_pow_mul k l h1, ite_eq_right h0.ne']
   · simp
 
 theorem assemble_mem {s : ℤ} {y : Fin l → k⸨X⸩} (h : ∀ j, y j ∈ Dp k s) : assemble k l y ∈ Dp k (l * s) :=
@@ -399,13 +399,13 @@ theorem mem_of_assemble_mem {s : ℤ} {y : Fin l → k⸨X⸩} (h : assemble k l
     congr 2; omega
 
   rw [assemble, Finset.mul_sum, map_sum, Finset.sum_eq_single j]
-  · rw [key j le_rfl, psi_pow_mul k l (by omega), if_pos (by omega)]
+  · rw [key j le_rfl, psi_pow_mul k l (by omega), ite_eq_left (by omega)]
   · intro i _ hi
     have hi' : (i : ℕ) ≠ j := fun e => hi (Fin.ext e)
     have := i.2
     rcases lt_or_ge (i : ℕ) j with h2 | h2
-    · rw [← mul_assoc, ← pow_add, psi_pow_mul k l (by omega), if_neg (by omega)]
-    · rw [key i h2, psi_pow_mul k l (by omega), if_neg (by omega)]
+    · rw [← mul_assoc, ← pow_add, psi_pow_mul k l (by omega), ite_eq_right (by omega)]
+    · rw [key i h2, psi_pow_mul k l (by omega), ite_eq_right (by omega)]
   · simp
 
 end Psi

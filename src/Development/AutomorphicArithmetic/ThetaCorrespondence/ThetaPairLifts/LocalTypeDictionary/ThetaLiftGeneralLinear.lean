@@ -242,7 +242,7 @@ theorem UpperTheory.Lit.Mix.comb :
       nlinarith
   have key : ∃ t, J t ∧ ∀ b ∈ L, g b ≠ t + 1 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have hall : ∀ n : ℕ, J (g a0 + n) := by
       intro n
       induction n with
@@ -706,7 +706,7 @@ theorem UpperTheory.Lit.Mix.nolow :
   have hg : ∀ a ∈ L, x a = B (c0 + g a) := by
     intro a ha
     have ha' : P a := (Finset.mem_filter.mp ha).2
-    simp only [g, dif_pos ha']
+    simp only [g, dite_eq_left ha']
     exact ha'.choose_spec
   rw [← hxA] at hmem'
   obtain ⟨a₀, -, ha₀⟩ := Multiset.mem_map.mp hmem'
@@ -782,7 +782,7 @@ theorem UpperTheory.Lit.Mix.nolow :
   have hE : ∀ e, E (B e) = e := by
     intro e
     have hy : ∃ e' : ℝ, B e = B e' := ⟨e, rfl⟩
-    simp only [E, dif_pos hy]
+    simp only [E, dite_eq_left hy]
     exact (hB_inj hy.choose_spec).symm
   have hu_form : ∀ a, u a = B (E (u a)) := by
     intro a
@@ -832,7 +832,7 @@ theorem UpperTheory.Lit.Mix.nolow :
   rw [hnorm] at hb
   have hexp : 0 ≤ ∑ a, E (u a) + (S.card * n : ℝ) / 2 := by
     by_contra hneg
-    push_neg at hneg
+    push Not at hneg
     have h3 := Real.one_lt_rpow_of_pos_of_lt_one_of_neg hzpos hz1 hneg
     linarith
   rw [hEsum, Finset.sum_add_distrib, Finset.sum_const, nsmul_eq_mul] at hexp

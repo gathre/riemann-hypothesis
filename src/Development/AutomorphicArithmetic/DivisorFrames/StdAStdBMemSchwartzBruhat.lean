@@ -82,12 +82,12 @@ private theorem gfun_lc {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace 
         gfun ν ϖ n A (0 : Matrix (Fin m) (Fin r) k) else 0 := by
     intro A B
     by_cases hB : ∀ i j, B i j ∈ GlobalTheory.SplitWeil.cball (ϖ ^ c)
-    · rw [if_pos hB]
+    · rw [ite_eq_left hB]
       unfold gfun
       by_cases hA : A.det ≠ 0 ∧ IsGLO A
       · rw [dite_eq_left ⟨hA.1, hA.2, hB⟩, dite_eq_left ⟨hA.1, hA.2, h0 n⟩]
       · rw [dite_eq_right fun h => hA ⟨h.1, h.2.1⟩, dite_eq_right fun h => hA ⟨h.1, h.2.1⟩]
-    · rw [if_neg hB]
+    · rw [ite_eq_right hB]
       unfold gfun
       rw [dite_eq_right fun h => hB h.2.2]
   have h1 : IsLocallyConstant

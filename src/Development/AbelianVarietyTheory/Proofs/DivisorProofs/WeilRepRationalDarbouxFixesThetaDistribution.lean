@@ -335,7 +335,7 @@ theorem exists_anti {σ : E →ₐ[F] E} (h : IsCMExt F E σ) : ∃ ρ : E, ρ �
     simpa [ComplexEmbedding.conjugate_coe_eq] using this.symm
   obtain ⟨x, hx⟩ : ∃ x, σ x ≠ x := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hne (AlgHom.ext hc)
   refine ⟨x - σ x, sub_ne_zero.mpr (Ne.symm hx), ?_⟩
   rw [map_sub, _root_.GlobalTheory.AdelicU.cm_conj_conj h]

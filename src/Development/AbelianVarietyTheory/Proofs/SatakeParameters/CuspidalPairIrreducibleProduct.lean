@@ -184,7 +184,7 @@ theorem one_case (k : Type) [Field k] [ValuativeRel k] [TopologicalSpace k] [IsN
   obtain ⟨ψ₁, -, ⟨e₁⟩⟩ := h1
   have hψ : ∃ t, ψ₀ t ≠ ψ₁ t := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have hu : unrChar k 1 = 1 := MonoidHom.ext fun x => by simp [unrChar_apply]
     have hdet : detChar (Fin 1) (1 : kˣ →* ℂˣ) = (1 : GL (Fin 1) k →* ℂˣ) :=
       MonoidHom.ext fun x => by simp

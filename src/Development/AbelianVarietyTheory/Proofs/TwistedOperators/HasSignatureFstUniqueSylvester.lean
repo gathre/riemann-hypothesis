@@ -137,7 +137,7 @@ theorem fst_le_of_hasSignature {J : Matrix n n ℂ} {a b a' b' : ℕ}
   obtain ⟨e, P, hP⟩ := h
   obtain ⟨e', P', hP'⟩ := h'
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   set U := LinearMap.range (chg e P ∘ₗ inlMap a b)
   set N := LinearMap.range (chg e' P' ∘ₗ inrMap a' b')
   have hU : finrank ℂ U = a := by

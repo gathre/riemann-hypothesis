@@ -87,7 +87,7 @@ theorem _root_.GlobalTheory.InnerClassSum.finite_stab_of_measure {G : Type} [Gro
   by_contra hinf
   obtain ⟨γ0, hγ0⟩ : ∃ γ0 : Γ, ν (T ∩ γ0 • 𝓖) ≠ 0 := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     apply h0
     rw [← hT, hsum]
     simp [hall]

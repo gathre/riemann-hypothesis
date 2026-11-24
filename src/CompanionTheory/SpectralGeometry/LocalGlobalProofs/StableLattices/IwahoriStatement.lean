@@ -236,7 +236,7 @@ theorem exists_coord {m : ℕ} (b : Module.Basis (Fin m) L V) {Λ : AddSubgroup 
       ‖b.repr ((1 + g) x) i‖ = ‖b.repr x i‖ := by
   have hne : ∃ j, b.repr x j ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hx
     have : b.repr x = 0 := by
       ext j

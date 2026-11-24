@@ -106,7 +106,7 @@ theorem w_over_S_real {x e k n Δ a1 a2 : ℝ} (hx : 0 < x) (hk : 0 ≤ k) (hn :
     (E3 : 10 * x ^ (e / 4) ≤ x ^ e) :
     Real.exp (x ^ e) ^ ((4 : ℝ) / 5) ≤ x * Real.exp (x ^ e) / Real.exp (x ^ (e / 3)) / (x * n) / (k * (4 * Δ)) := by
   have hΔ0 : 0 ≤ Δ := by
-    by_contra h; push_neg at h; nlinarith
+    by_contra h; push Not at h; nlinarith
   have hrhs : x * Real.exp (x ^ e) / Real.exp (x ^ (e / 3)) / (x * n) = Real.exp (x ^ e - x ^ (e / 3)) / n := by
     rw [Real.exp_sub]; field_simp
   rw [hrhs, le_div_iff₀ hS, ← Real.exp_mul, le_div_iff₀ hn]

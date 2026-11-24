@@ -72,7 +72,7 @@ theorem mem_orig_pow_of_coeff (n : ℕ) (p : MvPolynomial ι R) (h : ∀ e, e.de
   refine Ideal.sum_mem _ (fun e he => ?_)
   have hn : n ≤ e.degree := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     exact (mem_support_iff.mp he) (h e hlt)
   exact Ideal.pow_le_pow_right hn (monomial_mem_orig_pow e _)
 

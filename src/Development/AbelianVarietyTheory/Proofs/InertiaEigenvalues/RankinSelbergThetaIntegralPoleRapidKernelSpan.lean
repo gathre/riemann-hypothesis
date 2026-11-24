@@ -92,7 +92,7 @@ theorem hasSum_lowSum {L s t : ℝ} (hL : 0 < L) (hs : 0 < s) (ht : 0 < t) :
     constructor
     · intro hn
       by_contra hc
-      push_neg at hc
+      push Not at hc
       have h3 : Real.exp L ^ (m + 1) ≤ Real.exp L ^ n := zpow_le_zpow_right₀ hT.le (by omega)
       have h4 : t⁻¹ < Real.exp L ^ n := h2.trans_le h3
       have h5 := mul_lt_mul_of_pos_right h4 ht
@@ -121,7 +121,7 @@ theorem hasSum_lowSum {L s t : ℝ} (hL : 0 < L) (hs : 0 < s) (ht : 0 < t) :
           fun k : ℕ => m - (k : ℤ)) = fun i : ℕ => (Real.exp L ^ m * t) ^ s * Real.exp (-(s * L)) ^ i := by
         funext k
         simp only [Function.comp_apply]
-        rw [if_pos ((hm _).2 (by omega)), zpow_sub₀ hT0.ne', zpow_natCast]
+        rw [ite_eq_left ((hm _).2 (by omega)), zpow_sub₀ hT0.ne', zpow_natCast]
         have hk : Real.exp L ^ m / Real.exp L ^ k * t = (Real.exp L ^ m * t) * (Real.exp L ^ k)⁻¹ := by
           field_simp
         rw [hk, Real.mul_rpow (by positivity) (by positivity), Real.inv_rpow (by positivity)]
@@ -133,7 +133,7 @@ theorem hasSum_lowSum {L s t : ℝ} (hL : 0 < L) (hs : 0 < s) (ht : 0 < t) :
       exact this
     · intro n hn
       have hnm : ¬ n ≤ m := fun h => hn ⟨(m - n).toNat, by simp only; omega⟩
-      rw [if_neg (fun h => hnm ((hm n).1 h))]
+      rw [ite_eq_right (fun h => hnm ((hm n).1 h))]
 
 theorem lowSum_bounds {L s u : ℝ} (hL : 0 < L) (hs : 0 < s) (hu : Real.exp (-L) < u) (hu1 : u ≤ 1) :
     Real.exp (-(s * L)) / L ≤ s * (u ^ s * (1 - Real.exp (-(s * L)))⁻¹) ∧
@@ -373,7 +373,7 @@ theorem resConst_ne_zero {Φ : (Fin a → Cinf E) → ℂ} (hΦ1 : ContDiff ℝ 
   have e : (fun u => Φ u) = fun u => (((Φ u).re : ℝ) : ℂ) := funext fun u => Complex.ext rfl (by simp [(hpos u).2])
   obtain ⟨x, hx⟩ : ∃ x, Φ x ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (funext h)
   have hre : (Φ x).re ≠ 0 := fun h0 => hx (Complex.ext h0 (hpos x).2)
   have hpos' : 0 < ∫ u, (Φ u).re ∂(volume : Measure (Fin a → Cinf E)) :=

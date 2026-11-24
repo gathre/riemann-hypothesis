@@ -210,7 +210,7 @@ theorem finite_of_triangular (m : ℕ) (B : Subalgebra ℂ (AddMonoidAlgebra ℂ
           have := step 0 (by simp) (by simpa using Finset.sum_nonneg fun i _ => abs_nonneg (ε i)) (by
             intro h0
             have h1 : ε i0 = 0 := by rw [← h0]; rfl
-            simp only [hε, cut, hj0, if_true, Int.sign_eq_zero_iff_zero] at h1
+            simp only [hε, cut, hj0, ite_true, Int.sign_eq_zero_iff_zero] at h1
             rw [h1] at hj0
             simp at hj0
             omega)

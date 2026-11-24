@@ -233,8 +233,8 @@ def mkX (hs : HeckeStd0 B0) (hd : FinDimV B0) (hL : MtLoc B0 (partCompl_of hs hd
   chi_cont := hChi
   chi_def i c _ _ := by rw [chiN_one]; rfl
   s0 i := if lOf B0 i = 2 then D.host.QS.factorization 2 else max 1 (D.host.QS.factorization (lOf B0 i))
-  restNLevelExponent_of_odd i hl := if_neg hl
-  restNLevelExponent_of_two i hl := if_pos hl
+  restNLevelExponent_of_odd i hl := ite_eq_right hl
+  restNLevelExponent_of_two i hl := ite_eq_left hl
   S i := (exceptional_places_finite D.host (lOf B0 i)).toFinset
   Q i := B0.Qw (wOf B0 i)
   SQ_split := hSQs

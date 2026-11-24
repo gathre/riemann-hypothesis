@@ -1551,7 +1551,7 @@ theorem UpperTheory.V.Alg.M.int_holds :
       have h3 := ih (fun i hi => hf i (Finset.mem_insert_of_mem hi)) hS
       exact le_trans (le_min h2 h3) h1
   by_contra hneg
-  push_neg at hneg
+  push Not at hneg
   obtain ⟨p, hpm, hp⟩ := hy
   have hsum := hp
   rw [Polynomial.eval₂_eq_sum_range, Finset.sum_range_succ, hpm.coeff_natDegree, map_one, one_mul] at hsum

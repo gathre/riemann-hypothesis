@@ -85,7 +85,7 @@ theorem minor_tri (A B Z : Matrix (Fin m) (Fin m) E) (hA : ∀ i j, i < j → A 
     · intro p hp
       apply hXY i j p
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       exact hp ⟨⟨p, hlt⟩, rfl⟩
     · intro p
       rfl
@@ -318,10 +318,10 @@ theorem term_over (hM : M.OK) (c : Coord P S) (hP : P.RelG (theta M)) (d : Datum
     rw [hLam', _root_.GlobalTheory.HL.CoordTerm.lat_img, trB.2.2.2 d.L']
   have hgA : ∀ a (j : Fin r), hf M.L S.Hm (S.f a) (S.f j.castSucc) = 0 := fun a j => by
     rw [S.gram]
-    exact if_neg fun h => (Fin.castSucc_lt_last j).ne h.2
+    exact ite_eq_right fun h => (Fin.castSucc_lt_last j).ne h.2
   have hgB : ∀ a (j : Fin r), hf M.L S.Hm (S.f' a) (S.f' j.castSucc) = 0 := fun a j => by
     rw [S.gram']
-    exact if_neg fun h => (Fin.castSucc_lt_last j).ne h.2
+    exact ite_eq_right fun h => (Fin.castSucc_lt_last j).ne h.2
   have hfrA : H.IsFrame t.abelian₂ r t.f t.T := by
     rw [hfA, hT]
     exact frame_of c P.A S.f c.f_eq hgA (by simpa using hli.comp Sum.inl Sum.inl_injective) n hnS t.abelian₂

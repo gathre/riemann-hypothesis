@@ -76,7 +76,7 @@ theorem IsSB.add {Φ Φ' : W → ℂ} (h : IsSB L X Φ) (h' : IsSB L X Φ') : Is
   have hor : ∀ t, (Φ + Φ') t ≠ 0 → Φ t ≠ 0 ∨ Φ' t ≠ 0 := by
     intro t ht
     by_contra hc
-    push_neg at hc
+    push Not at hc
     apply ht
     simp [hc.1, hc.2]
   refine ⟨fun t ht => (hor t ht).elim (hs t) (hs' t), k * k', Nat.mul_pos hk hk', fun u hu t => ?_,
@@ -173,7 +173,7 @@ theorem finite_nsmul_out (H : AddSubgroup W) {k : ℕ} [Finite (Qt k H)]
   intro q hq q' hq' heq
   have hq1 : k • q.out ∈ H := hq
   have hq2 : k • q'.out ∈ H := hq'
-  simp only [dif_pos hq1, dif_pos hq2] at heq
+  simp only [dite_eq_left hq1, dite_eq_left hq2] at heq
   rw [QuotientAddGroup.eq, AddSubgroup.mem_addSubgroupOf] at heq
   simp only [smulSub, AddSubgroup.mem_map] at heq
   obtain ⟨h, hh, hh'⟩ := heq
@@ -321,7 +321,7 @@ theorem coef_add {Φ Φ' : W → ℂ} (h : IsSB L X Φ) (h' : IsSB L X Φ') (a :
   have hex2 : ∃ k, 0 < k ∧ IsInv k (L ⊓ X) g2 := ⟨k2, hk2, hi2⟩
   have hex3 : ∃ k, 0 < k ∧ IsInv k (L ⊓ X) (fun t => g1 t + g2 t) := ⟨k1 * k2, Nat.mul_pos hk1 hk2, hi3⟩
   unfold integ
-  rw [dif_pos hex1, dif_pos hex2, dif_pos hex3]
+  rw [dite_eq_left hex1, dite_eq_left hex2, dite_eq_left hex3]
   have hK1 := hex1.choose_spec.1
   have hI1 := hex1.choose_spec.2
   have hK2 := hex2.choose_spec.1
@@ -370,7 +370,7 @@ theorem coef_smul (Φ : W → ℂ) (c : ℂ) (a y : W) : coef χ L X (c • Φ) 
       intro p q hp hq h; subst h; rfl
     by_cases hex : ∃ k, 0 < k ∧ IsInv k (L ⊓ X) g
     · have hex' : ∃ k, 0 < k ∧ IsInv k (L ⊓ X) (fun t => c * g t) := by rw [hpred]; exact hex
-      rw [dif_pos hex', dif_pos hex, key _ _ hex' hex hpred]
+      rw [dite_eq_left hex', dite_eq_left hex, key _ _ hex' hex hpred]
       haveI := hfinX _ hex.choose_spec.1
       unfold avg
       rw [← mul_finsum _ c]
@@ -388,7 +388,7 @@ theorem coef_ne_zero {Φ : W → ℂ} (h : IsSB L X Φ) {k : ℕ} (hk : 0 < k) (
   by_cases hex : ∃ K, 0 < K ∧ IsInv K (L ⊓ X) G
   swap
   · rw [dite_eq_right hex] at hc; exact absurd rfl hc
-  rw [dif_pos hex] at hc
+  rw [dite_eq_left hex] at hc
   have hK := hex.choose_spec.1
   have hI := hex.choose_spec.2
   haveI := hfinX _ hK
@@ -400,7 +400,7 @@ theorem coef_ne_zero {Φ : W → ℂ} (h : IsSB L X Φ) {k : ℕ} (hk : 0 < k) (
     intro h0; apply hc; rw [h0, mul_zero]
   refine ⟨?_, ?_⟩
   · by_contra hno
-    push_neg at hno
+    push Not at hno
     apply hS
     refine Finset.sum_eq_zero fun q _ => ?_
     simp only [hG]

@@ -178,9 +178,9 @@ lemma sig_split {p q : ℕ} (G : Matrix (Fin p ⊕ Fin q) (Fin p ⊕ Fin q) ℂ)
     split_ifs with h
     · rw [Finset.sum_eq_single ⟨i, h⟩]
       · simp
-      · intro b _ hb; rw [if_neg]; intro e; exact hb (Subtype.ext e.symm)
+      · intro b _ hb; rw [ite_eq_right]; intro e; exact hb (Subtype.ext e.symm)
       · simp
-    · apply Finset.sum_eq_zero; intro b _; rw [if_neg]; intro e; exact h (e ▸ b.2)
+    · apply Finset.sum_eq_zero; intro b _; rw [ite_eq_right]; intro e; exact h (e ▸ b.2)
   have hcardP : Fintype.card {i // 0 < lam i} ≤ p := by
     by_contra hlt0
     have hlt := not_le.mp hlt0

@@ -823,8 +823,8 @@ theorem evT_compl (X : Set (HeightOneSpectrum (𝓞 F))) : 1 - evT Xᶜ = evT X 
   intro u
   rw [af_sub_apply, af_one_apply, evT_apply, evT_apply]
   by_cases h : u ∈ X
-  · rw [if_neg (fun h' => h' h), if_pos h, sub_zero]
-  · rw [if_pos (show u ∈ Xᶜ from h), if_neg h, sub_self]
+  · rw [ite_eq_right (fun h' => h' h), ite_eq_left h, sub_zero]
+  · rw [ite_eq_left (show u ∈ Xᶜ from h), ite_eq_right h, sub_self]
 
 theorem evT_inv_int (X : Set (HeightOneSpectrum (𝓞 F))) (t : 𝓞 F) (ht : ∀ u ∈ X, t ∉ u.asIdeal) :
     evT X * algebraMap F (Af F) ((algebraMap (𝓞 F) F t)⁻¹) ∈ intAf F := by
@@ -836,18 +836,18 @@ theorem evT_mul_of_subset {X Y : Set (HeightOneSpectrum (𝓞 F))} (hXY : X ⊆ 
   intro u
   rw [af_mul_apply, evT_apply, evT_apply]
   by_cases h : u ∈ X
-  · rw [if_pos h, if_pos (hXY h), mul_one]
-  · rw [if_neg h, zero_mul]
+  · rw [ite_eq_left h, ite_eq_left (hXY h), mul_one]
+  · rw [ite_eq_right h, zero_mul]
 
 theorem evT_split {B S : Set (HeightOneSpectrum (𝓞 F))} (hBS : B ⊆ S) : evT S = evT B + evT (S \ B) := by
   apply af_ext
   intro u
   rw [af_add_apply, evT_apply, evT_apply, evT_apply]
   by_cases h1 : u ∈ B
-  · rw [if_pos (hBS h1), if_pos h1, if_neg (fun h => h.2 h1), add_zero]
+  · rw [ite_eq_left (hBS h1), ite_eq_left h1, ite_eq_right (fun h => h.2 h1), add_zero]
   · by_cases h2 : u ∈ S
-    · rw [if_pos h2, if_neg h1, if_pos ⟨h2, h1⟩, zero_add]
-    · rw [if_neg h2, if_neg h1, if_neg (fun h => h2 h.1), add_zero]
+    · rw [ite_eq_left h2, ite_eq_right h1, ite_eq_left ⟨h2, h1⟩, zero_add]
+    · rw [ite_eq_right h2, ite_eq_right h1, ite_eq_right (fun h => h2 h.1), add_zero]
 
 theorem t_lemma (v : HeightOneSpectrum (𝓞 F)) (m : 𝓞 F) (hm : m ≠ 0) :
     ∃ t : 𝓞 F, t ∉ v.asIdeal ∧
@@ -856,7 +856,7 @@ theorem t_lemma (v : HeightOneSpectrum (𝓞 F)) (m : 𝓞 F) (hm : m ≠ 0) :
   have hn : ∀ w : HeightOneSpectrum (𝓞 F), ∃ n : ℕ, m ∉ w.asIdeal ^ n := by
     intro w
     by_contra h
-    push_neg at h
+    push Not at h
     have hmem : m ∈ ⨅ i, w.asIdeal ^ i := (Submodule.mem_iInf _).2 h
     rw [Ideal.iInf_pow_eq_bot_of_isDomain w.asIdeal w.isPrime.ne_top, Ideal.mem_bot] at hmem
     exact hm hmem
@@ -890,7 +890,7 @@ theorem t_lemma (v : HeightOneSpectrum (𝓞 F)) (m : 𝓞 F) (hm : m ≠ 0) :
       by_cases hmw : m ∈ w.asIdeal
       · have hws : w ∈ s := Finset.mem_insert_of_mem ((Set.Finite.mem_toFinset _).2 hmw)
         have h1 := ht w hws
-        simp only [if_neg hw', sub_zero] at h1
+        simp only [ite_eq_right hw', sub_zero] at h1
         have hle := (HeightOneSpectrum.intValuation_le_pow_iff_mem w t (n w)).2 h1
         have hnot : ¬ w.intValuation m ≤ WithZero.exp (-((n w : ℕ) : ℤ)) :=
           fun h => hn w ((HeightOneSpectrum.intValuation_le_pow_iff_mem w m (n w)).1 h)

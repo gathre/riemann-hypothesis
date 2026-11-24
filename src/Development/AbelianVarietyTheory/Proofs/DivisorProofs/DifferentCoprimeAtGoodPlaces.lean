@@ -155,7 +155,7 @@ theorem not_le_differentIdeal_of_psiUnr {F : Type} [Field F] [NumberField F] {ψ
 
   have hc1 : 0 ≤ c := by
     by_contra hneg
-    push_neg at hneg
+    push Not at hneg
     obtain ⟨π, hπ⟩ := HeightOneSpectrum.valuation_exists_uniformizer F v
     have hπ0 : π ≠ 0 := by
       rintro rfl

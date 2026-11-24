@@ -92,8 +92,8 @@ private theorem hasSum_sigma_mul_qParam_pow_modularForm_E {k : ℕ} (hk : 3 ≤ 
   have hE := EisensteinSeries.q_expansion_riemannZeta hk hke τ
   rw [hE, hC, hqe]
   rw [← hasSum_nat_add_iff' 1]
-  simp only [Finset.range_one, Finset.sum_singleton, pow_zero, if_true, mul_one,
-    add_sub_cancel_left, Nat.add_eq_zero, one_ne_zero, and_false, if_false]
+  simp only [Finset.range_one, Finset.sum_singleton, pow_zero, ite_true, mul_one,
+    add_sub_cancel_left, Nat.add_eq_zero, one_ne_zero, and_false, ite_false]
   have ht : ∑' n : ℕ+, ((ArithmeticFunction.sigma (k - 1) n : ℕ) : ℂ) * q ^ (n : ℕ) =
       ∑' n : ℕ, ((ArithmeticFunction.sigma (k - 1) (n + 1) : ℕ) : ℂ) * q ^ (n + 1) :=
     tsum_pnat_eq_tsum_succ (f := fun n => ((ArithmeticFunction.sigma (k - 1) n : ℕ) : ℂ) * q ^ n)

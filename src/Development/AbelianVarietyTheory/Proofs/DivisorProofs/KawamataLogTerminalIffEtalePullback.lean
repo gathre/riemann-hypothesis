@@ -1425,7 +1425,7 @@ theorem dvrSubring_factor {V : Type} [CommRing V] [IsDomain V] [IsDiscreteValuat
     (maximalIdeal.isMaximal V).ne_top
   have : ∃ N : ℕ, s ∉ (maximalIdeal V) ^ N := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have : s ∈ ⨅ i : ℕ, (maximalIdeal V) ^ i := Ideal.mem_iInf.2 hc
     rw [hinf, Ideal.mem_bot] at this
     exact h0 this
@@ -1458,7 +1458,7 @@ theorem dvrSubring_eq_top (V : Type) [CommRing V] [IsDomain V] [IsDiscreteValuat
       linear_combination t' * h1 - v * ht'
     rw [h2]
     exact S.mul_mem (S.mul_mem (S.pow_mem hπS _) huS) ht'S
-  · push_neg at hkl
+  · push Not at hkl
     obtain ⟨d, hd⟩ := Nat.exists_eq_add_of_lt hkl
     subst hd
     have hπk : π ^ k ≠ 0 := pow_ne_zero _ hπ0

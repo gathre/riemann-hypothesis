@@ -62,7 +62,7 @@ theorem ofId_ext {S : Type} [CommRing S] {B : Type} [CommRing B] [Algebra S B] (
 theorem exists_away_not_mem {S : Type} [CommRing S] {n : ℕ} (s : Fin n → S) (hs : Ideal.span (Set.range s) = ⊤)
     (p : Ideal S) [p.IsPrime] : ∃ k, s k ∉ p := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hle : Ideal.span (Set.range s) ≤ p := by
     rw [Ideal.span_le]
     rintro _ ⟨k, rfl⟩

@@ -1566,7 +1566,7 @@ theorem coboundary_of_exact {κ : Type} [LinearOrder κ] (W : κ → X.Opens)
       SecOnR.restrict f M (le_inf (hle (by simp)) (hle (by simp))) (Φ k l) := by
     intro k l hkl
     have hn : ({k, l} : Finset κ).Nonempty := by simp
-    simp only [x, dif_pos hn]
+    simp only [x, dite_eq_left hn]
     exact hcongr (by simp [hkl.le]) (by simp [hkl.le]) _ _
   have hE := (cechComplex_exactAt_succ_iff (secCube f M W) 0).1 hW
   have hd : Cube.d (secCube f M W) (0 + 2) (fun s => x s.1) = 0 := by

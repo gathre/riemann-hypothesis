@@ -116,8 +116,8 @@ theorem ginf_mem_closure {θ : Datum.InfFam D} (hθ : IsInfFam θ) {a : GA D V} 
   have hu : ∀ s : Finset D.what₂.Tau, Eqv.IsUnitFam D V (fun τ => if τ ∈ s then gs τ else 1) := by
     intro s τ
     by_cases hτ : τ ∈ s
-    · simp only [hτ, if_true]; exact hgs τ
-    · simp only [hτ, if_false]; simp
+    · simp only [hτ, ite_true]; exact hgs τ
+    · simp only [hτ, ite_false]; simp
   have key : ∀ s : Finset D.what₂.Tau, Eqv.famH D V _ (hu s) ∈
       Submonoid.closure {x | ∃ τ, ∃ g ∈ Formalism.QuantumDeterminants.UH (gramAt D V τ), x = atTau (Eqv.thetaC D) V τ g} := by
     intro s

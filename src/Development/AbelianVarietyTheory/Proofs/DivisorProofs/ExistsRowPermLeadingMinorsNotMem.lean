@@ -68,7 +68,7 @@ theorem exists_injective_rows_leadingMinors_not_mem (R : Type) [CommRing R] (p :
     obtain ⟨i, hi⟩ : ∃ i : Fin (n+1), (-1) ^ ((i : ℕ) + (Fin.last n : ℕ)) * T i (Fin.last n) *
         (T.submatrix i.succAbove (Fin.last n).succAbove).det ∉ p := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hT (hsum ▸ p.sum_mem fun i _ => h i)
     have hM : (T.submatrix i.succAbove Fin.castSucc).det ∉ p := by
       intro hm

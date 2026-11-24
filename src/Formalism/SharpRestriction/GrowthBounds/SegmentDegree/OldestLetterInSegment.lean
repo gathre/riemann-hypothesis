@@ -169,13 +169,13 @@ theorem oldest_letter_in_segment : OldestLetterInSegment := by
   rw [Finset.mem_filter, Finset.mem_Ioo]
   refine ⟨⟨lt_of_not_ge hnW, ?_⟩, hlet.2⟩
   by_contra hge
-  push_neg at hge
+  push Not at hge
   have frame : ∀ y ∈ X.F.letters j, X.F.fr j 0 ≤ y → ∃ i < r, X.F.fr j i = y := by
     intro y hy hy0
     unfold Frames.letters at hy
     rw [Finset.mem_filter, Finset.mem_Icc] at hy
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have hall : ∀ i, i < r → X.F.fr j i < y := by
       intro i
       induction i with
@@ -184,7 +184,7 @@ theorem oldest_letter_in_segment : OldestLetterInSegment := by
         intro hm
         have h1 := ih (by omega)
         by_contra h2
-        push_neg at h2
+        push Not at h2
         rcases lt_or_eq_of_le h2 with h3 | h3
         · exact hV.2.2.2.2.2.1 j m y hm h1 h3 hy.2
         · exact hne (m + 1) hm h3.symm

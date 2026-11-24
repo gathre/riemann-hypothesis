@@ -460,7 +460,7 @@ theorem UpperTheory.V.Sd.jacqOfU_alt :
   obtain ⟨ω, hω⟩ := cent w σ
   obtain ⟨S, hS, hcard⟩ := reps w
   have hsum := (uopSum F w σ.V σ.ρ c v hfix).2 _ hS
-  rw [if_neg hc, add_zero, hU] at hsum
+  rw [ite_eq_right hc, add_zero, hU] at hsum
   have hπ : Valued.v ((atFin w (unif w) : (w.adicCompletion F)ˣ) : w.adicCompletion F) = WithZero.exp (-1 : ℤ) :=
     unif_spec w
   rw [← hcard]

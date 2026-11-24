@@ -151,7 +151,7 @@ lemma norm_posPart_le (p : ℕ) {r : ℕ} (u : Fin r → ℂ) : ‖euc (posPart 
   have ha := norm_nonneg (euc (posPart p u))
   have hb := norm_nonneg (euc u)
   by_contra h
-  push_neg at h
+  push Not at h
   nlinarith
 
 lemma norm_negPart_le (p : ℕ) {r : ℕ} (u : Fin r → ℂ) : ‖euc (negPart p u)‖ ≤ ‖euc u‖ := by
@@ -162,7 +162,7 @@ lemma norm_negPart_le (p : ℕ) {r : ℕ} (u : Fin r → ℂ) : ‖euc (negPart 
   have ha := norm_nonneg (euc (negPart p u))
   have hb := norm_nonneg (euc u)
   by_contra h
-  push_neg at h
+  push Not at h
   nlinarith
 
 lemma euc_zero {r : ℕ} : euc (0 : Fin r → ℂ) = 0 := by
@@ -198,7 +198,7 @@ lemma norm_err_le {r p : ℕ} {μ R : ℝ} (X : Fin r → Fin r → ℂ)
       rw [normSq_eq_euc] at h1
       have ha := norm_nonneg (euc (X j - (R : ℂ) • (Pi.single j 1 : Fin r → ℂ)))
       by_contra h
-      push_neg at h
+      push Not at h
       nlinarith
     · rw [hw j (not_lt.mp hj)]
       simp

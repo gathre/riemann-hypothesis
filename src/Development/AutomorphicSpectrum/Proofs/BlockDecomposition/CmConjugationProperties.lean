@@ -77,7 +77,7 @@ theorem isCMExt_conj_fixed_integers : ∀ (F E : Type) [Field F] [NumberField F]
   have hval : ∀ o : 𝓞 E, ((sO σ o : 𝓞 E) : E) = σ (o : E) := fun o => rfl
   have hmoved : ∃ θ : E, σ θ ≠ θ := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have hc' := h.2.1
     refine IsTotallyComplex.complexEmbedding_not_isReal τ ?_
     rw [ComplexEmbedding.isReal_iff]

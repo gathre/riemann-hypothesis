@@ -204,12 +204,12 @@ theorem uMap_entry_le_matrix_norm (z : Fin (2 * r + k + 1) → ℂ) (a b : Fin (
   by_cases h : a.val < r
   · refine ⟨∑ i, ‖bvec (esI k r ⟨a.val, h⟩) i‖ * ∑ j, ‖Hpk k r i j‖ * ∑ l, ‖fvec k r z b l‖,
       by positivity, fun g => ?_⟩
-    simp only [C2.uMap, dif_pos h]
+    simp only [C2.uMap, dite_eq_left h]
     rw [mul_comm _ (B.gN g)]
     exact a_herm_le _ g _ _
   · refine ⟨(∑ i, ‖z i‖ * ∑ j, ‖Hpk k r i j‖ * ∑ l, ‖fvec k r z b l‖) / ‖herm (Hpk k r) z z‖,
       by positivity, fun g => ?_⟩
-    simp only [C2.uMap, dif_neg h]
+    simp only [C2.uMap, dite_eq_right h]
     rw [norm_div, div_mul_eq_mul_div, mul_comm _ (B.gN g)]
     gcongr
     exact a_herm_le _ g _ _

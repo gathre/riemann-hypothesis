@@ -635,7 +635,7 @@ theorem exists_pair_of_annihilator_any : ∀ (F : Type) [Field F] [NumberField F
   classical
   have hne' : ∃ t, ψ t ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (by ext t; simpa using h t)
   obtain ⟨n, hn⟩ := _root_.GlobalTheory.ConductorAdicCompletion.exists_conductor_adicCompletion F v ψ hcont hnorm hne'
   obtain ⟨a, ha⟩ := exists_valuation_eq F v n
@@ -1111,7 +1111,7 @@ theorem vac_line (B : Base F E) {r s r' s' : ℕ} (hB : B.IsGood σ) (hX : X.IsH
     intro f hf hA l hl ξ
     have h : ∃ γ ∈ latAtV X W v, GlobalTheory.LatVac.locCo M.co v γ = l := AddSubgroup.mem_map.mp hl
     have key := congrFun (schr_of_acts M B.ψ h.choose_spec.1 hf (hA _ h.choose_spec.1)) ξ
-    simp only [χ, dif_pos h]
+    simp only [χ, dite_eq_left h]
     rw [h.choose_spec.2, schr, invOf_eq_inv] at key
     exact key
   obtain ⟨c, hc0, hcb⟩ := GlobalTheory.LatBound.locCo_latAtV_bounded X W v M.co hX.lat.toIsLattice hW.lat.toIsLattice

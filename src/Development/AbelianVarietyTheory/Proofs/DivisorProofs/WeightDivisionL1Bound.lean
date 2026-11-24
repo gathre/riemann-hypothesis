@@ -65,7 +65,7 @@ theorem Wts.divided_weight_small_block_le_neg_three_mul {ι : Type} [Fintype ι]
     have hN : (0 : ℤ) ≤ 24 * (N : ℤ) * W.T := by positivity
     have h4 : 0 ≤ W.u1 τ ⟨W.p - 1, by omega⟩ - W.u1 τ ⟨W.p + 0, hk⟩ - 3 * N := by
       by_contra hneg
-      push_neg at hneg
+      push Not at hneg
       nlinarith
     linarith
   | succ k ih =>

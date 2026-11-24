@@ -155,7 +155,7 @@ theorem isolate_abstract : ∀ (X : Type) [AddCommGroup X] (Γ G : AddSubgroup X
       · have hχx : χ x γ = χ x0 γ := by simpa using hχc x0 γ hγ (x - x0) h
         simp only [hc', smul_smul, hχx, mul_comm]
       · simp
-    · push_neg at hS
+    · push Not at hS
       refine ⟨1, hone, 1, one_ne_zero, fun v hv => ?_⟩
       rw [Module.End.one_apply, one_smul]
       refine Finset.sum_congr rfl fun x hx => ?_
@@ -205,7 +205,7 @@ theorem isolate_abstract : ∀ (X : Type) [AddCommGroup X] (Γ G : AddSubgroup X
         have e : ((s * d) * β (-x0) x0)⁻¹ * s * d * β (-x0) x0 = 1 := by
           field_simp
         rw [e, one_smul]
-    · push_neg at hS
+    · push Not at hS
       exact Or.inl fun v _ => Finset.sum_eq_zero fun x hx => by simp [hS x hx]
   rcases main _ c rfl with h | ⟨L, hL, hLeq⟩
   · exact Or.inl h

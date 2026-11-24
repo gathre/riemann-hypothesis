@@ -325,9 +325,9 @@ theorem adapted_flip (F : Fin l → Prop) [DecidablePred F] {c : L} (hc : ‖c�
   refine and_congr (forall_congr' fun i => ?_) Iff.rfl
   rw [hv i]
   by_cases hF : F i
-  · simp only [hF, if_true, norm_mul, hc, one_mul, inv_inv]
+  · simp only [hF, ite_true, norm_mul, hc, one_mul, inv_inv]
     exact and_comm
-  · simp only [hF, if_false]
+  · simp only [hF, ite_false]
 
 theorem hermitian_frame_partial_flip (hs : IsInv s) (hδ : δ ≠ 0) (hh : IsHerm s h) (hF : IsFrame h δ e f W)
     (F : Fin l → Prop) [DecidablePred F] :
@@ -340,30 +340,30 @@ theorem hermitian_frame_partial_flip (hs : IsInv s) (hδ : δ ≠ 0) (hh : IsHer
   have hr1 : ∀ (a : L) x y, h x (a • y) = a * h x y := hh.2.1
   have hne : ∀ {i j}, F i → ¬ F j → i ≠ j := fun hi hj hij => hj (hij ▸ hi)
   refine ⟨fun i j => ?_, fun i j => ?_, fun i j => ?_, fun w hw i => ?_, hF.2.2.2.2.1, fun x => ?_⟩
-  · by_cases h1 : F i <;> by_cases h2 : F j <;> simp only [h1, h2, if_true, if_false]
+  · by_cases h1 : F i <;> by_cases h2 : F j <;> simp only [h1, h2, ite_true, ite_false]
     · exact hF.2.1 i j
-    · rw [h_fe hh hF, if_neg (hne h1 h2)]
-    · rw [hF.2.2.1, if_neg (fun hij : i = j => h1 (hij ▸ h2))]
+    · rw [h_fe hh hF, ite_eq_right (hne h1 h2)]
+    · rw [hF.2.2.1, ite_eq_right (fun hij : i = j => h1 (hij ▸ h2))]
     · exact hF.1 i j
-  · by_cases h1 : F i <;> by_cases h2 : F j <;> simp only [h1, h2, if_true, if_false]
+  · by_cases h1 : F i <;> by_cases h2 : F j <;> simp only [h1, h2, ite_true, ite_false]
     · rw [hl1, hr1, hF.1]
       simp
-    · rw [hl1, hF.2.2.1, if_neg (hne h1 h2)]
+    · rw [hl1, hF.2.2.1, ite_eq_right (hne h1 h2)]
       simp
-    · rw [hr1, h_fe hh hF, if_neg (fun hij : i = j => h1 (hij ▸ h2))]
+    · rw [hr1, h_fe hh hF, ite_eq_right (fun hij : i = j => h1 (hij ▸ h2))]
       simp
     · exact hF.2.1 i j
-  · by_cases h1 : F i <;> by_cases h2 : F j <;> simp only [h1, h2, if_true, if_false]
+  · by_cases h1 : F i <;> by_cases h2 : F j <;> simp only [h1, h2, ite_true, ite_false]
     · rw [hr1, h_fe hh hF]
       by_cases hij : i = j
       · simp [hij, hc, hsδ]
       · simp [hij]
-    · rw [hF.2.1, if_neg (hne h1 h2)]
-    · rw [hr1, hF.1, if_neg (fun hij : i = j => h1 (hij ▸ h2))]
+    · rw [hF.2.1, ite_eq_right (hne h1 h2)]
+    · rw [hr1, hF.1, ite_eq_right (fun hij : i = j => h1 (hij ▸ h2))]
       simp
     · exact hF.2.2.1 i j
   · have := hF.2.2.2.1 w hw i
-    by_cases h1 : F i <;> simp only [h1, if_true, if_false]
+    by_cases h1 : F i <;> simp only [h1, ite_true, ite_false]
     · rw [hl1, this.1, this.2]
       simp
     · exact this
@@ -391,11 +391,11 @@ theorem frame_flip (hs : IsInv s) (hδ : δ ≠ 0) (hh : IsHerm s h)
   · simp
   · rw [hn i, norm_pow]
     by_cases hi : n i < 0
-    · rw [if_pos hi, ← zpow_neg, ← zpow_natCast]
+    · rw [ite_eq_left hi, ← zpow_neg, ← zpow_natCast]
       congr 1
       beta_reduce
       omega
-    · rw [if_neg hi, ← zpow_natCast]
+    · rw [ite_eq_right hi, ← zpow_natCast]
       congr 1
       beta_reduce
       omega

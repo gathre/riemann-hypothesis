@@ -211,7 +211,7 @@ theorem tr_nd_field {k K : Type} [Field k] [Field K] [Algebra k K] (σ' : K ≃�
     (z : K) (hz : z ≠ 0) : ∃ t : K, t * z + σ' (t * z) ≠ 0 := by
   have hu : ∃ u : K, u + σ' u ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hne
     have h1 : (1 : K) + 1 = 0 := by simpa using h 1
     ext u

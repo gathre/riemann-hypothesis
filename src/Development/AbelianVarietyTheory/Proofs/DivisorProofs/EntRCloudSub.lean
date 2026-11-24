@@ -704,7 +704,7 @@ theorem ent_cast (i : Fin D.R.m) (t : D.what₂.Tau) (n : ℕ) : ((ent D i t n :
 theorem entR_cloud (L : SizeData₂ D) (i : Fin D.R.m) (t : D.what₂.Tau) (n : ℕ) (hn : n < D.R.k - 1) :
     DV.wSz D ((i : ℕ) + 1) t - D.R.r ≤ entR D i t n ∧ entR D i t n ≤ DV.wSz D ((i : ℕ) + 1) t + L.Sc + D.R.r := by
   unfold entR
-  rw [if_pos (by omega), sgR_cloud D t n hn]
+  rw [ite_eq_left (by omega), sgR_cloud D t n hn]
   obtain ⟨v0, v1⟩ := L.cloud_v t ⟨n, hn⟩
   have c1 : (n : ℝ) + 2 ≤ D.R.k := by exact_mod_cast (by omega : n + 2 ≤ D.R.k)
   have c3 : ((i : ℕ) : ℝ) + 1 ≤ D.R.m := by exact_mod_cast i.2
@@ -746,7 +746,7 @@ theorem entR_cloud_sub (L : SizeData₂ D) (i : Fin D.R.m) (t : D.what₂.Tau)
   have h4 := (L.cloud_v t ⟨D.R.k - 1 - 1, by omega⟩).1
   rw [← sgR_cloud] at h3 h4
   unfold entR
-  rw [if_pos (by omega), if_pos (by omega)]
+  rw [ite_eq_left (by omega), ite_eq_left (by omega)]
   constructor <;> linarith
 
 end Rec

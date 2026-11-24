@@ -81,7 +81,7 @@ private theorem cont_sub {Γ S C : Type} [TopologicalSpace Γ] [CommRing S] [IsN
   have hf : f = (fun x => if hx : ∃ g, φ g = x then f hx.choose else 0) ∘ φ := by
     funext g
     have hx : ∃ g', φ g' = φ g := ⟨g, rfl⟩
-    simp only [Function.comp_apply, dif_pos hx]
+    simp only [Function.comp_apply, dite_eq_left hx]
     exact key _ _ hx.choose_spec.symm
   change IsLocallyConstant f
   rw [hf]
@@ -99,7 +99,7 @@ private theorem two_zero {K : Type} [Field K] {x y s t : K} (h : s ≠ t) (h1 : 
 private theorem or_zero {G K : Type} [Field K] {a b : G → K} (h : ∀ g g', a g * b g' = 0) :
     (∀ g, a g = 0) ∨ ∀ g, b g = 0 := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   obtain ⟨⟨g, hg⟩, ⟨g', hg'⟩⟩ := hc
   exact mul_ne_zero hg hg' (h g g')
 
@@ -283,7 +283,7 @@ private theorem cyc_mem {l : ℕ} [Fact l.Prime] {k : Type} [Field k] [CharP k l
       simp only [Function.comp_apply]
       rw [← hr]
       exact ht _ _ _ hlt
-    · push_neg at hex
+    · push Not at hex
       exfalso
       obtain ⟨s, hs, hne⟩ := h1
       exact hne (wsum hn L hex h0 s hs)
@@ -293,7 +293,7 @@ private theorem cyc_mem {l : ℕ} [Fact l.Prime] {k : Type} [Field k] [CharP k l
       simp only [Function.comp_apply]
       rw [← hr]
       exact ht _ _ _ hlt
-    · push_neg at hex
+    · push Not at hex
       exfalso
       obtain ⟨s, hs, hne⟩ := h1
       have hL' : ∀ t ∈ L.map (fun s => (s.1, s.2.2, s.2.1)), t.2.1 ≤ t.2.2 := by
@@ -320,7 +320,7 @@ private theorem lc_lemma {X A B : Type} [TopologicalSpace X] (φ : X → A) (g :
   have e : g = (fun a => if ha : ∃ x, φ x = a then g ha.choose else g x₀) ∘ φ := by
     funext x
     have ha : ∃ y, φ y = φ x := ⟨x, rfl⟩
-    simp only [Function.comp_apply, dif_pos ha]
+    simp only [Function.comp_apply, dite_eq_left ha]
     exact h _ _ ha.choose_spec.symm
   rw [e]
   exact hφ.comp _

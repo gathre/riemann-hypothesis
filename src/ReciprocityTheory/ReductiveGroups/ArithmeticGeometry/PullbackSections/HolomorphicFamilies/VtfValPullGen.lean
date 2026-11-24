@@ -68,7 +68,7 @@ private lemma valprod_lemma {R : Type} [CommRing R] (φ : R →+* ℂ) (u : K �
 
 theorem vtf_val_prodU (p : Sp ℂ ⟶ Y) {V : Y.Opens} (h : ⊤ ≤ p ⁻¹ᵁ V) (u : K → Γ(Y, V)ˣ) (ε : K → ℤ) :
     valAt' p V (∏ k, u k ^ ε k).val = ∏ k, valAt' p V (u k).val ^ ε k := by
-  simp only [valAt', dif_pos h]
+  simp only [valAt', dite_eq_left h]
   unfold valAt
   simp only [← RingHom.comp_apply]
   exact valprod_lemma _ u ε

@@ -164,7 +164,7 @@ theorem exists_isUnit_mem_of_span_baseChange {k A K : Type} [Field k] [Infinite 
 
   obtain ⟨t, ht⟩ : ∃ t : Fin r → k, MvPolynomial.eval t D ≠ 0 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     exact hD0 (MvPolynomial.funext fun x => by rw [hne x, map_zero])
   refine ⟨∑ i, t i • (b i : A), Submodule.sum_mem _ fun i _ => Submodule.smul_mem _ _ (b i).2, ?_⟩
   apply isUnit_of_isUnit_mulLeft (k := k)

@@ -722,7 +722,7 @@ theorem eq_maximalIdeal_of_trdeg_le (F A : Type) [Field F] [CommRing A] [IsDomai
   have hle : p ≤ maximalIdeal A := le_maximalIdeal hp.ne_top
   obtain ⟨a, ham, hap⟩ : ∃ a ∈ maximalIdeal A, a ∉ p := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (le_antisymm hle h)
   haveI := hA
   haveI : Algebra.EssFiniteType F (ResidueField A) :=

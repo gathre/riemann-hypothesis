@@ -108,9 +108,9 @@ theorem sum_cf (M : Mat n) : ∑ p : Ix n, cf M p • bs p = M := by
   conv_rhs => rw [Matrix.matrix_eq_sum_single M]
   refine Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun b _ => ?_
   ext i j
-  simp only [cf, bs, if_true, Bool.false_eq_true, if_false, Matrix.add_apply, Matrix.smul_apply, Matrix.single_apply]
+  simp only [cf, bs, ite_true, Bool.false_eq_true, ite_false, Matrix.add_apply, Matrix.smul_apply, Matrix.single_apply]
   by_cases h : a = i ∧ b = j
-  · simp only [h, and_self, if_true]
+  · simp only [h, and_self, ite_true]
     obtain ⟨rfl, rfl⟩ := h
     simp [Complex.real_smul, Complex.re_add_im]
   · simp [h]

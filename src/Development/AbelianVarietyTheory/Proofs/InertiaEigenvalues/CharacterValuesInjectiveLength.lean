@@ -269,9 +269,9 @@ theorem coeff_det_pencil_mem : ∀ {Γ X O : Type} [Group Γ] [CommRing O] {n : 
   rw [hfun]
   refine Subalgebra.sum_mem _ fun d _ => ?_
   by_cases hd : d 0 = j
-  · simp only [hd, if_true]
+  · simp only [hd, ite_true]
     exact key d
-  · simp only [hd, if_false]
+  · simp only [hd, ite_false]
     exact T.zero_mem
 
 end GlobalTheory.SpanRing
@@ -540,7 +540,7 @@ private theorem exists_end_apply_eq_of_ne_zero {F U : Type} [Field F] [AddCommGr
     [Module F U] {w : U} (hw : w ≠ 0) (u : U) : ∃ T : Module.End F U, T w = u := by
   obtain ⟨φ, hφ⟩ : ∃ φ : Module.Dual F U, φ w ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hw ((Module.forall_dual_apply_eq_zero_iff F w).mp h)
   exact ⟨(φ w)⁻¹ • φ.smulRight u, by simp [smul_smul, inv_mul_cancel₀ hφ]⟩
 

@@ -62,7 +62,7 @@ theorem sec_linear : ∀ (K V Ω : Type) [Field K] [NumberField K] [AddCommGroup
   intro K V Ω _ _ _ _ _ _ _ _ Nm W ev D X _ p L ψ s hM hev m β u x hx i
   have hw : ∃ w' : W, ev w' ≠ 0 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     obtain ⟨N, n, b, g, A, c, gw, -, -, hb, -⟩ := hM.fs
     exact hev (b.ext fun j => by rw [hb j, map_sum]; simp [map_smul, hne])
   obtain ⟨w', hw'⟩ := hw

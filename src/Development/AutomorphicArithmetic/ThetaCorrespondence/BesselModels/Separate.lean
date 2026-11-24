@@ -102,7 +102,7 @@ theorem blockW_mul_colW {m r : ℕ} (s : Matrix (Fin m) (Fin m) ℂ) :
     have hb := block_mk hi hp
     rw [← hb, blockW_bl, Matrix.mul_apply]
     simp [colW, blockIndex_injective.eq_iff]
-  · rw [blockW_out s hi, if_neg (ne_of_inB (inB_bl a) hi).symm, Matrix.mul_apply]
+  · rw [blockW_out s hi, ite_eq_right (ne_of_inB (inB_bl a) hi).symm, Matrix.mul_apply]
     refine (Finset.sum_eq_zero fun b _ => ?_).symm
     simp [colW, (ne_of_inB (inB_bl b) hi).symm]
 
@@ -614,16 +614,16 @@ theorem hpk_zero (i j : Fin (2 * r + m + 1)) (h1 : ¬ (i.val < r ∧ i.val + j.v
     (h2 : ¬ (j.val < r ∧ i.val + j.val = 2 * r + m)) (h3 : ¬ (r ≤ i.val ∧ i.val ≤ r + m ∧ i.val = j.val)) :
     Hpk m r i j = 0 := by
   unfold Hpk
-  rw [if_neg h1, if_neg h2, if_neg (fun h => h3 ⟨h.1, h.2.1, congrArg Fin.val h.2.2⟩)]
+  rw [ite_eq_right h1, ite_eq_right h2, ite_eq_right (fun h => h3 ⟨h.1, h.2.1, congrArg Fin.val h.2.2⟩)]
 
 theorem hpk_one (i j : Fin (2 * r + m + 1)) (h1 : i.val < r ∧ i.val + j.val = 2 * r + m) :
     Hpk m r i j = 1 := by
   unfold Hpk
-  rw [if_pos h1]
+  rw [ite_eq_left h1]
 
 theorem hpk_diag (i : Fin (2 * r + m + 1)) (h1 : r ≤ i.val) (h2 : i.val < r + m) : Hpk m r i i = 1 := by
   unfold Hpk
-  rw [if_neg (by omega), if_neg (by omega), if_pos ⟨h1, by omega, rfl⟩, if_neg (by omega)]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left ⟨h1, by omega, rfl⟩, ite_eq_right (by omega)]
 
 theorem hpk_ee (a b : Fin r) : Hpk m r (eI m r a) (eI m r b) = 0 := by
   have := a.isLt; have := b.isLt
@@ -639,10 +639,10 @@ theorem hpk_es (a b : Fin r) : Hpk m r (eI m r a) (esI m r b) = (1 : Matrix (Fin
   rw [Matrix.one_apply]
   by_cases h : a = b
   · subst h
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact hpk_one _ _ (by simp only [eI, esI]; omega)
   · have h' : a.val ≠ b.val := fun q => h (Fin.ext q)
-    rw [if_neg h]
+    rw [ite_eq_right h]
     exact hpk_zero _ _ (by simp only [eI, esI]; omega) (by simp only [eI, esI]; omega) (by simp only [eI, esI]; omega)
 theorem hpk_bb (a b : Fin m) : Hpk m r (PI.HwUniqW.bl m r a) (PI.HwUniqW.bl m r b) =
     (1 : Matrix (Fin m) (Fin m) ℂ) a b := by
@@ -650,10 +650,10 @@ theorem hpk_bb (a b : Fin m) : Hpk m r (PI.HwUniqW.bl m r a) (PI.HwUniqW.bl m r 
   rw [Matrix.one_apply]
   by_cases h : a = b
   · subst h
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact hpk_diag _ (by simp only [PI.HwUniqW.bl]; omega) (by simp only [PI.HwUniqW.bl]; omega)
   · have h' : a.val ≠ b.val := fun q => h (Fin.ext q)
-    rw [if_neg h]
+    rw [ite_eq_right h]
     exact hpk_zero _ _ (by simp only [PI.HwUniqW.bl]; omega) (by simp only [PI.HwUniqW.bl]; omega) (by simp only [PI.HwUniqW.bl]; omega)
 theorem hpk_bw (a : Fin m) : Hpk m r (PI.HwUniqW.bl m r a) (wI m r (Fin.last m)) = 0 := by
   have := a.isLt
@@ -664,7 +664,7 @@ theorem hpk_bs (a : Fin m) (b : Fin r) : Hpk m r (PI.HwUniqW.bl m r a) (esI m r 
 theorem hpk_ww : Hpk m r (wI m r (Fin.last m)) (wI m r (Fin.last m)) = -1 := by
   unfold Hpk
   have h : (wI m r (Fin.last m)).val = r + m := by simp [wI]
-  rw [if_neg (by omega), if_neg (by omega), if_pos ⟨by omega, by omega, rfl⟩, if_pos h]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left ⟨by omega, by omega, rfl⟩, ite_eq_left h]
 
 theorem hpk_ws (b : Fin r) : Hpk m r (wI m r (Fin.last m)) (esI m r b) = 0 := by
   have := b.isLt
@@ -787,11 +787,11 @@ theorem exists_frame_matrix {m r : ℕ} {J : Matrix (Fin (2 * r + m + 1)) (Fin (
   refine ⟨Q, Formalism.QuantumDeterminants.Hpk m r * Qᴴ * J, mul_eq_one_comm.1 hinv, hinv, key, ?_, ?_, ?_⟩
   · ext i a
     rw [Matrix.mul_apply]
-    simp only [colE, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    simp only [colE, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     exact frameMat_eI e f Fa y i a
   · ext i a
     rw [Matrix.mul_apply]
-    simp only [colW, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    simp only [colW, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     exact frameMat_bl e f Fa y i a
   · funext i
     simp only [Formalism.QuantumDeterminants.bvec, Matrix.mulVec_single_one]
@@ -992,9 +992,9 @@ theorem mem_unipRad_of_mem_Nset {k r : ℕ} {u : Matrix (Fin (2 * r + k + 1)) (F
     by_cases hi : (i : ℕ) < r
     · rw [Finset.sum_eq_single (⟨i, hi⟩ : Fin r)]
       · have h : i = PI.UpqRep.eI k r ⟨i, hi⟩ := Fin.ext rfl
-        rw [if_pos h, ← h]
+        rw [ite_eq_left h, ← h]
       · intro b _ hb
-        rw [if_neg]
+        rw [ite_eq_right]
         intro h
         exact hb (Fin.ext (congrArg Fin.val h).symm)
       · intro h
@@ -1003,7 +1003,7 @@ theorem mem_unipRad_of_mem_Nset {k r : ℕ} {u : Matrix (Fin (2 * r + k + 1)) (F
       symm
       apply Finset.sum_eq_zero
       intro b _
-      rw [if_neg]
+      rw [ite_eq_right]
       intro h
       apply hi
       rw [h]
@@ -1507,7 +1507,7 @@ theorem burGapPos_of_bmu : CompanionTheory.Bmu.BesselMapUniqGap → UpperTheory.
     intro β hβ
     have hBm : ∃ B : H → Wq, ∀ x : smSub J σ, B x = T (β.flip x) := by
       classical
-      exact ⟨fun v => if hv : v ∈ smSub J σ then T (β.flip ⟨v, hv⟩) else 0, fun x => dif_pos x.2⟩
+      exact ⟨fun v => if hv : v ∈ smSub J σ then T (β.flip ⟨v, hv⟩) else 0, fun x => dite_eq_left x.2⟩
     obtain ⟨B, hBx⟩ := hBm
     refine ⟨B, ⟨fun v hv w hw => ?_, fun a v hv => ?_, fun h' hh' u' hu' v hv => ?_, ?_⟩, hBx⟩
     · have hv' := (hsm v).1 hv

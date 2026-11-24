@@ -81,7 +81,7 @@ theorem sum_inv_addChar_mul_left (K : Type) [Field K] [Fintype K] [DecidableEq K
   by_cases hx : x = 0
   · subst hx
     simp
-  · rw [if_neg hx]
+  · rw [ite_eq_right hx]
     have hbij : Function.Bijective (fun t : K => -(t * x)) := by
       refine ⟨fun a b h => ?_, fun b => ⟨-(b * x⁻¹), ?_⟩⟩
       · exact mul_right_cancel₀ hx (neg_injective h)
@@ -113,9 +113,9 @@ theorem sum_inv_addChar_dot (K : Type) [Field K] [Fintype K] [DecidableEq K] (j 
   by_cases hx : x = 0
   · subst hx
     simp
-  · rw [if_neg hx]
+  · rw [ite_eq_right hx]
     obtain ⟨i, hi⟩ := Function.ne_iff.mp hx
-    exact Finset.prod_eq_zero (Finset.mem_univ i) (if_neg hi)
+    exact Finset.prod_eq_zero (Finset.mem_univ i) (ite_eq_right hi)
 
 theorem orth : ∀ (K : Type) [Field K] [Fintype K] [DecidableEq K] (j : ℕ) (ψ₀ : AddChar K ℂ),
     ψ₀ ≠ 1 → ∀ x : Fin j → K,
@@ -190,17 +190,17 @@ theorem blkEmb_mul {d j : ℕ} (hjd : j ≤ d) (A B : Matrix (Fin j) (Fin j) K) 
           GlobalTheory.CompanionTheory.TyFin.BlockEmbeddingGL.blkEmb_lt K _ _ l hk hl]
         rfl
       · intro k hk
-        rw [GlobalTheory.CompanionTheory.TyFin.BlockEmbeddingGL.blkEmb_col_ge K _ i k hk, if_neg (by rintro rfl; omega),
+        rw [GlobalTheory.CompanionTheory.TyFin.BlockEmbeddingGL.blkEmb_col_ge K _ i k hk, ite_eq_right (by rintro rfl; omega),
           zero_mul]
     · have hl' : j ≤ (l : ℕ) := not_lt.1 hl
       rw [GlobalTheory.CompanionTheory.TyFin.BlockEmbeddingGL.blkEmb_col_ge K _ i l hl']
       simp only [GlobalTheory.CompanionTheory.TyFin.BlockEmbeddingGL.blkEmb_col_ge K B _ l hl', mul_ite, mul_one, mul_zero,
-        Finset.sum_ite_eq', Finset.mem_univ, if_true,
+        Finset.sum_ite_eq', Finset.mem_univ, ite_true,
         GlobalTheory.CompanionTheory.TyFin.BlockEmbeddingGL.blkEmb_col_ge K A i l hl']
   · have hi' : j ≤ (i : ℕ) := not_lt.1 hi
     rw [GlobalTheory.CompanionTheory.TyFin.BlockEmbeddingGL.blkEmb_row_ge K _ i l hi']
     simp only [GlobalTheory.CompanionTheory.TyFin.BlockEmbeddingGL.blkEmb_row_ge K A i _ hi', ite_mul, one_mul, zero_mul,
-      Finset.sum_ite_eq, Finset.mem_univ, if_true,
+      Finset.sum_ite_eq, Finset.mem_univ, ite_true,
       GlobalTheory.CompanionTheory.TyFin.BlockEmbeddingGL.blkEmb_row_ge K B i l hi']
 
 theorem exists_gl_blkEmb : ∀ (K : Type) [Field K] [Fintype K] [DecidableEq K] (d j : ℕ), j ≤ d →
@@ -547,7 +547,7 @@ theorem blkEmb_mul_apply {d j : ℕ} (hj : j ≤ d) (A : Matrix (Fin j) (Fin j) 
       if h : (i : ℕ) < j then ∑ k : Fin j, A ⟨i, h⟩ k * M (Fin.castLE hj k) l else M i l := by
   rw [Matrix.mul_apply]
   by_cases h : (i : ℕ) < j
-  · rw [dif_pos h]
+  · rw [dite_eq_left h]
     symm
     refine Fintype.sum_of_injective (Fin.castLE hj) (Fin.castLE_injective hj) _ _ ?_ ?_
     · intro a ha
@@ -556,7 +556,7 @@ theorem blkEmb_mul_apply {d j : ℕ} (hj : j ≤ d) (A : Matrix (Fin j) (Fin j) 
       simp [blkEmb, ha', hne]
     · intro k
       simp [blkEmb, h]
-  · rw [dif_neg h, Finset.sum_eq_single i]
+  · rw [dite_eq_right h, Finset.sum_eq_single i]
     · simp [blkEmb, h]
     · intro a _ ha
       simp [blkEmb, h, Ne.symm ha]
@@ -568,7 +568,7 @@ theorem mul_blkEmb_apply {d j : ℕ} (hj : j ≤ d) (B : Matrix (Fin j) (Fin j) 
       if h : (l : ℕ) < j then ∑ k : Fin j, M i (Fin.castLE hj k) * B k ⟨l, h⟩ else M i l := by
   rw [Matrix.mul_apply]
   by_cases h : (l : ℕ) < j
-  · rw [dif_pos h]
+  · rw [dite_eq_left h]
     symm
     refine Fintype.sum_of_injective (Fin.castLE hj) (Fin.castLE_injective hj) _ _ ?_ ?_
     · intro a ha
@@ -577,7 +577,7 @@ theorem mul_blkEmb_apply {d j : ℕ} (hj : j ≤ d) (B : Matrix (Fin j) (Fin j) 
       simp [blkEmb, ha', hne]
     · intro k
       simp [blkEmb, h]
-  · rw [dif_neg h, Finset.sum_eq_single l]
+  · rw [dite_eq_right h, Finset.sum_eq_single l]
     · simp [blkEmb, h]
     · intro a _ ha
       simp [blkEmb, h, ha]
@@ -587,17 +587,17 @@ theorem conj_apply_ge {d j : ℕ} (hj : j ≤ d) (A B : Matrix (Fin j) (Fin j) K
     (M : Matrix (Fin d) (Fin d) K) (i l : Fin d) (hl : j ≤ (l : ℕ)) :
     (blkEmb K d j A * M * blkEmb K d j B) i l =
       if h : (i : ℕ) < j then ∑ k : Fin j, A ⟨i, h⟩ k * M (Fin.castLE hj k) l else M i l := by
-  rw [mul_blkEmb_apply hj, dif_neg (not_lt.2 hl), blkEmb_mul_apply hj]
+  rw [mul_blkEmb_apply hj, dite_eq_right (not_lt.2 hl), blkEmb_mul_apply hj]
 
 theorem conj_apply_lt {d j : ℕ} (hj : j ≤ d) (A B : Matrix (Fin j) (Fin j) K) (hAB : A * B = 1)
     (M : Matrix (Fin d) (Fin d) K)
     (hM : ∀ i l : Fin d, (l : ℕ) < j → M i l = if i = l then 1 else 0)
     (i l : Fin d) (hl : (l : ℕ) < j) :
     (blkEmb K d j A * M * blkEmb K d j B) i l = if i = l then 1 else 0 := by
-  rw [mul_blkEmb_apply hj, dif_pos hl]
+  rw [mul_blkEmb_apply hj, dite_eq_left hl]
   simp_rw [blkEmb_mul_apply hj]
   by_cases h : (i : ℕ) < j
-  · simp only [dif_pos h]
+  · simp only [dite_eq_left h]
     have inner : ∀ k : Fin j, ∑ m : Fin j, A ⟨i, h⟩ m * M (Fin.castLE hj m) (Fin.castLE hj k)
         = A ⟨i, h⟩ k := by
       intro k
@@ -605,7 +605,7 @@ theorem conj_apply_lt {d j : ℕ} (hj : j ≤ d) (A B : Matrix (Fin j) (Fin j) K
       · rw [hM _ _ (by simp)]
         simp
       · intro m _ hm
-        rw [hM _ _ (by simp), if_neg (fun e => hm (Fin.castLE_injective hj e))]
+        rw [hM _ _ (by simp), ite_eq_right (fun e => hm (Fin.castLE_injective hj e))]
         simp
       · simp
     simp_rw [inner]
@@ -616,20 +616,20 @@ theorem conj_apply_lt {d j : ℕ} (hj : j ≤ d) (A B : Matrix (Fin j) (Fin j) K
     · simp [e]
     · have e' : ¬ ((⟨i, h⟩ : Fin j) = ⟨l, hl⟩) := fun q => e (Fin.ext (by simpa using q))
       simp [e, e']
-  · simp only [dif_neg h]
+  · simp only [dite_eq_right h]
     have hne : i ≠ l := fun e => h (e ▸ hl)
-    rw [if_neg hne]
+    rw [ite_eq_right hne]
     refine Finset.sum_eq_zero fun k _ => ?_
     have hk : i ≠ Fin.castLE hj k := fun e => h (by rw [e]; simp)
-    rw [hM _ _ (by simp), if_neg hk]
+    rw [hM _ _ (by simp), ite_eq_right hk]
     simp
 
 theorem col_lt {d j : ℕ} {u : GL (Fin d) K} (hu : u ∈ patSet K (colGe d j)) (i l : Fin d)
     (hl : (l : ℕ) < j) : (u : Matrix (Fin d) (Fin d) K) i l = if i = l then 1 else 0 := by
   by_cases e : i = l
-  · rw [if_pos e]
+  · rw [ite_eq_left e]
     exact (hu i l).1 e
-  · rw [if_neg e]
+  · rw [ite_eq_right e]
     exact (hu i l).2 e (fun c => absurd c.2 (not_le.2 hl))
 
 theorem conj_mem {d j : ℕ} (hj : j ≤ d) (g : GL (Fin j) K) (h : GL (Fin d) K)
@@ -648,19 +648,19 @@ theorem conj_mem {d j : ℕ} (hj : j ≤ d) (g : GL (Fin j) K) (h : GL (Fin d) K
   rw [key]
   by_cases hl : (l : ℕ) < j
   · rw [conj_apply_lt hj _ _ hgg _ (fun a b hb => col_lt hu a b hb) i l hl]
-    exact ⟨fun e => if_pos e, fun e _ => if_neg e⟩
+    exact ⟨fun e => ite_eq_left e, fun e _ => ite_eq_right e⟩
   · have hl' : j ≤ (l : ℕ) := not_lt.1 hl
     rw [conj_apply_ge hj _ _ _ i l hl']
     constructor
     · intro e
       have hi : ¬ (i : ℕ) < j := by rw [e]; exact hl
-      rw [dif_neg hi]
+      rw [dite_eq_right hi]
       exact (hu i l).1 e
     · intro e hc
       have hlt : ¬ i < l := fun q => hc ⟨q, hl'⟩
       have hi : ¬ (i : ℕ) < j := fun q => hlt (by
         rw [Fin.lt_def]; omega)
-      rw [dif_neg hi]
+      rw [dite_eq_right hi]
       exact (hu i l).2 e (fun c => hlt c.1)
 
 theorem sum_colGeR {d j : ℕ} (hj : j < d) (r : Fin j → K) (M : Matrix (Fin d) (Fin d) K) :
@@ -689,7 +689,7 @@ theorem sum_colGeE_congr {d j : ℕ} (X U : Matrix (Fin d) (Fin d) K)
   refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun l _ => ?_
   by_cases c : (l : ℕ) = i + 1 ∧ j + 1 ≤ (l : ℕ)
   · rw [hXU i l (by omega) (by omega)]
-  · have e : colGeE K d (j + 1) i l = 0 := if_neg c
+  · have e : colGeE K d (j + 1) i l = 0 := ite_eq_right c
     rw [e, zero_mul, zero_mul]
 
 theorem patChar_conj {d j : ℕ} (hj : j < d) (ψ₀ : AddChar K ℂ) (g : GL (Fin j) K)
@@ -709,14 +709,14 @@ theorem patChar_conj {d j : ℕ} (hj : j < d) (ψ₀ : AddChar K ℂ) (g : GL (F
   rw [sum_colGeR hj, sum_colGeR hj, key]
   congr 1
   · refine sum_colGeE_congr _ _ fun i l hi hl => ?_
-    rw [conj_apply_ge hj.le _ _ _ i l hl, dif_neg (not_lt.2 hi)]
+    rw [conj_apply_ge hj.le _ _ _ i l hl, dite_eq_right (not_lt.2 hi)]
   · have : ∀ k : Fin j, (blkEmb K d j (g : Matrix (Fin j) (Fin j) K) *
         (u : Matrix (Fin d) (Fin d) K) *
         blkEmb K d j ((g⁻¹ : GL (Fin j) K) : Matrix (Fin j) (Fin j) K)) (Fin.castLE hj.le k) ⟨j, hj⟩
         = ∑ m : Fin j, (g : Matrix (Fin j) (Fin j) K) k m *
           (u : Matrix (Fin d) (Fin d) K) (Fin.castLE hj.le m) ⟨j, hj⟩ := by
       intro k
-      rw [conj_apply_ge hj.le _ _ _ _ _ (le_refl j), dif_pos (by simp)]
+      rw [conj_apply_ge hj.le _ _ _ _ _ (le_refl j), dite_eq_left (by simp)]
       rfl
     simp_rw [this, Finset.mul_sum, Matrix.vecMul, dotProduct, Finset.sum_mul]
     rw [Finset.sum_comm]
@@ -742,8 +742,8 @@ theorem wh_colGeR_conj : ∀ (K : Type) [Field K] [Fintype K] [DecidableEq K] (d
   have e : (MulAut.conj h).toEquiv u = h * u * h⁻¹ := rfl
   rw [e]
   by_cases hu : u ∈ patSet K (colGe d j)
-  · rw [if_pos ((hN u).2 hu), if_pos hu, patChar_conj hj ψ₀ g h r h1 h2 u, hχ]
-  · rw [if_neg (fun q => hu ((hN u).1 q)), if_neg hu]
+  · rw [ite_eq_left ((hN u).2 hu), ite_eq_left hu, patChar_conj hj ψ₀ g h r h1 h2 u, hχ]
+  · rw [ite_eq_right (fun q => hu ((hN u).1 q)), ite_eq_right hu]
 
 end GlobalTheory.CompanionTheory.TyFin.ColStep.Conj
 end -- clump:auto
@@ -775,7 +775,7 @@ theorem sum_dite_col {d j : ℕ} (hj : j < d) (r : Fin j → K) (M : Matrix (Fin
     intro i
     rw [Finset.sum_eq_single ⟨j, hj⟩]
     · by_cases h : (i : ℕ) < j
-      · rw [dif_pos ⟨rfl, h⟩, dif_pos h]
+      · rw [dite_eq_left ⟨rfl, h⟩, dite_eq_left h]
       · rw [dite_eq_right (fun h' => h h'.2), dite_eq_right h, zero_mul]
     · intro l _ hl
       have hl' : ¬ ((l : ℕ) = j ∧ (i : ℕ) < j) := fun h => hl (Fin.ext h.1)
@@ -789,7 +789,7 @@ theorem sum_dite_col {d j : ℕ} (hj : j < d) (r : Fin j → K) (M : Matrix (Fin
   · rw [Finset.sum_map]
     apply Finset.sum_congr rfl
     intro i _
-    simp only [Fin.castLEEmb_apply, Fin.val_castLE, dif_pos i.2]
+    simp only [Fin.castLEEmb_apply, Fin.val_castLE, dite_eq_left i.2]
     rfl
   · symm
     apply Finset.sum_subset (Finset.subset_univ _)
@@ -870,7 +870,7 @@ theorem wh_colGe_succ_eq_sum (K : Type) [Field K] [Fintype K] [DecidableEq K] (d
         (patChar (colGeE K d (j + 1)) ψ₀ u)⁻¹ * χ u else 0) := by
     intro u
     by_cases hP : u ∈ patSet (K := K) (colGe d j)
-    · rw [Finset.sum_congr rfl (fun r _ => if_pos hP)]
+    · rw [Finset.sum_congr rfl (fun r _ => ite_eq_left hP)]
       simp only [patChar_colGeR hj, mul_inv]
       rw [show (∑ r : Fin j → K, (patChar (colGeE K d (j + 1)) ψ₀ u)⁻¹ *
           (ψ₀ (∑ i, r i * colEntries hj u i))⁻¹ * χ u) =
@@ -883,14 +883,14 @@ theorem wh_colGe_succ_eq_sum (K : Type) [Field K] [Fintype K] [DecidableEq K] (d
       rw [ho (colEntries hj u)]
       by_cases hx : colEntries hj u = 0
       · have hmem : u ∈ patSet (K := K) (colGe d (j + 1)) := (mem_patSet_succ_iff hj u).mpr ⟨hP, hx⟩
-        rw [if_pos hx, if_pos hmem]
+        rw [ite_eq_left hx, ite_eq_left hmem]
         ring
       · have hmem : u ∉ patSet (K := K) (colGe d (j + 1)) := fun h => hx ((mem_patSet_succ_iff hj u).mp h).2
-        rw [if_neg hx, if_neg hmem]
+        rw [ite_eq_right hx, ite_eq_right hmem]
         ring
     · have hmem : u ∉ patSet (K := K) (colGe d (j + 1)) := fun h => hP ((mem_patSet_succ_iff hj u).mp h).1
-      rw [if_neg hmem, mul_zero]
-      exact Finset.sum_eq_zero (fun r _ => if_neg hP)
+      rw [ite_eq_right hmem, mul_zero]
+      exact Finset.sum_eq_zero (fun r _ => ite_eq_right hP)
   unfold wh
   rw [← Finset.mul_sum, Finset.sum_comm]
   simp only [hu]
@@ -1180,7 +1180,7 @@ theorem mul_entry {u v : GL (Fin d) K} (hu : u ∈ patSet (K := K) (colGe d j))
         · exact e ▸ hi
         · by_contra hn
           exact hik ((hu i k).2 e fun h => hn h.2)
-      rw [unip_entry hv hjk hl, if_neg hk, mul_zero]
+      rw [unip_entry hv hjk hl, ite_eq_right hk, mul_zero]
   · simp
 
 theorem patChar_mul_unip (ψ₀ : AddChar K ℂ) {u v : GL (Fin d) K} (hu : u ∈ patSet (K := K) (colGe d j))
@@ -1191,7 +1191,7 @@ theorem patChar_mul_unip (ψ₀ : AddChar K ℂ) {u v : GL (Fin d) K} (hu : u �
   refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun l _ => ?_
   by_cases h : (l : ℕ) = i + 1 ∧ j + 1 ≤ (l : ℕ)
   · rw [mul_entry hu hv (by omega) (by omega)]
-  · have hz : colGeE K d (j + 1) i l = 0 := if_neg h
+  · have hz : colGeE K d (j + 1) i l = 0 := ite_eq_right h
     rw [hz, zero_mul, zero_mul]
 
 theorem wh_zero_row (K : Type) [Field K] [Fintype K] [DecidableEq K] (d j : ℕ) (ψ₀ : AddChar K ℂ)
@@ -1312,7 +1312,7 @@ theorem wh_top (K : Type) [Field K] [Fintype K] [DecidableEq K] (d : ℕ) (ψ₀
     have : ∀ i l : Fin d, colGeE K d d i l = 0 := by
       intro i l
       simp only [colGeE]
-      rw [if_neg]
+      rw [ite_eq_right]
       rintro ⟨-, h⟩
       have := l.2
       omega

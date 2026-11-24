@@ -405,7 +405,7 @@ private lemma sum_norm_sq_exp_sum_eq_mul_sum_residues (d : ℕ) (hd : 0 < d) (S 
   rw [Finset.sum_comm]
   refine Finset.sum_congr rfl fun r hr => ?_
   rw [Finset.sum_comm, Finset.sum_congr rfl fun s hs => horth r hr s hs, Finset.sum_ite_eq]
-  simp only [hr, if_true]
+  simp only [hr, ite_true]
   rw [hB]
 
   simp [map_sum, Finset.sum_mul_sum]

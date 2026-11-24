@@ -60,12 +60,12 @@ variable {n : ℕ}
 
 theorem sCoef_lamT (lam : Fin n → ℝ) (t : ℕ) {i : ℕ} (hi : i + 1 < n) :
     sCoef (lamT lam t) i = sCoef lam i + t := by
-  simp only [sCoef, dif_pos hi, lamT, Dvec, Pi.add_apply, Pi.smul_apply, smul_eq_mul]
+  simp only [sCoef, dite_eq_left hi, lamT, Dvec, Pi.add_apply, Pi.smul_apply, smul_eq_mul]
   push_cast
   ring
 
 theorem sCoef_zero_of (i : ℕ) (hi : i + 1 < n) : sCoef (0 : Fin n → ℝ) i = 1 := by
-  simp [sCoef, dif_pos hi]
+  simp [sCoef, dite_eq_left hi]
 
 theorem ph_lamT (lam : Fin n → ℝ) (t : ℕ) (X : Matrix (Fin n) (Fin n) ℂ) :
     Ph (lamT lam t) X = Ph lam X + (t : ℝ) * Ph (0 : Fin n → ℝ) X := by

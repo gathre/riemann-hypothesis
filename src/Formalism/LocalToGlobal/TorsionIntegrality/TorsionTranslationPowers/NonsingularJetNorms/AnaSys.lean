@@ -221,10 +221,10 @@ theorem nonsing (t : ℂ) (ht : t ∉ L.lattice) :
 
 theorem ptOf_notMem (t : ℂ) (ht : t ∉ L.lattice) :
     ptOf l L ι t = .some _ _ (nonsing l L ι t ht) :=
-  dif_pos ⟨ht, nonsing l L ι t ht⟩
+  dite_eq_left ⟨ht, nonsing l L ι t ht⟩
 
 theorem ptOf_mem (t : ℂ) (ht : t ∈ L.lattice) : ptOf l L ι t = 0 :=
-  dif_neg (fun h => h.1 ht)
+  dite_eq_right (fun h => h.1 ht)
 
 theorem ptOf_zero_iff (t : ℂ) : ptOf l L ι t = 0 ↔ t ∈ L.lattice := by
   constructor

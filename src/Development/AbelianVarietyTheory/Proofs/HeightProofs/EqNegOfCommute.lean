@@ -356,11 +356,11 @@ theorem cx_alg : ∀ (D : D7) (V W : HSp D) (τ : D.what₂.Tau) (s : Module.End
     · refine ⟨thAt V τ s, ⟨hV.2.1, rfl⟩, Complex.I • thAt W τ s',
         ⟨I_smul_unitary hW.2.1, by rw [Matrix.smul_mul, Matrix.mul_smul]⟩, fun x => ?_⟩
       unfold jAt actC
-      rw [if_pos hr, if_pos hr, Matrix.transpose_smul, Matrix.mul_smul]
+      rw [ite_eq_left hr, ite_eq_left hr, Matrix.transpose_smul, Matrix.mul_smul]
     · refine ⟨Complex.I • thAt V τ s,
         ⟨I_smul_unitary hV.2.1, by rw [Matrix.smul_mul, Matrix.mul_smul]⟩, thAt W τ s', ⟨hW.2.1, rfl⟩, fun x => ?_⟩
       unfold jAt actC
-      rw [if_neg hr, if_neg hr, Matrix.smul_mul, Matrix.smul_mul]
+      rw [ite_eq_right hr, ite_eq_right hr, Matrix.smul_mul, Matrix.smul_mul]
 
 end GlobalTheory.FockCxAlg
 end -- clump:auto

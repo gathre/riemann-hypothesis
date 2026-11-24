@@ -134,14 +134,14 @@ theorem _root_.PositivityTheory.SiegelWeilFormula.RD_k.locOp_mM (hT : _root_.Pos
     (R.stepM w hT h.2.choose a h.1 h.2.choose_spec).choose else 1, fun a ha => ?_, fun y a ha hy f hf => ?_⟩
   · by_cases h : IsUnit a.det ∧ ∃ y : GR d.n, mR y = mLoc a
     · dsimp only
-      rw [dif_pos h]
+      rw [dite_eq_left h]
       exact (R.stepM w hT h.2.choose a h.1 h.2.choose_spec).choose_spec.1
     · dsimp only
       rw [dite_eq_right h]
       exact one_ne_zero
   · have h : IsUnit a.det ∧ ∃ y : GR d.n, mR y = mLoc a := ⟨ha, y, hy⟩
     have hy0 : h.2.choose = y := hinj _ _ (h.2.choose_spec.trans hy.symm)
-    simp only [dif_pos h]
+    simp only [dite_eq_left h]
     have hs := (R.stepM w hT h.2.choose a h.1 h.2.choose_spec).choose_spec.2
     rw [← hy0]
     obtain ⟨Ψ, hΨ⟩ := hG F E σ d R w

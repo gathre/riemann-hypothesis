@@ -71,11 +71,11 @@ theorem sub_rkOf_psiOf_eq_rkOf_cEmb (D : D7) (p : ℕ) [Fact p.Prime] (jc : DV.K
   have h := Formalism.L2.Geo.cm_type_meets_conjugate_pair p jc τ
   unfold DV.rkOf
   by_cases hτ : τ ∈ DV.PsiOf D jc
-  · rw [if_pos hτ, if_neg (h.1 hτ)]
+  · rw [ite_eq_left hτ, ite_eq_right (h.1 hτ)]
   · have hc : DV.cEmb D τ ∈ DV.PsiOf D jc := by
       by_contra hn
       exact hτ (h.2 hn)
-    rw [if_neg hτ, if_pos hc]
+    rw [ite_eq_right hτ, ite_eq_left hc]
     omega
 
 def trivialAdmissibleModel (D : D7) (p : ℕ) [Fact p.Prime] (jc : DV.KW p →+* ℂ)

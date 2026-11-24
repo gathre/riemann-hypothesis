@@ -121,7 +121,7 @@ theorem class_scalar_value_core : ∀ (D : D7) (G : Type) [Group G] [Fintype G] 
     (fun Q hQ x => by
       rw [Formalism.L2.Host.HChar.resFin_mul, Formalism.L2.Host.HChar.resFin_mul, Formalism.L2.Host.HChar.resFin_inv,
         (R.C.isMu0 i).triv.1, (hL.xi_triv (tup t)).1, R.C.isEta.res.1, Formalism.L2.Host.etaFin, above_eq,
-        Finset.card_pair hQ.symm, if_neg (by norm_num), inv_one, one_mul, one_mul])
+        Finset.card_pair hQ.symm, ite_eq_right (by norm_num), inv_one, one_mul, one_mul])
   rw [← hbar] at c1 c3
   rw [← hLh] at c3
   obtain ⟨q, q0, q1, q2⟩ := (hO.ep t).2 (O.Lh t k) cc g.1 g.2.1 g.2.2 c1 c3
@@ -338,7 +338,7 @@ theorem exact_identity_core (hC : GlobalTheory.Hk3.Core R F) (hT : TieIn T R κ 
     ring
   have had := ad_value_core hC hT O hP hka hδ t h J' hR y xs hpl g' γ hγ _ g Dc hX hp hrt _ hon hinv (hbas _) hΛ mk₂ ha₂ v _ hv
     (hfr ▸ hrd') Y hY
-  have hrdU : rdU (unfO O) f (O.dict g').1 (O.dict g').2 = _ := (dif_pos hx).trans hgeo
+  have hrdU : rdU (unfO O) f (O.dict g').1 (O.dict g').2 = _ := (dite_eq_left hx).trans hgeo
   have e1 := congrArg (clsSum (inC O.c') ((unfO O).X (O.dict g').1) Dc.hr Dc.bas Dc.idx Dc.eL (O.w t) (O.La t) (O.Nc t) (O.gam t)
     (O.vol t) (O.ep t) (fun j => O.io (xs j)) ((unfO O).X (O.dict g').1).Λ v Y) hfr
   rw [had.trans (congrArg (fun z => _ * z) e1.symm), hrdU]

@@ -290,7 +290,7 @@ def gsLocalEmbeddings : LocalEmbeddings K where
 
 omit [Fintype S] [NeZero n] in
 theorem gsLocalEmbeddings_fin (v : S) : (gsLocalEmbeddings S ιs).fin v = ιs v :=
-  dif_pos v.2
+  dite_eq_left v.2
 
 
 omit [Fintype S] in

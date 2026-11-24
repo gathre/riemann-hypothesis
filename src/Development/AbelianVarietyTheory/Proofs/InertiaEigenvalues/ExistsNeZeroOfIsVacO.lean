@@ -87,7 +87,7 @@ theorem exists_ne_zero_of_isVacO {ψ : AddChar (AF D.host.F) ℂ} {θ : InfFam D
     {LS : Set (Fin S.rank → D.host.E)} {LT : Set (Fin T.rank → D.host.E)} {f : WO S T → ℂ}
     (hf : IsVacO ψ θ S T sS sT LS LT f) : ∃ w, f w ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨⟨p, hp⟩, hn⟩ := hf.2.norm
   have := hn p hp
   have h0 : f = 0 := funext h

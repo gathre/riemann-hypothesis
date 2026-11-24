@@ -960,7 +960,7 @@ private theorem span_entry {K n Γ : Type} [Field K] [Fintype n] [DecidableEq n]
     (h : a * m = 1) (hf : Submodule.span K (Set.range f) = ⊤) (i j : n) : ∃ g, (a * f g * m) i j ≠ 0 := by
   classical
   by_contra hall
-  push_neg at hall
+  push Not at hall
   let L : Matrix n n K →ₗ[K] K :=
     { toFun := fun X => (a * X * m) i j
       map_add' := by intro X Y; simp [Matrix.mul_add, Matrix.add_mul]

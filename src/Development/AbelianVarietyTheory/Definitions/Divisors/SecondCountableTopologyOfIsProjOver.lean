@@ -675,7 +675,7 @@ theorem fubiniStudyWeight_projPoint (v : Unimodular ℂ N) (i : Fin (N + 1)) (hi
     (fsO1 k σ N).φ i (projPt σ v) = Real.log (∑ a, ‖v.1 a / v.1 i‖ ^ 2) := by
   refine (Weight.fsBasis_φ _ _ _ _ _ _ _).trans (congrArg _ (Finset.sum_congr rfl fun a _ => ?_))
   simp only [Matrix.one_apply, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ,
-    if_true]
+    ite_true]
   rw [div_eq_mul_inv, ← Ring.inverse_eq_inv, ← valR_pt_ratio σ v.1 v.2 hi.isUnit a]
   rfl
 

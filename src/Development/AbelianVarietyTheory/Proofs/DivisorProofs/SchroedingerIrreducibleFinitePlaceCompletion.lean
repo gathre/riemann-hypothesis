@@ -72,7 +72,7 @@ theorem norm_addChar_eq_one {k : Type} [Field k] [ValuativeRel k] [TopologicalSp
       (IsNonarchimedeanLocalField.isCompact_closedBall k 1).image (by fun_prop)
     obtain ⟨C, hC⟩ := (hK.image (continuous_norm.comp hψ)).isBounded.exists_norm_le
     by_contra h
-    push_neg at h
+    push Not at h
     obtain ⟨n, hn⟩ := pow_unbounded_of_one_lt C h
     have hmem : ‖ψ (y * (n : k))‖ ∈ (fun z => ‖ψ z‖) '' ((fun u : k => y * u) '' (𝒪[k] : Set k)) :=
       ⟨y * n, ⟨n, natCast_mem _ n, rfl⟩, rfl⟩

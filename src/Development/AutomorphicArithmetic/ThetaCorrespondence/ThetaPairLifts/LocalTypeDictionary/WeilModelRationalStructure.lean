@@ -109,10 +109,10 @@ theorem subst_mem_fg : ∀ {D : Formalism.BasicNotions.D7} {a b : ℕ} (τ : For
       unfold GlobalTheory.IndefiniteRowSideFullHecke.RaisingLoweringOperators.subst
       rw [MvPolynomial.aeval_X]
       by_cases hv : v.1 = τ
-      · rw [if_pos hv]
+      · rw [ite_eq_left hv]
         refine Submodule.sum_mem _ fun l _ => Submodule.sum_mem _ fun m _ => Submodule.smul_mem _ _ ?_
         exact Submodule.subset_span (Set.mem_insert_of_mem _ ⟨(l, m), rfl⟩)
-      · rw [if_neg hv]
+      · rw [ite_eq_right hv]
         exact Submodule.subset_span (Set.mem_insert _ _)) P
   exact ⟨V, hV, fun g k => hV' (g, k)⟩
 

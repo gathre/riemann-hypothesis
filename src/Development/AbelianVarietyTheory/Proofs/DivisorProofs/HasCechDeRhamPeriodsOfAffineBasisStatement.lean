@@ -81,7 +81,7 @@ theorem isPer_of_basis : ∀ (A : Over (Sp ℂ)) [GrpObj A] (g : ℕ) (L : LB A.
     intro U i hi z hz
     have hzU : z ∈ pre u.ex U.1 := hmono _ _ hi hz
     obtain ⟨hj, hzj⟩ := (hbasis U z hzU).choose_spec
-    simp only [h, dif_pos hzU]
+    simp only [h, dite_eq_left hzU]
     generalize_proofs p1 p2
     generalize p1.choose = j at *
     obtain ⟨l, hli, hlj, hzl, e1, e2⟩ := hcomp i j z hz hzj

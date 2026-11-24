@@ -175,7 +175,7 @@ theorem exists_good_local [IsLocalRing R] {X : Scheme.{0}} [X.IsSeparated] (L : 
   refine ⟨fun f => if h : ∃ g : Sp R ⟶ X, f = jK R ≫ g then d (h.choose (closedPoint R)) else d (f x), fun f => ?_,
     fun g => ?_⟩
   · by_cases h : ∃ g : Sp R ⟶ X, f = jK R ≫ g
-    · simp only [dif_pos h]
+    · simp only [dite_eq_left h]
       have htop : (⊤ : (Sp R).Opens) ≤ h.choose ⁻¹ᵁ L.U (d (h.choose (closedPoint R))) :=
         ((IsLocalRing.closedPoint_mem_iff _).1 (hd _)).ge
       have e : f x = h.choose (jK R x) := by
@@ -183,10 +183,10 @@ theorem exists_good_local [IsLocalRing R] {X : Scheme.{0}} [X.IsSeparated] (L : 
         rfl
       rw [e]
       exact htop (show jK R x ∈ (⊤ : (Sp R).Opens) from trivial)
-    · simp only [dif_neg h]
+    · simp only [dite_eq_right h]
       exact hd _
   · have h : ∃ g' : Sp R ⟶ X, jK R ≫ g = jK R ≫ g' := ⟨g, rfl⟩
-    simp only [dif_pos h]
+    simp only [dite_eq_left h]
     rw [← jK_cancel h.choose_spec]
     exact hd _
 
@@ -455,8 +455,8 @@ theorem main : ∀ (V₁ : Type) [CommRing V₁] [IsDomain V₁] [IsLocalRing V�
     · haveI := hq v
       rw [MonObj.mul_comp, Category.assoc, Category.assoc, hsc]
       by_cases h : v = u
-      · simp only [y, h, if_true, Category.comp_id]
-      · simp only [y, h, if_false, comp_one, _root_.mul_one]
+      · simp only [y, h, ite_true, Category.comp_id]
+      · simp only [y, h, ite_false, comp_one, _root_.mul_one]
   choose d hd using fun u => GlobalTheory.Poinc.HomTor.exists_torMatch V₁ hB G hG D P U G₀ hG₀ D₀ A₀ U₀ (sc u) (hscm u)
   obtain ⟨hid₀, hone₀, -⟩ := torMatch_id_one_mul V₁ hB G₀ hG₀ D₀ A₀ U₀ G₀ hG₀ D₀ A₀ U₀
   obtain ⟨hid, hone, hmul⟩ := torMatch_id_one_mul V₁ hB G hG D P U G hG D P U
@@ -467,9 +467,9 @@ theorem main : ∀ (V₁ : Type) [CommRing V₁] [IsDomain V₁] [IsLocalRing V�
       (RingHom.id V₁) (sc u).left Function.injective_id (fun k hk => hk) (c v) (d u) (hc v) (hd u)
     rw [RingHom.id_comp, ← Over.comp_left, hsc] at h
     by_cases huv : v = u
-    · simp only [y, huv, if_true, Over.id_left] at h ⊢
+    · simp only [y, huv, ite_true, Over.id_left] at h ⊢
       exact torMatch_unique V₁ hB G₀ hG₀ D₀ A₀ U₀ V₁ hB G₀ hG₀ D₀ A₀ U₀ (RingHom.id V₁) _ Function.injective_id _ _ h hid₀
-    · simp only [y, huv, if_false] at h ⊢
+    · simp only [y, huv, ite_false] at h ⊢
       exact torMatch_unique V₁ hB G₀ hG₀ D₀ A₀ U₀ V₁ hB G₀ hG₀ D₀ A₀ U₀ (RingHom.id V₁) _ Function.injective_id _ _ h hone₀
   have dsum : ∀ (χ : Fin 8 → D₀.toPre.X) w, d w (∑ u, c u (χ u)) = χ w := by
     intro χ w
@@ -486,10 +486,10 @@ theorem main : ∀ (V₁ : Type) [CommRing V₁] [IsDomain V₁] [IsLocalRing V�
     refine (huniv G q).unique (fun w => ?_) (fun w => Category.id_comp _)
     haveI := hq w
     rw [prod_comp, Finset.prod_eq_single w]
-    · rw [Category.assoc, hsc]; simp only [y, if_true, Category.comp_id]
+    · rw [Category.assoc, hsc]; simp only [y, ite_true, Category.comp_id]
     · intro b _ hb
       rw [Category.assoc, hsc]
-      simp only [y, Ne.symm hb, if_false, comp_one]
+      simp only [y, Ne.symm hb, ite_false, comp_one]
     · intro h; exact absurd (Finset.mem_univ w) h
   have hs : ∀ s : Finset (Fin 8), TorMatch U U (RingHom.id V₁) (∏ v ∈ s, q v ≫ sc v).left
       (∑ v ∈ s, (c v).comp (d v)) := by

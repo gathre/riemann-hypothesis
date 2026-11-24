@@ -76,9 +76,9 @@ theorem isKSRow_of_isKSValue : ∀ (E : Type) [Field E] [NumberField E] [IsCMFie
     intro a
     congr 1
     rw [Finset.sum_eq_single (e ⟨conjEmb τ, a₀⟩)]
-    · rw [hf, Equiv.symm_apply_apply, if_pos rfl, mul_one]
+    · rw [hf, Equiv.symm_apply_apply, ite_eq_left rfl, mul_one]
     · intro b _ hb'
-      rw [hf, if_neg, mul_zero]
+      rw [hf, ite_eq_right, mul_zero]
       intro hq
       exact hb' (by rw [← hq, Equiv.apply_symm_apply])
     · intro hn; exact absurd (Finset.mem_univ _) hn

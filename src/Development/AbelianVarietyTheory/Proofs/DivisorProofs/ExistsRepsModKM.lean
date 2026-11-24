@@ -259,7 +259,7 @@ theorem exists_reps_mod_KM : ∀ (E : Type) [Field E] [NumberField E] [IsCMField
   · intro g hg hdet
     let g' : K1 := ⟨g, hg, hdet⟩
     have hex' : ∃ g'' : K1, τ g'' = τ g' := ⟨g', rfl⟩
-    have hσ : σ (τ g') = hex'.choose.1 := dif_pos hex'
+    have hσ : σ (τ g') = hex'.choose.1 := dite_eq_left hex'
     have hsτ : τ hex'.choose = τ g' := hex'.choose_spec
     set s' := hex'.choose with hs'
     refine ⟨s'.1, Finset.mem_image.2 ⟨τ g', Fintype.mem_piFinset.2 fun i => hτT g' i, hσ⟩, s'.2.1, s'.2.2,

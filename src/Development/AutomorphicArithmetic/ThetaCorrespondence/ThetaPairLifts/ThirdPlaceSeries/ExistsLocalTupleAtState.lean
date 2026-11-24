@@ -201,7 +201,7 @@ theorem tupT_muTw {v : B.places.Pl} (hv : TwistedAt (Dof x) v) :
 theorem xi_mu (ch : NChoice (Dof x)) {v : B.places.Pl} (hv : TwistedAt (Dof x) v) {ψ : HChar (Dof x).host.E} (e : ψ = T.psi v) :
     x.m.z.R.xiH (x.m.z.R.mu ((Dof x).plEq v)) = x.m.z.R.C.delAt ((Dof x).ntw.l (ch.twI v)) * ψ := by
   have h1 := (x.m.z.mu v).2
-  rw [if_pos (mem_Wt x hv)] at h1
+  rw [ite_eq_left (mem_Wt x hv)] at h1
   refine ((x.m.z.lev.xiH _).trans h1).trans ?_
   refine Eq.trans ?_ (congrArg₂ (· * ·) (congrArg₂ CharFrame.delAt x.m.z.lev.C (ch.twI_l v)) e).symm
   rfl

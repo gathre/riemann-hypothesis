@@ -92,7 +92,7 @@ theorem _root_.GlobalTheory.FieldPair.nonUnit_iff {R : Subring K} (f : R) :
   · intro hnu
     refine ⟨f.2, ?_⟩
     by_contra h
-    push_neg at h
+    push Not at h
     apply hnu
     exact IsUnit.of_mul_eq_one (b := (⟨_, h.2⟩ : R)) (Subtype.ext (by simp [h.1]))
 

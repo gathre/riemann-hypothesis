@@ -106,12 +106,12 @@ theorem sim_pos : ∀ (p : ℕ) [Fact p.Prime] (G : HTGroup p) (B : GlobalTheory
     · have a1 := h1.1 hv
       have a2 := h2.1 hv
       by_contra hn
-      push_neg at hn
+      push Not at hn
       nlinarith
     · have a1 := h1.2 hv
       have a2 := h2.2 hv
       by_contra hn
-      push_neg at hn
+      push Not at hn
       nlinarith
   exact_mod_cast hs
 

@@ -486,7 +486,7 @@ theorem avg_mixS_ne_zero : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ), IsStdC
   obtain rfl : H = halfMx (cA D e) T.rank ρ := AddSubgroup.ext fun x => hH x
   obtain ⟨f, hf, hmix⟩ := exists_mixS_zero hψ d hμ hf₀
   by_contra hall
-  push_neg at hall
+  push Not at hall
   obtain ⟨-, hY, -⟩ := GlobalTheory.HeisMixSource.heis_mixS D ψ hψ S S₀ T ρ d ⟨μ, 𝓕, hμ⟩ f hf
   obtain ⟨⟨U, hU, hUinv⟩, K, hK, hKs⟩ := GlobalTheory.MixHalf.mixS_half D ψ hψ S S₀ T ρ d μ 𝓕 hμ e he f hf
   obtain ⟨L, hL, hLU, hsep⟩ := GlobalTheory.HalfSeparate.exists_open_separated D ψ hψ T ρ e he

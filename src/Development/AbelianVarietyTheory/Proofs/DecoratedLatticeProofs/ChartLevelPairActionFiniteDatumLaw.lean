@@ -354,7 +354,7 @@ theorem exists_level_elt_all : ∀ {B : Base} {X : PreX B.toPre} (I : TC B X), I
         simp [Ne.symm h]
   obtain ⟨w, hw⟩ : ∃ w : S.U, w = ((Finset.univ : Finset (SBof I a)).toList.map zf).prod := ⟨_, rfl⟩
   have hwP : ∀ P : SBof I a, cP P.1 (ι w) = cP P.1 (ι (zf P)) := fun P => by
-    rw [hw, hlistP _ (Finset.nodup_toList _) P, if_pos (Finset.mem_toList.2 (Finset.mem_univ _))]
+    rw [hw, hlistP _ (Finset.nodup_toList _) P, ite_eq_left (Finset.mem_toList.2 (Finset.mem_univ _))]
   have hchiw : S.chi w = 1 := by
     rw [hw, map_list_prod]
     refine List.prod_eq_one fun x hx => ?_
@@ -438,7 +438,7 @@ theorem inv_entry_le {n : ℕ} (X Y : Matrix (Fin n) (Fin n) R) (hXY : X * Y = 1
     rw [Matrix.sub_mul, hXY, Matrix.one_mul, neg_sub]
   have hb : ∀ r s, v (Y r s) ≤ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨r, s, hrs⟩ := hcon
     obtain ⟨p, -, hp⟩ := Finset.exists_max_image Finset.univ (fun p : Fin n × Fin n => v (Y p.1 p.2))
       ⟨(r, s), Finset.mem_univ _⟩
@@ -506,7 +506,7 @@ theorem exists_exp_le_natCast {E : Type} [Field E] [NumberField E] (L : ℕ) (hL
   have e1 : ((L : ℕ) : P.adicCompletion E) = algebraMap E _ (algebraMap (𝓞 E) E ((L : ℕ) : 𝓞 E)) := by simp
   rw [e1, GlobalTheory.Mem.Col2.valued_algebraMap, HeightOneSpectrum.valuation_of_algebraMap]
   by_contra h
-  push_neg at h
+  push Not at h
   have hd := (HeightOneSpectrum.intValuation_le_pow_iff_dvd P _ m).1 h.le
   have h2 : Ideal.absNorm (P.asIdeal ^ m) ∣ m := map_dvd Ideal.absNorm hd
   rw [map_pow] at h2

@@ -514,7 +514,7 @@ theorem schur_norm (C : Ctx σ B JS JT ξ₀ θ ι) (M : Module.End ℂ (WOF F E
       have := congrArg (fun t : NNReal => (t : ℝ)) e3
       simpa using this
     exact ⟨c, (pow_eq_one_iff_of_nonneg (norm_nonneg c) two_ne_zero).1 e4, hc⟩
-  · push_neg at h0
+  · push Not at h0
     refine ⟨1, norm_one, fun f hf => ?_⟩
     have : f = 0 := funext fun y => h0 f y hf
     subst this

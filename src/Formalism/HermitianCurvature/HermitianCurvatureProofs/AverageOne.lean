@@ -186,7 +186,7 @@ lemma sdiff1 (R : ℕ) (j : ι) :
       by_cases hk : k = i
       · subst hk; simp; omega
       · simp [hk]
-  · simp only [Function.update_apply, hij, if_false]
+  · simp only [Function.update_apply, hij, ite_false]
     exact hb i
 
 lemma sdiff2 (R : ℕ) (j : ι) :
@@ -211,7 +211,7 @@ lemma sdiff2 (R : ℕ) (j : ι) :
     by_cases hk : k = i
     · subst hk; simp; omega
     · have := hb k; simp only [Finset.mem_range] at this; simp [hk, this]
-  · simp only [Function.update_apply, hij, if_false, Pi.add_apply]
+  · simp only [Function.update_apply, hij, ite_false, Pi.add_apply]
     simp [hij]
     simpa using hb i
 

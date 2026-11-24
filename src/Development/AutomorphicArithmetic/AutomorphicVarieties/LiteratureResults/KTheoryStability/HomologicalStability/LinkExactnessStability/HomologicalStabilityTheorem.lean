@@ -203,7 +203,7 @@ theorem injective_stabilisation_bottom_of_rows_exact : ∀ (k G : Type) [CommRin
       exact hsur (p + 1) q (by simpa using hodd.add_one) (by omega) (by omega)
   have h0 := hcomm 0 i (by omega)
   have h1 := hcomm 1 i (by omega)
-  simp only [Even.zero, if_true] at h0
+  simp only [Even.zero, ite_true] at h0
   have h1' : e 2 i ≫ hMap (d 1) i = 0 := by
     simpa using h1
   haveI := hiso 1 i (by omega)
@@ -288,7 +288,7 @@ theorem stab_surj_bottom : ∀ (k G : Type) [CommRing k] [Group G] (i : ℕ) (C 
   have h0 : e 1 i ≫ hMap (d 0) i = s 0 i ≫ e 0 i := by
     have hev : Even 0 := ⟨0, rfl⟩
     rw [hsq 0 i (by omega)]
-    exact if_pos hev
+    exact ite_eq_left hev
   haveI := hiso 0 i (by omega)
   haveI := hiso 1 i (by omega)
   have b0 := ConcreteCategory.bijective_of_isIso (e 0 i)

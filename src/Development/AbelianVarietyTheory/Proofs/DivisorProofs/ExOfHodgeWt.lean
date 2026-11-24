@@ -71,15 +71,15 @@ theorem exOf_hodgeWt (Dw : Datum H) :
   · rfl
   · simp only [GlobalTheory.AllWt.exOf, exZ, GlobalTheory.AllWt.wtOf, Option.elim, offCM, hodgeWt, CompHt.barWt]
     by_cases h : τ (H.rt : E) = H.rt0
-    · simp only [dif_pos h, if_pos h]
+    · simp only [dite_eq_left h, ite_eq_left h]
       split_ifs <;> omega
     · have hm : Dw.mult τ = Dw.q := by simp [Datum.mult, h]
       have hi : (i : ℕ) < Dw.q := lt_of_lt_of_eq i.2 hm
-      simp only [dif_neg h, if_neg h]
+      simp only [dite_eq_right h, ite_eq_right h]
       by_cases h' : conjEmb τ (H.rt : E) = H.rt0
-      · simp only [dif_pos h', if_pos h', dif_pos hi]
+      · simp only [dite_eq_left h', ite_eq_left h', dite_eq_left hi]
         split_ifs <;> omega
-      · simp only [dif_neg h', if_neg h']
+      · simp only [dite_eq_right h', ite_eq_right h']
 
 variable {Dw : Datum H} {l : Level H} {Xo : Moduli Dw l} {c : Coeff l}
 

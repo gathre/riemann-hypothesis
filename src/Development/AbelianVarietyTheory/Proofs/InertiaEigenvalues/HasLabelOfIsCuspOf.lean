@@ -74,7 +74,7 @@ theorem tr_eSerC_eq (L : LabelDatum g) {n : ℕ} {χ : Gn g n → ℂ} {f : (ZMo
     · simpa using (_root_.GlobalTheory.GLq.ZOrth.zorth _ χ χ hχ hχ).1
     · intro b hb hne
       have hb' : IsIrr b := by simpa using (Finset.mem_filter.1 hb).1
-      rw [(_root_.GlobalTheory.GLq.ZOrth.zorth _ b χ hb' hχ).1, if_neg hne]
+      rw [(_root_.GlobalTheory.GLq.ZOrth.zorth _ b χ hb' hχ).1, ite_eq_right hne]
   have h := congrArg (fun a : MonoidAlgebra ℂ (Gn g n) => a.coeff 1) hz
   simp only [(_root_.GlobalTheory.GLq.trIdem _ _ χ).2.2] at h
   obtain ⟨d, hd, e⟩ := (_root_.GlobalTheory.GLq.trIdem _ 1 χ).2.1 hχ
@@ -90,7 +90,7 @@ theorem hasLabel_of_isCuspOf (L : LabelDatum g) {d : ℕ} {P : (ZMod g)[X]} {χ 
     obtain ⟨V, -, hV⟩ := hχ
     rw [← hV, ← hV, FDRep.char_conj]
   have e : hcL ([(P, (⟨d, χ⟩ : Pc g))].map Prod.snd) d = χ := GLq.Model.hc_full χ hc
-  rw [e, (_root_.GlobalTheory.GLq.ZOrth.zorth _ χ χ hχ hχ).2.2, if_pos rfl]
+  rw [e, (_root_.GlobalTheory.GLq.ZOrth.zorth _ χ χ hχ hχ).2.2, ite_eq_left rfl]
   exact one_ne_zero
 
 theorem labelsCusp (L : LabelDatum g) (h5 : 5 ≤ g) (hG : Green) :

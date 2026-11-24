@@ -87,7 +87,7 @@ theorem isMultiHomog_C (r : ℤ) : IsMultiHomog (C r : MRing ι) 0 := by
   intro m hm k
   have : m = 0 := by
     by_contra h
-    exact (mem_support_iff.mp hm) (by rw [coeff_C, if_neg (Ne.symm h)])
+    exact (mem_support_iff.mp hm) (by rw [coeff_C, ite_eq_right (Ne.symm h)])
   subst this
   simp
 

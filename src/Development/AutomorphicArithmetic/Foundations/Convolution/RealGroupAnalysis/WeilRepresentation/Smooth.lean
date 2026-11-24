@@ -563,7 +563,7 @@ theorem UpperTheory.ConvolutionTheory.R2.Ff.derX :
     exact hasDerivAt_const _ _
   · obtain ⟨g, hg⟩ : ∃ g, f.1 g ≠ 0 := by
       by_contra hn
-      push_neg at hn
+      push Not at hn
       exact h0 (funext hn)
     have hcv := TR.hasDerivAt_curve f g c _ hc0 hc.2
     have hχ : HasDerivAt χ (TR.lieD (zF (trI F s)) f.1 g / f.1 g) 0 := by

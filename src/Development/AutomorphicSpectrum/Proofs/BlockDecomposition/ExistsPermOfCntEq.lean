@@ -107,7 +107,7 @@ theorem coef_cnt {ι : Type} {m : ℕ} (F : (Fin m → ι) → ℝ)
 
 theorem coef_of_degree_ne {ι : Type} {m : ℕ} (F : (Fin m → ι) → ℝ) {k : ι →₀ ℕ}
     (hk : k.degree ≠ m) : coef F k = 0 := by
-  refine dif_neg ?_
+  refine dite_eq_right ?_
   rintro ⟨f, rfl⟩
   exact hk (degree_cnt f)
 

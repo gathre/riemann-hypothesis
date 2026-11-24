@@ -493,7 +493,7 @@ theorem coeffOcc_of : CoeffOcc := by
     rw [Finset.sum_eq_single i]
     · simp
     · intro j _ hji
-      rw [if_neg (fun e => hji (hinj e).symm), mul_zero]
+      rw [ite_eq_right (fun e => hji (hinj e).symm), mul_zero]
     · intro hi
       exact absurd (Finset.mem_univ i) hi
   have hP : P.coeff (h i) = if h i ∈ Finset.range (d + 1) then (-1) ^ (h i) * t (h i) else 0 := by
@@ -830,7 +830,7 @@ theorem UpperTheory.Gal.LocalSmoothExtension.hodgeEig_of :
   intro gb hgb T N σ i₀ h hH J ψ θ f hψ hf hS i
   have hκ : (hTr p D G L (conjWt σ lam) i₀ h hH).choose ≤ k := by
     have := hkB σ i₀ h hH
-    simpa only [κ, dif_pos hH] using this
+    simpa only [κ, dite_eq_left hH] using this
   obtain ⟨c, hc⟩ := (hTr p D G L (conjWt σ lam) i₀ h hH).choose_spec k hκ
   obtain ⟨hproj, d, hd⟩ := hProj p D G L hSc gb k T N
   have hcT := hc hSc gb hgb T N d hd

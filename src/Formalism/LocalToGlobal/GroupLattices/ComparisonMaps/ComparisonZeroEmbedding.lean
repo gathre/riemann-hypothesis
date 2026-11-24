@@ -91,7 +91,7 @@ def chainFirst (M : CmpMaps c Tw u w h Lv) : Chain Lv where
 theorem chainFirst_Kz (M : CmpMaps c Tw u w h Lv) (j : ℕ) (hj : j < D.R.m) :
     (chainFirst M).Kz j =
       extK (M.cmp j) (M.cmp (j + 1)) ((Tw.fm u (D.what₂.muAt w)).lat j).b (M.li j hj.le) (KLx Tw u w j) :=
-  dif_pos hj
+  dite_eq_left hj
 
 theorem chainFirst_apply (M : CmpMaps c Tw u w h Lv) (j : ℕ) (hj : j < D.R.m)
     (x : ((Tw.fm u (D.what₂.muAt w)).lat j).V) :

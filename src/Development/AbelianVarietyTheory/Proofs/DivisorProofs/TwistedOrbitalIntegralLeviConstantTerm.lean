@@ -360,12 +360,12 @@ theorem blk_mem_parP : ∀ (E : Type) [Field E] [NumberField E] (n a b : ℕ) (h
     intro i j hij
     have hj : (j : ℕ) < a := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       simp only [hc, decide_true] at hij
       exact (by decide : ∀ c : Bool, ¬ (true < c)) _ hij
     have hi : a ≤ (i : ℕ) := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       simp only [not_le.2 hc, decide_false] at hij
       exact (by decide : ∀ c : Bool, ¬ (c < false)) _ hij
     simp only [Matrix.reindex_apply, Matrix.submatrix_apply]

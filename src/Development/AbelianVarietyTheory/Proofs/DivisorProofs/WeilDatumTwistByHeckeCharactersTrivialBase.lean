@@ -146,7 +146,7 @@ theorem root_rat (hcm : IsCMExt F E σ) (hJ : J.det ≠ 0) (γ : GAF σ J) (hγ 
   rw [hdet, hc, ← map_mul, ← map_one (incAF F E)] at hu
   have hne : ∃ y, (σ : E →+* E) y ≠ y := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact InertChart.conj_ne hcm h
   obtain ⟨x, hx⟩ := GlobalTheory.Member.exists_root_of_norm_one (σ : E →+* E) (InertChart.conj_conj hcm) hne _
     (by rw [mul_comm]; exact hinj hu)

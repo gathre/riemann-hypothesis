@@ -83,9 +83,9 @@ theorem exists_E_eq {l : ℕ} [Fact l.Prime] {K : FinExt l} (bk : BK K) :
     refine (Polynomial.C_dvd_iff_dvd_coeff _ _).2 fun i => ?_
     rw [Polynomial.coeff_sub, Polynomial.coeff_X_pow]
     rcases lt_trichotomy i bk.Ep.natDegree with h | h | h
-    · rw [if_neg h.ne, sub_zero]; exact bk.dvd_coeff i h
-    · rw [h, if_pos rfl, bk.monic.coeff_natDegree, sub_self]; exact dvd_zero _
-    · rw [if_neg h.ne', sub_zero, Polynomial.coeff_eq_zero_of_natDegree_lt h]; exact dvd_zero _
+    · rw [ite_eq_right h.ne, sub_zero]; exact bk.dvd_coeff i h
+    · rw [h, ite_eq_left rfl, bk.monic.coeff_natDegree, sub_self]; exact dvd_zero _
+    · rw [ite_eq_right h.ne', sub_zero, Polynomial.coeff_eq_zero_of_natDegree_lt h]; exact dvd_zero _
   obtain ⟨q, hq⟩ := hd
   have h2 : bk.Ep = Polynomial.X ^ bk.Ep.natDegree + Polynomial.C (l : Wq l bk.a) * q := by
     rw [← hq]; ring

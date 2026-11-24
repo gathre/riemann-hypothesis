@@ -63,15 +63,15 @@ theorem Phi_mul_self (a : ℕ) : GlobalTheory.Tw.Phi a R * GlobalTheory.Tw.Phi a
   simp only [Matrix.mul_apply, GlobalTheory.Tw.Phi, Matrix.of_apply, Matrix.smul_apply, smul_eq_mul]
   rw [Finset.sum_eq_single i.rev]
   · have h1 : (i : ℕ) + (i.rev : ℕ) + 1 = a := by rw [Fin.val_rev]; omega
-    rw [if_pos h1]
+    rw [ite_eq_left h1]
     by_cases h : k = i
     · subst h
-      rw [if_pos (by rw [Fin.val_rev]; omega), Matrix.one_apply_eq, mul_one, ← pow_add]
+      rw [ite_eq_left (by rw [Fin.val_rev]; omega), Matrix.one_apply_eq, mul_one, ← pow_add]
       congr 1
       rw [Fin.val_rev]; omega
-    · rw [if_neg (fun h2 => h (Fin.ext (by rw [Fin.val_rev] at h2; omega))), Matrix.one_apply_ne (Ne.symm h), mul_zero, mul_zero]
+    · rw [ite_eq_right (fun h2 => h (Fin.ext (by rw [Fin.val_rev] at h2; omega))), Matrix.one_apply_ne (Ne.symm h), mul_zero, mul_zero]
   · intro j _ hj
-    rw [if_neg (fun h => hj (Fin.ext (by rw [Fin.val_rev]; omega))), zero_mul]
+    rw [ite_eq_right (fun h => hj (Fin.ext (by rw [Fin.val_rev]; omega))), zero_mul]
   · simp
 
 theorem thetaGL_val (a : ℕ) (c : R →+* R) (g : GL (Fin a) R) :

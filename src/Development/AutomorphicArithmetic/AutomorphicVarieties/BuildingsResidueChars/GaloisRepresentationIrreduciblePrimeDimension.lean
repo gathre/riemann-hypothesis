@@ -278,7 +278,7 @@ private theorem exists_proj {K H V : Type} [Field K] [Group H] [AddCommGroup V] 
     exact hv ((Submodule.mem_bot K).1 hv')
   obtain ⟨W, hW0, hW1⟩ : ∃ W : Subrepresentation τ, W ≠ ⊥ ∧ W ≠ ⊤ := by
     by_contra hW
-    push_neg at hW
+    push Not at hW
     exact hn { exists_pair_ne := ⟨⊥, ⊤, hnt⟩
                eq_bot_or_eq_top := fun W => (em (W = ⊥)).imp_right (hW W) }
   obtain ⟨W', hWW'⟩ := exists_isCompl W

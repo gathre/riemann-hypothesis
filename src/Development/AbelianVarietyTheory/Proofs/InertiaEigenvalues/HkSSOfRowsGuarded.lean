@@ -1402,7 +1402,7 @@ theorem hkSS_of_rows_guarded {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 I0 T
   unfold Eigsp
   refine le_iInf fun k => le_iInf fun P => le_iInf fun h => ?_
   refine (iInf_le _ ⟨(k, P), h⟩).trans ?_
-  simp only [dif_pos h]
+  simp only [dite_eq_left h]
   exact le_rfl
 
 end GlobalTheory.GoodSpan

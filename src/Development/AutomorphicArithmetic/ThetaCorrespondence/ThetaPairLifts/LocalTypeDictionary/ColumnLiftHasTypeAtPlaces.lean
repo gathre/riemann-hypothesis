@@ -289,7 +289,7 @@ theorem dual_frame : ∀ {G H : Type} [Mul G] [NormedAddCommGroup H] [InnerProdu
       intro i
 
       simp only [A', comp_sum', LinearMap.comp_smul, map_sum, map_smul, hdual, smul_eq_mul,
-      mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+      mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
     have hvan : ∀ C ∈ W, LinearMap.trace ℂ H (C ∘ₗ A') = LinearMap.trace ℂ H (C ∘ₗ A) := by
       intro C hC
       have h1 := congrArg Subtype.val (b.sum_repr ⟨C, hC⟩)
@@ -332,7 +332,7 @@ theorem expand_pi_of_expand_each {ι : Type} [Fintype ι] [DecidableEq ι] {X : 
       exact absurd j.2 (by omega)
     haveI : IsEmpty (∀ i, Fin (m i)) := ⟨fun J => by have := (J i0).2; omega⟩
     rw [h1, Finset.univ_eq_empty, Finset.sum_empty]
-  push_neg at hm
+  push Not at hm
   let j0 : ∀ i, Fin (m i) := fun i => ⟨0, Nat.pos_of_ne_zero (hm i)⟩
   let T : Finset ι → ∀ i, Finset (Fin (m i)) := fun s i => if i ∈ s then Finset.univ else {j0 i}
   let H : Finset ι → (∀ i, Fin (m i)) → (∀ i, X i) → (∀ i, X i) :=

@@ -276,17 +276,17 @@ theorem barE_eq_piBarO {D : D7} (EX : ErrX D) (i : Fin 2) : barE D (EX.piG i) = 
 theorem cP_of_mem_small (D : D7) (Tn : ℕ+) (N p : ℕ) (hp : p ∈ D.host.small) :
     (depPageOf D Tn (GlobalTheory.RunDepth.vdOf D)).cP N p = ⌈(padicValNat p D.host.QS : ℝ) * (N : ℝ)⌉.toNat := by
   unfold DepPage.cP
-  rw [if_pos (show (depPageOf D Tn (GlobalTheory.RunDepth.vdOf D)).IsRam p from Or.inl hp)]
+  rw [ite_eq_left (show (depPageOf D Tn (GlobalTheory.RunDepth.vdOf D)).IsRam p from Or.inl hp)]
   show ⌈GlobalTheory.RunDepth.vdOf D p * _⌉.toNat = _
-  rw [GlobalTheory.RunDepth.vdOf, if_pos hp]
+  rw [GlobalTheory.RunDepth.vdOf, ite_eq_left hp]
 
 theorem cP_of_isRam_of_notMem_small (D : D7) (Tn : ℕ+) {j : ℕ} (w : WeightFamilies.Wt D j) (p : ℕ) (hp : p ∉ D.host.small)
     (hr : (depPageOf D Tn (GlobalTheory.RunDepth.vdOf D)).IsRam p) :
     (depPageOf D Tn (GlobalTheory.RunDepth.vdOf D)).cP (WeightAlgebra.DF w) p = Formalism.MainNotions.DIV.Cons.cHalf w := by
   unfold DepPage.cP
-  rw [if_pos hr, ceil_toNat]
+  rw [ite_eq_left hr, ceil_toNat]
   show ⌈GlobalTheory.RunDepth.vdOf D p * _⌉₊ = _
-  rw [GlobalTheory.RunDepth.vdOf, if_neg hp, Formalism.MainNotions.DIV.Cons.cHalf]
+  rw [GlobalTheory.RunDepth.vdOf, ite_eq_right hp, Formalism.MainNotions.DIV.Cons.cHalf]
   congr 1; ring
 
 theorem depth_page_first_zeta_factor_eq_prime_power (D : D7) (Tn : ℕ+) {j : ℕ} (wL wF : WeightFamilies.Wt D j) :

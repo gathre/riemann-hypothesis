@@ -124,8 +124,8 @@ lemma ktint_exp_two_pi (a : Fin n) :
     by_cases h : a = i ∧ a = j
     · obtain ⟨rfl, rfl⟩ := h
       push_cast
-      simp only [and_self, if_true, mul_one]
-    · rw [if_neg h]
+      simp only [and_self, ite_true, mul_one]
+    · rw [ite_eq_right h]
       by_cases hij : i = j
       · subst hij
         have hia : i ≠ a := fun e => h ⟨e.symm, e.symm⟩
@@ -135,8 +135,8 @@ lemma ktint_exp_two_pi (a : Fin n) :
   congr 1
   funext i
   by_cases hi : i = a
-  · simp only [hi, if_true, ← Complex.exp_eq_exp_ℂ, Complex.exp_two_pi_mul_I]
-  · simp only [hi, if_false, NormedSpace.exp_zero]
+  · simp only [hi, ite_true, ← Complex.exp_eq_exp_ℂ, Complex.exp_two_pi_mul_I]
+  · simp only [hi, ite_false, NormedSpace.exp_zero]
 
 theorem kType_int {ε : Fin n → Bool} {Λ : Fin n → ℝ} (T : KType ε Λ) : ∀ a, ∃ m : ℤ, Λ a = m := by
   intro a
@@ -209,7 +209,7 @@ theorem inner_lower_self {V : Type*} [NormedAddCommGroup V] [InnerProductSpace �
     ⟪A b a w, A b a w⟫_ℂ = (((Λ a - Λ b : ℝ)) : ℂ) * ⟪w, w⟫_ℂ := by
   have hba : b ≠ a := ne_of_gt hab
   have hc := hR a b b a he he.symm
-  simp only [if_true] at hc
+  simp only [ite_true] at hc
   have hx := congrArg (fun F : Module.End ℂ V => F w) hc
   simp only [LinearMap.sub_apply, Module.End.mul_apply, hw.2 a b hab he, map_zero, sub_zero] at hx
   have h1 := hU b a he.symm w (A b a w)

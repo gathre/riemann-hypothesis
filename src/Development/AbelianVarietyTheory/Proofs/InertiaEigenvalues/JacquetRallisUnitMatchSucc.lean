@@ -179,7 +179,7 @@ theorem isTest_partialFourier {X F : Type} [TopologicalSpace X] [T2Space X] [Non
     · rw [mem_closedBall_zero_iff, not_le] at hu
       obtain ⟨i, hi⟩ : ∃ i, ‖a‖ / δ < ‖u i‖ := by
         by_contra h
-        push_neg at h
+        push Not at h
         exact (not_le.2 hu) ((pi_norm_le_iff_of_nonneg (by positivity)).2 h)
       have hui : u i ≠ 0 := by
         intro h

@@ -77,7 +77,7 @@ theorem xiOne (L Ω : Type) [Field L] [NumberField L] [Field Ω] [Algebra L Ω] 
   by_contra hne
   obtain ⟨g0, hg0⟩ : ∃ g0, ξ g0 ≠ 1 := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     exact hne (MonoidHom.ext hall)
   obtain ⟨huf, hep, hbad⟩ := Ga.badClosed L Ω l r hc
   set U : Set (G L Ω) := (fun g => g0⁻¹ * g) ⁻¹' (ξ.ker : Set (G L Ω)) with hU

@@ -146,7 +146,7 @@ def FramesOK {g : ℕ} (e : Fin g ≃ Σ τ : E →+* ℂ, Fin (Dw.mult τ))
 theorem rdU_mem (U : Unf Xo c σ r) (f : Rul Xo c) (k : U.Comp) {x : Frame (U.X k).Ψ r} (h : x ∈ (U.X k).dom) :
     rdU U f k x = toC (evR Xo c f (U.un k ⟨x, h⟩)) := by
   simp only [rdU, LinearMap.coe_mk, AddHom.coe_mk]
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 instance (σ : c.F →+* ℂ) : IsReduced (CAt σ) := inferInstanceAs (IsReduced ℂ)
 

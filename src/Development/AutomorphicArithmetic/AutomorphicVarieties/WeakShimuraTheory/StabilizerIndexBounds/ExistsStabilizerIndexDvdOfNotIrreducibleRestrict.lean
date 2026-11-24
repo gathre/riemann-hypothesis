@@ -252,7 +252,7 @@ theorem UpperTheory.V.Ws.exists_stabilizer_index_dvd_of_not_irreducible_restrict
             ← Nat.card_coe_set_eq, Nat.card_eq_fintype_card]
   obtain ⟨W0, hW0i, hW0b, hW0t⟩ : ∃ W, Inv W ∧ W ≠ ⊥ ∧ W ≠ ⊤ := by
     unfold U3.MatIrr at hnot
-    push_neg at hnot
+    push Not at hnot
     exact hnot
   have hex : ∃ k, ∃ X, Inv X ∧ X ≠ ⊥ ∧ Module.finrank K X = k := ⟨_, W0, hW0i, hW0b, rfl⟩
   obtain ⟨W, hWi, hWb, hWk⟩ := Nat.find_spec hex
@@ -332,7 +332,7 @@ theorem UpperTheory.V.Ws.exists_stabilizer_index_dvd_of_not_irreducible_restrict
     exact e1.symm.trans e2
   have hcover : ∀ i, ∃ g, b i ∈ tr g W := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     obtain ⟨i, hi⟩ := hc
     have hUi : ∀ g ∈ (⊤ : Subgroup G), ∀ v ∈ ⨆ h, tr h W, r g *ᵥ v ∈ ⨆ h, tr h W := by
       intro g _ v hv

@@ -419,7 +419,7 @@ theorem keepsDiag_of_diagCols {A : Type} [CommRing A] {n : ℕ} {M : Matrix (Fin
     rcases s with s | s <;>
       simpa only [Matrix.submatrix_apply, id, Equiv.symm_apply_apply, Matrix.fromRows_apply_inl,
         Matrix.fromRows_apply_inr, Matrix.one_apply, mul_ite, ite_mul, mul_one, one_mul, mul_zero, zero_mul,
-        Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, if_true, Sum.elim_inl, Sum.elim_inr] using h1
+        Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, ite_true, Sum.elim_inl, Sum.elim_inr] using h1
   refine ⟨(keepsDiag_iff _).2 fun i j => (key (.inr i) j).trans (key (.inl i) j).symm, ?_⟩
   ext i j
   exact key (.inl i) j
@@ -1153,7 +1153,7 @@ theorem two_families_scalar : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ), IsS
     refine ⟨star (Y j y) / star (X j y), fun i => ?_⟩
     funext x
     rw [Pi.smul_apply, smul_eq_mul, div_mul_eq_mul_div, eq_div_iff hs, h2 i j x y, mul_comm]
-  · push_neg at h0
+  · push Not at h0
     refine ⟨0, fun i => ?_⟩
     funext x
     have e1 := h2 i i x x

@@ -138,7 +138,7 @@ theorem _root_.GlobalTheory.Cris.ExpBij.dpFil_le {m : ℕ} (hm : 1 ≤ m) : _roo
   rintro x ⟨l, hl, hs, rfl⟩
   have hex : ∃ p ∈ l, p.1 ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hzero : (l.map Prod.fst).sum = 0 := by
       refine List.sum_eq_zero fun x hx => ?_
       obtain ⟨p, hp, rfl⟩ := List.mem_map.1 hx

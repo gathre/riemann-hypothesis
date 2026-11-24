@@ -1287,9 +1287,9 @@ theorem exists_conj_diag_of_idem (k : Type) [Field k] (r : ℕ) (ε : Matrix (Fi
   refine ⟨g, Matrix.ext_of_mulVec_single fun j => ?_⟩
   rw [← Matrix.mulVec_mulVec, ← Matrix.mulVec_mulVec, hcol, Matrix.diagonal_mulVec_single]
   by_cases hj : j.val < a
-  · simp only [hj, if_true, mul_one]
+  · simp only [hj, ite_true, mul_one]
     rw [hcol, hfix _ (hbU j hj)]
-  · simp only [hj, if_false, zero_mul, Pi.single_zero, Matrix.mulVec_zero]
+  · simp only [hj, ite_false, zero_mul, Pi.single_zero, Matrix.mulVec_zero]
     exact hbK j hj
 
 theorem diag_cond_iff (k : Type) [Field k] (r a : ℕ) (S : Matrix (Fin r) (Fin r) k) :
@@ -1308,7 +1308,7 @@ theorem diag_cond_iff (k : Type) [Field k] (r a : ℕ) (S : Matrix (Fin r) (Fin 
     by_cases hi : i.val < a
     · refine ⟨hi, ?_⟩
       by_contra hj
-      push_neg at hj
+      push Not at hj
       simp [hj] at hz
     · simp [hi] at hz
   · intro h

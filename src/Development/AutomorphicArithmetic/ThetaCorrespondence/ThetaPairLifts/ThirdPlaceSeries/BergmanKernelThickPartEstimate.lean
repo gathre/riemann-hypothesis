@@ -199,7 +199,7 @@ theorem le_bergOn : ∀ (D : D7) (j : ℕ) (H : ReciprocityTheory.ChartRestricti
     (fun _ _ _ _ _ => rfl)
   rw [Finset.sum_eq_single y.1 (f := fun k => ∫⁻ z in FF k, (if k = y.1 then (1 : ℝ≥0∞) else 0)
       ∂(muF ((U σ).X k) (x0 k))) (fun k _ hk => by simp [hk]) (fun h => absurd (Finset.mem_univ _) h),
-    if_pos rfl, setLIntegral_one] at hM
+    ite_eq_left rfl, setLIntegral_one] at hM
   set Cl := classesOver (D.sp.W j) (dict σ) (framesOn (U σ) Z) with hCl
   have hm : ∫⁻ q : AutQ (D.sp.W j), (if (dict σ q.out).1 = y.1 then (1 : ℝ≥0∞) else 0) ∂(muQ1 (D.sp.W j)) ≤
       muQ1 (D.sp.W j) Cl := by
@@ -450,14 +450,14 @@ theorem deep_cong_chart_sep : ∀ (E : Type) [Field E] [NumberField E] [IsCMFiel
   have hP4 : 1 ≤ P ^ 4 := one_le_pow₀ hP1
   have hla : 0 < X.firstMinimumSq x := by
     by_contra h
-    push_neg at h
+    push Not at h
     have := mul_nonpos_of_nonneg_of_nonpos (Nat.cast_nonneg M) h
     nlinarith
   obtain ⟨v, hvΛ, hli, φ, hφ, hvs⟩ := exists_short X x hdom hsd hla
   by_contra hne
   obtain ⟨i, hi⟩ : ∃ i, (γ : Matrix (Fin r) (Fin r) E) *ᵥ v i ≠ v i := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     apply hne
     have hcv : Fintype.card (Fin (2 * fdeg E * r)) = finrank ℚ (Fin r → E) := by
       rw [Fintype.card_fin, Module.finrank_pi_fintype, ShortVectors.finrank_eq]

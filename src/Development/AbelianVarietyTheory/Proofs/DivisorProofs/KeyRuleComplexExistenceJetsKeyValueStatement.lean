@@ -745,7 +745,7 @@ theorem exists_keyIn_nf :
         (2 * Real.pi * Complex.I : ℂ)⁻¹ • Mx i := by
       funext k
       simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, Pi.single_apply, mul_ite, MulZeroClass.mul_zero,
-        Finset.sum_ite_eq, Finset.mem_univ, if_true]
+        Finset.sum_ite_eq, Finset.mem_univ, ite_true]
       ring
     rw [e] at h1
     exact h1
@@ -1326,7 +1326,7 @@ theorem main_eq {N : NumD ℂ} {g' r g : ℕ} {bX : Module.Basis (Fin r) ℤ N.X
     have hq0 : 0 ≤ q := by
       rw [hq] at hnn
       have hp : (0:ℤ) < 2 * m ^ 2 := by positivity
-      by_contra hc; push_neg at hc
+      by_contra hc; push Not at hc
       have := mul_neg_of_pos_of_neg hp hc; linarith
     rw [hq, Int.mul_ediv_cancel_left _ hm2]
     have : ((q.toNat : ℕ) : ℂ) = (q : ℂ) := by exact_mod_cast Int.toNat_of_nonneg hq0

@@ -128,13 +128,13 @@ theorem lastMax_E_mul {h : K⟦X⟧} {d : ℕ}
   have hlow : ∀ n, n < e → ‖coeff n (E K l e * h)‖ * rad l (1 / (e : ℝ)) ^ n =
       ‖(l : K)‖ * (‖coeff n h‖ * rad l (1 / (e : ℝ)) ^ n) := by
     intro n hn
-    rw [coeff_E_mul', if_neg (not_le.mpr hn), zero_add, norm_mul]
+    rw [coeff_E_mul', ite_eq_right (not_le.mpr hn), zero_add, norm_mul]
     ring
   have hhigh : ∀ k, ‖coeff (k + e) (E K l e * h)‖ * rad l (1 / (e : ℝ)) ^ (k + e) ≤
       max (‖(l : K)‖ * (‖coeff k h‖ * rad l (1 / (e : ℝ)) ^ k))
         (‖(l : K)‖ * (‖coeff (k + e) h‖ * rad l (1 / (e : ℝ)) ^ (k + e))) := by
     intro k
-    rw [coeff_E_mul', if_pos (Nat.le_add_left e k), Nat.add_sub_cancel]
+    rw [coeff_E_mul', ite_eq_left (Nat.le_add_left e k), Nat.add_sub_cancel]
     calc ‖coeff k h + (l : K) * coeff (k + e) h‖ * rad l (1 / (e : ℝ)) ^ (k + e)
         ≤ max ‖coeff k h‖ ‖(l : K) * coeff (k + e) h‖ * rad l (1 / (e : ℝ)) ^ (k + e) :=
           mul_le_mul_of_nonneg_right (IsUltrametricDist.norm_add_le_max _ _) (pow_nonneg hr.le _)
@@ -145,7 +145,7 @@ theorem lastMax_E_mul {h : K⟦X⟧} {d : ℕ}
           · rw [norm_mul]; ring
   have htop : ‖coeff (d + e) (E K l e * h)‖ * rad l (1 / (e : ℝ)) ^ (d + e) =
       ‖(l : K)‖ * (‖coeff d h‖ * rad l (1 / (e : ℝ)) ^ d) := by
-    rw [coeff_E_mul', if_pos (Nat.le_add_left e d), Nat.add_sub_cancel]
+    rw [coeff_E_mul', ite_eq_left (Nat.le_add_left e d), Nat.add_sub_cancel]
     have hsmall : ‖(l : K) * coeff (d + e) h‖ < ‖coeff d h‖ := by
       have hlt := mul_lt_mul_of_pos_left (H.2 (d + e) (by omega)) hl
       refine lt_of_mul_lt_mul_right ?_ (pow_pos hr (d + e)).le

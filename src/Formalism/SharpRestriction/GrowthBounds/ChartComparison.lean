@@ -198,7 +198,7 @@ def chainMu (S : CmpUpMu c Tw u μ w h Lv) : Chain Lv where
 
 theorem chainMu_Kz (S : CmpUpMu c Tw u μ w h Lv) (j : ℕ) (hj : j < D.R.m) :
     (chainMu S).Kz j = extK (S.cmp j) (S.cmp (j + 1)) ((Tw.fm u μ).lat j).b (S.li j hj.le) (KLxMu Tw u μ j) :=
-  dif_pos hj
+  dite_eq_left hj
 
 theorem chainMu_apply (S : CmpUpMu c Tw u μ w h Lv) (j : ℕ) (hj : j < D.R.m) (x : ((Tw.fm u μ).lat j).V) :
     (chainMu S).Kz j (S.cmp j x) = S.cmp (j + 1) (KLxMu Tw u μ j x) := by

@@ -1308,7 +1308,7 @@ theorem main : GlobalTheory.Published.WeilRepresentationUnitaryPair → GlobalTh
       first | (push_cast; exact h)
     exact Complex.ofReal_injective h2
   by_contra hcn
-  push_neg at hcn
+  push Not at hcn
   nlinarith [sq_nonneg ‖x‖, sq_pos_of_pos hyn]
 
 end GlobalTheory.NRows.LamUsedProof

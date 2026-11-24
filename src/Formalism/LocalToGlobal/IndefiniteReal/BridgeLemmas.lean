@@ -510,7 +510,7 @@ theorem adInner_pos (hy : IsReps ι J y) (hst : ∀ i, Nat.card (stab ι J (y i)
     (hF : F ∈ AdForms ι ρ J χ) (hne : F ≠ 0) : 0 < (adInner ι J y F F).re := by
   have hex : ∃ i, F (y i) ≠ 0 := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     exact hne (adForms_ext hy hF (Submodule.zero_mem _) (fun i => by rw [hall i]; rfl))
   have hre : ∀ x : W, (inner ℂ x x).re = ‖x‖ ^ 2 := fun x => inner_self_eq_norm_sq (𝕜 := ℂ) x
   unfold adInner

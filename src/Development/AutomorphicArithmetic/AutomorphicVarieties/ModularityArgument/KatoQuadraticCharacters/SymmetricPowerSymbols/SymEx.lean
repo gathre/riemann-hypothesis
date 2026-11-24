@@ -879,7 +879,7 @@ theorem UpperTheory.V.Z.Kato.Sym.PC.galNear :
   have hd : ∀ b, b ≠ f → ∃ r, (X.exp b).coeff r ≠ (X.exp f).coeff r := by
     intro b hb
     by_contra h
-    push_neg at h
+    push Not at h
     exact hb (_root_.GlobalTheory.K4.exp_injective X (HahnSeries.ext (funext h)))
   choose TC hTC using hc
   choose! rr hrr using hd
@@ -1303,7 +1303,7 @@ theorem UpperTheory.V.Z.Kato.Sym.pSymb :
   refine ⟨fun s x y => if h : UpperTheory.V.Z.Kato.Sym.Ok x y then Classical.choose (key s x y h) else 1, ?_⟩
   unfold UpperTheory.V.Z.Kato.Sym.IsSymb
   intro s x y hxy
-  simp only [dif_pos hxy]
+  simp only [dite_eq_left hxy]
   exact Classical.choose_spec (key s x y hxy)
 end -- clump:auto
 end -- clump:auto

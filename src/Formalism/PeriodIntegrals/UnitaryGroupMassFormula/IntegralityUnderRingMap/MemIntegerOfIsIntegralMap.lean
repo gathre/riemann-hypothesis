@@ -126,7 +126,7 @@ theorem alg_mem_O {F : Type} [Field F] [ValuativeRel F] [TopologicalSpace F]
 theorem exists_not_mem_range {F : Type} [Field F] [ValuativeRel F] [TopologicalSpace F]
     {E : Type} [CommRing E] [Algebra F E] [TopologicalSpace E] [MeasurableSpace E] (M : Model F E) : ∃ y : E, y ∉ Set.range (algebraMap F E) := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have hs : Function.Surjective (Algebra.linearMap F E) := fun y => hc y
   have h := LinearMap.finrank_range_le (Algebra.linearMap F E)
   rw [LinearMap.range_eq_top.mpr hs, finrank_top, Module.finrank_self, M.L.rank] at h
@@ -142,7 +142,7 @@ theorem exists_mul_mem_integer {F : Type} [Field F] [ValuativeRel F] (s : F) :
     refine ⟨s⁻¹, ?_, inv_ne_zero hs0, by rw [inv_mul_cancel₀ hs0]; exact one_mem _⟩
     rw [Valuation.mem_integer_iff] at hs ⊢
     rw [map_inv₀]
-    push_neg at hs
+    push Not at hs
     exact inv_le_one_of_one_le₀ hs.le
 
 theorem exists_omega0 {F : Type} [Field F] [ValuativeRel F] [TopologicalSpace F]
@@ -227,7 +227,7 @@ theorem mem_of_sq_mem {F : Type} [Field F] [ValuativeRel F] {y : F} (h : y ^ 2 �
   rw [Valuation.mem_integer_iff] at h ⊢
   rw [map_pow] at h
   by_contra hy
-  push_neg at hy
+  push Not at hy
   have h2 : 1 < (ValuativeRel.valuation F) y ^ 2 := one_lt_pow₀ hy two_ne_zero
   exact absurd h (not_le.mpr h2)
 

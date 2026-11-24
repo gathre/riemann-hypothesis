@@ -1029,7 +1029,7 @@ namespace GlobalTheory.UpBessel
 theorem upBF : ∀ D : D7, UpBF D := by
   intro D ψ ρ B J s 𝒮 Γ₀ K hL L' ζ' hζ' l χA χz χ' oma omz hχ hWa hWz φ G hφ hG hK Ξ₁ Ξ₂ hΞ₁ hΞ₂ hbox hJ
   by_contra hnone
-  push_neg at hnone
+  push Not at hnone
 
   have hstd : IsStdChar D ψ (-1) := s.weil.std
   have hℓ : Tame ψ B.V₀ J.W₀ (J.perAll ψ B s.om₀ φ G) :=

@@ -89,14 +89,14 @@ variable {L : LD d}
 theorem pad_col {M : Mt d} (hM : IsPad L M) : M *ᵥ Pi.single (Sum.inl L.i₀) 1 = Pi.single (Sum.inl L.i₀) 1 := by
   funext r
   simp only [Matrix.mulVec, dotProduct, Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
   rw [(hM _ (by simp) r).2]
   simp [Matrix.one_apply]
 
 theorem pad_row {M : Mt d} (hM : IsPad L M) : Pi.single (Sum.inr L.i₀) 1 ᵥ* M = Pi.single (Sum.inr L.i₀) 1 := by
   funext r
   simp only [Matrix.vecMul, dotProduct, Pi.single_apply, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
   rw [(hM _ (by simp) r).1]
   simp [Matrix.one_apply, eq_comm]
 
@@ -521,12 +521,12 @@ theorem j_move' (h : Hyp L nb uM nb' w₁ cM δ) (u : Fin L.n → AE F E) (β'' 
     · show (vV L u b ᵥ* _) (Sum.inr (L.em k)) = b k + B k
       rw [vV_vecMul_apply]
       simp only [k12, k22, Matrix.one_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ,
-        if_true, hB, mul_neg, Finset.sum_neg_distrib]
+        ite_true, hB, mul_neg, Finset.sum_neg_distrib]
       ring
     · show (vV L u b ᵥ* _) (Sum.inl (L.em k)) = u k
       rw [vV_vecMul_apply]
       simp only [k11, k21, Matrix.one_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ,
-        if_true, Finset.sum_const_zero, add_zero]
+        ite_true, Finset.sum_const_zero, add_zero]
   refine ⟨B, ellA δ (hh L u B), fun b a => ?_⟩
   have e := conj_eq (R := R) h (nb' β'') b u a
   have hQ : QQ L δ (inFrame d.b (L.j (nb' β''))⁻¹) (b, u) = ellA δ (hh L u B) := by

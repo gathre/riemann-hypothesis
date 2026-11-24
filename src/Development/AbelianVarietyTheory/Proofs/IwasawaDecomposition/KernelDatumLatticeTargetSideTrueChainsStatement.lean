@@ -1297,7 +1297,7 @@ theorem shiftOf_lamT_succ {R : Ranks} {ι : Type} [Fintype ι] {hc : ι → HCPa
   obtain ⟨c, hc'⟩ := R.t_odd
   have hcq : (R.t : ℚ) = 2 * c + 1 := by exact_mod_cast hc'
   have e2 : (R.t + 1) / 2 = c + 1 := by omega
-  simp only [shiftOf, DomWeight.detShift, dif_pos hpos, Col2.lamT, Col2.shW, Examples₂.lamOf, dif_pos (show i + 1 ≤ R.m by omega), Examples₂.wtQ, dif_neg hk]
+  simp only [shiftOf, DomWeight.detShift, dite_eq_left hpos, Col2.lamT, Col2.shW, Examples₂.lamOf, dite_eq_left (show i + 1 ≤ R.m by omega), Examples₂.wtQ, dite_eq_right hk]
   simp only [hq, e2]
   have hw : -wG R ((hc τ).e ⟨i, hi⟩) (i + 1) = ((-C.sDiv i τ + ((i + 1) * (c + 1) : ℕ) : ℤ) : ℚ) := by
     push_cast

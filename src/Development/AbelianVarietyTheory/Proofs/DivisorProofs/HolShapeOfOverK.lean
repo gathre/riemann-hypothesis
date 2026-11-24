@@ -163,7 +163,7 @@ theorem holShape_of_overK (R : RealDat D A Ks) (i : Fin D.R.m) {σ : D.what₂.L
       (R.MW i σ).ε ρ a = decide ((a : ℕ) < (D.R.sigW ((i : ℕ) + 1)).1) := fun ρ a => by
     have he := (R.MW i σ).enum ρ
     unfold Links.parAt at he
-    rw [if_pos (((labels_overK σ).1 hσ).2 ρ)] at he
+    rw [ite_eq_left (((labels_overK σ).1 hσ).2 ρ)] at he
     rw [← hs ρ]
     exact GlobalTheory.HolDict.isEnum_holPar_kapW _ (rank_Wc i) (by rw [hs ρ]; exact hr) he a
   have hc : ∀ ρ, Formalism.QuantumDeterminants.IsHCParam ((R.MW i σ).lam ρ) := fun ρ => by

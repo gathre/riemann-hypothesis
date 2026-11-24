@@ -114,7 +114,7 @@ theorem main_alt_alt : ∀ (hL : _root_.UpperTheory.Zero.LLC.RecTExists) (D : D7
   refine ⟨hm, ?_⟩
   rw [P.ty.plB_iota i k v x]
   unfold redThrough
-  exact dif_pos hm
+  exact dite_eq_left hm
 end GlobalTheory.TieLabAt
 end
 end

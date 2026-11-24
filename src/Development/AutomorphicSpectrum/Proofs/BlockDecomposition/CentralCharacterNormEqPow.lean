@@ -69,7 +69,7 @@ theorem norm_scalarBy_eq_nabs_rpow : ∀ (k : Type) [Field k] [ValuativeRel k] [
   have hirr := x.2.rep.irr
   obtain ⟨v, hv⟩ : ∃ v : x.2.rep.V, v ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     haveI : Subsingleton x.2.rep.V := ⟨fun a b => by rw [hcon a, hcon b]⟩
     obtain ⟨a, b, hab⟩ := exists_pair_ne (Subrepresentation x.rep)
     exact hab (Subrepresentation.toSubmodule_injective (Subsingleton.elim _ _))

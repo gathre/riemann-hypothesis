@@ -79,12 +79,12 @@ theorem finsum_partition {X Y : Type} (f : X → ℂ) (Q : X → Prop) (R : Y �
     refine Finset.sum_congr rfl fun x _ => ?_
     by_cases hx : Q x
     · obtain ⟨y, hy⟩ := (hQ x).1 hx
-      rw [finsum_eq_single _ y, if_pos hx, if_pos hy]
+      rw [finsum_eq_single _ y, ite_eq_left hx, ite_eq_left hy]
       intro y' hy'
-      exact if_neg fun h => hy' (hu x y' y h hy)
-    · rw [if_neg hx]
+      exact ite_eq_right fun h => hy' (hu x y' y h hy)
+    · rw [ite_eq_right hx]
       symm
-      exact finsum_eq_zero_of_forall_eq_zero fun y => if_neg fun h => hx ((hQ x).2 ⟨y, h⟩)
+      exact finsum_eq_zero_of_forall_eq_zero fun y => ite_eq_right fun h => hx ((hQ x).2 ⟨y, h⟩)
 
 theorem descent : GlobalTheory.SatakeWeyl.Descent := by
   intro G A _ _ K N N' ι h g hf hle hN hdec hK hconj

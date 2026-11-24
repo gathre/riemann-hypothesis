@@ -1793,7 +1793,7 @@ theorem mem_span_of_C_pow_mul : CancelC := by
     intro n hn
     have h1 := congrArg (PowerSeries.coeff n) hpq
     simp only [map_add (f := _), PowerSeries.coeff_mul_C, PowerSeries.coeff_C_mul, PowerSeries.coeff_mul_X_pow',
-      if_neg (show ¬ b ≤ n by omega), add_zero] at h1
+      ite_eq_right (show ¬ b ≤ n by omega), add_zero] at h1
     rw [map_sub, PowerSeries.coeff_mul_C, sub_eq_zero]
     apply mul_left_cancel₀ (pow_ne_zero v ha)
     rw [← h1]

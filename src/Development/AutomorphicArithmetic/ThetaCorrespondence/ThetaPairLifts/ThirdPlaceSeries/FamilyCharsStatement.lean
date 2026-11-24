@@ -287,7 +287,7 @@ theorem gLoc_chars_of_gRead : ∀ {D : D7} {L : SizeData₂ D} {hT : GatTies D} 
   let μ : ℕ → (G i).kˣ →* ℂˣ := fun m =>
     if 1 ≤ m ∧ m ≤ D.R.m then cmp (G i).q ((Lift.chrStep M (_root_.GlobalTheory.Fam.pk_z W).eta m).1⁻¹) else (G i).S.μ m
   have hμ : ∀ m, 1 ≤ m → m ≤ D.R.m → μ m = cmp (G i).q ((Lift.chrStep M (_root_.GlobalTheory.Fam.pk_z W).eta m).1⁻¹) :=
-    fun m h1 h2 => if_pos ⟨h1, h2⟩
+    fun m h1 h2 => ite_eq_left ⟨h1, h2⟩
   have hunit : ∀ m (x : (G i).kˣ), valuation (G i).k (x : (G i).k) = 1 → μ m x = (G i).S.μ m x := by
     intro m x hx
     by_cases hm : 1 ≤ m ∧ m ≤ D.R.m
@@ -301,7 +301,7 @@ theorem gLoc_chars_of_gRead : ∀ {D : D7} {L : SizeData₂ D} {hT : GatTies D} 
         · exact mul_right_comm _ _ _
         · rfl
       rw [MonoidHom.inv_apply, MonoidHom.inv_apply, e, MonoidHom.mul_apply, hx1, mul_one]
-    · simp only [μ, if_neg hm]
+    · simp only [μ, ite_eq_right hm]
   have htame : ∀ m, GlobalTheory.SplitWeil.IsTame (μ m) := by
     intro m x hx
     rw [hunit m x (val_eq_one_of_sub x hx)]
@@ -316,7 +316,7 @@ theorem gLoc_chars_of_gRead : ∀ {D : D7} {L : SizeData₂ D} {hT : GatTies D} 
       exact ⟨j / 2, by omega⟩
     have hμj : μ (j + 1) = cmp (G i).q ((M (j + 1) * (_root_.GlobalTheory.Fam.pk_z W).eta⁻¹)⁻¹) := by
       rw [hμ (j + 1) (by omega) (by omega)]
-      simp only [Lift.chrStep, if_pos hodd]
+      simp only [Lift.chrStep, ite_eq_left hodd]
     rw [hV', hW', hμj]
     refine ⟨isComp_cmp _ _, cmp (G i).q (M (j + 1)), isComp_cmp _ _, fun x hx => ?_⟩
     apply Units.ext
@@ -333,7 +333,7 @@ theorem gLoc_chars_of_gRead : ∀ {D : D7} {L : SizeData₂ D} {hT : GatTies D} 
       exact ⟨j / 2 + 1, by omega⟩
     have hμj : μ (j + 1 + 1) = cmp (G i).q (M (j + 1 + 1))⁻¹ := by
       rw [hμ (j + 1 + 1) (by omega) (by omega)]
-      simp only [Lift.chrStep, if_neg heven]
+      simp only [Lift.chrStep, ite_eq_right heven]
     rw [hV', hW', hμj]
     refine ⟨isComp_cmp _ _, cmp (G i).q (M (j + 1 + 1) * (_root_.GlobalTheory.Fam.pk_z W).eta⁻¹), isComp_cmp _ _, fun x hx => ?_⟩
     apply Units.ext
@@ -468,7 +468,7 @@ theorem weilOK_fam_alt : ∀ {D : D7} {L : SizeData₂ D} {hT : GatTies D} {Gi :
     omega
   have hE := GlobalTheory.WeilDatumExistence.weilDatumExists D
   have hX := hP.bot.hyp.2.2.2.1.chain.ωX t
-  simp only [Formalism.IndefR.Lift.chrStep, if_neg hmE] at hX
+  simp only [Formalism.IndefR.Lift.chrStep, ite_eq_right hmE] at hX
   have hη : ∀ j' (h' : j' + 2 * 0 + 2 = D.R.m), IsHeckeChar D (_root_.GlobalTheory.Fam.pk_z W).eta ∧ ResEta D (_root_.GlobalTheory.Fam.pk_z W).eta 1 := by
     intro j' h'
     have e : j' + 1 + 1 = D.R.m := by omega

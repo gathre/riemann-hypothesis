@@ -221,14 +221,14 @@ private theorem sub_smul_mul_sub_smul_eq_zero_of_quadratic {K : Type} [Field K] 
     exact (IsGalois.card_aut_eq_finrank ℚ K).trans hK
   obtain ⟨σ, hσ1⟩ : ∃ σ : K ≃ₐ[ℚ] K, σ ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 : Fintype.card (K ≃ₐ[ℚ] K) ≤ 1 :=
       Fintype.card_le_one_iff.mpr (fun a b => by rw [hcon a, hcon b])
     omega
   have hall : ∀ τ : K ≃ₐ[ℚ] K, τ = 1 ∨ τ = σ := by
     intro τ
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h3 : ({1, σ, τ} : Finset (K ≃ₐ[ℚ] K)).card = 3 :=
       Finset.card_eq_three.mpr ⟨1, σ, τ, hσ1.symm, hcon.1.symm, hcon.2.symm, rfl⟩
     have h4 := Finset.card_le_univ ({1, σ, τ} : Finset (K ≃ₐ[ℚ] K))

@@ -562,7 +562,7 @@ theorem exists_countable_conj_charpoly (f : F[X]) :
   have hR : R t := ⟨x, ⟨e'⟩⟩
   obtain ⟨e''⟩ := hR.choose_spec
   refine ⟨rep t, ⟨t, rfl⟩, ?_⟩
-  have hrep : rep t = hR.choose := dif_pos hR
+  have hrep : rep t = hR.choose := dite_eq_left hR
   rw [hrep]
   exact exists_conj_of_equiv (e'.trans e''.symm)
 

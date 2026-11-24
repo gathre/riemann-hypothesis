@@ -105,22 +105,22 @@ theorem fib_set_nonneg [IsFiniteMeasureOnCompacts ν]
     intro b
     have hae := ae_fib hfib hff' hι b
     by_cases hb : b ∈ S
-    · rw [Set.indicator_apply, if_pos hb]
+    · rw [Set.indicator_apply, ite_eq_left hb]
       refine lintegral_congr_ae ?_
       filter_upwards [hae] with v hv
       have hv' : v ∈ f' ⁻¹' S := by
         show f' v ∈ S
         rw [hv]
         exact hb
-      rw [Set.indicator_apply, if_pos hv']
-    · rw [Set.indicator_apply, if_neg hb]
+      rw [Set.indicator_apply, ite_eq_left hv']
+    · rw [Set.indicator_apply, ite_eq_right hb]
       refine (lintegral_congr_ae ?_).trans lintegral_zero
       filter_upwards [hae] with v hv
       have hv' : v ∉ f' ⁻¹' S := by
         show f' v ∉ S
         rw [hv]
         exact hb
-      rw [Set.indicator_apply, if_neg hv']
+      rw [Set.indicator_apply, ite_eq_right hv']
   have hG0 : ∀ b, 0 ≤ ∫ v, ρ v ∂(fib b) := fun b => integral_nonneg hρ0
   rw [integral_eq_lintegral_of_nonneg_ae (Filter.Eventually.of_forall hρ0) hρc.aestronglyMeasurable,
     integral_eq_lintegral_of_nonneg_ae (Filter.Eventually.of_forall hG0)

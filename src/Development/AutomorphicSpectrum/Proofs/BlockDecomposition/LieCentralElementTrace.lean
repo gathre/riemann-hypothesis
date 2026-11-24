@@ -102,9 +102,9 @@ theorem lie_oneL_eq_sum_Eop (E : Type) [Field E] [NumberField E] [_root_.NumberF
     by_cases h : p = q
     · subst h
       simp [Matrix.single_apply]
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       refine Finset.sum_eq_zero fun c _ => ?_
-      rw [Matrix.single_apply, if_neg]
+      rw [Matrix.single_apply, ite_eq_right]
       rintro ⟨rfl, rfl⟩
       exact h rfl
   congr 1

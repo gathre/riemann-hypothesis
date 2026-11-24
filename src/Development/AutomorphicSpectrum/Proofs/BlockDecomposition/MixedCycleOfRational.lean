@@ -243,7 +243,7 @@ theorem exists_isMultiHomog_eq (c : ∀ k, Bk n k) (hc : ∀ k, ε (MvPolynomial
     intro μ hμ k
     have : μ = 0 := by
       by_contra h
-      exact (mem_support_iff.1 hμ) (by rw [coeff_C, if_neg (Ne.symm h)])
+      exact (mem_support_iff.1 hμ) (by rw [coeff_C, ite_eq_right (Ne.symm h)])
     simp [this]
   | add p q hp hq =>
     obtain ⟨d₁, p', h₁, e₁⟩ := hp

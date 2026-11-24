@@ -331,7 +331,7 @@ theorem nd_size : nd_NeedSize := by
           _ = (2 * L.sc.a) ^ 2 := by ring
       linarith
     · unfold al
-      rw [if_neg hsT]
+      rw [ite_eq_right hsT]
       push_cast
       positivity
   · obtain ⟨_, _, _, hw⟩ := hs s

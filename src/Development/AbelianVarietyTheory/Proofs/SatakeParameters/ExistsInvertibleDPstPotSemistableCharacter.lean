@@ -209,7 +209,7 @@ theorem exists_field_combination_norm_ne_zero {k B A : Type} [Field k] [Infinite
 
     simp [M, map_sum, Matrix.sum_apply]
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hinf : ∀ _ : Fin d, (Set.range (algebraMap k B)).Infinite := fun _ =>
     Set.infinite_range_of_injective (algebraMap k B).injective
   have hQ : M.det = 0 := by

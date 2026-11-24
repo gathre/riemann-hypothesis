@@ -245,7 +245,7 @@ theorem isCuspChar_character {d : ℕ} (τ : FDRep ℂ (GL (Fin d) K)) (hs : Sim
           by_contra hj
           exact hb (by simp [twoBlock, show ¬ i.val < a by omega, show ¬ j.val < a by omega])
         have hne : i ≠ j := fun e => by subst e; omega
-        rw [if_neg hne]
+        rw [ite_eq_right hne]
         exact hu.1.1 i j (by simp [twoBlock, show ¬ i.val < a by omega, hj])
 
 theorem finrank_of_simple_cuspidal (θ : AlgebraicClosure K →* ℂ)
@@ -513,7 +513,7 @@ theorem fixed_eq_zero {K : Type} [Field K] [Fintype K] [DecidableEq K] {d a : �
       exact hu.2 i j (by simp [b, hi, hj])
     · by_cases hj : (j : ℕ) < a
       · have hne : i ≠ j := by rintro rfl; exact hi hj
-        rw [if_neg hne]
+        rw [ite_eq_right hne]
         exact hu.1.1 i j (by simp [b, hi, hj])
       · exact hu.2 i j (by simp [b, hi, hj])
 
@@ -553,7 +553,7 @@ theorem rad_iff {d a : ℕ} (had : a ≤ d) (M : Mt g d) :
           intro e
           subst e
           exact hi hj
-        rw [if_neg hne]
+        rw [ite_eq_right hne]
         exact hP i j hj (not_lt.mp hi)
       · left
         have hi' : (i : ℕ) - a < d - a := by omega
@@ -571,7 +571,7 @@ theorem rad_iff {d a : ℕ} (had : a ≤ d) (M : Mt g d) :
     refine ⟨?_, ?_, ?_⟩
     · intro i j hj hi
       rcases hM i j with h | h
-      · rw [h, if_neg]
+      · rw [h, ite_eq_right]
         intro e
         subst e
         omega
@@ -714,14 +714,14 @@ theorem green : GlobalTheory.GLq.Green := by
     if hP : IsPrimeLab d P then (σ P hP).character else 0
   refine ⟨rep, ?_, ?_, ?_⟩
   · intro P hP
-    simp only [rep, dif_pos hP]
+    simp only [rep, dite_eq_left hP]
     refine ⟨isCuspOf_character L hd (σ P hP) P (hσs P hP) (hσc P hP) (hσl P hP), ?_⟩
     rw [FDRep.char_one]
     have h2 := congrArg (Int.cast : ℤ → ℂ) (hA _ (hσs P hP) (hσc P hP)).2
     push_cast at h2
     simpa [ZMod.card] using h2
   · intro P P' hP hP' heq
-    simp only [rep, dif_pos hP, dif_pos hP'] at heq
+    simp only [rep, dite_eq_left hP, dite_eq_left hP'] at heq
     have hl2 : HasCuspLabel (conv L) (σ P hP) P' :=
       hasCuspLabel_of_character (conv L) heq.symm (hσl P' hP')
     exact (hA _ (hσs P hP) (hσc P hP)).1.unique (hσl P hP) hl2
@@ -733,7 +733,7 @@ theorem green : GlobalTheory.GLq.Green := by
     have hP : IsPrimeLab d P :=
       isPrimeLab_iff.mpr ⟨hPl.1, hPl.2.1, hPl.2.2.1, by simpa using hPl.2.2.2.1⟩
     refine ⟨P, hP, ?_⟩
-    simp only [rep, dif_pos hP]
+    simp only [rep, dite_eq_left hP]
     rw [← hχV]
     exact FDRep.char_iso (hC V (σ P hP) P hVs hVc (hσs P hP) (hσc P hP) hPl (hσl P hP)).some
 

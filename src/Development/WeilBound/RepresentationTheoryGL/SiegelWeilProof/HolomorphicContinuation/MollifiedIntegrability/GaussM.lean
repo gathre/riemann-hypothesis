@@ -74,7 +74,7 @@ theorem gramX_isHermitian (ε : Fin m → Bool) (x : Fin m → Fin n → ℂ) : 
 
   simp only [gramX, Qp, Qb, evX, conjTranspose_apply, map_sub, map_sum, map_mul, eval_X, star_sub, star_sum,
   star_mul']
-  simp only [if_true, Bool.false_eq_true, if_false]
+  simp only [ite_true, Bool.false_eq_true, ite_false]
   congr 1 <;> (refine Finset.sum_congr rfl fun a _ => ?_; rw [star_star, mul_comm])
 
 theorem trace_im_zero {b Q : Matrix (Fin n) (Fin n) ℂ} (hb : b.IsHermitian) (hQ : Q.IsHermitian) :
@@ -278,7 +278,7 @@ theorem key (hI : IntegP) (hW : Wick) (hR : Rot) (ε : Fin m → Bool) {c : ℝ}
         refine Finset.sum_congr rfl fun j _ => ?_
         rw [amat_inv_apply ε hc.ne' s (herm_isHermitian y), mm_inv]
         by_cases h : ε a = true <;> simp [h] <;> ring
-      · push_neg at ht
+      · push Not at ht
         by_cases hd0 : d = 0
         · subst hd0
           exact ⟨1, fun y => by simp [evUV]⟩

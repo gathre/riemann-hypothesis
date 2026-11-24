@@ -260,7 +260,7 @@ theorem sec_prod : ∀ (R : Type) [CommRing R] (A B : Type) [CommRing A] [CommRi
     have key1 : ∀ V g (w : V ⟶ Spec (CommRingCat.of A)) (e : g = w ≫ i1) hg, s V g hg = Sec.res w s1 := by
       intro V g w e hg
       have h : ∃ w', g = w' ≫ i1 := ⟨w, e⟩
-      simp only [s, dif_pos h]
+      simp only [s, dite_eq_left h]
       congr 1
       exact (cancel_mono i1).1 (h.choose_spec.symm.trans e)
     have key2 : ∀ V g (w : V ⟶ Spec (CommRingCat.of B)) (e : g = w ≫ i2) hg, s V g hg = Sec.res w s2 := by
@@ -268,7 +268,7 @@ theorem sec_prod : ∀ (R : Type) [CommRing R] (A B : Type) [CommRing A] [CommRi
       by_cases h : ∃ w', g = w' ≫ i1
       · haveI := empty_of_fac A B h.choose w (h.choose_spec.symm.trans e)
         exact sec_empty F V _ _
-      · simp only [s, dif_neg h]
+      · simp only [s, dite_eq_right h]
         congr 1
         exact (cancel_mono i2).1 ((hg.resolve_left h).choose_spec.symm.trans e)
     have hs : ∀ (V W : Scheme.{0}) (g : V ⟶ _) (k : W ⟶ V) (hg : (facSieve A B).arrows g),

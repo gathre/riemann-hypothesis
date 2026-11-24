@@ -127,8 +127,8 @@ theorem bnd_of_local {E : Type} [Field E] [NumberField E] (p : ℕ) (n : ℕ)
   have hf : ∀ t, (f t).Coprime p := by
     intro t
     by_cases h : t.1 ∈ S
-    · simp only [f, dif_pos h]; exact (Classical.choose_spec (hin t.1 h t.2.1 t.2.2)).1
-    · simp only [f, dif_neg h]; exact Nat.coprime_one_left p
+    · simp only [f, dite_eq_left h]; exact (Classical.choose_spec (hin t.1 h t.2.1 t.2.2)).1
+    · simp only [f, dite_eq_right h]; exact Nat.coprime_one_left p
   let T : Finset (HeightOneSpectrum (𝓞 E) × Fin n × Fin n) := hS.toFinset ×ˢ Finset.univ
   refine ⟨∏ t ∈ T, f t, Nat.Coprime.prod_left fun t _ => hf t, fun i j Q => ?_⟩
   let ev : FiniteAdeleRing (𝓞 E) E →+* Q.adicCompletion E := RestrictedProduct.evalRingHom _ Q
@@ -141,7 +141,7 @@ theorem bnd_of_local {E : Type} [Field E] [NumberField E] (p : ℕ) (n : ℕ)
       Valuation.map_mul]
     refine mul_le_one' (_root_.GlobalTheory.AdLat.valued_natCast_le_one Q k) ?_
     have := (Classical.choose_spec (hin Q hQ i j)).2
-    simpa only [f, dif_pos hQ] using this
+    simpa only [f, dite_eq_left hQ] using this
   · rw [Valuation.map_mul]
     exact mul_le_one' (_root_.GlobalTheory.AdLat.valued_natCast_le_one Q _) (hout Q hQ i j)
 

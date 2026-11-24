@@ -68,7 +68,7 @@ theorem exists_twisted_sum_ne_zero : ∀ {G Y X : Type} [AddCommGroup G] [Fintyp
   intro G Y X _ _ _ _ _ θ hθ hsep c hc0
   classical
   by_contra hall
-  push_neg at hall
+  push Not at hall
   have h1 : θ 0 = 1 := by
     have := hθ 0 0
     rw [add_zero] at this
@@ -84,7 +84,7 @@ theorem exists_twisted_sum_ne_zero : ∀ {G Y X : Type} [AddCommGroup G] [Fintyp
     intro a ha
     obtain ⟨w, hw⟩ : ∃ w, θ w a ≠ 1 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact ha (hsep a h)
     let s₀ : S := ⟨θ w, w, rfl⟩
     have e : ∑ s : S, (s : AddChar G ℂ) a = θ w a * ∑ s : S, (s : AddChar G ℂ) a := by

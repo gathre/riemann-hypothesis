@@ -108,7 +108,7 @@ theorem goal1 :
   refine ⟨algebraMap R K y / algebraMap R K (b : R), ?_, ?_⟩
   · intro p hp
     have h1 := hy p (Finset.mem_union_left _ hp)
-    simp only [xx, e, hp, if_true] at h1
+    simp only [xx, e, hp, ite_true] at h1
     have h2 := (p.intValuation_le_pow_iff_mem _ _).mpr h1
     have hcv : p.valuation K (c p) ≠ 0 := by simpa using hc p hp
     have hγ : p.valuation K (c p) * p.intValuation (b : R) ≠ 0 :=
@@ -131,7 +131,7 @@ theorem goal1 :
     have h5 : q.intValuation y ≤ q.intValuation (b : R) := by
       by_cases hqS : q ∈ S
       · have h1 := hy q (Finset.mem_union_right _ hqS)
-        simp only [xx, e, hq, if_false, sub_zero] at h1
+        simp only [xx, e, hq, ite_false, sub_zero] at h1
         rw [q.intValuation_eq_exp_neg_multiplicity hd0]
         exact (q.intValuation_le_pow_iff_mem _ _).mpr h1
       · have hnd : ¬ q.asIdeal ∣ Ideal.span {(b : R)} := by

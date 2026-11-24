@@ -81,7 +81,7 @@ theorem exists_two_primes_of_isFrob_one (K F : Type) [Field K] [NumberField K] [
   let e : 𝓞 F ≃ₐ[𝓞 K] 𝓞 F := RingOfIntegers.mapAlgEquiv σ
   obtain ⟨θ, hθ⟩ : ∃ θ : 𝓞 F, e θ - θ ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     apply hσ
     ext x
     obtain ⟨a, b, -, rfl⟩ := IsFractionRing.div_surjective (A := 𝓞 F) x

@@ -177,7 +177,7 @@ theorem N_partial_derivative : NPderiv := by
   refine SubstitutionCoefficientCongruence.integral_subst ?_ hf0 hf
   intro n
   unfold PowerSeries.log
-  rw [PowerSeries.coeff_derivative, PowerSeries.coeff_mk, if_neg (Nat.succ_ne_zero n)]
+  rw [PowerSeries.coeff_derivative, PowerSeries.coeff_mk, ite_eq_right (Nat.succ_ne_zero n)]
   have hn : ((n : K) + 1) ≠ 0 := by exact_mod_cast Nat.succ_ne_zero n
   rw [map_div₀, map_pow, map_neg, map_one, map_natCast, Nat.cast_succ, div_mul_cancel₀ _ hn,
     norm_pow, norm_neg, norm_one, one_pow]

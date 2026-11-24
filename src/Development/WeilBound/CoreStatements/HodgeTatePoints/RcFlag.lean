@@ -133,7 +133,7 @@ lemma colen_trivial [IsAlgClosed C] [CharZero C] (hv : v.Integers R) {T : Type} 
     exact hv.map_le_one s
   refine le_antisymm hs' ?_
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have h0 : (0 : NNReal) ≤ v (B 0 0) := by positivity
   have := mul_lt_one_of_nonneg_of_lt_one_right hr' h0 hlt
   rw [e2] at this

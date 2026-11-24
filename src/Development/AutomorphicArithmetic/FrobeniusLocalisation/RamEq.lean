@@ -66,7 +66,7 @@ private theorem tower_le {φ : Frame} (H : HostRaw φ) : φ.e + 2 ≤ H.condE.fa
   have haN : H.condN / 2 ^ H.condN.factorization 2 * 2 ^ H.condN.factorization 2 = H.condN :=
     Nat.div_mul_cancel (Nat.ordProj_dvd _ _)
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hbot := ((layer_bot H h2 (j := φ.e + 1) (by omega)).1).2 (by omega)
   generalize ha : H.condN / 2 ^ H.condN.factorization 2 = a at hbot hodd haN
   have hf : a * 2 ^ (φ.e + 1) ∣ H.condN := by
@@ -175,7 +175,7 @@ theorem UpperTheory.HF.ram_eq :
       have hdn : H.d ∉ insert H.q H.smallR := by
         rw [Finset.mem_insert]
         exact fun h => h.elim (fun h => H.q_ne_d h.symm) hdS
-      rw [if_pos hqr, hprod, hset, Finset.prod_insert hdn, Finset.prod_insert hqS, hQSc,
+      rw [ite_eq_left hqr, hprod, hset, Finset.prod_insert hdn, Finset.prod_insert hqS, hQSc,
         hID.2.2.2.2.2.2, (hIQ.2.2.1 hqr).2.2]
       ring
     · have hset : H.ram = insert H.d H.smallR := by
@@ -189,7 +189,7 @@ theorem UpperTheory.HF.ram_eq :
         · rintro (h | h)
           · exact Or.inr (Or.inr h)
           · exact Or.inl h
-      rw [if_neg hqr, hprod, hset, Finset.prod_insert hdS, hQSc, hID.2.2.2.2.2.2]
+      rw [ite_eq_right hqr, hprod, hset, Finset.prod_insert hdS, hQSc, hID.2.2.2.2.2.2]
       ring
   have hcopQ : Nat.Coprime H.QSc (H.q * H.d) := by
     show Nat.Coprime (∏ l ∈ H.smallR, l ^ H.sl l) (H.q * H.d)

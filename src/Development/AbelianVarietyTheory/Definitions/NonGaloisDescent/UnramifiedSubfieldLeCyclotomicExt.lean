@@ -67,7 +67,7 @@ theorem _root_.GlobalTheory.NL.Model.conv_finite (e : PowerSeries L) {u : â„¤ â†
   simp only [Function.mem_support] at hj
   simp only [Set.mem_Iic]
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   exact hj (by rw [hm _ (by omega), smul_zero])
 
 open TensorProduct in

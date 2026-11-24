@@ -105,7 +105,7 @@ theorem four_fac {e1 e2 x z w : ℝ} (h1 : 0 ≤ e1) (h1' : e1 ≤ 1) (h2 : 0 �
 
 theorem symDim_toNat (m : ℕ) (A : ℤ) (hA : 0 ≤ A) : symDim (m + 1) A = sd m A.toNat := by
   unfold symDim sd
-  rw [if_neg (not_lt.2 hA)]
+  rw [ite_eq_right (not_lt.2 hA)]
   rw [show A.toNat + (m + 1) - 1 = A.toNat + m by omega, show m + 1 - 1 = m by omega]
 
 theorem prod_letters {n' : ℕ} (TT : Finset (Fin n')) (h2 : 2 ≤ numSeg TT) (f g : Fin n' → ℝ) :
@@ -151,7 +151,7 @@ theorem seg_num {k Q a b' Y E0 N1 La m cm A0 mN e1 e2 : ℝ} (hk5 : 5 ≤ k) (hQ
   have hA0a : a ≤ A0 * (2 * Q) := (div_le_iff₀ (by linarith)).mp hA0lo
   have hA0 : 0 < A0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have := mul_le_mul_of_nonneg_right hc (by linarith : (0 : ℝ) ≤ 2 * Q)
     linarith
   have hkm1 : k * (m + 1) < A0 := by

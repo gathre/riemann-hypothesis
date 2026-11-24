@@ -846,7 +846,7 @@ theorem keepsDiag_of_mul_stkRows_one {R : Type} [CommRing R] {n : ℕ} {M : Matr
     rw [← finSumFinEquiv.sum_comp, Fintype.sum_sum_type] at h1
     simp only [stkRows, Matrix.submatrix_apply, id, Equiv.symm_apply_apply, Matrix.fromRows_apply_inl,
       Matrix.fromRows_apply_inr, Matrix.one_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-      Finset.mem_univ, if_true] at h1
+      Finset.mem_univ, ite_true] at h1
     rw [h1]
     rcases s with s | s <;> rfl
   intro i j

@@ -234,7 +234,7 @@ variable {V : Type} [CommRing V] [IsDomain V] [IsDiscreteValuationRing V]
 
 theorem gs_sub {X Y : Scheme.{0}} (f : Y ⟶ X) (y : Y) (U : X.Opens) (h : f y ∈ U) (a b : Γ(X, U)) :
     gs f y U (a - b) = gs f y U a - gs f y U b := by
-  simp only [gs, dif_pos h, map_sub]
+  simp only [gs, dite_eq_left h, map_sub]
 
 def RepF {k : ℕ} {ρ : D.toPre.X} {m : ℕ}
     (bF : Fin m → LB.Sec (LB.LinComb D.toPre.P.L (DegPre.famφ D.toPre F ρ) (DegPre.famε k)))

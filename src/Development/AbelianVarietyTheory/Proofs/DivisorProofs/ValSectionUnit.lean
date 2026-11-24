@@ -73,7 +73,7 @@ theorem gm_top_unit {R : Type} [CommRing R] [IsDomain R] (V : (Spec (CommRingCat
   subst hV
   refine ⟨Units.map (Scheme.ΓSpecIso (CommRingCat.of R)).hom.hom.toMonoidHom v, Units.ext ?_⟩
   have hz : jK R z ∈ (⊤ : (Spec (CommRingCat.of R)).Opens) := trivial
-  simp only [gm, dif_pos hz]
+  simp only [gm, dite_eq_left hz]
   have e := congrArg (fun f => f.hom ((Scheme.ΓSpecIso (CommRingCat.of R)).hom.hom (v : Γ(Spec (CommRingCat.of R), ⊤))))
     (Scheme.ΓSpecIso_inv_naturality (CommRingCat.ofHom (algebraMap R (FractionRing R))))
   simp only [CommRingCat.hom_comp, RingHom.comp_apply] at e
@@ -120,13 +120,13 @@ theorem exists_topGood (R : Type) [CommRing R] [IsDomain R] [IsLocalRing R] (P :
   refine ⟨fun φ => if h : ∃ x, x ≫ P.A.hom = 𝟙 _ ∧ jK R ≫ x = φ then top h.choose else d φ,
     fun φ => ?_, fun x hx => ?_⟩
   · by_cases h : ∃ x, x ≫ P.A.hom = 𝟙 _ ∧ jK R ≫ x = φ
-    · simp only [dif_pos h]
+    · simp only [dite_eq_left h]
       have m : jK R z ∈ h.choose ⁻¹ᵁ P.L.U (top h.choose) := by rw [htop]; trivial
       have m' : (jK R ≫ h.choose) z ∈ P.L.U (top h.choose) := m
       rwa [h.choose_spec.2] at m'
-    · simp only [dif_neg h]; exact hd φ
+    · simp only [dite_eq_right h]; exact hd φ
   · have h : ∃ x', x' ≫ P.A.hom = 𝟙 _ ∧ jK R ≫ x' = jK R ≫ x := ⟨x, hx, rfl⟩
-    simp only [dif_pos h]
+    simp only [dite_eq_left h]
     rw [hext _ _ h.choose_spec.1 hx h.choose_spec.2]
     exact htop x
 

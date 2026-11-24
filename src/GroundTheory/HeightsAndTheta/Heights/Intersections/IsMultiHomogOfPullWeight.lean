@@ -248,7 +248,7 @@ theorem exists_elim_homog {κ : K → K'} {v : (Σ k, ι k) → (Σ k', ι' k')}
   obtain ⟨r, a, ha0, hE⟩ := exists_elim hv hP' hQ hg hgP c hc
   obtain ⟨D, hD⟩ : ∃ D, weightedHomogeneousComponent (pullWeight v) D (a 0) ∉ imageZ v P' := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply ha0
     rw [← sum_weightedHomogeneousComponent (w := pullWeight v) (φ := a 0),
       finsum_eq_sum _ (weightedHomogeneousComponent_finsupp _)]
@@ -302,7 +302,7 @@ theorem PullbackEliminationOfVariable.proof : PullbackEliminationOfVariable.Stat
   obtain ⟨S, hS, rfl⟩ := hJ
   obtain ⟨g, hgS, hgP⟩ : ∃ g ∈ S, g ∉ P' := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hJP (Ideal.span_le.mpr h)
   obtain ⟨d, hg⟩ := hS g hgS
   have : P'.IsPrime := hP'.2.1.1

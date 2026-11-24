@@ -422,7 +422,7 @@ theorem TypeVec.factor {α : Type} [Fintype α] [DecidableEq α] {m : α → Typ
     c • ((piTensor ρ).comp (MonoidHom.mulSingle (fun j => GL (m j) F) a)) (ℓ g) y with hw
   obtain ⟨q, hq⟩ : ∃ q, (Basis.piTensorProduct B).repr w q ≠ 0 := by
     by_contra hq0
-    push_neg at hq0
+    push Not at hq0
     apply hne
     apply (Basis.piTensorProduct B).repr.injective
     ext r
@@ -529,7 +529,7 @@ theorem exists_eigen_of_map {G V Y : Type} [Group G] [Finite G] [AddCommGroup V]
   haveI : Fintype G := Fintype.ofFinite G
   obtain ⟨w, hw⟩ : ∃ w, Λ w ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact h0 (LinearMap.ext hcon)
   refine ⟨∑ x : H, ((ψ x : ℂ))⁻¹ • ρ x w, ?_, ?_⟩
   · intro hP

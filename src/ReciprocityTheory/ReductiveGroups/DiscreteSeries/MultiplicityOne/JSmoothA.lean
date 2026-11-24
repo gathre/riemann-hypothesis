@@ -86,19 +86,19 @@ theorem hpk_mulVec (v : Fin (2 * r + k + 1) → ℂ) (i : Fin (2 * r + k + 1)) :
   show ∑ j, Hpk k r i j * v j = _
   have hi := i.isLt
   by_cases h1 : i.val < r ∨ r + k < i.val
-  · rw [if_pos h1, Finset.sum_eq_single ⟨2 * r + k - i.val, by omega⟩]
+  · rw [ite_eq_left h1, Finset.sum_eq_single ⟨2 * r + k - i.val, by omega⟩]
     · rw [hpk_out h1]; simp
     · intro j _ hj
-      rw [hpk_out h1, if_neg, zero_mul]
+      rw [hpk_out h1, ite_eq_right, zero_mul]
       intro hc; exact hj (Fin.ext hc)
     · intro h; exact absurd (Finset.mem_univ _) h
-  · rw [if_neg h1, Finset.sum_eq_single i]
+  · rw [ite_eq_right h1, Finset.sum_eq_single i]
     · rw [hpk_mid h1]
       by_cases h2 : i.val = r + k
       · simp [h2]
       · simp [h2]
     · intro j _ hj
-      rw [hpk_mid h1, if_neg, zero_mul]
+      rw [hpk_mid h1, ite_eq_right, zero_mul]
       intro hc; exact hj (Fin.ext hc)
     · intro h; exact absurd (Finset.mem_univ _) h
 
@@ -107,18 +107,18 @@ theorem hpk_mulVec_mulVec (v : Fin (2 * r + k + 1) → ℂ) : Hpk k r *ᵥ (Hpk 
   have hi := i.isLt
   rw [hpk_mulVec]
   by_cases h1 : i.val < r ∨ r + k < i.val
-  · rw [if_pos h1, hpk_mulVec]
+  · rw [ite_eq_left h1, hpk_mulVec]
     have h3 : 2 * r + k - i.val < r ∨ r + k < 2 * r + k - i.val := by omega
-    rw [if_pos (show ((⟨2 * r + k - i.val, by omega⟩ : Fin (2 * r + k + 1)).val < r ∨
+    rw [ite_eq_left (show ((⟨2 * r + k - i.val, by omega⟩ : Fin (2 * r + k + 1)).val < r ∨
       r + k < (⟨2 * r + k - i.val, by omega⟩ : Fin (2 * r + k + 1)).val) from h3)]
     congr 1
     ext
     show 2 * r + k - (2 * r + k - i.val) = i.val
     omega
-  · rw [if_neg h1]
+  · rw [ite_eq_right h1]
     by_cases h2 : i.val = r + k
-    · rw [if_pos h2, hpk_mulVec, if_neg h1, if_pos h2, neg_neg]
-    · rw [if_neg h2, hpk_mulVec, if_neg h1, if_neg h2]
+    · rw [ite_eq_left h2, hpk_mulVec, ite_eq_right h1, ite_eq_left h2, neg_neg]
+    · rw [ite_eq_right h2, hpk_mulVec, ite_eq_right h1, ite_eq_right h2]
 
 theorem mat_eq_of_mulVec {A B : Mat k r} (h : ∀ v, A *ᵥ v = B *ᵥ v) : A = B := by
   first

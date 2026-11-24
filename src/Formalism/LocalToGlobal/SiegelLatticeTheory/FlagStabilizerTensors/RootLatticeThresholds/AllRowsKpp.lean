@@ -88,7 +88,7 @@ theorem jPred_iff (kk s : ℕ) {N g : ℕ} (hN : N = kk + 2 * s + 1) (M : Matrix
       fun i j hj hij hbi => ?_⟩
     · have hji : j < i := by
         by_contra h
-        push_neg at h
+        push Not at h
         have := blk_mono s kk (Fin.le_def.1 h)
         omega
       exact (hU i j).1 hji

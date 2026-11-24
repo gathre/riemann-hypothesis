@@ -181,7 +181,7 @@ theorem norm_conj_le_one_of_bounded_coords :
     rw [map_smul, hsmul, norm_mul, padicAlgCl_norm_ratCast]
     exact mul_le_mul_of_nonneg_right (hB k i) (norm_nonneg _)
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨k, hk⟩ := pow_unbounded_of_one_lt (B * C) h
   exact (lt_irrefl _ ((hbound k).trans_lt hk))
 

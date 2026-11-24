@@ -285,7 +285,7 @@ theorem xlam_le (Λ : Submodule (𝓞 E) S.V) (g : ℕ) {T T' : E} (F : LFlag S 
           rw [heq]
           refine Submodule.sum_mem _ (fun i _ => ?_)
           rcases lt_trichotomy i (Fin.castSucc a) with hi | hi | hi
-          · rw [if_neg hi.ne, sub_zero]
+          · rw [ite_eq_right hi.ne, sub_zero]
             have hir : i.val < r := lt_trans hi a.castSucc_lt_last
             have hi' : Fin.castSucc (⟨i.val, hir⟩ : Fin r) = i := Fin.ext rfl
             rw [← hi', hfr, coe_smul_eq]
@@ -294,9 +294,9 @@ theorem xlam_le (Λ : Submodule (𝓞 E) S.V) (g : ℕ) {T T' : E} (F : LFlag S 
             simp only
             omega
           · subst hi
-            rw [if_pos rfl, hdiag]
+            rw [ite_eq_left rfl, hdiag]
             simp
-          · rw [hlow _ _ hi, if_neg hi.ne']
+          · rw [hlow _ _ hi, ite_eq_right hi.ne']
             simp
         have hb := hmod' (Fin.castSucc a)
         have hrw : F.fl.e a = F'.fl.e a - (frame F' (Fin.castSucc a) - frameAct (frame F) ξ (Fin.castSucc a)) -

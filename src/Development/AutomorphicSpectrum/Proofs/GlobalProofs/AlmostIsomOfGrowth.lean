@@ -221,7 +221,7 @@ theorem wt_pos {ε : Fin n → Bool} (hn : 0 < n) (g : UJ ε) : 0 < wt (uMat g) 
   have hne : uMat g ≠ 0 := Units.ne_zero (g : (Matrix (Fin n) (Fin n) ℂ)ˣ)
   obtain ⟨i, j, hij⟩ : ∃ i j, uMat g i j ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (Matrix.ext h)
   rw [wt_eq_hs_sq, UnitaryRecombination.hs_sq]
   have h1 : 0 < ‖uMat g i j‖ ^ 2 := by positivity

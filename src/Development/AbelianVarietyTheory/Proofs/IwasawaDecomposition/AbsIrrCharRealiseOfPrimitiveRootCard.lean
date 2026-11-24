@@ -500,10 +500,10 @@ theorem ind_restrict_eq_card_fixedBy_mul : ∀ (L : Type) [Field L] [CharZero L]
     unfold ext0
     by_cases hq : g • q = q
     · have hm := (out_conj_mem_iff_smul_eq H g q).2 hq
-      rw [dite_eq_left hm, if_pos hq, one_mul]
+      rw [dite_eq_left hm, ite_eq_left hq, one_mul]
       exact hχ g q.out
     · have hm : q.out⁻¹ * g * q.out ∉ H := fun h => hq ((out_conj_mem_iff_smul_eq H g q).1 h)
-      rw [dite_eq_right hm, if_neg hq, zero_mul]
+      rw [dite_eq_right hm, ite_eq_right hq, zero_mul]
   rw [ind_eq_finsum_cosets L G H _ hψ g, finsum_eq_sum_of_fintype]
   simp_rw [hterm]
   rw [← Finset.sum_mul, Finset.sum_boole, Nat.card_eq_fintype_card, Fintype.card_subtype]
@@ -727,7 +727,7 @@ theorem absIrr_realise_of_isPrimitiveRoot {K : Type} [Field K] (σ : K →+* ℂ
   have hch : ∀ g, ρ'.character g = algebraMap K A (τ.character g) := character_mapScalars _ τ
   refine ⟨m, ρ', isIrreducible_of_sum_char_mul_char_inv ρ' ?_, hch⟩
   have horth := Formalism.L2.Col.gx_orth (G := G) (k := ℂ) hψ hψ
-  rw [if_pos rfl] at horth
+  rw [ite_eq_left rfl] at horth
   have hcardC : (Nat.card G : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr Nat.card_pos.ne'
   have hsumC : ∑ g, ψ g * ψ g⁻¹ = (Nat.card G : ℂ) := by
     rw [← mul_one (Nat.card G : ℂ), ← horth, ← mul_assoc, mul_inv_cancel₀ hcardC, one_mul]

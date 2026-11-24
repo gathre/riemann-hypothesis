@@ -236,7 +236,7 @@ theorem eisHalf_w {B : Base F E} (hB : B.IsGood σ) {b : GL (Fin n ⊕ Fin n) E}
   let v : ℂ → modFun σ Y := fun s => if h : t' < s.re then ⟨fun x => Ê s x, hmem s h⟩ else 0
   have hv : ∀ s : ℂ, t' < s.re → ∀ x, (v s).1 x = Ê s x := by
     intro s h x
-    simp only [v, dif_pos h]
+    simp only [v, dite_eq_left h]
   refine ⟨t', v, fun s h x => by rw [hv s h x]; exact hsum' s h x, ?_⟩
   have hS : IsOpen {s : ℂ | t' < s.re} := isOpen_lt continuous_const Complex.continuous_re
   refine GlobalTheory.CompanionTheory.WeakHolo.wholo_growForms v hS ?_ ?_ ?_
@@ -391,7 +391,7 @@ theorem eisBLW : EisBLW := by
   let Ehat : ℂ → G2 σ Y → ℂ := fun s' x => if max t₀ t₁ < s'.re then (v s').1 x else (H s').1 x / A s'
   refine ⟨Ehat, ⟨max t₀ t₁, ?_, ?_⟩, ?_⟩
   · intro s' hs' x
-    simp only [Ehat, if_pos hs']
+    simp only [Ehat, ite_eq_left hs']
     exact hv s' (lt_of_le_of_lt (le_max_left _ _) hs') x
   · intro x
     have hd : DifferentiableOn ℂ (fun s' => evAt x (v s')) {s' : ℂ | t₀ < s'.re} :=
@@ -399,7 +399,7 @@ theorem eisBLW : EisBLW := by
     have hd' : DifferentiableOn ℂ (fun s' => (v s').1 x) {s' : ℂ | max t₀ t₁ < s'.re} :=
       (hd.mono fun s' (hs' : max t₀ t₁ < s'.re) => (show t₀ < s'.re from lt_of_le_of_lt (le_max_left _ _) hs'))
     refine hd'.congr fun s' hs' => ?_
-    simp only [Ehat, if_pos (show max t₀ t₁ < s'.re from hs')]
+    simp only [Ehat, ite_eq_left (show max t₀ t₁ < s'.re from hs')]
   · intro s₀
     obtain ⟨k, U, u, hUo, hs₀U, hud, hUA⟩ := GlobalTheory.CompanionTheory.Entire.local_factorisation A hA hAne s₀
     refine ⟨k, U, fun s' => (u s')⁻¹ • H s', hUo.mem_nhds hs₀U, ?_, ?_⟩
@@ -408,10 +408,10 @@ theorem eisBLW : EisBLW := by
       have hpow : (s' - s₀) ^ k ≠ 0 := pow_ne_zero _ (sub_ne_zero.mpr hne)
       show (u s')⁻¹ * (H s').1 x = (s' - s₀) ^ k * Ehat s' x
       by_cases hre : max t₀ t₁ < s'.re
-      · simp only [Ehat, if_pos hre]
+      · simp only [Ehat, ite_eq_left hre]
         rw [hHv s' hre x, hAs]
         field_simp
-      · simp only [Ehat, if_neg hre]
+      · simp only [Ehat, ite_eq_right hre]
         rw [hAs]
         field_simp
     · intro μ hμ

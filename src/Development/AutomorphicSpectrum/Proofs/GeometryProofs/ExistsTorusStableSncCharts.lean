@@ -878,7 +878,7 @@ theorem snc_params : ∀ (K : Type) [Fintype K] (J : K → Type) [∀ k, Fintype
   choose A hAa using fun l => hpoly (aa l) (ha l)
   obtain ⟨l, hl0⟩ : ∃ l, eval (ReciprocityTheory.AnForm.R.affCoord c w) (map (algebraMap ℚ ℂ) (F l)) ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 : aeval u (∑ l, A l * F l - 1) = (0 : Ω) := by
 
       simp only [map_sub, map_sum, map_mul, hF, hAa, hsum, map_one, sub_self]

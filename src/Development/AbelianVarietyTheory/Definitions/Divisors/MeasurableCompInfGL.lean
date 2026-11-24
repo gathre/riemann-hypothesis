@@ -195,7 +195,7 @@ theorem measurable_chart {φ : GA E a → ℂ} (hφ : φ ∈ Sm E a) (g : GA E a
     by_cases hx : x ∈ invSet E a
     · rw [Set.piecewise_eq_of_mem _ _ _ hx]
     · rw [Set.piecewise_eq_of_notMem _ _ _ hx]
-      exact dif_neg hx
+      exact dite_eq_right hx
   rw [e]
   exact (hφ g).continuousOn.measurable_piecewise continuousOn_const isOpen_invSet.measurableSet
 

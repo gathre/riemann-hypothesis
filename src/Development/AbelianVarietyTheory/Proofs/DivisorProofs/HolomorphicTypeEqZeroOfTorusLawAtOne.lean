@@ -207,7 +207,7 @@ lemma local_zero {Q : (ι → Fin n → Fin n → ℂ) → ℂ} {Ω : Set (ι �
       rcases lt_trichotomy c a with h | h | h
       · have hne : a ≠ c := (ne_of_lt h).symm
         have hca : (c : ℕ) ≤ a := (Fin.lt_iff_val_lt_val.mp h).le
-        simp only [if_neg hne, if_pos h, zero_add, one_pow, one_mul]
+        simp only [ite_eq_right hne, ite_eq_left h, zero_add, one_pow, one_mul]
         rw [show ζ ^ (a : ℕ) = ζ ^ ((a : ℕ) - c) * ζ ^ (c : ℕ) by
           rw [← pow_add, Nat.sub_add_cancel hca]]
         ring

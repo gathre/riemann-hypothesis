@@ -308,27 +308,27 @@ theorem fiBPi (S : StepIn M i hi G) (β : S.Ch) : FiBPi S β := by
       have hq := mk_eq_of S β hγ hx
       by_cases hxc : (Quotient.mk'' x : Cls (S.K β).lev) = Quotient.mk'' ((S.K β).y c)
       · have hxc' : (Quotient.mk'' x' : Cls (S.K β).lev) = Quotient.mk'' ((S.K β).y c) := hq.trans hxc
-        simp only [g, if_pos hxc, if_pos hxc']
+        simp only [g, ite_eq_left hxc, ite_eq_left hxc']
         exact h1
       · have hxc' : ¬ (Quotient.mk'' x' : Cls (S.K β).lev) = Quotient.mk'' ((S.K β).y c) := fun h => hxc (hq.symm.trans h)
-        simp only [g, if_neg hxc, if_neg hxc', Pi.zero_apply, mul_zero]
+        simp only [g, ite_eq_right hxc, ite_eq_right hxc', Pi.zero_apply, mul_zero]
     · refine Submodule.mem_pi.2 fun x _ => ?_
       by_cases hxc : (Quotient.mk'' x : Cls (S.K β).lev) = Quotient.mk'' ((S.K β).y c)
-      · simp only [g, if_pos hxc]
+      · simp only [g, ite_eq_left hxc]
         exact Submodule.mem_pi.1 hV x (Set.mem_univ x)
-      · simp only [g, if_neg hxc]
+      · simp only [g, ite_eq_right hxc]
         exact Submodule.zero_mem _
   have hsum : f = ∑ c, res (embT D) (S.K β).y (g c) := by
     funext c' z
     rw [Finset.sum_apply, Finset.sum_apply, Finset.sum_eq_single c']
     · show f c' z = g c' ((S.K β).y c') z
-      simp only [g, if_pos rfl]
+      simp only [g, ite_eq_left rfl]
       rw [hφy]
     · intro c _ hc
       show g c ((S.K β).y c') z = 0
       have hne : ¬ (Quotient.mk'' ((S.K β).y c') : Cls (S.K β).lev) = Quotient.mk'' ((S.K β).y c) :=
         fun h => hc ((S.K β).y_bij.1 h).symm
-      simp only [g, if_neg hne, Pi.zero_apply]
+      simp only [g, ite_eq_right hne, Pi.zero_apply]
     · intro h
       exact absurd (Finset.mem_univ c') h
   rw [hsum]
@@ -471,7 +471,7 @@ theorem isWH_iff {σ M R : Type} [CommSemiring R] [AddCommMonoid M] [DecidableEq
   · intro h d hd
     rw [← h, MvPolynomial.coeff_weightedHomogeneousComponent] at hd
     by_contra hc
-    exact hd (if_neg hc)
+    exact hd (ite_eq_right hc)
 
 theorem colAddGen_map {r n : ℕ} (l j : Fin n) (Q : MvPolynomial (Fin r × Fin n) LL) :
     MvPolynomial.map e (Formalism.GradedWeylDivisibility.colAddGen LL l j Q) = Formalism.GradedWeylDivisibility.colAddGen Kf l j (MvPolynomial.map e Q) := by
@@ -1054,7 +1054,7 @@ theorem vsp_le (v : Fin P.nV) :
       dualWeyl ℂ (P.m + 1) (P.m + 1) (nuOf (lamAt (P.lam0 v) s)) else ⊥) → F ∈ Submodule.span ℂ (T s) := by
     intro s F hF
     have ha := lamAt_anti (P.lam0 v) (P.dom v) s
-    rw [if_pos ha, ← Formalism.L2.G.Model.sw_weyl_eq ℂ (P.m + 1) (P.m + 1) le_rfl _ (_root_.Formalism.L2.G.Model.TS.nuOf_antitone ha),
+    rw [ite_eq_left ha, ← Formalism.L2.G.Model.sw_weyl_eq ℂ (P.m + 1) (P.m + 1) le_rfl _ (_root_.Formalism.L2.G.Model.TS.nuOf_antitone ha),
       weyl_eq_span_int] at hF
     exact hF
   have hP := prodSpan (O := ℂ) (I := Fin (P.n' v)) (B := fun _ => MvPolynomial (Fin (P.m + 1) × Fin (P.m + 1)) ℂ)
@@ -1876,11 +1876,11 @@ theorem twUnit_of (S : StepIn M i hi G) (e : D.what₂.LL →+* G.Kf) (w : D.wha
     rw [hR0]
     by_cases hs : Even s.val
     · have h1 := H.pos_emb v s x
-      rw [if_pos hs] at h1
+      rw [ite_eq_left hs] at h1
       rw [h1]
       exact rho_int v s.val _ (hx v).1
     · have h1 := H.pos_emb v s (sigD D x)
-      rw [if_neg hs, hσσ] at h1
+      rw [ite_eq_right hs, hσσ] at h1
       rw [h1]
       exact rho_int v s.val _ (hx v).2
   have i1 : ∀ τ, tEL D τ ε ∈ intW D.what₂.places w := hint ε fun v => (hiw v).1

@@ -62,7 +62,7 @@ theorem chartMatrixTopBlock_det_eq_one (X : Data E r) (z : V (nd X)) (τ : X.Ψ)
       rw [Fin.lt_iff_val_lt_val]; simp only [Fin.coe_castLE]; exact not_lt.mpr (le_of_lt hij')
     have h2 : Fin.castLE X.p0_le i ≠ Fin.castLE X.p0_le j := by
       intro h; apply ne_of_lt hij'; exact Fin.castLE_injective _ h
-    simp only [nmat, dif_neg h1, if_neg h2])]
+    simp only [nmat, dite_eq_right h1, ite_eq_right h2])]
   apply Finset.prod_eq_one
   intro i _
   show nmat X z τ (Fin.castLE X.p0_le i) (Fin.castLE X.p0_le i) = 1
@@ -76,7 +76,7 @@ theorem entry_eq (X : Data E r) (z : V (nd X)) (τ : X.Ψ) (m : Fin r) (a : Fin 
         if (⟨m, hm⟩ : Fin X.p0) = c then 1 else 0 := by
       intro c
       simp only [Data.lowBlock, Matrix.of_apply]
-      rw [dif_neg (by omega)]
+      rw [dite_eq_right (by omega)]
       simp only [add_zero]
       congr 1
       apply propext
@@ -85,7 +85,7 @@ theorem entry_eq (X : Data E r) (z : V (nd X)) (τ : X.Ψ) (m : Fin r) (a : Fin 
         have hv : (m : ℕ) = (c : ℕ) := by simpa using congrArg (fun t : Fin r => (t : ℕ)) h
         exact Fin.ext hv
       · intro h; ext; rw [← h]; rfl
-    simp only [hrow, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    simp only [hrow, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
     rfl
   · have hm' : X.p0 ≤ (m : ℕ) := not_lt.mp hm
     have hrow : ∀ c : Fin X.p0, X.lowBlock (graphCoord X z) τ m (Fin.castLE X.p0_le c) =
@@ -94,7 +94,7 @@ theorem entry_eq (X : Data E r) (z : V (nd X)) (τ : X.Ψ) (m : Fin r) (a : Fin 
       simp only [Data.lowBlock, Matrix.of_apply]
       have hne : m ≠ Fin.castLE X.p0_le c := by
         intro h; have := congrArg Fin.val h; simp at this; have := c.isLt; omega
-      rw [if_neg hne, dite_eq_left ⟨hm', c.isLt⟩, zero_add]
+      rw [ite_eq_right hne, dite_eq_left ⟨hm', c.isLt⟩, zero_add]
       rfl
     simp only [hrow]
     have hdet : IsUnit (chartMatrixTopBlock X z τ).det := by rw [chartMatrixTopBlock_det_eq_one]; exact isUnit_one

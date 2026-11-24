@@ -149,7 +149,7 @@ theorem exists_approx_idempotent {K L : Type} [Field K] [NumberField K] [Field L
   have hw : ∀ la' ∈ S, ∃ w : 𝓞 L, w ∈ la'.asIdeal ^ N ∧ w ∉ la.asIdeal := by
     intro la' h
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have h1 : la'.asIdeal ^ N ≤ la.asIdeal := fun w hw => hc w hw
     have h2 := Ideal.IsPrime.le_of_pow_le h1
     exact h.1 (HeightOneSpectrum.ext (la'.isMaximal.eq_of_le la.isPrime.ne_top h2))

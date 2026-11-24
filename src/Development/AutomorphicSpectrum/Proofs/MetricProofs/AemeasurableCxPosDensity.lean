@@ -278,7 +278,7 @@ theorem exists_setLift_family {S : Set ((Σ k, ι k) → ℂ)}
     obtain ⟨m, hm⟩ := hf (some t)
     refine ⟨m, ?_, ?_⟩
     · show y ∈ Bo (f m)
-      rw [hm, hBsome, if_pos hL]
+      rw [hm, hBsome, ite_eq_left hL]
       exact hyB
     · show segre (γo (f m) y) = w
       rw [hm, hγsome t hL, (hL.choose_spec y hyB).2.2]
@@ -369,7 +369,7 @@ theorem cxPosDens_aemeasurable_of_finite {S : Set ((Σ k, ι k) → ℂ)}
       intro m
       rw [Finset.sum_ite_eq]
       by_cases hm : y ∈ T m
-      · rw [if_pos (hmemF m hm)]
+      · rw [ite_eq_left (hmemF m hm)]
       · split_ifs
         · rfl
         · rw [hfdef]
@@ -388,7 +388,7 @@ theorem cxPosDens_aemeasurable_of_finite {S : Set ((Σ k, ι k) → ℂ)}
         have hm1T : y ∈ T (Nat.find hP') :=
           ⟨hm1B, fun m' hm' h => Nat.find_min hP' hm' ⟨h.1, h.2.trans hm1w⟩⟩
         filter_upwards [eventually_gt_atTop (Nat.find hP')] with N hN
-        rw [Finset.sum_eq_single_of_mem (Nat.find hP') (Finset.mem_range.2 hN), if_pos hm1w,
+        rw [Finset.sum_eq_single_of_mem (Nat.find hP') (Finset.mem_range.2 hN), ite_eq_left hm1w,
           hterm _ hm1T, hm1w]
         intro m _ hne
         split_ifs with hmw

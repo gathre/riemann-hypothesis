@@ -131,7 +131,7 @@ theorem genMap_mem_sat (S T : HSp D) (ΛS : Submodule (𝓞 D.host.E) (Fin S.ran
     genMap S T 1 s t ∈ sat S T (ΛS : Set (Fin S.rank → D.host.E)) (ΛT : Set (Fin T.rank → D.host.E)) := by
   obtain ⟨a, ha0, ha⟩ : ∃ a : D.host.E, a ≠ 0 ∧ a ∈ D.host.AA := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply AA_ne_zero D
     rw [FractionalIdeal.eq_zero_iff]
     intro x hx

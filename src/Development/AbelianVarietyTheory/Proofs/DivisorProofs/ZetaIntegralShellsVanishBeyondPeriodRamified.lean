@@ -396,7 +396,7 @@ theorem shell_eq_zero_of_support : ∀ (k : Type) [Field k] [ValuativeRel k] [To
     (φ : Matrix (Fin a) (Fin a) k → ℂ) (M' : ℕ), Function.support φ ⊆ scaledInt ϖ a (-(M' : ℤ)) →
     ∀ n : Fin a → ℤ, ¬ (∀ i, -(M' : ℤ) ≤ n i) → ∀ z : ℂ, shell μ ϖ ν z φ n = 0 := by
   intro k _ _ _ _ _ _ ϖ hϖ ν a μ φ M' hS n hn z
-  push_neg at hn
+  push Not at hn
   obtain ⟨i, hi⟩ := hn
   rw [shell]
   refine setIntegral_eq_zero_of_forall_eq_zero fun g hg => ?_
@@ -438,7 +438,7 @@ theorem shell_lemma : ShellLemma := by
     rintro M hM n ⟨i, hi⟩ z
     obtain ⟨u, hu1, hu2⟩ : ∃ u : kˣ, valuation k (u : k) = 1 ∧ ν u ≠ 1 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hram h
     obtain ⟨t, htK, heq, hdisj⟩ := _root_.GlobalTheory.ShellCosets.shell_cosets k ϖ a n
     rw [shell, heq, integral_biUnion_finset t]

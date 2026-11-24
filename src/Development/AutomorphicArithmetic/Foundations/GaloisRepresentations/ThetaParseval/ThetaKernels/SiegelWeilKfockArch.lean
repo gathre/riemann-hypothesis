@@ -84,7 +84,7 @@ theorem detIm_ne_k (d : _root_.PositivityTheory.SiegelWeilFormula.SD_k σ) (w : 
     simp [Fin.sum_univ_two, Algebra.smul_def, map_add (f := _), map_mul]
   obtain ⟨e, he⟩ : ∃ e : E, (τ e).im ≠ 0 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have hc : (InfinitePlace.mk τ).IsComplex := IsTotallyComplex.isComplex _
     rw [InfinitePlace.isComplex_mk_iff] at hc
     apply hc

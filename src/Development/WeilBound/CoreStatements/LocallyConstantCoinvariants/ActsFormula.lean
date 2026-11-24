@@ -378,7 +378,7 @@ theorem acts_formula (hM : ModelEx) (hC : Cyc) (hA : AdSt) (hψ : IsStd ψ) (h :
   obtain ⟨φ₁, hφ₁, φ₂, hφ₂, hnz⟩ : ∃ φ₁ ∈ SB (κ → Fv F v), ∃ φ₂ ∈ SB (κ → Fv F v),
       l (omd x⁻¹ (boxFun (tens (evFin F v) φ₁ r) (tens (evFin F v) φ₂ r))) ≠ 0 := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     obtain ⟨c₂, hc₂⟩ := acts_scalar hA hψ h hG2 hι₂ hj₂ hsd x hxa X₀ hx
     have := hC _ (κ ⊕ κ) (psiV ψ v) hc h1 _ hbS hbne (l ∘ₗ omd x⁻¹ ∘ₗ tensL v (boxFun r r)) (fun w => by
       rw [schr_box]

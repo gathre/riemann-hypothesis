@@ -70,7 +70,7 @@ theorem pderiv_comm (u v : τ) (g : MvPowerSeries τ k) : pderiv (R := k) u (pde
   by_cases h : u = v
   · subst h; rfl
   · rw [show n + Finsupp.single u 1 + Finsupp.single v 1 = n + Finsupp.single v 1 + Finsupp.single u 1 by abel]
-    simp only [Finsupp.add_apply, Finsupp.single_apply, if_neg h, if_neg (Ne.symm h), add_zero]
+    simp only [Finsupp.add_apply, Finsupp.single_apply, ite_eq_right h, ite_eq_right (Ne.symm h), add_zero]
     ring
 
 theorem eq_C_of_pderiv_zero [Algebra ℚ k] {g : MvPowerSeries τ k} (h : ∀ v, pderiv (R := k) v g = 0) :

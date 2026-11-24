@@ -94,19 +94,19 @@ theorem leftMul_tau (hG : A.IsGen τ p) : Algebra.leftMulMatrix (LinDesc.bas A h
   rw [Algebra.leftMulMatrix_eq_repr_mul, bas_apply, ← pow_succ']
   simp only [companion, Matrix.of_apply]
   by_cases hj : (j : ℕ) + 1 = r
-  · rw [if_pos hj, hj]
+  · rw [ite_eq_left hj, hj]
     have h3 : τ ^ r = ∑ k, (-p k) • τ ^ (k : ℕ) := by
       have := hG.2.2
       simp only [neg_smul, Finset.sum_neg_distrib]
       exact eq_neg_of_add_eq_zero_left this
     rw [h3, repr_sum]; simp
-  · rw [if_neg hj]
+  · rw [ite_eq_right hj]
     have hlt : (j : ℕ) + 1 < r := lt_of_le_of_ne j.2 hj
     have h3 : τ ^ ((j : ℕ) + 1) = LinDesc.bas A hG ⟨(j : ℕ) + 1, hlt⟩ := by rw [bas_apply]
     rw [h3, Module.Basis.repr_self, Finsupp.single_apply]
     by_cases hi : (i : ℕ) = (j : ℕ) + 1
-    · rw [if_pos hi, if_pos (Fin.ext hi.symm)]
-    · rw [if_neg hi, if_neg]
+    · rw [ite_eq_left hi, ite_eq_left (Fin.ext hi.symm)]
+    · rw [ite_eq_right hi, ite_eq_right]
       intro h; exact hi (by rw [← h])
 
 end GlobalTheory.JR.LinDesc
@@ -180,7 +180,7 @@ theorem pt_one : ∀ (F E : Type) [NontriviallyNormedField F] [NontriviallyNorme
   simp only
   rw [h1, Module.Basis.equivFun_self]
   by_cases hi : (i : ℕ) = 0
-  · rw [if_pos hi, if_pos (Fin.ext hi.symm)]
-  · rw [if_neg hi, if_neg]
+  · rw [ite_eq_left hi, ite_eq_left (Fin.ext hi.symm)]
+  · rw [ite_eq_right hi, ite_eq_right]
     intro h; exact hi (by rw [← h])
 end GlobalTheory.JR.LinDesc

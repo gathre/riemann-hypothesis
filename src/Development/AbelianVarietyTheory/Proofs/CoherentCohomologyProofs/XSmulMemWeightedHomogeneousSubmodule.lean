@@ -132,7 +132,7 @@ theorem exists_comp_X_add_one_sub_eq (d : ℕ) (Q : K[X]) (hQ : Q.degree < (d : 
       · have h1 := degree_comp_X_add_C_sub_lt (C (Q.coeff d / (d + 1)) * X ^ (d + 1)) 1 (d + 1) hR0
         rw [(degree_lt_iff_coeff_zero _ _).1 hQ m (by omega),
           (degree_lt_iff_coeff_zero _ _).1 h1 m (by omega), sub_zero]
-      · rw [← h, coeff_comp_X_add_C_sub _ 1 d hR0, coeff_C_mul_X_pow, if_pos rfl, one_mul,
+      · rw [← h, coeff_comp_X_add_C_sub _ 1 d hR0, coeff_C_mul_X_pow, ite_eq_left rfl, one_mul,
           mul_div_cancel₀ _ hd1, sub_self]
     obtain ⟨P', hP'd, hP'⟩ := ih _ hQ'
     refine ⟨P' + C (Q.coeff d / (d + 1)) * X ^ (d + 1), ?_, ?_⟩

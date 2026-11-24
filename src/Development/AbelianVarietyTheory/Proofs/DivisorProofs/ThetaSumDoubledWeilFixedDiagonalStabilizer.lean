@@ -667,7 +667,7 @@ theorem finiteTensor_shift (J : (FractionalIdeal (𝓞 F)⁰ F)ˣ) (b : κ ⊕ �
       rw [show t i + u i - b (Sum.inl i) = (t i - b (Sum.inr i)) + (u i - (b (Sum.inl i) - b (Sum.inr i))) by ring]
       exact AddSubgroup.add_mem_cancel_left _ h
     simp only [this]
-  · simp only [if_neg h, mul_zero]
+  · simp only [ite_eq_right h, mul_zero]
 
 theorem summable_gen (f : SchwartzMap (κ ⊕ κ → mixedSpace F) ℂ) (J : (FractionalIdeal (𝓞 F)⁰ F)ˣ)
     (b : κ ⊕ κ → FiniteAdeleRing (𝓞 F) F) :

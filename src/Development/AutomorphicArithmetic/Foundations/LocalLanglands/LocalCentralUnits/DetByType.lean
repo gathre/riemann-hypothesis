@@ -135,7 +135,7 @@ private theorem equiv_of_typeMaps [Nontrivial W] {T : Representation ℂ (GL (Fi
   obtain ⟨w0, hw0⟩ := exists_ne (0 : W)
   have hinr : ∀ v' : π'.V, ((0 : π.V), v') ∈ U → v' = 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨v', hv'U, hv'0⟩ := hcon
     have hB : U.comap (LinearMap.inr ℂ π.V π'.V) = ⊤ := top_of_stable π' _ (by
         intro γ y hy
@@ -158,7 +158,7 @@ private theorem equiv_of_typeMaps [Nontrivial W] {T : Representation ℂ (GL (Fi
     exact hw0 (hj'.1 (by rw [← h2, map_zero]))
   have hinl : ∀ v : π.V, (v, (0 : π'.V)) ∈ U → v = 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨v, hvU, hv0⟩ := hcon
     have hB : U.comap (LinearMap.inl ℂ π.V π'.V) = ⊤ := top_of_stable π _ (by
         intro γ y hy

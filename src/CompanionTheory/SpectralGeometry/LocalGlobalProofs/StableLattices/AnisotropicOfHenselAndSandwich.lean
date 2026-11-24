@@ -82,7 +82,7 @@ lemma pair_le [IsUltrametricDist L] [CompleteSpace L] (hH : StHensel) (hs : IsIn
     ‖h x y + h y x‖ ≤ 1 := by
   have h1 := hh.2.2.1
   by_contra hb
-  push_neg at hb
+  push Not at hb
   obtain ⟨b, hbd⟩ : ∃ b, b = h x y + h y x := ⟨_, rfl⟩
   rw [← hbd] at hb
   have hbpos : 0 < ‖b‖ := by linarith

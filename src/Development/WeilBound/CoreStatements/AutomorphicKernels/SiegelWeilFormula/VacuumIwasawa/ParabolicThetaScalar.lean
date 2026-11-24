@@ -187,7 +187,7 @@ theorem parabolic_theta_scalar (hT : TAll) {d : SD σ} (i₀ : Fin d.n) {q : d.G
       refine Finset.sum_eq_zero fun j _ => ?_
       by_cases h : i = i₀ ∨ j = i₀
       · rw [hG j i (h.symm), mul_zero]
-      · push_neg at h
+      · push Not at h
         rw [hβ i j h.1 h.2, zero_mul]
     simp only [SD.tt, this, map_zero]
   have hXD : X * (D⁻¹).1ᵀ = X := by

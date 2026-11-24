@@ -91,7 +91,7 @@ private theorem cs_prod_lemma_2 {σ τ : Type} (a : σ → MvPowerSeries τ C)
     MvPowerSeries.constantCoeff (e.prod fun s n => a s ^ n) = 0 := by
   obtain ⟨s, hs⟩ : ∃ s, e s ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact he (Finsupp.ext h)
   rw [map_finsuppProd]
   simp only [map_pow, ha0, Finsupp.prod]
@@ -106,7 +106,7 @@ private theorem cs_prod_lemma_3 {σ τ : Type} (a : σ → MvPowerSeries τ C)
     simp at he
   obtain ⟨s, hs⟩ : ∃ s, e s ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (Finsupp.ext h)
   have hle : Finsupp.single s 1 ≤ e := by
     rw [Finsupp.single_le_iff]
@@ -161,7 +161,7 @@ theorem subst_zero_of_const {σ τ : Type} [Finite σ] (f : MvPowerSeries σ C)
   · intro e he
     obtain ⟨s, hs⟩ : ∃ s, e s ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact he (Finsupp.ext h)
     simp only [Pi.zero_apply, Finsupp.prod]
     rw [Finset.prod_eq_zero (Finsupp.mem_support_iff.mpr hs) (zero_pow hs)]
@@ -210,10 +210,10 @@ theorem coeff_single_substX_tyS {τ : Type} {l : ℕ} (hl : 2 ≤ l) (a : ℕ �
   · rw [Finsupp.mapDomain_single]
     by_cases h : c'' = c
     · subst h
-      rw [if_pos rfl, if_pos rfl, hcoef]
-    · rw [if_neg (fun h' => h ((Finsupp.single_left_injective one_ne_zero h').symm)), if_neg h]
+      rw [ite_eq_left rfl, ite_eq_left rfl, hcoef]
+    · rw [ite_eq_right (fun h' => h ((Finsupp.single_left_injective one_ne_zero h').symm)), ite_eq_right h]
   · intro d hd
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h'
     apply hd
     rw [Finsupp.unique_single d, Finsupp.mapDomain_single] at h'
@@ -250,7 +250,7 @@ theorem isT_sum {V : VF C} {d : ℕ} {I₁ J₁ : Type} [Fintype I₁] [Fintype 
         · intro s _ hs
           rw [Finset.mem_range] at hs
           have : s < V.l ^ s := Nat.lt_pow_self (by omega)
-          rw [if_neg (by omega)]
+          rw [ite_eq_right (by omega)]
       rw [Finset.sum_congr rfl e1, Finset.sum_comm]
       refine Finset.sum_congr rfl fun s _ => ?_
       simp only [Finset.sum_ite_eq]

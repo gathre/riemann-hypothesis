@@ -96,7 +96,7 @@ private theorem isHecke_conv (K : Subgroup G) {A B : G → ℂ} (hA : IsHecke K 
     have hy' : hint K (fun z => A z * B (z⁻¹ * y)) ≠ 0 := hy
     obtain ⟨z, hz⟩ : ∃ z, A z * B (z⁻¹ * y) ≠ 0 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact hy' (by simp [hint, hc])
     exact Set.mem_mul.2 ⟨z, subset_tsupport _ (left_ne_zero_of_mul hz), z⁻¹ * y,
       subset_tsupport _ (right_ne_zero_of_mul hz), by group⟩

@@ -100,14 +100,14 @@ theorem wd_lam_lo (i : ℕ) (h1 : 1 ≤ i) (h2 : i ≤ D.R.k - 1) :
     ((wd D j τ).lam i : ℚ) = (D.hc τ).v ⟨i - 1, by omega⟩ := by
   have hk : (wd D j τ).k = D.R.k := rfl
   unfold WeightData.lam
-  rw [if_pos (by rw [hk]; exact h2), wd_v D j τ (i + 1) ⟨by omega, by omega⟩]
+  rw [ite_eq_left (by rw [hk]; exact h2), wd_v D j τ (i + 1) ⟨by omega, by omega⟩]
   exact congrArg _ (Fin.ext (by simp))
 
 theorem wd_lam_hi (i : ℕ) (h1 : D.R.k - 1 < i) (h2 : i - (D.R.k - 1) - 1 < D.R.m) :
     ((wd D j τ).lam i : ℚ) = -(D.hc τ).b ⟨i - (D.R.k - 1) - 1, h2⟩ := by
   have hk : (wd D j τ).k = D.R.k := rfl
   unfold WeightData.lam
-  rw [if_neg (by rw [hk]; omega)]
+  rw [ite_eq_right (by rw [hk]; omega)]
   push_cast
   rw [hk, wd_b D j τ _ ⟨by omega, h2⟩]
 

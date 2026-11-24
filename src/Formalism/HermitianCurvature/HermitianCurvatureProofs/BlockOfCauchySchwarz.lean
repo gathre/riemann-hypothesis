@@ -132,7 +132,7 @@ end block
 theorem cross_le {A B x : ℝ} (hA : 0 ≤ A) (hB : 0 ≤ B) (h : x ^ 2 ≤ A * B) (hx : 0 ≤ x) : 2 * x ≤ A + B := by
   have hAB : 0 ≤ A + B := by linarith
   by_contra hc
-  push_neg at hc
+  push Not at hc
   nlinarith [sq_nonneg (A - B), mul_nonneg hAB hx]
 
 theorem block_of_cauchy_schwarz : KB.BlockOfCS := by

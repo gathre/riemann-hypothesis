@@ -65,7 +65,7 @@ theorem series_form {O : Type} [CommRing O] (ϖ : O) (hO : ∀ a, IsUnit a ∨ �
     choose d hd using h
     exact ⟨mk d, by ext n; simp [hd]⟩
   · right
-    push_neg at h
+    push Not at h
     have h1 := Nat.find_spec h
     have h2 : ∀ n, ∃ d, n < Nat.find h → coeff n a = ϖ * d := by
       intro n
@@ -81,8 +81,8 @@ theorem series_form {O : Type} [CommRing O] (ϖ : O) (hO : ∀ a, IsUnit a ∨ �
     · ext n
       rw [map_add (f := _), coeff_C_mul, coeff_X_pow_mul', coeff_mk]
       by_cases hn : n < Nat.find h
-      · rw [if_pos hn, if_neg (by omega), hd n hn, add_zero]
-      · rw [if_neg hn, if_pos (by omega), coeff_mk, Nat.sub_add_cancel (by omega), mul_zero, zero_add]
+      · rw [ite_eq_left hn, ite_eq_right (by omega), hd n hn, add_zero]
+      · rw [ite_eq_right hn, ite_eq_left (by omega), coeff_mk, Nat.sub_add_cancel (by omega), mul_zero, zero_add]
 
 theorem letter_form {O ι : Type} [CommRing O] [DecidableEq ι] (ϖ : O) (hO : ∀ a, IsUnit a ∨ ϖ ∣ a)
     (a : ι → O⟦X⟧) (i : ι) :

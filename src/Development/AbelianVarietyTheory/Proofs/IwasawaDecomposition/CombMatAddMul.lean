@@ -104,14 +104,14 @@ theorem shift_mem {n a : ℕ} (ha : a ≤ n) (k : Fin a) {s : Fin n → ℂ} (hs
     by_cases hj : j = Fin.castLE ha k
     · subst hj
       have hk : ((Fin.castLE ha k : Fin n) : ℕ) < a := by simp [k.isLt]
-      simp only [hk, if_true] at h ⊢
+      simp only [hk, ite_true] at h ⊢
       simpa [Pi.add_apply] using h
     · simpa [Pi.add_apply, Pi.single_eq_of_ne hj] using h
   · funext j
     by_cases hj : j = Fin.castLE ha k
     · subst hj
       have hk : ((Fin.castLE ha k : Fin n) : ℕ) < a := by simp [k.isLt]
-      simp only [logExp, hk, if_true, Pi.add_apply, Pi.single_eq_same]
+      simp only [logExp, hk, ite_true, Pi.add_apply, Pi.single_eq_same]
       rw [Complex.exp_add, Complex.exp_two_pi_mul_I, _root_.mul_one]
     · simp [logExp, Pi.single_eq_of_ne hj]
 

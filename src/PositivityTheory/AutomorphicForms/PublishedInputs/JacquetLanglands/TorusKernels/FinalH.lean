@@ -1099,7 +1099,7 @@ theorem sign_holV {k c} {ω : HChar F} {φ : TR.Sm F 2} (hφ : IsHolV k c ω φ)
   classical
   obtain ⟨g, hg⟩ : ∃ g, φ.1 g ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact h0 (Subtype.ext (funext h))
   set e : TR.Rinf F := Pi.single v 1 with he
   have hr0 : rot ((0 : ℝ) • e) = 1 := by
@@ -1171,7 +1171,7 @@ theorem chi_of {k c} {ω : HChar F} {φ : TR.Sm F 2} (hφ : IsHolV k c ω φ) (h
   have hfix := fix_of k c ω φ hφ
   obtain ⟨g, hg⟩ : ∃ g, φ.1 g ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact h0 (Subtype.ext (funext h))
   have h1 : ∀ z, zc F z ∈ Kc c → (ω.1.comp (finId F)) z = 1 := by
     intro z hz

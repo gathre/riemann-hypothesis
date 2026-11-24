@@ -67,7 +67,7 @@ def gradedCoeff (σ : Type) : Subring (Polynomial (MvPolynomial σ ℂ)) where
     intro k
     rcases Nat.eq_zero_or_pos k with rfl | h
     · simpa using isHomogeneous_one σ ℂ
-    · rw [Polynomial.coeff_one, if_neg (by omega)]; exact isHomogeneous_zero _ _ _
+    · rw [Polynomial.coeff_one, ite_eq_right (by omega)]; exact isHomogeneous_zero _ _ _
   add_mem' := by
     intro p q hp hq k
     rw [Polynomial.coeff_add]; exact (hp k).add (hq k)

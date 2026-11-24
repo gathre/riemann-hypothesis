@@ -399,7 +399,7 @@ theorem thetaPts_finite : ∀ (G N' : ℕ) (J : Type) (K : Type) [Field K] [IsAl
   obtain ⟨v, hv⟩ := GlobalTheory.FamRep.exists_hasTh_field GlobalTheory.firstFiveLaws.1 GlobalTheory.firstFiveLaws.2.1 ho t K (𝟙 _)
   have h : ∃ v : Ix G (N' ^ 2) → K, IsThetaPt Q N' (fun a => (l a).1) (fun a => fn (v a)) := ⟨v, (key v).1 hv⟩
   refine ⟨ch l, ⟨l, rfl⟩, (key _).2 ?_⟩
-  simp only [ch, dif_pos h]
+  simp only [ch, dite_eq_left h]
   exact h.choose_spec
 
 end GlobalTheory.ThetaFiniteIso

@@ -287,7 +287,7 @@ theorem conjStable_first_member (hCRD : GlobalTheory.Published.CuspRapidDecay) {
       (¬ Formalism.MainNotions.SchurIrreducible.IsSplit (E := D.host.E) (w.under (𝓞 D.host.F)) → (B w).map star = B w) := by
   have hex : ∃ v, PiLocalization₂.val u' v ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hB'.1
     apply Subtype.ext
     apply LinearMap.ext

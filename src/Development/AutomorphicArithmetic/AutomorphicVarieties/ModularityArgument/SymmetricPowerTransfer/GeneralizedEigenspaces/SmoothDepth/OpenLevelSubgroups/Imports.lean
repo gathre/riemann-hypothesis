@@ -75,7 +75,7 @@ theorem UpperTheory.V.Z.Sym.Al.proj :
   have hsum : ∀ f, ∑ k, P k (C f) = C f := fun f => hPs _ ⟨f, rfl⟩
   have hne : ∃ k, F k ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     refine hφ (funext fun g => hext fun f => ?_)
     have e := congrArg (fun x : GlobalTheory.DefU.autU L n => x.1 g) (hsum f)
     simp only [AddSubmonoidClass.coe_finsetSum, Finset.sum_apply] at e

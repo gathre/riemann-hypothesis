@@ -419,7 +419,7 @@ theorem exists_compl (hs : ∀ x, s (s x) = x) {n : ℕ} {J : Matrix (Fin (n + 1
       P.det ≠ 0 ∧ (∀ i, P i 0 = x i) ∧ cT s P * J * P = blk (hform s J x x) J' := by
   obtain ⟨k, hk⟩ : ∃ k, x k ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     simp [hform, h] at hx
   let P₀ : Matrix (Fin (n + 1)) (Fin (n + 1)) E :=
     ((1 : Matrix _ _ E).updateCol k x).submatrix id (Equiv.swap 0 k)
@@ -472,7 +472,7 @@ variable {E : Type} [Field E] [CharZero E] {s : E →+* E}
 theorem exists_aniso (hs : ∀ x, s (s x) = x) {n : ℕ} {J : Matrix (Fin (n + 1)) (Fin (n + 1)) E}
     (hJ : HN s J) : ∃ x, hform s J x x ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hd : ∀ i, J i i = 0 := fun i => by
     simpa [hform, Pi.single_apply, apply_ite s] using h (Pi.single i 1)
   have h0 : J = 0 := by
@@ -606,7 +606,7 @@ def pot (s : E →+* E) (C : ∀ n : ℕ, E → Matrix (Fin n) (Fin n) E → Γ)
 theorem pot_succ (C : ∀ n : ℕ, E → Matrix (Fin n) (Fin n) E → Γ) {n : ℕ}
     {J : Matrix (Fin (n + 1)) (Fin (n + 1)) E}
     (h : ∃ p : E × Matrix (Fin n) (Fin n) E, Cong s J (blk p.1 p.2)) :
-    pot s C (n + 1) J = C n h.choose.1 h.choose.2 * pot s C n h.choose.2 := dif_pos h
+    pot s C (n + 1) J = C n h.choose.1 h.choose.2 * pot s C n h.choose.2 := dite_eq_left h
 
 theorem exists_blk [CharZero E] (hs : ∀ x, s (s x) = x) {n : ℕ}
     {J : Matrix (Fin (n + 1)) (Fin (n + 1)) E} (hJ : HN s J) :
@@ -692,11 +692,11 @@ theorem cob_two [CharZero E] (hs : ∀ x, s (s x) = x) (C : ∀ n : ℕ, E → M
   refine ⟨fun n J => if 2 ≤ n then A n J / (C n 1 J * C (n + 1) 1 (blk 1 J)) else 1,
     fun n J K hJ h => ?_, fun n J a J' hn hJ h => ?_⟩
   · by_cases hn : 2 ≤ n
-    · simp only [hn, if_true]; exact inv n J K hn hJ h
-    · simp only [hn, if_false]
+    · simp only [hn, ite_true]; exact inv n J K hn hJ h
+    · simp only [hn, ite_false]
   · have hn' : 2 ≤ n + 1 := by omega
     have g := h.hn hs hJ
-    simp only [hn, hn', if_true]
+    simp only [hn, hn', ite_true]
     rw [inv _ _ _ hn' hJ h, hA2 n _ a J' g (Cong.refl _), h1 _ 1 _ _ (by omega) (ho (ho g)) (sw g)]
     have q1 := h2 n 1 a a 1 J' hn (ho g) (hs1 g) (bin_swap _ _)
     have q2 := h2 (n + 1) 1 a a 1 (blk 1 J') hn' (ho (hs1 g)) (hs1 (hs1 g)) (bin_swap _ _)
@@ -981,7 +981,7 @@ theorem exists_unique_stepRel : ∀ (F E : Type) [Field F] [NumberField F] [Fiel
       if h : ∃ g : HA (AF F) σ J, g • ratTup (F := F) (AF F) x = y then h.choose else 1
     have ht : ∀ y, (∃ g : HA (AF F) σ J, g • ratTup (F := F) (AF F) x = y) →
         t y • ratTup (F := F) (AF F) x = y := fun y hy => by
-      simp only [t, dif_pos hy]
+      simp only [t, dite_eq_left hy]
       exact hy.choose_spec
     exact Measure.ext_of_lintegral _ fun f hf => (k₁ f hf t ht).trans (k₂ f hf t ht).symm
 
@@ -1550,7 +1550,7 @@ theorem exists_const (hσ : IsCMExt F E σ) {d : ℕ} {b : Module.Basis (Fin d) 
       StepData σ J x a B J' ∧ StepRel s σ J x a B J' ((u : ℝ≥0) • G.μ (M + 1) J) (G.μ M J') := by
     obtain ⟨u, hu⟩ := key M J x a B J' hM hS
     exact ⟨u, a, J', hM, hS, hu⟩
-  simp only [dif_pos hex]
+  simp only [dite_eq_left hex]
   obtain ⟨a₀, J₀, -, hS₀, hR₀⟩ := hex.choose_spec
   obtain ⟨rfl, rfl⟩ := stepData_unique hS₀ hS
   exact hR₀

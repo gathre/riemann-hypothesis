@@ -55,7 +55,7 @@ variable {p : ℕ} [Fact p.Prime] (g : G1 p) {σ τ : Type}
 
 theorem cc_l : PowerSeries.constantCoeff g.l = 0 := by
   unfold G1.l
-  rw [← PowerSeries.coeff_zero_eq_constantCoeff_apply, Formalism.MainNotions.TaylorLogMetric.flog, PowerSeries.coeff_mk, if_pos rfl]
+  rw [← PowerSeries.coeff_zero_eq_constantCoeff_apply, Formalism.MainNotions.TaylorLogMetric.flog, PowerSeries.coeff_mk, ite_eq_left rfl]
 
 private theorem cc_subst_lemma {R : Type} [CommRing R] {υ : Type} {a : MvPowerSeries υ R}
     (ha : MvPowerSeries.constantCoeff a = 0) {f : PowerSeries R} (hf0 : PowerSeries.constantCoeff f = 0) :

@@ -171,7 +171,7 @@ theorem exists_sq_close [ProperSpace K] (h2 : ‖(2 : K)‖ < 1) (n : K) (hn : �
     apply Quotient.sound
     show ‖(a : K) - b‖ < 1
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have hle : ‖(a : K) - b‖ ≤ 1 := (um_sub _ _).trans (max_le (mem_ball1 a.2) (mem_ball1 b.2))
     have h1 : ‖(a : K) - b‖ = 1 := le_antisymm hle hc
     have h2b : ‖2 * (b : K)‖ < 1 := by
@@ -218,7 +218,7 @@ theorem exists_diff_one (h2 : ‖(2 : F)‖ < 1) : ∃ w : E, ‖w‖ ≤ 1 ∧ 
   refine ⟨w, hw.le, le_antisymm ?_ ?_⟩
   · exact (um_sub _ _).trans (by rw [hU.norm_star, hw, max_self])
   · by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     set N := w * star w with hN
     have hNs : star N = N := by rw [hN, star_mul, star_star, mul_comm]
     set n := Algebra.trace F E N / 2
@@ -274,7 +274,7 @@ theorem exists_half (F : Type) {E : Type} [NontriviallyNormedField F] [Nontrivia
 theorem small_of_trace_small (y : E) (h : ∀ e : E, ‖e‖ ≤ 1 → ‖Algebra.trace F E (e * y)‖ < 1) : ‖y‖ < 1 := by
   haveI := hU.charZero
   by_contra hy
-  push_neg at hy
+  push Not at hy
   have hy0 : y ≠ 0 := by intro h0; rw [h0, norm_zero] at hy; linarith
   obtain ⟨x, hx⟩ := hU.unram y
   obtain ⟨e0, he0, hs⟩ := exists_half F (E := E)

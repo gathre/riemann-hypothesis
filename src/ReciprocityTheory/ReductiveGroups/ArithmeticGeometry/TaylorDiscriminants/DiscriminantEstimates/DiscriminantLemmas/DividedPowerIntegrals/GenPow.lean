@@ -134,8 +134,8 @@ theorem gdelta_X_inr (κ : I → J → K) (j : J) (R : MvPolynomial (I ⊕ J) K)
     simp only [smul_eq_mul]
     by_cases h : j' = j
     · subst h
-      rw [pderiv_X_self, mul_one, if_pos rfl]
-    · rw [pderiv_X_of_ne (fun e => h (Sum.inr_injective e).symm), mul_zero, add_zero, if_neg h, add_zero]
+      rw [pderiv_X_self, mul_one, ite_eq_left rfl]
+    · rw [pderiv_X_of_ne (fun e => h (Sum.inr_injective e).symm), mul_zero, add_zero, ite_eq_right h, add_zero]
   have h3 : ∀ (i' : I) (j' : J), pderiv (Sum.inl i') (pderiv (Sum.inr j') (X (Sum.inr j) * R)) =
       X (Sum.inr j) * pderiv (Sum.inl i') (pderiv (Sum.inr j') R) +
         if j' = j then pderiv (Sum.inl i') R else 0 := by
@@ -146,7 +146,7 @@ theorem gdelta_X_inr (κ : I → J → K) (j : J) (R : MvPolynomial (I ⊕ J) K)
   refine Finset.sum_congr rfl fun i' _ => ?_
   rw [Finset.mul_sum]
   simp only [h3, smul_add, Finset.sum_add_distrib, mul_smul_comm, smul_ite, smul_zero,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 end
 

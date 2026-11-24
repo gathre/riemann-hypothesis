@@ -176,7 +176,7 @@ theorem exists_real_det_ne_zero {A C : Matrix (Fin n) (Fin n) ℂ} (h : (A - Com
     ∃ t : ℝ, (A - (t : ℂ) • C).det ≠ 0 := by
   classical
   by_contra hne
-  push_neg at hne
+  push Not at hne
   set p : Polynomial ℂ :=
     ((Polynomial.X : Polynomial ℂ) • (-C).map Polynomial.C + A.map Polynomial.C).det with hp
   have heval : ∀ z : ℂ, p.eval z = (A - z • C).det := by

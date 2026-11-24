@@ -83,7 +83,7 @@ theorem exists_skewUnit {B : Base F E} (hB : B.IsGood σ) :
     ⟨inclR (F := F) (Fv F v) ξ, inclR (F := F) (Fv F v) ξ⁻¹, by rw [← map_mul, mul_inv_cancel₀ hξ, map_one],
       by rw [← map_mul, inv_mul_cancel₀ hξ, map_one]⟩
   let b : ∀ v : Pl (F := F), GL (Fin 1) (Fv F v ⊗[F] E) := fun v => if v ∈ S then sc1 (u v * (xv v)⁻¹) else 1
-  have hb : ∀ v ∉ S, b v = 1 := fun v hv => if_neg hv
+  have hb : ∀ v ∉ S, b v = 1 := fun v hv => ite_eq_right hv
   let e : ∀ w : InfinitePlace F, w.Completion ⊗[F] E ≃+* ℂ := fun w =>
     RingEquiv.ofBijective (infEmb (B.emb w)) (infEmb_bijective hc (B.emb w))
   have hτ : ∀ w : InfinitePlace F, (B.emb w).1 ξ ≠ 0 := fun w => (map_ne_zero _).2 hξ
@@ -99,8 +99,8 @@ theorem exists_skewUnit {B : Base F E} (hB : B.IsGood σ) :
     have hX : Units.map (compFin F E v).toMonoidHom X = xv v := Units.ext (UnitA.compFin_inclR v ξ)
     rw [map_mul, map_det_bc, hγf v, hX]
     by_cases hv : v ∈ S
-    · simp only [b, if_pos hv, det_sc1, inv_mul_cancel_right]
-    · simp only [b, if_neg hv, map_one, one_mul]
+    · simp only [b, ite_eq_left hv, det_sc1, inv_mul_cancel_right]
+    · simp only [b, ite_eq_right hv, map_one, one_mul]
   have hfv : ∀ v, compFin F E v (r : AE F E) = ((if v ∈ S then u v else xv v : (Fv F v ⊗[F] E)ˣ) : Fv F v ⊗[F] E) := by
     intro v; rw [← hf v]; rfl
   have hfi : ∀ v, compFin F E v ((r⁻¹ : (AE F E)ˣ) : AE F E) =
@@ -138,8 +138,8 @@ theorem exists_skewUnit {B : Base F E} (hB : B.IsGood σ) :
       · have hz : sigR (Fv F v) σ (compFin F E v (r : AE F E)) = -compFin F E v (r : AE F E) := by
           rw [hfv v]
           by_cases hv : v ∈ S
-          · simp only [if_pos hv]; exact hu3 v
-          · simp only [if_neg hv, xv]
+          · simp only [ite_eq_left hv]; exact hu3 v
+          · simp only [ite_eq_right hv, xv]
             rw [UnitA.sigR_inclR, hσξ, map_neg]
         have hu : compFin F E v (r : AE F E) * compFin F E v ((r⁻¹ : (AE F E)ˣ) : AE F E) = 1 := by
           rw [← map_mul, Units.mul_inv, map_one]
@@ -151,8 +151,8 @@ theorem exists_skewUnit {B : Base F E} (hB : B.IsGood σ) :
       _ = -(r : AE F E) := by rw [this, neg_one_mul]
   · rw [hfv v, hfi v]
     by_cases hv : v ∈ S
-    · simp only [if_pos hv]; exact ⟨hu1 v, hu2 v⟩
-    · simp only [if_neg hv]; exact hS v hv
+    · simp only [ite_eq_left hv]; exact ⟨hu1 v, hu2 v⟩
+    · simp only [ite_eq_right hv]; exact hS v hv
   · change ‖infEmb (B.emb w) (compInf F E w (r : AE F E))‖ = 1
     rw [hi w, Complex.norm_I]
 

@@ -811,7 +811,7 @@ theorem hecke_sum_mem {F : Face D A} (hL : Laws R F) {t : T} (hB : BadSupp R i t
   · obtain ⟨z, hz⟩ := hecke_sum_good hL hTL hy hf hv hα hC hCR
     rw [hz]
     exact Submodule.smul_mem _ _ (Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self y))
-  · push_neg at hv
+  · push Not at hv
     obtain ⟨P, hP, hPv⟩ := hv
     obtain ⟨e, he⟩ := primeIdem_of_under hf hPv
     by_cases hk : α ∈ levW R i
@@ -1466,7 +1466,7 @@ theorem scalar_of_eigen {H : Type} [NormedAddCommGroup H] [InnerProductSpace ℂ
           have hne' : m - lx ≠ 0 := sub_ne_zero.2 hmx
           rw [div_eq_mul_inv, mul_comm, mul_smul, ← e1, smul_smul, inv_mul_cancel₀ hne', one_smul]
         rw [hx', map_smul, hl, smul_comm]
-  · push_neg at h
+  · push Not at h
     refine ⟨1, one_ne_zero, fun x hx => ?_⟩
     rw [h x hx, map_zero, smul_zero]
 

@@ -128,7 +128,7 @@ theorem nq_q (β : Matrix (Fin d.n) (Fin d.n) (AE F E)) (u : Fin L.n → AE F E)
     rw [Matrix.one_apply, Matrix.one_apply]
     by_cases h : k = a
     · subst h; simp [map_one]
-    · rw [if_neg h, if_neg (Ne.symm h), map_zero]
+    · rw [ite_eq_right h, ite_eq_right (Ne.symm h), map_zero]
   rw [e]
   refine Bq.NQ.of_blocks (fun a => hA1 a L.i₀ (Or.inr rfl)) (fun a k ha => hA1 a k (Or.inl ha)) (fun a k ha hk => ?_)
     (fun a k hk => by rw [Matrix.sub_apply, hD1 a k hk, sub_self])
@@ -141,10 +141,10 @@ theorem nq_q (β : Matrix (Fin d.n) (Fin d.n) (AE F E)) (u : Fin L.n → AE F E)
       by_cases hm : a = m
       · subst hm; simp [bp, ha, hk]
       · simp [hm, Ne.symm hm]
-    simp only [this, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    simp only [this, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   have h2 : (β * D) a k = β a k := by
     rw [Matrix.mul_apply]
-    simp only [hD1 _ k hk, Matrix.one_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    simp only [hD1 _ k hk, Matrix.one_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   rw [Matrix.add_apply, Matrix.neg_apply, h1, h2, neg_add_cancel]
 
 theorem isPar_of_nq {p : d.G} (h : NQ (Sum.inl L.i₀) (Sum.inr L.i₀) (inFrame d.b p)) :

@@ -254,11 +254,11 @@ theorem bd_log_div (a : (↥LL.1)⟦X⟧) (h1 : (1 + X) * derivative (X * a) = 1
     induction k with
     | zero =>
       have := congrArg (coeff 0) h1
-      rw [add_mul, one_mul, map_add (f := _), coeff_zero_X_mul, add_zero, coeff_one, if_pos rfl] at this
+      rw [add_mul, one_mul, map_add (f := _), coeff_zero_X_mul, add_zero, coeff_one, ite_eq_left rfl] at this
       rw [this, norm_one]
     | succ k ih =>
       have := congrArg (coeff (k + 1)) h1
-      rw [add_mul, one_mul, map_add (f := _), coeff_succ_X_mul, coeff_one, if_neg k.succ_ne_zero] at this
+      rw [add_mul, one_mul, map_add (f := _), coeff_succ_X_mul, coeff_one, ite_eq_right k.succ_ne_zero] at this
       rw [eq_neg_of_add_eq_zero_left this, norm_neg, ih]
   have hb : ∀ k, ‖coeff k a‖ ≤ k + 1 := by
     intro k

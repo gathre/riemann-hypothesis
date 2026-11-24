@@ -94,15 +94,15 @@ def piC (F : PSh) : C R F ⟶ C R F where
   f i := if i = 0 then 𝟙 _ else 0
   comm' i j hij := by
     obtain rfl : i = j + 1 := hij.symm
-    rw [if_neg (Nat.succ_ne_zero j), zero_comp, C_d']
+    rw [ite_eq_right (Nat.succ_ne_zero j), zero_comp, C_d']
     rcases j with _ | j
-    · rw [asum_even, if_neg (by decide), zero_smul, zero_comp]
-    · rw [if_neg (Nat.succ_ne_zero j), comp_zero]
+    · rw [asum_even, ite_eq_right (by decide), zero_smul, zero_comp]
+    · rw [ite_eq_right (Nat.succ_ne_zero j), comp_zero]
 
 def htpC (F : PSh) : Homotopy (𝟙 (C R F)) (piC F) where
   hom i j := if i + 1 = j ∧ Odd i then idX F i j else 0
   zero i j w := by
-    rw [if_neg]
+    rw [ite_eq_right]
     rintro ⟨h, -⟩
     exact w h
   comm i := by
@@ -110,17 +110,17 @@ def htpC (F : PSh) : Homotopy (𝟙 (C R F)) (piC F) where
     · rw [Homotopy.dNext_zero_chainComplex, Homotopy.prevD_chainComplex, C_d']
       simp [piC, asum_even]
     · rw [Homotopy.dNext_succ_chainComplex, Homotopy.prevD_chainComplex, C_d', C_d']
-      simp only [piC, if_neg (Nat.succ_ne_zero k), add_zero, true_and, asum_even]
+      simp only [piC, ite_eq_right (Nat.succ_ne_zero k), add_zero, true_and, asum_even]
       rcases Nat.even_or_odd k with h | h
       · have h1 : ¬ Even (k + 1) := by simpa [Nat.even_add_one] using h
         have h2 : Even (k + 1 + 1) := h1 |> fun _ => (h.add_one).add_one
         have h3 : Odd (k + 1) := h.add_one
         have h4 : ¬ Odd k := Nat.not_odd_iff_even.mpr h
-        simp only [h1, h2, h3, h4, if_true, if_false, one_smul, zero_smul, comp_zero, zero_add, idX_comp]
+        simp only [h1, h2, h3, h4, ite_true, ite_false, one_smul, zero_smul, comp_zero, zero_add, idX_comp]
         rfl
       · have h1 : Even (k + 1) := h.add_one
         have h3 : ¬ Odd (k + 1) := Nat.not_odd_iff_even.mpr h1
-        simp only [h1, h, h3, if_true, if_false, one_smul, zero_comp, add_zero, idX_comp]
+        simp only [h1, h, h3, ite_true, ite_false, one_smul, zero_comp, add_zero, idX_comp]
         rfl
 
 def piZ (F : PSh) : (chains R).obj (disc.obj F) ⟶ (chains R).obj (disc.obj F) :=
@@ -132,7 +132,7 @@ def htpZ (F : PSh) : Homotopy (𝟙 ((chains R).obj (disc.obj F))) (piZ F) :=
 
 theorem piZ_f (F : PSh) (p : ℕ) (hp : 0 < p) : (piZ (R := R) F).f (-(p : ℤ)) = 0 := by
   have h1 := HomologicalComplex.extendMap_f (piC (R := R) F) ComplexShape.embeddingDownNat (i := p) (i' := -(p : ℤ)) rfl
-  simp only [piC, if_neg hp.ne', zero_comp, comp_zero] at h1
+  simp only [piC, ite_eq_right hp.ne', zero_comp, comp_zero] at h1
   exact h1
 
 end GlobalTheory.EtC.DiscRep

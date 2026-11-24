@@ -154,9 +154,9 @@ theorem hom_ext_of_hf_X : ∀ (l : ℕ) [Fact l.Prime] (K : FinExt l) (bk : BK K
       intro i
       rw [Polynomial.coeff_sub, Polynomial.coeff_X_pow]
       rcases lt_trichotomy i bk.Ep.natDegree with h | h | h
-      · rw [if_neg h.ne, sub_zero]; exact bk.dvd_coeff i h
-      · rw [if_pos h, h, bk.monic.coeff_natDegree, sub_self]; exact dvd_zero _
-      · rw [if_neg h.ne', sub_zero, Polynomial.coeff_eq_zero_of_natDegree_lt h]; exact dvd_zero _
+      · rw [ite_eq_right h.ne, sub_zero]; exact bk.dvd_coeff i h
+      · rw [ite_eq_left h, h, bk.monic.coeff_natDegree, sub_self]; exact dvd_zero _
+      · rw [ite_eq_right h.ne', sub_zero, Polynomial.coeff_eq_zero_of_natDegree_lt h]; exact dvd_zero _
     obtain ⟨q, hq⟩ := hd
     refine ⟨(q : bk.S), ?_⟩
     have h := congrArg (fun p : Polynomial (Wq l bk.a) => (p : bk.S)) hq
@@ -174,7 +174,7 @@ theorem hom_ext_of_hf_X : ∀ (l : ℕ) [Fact l.Prime] (K : FinExt l) (bk : BK K
     intro N f
     obtain ⟨h, hh⟩ := (PowerSeries.X_pow_dvd_iff (n := N)
       (φ := f - ((trunc N f : Polynomial (Wq l bk.a)) : bk.S))).2 (fun m hm => by
-        rw [map_sub, Polynomial.coeff_coe, coeff_trunc, if_pos hm, sub_self])
+        rw [map_sub, Polynomial.coeff_coe, coeff_trunc, ite_eq_left hm, sub_self])
     exact ⟨_, h, by rw [← hh]; ring⟩
   apply Hom.ext'
   refine RingHom.ext fun f => ?_
@@ -274,7 +274,7 @@ theorem mk_eval₂_trunc_coe {W C : Type} [CommRing W] [CommRing C] (ω : W →+
   have hdvd : (Polynomial.X : Polynomial W) ^ K ∣ p - PowerSeries.trunc K (p : W⟦X⟧) := by
     rw [Polynomial.X_pow_dvd_iff]
     intro d hd
-    rw [Polynomial.coeff_sub, PowerSeries.coeff_trunc, if_pos hd, Polynomial.coeff_coe, sub_self]
+    rw [Polynomial.coeff_sub, PowerSeries.coeff_trunc, ite_eq_left hd, Polynomial.coeff_coe, sub_self]
   obtain ⟨q, hq⟩ := hdvd
   generalize PowerSeries.trunc K (p : W⟦X⟧) = t at hq ⊢
   have hp : p = t + Polynomial.X ^ K * q := by
@@ -671,7 +671,7 @@ theorem X_pow_dvd_sub_trunc' {R : Type} [CommRing R] (x : R⟦X⟧) (n : ℕ) :
     (X : R⟦X⟧) ^ n ∣ x - (trunc n x : R⟦X⟧) := by
   rw [PowerSeries.X_pow_dvd_iff]
   intro m hm
-  rw [map_sub, Polynomial.coeff_coe, coeff_trunc, if_pos hm, sub_self]
+  rw [map_sub, Polynomial.coeff_coe, coeff_trunc, ite_eq_left hm, sub_self]
 
 end GlobalTheory.TruncationDivisibility
 
@@ -824,9 +824,9 @@ theorem BK.X_pow_eq_sub {l : ℕ} [Fact l.Prime] {K : FinExt l} (bk : BK K) :
     intro i
     rw [Polynomial.coeff_sub, Polynomial.coeff_X_pow]
     rcases lt_trichotomy i bk.Ep.natDegree with hi | rfl | hi
-    · rw [if_neg hi.ne, sub_zero]; exact bk.dvd_coeff i hi
-    · rw [if_pos rfl, bk.monic.coeff_natDegree, sub_self]; exact dvd_zero _
-    · rw [if_neg hi.ne', sub_zero, Polynomial.coeff_eq_zero_of_natDegree_lt hi]; exact dvd_zero _
+    · rw [ite_eq_right hi.ne, sub_zero]; exact bk.dvd_coeff i hi
+    · rw [ite_eq_left rfl, bk.monic.coeff_natDegree, sub_self]; exact dvd_zero _
+    · rw [ite_eq_right hi.ne', sub_zero, Polynomial.coeff_eq_zero_of_natDegree_lt hi]; exact dvd_zero _
   obtain ⟨q, hq⟩ := h
   refine ⟨(q : bk.S), ?_⟩
   have := congrArg (Polynomial.coeToPowerSeries.ringHom (R := Wq l bk.a)) hq

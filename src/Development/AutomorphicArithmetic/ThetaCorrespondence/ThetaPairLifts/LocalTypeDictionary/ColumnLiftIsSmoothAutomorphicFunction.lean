@@ -735,7 +735,7 @@ theorem prod_eq_of_fixed : ∀ {D : D7} (ψ : AddChar (AF D.host.F) ℂ) (S T : 
           rw [hc _ f hf hfN hγ, GlobalTheory.ThetaSchur.heisO_rat hf γ.2, GlobalTheory.ThetaSchur.heisO_rat (hMΘ f hfΘ).1 γ.2]
           ring
         rw [e, integral_sub (hint _ _ (hMΘ _ hγf).1 (hMΘ g hgΘ).1) (hint _ _ hγf.1 hg), hpol _ _ hγf hgΘ, sub_self]
-      · push_neg at hγ
+      · push Not at hγ
         obtain ⟨l, hl, h0, hne⟩ := hγ
         have hper : ∀ δ ∈ ratL T S, ∀ x, (fun x => ψ (symplO S T x γ) * (M f x * star (M g x) - f x * star (g x)))
             (δ + x) = (fun x => ψ (symplO S T x γ) * (M f x * star (M g x) - f x * star (g x))) x := by
@@ -948,7 +948,7 @@ theorem weil_representation_level_eq_conductor : ∀ {D : D7} (ψ : AddChar (AF 
     obtain ⟨c, hc⟩ := hsc k hk.2 hkf
     have h1 : c = 1 := by rw [← hFc' k hk.2 hkf c hc]; exact hV k hk.1 hkf
     rw [hc f hf hfN, h1, one_smul]
-  · push_neg at hf0
+  · push Not at hf0
     have : f = 0 := funext hf0
     refine ⟨⊤, isOpen_univ, fun k _ _ => ?_⟩
     rw [this, map_zero]

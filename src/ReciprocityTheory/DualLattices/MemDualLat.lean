@@ -452,9 +452,9 @@ theorem h2 (C R : Type) [Field C] [CommRing R] [Algebra R C] :
     show ∑ a ∈ Finset.univ.filter (fun a : N => (a : N ⧸ K) = c),
       (if a = s (a : N ⧸ K) then t (a : N ⧸ K) else 0) = t c
     rw [Finset.sum_eq_single (s c)]
-    · rw [hs c, if_pos rfl]
+    · rw [hs c, ite_eq_left rfl]
     · intro b hb hne
-      rw [(Finset.mem_filter.1 hb).2, if_neg hne]
+      rw [(Finset.mem_filter.1 hb).2, ite_eq_right hne]
     · intro h
       exact (h (Finset.mem_filter.2 ⟨Finset.mem_univ _, hs c⟩)).elim
   have hP_lat : IsLat R ((dualLat AA.carrier).map (pushQ (R := R) K)) :=

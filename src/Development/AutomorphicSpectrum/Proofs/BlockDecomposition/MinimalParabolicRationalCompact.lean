@@ -705,7 +705,7 @@ theorem exists_pos_le_hgt_of_forms : ∀ (F E : Type) [Field F] [NumberField F] 
   refine ⟨min 1 (1 + ∑ j, C j)⁻¹, lt_min one_pos (inv_pos.2 hD), fun g hg ξ hξ => ?_⟩
   obtain ⟨j, hj⟩ : ∃ j, hE (conj F E).toAlgHom (H j) ξ ξ ≠ 0 := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     exact hξ (hzero ξ hno)
   obtain ⟨s, hs, he⟩ := hL g hg j
   have h1 := one_le_mul_hgt_sq J (H j) (hCb j) g hξ s hs hj (he ξ)

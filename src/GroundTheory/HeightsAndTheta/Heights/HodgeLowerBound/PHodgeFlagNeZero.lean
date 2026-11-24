@@ -114,7 +114,7 @@ theorem HodgeFlagNeZero.proof : HodgeFlagNeZero.Statement := by
           by_cases htu : t = u
           · subst htu
             simp
-          · rw [if_neg fun h' =>
+          · rw [ite_eq_right fun h' =>
               htu (Set.powersetCard.ofFinEmbEquiv.symm.injective (DFunLike.coe_injective h')).symm]
             simp [Ne.symm htu]
     rw [← hψ]
@@ -155,15 +155,15 @@ theorem HodgeFlagNeZero.proof : HodgeFlagNeZero.Statement := by
     have h2 := congrArg (fun φ : (Ψ × Fin D.N × Fin D.N) →₀ ℕ => φ (τ, headIdx (step_le i) a, c0 a)) h
     simp only [μ, v, Finsupp.coe_finsetSum, Finset.sum_apply, Finsupp.single_apply, Prod.mk.injEq,
       true_and, headIdx, Fin.castLE_inj] at h2
-    rw [Finset.sum_eq_single a (fun a' _ h' => if_neg fun h'' => h' h''.1) (by simp),
-      Finset.sum_eq_single a (fun a' _ h' => if_neg fun h'' => h' h''.1) (by simp)] at h2
+    rw [Finset.sum_eq_single a (fun a' _ h' => ite_eq_right fun h'' => h' h''.1) (by simp),
+      Finset.sum_eq_single a (fun a' _ h' => ite_eq_right fun h'' => h' h''.1) (by simp)] at h2
     by_contra hne
     simp [hne] at h2
   have hz : z c0 = 1 :=
-    Finset.prod_eq_one fun a _ => if_neg fun h => lt_irrefl _ (h.1.trans_le h.2)
+    Finset.prod_eq_one fun a _ => ite_eq_right fun h => lt_irrefl _ (h.1.trans_le h.2)
   have hcoeff : AddMonoidAlgebra.coeff P (μ c0) = g c0 := by
     simp only [P, coeff_sum, coeff_monomial]
-    rw [Finset.sum_eq_single c0 (fun c _ hc => if_neg fun h => hc (hμ c h)) (by simp), if_pos rfl, hz, one_mul]
+    rw [Finset.sum_eq_single c0 (fun c _ hc => ite_eq_right fun h => hc (hμ c h)) (by simp), ite_eq_left rfl, hz, one_mul]
   have hPne : P ≠ 0 := fun h => hm0 (by simpa [h, g, c0, w] using hcoeff.symm)
   rw [hP]
   exact fun h => hPne (IsFractionRing.injective (MvPolynomial (Ψ × Fin D.N × Fin D.N) Ω) Pl.ΩY

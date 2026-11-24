@@ -709,7 +709,7 @@ theorem exists_ne_zero_isNilpotent_mul {D E : Type} [CommRing D] [IsDomain D] [C
     (hy : ∀ Q : Ideal E, Q.IsPrime → Q.comap (algebraMap D E) = ⊥ → y ∈ Q) :
     ∃ t : D, t ≠ 0 ∧ IsNilpotent (algebraMap D E t * y) := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   let M : Submonoid E :=
     { carrier := {z | ∃ t : D, t ≠ 0 ∧ ∃ n : ℕ, z = algebraMap D E t * y ^ n}
       mul_mem' := by

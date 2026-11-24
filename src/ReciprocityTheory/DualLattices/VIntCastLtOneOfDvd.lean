@@ -99,7 +99,7 @@ theorem v_intCast_eq_one (hv : v.Integers R) (hpv : v (p : C) < 1) {n : ℤ}
       _ < 1 := by rw [one_mul]; exact hpv
   have hb : 1 ≤ v ((b : C) * (n : C)) := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have := v.map_add_lt ha hlt
     rw [h1, map_one] at this
     exact lt_irrefl _ this
@@ -111,7 +111,7 @@ theorem v_intCast_eq_one (hv : v.Integers R) (hpv : v (p : C) < 1) {n : ℤ}
 
 theorem v_le_one_of_pow_eq {r : C} (hr : r ^ p = r) : v r ≤ 1 := by
   by_contra h
-  push_neg at h
+  push Not at h
   have h2 : 2 ≤ p := hp.out.two_le
   have key : v r ^ 1 < v r ^ p := pow_lt_pow_right₀ h (by omega)
   rw [pow_one, ← map_pow, hr] at key
@@ -192,7 +192,7 @@ theorem exists_teich [IsAlgClosed C] (hv : v.Integers R) (hpv : v (p : C) < 1) (
     rw [Polynomial.eval_multiset_prod, Multiset.map_map] at this
     simpa [Function.comp_def] using this
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hge : 1 ≤ v ((n : C) ^ p - n) := by
     rw [heval, map_multiset_prod, Multiset.map_map]
     apply Multiset.one_le_prod_of_one_le
@@ -245,7 +245,7 @@ theorem exists_teichChar [IsAlgClosed C] (hv : v.Integers R) (hpv : v (p : C) < 
   · intro a b hab
     refine le_antisymm ((v.map_sub (ω a) (ω b)).trans (max_le (hω1' a) (hω1' b))) ?_
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h1 : v ((a.val : C) - (b.val : C)) < 1 := by
       have hx : (a.val : C) - b.val = -(ω a - a.val) + (ω a - ω b) + (ω b - b.val) := by ring
       rw [hx]

@@ -367,7 +367,7 @@ theorem biholo_of : Descend → Biholo := by
     if h : ∃ r, ValAt Or.𝔐.ξ (z w) (fn RM.y (s i) m k₀ i₀ cc) r then h.choose else 0
   have hf : ∀ i i₀ cc w r, ValAt Or.𝔐.ξ (z w) (fn RM.y (s i) m k₀ i₀ cc) r → f i i₀ cc w = r := fun i i₀ cc w r h => by
     have h' : ∃ r, ValAt Or.𝔐.ξ (z w) (fn RM.y (s i) m k₀ i₀ cc) r := ⟨r, h⟩
-    simp only [f, dif_pos h']
+    simp only [f, dite_eq_left h']
     exact CxVal.unique h'.choose_spec h
   let U : RM.ι k₀ → Set Sys.X := fun i₀ => {x | Fx.pt x (Or.ix.symm i₀) ≠ 0}
   have hU : ∀ i₀ w, π w ∈ U i₀ ↔ R.lift w w ⟨k₀, i₀⟩ ≠ 0 := fun i₀ w => by
@@ -546,13 +546,13 @@ theorem root_log (Γ : ∀ s, Matrix (Fin (labelRk D s)) (Fin (labelRk D s)) ℂ
   let F : (Σ s, Fin (labelRk D s)) → ℝ := fun a => Real.log (Real.sqrt (leadMinor (Γ a.1) (a.2 + 1) / leadMinor (Γ a.1) a.2))
   show _ * F (HodgeCpt.rootIdx D (τ, i)) = _
   by_cases h : (i : ℕ) < D.p
-  · have e : HodgeCpt.rootIdx D (τ, i) = ⟨.inl τ, ⟨i, h⟩⟩ := dif_pos h
+  · have e : HodgeCpt.rootIdx D (τ, i) = ⟨.inl τ, ⟨i, h⟩⟩ := dite_eq_left h
     rw [e]
-    simp only [HodgeCpt.rootSgn, grLog, if_pos h, F, Int.cast_one, one_mul]
+    simp only [HodgeCpt.rootSgn, grLog, ite_eq_left h, F, Int.cast_one, one_mul]
     rfl
-  · have e : HodgeCpt.rootIdx D (τ, i) = ⟨.inr τ, ⟨D.p + D.q - 1 - i, by have := i.2; show _ < D.q; omega⟩⟩ := dif_neg h
+  · have e : HodgeCpt.rootIdx D (τ, i) = ⟨.inr τ, ⟨D.p + D.q - 1 - i, by have := i.2; show _ < D.q; omega⟩⟩ := dite_eq_right h
     rw [e]
-    simp only [HodgeCpt.rootSgn, grLog, if_neg h, F, Int.cast_neg, Int.cast_one, neg_mul, one_mul]
+    simp only [HodgeCpt.rootSgn, grLog, ite_eq_right h, F, Int.cast_neg, Int.cast_one, neg_mul, one_mul]
     rfl
 
 theorem locChart (hLP : LocPer) (hT : Transport) (hFV : FrameVals) (hPM : PerMat) (hPot : PotLoc) (hG : Top.Given)

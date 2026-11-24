@@ -188,7 +188,7 @@ theorem rdsag_tvGrp {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace �
     | mem y hy =>
       obtain ⟨l, hl, rfl⟩ := hy
       have h := EA_gl (E := E) hD p q (esI k r l) (esI k r l)
-      rw [if_neg (hq l hl), if_neg (fun e => hp l hl e.symm), sub_zero] at h
+      rw [ite_eq_right (hq l hl), ite_eq_right (fun e => hp l hl e.symm), sub_zero] at h
       exact sub_eq_zero.1 h
     | algebraMap c => exact Algebra.commute_algebraMap_right c _
     | add y₁ y₂ _ _ h₁ h₂ => exact h₁.add_right h₂
@@ -272,7 +272,7 @@ theorem rdsag_tvGrp {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace �
         rw [hLaP_apply, mul_assoc, (comm_TorV hD (r - (m + 2)) _ _ (hnot a (by omega))
           (hnot ⟨r - m - 2, by omega⟩ le_rfl) P hP).eq, ← mul_assoc, La_apply, Subalgebra.coe_mul, Module.End.mul_apply]
         conv_lhs => rw [hv]
-        rw [root_action_on_truncated_vector hD z' hz' hRR hf hRf a ⟨r - m - 2, by omega⟩ (by simp only; omega), if_neg (by simp only; omega),
+        rw [root_action_on_truncated_vector hD z' hz' hRR hf hRf a ⟨r - m - 2, by omega⟩ (by simp only; omega), ite_eq_right (by simp only; omega),
           zero_smul, map_zero]
         rfl
       have hR1 : ∀ x : SA E hD,
@@ -283,7 +283,7 @@ theorem rdsag_tvGrp {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace �
           Module.End.mul_apply]
         conv_lhs => rw [hv]
         rw [root_action_on_truncated_vector hD z' hz' hRR hf hRf ⟨r - m - 1, by omega⟩ ⟨r - m - 2, by omega⟩ (by simp only; omega),
-          if_pos (by simp only; omega), one_smul, ← hv]
+          ite_eq_left (by simp only; omega), one_smul, ← hv]
       have hL : ∀ (x : SA E hD) (b : Fin r), r - m - 2 < b.val →
           LaP (EA hD (esI k r ⟨r - m - 2, by omega⟩) (esI k r b) * x) =
             (if b.val = r - m - 1 then ρ else 0) • LaP x := by
@@ -296,15 +296,15 @@ theorem rdsag_tvGrp {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace �
         congr 1
         by_cases hbm : b.val = r - m - 1
         · have hb' : b = ⟨r - m - 1, by omega⟩ := Fin.ext hbm
-          rw [if_pos (by simp only; omega), if_pos hbm, hρ, congrArg c hb']
-        · rw [if_neg (by simp only; omega), if_neg hbm]
+          rw [ite_eq_left (by simp only; omega), ite_eq_left hbm, hρ, congrArg c hb']
+        · rw [ite_eq_right (by simp only; omega), ite_eq_right hbm]
       have hX := hCh (SA E hD) E k r (EA (E := E) hD) LaP ρ (EA_gl (E := E) hD) m hm2 w hR0 hR1 hL
       set T := Tm (EA (E := E) hD) (w - ((m + 1 : ℕ) : ℂ)) (esI k r ⟨r - m - 2, by omega⟩)
         (esI k r ⟨r - m - 2, by omega⟩) with hT
       have hTmem : T ∈ TorV hD (r - (m + 1)) := by
         rw [hT]
         unfold Tm
-        rw [if_pos rfl]
+        rw [ite_eq_left rfl]
         exact Subalgebra.add_mem _ (Subalgebra.algebraMap_mem _ _) (EAs_mem_TorV hD ⟨r - m - 2, by omega⟩ (by simp only; omega))
       have hTP : T * P ∈ TorV hD (r - (m + 1)) := Subalgebra.mul_mem _ hTmem hP1
       have ih1 := ih (m + 1) (by omega) (by omega) (T * P) hTP c hc
@@ -411,7 +411,7 @@ theorem rdsag_todaV {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace �
   have hfun : (fun c' => gaugeF P.k P.r c' • J (Q.wCell P.k P.r (Fin.last P.r) c' * g)) =
       fun c' => Q.resG P.k P.r (Fin.last P.r) J c' g := funext hgauge
   rw [hfun] at e3
-  simp only [dMul, Q.crd, Q.cmp, if_true]
+  simp only [dMul, Q.crd, Q.cmp, ite_true]
   rw [← e3]
   have hres : Q.resG P.k P.r (Fin.last P.r) (capAv P.k P.r y J) c g =
       gaugeF P.k P.r c • capAv P.k P.r y J (Q.wCell P.k P.r (Fin.last P.r) c * g) := by
@@ -476,13 +476,13 @@ theorem rds_vABm_loc (Y : ℂ) : ∀ (i : ℕ) (f₁ f₂ : (Fin r → ℂ) → 
   | i + 1, f₁, f₂, h, c, hc => by
     have ih := rds_vABm_loc Y i f₁ f₂ h
     by_cases hi : i < r
-    · simp only [CutMP.vABm, dif_pos hi]
+    · simp only [CutMP.vABm, dite_eq_left hi]
       refine ⟨?_, ?_⟩
       · simp only [Pi.sub_apply, Pi.smul_apply, cbOp]
         rw [(ih c hc).1, (ih c hc).2, _root_.Formalism.FourierDecayAlt.P.CutMP.TVG.pbOp_locO _ (fun c' hc' => (ih c' hc').1) hc]
       · simp only [cbiOp]
         rw [(ih c hc).1]
-    · simp only [CutMP.vABm, dif_neg hi]
+    · simp only [CutMP.vABm, dite_eq_right hi]
       exact ih c hc
 
 end loc
@@ -500,7 +500,7 @@ theorem spectral_action_locality : RDSALoc := by
     intro l g₁ g₂ hg c hc
     have hev : g₁ =ᶠ[nhds c] g₂ := Filter.eventuallyEq_of_mem (hopen.mem_nhds hc) hg
     unfold pOp Formalism.QuantumDeterminants.wirt
-    rw [if_pos hc, if_pos hc, hev.fderiv_eq]
+    rw [ite_eq_left hc, ite_eq_left hc, hev.fderiv_eq]
   have hA : ∀ i : ℕ, ∀ g₁ g₂ : (Fin r → ℂ) → E, (∀ c ∈ OmX r, g₁ c = g₂ c) → ∀ c ∈ OmX r,
       (Q.vAB r y i).1 g₁ c = (Q.vAB r y i).1 g₂ c ∧ (Q.vAB r y i).2 g₁ c = (Q.vAB r y i).2 g₂ c := by
     intro i
@@ -642,7 +642,7 @@ theorem rds_vab_ind (hL : IsActualLevel X L) (Y : ℂ) : ∀ i : ℕ, i ≤ r �
           sub_eq_add_neg]
       rw [e, Submodule.coe_sub, Submodule.coe_add, Submodule.coe_smul, rds_op_coe, rds_op_coe, hA, hB]
       funext c g
-      simp only [crd, Q.cmp, Q.vAB, dif_pos h, if_true, Pi.sub_apply, Pi.add_apply, Pi.smul_apply]
+      simp only [crd, Q.cmp, Q.vAB, dite_eq_left h, ite_true, Pi.sub_apply, Pi.add_apply, Pi.smul_apply]
       rfl
     · have e : ((L.ci ⟨i, h⟩ * rdsVp L Y i 0 0).1 Φ : RadSp k r z z' π π') =
           X.op ⟨i, h⟩ 2 ((rdsVp L Y i 0 0).1 Φ) := by
@@ -650,7 +650,7 @@ theorem rds_vab_ind (hL : IsActualLevel X L) (Y : ℂ) : ∀ i : ℕ, i ≤ r �
         rfl
       rw [e, rds_op_coe, hA]
       funext c g
-      simp only [crd, Q.cmp, Q.vAB, dif_pos h]
+      simp only [crd, Q.cmp, Q.vAB, dite_eq_left h]
       rfl
 
 theorem rds_vabm_ind (hL : IsActualLevel X L) (Y : ℂ) : ∀ i : ℕ, i ≤ r → ∀ Φ : RadSp k r z z' π π',
@@ -689,7 +689,7 @@ theorem rds_vabm_ind (hL : IsActualLevel X L) (Y : ℂ) : ∀ i : ℕ, i ≤ r �
           Module.algebraMap_end_apply, sub_eq_add_neg]
       rw [e, Submodule.coe_sub, Submodule.coe_sub, Submodule.coe_smul, rds_op_coe, rds_op_coe, hA, hB]
       funext c g
-      simp only [crd, Q.cmp, CutMP.vABm, dif_pos h, if_true, Pi.sub_apply, Pi.smul_apply]
+      simp only [crd, Q.cmp, CutMP.vABm, dite_eq_left h, ite_true, Pi.sub_apply, Pi.smul_apply]
       rfl
     · have e : ((L.cbi ⟨i, h⟩ * rdsVvp L Y i 0 0).1 Φ : RadSp k r z z' π π') =
           X.op ⟨i, h⟩ 5 ((rdsVvp L Y i 0 0).1 Φ) := by
@@ -697,7 +697,7 @@ theorem rds_vabm_ind (hL : IsActualLevel X L) (Y : ℂ) : ∀ i : ℕ, i ≤ r �
         rfl
       rw [e, rds_op_coe, hA]
       funext c g
-      simp only [crd, Q.cmp, CutMP.vABm, dif_pos h]
+      simp only [crd, Q.cmp, CutMP.vABm, dite_eq_left h]
       rfl
 
 theorem rds_cprod (hL : IsActualLevel X L) : ∀ (ls : List (Fin r)) (Φ : RadSp k r z z' π π'),

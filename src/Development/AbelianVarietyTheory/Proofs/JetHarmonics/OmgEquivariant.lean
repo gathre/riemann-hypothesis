@@ -98,7 +98,7 @@ private lemma hpk_mul_hpk : Hpk k r * Hpk k r = 1 := by
       simp only [Fin.ext_iff]
       split_ifs <;> first | rfl | (exfalso; omega) | norm_num
     · intro l _ hl
-      rw [hpk_apply_of_outer hout, if_neg, zero_mul]
+      rw [hpk_apply_of_outer hout, ite_eq_right, zero_mul]
       intro e
       exact hl (Fin.ext (show l.val = 2 * r + k - i.val by omega))
     · intro h
@@ -111,7 +111,7 @@ private lemma hpk_mul_hpk : Hpk k r * Hpk k r = 1 := by
         by_cases hv : i.val = r + k <;> simp [hv]
       · simp [hij]
     · intro l _ hl
-      rw [hpk_apply_of_middle hmid, if_neg (Ne.symm hl), zero_mul]
+      rw [hpk_apply_of_middle hmid, ite_eq_right (Ne.symm hl), zero_mul]
     · intro h
       exact absurd (Finset.mem_univ _) h
 
@@ -165,9 +165,9 @@ private lemma herm_hpk_bvec_eq_of_outer (v : Fin (2 * r + k + 1) → ℂ) (p q :
   rw [single_dotProduct, one_mul]
   simp only [Matrix.mulVec, dotProduct]
   rw [Finset.sum_eq_single q]
-  · rw [hpk_apply_of_outer hp, if_pos hpq, one_mul]
+  · rw [hpk_apply_of_outer hp, ite_eq_left hpq, one_mul]
   · intro l _ hl
-    rw [hpk_apply_of_outer hp, if_neg, zero_mul]
+    rw [hpk_apply_of_outer hp, ite_eq_right, zero_mul]
     intro e
     exact hl (Fin.ext (by omega))
   · intro h

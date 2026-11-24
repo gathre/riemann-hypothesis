@@ -139,7 +139,7 @@ theorem UpperTheory.V.Af.StrongMultiplicityOne.archKir :
     · have hs : IsUnit (rowM m' ((1 : GL (Fin n) (Cinf E)).val m')) := by
         rw [Units.val_one, rowM_one]; exact isUnit_one
       have e : hs.unit = 1 := Units.ext (by rw [hs.unit_spec, Units.val_one, rowM_one])
-      simp only [dif_pos hs, e]
+      simp only [dite_eq_left hs, e]
       simp [h1, c1, H1]
     · obtain ⟨β₀, hβ₀⟩ := hH α
       obtain ⟨β, hβ⟩ := hh β₀
@@ -154,7 +154,7 @@ theorem UpperTheory.V.Af.StrongMultiplicityOne.archKir :
       by_cases h0 : h (p.val m') = 0
       · simp [h0]
       have hs := hu _ h0
-      simp only [dif_pos hs]
+      simp only [dite_eq_left hs]
       have hy := hR (Cinf E) n m' p hs.unit hp hs.unit_spec
       have e1 := hβ₀ w wm ⟨C, hCb⟩ hw _ hy
       have e2 := hc hs.unit (fun y => w (lmul (toL (p * hs.unit⁻¹).val) y) * β₀ y)
@@ -260,11 +260,11 @@ private theorem colL_sq (m : Fin n) (u : EuclideanSpace ℝ (Fin n × Fin d)) : 
   refine Finset.sum_eq_zero fun k _ => ?_
   simp only [colL, LinearMap.coe_mk, AddHom.coe_mk, Matrix.of_apply]
   by_cases h : k ≤ m
-  · rw [if_neg, zero_mul]
+  · rw [ite_eq_right, zero_mul]
     rintro ⟨-, h'⟩
     rw [Fin.le_def] at h
     omega
-  · rw [if_neg (fun h' : k ≤ m ∧ _ => h h'.1), mul_zero]
+  · rw [ite_eq_right (fun h' : k ≤ m ∧ _ => h h'.1), mul_zero]
 
 private theorem rowM_eq (m : Fin n) (ξ : Fin n → Cinf E) :
     rowM m ξ = 1 + rowL b m (eta b m ξ - eta b m ((1 : Matrix (Fin n) (Fin n) (Cinf E)) m)) := by
@@ -284,7 +284,7 @@ private theorem inner_eta (b' : Module.Basis (Fin d) ℝ (Cinf E))
   rw [PiLp.inner_apply, Fintype.sum_prod_type, dotLe, map_sum, ← Finset.sum_neg_distrib]
   refine Finset.sum_congr rfl fun j _ => ?_
   by_cases h : j ≤ m
-  · rw [if_pos h, H, ← Finset.sum_neg_distrib]
+  · rw [ite_eq_left h, H, ← Finset.sum_neg_distrib]
     refine Finset.sum_congr rfl fun v _ => ?_
     simp [eta, h, repr_crd, mul_comm]
   · simp [eta, h]
@@ -584,7 +584,7 @@ theorem UpperTheory.V.Af.StrongMultiplicityOne.convCont :
       · have : (fun g => chart f g x) = fun _ => 0 := by
           funext g
           unfold GlobalTheory.CuspRep.chart
-          exact dif_neg hx
+          exact dite_eq_right hx
         rw [this]
         exact continuous_const
   · exact norm_integral_le_of_norm_le hint (Filter.Eventually.of_forall (hbd g))
@@ -622,7 +622,7 @@ theorem UpperTheory.V.Af.StrongMultiplicityOne.convFub :
     by_cases hz : z ∈ (Set.univ : Set X) ×ˢ invSet E n
     · rw [Set.piecewise_eq_of_mem _ _ _ hz]
     · rw [Set.piecewise_eq_of_notMem _ _ _ hz, chart]
-      exact dif_neg fun h => hz ⟨trivial, h⟩
+      exact dite_eq_right fun h => hz ⟨trivial, h⟩
   have hb : ∀ g y, ‖chart f g y‖ ≤ C := fun g y => by
     unfold chart
     split_ifs
@@ -819,8 +819,8 @@ theorem UpperTheory.V.Af.StrongMultiplicityOne.eigMap :
   · refine eig_int volume (hf 1).card (fun x y => chart f (g * finGL E n (locGL E n w y)) x) α (fun x => ?_) fun y => ?_
     · by_cases hx : IsUnit (Matrix.of x)
       · have := hf (g * infGL E n hx.unit)
-        simpa only [chart, dif_pos hx, mul_assoc, GlobalTheory.CuspRep.infGL_comm] using this
-      · simpa only [chart, dif_neg hx] using eig_zero (w := w) (hf 1).card
+        simpa only [chart, dite_eq_left hx, mul_assoc, GlobalTheory.CuspRep.infGL_comm] using this
+      · simpa only [chart, dite_eq_right hx] using eig_zero (w := w) (hf 1).card
     · obtain ⟨C, hC'⟩ := hN.bdd
       haveI : BorelSpace (Lie E n) := inferInstance
       haveI : (volume : Measure (Cinf E)).IsAddHaarMeasure := inferInstance
@@ -1211,7 +1211,7 @@ theorem UpperTheory.V.Af.StrongMultiplicityOne.orthStep :
     intro q x hx
     obtain ⟨y, rfl⟩ := RightCosetSpace.mk_surjective _ q
     rw [hFmk]
-    exact dif_neg hx
+    exact dite_eq_right hx
   have hopen : IsOpen ((Set.univ : Set (RightCosetSpace (Reduction.rationalGLOne (K := E) (n := n)))) ×ˢ invSet E n) :=
     isOpen_univ.prod GlobalTheory.CuspRep.isOpen_invSet
   have hFc : ContinuousOn F (Set.univ ×ˢ invSet E n) := by
@@ -1256,7 +1256,7 @@ theorem UpperTheory.V.Af.StrongMultiplicityOne.orthStep :
         intro q
         obtain ⟨y, rfl⟩ := RightCosetSpace.mk_surjective _ q
         rw [hFmk, CuspidalSpectrum.cuspQuot_mk]
-        exact dif_pos hx'
+        exact dite_eq_left hx'
       simp only [e]
       rw [h0, zero_mul]
     · simp [hF0 _ x hx]

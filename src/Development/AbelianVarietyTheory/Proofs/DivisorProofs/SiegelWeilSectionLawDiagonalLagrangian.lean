@@ -172,7 +172,7 @@ theorem lagr_law : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberF
   by_cases h0 : ∀ g, IsThetaFunOF σ JS (GlobalTheory.WeilSchrodinger.DblTargetF.dblG JT) ξ₀ B.ψ g →
       GlobalTheory.LagrTheta.lagrInt ν 𝓕 ((diagCols (Fin nT) : Matrix (Fin nT ⊕ Fin nT) (Fin nT) (AF F ⊗[F] E)).submatrix finSumFinEquiv.symm id) g = 0
   · rw [h0 _ (hωd.om_pres _ f hf), h0 f hf, mul_zero]
-  push_neg at h0
+  push Not at h0
   obtain ⟨f₀, hf₀, hne⟩ := h0
   have hsp := _root_.PositivityTheory.ThKW.lagrangian_integral_parseval F E σ B hB nS nT JS JT hS hT ξ₀ hξ₀ hσ ν 𝓕 hν h𝓕 χS ωd hωd α hlaw f₀ hf₀ hne
   have hα : ∀ a : GL (Fin nT) (AF F ⊗[F] E), α a = χS (Matrix.GeneralLinearGroup.det a) := by

@@ -1426,13 +1426,13 @@ private theorem mult_conjEmb_eq_ite {H : Host E} (D : Datum H) (τ : E →+* ℂ
   · have h2 : ¬ conjEmb τ (H.rt : E) = H.rt0 := by
       rw [hc, h, _root_.GlobalTheory.ModelsExist.rt0_conj_neg_ne_zero]
       exact fun e => hne e.symm
-    rw [if_pos h, if_neg h2]
+    rw [ite_eq_left h, ite_eq_right h2]
   · have h2 : conjEmb τ (H.rt : E) = H.rt0 := by
       rw [hc, h, map_neg, _root_.GlobalTheory.ModelsExist.rt0_conj_neg_ne_zero, neg_neg]
     have h3 : ¬ τ (H.rt : E) = H.rt0 := by
       rw [h]
       exact fun e => hne e.symm
-    rw [if_pos h2, if_neg h3]
+    rw [ite_eq_left h2, ite_eq_right h3]
 
 end GlobalTheory.ConjugateMultiplicity
 

@@ -1138,8 +1138,8 @@ theorem length_bound_of_hypotheses [NeZero n] (h3 : Formalism.MainNotions.DeltaI
     rw [sub_add_cancel] at this
     omega
   have hc2m : c - 1 - 1 ∈ Formalism.MainNotions.RamifiedCoefficientChains.S9.evens n d := Finset.mem_filter.2 ⟨Finset.mem_univ _, hc2⟩
-  have hMc : boxM d b S η c = b c + S := if_pos hcD
-  have hMc2 : boxM d b S η (c - 1 - 1) = b (c - 1 - 1) + S := if_pos hc2
+  have hMc : boxM d b S η c = b c + S := ite_eq_left hcD
+  have hMc2 : boxM d b S η (c - 1 - 1) = b (c - 1 - 1) + S := ite_eq_left hc2
   have hM₂ : ∀ z ∈ W.Nl T₂ (c - 1), W.Q ^ (b c + S) • W.φD T₂ z ∈ W.N T₂ := by
     rw [← hMc]; exact h5₂.1 c
   have hM₂' : ∀ z ∈ W.Nl T₂ (c - 1 - 1 - 1), W.Q ^ (b (c - 1 - 1) + S) • W.φD T₂ z ∈ W.N T₂ := by

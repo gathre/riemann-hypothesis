@@ -181,7 +181,7 @@ theorem H_es (k r : ℕ) (a : Fin r) : Hpk k r *ᵥ bvec (esI k r a) = bvec (eI 
   funext i
   have hi := i.isLt
   simp only [bvec, Matrix.mulVec, dotProduct, Pi.single_apply, mul_ite, mul_one, mul_zero,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   simp only [Hpk, esI, eI, Fin.ext_iff, Fin.val_mk]
   split_ifs <;> first | rfl | (exfalso; omega)
 
@@ -195,7 +195,7 @@ theorem row_fix {k r : ℕ} {z : Fin (2 * r + k + 1) → ℂ} {h : Mat k r} (hm 
     exact this
   have h2 := congrFun h1 j
   simp only [bvec, Matrix.mulVec, dotProduct, Matrix.conjTranspose_apply, Pi.single_apply, mul_ite,
-    mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true] at h2
+    mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true] at h2
   have h3 := congrArg star h2
   rw [star_star] at h3
   rw [h3]
@@ -204,7 +204,7 @@ theorem row_fix {k r : ℕ} {z : Fin (2 * r + k + 1) → ℂ} {h : Mat k r} (hm 
 theorem row_apply {k r : ℕ} {z : Fin (2 * r + k + 1) → ℂ} {h : Mat k r} (hm : h ∈ UWset k r z) (a : Fin r)
     (v : Fin (2 * r + k + 1) → ℂ) : (h *ᵥ v) (eI k r a) = v (eI k r a) := by
   simp only [Matrix.mulVec, dotProduct, row_fix hm a, ite_mul, one_mul, zero_mul,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 theorem inv_fix {k r : ℕ} {h : Mat k r} (hu : IsUnit h.det) {v : Fin (2 * r + k + 1) → ℂ} (hv : h *ᵥ v = v) :
     h⁻¹ *ᵥ v = v := by
@@ -261,7 +261,7 @@ theorem rpow_bd (a b K s : ℝ) (ha : 0 ≤ a) (hb : 0 ≤ b) (hK : 1 ≤ K) (hs
     nlinarith
   · have hbpos : 0 < b := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       nlinarith
     rw [Real.rpow_neg ha, Real.rpow_neg hb]
     have hbs : b ^ s ≤ K ^ s * a ^ s := by

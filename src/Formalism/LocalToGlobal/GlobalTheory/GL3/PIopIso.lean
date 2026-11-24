@@ -423,7 +423,7 @@ theorem Phi_smul_eq {N N' : ℕ} (δ : ℂ) (M : ℤ) (hM : M ≠ 0) (n : ℕ)
   funext τ i j
   simp only [Finset.sum_apply, Pi.smul_apply, FL.Phi, FL.ins, AddMonoidHom.coe_mk, ZeroHom.coe_mk]
   rw [Finset.sum_eq_single i, Finset.sum_eq_single j]
-  · simp only [and_self, if_true, zsmul_eq_mul]
+  · simp only [and_self, ite_true, zsmul_eq_mul]
     push_cast
     field_simp
   · intro b _ hb; simp [Ne.symm hb]

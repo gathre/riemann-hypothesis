@@ -97,15 +97,15 @@ theorem char_eq_prod : ∀ (D : D7) (Q : Finset (Pl D.host.E)) (eQ : AE D), IsId
   let g : Pl D.host.E → AE D := fun P => if P ∈ Q then cA D (es P) else 0
   have hg : ∀ P, g P * g P = g P := fun P => by
     by_cases hP : P ∈ Q
-    · simp only [g, if_pos hP]; exact (hIP P hP).1.1
-    · simp only [g, if_neg hP, mul_zero]
+    · simp only [g, ite_eq_left hP]; exact (hIP P hP).1.1
+    · simp only [g, ite_eq_right hP, mul_zero]
   have horth : ∀ P ∈ Q, ∀ P' ∈ Q, P ≠ P' → g P * g P' = 0 := fun P hP P' hP' hne => by
-    simp only [g, if_pos hP, if_pos hP', ← map_mul]
+    simp only [g, ite_eq_left hP, ite_eq_left hP', ← map_mul]
     rw [idem_orth (idemAt_split (hes P hP)) (hes P hP) (hes P' hP') hne, map_zero]
   have hsum : cA D (∑ P ∈ Q, es P) = ∑ P ∈ Q, g P := by
 
     rw [map_sum]
-    exact Finset.sum_congr rfl fun P hP => by simp only [g, if_pos hP]
+    exact Finset.sum_congr rfl fun P hP => by simp only [g, ite_eq_left hP]
   have hy' : y = ∏ P ∈ Q, locU (hg P) k := by
     apply Units.ext
     rw [hy, Units.coe_prod, hsum, locE_sum Q g horth]
@@ -117,7 +117,7 @@ theorem char_eq_prod : ∀ (D : D7) (Q : Finset (Pl D.host.E)) (eQ : AE D), IsId
   rw [hcoe]
   refine Finset.prod_congr rfl fun P hP => ?_
   have hpl : IsPlIdem D (g P) (conjPl P) := by
-    simp only [g, if_pos hP]; exact GlobalTheory.HeckeDetChar.isPlIdem (hIP P hP)
+    simp only [g, ite_eq_left hP]; exact GlobalTheory.HeckeDetChar.isPlIdem (hIP P hP)
   exact hψ.2 (conjPl P) (g P) hpl k (locU (hg P) k) (locU_val _ _)
 
 end GlobalTheory.IdemSumChar

@@ -245,7 +245,7 @@ theorem mem_of_mem_iSup_finset (T : J → End L V) (p : (J → L) → Submodule 
     · obtain ⟨y0, hy0, hne⟩ := h
       obtain ⟨j, hj⟩ := Function.ne_iff.1 hne
       exact ih _ (Finset.filter_ssubset.2 ⟨y0, hy0, hj⟩) (mem_iSup_filter T p hp hf Y j hY)
-    · push_neg at h
+    · push Not at h
       exact (iSup₂_le fun y hy => by rw [h y hy] : (⨆ y ∈ Y, p y) ≤ p θ) hY
 
 end Gen
@@ -347,7 +347,7 @@ theorem norm_eigenvalue_le_one_of_integral_matrix (O K : Type) [CommRing O] [Nor
     (hM : (M.map emb).mulVec c = μ • c) : ‖μ‖ ≤ 1 := by
   obtain ⟨j₀, hj₀⟩ : ∃ j, c j ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hc (funext h)
   obtain ⟨k, -, hk⟩ := Finset.exists_max_image Finset.univ (fun j => ‖c j‖) ⟨j₀, Finset.mem_univ _⟩
   have hpos : 0 < ‖c k‖ :=
@@ -513,7 +513,7 @@ theorem maximal_ideal_eq_joint_eigen : ∀ (l : ℕ) [Fact l.Prime] (O : Type) [
       rw [hJmem θ hθ, eval₂_mul, norm_mul] at hab
       rw [hJmem θ hθ, hJmem θ hθ]
       by_contra hc
-      push_neg at hc
+      push Not at hc
       have := mul_le_mul hc.1 hc.2 zero_le_one (norm_nonneg _)
       linarith
   by_cases hex : ∃ θ ∈ Θ, m ≤ J θ
@@ -524,7 +524,7 @@ theorem maximal_ideal_eq_joint_eigen : ∀ (l : ℕ) [Fact l.Prime] (O : Type) [
     · simpa using hint θ ⟨c, hc0, hc⟩ (X i)
     · rw [heq]; exact hJmem θ ⟨c, hc0, hc⟩ p
   · exfalso
-    push_neg at hex
+    push Not at hex
     have hnot : ¬ ((m : Set (MvPolynomial I O)) ⊆ ⋃ θ ∈ (hfin.toFinset : Set (I → K)), (J θ : Set _)) := by
       rw [Ideal.subset_union_prime (0 : I → K) (0 : I → K)
         (fun θ hθ _ _ => hJprime θ (by simpa using hθ))]
@@ -645,7 +645,7 @@ private lemma coeffs_eq_zero_of_linearIndependent_of_injective {O K X : Type} [C
     have h0 : α 0 ≠ 0 := hα.ne_zero 0
     obtain ⟨x0, hx0⟩ : ∃ x0, α 0 x0 ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact h0 (funext h)
     have hea : emb (α 0 x0) ≠ 0 := fun h => hx0 (hemb (by rw [h, map_zero]))
     let β : Fin n → X → O := fun j x => α 0 x0 * α j.succ x - α j.succ x0 * α 0 x

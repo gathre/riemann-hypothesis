@@ -98,7 +98,7 @@ theorem chain_X (p : D.what₂.Tau → ℕ) (g : GLR D n) (τ : D.what₂.Tau) (
   simp only [pderiv_fockSubst_X]
   rw [pderiv_X]
   by_cases h : u.1 = τ ∧ u.2.1 = i
-  · simp only [if_pos h]
+  · simp only [ite_eq_left h]
     have e : (∑ b, C' b c • C (rowMat p g τ i u.2.2 b) : PolF D m n) = C ((rowMat p g τ i * C') u.2.2 c) := by
 
       rw [Matrix.mul_apply, map_sum]
@@ -113,7 +113,7 @@ theorem chain_X (p : D.what₂.Tau → ℕ) (g : GLR D n) (τ : D.what₂.Tau) (
     · subst h3; simp
     · have : ((u1, u2, u3) : FVar D m n) ≠ (u1, u2, c) := by simp [h3]
       simp [this, h3]
-  · simp only [if_neg h, smul_zero, Finset.sum_const_zero]
+  · simp only [ite_eq_right h, smul_zero, Finset.sum_const_zero]
     have : u ≠ (τ, i, c) := by
       rintro rfl; exact h ⟨rfl, rfl⟩
     simp [this]
@@ -137,18 +137,18 @@ theorem rai_comm (p : D.what₂.Tau → ℕ) (g : GLR D n) (τ : D.what₂.Tau) 
         (fockSubst p g).toLinearMap) := by
   refine LinearMap.ext fun P => ?_
   by_cases h : (i : ℕ) < p τ
-  · simp only [raiO, sgn, h, decide_true, if_true, one_smul, Module.End.mul_apply, AlgHom.toLinearMap_apply,
+  · simp only [raiO, sgn, h, decide_true, ite_true, one_smul, Module.End.mul_apply, AlgHom.toLinearMap_apply,
       LinearMap.mulLeft_apply, map_mul, LinearMap.sum_apply, LinearMap.smul_apply, Module.End.mul_apply]
     rw [fockSubst_X, Finset.sum_mul]
     dsimp only
     refine Finset.sum_congr rfl fun b _ => ?_
     simp [rowMat, h, smul_eq_C_mul, mul_assoc]
   · have hC : rowMat p g τ i * (((g τ)⁻¹).val)ᵀ = 1 := by
-      rw [rowMat, if_neg h, ← Matrix.transpose_mul]
+      rw [rowMat, ite_eq_right h, ← Matrix.transpose_mul]
       simp
-    simp only [raiO, sgn, h, decide_false, if_true, one_smul, Module.End.mul_apply, AlgHom.toLinearMap_apply,
+    simp only [raiO, sgn, h, decide_false, ite_true, one_smul, Module.End.mul_apply, AlgHom.toLinearMap_apply,
       LinearMap.neg_apply, map_neg, LinearMap.sum_apply, LinearMap.smul_apply, Module.End.mul_apply,
-      Derivation.coeFn_coe, Bool.false_eq_true, if_false]
+      Derivation.coeFn_coe, Bool.false_eq_true, ite_false]
     rw [chain p g τ i c _ hC, ← Finset.sum_neg_distrib]
     refine Finset.sum_congr rfl fun b _ => ?_
     simp [smul_neg]
@@ -161,14 +161,14 @@ theorem low_comm (p : D.what₂.Tau → ℕ) (g : GLR D n) (τ : D.what₂.Tau) 
   refine LinearMap.ext fun P => ?_
   by_cases h : (l : ℕ) < p τ
   · have hC : rowMat p g τ l * (g τ).val = 1 := by
-      rw [rowMat, if_pos h]
+      rw [rowMat, ite_eq_left h]
       simp
-    simp only [lowO, sgn, h, decide_true, if_true, one_smul, Module.End.mul_apply, AlgHom.toLinearMap_apply,
+    simp only [lowO, sgn, h, decide_true, ite_true, one_smul, Module.End.mul_apply, AlgHom.toLinearMap_apply,
       LinearMap.sum_apply, LinearMap.smul_apply, Derivation.coeFn_coe]
     rw [chain p g τ l c _ hC]
-  · simp only [lowO, sgn, h, decide_false, if_true, one_smul, Module.End.mul_apply, AlgHom.toLinearMap_apply,
+  · simp only [lowO, sgn, h, decide_false, ite_true, one_smul, Module.End.mul_apply, AlgHom.toLinearMap_apply,
       LinearMap.mulLeft_apply, map_mul, LinearMap.sum_apply, LinearMap.smul_apply, Module.End.mul_apply,
-      Bool.false_eq_true, if_false]
+      Bool.false_eq_true, ite_false]
     rw [fockSubst_X, Finset.sum_mul]
     dsimp only
     refine Finset.sum_congr rfl fun b _ => ?_

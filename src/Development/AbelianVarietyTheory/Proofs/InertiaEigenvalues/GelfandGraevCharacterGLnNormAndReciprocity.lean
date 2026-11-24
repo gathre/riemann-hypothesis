@@ -131,14 +131,14 @@ theorem inR_one (i n : ℕ) (hi : i ≤ n) : InR i (1 : Mt g n) := by
   have ha := a.2
   have hb := b.2
   rw [br, entN_one n _ _ (by omega) (by omega)]
-  refine ⟨fun h => if_neg ?_, fun h => if_pos (by rw [h])⟩
+  refine ⟨fun h => ite_eq_right ?_, fun h => ite_eq_left (by rw [h])⟩
   have : (b : ℕ) < a := h
   omega
 
 theorem supFrom_one (i n : ℕ) : supFrom i (1 : Mt g n) = 0 := by
   refine Finset.sum_eq_zero fun j hj => ?_
   rw [Finset.mem_Ico] at hj
-  rw [entN_one n _ _ (by omega) (by omega), if_neg (by omega)]
+  rw [entN_one n _ _ (by omega) (by omega), ite_eq_right (by omega)]
 
 theorem der_dirac (ψ : AddChar (ZMod g) ℂ) (i n : ℕ) (hi : i ≤ n) :
     der ψ i (dirac g n) =
@@ -263,7 +263,7 @@ theorem gg_term_inv (ψ : AddChar (ZMod g) ℂ) {n : ℕ} (u : Gn g n) :
       if IsUniUp (u : Mt g n) then (ψ (∑ i ∈ Finset.range (n - 1), entN (u : Mt g n) i (i + 1)))⁻¹ else 0 := by
   by_cases hu : IsUniUp (u : Mt g n)
   · have hi := GlobalTheory.BadCount.Inh.isUniUp_inv u hu
-    rw [if_pos hi, if_pos hu]
+    rw [ite_eq_left hi, ite_eq_left hu]
     have h := GlobalTheory.BadCount.Inh.sd_mul hi hu
     rw [← Units.val_mul, inv_mul_cancel, Units.val_one, GlobalTheory.BadCount.Inh.sd_one] at h
     have e : (∑ i ∈ Finset.range (n - 1), entN ((u⁻¹ : Gn g n) : Mt g n) i (i + 1)) =
@@ -272,7 +272,7 @@ theorem gg_term_inv (ψ : AddChar (ZMod g) ℂ) {n : ℕ} (u : Gn g n) :
     rw [e, AddChar.map_neg_eq_inv]
   · have hi : ¬ IsUniUp ((u⁻¹ : Gn g n) : Mt g n) := fun h =>
       hu (by simpa using GlobalTheory.BadCount.Inh.isUniUp_inv u⁻¹ h)
-    rw [if_neg hi, if_neg hu]
+    rw [ite_eq_right hi, ite_eq_right hu]
 
 theorem ip_gg (ψ : AddChar (ZMod g) ℂ) (n : ℕ) (χ : Gn g n → ℂ) (hχ : IsClass χ) :
     ip χ (gg ψ n) = wh ψ χ := by

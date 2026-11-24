@@ -1714,10 +1714,10 @@ theorem latticeLink_of_blockFor : GlobalTheory.Published.BhattScholzeCrystalline
     show σ (inc τ) = if decide (σ (inc τ) ≠ inc (hf (σ (inc τ)))) = true then cj (inc (hf (σ (inc τ))))
       else inc (hf (σ (inc τ)))
     by_cases h : σ (inc τ) = inc (hf (σ (inc τ)))
-    · rw [decide_eq_false (not_not.mpr h), if_neg Bool.false_ne_true]; exact h
+    · rw [decide_eq_false (not_not.mpr h), ite_eq_right Bool.false_ne_true]; exact h
     · rcases hb (σ (inc τ)) with h' | h'
       · exact absurd h' h
-      · rw [decide_eq_true h, if_pos rfl]; exact h'
+      · rw [decide_eq_true h, ite_eq_left rfl]; exact h'
   · intro a a' haa'
     obtain rfl : a = a' := Fin.ext haa'
     simp only [labels, glue_inc hH, Formalism.CohomologicalDescent.UnitNormBounds.UN, Formalism.CohomologicalDescent.LD.res]

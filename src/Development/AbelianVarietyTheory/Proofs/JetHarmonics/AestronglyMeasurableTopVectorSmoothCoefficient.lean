@@ -256,7 +256,7 @@ theorem sec_spec {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace ℂ W
     intro b h; rw [← hB] at h; exact Fin.castSucc_ne_last b (π.injective h)
   have hdl : d' (Fin.last r) = (μ : ℂ) * d0 (Fin.last r) := by simp [hd'def, hB]
   have hdb : ∀ b : Fin r, d' b.castSucc = d0 b.castSucc := by
-    intro b; simp only [hd'def]; rw [if_neg (hne b)]
+    intro b; simp only [hd'def]; rw [ite_eq_right (hne b)]
 
   set N := Complex.normSq (d' (Fin.last r)) with hNdef
   have hN : s ^ 4 < N := by
@@ -323,10 +323,10 @@ theorem sec_spec {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace ℂ W
         ((C2.monoP π d0).det * (d0 (Fin.last r))⁻¹) • (m₀ *ᵥ (σ *ᵥ S.z')) := by
       unfold Formalism.FourierDecayAlt.D.cofR; rw [hZ]
       rw [Finset.sum_eq_single (Fin.last r)]
-      · rw [monomialMatrix_adj π d0 hd0, if_pos hB, fvec_lastI, Matrix.mulVec_mulVec]
+      · rw [monomialMatrix_adj π d0 hd0, ite_eq_left hB, fvec_lastI, Matrix.mulVec_mulVec]
       · intro b _ hbne
         have : π b ≠ Fin.last r := by intro h; rw [← hB] at h; exact hbne (π.injective h)
-        rw [monomialMatrix_adj π d0 hd0, if_neg this]; simp
+        rw [monomialMatrix_adj π d0 hd0, ite_eq_right this]; simp
       · simp
     rw [hcof, prW_smul,  Formalism.FourierDecayAlt.P.Dx2.DF.orthoProj_m0_intertwine m₀ hmU hme hms hz hz' μ hμ.ne' hmz hzz0, hσz]
     simp only [hYdef, YB, Matrix.cons_val_zero]
@@ -340,8 +340,8 @@ theorem sec_spec {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace ℂ W
         (conj ((C2.monoP π d0).det * (d0 (Fin.last r))⁻¹)) • S.z := by
       unfold Formalism.FourierDecayAlt.D.cofL; rw [hZ]
       rw [Finset.sum_eq_single (Fin.last r)]
-      · rw [monomialMatrix_adj π d0 hd0, if_pos hB, fvec_lastI]
-      · intro a _ hane; rw [monomialMatrix_adj π d0 hd0, if_neg (by rw [hB]; exact Ne.symm hane)]; simp
+      · rw [monomialMatrix_adj π d0 hd0, ite_eq_left hB, fvec_lastI]
+      · intro a _ hane; rw [monomialMatrix_adj π d0 hd0, ite_eq_right (by rw [hB]; exact Ne.symm hane)]; simp
       · simp
     set Dp := d' (Fin.last r) with hDpdef
     have hvec : (-(conj Dp / (s : ℂ) ^ 2)) • Y (Sum.inr 0) + ((κ : ℂ) * conj Dp) • Y (Sum.inr 1) = S.z' := by

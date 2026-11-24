@@ -126,7 +126,7 @@ theorem finite_centre_not_mem (k K E : Type) [Field k] [IsAlgClosed k] [CharZero
   · rintro p ⟨b, hb1, hb2⟩
     simp only [Set.mem_iUnion, Set.mem_setOf_eq]
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hall := key p fun a ha => hno a ha
     have hmem : ∀ g, f g ∈ p.O := fun g => (Valuation.mem_valuationSubring_iff _ _).2 (hall g)
     let φ : Γ(C, V') →+* p.O := f.codRestrict p.O hmem

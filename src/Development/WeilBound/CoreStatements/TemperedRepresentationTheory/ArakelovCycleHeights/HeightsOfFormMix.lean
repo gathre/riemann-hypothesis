@@ -598,7 +598,7 @@ theorem exists_bump {P : Scheme.{0}} {q : P ⟶ Sp k} {N : ℕ} {σ : k →+* �
       refine (β₀.contDiff.contDiffOn (s := e.target ∩ e.symm ⁻¹' e.source)).congr fun v hv => ?_
       have hv1 : e.symm v ∈ e.source := hv.2
       show (if e.symm v ∈ e.source then β₀ (e (e.symm v)) else 0) = β₀ v
-      rw [if_pos hv1, e.right_inv hv.1]
+      rw [ite_eq_left hv1, e.right_inv hv.1]
     · have hzC : z ∉ C := fun h => hz (hCsub h).1
       refine (cInfAt_const (p := q) 0 z).congr ?_
       filter_upwards [hCc.isClosed.isOpen_compl.mem_nhds hzC] with w hw
@@ -611,7 +611,7 @@ theorem exists_bump {P : Scheme.{0}} {q : P ⟶ Sp k} {N : ℕ} {σ : k →+* �
   · have ho : IsOpen (e.source ∩ e ⁻¹' Metric.ball (e y) (ε / 4)) :=
       e.isOpen_inter_preimage Metric.isOpen_ball
     filter_upwards [ho.mem_nhds ⟨hc, Set.mem_preimage.mpr (Metric.mem_ball_self (by linarith))⟩] with w hw
-    simp only [β, if_pos hw.1]
+    simp only [β, ite_eq_left hw.1]
     exact β₀.one_of_mem_closedBall (Metric.ball_subset_closedBall hw.2)
 
 theorem exists_partition {P : Scheme.{0}} {q : P ⟶ Sp k} {N : ℕ} {σ : k →+* ℂ} (R : AnRead q σ N)

@@ -121,7 +121,7 @@ theorem hasSum_geom_poly {β : ℂ} (hβ : β ≠ 0) (e : ℕ) {P : ℤ → ℂ[
     · convert hg using 1
       funext k
       simp only [Function.comp_apply, f]
-      rw [if_neg (by omega), h1 _ (by omega), zpow_add₀ hz, zpow_natCast]
+      rw [ite_eq_right (by omega), h1 _ (by omega), zpow_add₀ hz, zpow_natCast]
       ring
     · split_ifs with h
       · rfl
@@ -525,8 +525,8 @@ theorem IsCentralCoeff.exists_eq_div_zeta (hc : IsCentralCoeff m α c)
     simp only [zero_mul, zero_add] at hg0 hg1
     have hk : (ordDet g).toNat ∈ Finset.range m := Finset.mem_range.2 (by omega)
     rw [Finset.sum_eq_single_of_mem _ hk (fun k _ hk' => by
-      rw [if_neg (by omega), mul_zero])]
-    rw [if_pos (Int.toNat_of_nonneg hg0).symm, detPow_centralUnif_zpow_mul,
+      rw [ite_eq_right (by omega), mul_zero])]
+    rw [ite_eq_left (Int.toNat_of_nonneg hg0).symm, detPow_centralUnif_zpow_mul,
       IsCentralCoeff.zpow_mul hc, detPow_eq_qs_zpow, ← hx, mul_zpow, mul_comm j, _root_.zpow_mul,
       zpow_natCast, ← Int.toNat_of_nonneg hg0, zpow_natCast]
     simp only [Int.toNat_natCast]

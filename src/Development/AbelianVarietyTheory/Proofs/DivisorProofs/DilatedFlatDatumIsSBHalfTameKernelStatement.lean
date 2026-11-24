@@ -110,8 +110,8 @@ theorem isSBHalf_dilFlat : ∀ (D : D7) (G : Type) [Group G] [Fintype G] (Pl0 T0
     funext x
     unfold flatDat
     by_cases h : IsHalf eQ x ∧ IsIntM (frMapO (Vc D i) (Wc D i) (R.βV i) (R.βW i) (dil i (ϖ : D.host.E) x))
-    · rw [if_pos h, if_pos ⟨(hhalf x).2 h.1, h.2⟩]
-    · rw [if_neg h, if_neg fun h' => h ⟨(hhalf x).1 h'.1, h'.2⟩]
+    · rw [ite_eq_left h, ite_eq_left ⟨(hhalf x).2 h.1, h.2⟩]
+    · rw [ite_eq_right h, ite_eq_right fun h' => h ⟨(hhalf x).1 h'.1, h'.2⟩]
   rw [key]
   refine GlobalTheory.PlaceDatum.isSBHalf_of_red eQ _ (fun x => frMapO (Vc D i) (Wc D i) (R.βV i) (R.βW i) (dil i (ϖ : D.host.E) x))
     ?_ ?_ ?_ Q _ fun y y' h => GlobalTheory.FlatVecExist.omegaFlat_congr _ _ _ h

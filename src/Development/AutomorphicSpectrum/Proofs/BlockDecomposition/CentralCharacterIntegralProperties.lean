@@ -93,7 +93,7 @@ theorem Dt_central (z : Jd) : Dt (dg2 z z) = md z ^ 2 := by
 
 theorem exists_ne_one {η : HeckeCharacter ℚ} (h : η ≠ 1) : ∃ z : Jd, η.toIdele z ≠ 1 := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   apply h
   ext x
   obtain ⟨z, rfl⟩ := QuotientGroup.mk_surjective x

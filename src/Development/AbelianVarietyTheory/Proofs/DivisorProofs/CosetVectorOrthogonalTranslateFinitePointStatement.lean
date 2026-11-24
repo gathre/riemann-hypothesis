@@ -158,18 +158,18 @@ theorem hO_rowMat (S T : HSp D) (hS : S.gram = 1) (hT : T.gram = 1) (r : D.host.
       incA D (star (-(r⁻¹ * if p.1 = o + a.1 then 1 else 0))) * f a := by
     intro a
     rw [Finset.sum_eq_single p]
-    · have : rowMat S T p f p a = f a := if_pos rfl
+    · have : rowMat S T p f p a = f a := ite_eq_left rfl
       rw [this]
       exact cA_fin_mul _ _ (hf a)
     · intro c _ hc
-      have : rowMat S T p f c a = 0 := if_neg hc
+      have : rowMat S T p f c a = 0 := ite_eq_right hc
       rw [this, mul_zero]
     · intro h; exact absurd (Finset.mem_univ _) h
   rw [Finset.sum_congr rfl fun a _ => h1 a, Finset.sum_eq_single j]
-  · rw [if_pos hp, mul_one, star_neg, RingHom.map_neg, neg_mul]
+  · rw [ite_eq_left hp, mul_one, star_neg, RingHom.map_neg, neg_mul]
   · intro a _ ha
     have : ¬ p.1 = o + a.1 := fun h => ha (Fin.ext (by omega))
-    rw [if_neg this, mul_zero, neg_zero, star_zero, RingHom.map_zero, zero_mul]
+    rw [ite_eq_right this, mul_zero, neg_zero, star_zero, RingHom.map_zero, zero_mul]
   · intro h; exact absurd (Finset.mem_univ _) h
 
 theorem actO_rowMat (S T : HSp D) (g : GA D S) (p : Fin T.rank) (i : Fin S.rank) (σ : AE D) :
@@ -182,15 +182,15 @@ theorem actO_rowMat (S T : HSp D) (g : GA D S) (p : Fin T.rank) (i : Fin S.rank)
   funext c a
   rw [Matrix.mul_apply]
   by_cases hc : c = p
-  · have e : ∀ k, rowMat S T p (Pi.single i σ) c k = (Pi.single i σ : Fin S.rank → AE D) k := fun k => if_pos hc
-    have e' : rowMat S T p (fun a => σ * mt S g⁻¹ i a) c a = σ * mt S g⁻¹ i a := if_pos hc
+  · have e : ∀ k, rowMat S T p (Pi.single i σ) c k = (Pi.single i σ : Fin S.rank → AE D) k := fun k => ite_eq_left hc
+    have e' : rowMat S T p (fun a => σ * mt S g⁻¹ i a) c a = σ * mt S g⁻¹ i a := ite_eq_left hc
     rw [e', Finset.sum_eq_single i]
     · rw [e, Pi.single_eq_same]
     · intro k _ hk
       rw [e, Pi.single_eq_of_ne hk, zero_mul]
     · intro h; exact absurd (Finset.mem_univ _) h
-  · have e : ∀ k, rowMat S T p (Pi.single i σ) c k = 0 := fun k => if_neg hc
-    have e' : rowMat S T p (fun a => σ * mt S g⁻¹ i a) c a = 0 := if_neg hc
+  · have e : ∀ k, rowMat S T p (Pi.single i σ) c k = 0 := fun k => ite_eq_right hc
+    have e' : rowMat S T p (fun a => σ * mt S g⁻¹ i a) c a = 0 := ite_eq_right hc
     rw [e']
     exact Finset.sum_eq_zero fun k _ => by rw [e, zero_mul]
 
@@ -200,11 +200,11 @@ theorem two_smul_rowMat (S T : HSp D) (p : Fin T.rank) (i : Fin S.rank) (σ : AE
   show 2 • (if c = p then (Pi.single i σ : Fin S.rank → AE D) a else 0) =
     if c = p then (Pi.single i (2 * σ) : Fin S.rank → AE D) a else 0
   by_cases hc : c = p
-  · rw [if_pos hc, if_pos hc]
+  · rw [ite_eq_left hc, ite_eq_left hc]
     by_cases ha : a = i
     · rw [ha, Pi.single_eq_same, Pi.single_eq_same, two_nsmul, two_mul]
     · rw [Pi.single_eq_of_ne ha, Pi.single_eq_of_ne ha, nsmul_zero]
-  · rw [if_neg hc, if_neg hc, nsmul_zero]
+  · rw [ite_eq_right hc, ite_eq_right hc, nsmul_zero]
 
 theorem hatPt_rowMat (S T : HSp D) (r : D.host.E) (I : FractionalIdeal (𝓞 D.host.E)⁰ D.host.E) (p : Fin T.rank)
     (f : Fin S.rank → AE D) (h0 : ∀ a, infPart D (f a) = 0) (h1 : ∀ a, InHat I (algebraMap D.host.E (FA D) r * fe D (f a))) :
@@ -1170,7 +1170,7 @@ theorem inHat_of_inv_cong : ∀ {D : D7}, (∀ w : HeightOneSpectrum (𝓞 D.hos
           Matrix.one_apply]
         by_cases hij : i = j
         · subst hij; simp
-        · rw [if_neg hij, if_neg (Ne.symm hij)]; simp
+        · rw [ite_eq_right hij, ite_eq_right (Ne.symm hij)]; simp
       rw [e1, e2, ← hv]
       exact (Valuation.map_neg _ _).symm
     · have hint : Valued.v (finMat y i j w) ≤ 1 ∧ Valued.v (finMat y⁻¹ i j w) ≤ 1 := by

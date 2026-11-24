@@ -123,13 +123,13 @@ theorem fockD_fockM_comm : ∀ {V : Type} [AddCommGroup V] [Module ℂ V] {W : T
   by_cases hjk : j = k
   · subst hjk
     rcases lineSign_cases j.2.1 j.2.2 with h | h
-    · simp only [if_true, h]
+    · simp only [ite_true, h]
       match_scalars
       simp
       field_simp
       ring_nf
       simp [Complex.I_sq]
-    · simp only [if_true, h]
+    · simp only [ite_true, h]
       match_scalars
       simp
       field_simp

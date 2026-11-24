@@ -335,8 +335,8 @@ theorem section_slice_eq_poly_div_det_pow :
   have htri : ReciprocityTheory.MultiplicativeHeights.IsTriEquivariant a h := by
     intro y b hy hb hbt
     let b' : Frame X.Ψ r := fun σ => if σ = τ then b else (1 : Matrix (Fin r) (Fin r) ℂ)
-    have hbτ : b' τ = b := by exact if_pos rfl
-    have hbσ : ∀ σ, σ ≠ τ → b' σ = (1 : Matrix (Fin r) (Fin r) ℂ) := fun σ hσ => by exact if_neg hσ
+    have hbτ : b' τ = b := by exact ite_eq_left rfl
+    have hbσ : ∀ σ, σ ≠ τ → b' σ = (1 : Matrix (Fin r) (Fin r) ℂ) := fun σ hσ => by exact ite_eq_right hσ
     have hb'B : b' ∈ Bor X.Ψ r := by
       intro σ
       by_cases hσ : σ = τ
@@ -348,7 +348,7 @@ theorem section_slice_eq_poly_div_det_pow :
       · refine ⟨?_, fun c d hcd => ?_⟩
         · change (Matrix.of (b' σ)).det ≠ 0
           rw [hbσ σ hσ]; change (1 : Matrix (Fin r) (Fin r) ℂ).det ≠ 0; simp
-        · rw [hbσ σ hσ, Matrix.one_apply, if_neg (ne_of_lt hcd).symm]
+        · rw [hbσ σ hσ, Matrix.one_apply, ite_eq_right (ne_of_lt hcd).symm]
     have hrm : rmul (Function.update x τ (fun i j => y i j)) b' =
         Function.update x τ (fun i j => (y * b) i j) := by
       funext σ
@@ -716,7 +716,7 @@ theorem cutF_mem_SS (M : TwoLevels E r U C) (la : Wt M.Ψ r) (c : C) {F : C → 
   intro c'
   by_cases h : c' = c
   · simpa [h] using hF c'
-  · simp only [h, if_false]
+  · simp only [h, ite_false]
     exact ⟨BoundedSectionAlgebra.bdd_zero _ _, fun ξ _ x _ => BoundedSectionAlgebra.fj_zero _ _ ξ x 0⟩
 
 theorem cut_mem_cusp (M : TwoLevels E r U C) (la : Wt M.Ψ r) (c : C) {v : C → M.dom → ℂ}

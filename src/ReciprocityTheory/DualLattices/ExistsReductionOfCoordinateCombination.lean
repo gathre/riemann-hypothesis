@@ -93,7 +93,7 @@ private lemma smul_cancel_lemma {S K : Type*} [CommRing S] [Field K] [Algebra S 
     {a b : S} (h : a • M = b • M) : a = b := by
   obtain ⟨x, y, hxy⟩ : ∃ x y, M x y ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hM (Matrix.ext fun x y => by simpa using hc x y)
   have h2 : a * M x y = b * M x y := by
     have := congrFun (congrFun h x) y

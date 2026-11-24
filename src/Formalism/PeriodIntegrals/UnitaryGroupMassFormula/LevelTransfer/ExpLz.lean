@@ -82,7 +82,7 @@ theorem exp_Lz (hL : LevHom) (Y : Matrix (Fin (2 * r' + k + 1)) (Fin (2 * r' + k
     | zero => simp [LzL_apply]
     | succ m =>
       have hm : m + 1 ≠ 0 := by omega
-      rw [if_neg hm, add_zero, LinearMap.map_smul, LzL_apply, Lz_pow hL]
+      rw [ite_eq_right hm, add_zero, LinearMap.map_smul, LzL_apply, Lz_pow hL]
   have h5 : HasSum (fun n : ℕ => ((n.factorial : ℂ)⁻¹) • (Lz k i r' Y) ^ n)
       (LzL k i r' (NormedSpace.exp Y) + (1 - Lz k i r' 1)) := by
     rw [hfun]

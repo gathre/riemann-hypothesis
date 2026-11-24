@@ -667,7 +667,7 @@ private theorem finite_projective_of_free_int (E : Type) [Field E] [NumberField 
   haveI : Module.IsTorsionFree (𝓞 E) N := by
     refine Module.isTorsionFree_iff_smul_eq_zero.2 fun a x hax => ?_
     by_contra hk
-    push_neg at hk
+    push Not at hk
     obtain ⟨c, hc⟩ := Ideal.mem_span_singleton'.1 (Ideal.absNorm_mem (Ideal.span {a}))
     have h0 : Ideal.absNorm (Ideal.span {a}) ≠ 0 := by
       rw [Ne, Ideal.absNorm_eq_zero_iff, Ideal.span_singleton_eq_bot]
@@ -712,7 +712,7 @@ theorem exists_ker_vec_of_not_onto_mod {O P X : Type} [CommRing O] [IsDomain O] 
     exact sub_mem (Submodule.mem_sup_left ⟨v, rfl⟩) (Submodule.mem_sup_right ht)
   rw [← LinearMap.injective_iff_surjective_of_finrank_eq_finrank
     (by rw [finrank_quot_tensor, finrank_quot_tensor, hr]), injective_iff_map_eq_zero] at hns
-  push_neg at hns
+  push Not at hns
   obtain ⟨t, ht, ht0⟩ := hns
   obtain ⟨v, rfl⟩ := one_tmul_surjective I t
   rw [LinearMap.baseChange_tmul, one_tmul_eq_zero_iff] at ht
@@ -820,7 +820,7 @@ theorem exists_pair (D : Datum H) {p : ℕ} (hp : p.Prime) (S : AddSubgroup D.La
   have hc' : (QuotientAddGroup.mk c : D.La ⧸ S) ≠ 0 := by rwa [Ne, QuotientAddGroup.eq_zero_iff]
   obtain ⟨f, hf⟩ : ∃ f : (D.La ⧸ S) →+ ZMod p, f (QuotientAddGroup.mk c) ≠ 0 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     refine hc' ((Module.forall_dual_apply_eq_zero_iff (ZMod p) _).1 fun φ => ?_)
     exact hne (LinearMap.toAddMonoidHom φ)
   let g : D.La →+ ZMod p := f.comp (QuotientAddGroup.mk' S)
@@ -961,7 +961,7 @@ theorem img_bar_ne_top : ∀ {E : Type} [Field E] [NumberField E] [IsCMField E] 
     exact hsmA _ hp𝔭 x
   obtain ⟨c0, hc0⟩ : ∃ c, y c ∉ img D y Z' 𝔭 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     apply hi
     rw [eq_top_iff]
     intro x _

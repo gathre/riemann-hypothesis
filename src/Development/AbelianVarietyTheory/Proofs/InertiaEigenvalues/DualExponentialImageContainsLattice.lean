@@ -144,7 +144,7 @@ theorem formula_pos : ∀ (LT : LocTheory) (l : ℕ) [Fact l.Prime] (AI : LocAin
           rw [hTdef, Finset.sum_product, Finset.mul_sum]
           refine Finset.sum_congr rfl fun a ha => ?_
           have := hne' a ha
-          simp only [Fintype.sum_bool, co, ex, if_true, Bool.false_eq_true, if_false, Nat.cast_mul]
+          simp only [Fintype.sum_bool, co, ex, ite_true, Bool.false_eq_true, ite_false, Nat.cast_mul]
           field_simp
           ring
         rw [h3, map_mul, map_mul, ← hrec]
@@ -185,7 +185,7 @@ theorem formula_pos : ∀ (LT : LocTheory) (l : ℕ) [Fact l.Prime] (AI : LocAin
           (((frK (LT l) K ^ i) (lam a) : ↥(K0 K)) : Om l) * ((a : Om l) ^ e)⁻¹ := by
         rw [map_mul, map_inv₀, map_pow, map_natCast]
         simp
-      simp only [Fintype.sum_bool, co, ex, if_true, Bool.false_eq_true, if_false, map_neg,
+      simp only [Fintype.sum_bool, co, ex, ite_true, Bool.false_eq_true, ite_false, map_neg,
         NegMemClass.coe_neg, hco, hz, Nat.cast_mul]
       field_simp
       ring
@@ -550,9 +550,9 @@ theorem sum_class {R : Type*} [CommRing R] (x : R) (m k n : ℕ) (hm : 0 < m) :
     rw [Nat.mul_succ, Finset.sum_range_add, ih, Finset.sum_range_succ, mul_add]
     congr 1
     rw [Finset.sum_eq_single (n % m)]
-    · rw [if_pos (by simp), pow_add, pow_mul, mul_comm]
+    · rw [ite_eq_left (by simp), pow_add, pow_mul, mul_comm]
     · intro b hb hne
-      rw [if_neg]
+      rw [ite_eq_right]
       rw [Nat.mul_add_mod, Nat.mod_eq_of_lt (Finset.mem_range.1 hb)]
       exact hne
     · intro h
@@ -625,25 +625,25 @@ theorem exists_weights : ∀ (l : ℕ) [Fact l.Prime] (ζ : ℕ → Om l), ζ 0 
   by_cases hj1 : j = 1
   · subst hj1
     refine ⟨fun a => if a % l ^ 1 = n % l ^ 1 then 1 else 0, ?_, fun i hi his => ?_⟩
-    · rw [hz 1 le_rfl hjs, if_pos rfl]
+    · rw [hz 1 le_rfl hjs, ite_eq_left rfl]
     · rw [hv i his 1 le_rfl hjs]
       by_cases e : i = 1
       · subst e; simp
-      · rw [if_neg (by omega), if_neg e]
+      · rw [ite_eq_right (by omega), ite_eq_right e]
   · have hsj : s - (j - 1) = s - j + 1 := by omega
     refine ⟨fun a => l * (if a % l ^ j = n % l ^ j then 1 else 0) -
       (if a % l ^ (j - 1) = n % l ^ (j - 1) then 1 else 0), ?_, fun i hi his => ?_⟩
     · rw [Finset.sum_sub_distrib, ← Finset.mul_sum, hz j hj hjs, hz (j - 1) (by omega) (by omega),
-        if_neg hj1, hsj]
+        ite_eq_right hj1, hsj]
       ring
     · simp only [Int.cast_sub, Int.cast_mul, Int.cast_natCast, sub_mul, mul_assoc]
       rw [Finset.sum_sub_distrib, ← Finset.mul_sum, hv i his j hj hjs,
-        hv i his (j - 1) (by omega) (by omega), if_neg hj1, hsj]
+        hv i his (j - 1) (by omega) (by omega), ite_eq_right hj1, hsj]
       rcases lt_trichotomy i j with e | e | e
-      · rw [if_pos e.le, if_pos (by omega), if_neg e.ne]; ring
+      · rw [ite_eq_left e.le, ite_eq_left (by omega), ite_eq_right e.ne]; ring
       · subst e
-        rw [if_pos le_rfl, if_neg (by omega), if_pos rfl]; ring
-      · rw [if_neg (by omega), if_neg (by omega), if_neg e.ne']; ring
+        rw [ite_eq_left le_rfl, ite_eq_right (by omega), ite_eq_left rfl]; ring
+      · rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right e.ne']; ring
 
 end GlobalTheory.LevelSums
 end -- clump:auto
@@ -688,11 +688,11 @@ theorem cycVal_single {s e j : ℕ} (hj : 1 ≤ j) (hjs : j ≤ s) (μ : ℕ →
     ring
   unfold cycVal
   rw [Finset.sum_congr rfl fun i hi => by rw [key i hi], Finset.sum_eq_single (s - j)]
-  · rw [if_pos (by omega)]
+  · rw [ite_eq_left (by omega)]
     simp [mul_assoc]
   · intro i hi hne
     have hi' := Finset.mem_range.mp hi
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
     simp
   · intro h
     exact absurd (Finset.mem_range.mpr (by omega)) h
@@ -772,7 +772,7 @@ theorem exists_cycVal_eq (l : ℕ) [Fact l.Prime] (P : LocPrime l) (K : FinExt l
   obtain ⟨μ, h1, h2⟩ := _root_.GlobalTheory.LevelSums.exists_weights l P.ζQ P.ζQ_zero P.ζQ_one P.ζQ_succ s j n hj hjs hn
   by_cases hj1 : j = 1
   · subst hj1
-    simp only [if_true] at h1 h2
+    simp only [ite_true] at h1 h2
     obtain ⟨ν, g1, g2⟩ := exists_minus_one P hjs
     obtain ⟨d, hd, hdc⟩ := (_root_.GlobalTheory.ExpImage.frK_isometric_and_one_sub_surjective l P K).2 (e + 1) (by omega) (frK P K c)
       (by rw [(_root_.GlobalTheory.ExpImage.frK_isometric_and_one_sub_surjective l P K).1]; exact hc1)
@@ -796,7 +796,7 @@ theorem exists_cycVal_eq (l : ℕ) [Fact l.Prime] (P : LocPrime l) (K : FinExt l
       rw [hx, hy]
       push_cast
       ring
-  · simp only [if_neg hj1] at h1 h2
+  · simp only [ite_eq_right hj1] at h1 h2
     obtain ⟨k, rfl⟩ : ∃ k, j = k + 2 := ⟨j - 2, by omega⟩
     obtain ⟨t, rfl⟩ : ∃ t, s = k + 2 + t := ⟨s - (k + 2), by omega⟩
     obtain ⟨x, hx, hxn⟩ := exists_pre P K t ((l : ↥(K0 K)) ^ ((e + 1) * k + e) * c)
@@ -1009,7 +1009,7 @@ theorem expStar_image : ∀ (D : Formalism.BasicNotions.D7) (l : ℕ) [Fact l.Pr
     rw [← hu, norm_div, norm_mul, norm_mul, h6, hlog, h7, Padic.norm_p_pow, ← zpow_add₀ hlr.ne',
       ← zpow_add₀ hlr.ne', ← zpow_sub₀ hlr.ne']
     congr 1
-    simp only [betaE, Nat.add_sub_cancel, Nat.succ_ne_zero, if_false]
+    simp only [betaE, Nat.add_sub_cancel, Nat.succ_ne_zero, ite_false]
     push_cast
     have hv : padicValRat l ((e' : ℚ) + 1) = (padicValNat l (e' + 1) : ℤ) := by
       simpa [Nat.add_comm, Nat.padicValNat_def] using (padicValRat_of_nat (p := l) (e' + 1)).symm

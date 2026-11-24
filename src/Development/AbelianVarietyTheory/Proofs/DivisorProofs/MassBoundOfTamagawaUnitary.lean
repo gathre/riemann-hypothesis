@@ -685,7 +685,7 @@ theorem prod_le_locFactor_of_isPrime (E : Type) [Field E] [NumberField E] [IsCMF
     ∏ i ∈ Finset.Icc 2 r, (1 - ((Ideal.absNorm v.asIdeal : ℝ) ^ i)⁻¹) ≤ locFactor E r v := by
   classical
   unfold locFactor resOrder
-  rw [if_pos hw]
+  rw [ite_eq_left hw]
   set w := v.asIdeal.map (algebraMap (𝓞 (maximalRealSubfield E)) (𝓞 E)) with hwdef
   set c := IsCMField.ringOfIntegersComplexConj E with hcdef
   have hcc : ∀ x, c (c x) = x := fun x => by
@@ -829,7 +829,7 @@ theorem le_locFactor_of_not_prime : ∀ (E : Type) [Field E] [NumberField E] [Is
       rw [Ne, Ideal.absNorm_eq_zero_iff]; exact v.ne_bot
     exact_mod_cast Nat.pos_of_ne_zero this
   unfold locFactor resOrder
-  rw [if_neg hnp]
+  rw [ite_eq_right hnp]
   have h' : (Nat.card (Matrix.SpecialLinearGroup (Fin r) (𝓞 (maximalRealSubfield E) ⧸ v.asIdeal)) : ℝ) =
       (Ideal.absNorm v.asIdeal : ℝ) ^ (r ^ 2 - 1) * ∏ i ∈ Finset.Icc 2 r, (1 - ((Ideal.absNorm v.asIdeal : ℝ) ^ i)⁻¹) := by
     have := congrArg (fun x : ℚ => (x : ℝ)) h
@@ -1097,7 +1097,7 @@ theorem exists_aniso {E : Type} [Field E] [NumberField E] [IsCMField E] {r : ℕ
     {G : Matrix (Fin r) (Fin r) E} (hdet : G.det ≠ 0) (hr : 0 < r) :
     ∃ e : Fin r → E, ReciprocityTheory.ChartRestriction.G.FD.herm G e e ≠ 0 := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨ξ, hξ0, hξ⟩ := exists_imag E
   have h0 : ∀ x y, ReciprocityTheory.ChartRestriction.G.FD.herm G x y = 0 := by
     intro x y

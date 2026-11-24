@@ -80,7 +80,7 @@ theorem chi_adrU_k (d : _root_.PositivityTheory.SiegelWeilFormula.SD_k σ) (w : 
     show Algebra.norm (AF F) (algebraMap (AF F) (AE F E) (adr w (Real.exp (τ / 2)))) = adr w (Real.exp τ)
     rw [Algebra.norm_algebraMap, hfr, sq, adr_mul, ← Real.exp_add, add_halves]
   have := d.ok.res (adrU w τ)
-  rw [if_pos (Subgroup.mem_sup_right hmem)] at this
+  rw [ite_eq_left (Subgroup.mem_sup_right hmem)] at this
   exact this
 end PositivityTheory.SiegelWeilFormula.AStep
 end
@@ -130,7 +130,7 @@ theorem inFrame_dil_k {d : _root_.PositivityTheory.SiegelWeilFormula.SD_k σ} (R
       simp only [dZ, Matrix.fromBlocks_multiply, Matrix.mul_one, Matrix.one_mul, Matrix.mul_zero, Matrix.zero_mul,
         add_zero, zero_add, Matrix.smul_mul, Matrix.mul_smul, smul_smul, one_smul, Matrix.one_mul,
         smul_zero, mul_inv_cancel₀ hζ]
-    · simp only [if_neg hu, Matrix.diagonal_one]
+    · simp only [ite_eq_right hu, Matrix.diagonal_one]
       exact R.off_w w u y hu
   · rw [R.off_f w y]
     ext i j

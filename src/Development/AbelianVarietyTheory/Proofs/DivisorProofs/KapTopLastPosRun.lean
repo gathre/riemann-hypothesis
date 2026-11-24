@@ -63,7 +63,7 @@ theorem one_le_aPl_last (D : D7) (i : Fin D.R.m) (τ : D.what₂.Tau) (p n : ℕ
   have hg := (D.hc τ).gap_be i
   have hq : ((D.R.k + (i : ℕ) : ℕ) : ℚ) = (n : ℚ) + 1 := by
     rw [← hn]; push_cast; ring
-  simp only [aPl, if_pos hlt]
+  simp only [aPl, ite_eq_left hlt]
   rw [hlam, hq]
   have hfl : (1 : ℤ) ≤ ⌊-(D.hc τ).b i + (D.hc τ).e i - ((n : ℚ) + 1 - ((n : ℚ) + 1)) - ((D.R.t : ℚ) + 1) / 2⌋ := by
     rw [Int.le_floor]

@@ -248,7 +248,7 @@ theorem eq_one_of_pow_near {K : Type} [NormedField K] [IsUltrametricDist K] {n :
   by_contra hne
   have hX : ∃ i j, X i j ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hne (by rw [show X = 0 from Matrix.ext hc, add_zero])
   obtain ⟨i₀, j₀, h0⟩ := hX
   obtain ⟨⟨a, b⟩, -, hab⟩ := Finset.exists_max_image (Finset.univ : Finset (n × n)) (fun p => ‖X p.1 p.2‖)
@@ -800,7 +800,7 @@ theorem norm_le_one_of_isIntegral (x : PadicAlgCl l) (hx : IsIntegral ℤ_[l] x)
     rw [IsScalarTower.algebraMap_apply ℤ_[l] ℚ_[l] (PadicAlgCl l), norm_algebraMap']
     exact c.2
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨p, hm, hp⟩ := hx
   rw [Polynomial.eval₂_eq_sum_range, Finset.sum_range_succ, hm.coeff_natDegree, map_one, one_mul] at hp
   have h1 : x ^ p.natDegree = - ∑ i ∈ Finset.range p.natDegree, algebraMap ℤ_[l] (PadicAlgCl l) (p.coeff i) * x ^ i :=

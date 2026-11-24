@@ -60,11 +60,11 @@ theorem mem_splitSeq_iff_pairwise (R : Type) [CommRing R] (n : ℕ) (l : List ((
     · simpa [hij.ne'] using h j i
   · rintro ⟨h1, h2⟩ i j
     rcases lt_trichotomy i j with hij | rfl | hij
-    · rw [if_neg hij.ne]
+    · rw [ite_eq_right hij.ne]
       exact (h2 i j hij).1
-    · rw [if_pos rfl]
+    · rw [ite_eq_left rfl]
       exact h1 _ (List.get_mem _ _)
-    · rw [if_neg hij.ne']
+    · rw [ite_eq_right hij.ne']
       exact (h2 j i hij).2
 
 theorem splitSeq_sublist_closed (R : Type) [CommRing R] (n : ℕ) : SubClosed (splitSeq R n) := by

@@ -286,10 +286,10 @@ theorem opL_consC {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] {t : �
     unfold pOp
     by_cases hc : c ∈ OmX ρ
     · have hc' := (omX_consC ht c).2 hc
-      rw [if_pos hc, if_pos hc', consC_sh]
+      rw [ite_eq_left hc, ite_eq_left hc', consC_sh]
       unfold wirt
       rw [fderiv_consC t f c (hf hc'), fderiv_consC t f c (hf hc')]
-    · rw [if_neg hc, if_neg (fun h => hc ((omX_consC ht c).1 h))]
+    · rw [ite_eq_right hc, ite_eq_right (fun h => hc ((omX_consC ht c).1 h))]
   · show cOp l (fun c' => f (consC t c')) c = cOp (shS l) f (consC t c)
     simp only [cOp, consC_sh]
   · show ciOp l (fun c' => f (consC t c')) c = ciOp (shS l) f (consC t c)
@@ -298,10 +298,10 @@ theorem opL_consC {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] {t : �
     unfold pbOp
     by_cases hc : c ∈ OmX ρ
     · have hc' := (omX_consC ht c).2 hc
-      rw [if_pos hc, if_pos hc', consC_sh]
+      rw [ite_eq_left hc, ite_eq_left hc', consC_sh]
       unfold wirtBar
       rw [fderiv_consC t f c (hf hc'), fderiv_consC t f c (hf hc')]
-    · rw [if_neg hc, if_neg (fun h => hc ((omX_consC ht c).1 h))]
+    · rw [ite_eq_right hc, ite_eq_right (fun h => hc ((omX_consC ht c).1 h))]
   · show cbOp l (fun c' => f (consC t c')) c = cbOp (shS l) f (consC t c)
     simp only [cbOp, consC_sh]
   · show cbiOp l (fun c' => f (consC t c')) c = cbiOp (shS l) f (consC t c)

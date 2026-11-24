@@ -156,7 +156,7 @@ theorem _root_.GlobalTheory.HenQ.Regroup.fiber_split (E : Type) [Field E] [Numbe
         IsDedekindDomain.HeightOneSpectrum.under (NumberField.RingOfIntegers ℚ) w)
     (hne : w' ≠ w) : v = w ∨ v = w' := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have h1 : w.asIdeal ≠ w'.asIdeal := fun he => hne (HeightOneSpectrum.ext he).symm
   have h2 : w.asIdeal ≠ v.asIdeal := fun he => hcon.1 (HeightOneSpectrum.ext he).symm
   have h3 : w'.asIdeal ≠ v.asIdeal := fun he => hcon.2 (HeightOneSpectrum.ext he).symm

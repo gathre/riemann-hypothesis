@@ -393,7 +393,7 @@ theorem UpperTheory.discr_CMDatum_eq_prod_places :
     have hsurj : ∀ τ : 𝓞 E →+* O, ∃ k, ρ k = τ := by
       intro τ
       by_contra hne
-      push_neg at hne
+      push Not at hne
       have he0 : ∀ i, tauExt τ (w i).e = 0 := by
         intro i
         rcases eq_zero_or_one_of_idempotent_integers hv (tauExt τ (w i).e) (by rw [← map_mul, (w i).idem]) with h | h

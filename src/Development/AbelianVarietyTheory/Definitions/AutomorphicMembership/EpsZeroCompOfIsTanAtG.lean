@@ -328,7 +328,7 @@ def At.flagCl (ct : At S κ p) (Z : ct.Mdl) (s : Finset (Step ct.Y ⟨κ.l, κ.c
   if s = ∅ then Z else if s = allSteps (Lat.top Z) ∧ IsDRFlag Z ct.YY then ct.YY else flagClosure Z s
 
 theorem At.flagCl_allSteps (ct : At S κ p) : ct.flagCl ct.Xm (allSteps (Lat.top ct.Xm)) = ct.YY := by
-  rw [At.flagCl, if_neg (allSteps_ne_empty _), if_pos ⟨rfl, ct.isYY⟩]
+  rw [At.flagCl, ite_eq_right (allSteps_ne_empty _), ite_eq_left ⟨rfl, ct.isYY⟩]
 
 def flgOf (ct : At S κ p) (P : ∀ B : ct.Mdl, Lat B → Prop) : FlgSt ct where
   FlagData := FlagFam P

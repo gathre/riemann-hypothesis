@@ -80,7 +80,7 @@ private theorem const_subst_lemma {σ τ : Type} [Finite σ] (a : σ → MvPower
   · intro e he
     obtain ⟨s, hs⟩ : ∃ s, e s ≠ 0 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact he (Finsupp.ext fun t => by simpa using hc t)
     rw [Finsupp.prod, map_prod, Finset.prod_eq_zero (Finsupp.mem_support_iff.mpr hs)]
     · simp

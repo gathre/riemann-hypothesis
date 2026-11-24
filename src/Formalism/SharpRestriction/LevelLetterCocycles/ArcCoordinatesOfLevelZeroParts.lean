@@ -249,7 +249,7 @@ theorem step_mpr (C : Ctx W) (A : ArcP n) (hA : A.OK) (c' : ZMod n) (hc' : c' �
     · have hα : ∀ s, s < e → -(A.Hs a e s : ℤ) ≤ α i (s + 1) := by
         intro s hs
         by_contra hlt
-        push_neg at hlt
+        push Not at hlt
         apply hci
         have hcond := (hg i).2 (s + 1) (by omega)
         have hH1 : A.Hs a' (e + 1) (s + 1) = A.Hs a e s := by

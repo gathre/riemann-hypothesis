@@ -594,12 +594,12 @@ lemma s5b7_radial (d r : ℕ) (hr : r ≤ d) (R : ℝ) (hR : 0 < R) :
     simp only [φ, ψ, hD, smul_eq_mul]
     by_cases h : ρ ≤ R
     · have hm : ρ ∈ Ioc 0 R := ⟨hρ0, h⟩
-      rw [if_pos h, indicator_of_mem hm]
+      rw [ite_eq_left h, indicator_of_mem hm]
       have e : 2 * (d + 1) - 1 = 2 * (d - r) + (2 * r + 1) := by omega
       rw [e, pow_add]
       field_simp
     · have hm : ρ ∉ Ioc 0 R := fun hh => h hh.2
-      rw [if_neg h, indicator_of_notMem hm, mul_zero]
+      rw [ite_eq_right h, indicator_of_notMem hm, mul_zero]
   have hψ : Integrable ψ := by
     refine (IntegrableOn.integrable_indicator ?_ measurableSet_Ioc)
     exact (continuous_pow _).integrableOn_Ioc
@@ -800,7 +800,7 @@ theorem s5b7_vol (R : ℝ) (hR : 0 < R) : ∀ (r d : ℕ), r ≤ d → ∀ t : �
       filter_upwards [h0] with x hx
       have hx : x ≠ 0 := hx
       by_cases hxR : ‖x‖ ≤ R
-      · rw [if_pos hxR]
+      · rw [ite_eq_left hxR]
         have hx0 : 0 < ‖x‖ := norm_pos_iff.mpr hx
         obtain ⟨Φ, hΦ⟩ := s5b7_exists_iso d (((‖x‖⁻¹ : ℝ) : ℂ) • x) (by
           rw [norm_smul, Complex.norm_real, norm_inv, norm_norm, inv_mul_cancel₀ hx0.ne'])

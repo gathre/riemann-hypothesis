@@ -242,7 +242,7 @@ theorem ballS_subset {S : Set (Mat k r)} (hS : IsClosedSub k r S) {R : ℝ} {F :
       omega
     have hex : ∃ h ∈ F, ¬ Disjoint (trU s⁻¹) (trU h) := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply hnot
       refine ⟨?_, ?_⟩
       · intro g hg

@@ -89,7 +89,7 @@ private theorem tameEq_cochain {k Γ M : Type} [CommRing k] [Group Γ] [Topologi
   let f' : Γ → M := fun g => if h : ∃ j : J, j.1⁻¹ * g ∈ U then f h.choose else 0
   have hf' : ∀ (g : Γ) (j : J), j.1⁻¹ * g ∈ U → f' g = f j := fun g j hj => by
     have h : ∃ j : J, j.1⁻¹ * g ∈ U := ⟨j, hj⟩
-    have e : f' g = f h.choose := dif_pos h
+    have e : f' g = f h.choose := dite_eq_left h
     have h2 : (j⁻¹ * h.choose).1 ∈ U := by
       have := mul_mem hj (inv_mem h.choose_spec)
       simpa [mul_assoc] using this

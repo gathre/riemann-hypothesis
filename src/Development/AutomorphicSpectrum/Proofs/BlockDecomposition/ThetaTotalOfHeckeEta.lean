@@ -922,9 +922,9 @@ theorem gram_rank_one_one : (V1 D).gram = 1 := by
   by_cases hab : a = b
   · subst hab
     rw [Matrix.one_apply_eq]
-    exact (if_pos rfl).trans (by simp [Formalism.BasicNotions.Examples₂.sgn])
+    exact (ite_eq_left rfl).trans (by simp [Formalism.BasicNotions.Examples₂.sgn])
   · rw [Matrix.one_apply_ne hab]
-    exact if_neg hab
+    exact ite_eq_right hab
 
 theorem gram_at_place_rank_one (τ : D.what₂.Tau) : gramAt D (V1 D) τ = 1 := by
   unfold gramAt

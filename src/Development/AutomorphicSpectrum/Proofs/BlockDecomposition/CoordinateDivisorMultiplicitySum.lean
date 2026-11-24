@@ -411,7 +411,7 @@ theorem isMultiHomog_coord (k : Fin (m + 1)) (l : Bk n k) : IsMultiHomog (X ⟨k
     simp [Finsupp.single_apply]
   · rw [Pi.single_eq_of_ne hj]
     refine Finset.sum_eq_zero fun i _ => ?_
-    rw [Finsupp.single_apply, if_neg]
+    rw [Finsupp.single_apply, ite_eq_right]
     intro h
     exact hj (congrArg Sigma.fst h).symm
 

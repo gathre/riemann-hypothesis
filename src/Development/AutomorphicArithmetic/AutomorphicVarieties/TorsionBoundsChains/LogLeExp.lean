@@ -104,7 +104,7 @@ theorem UpperTheory.V.KH.fullEnum :
     simp only [Finsupp.finsetSum_apply, Finsupp.smul_apply, Finsupp.single_apply, smul_eq_mul,
       Finsupp.coe_zero, Pi.zero_apply] at this
     rw [Finset.sum_eq_single i] at this
-    · simp only [if_true, mul_one] at this
+    · simp only [ite_true, mul_one] at this
       rcases mul_eq_zero.1 this with h | h
       · exact h
       · exact absurd h (hn0 i)
@@ -237,7 +237,7 @@ theorem UpperTheory.V.KH.maxIndep :
       ⟨hsm.trans (Set.subset_insert _ _), Set.insert_subset hx hmt, hi⟩ (Set.subset_insert _ _)
     exact hxm (he ▸ Set.mem_insert x m)
   rw [linearIndepOn_iff] at hdep
-  push_neg at hdep
+  push Not at hdep
   obtain ⟨l, hl, hl0, hlne⟩ := hdep
   have hl' : Finsupp.erase x l ∈ Finsupp.supported ℤ ℤ m := by
     rw [Finsupp.mem_supported] at hl ⊢

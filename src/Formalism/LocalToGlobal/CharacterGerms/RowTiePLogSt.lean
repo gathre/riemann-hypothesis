@@ -147,7 +147,7 @@ theorem cc_Mm (j k : Fin d) : constantCoeff (Mm G j k) = if j = k then 1 else 0 
     rw [h2]
     by_cases hjk : j = k
     · subst hjk; simp
-    · rw [pderiv_X_of_ne (by simp [hjk]), if_neg hjk, map_zero]
+    · rw [pderiv_X_of_ne (by simp [hjk]), ite_eq_right hjk, map_zero]
   · intro c _ hc
     rw [show ((![0, pt C d 0] : Fin 2 → Pt C 1 d) 1 c) = X ((0 : Fin 1), c) from rfl,
       pderiv_X_of_ne (by simp [hc]), mul_zero]
@@ -204,7 +204,7 @@ theorem vec_cancel (u : Fin d → PS C 1 d) (a : Fin d) :
   rw [Finset.sum_comm]
   have e : ∀ c, ∑ k, Mm G c k * u c * NN G k a = u c * ∑ k, Mm G c k * NN G k a := fun c => by
     rw [Finset.mul_sum]; exact Finset.sum_congr rfl fun k _ => by ring
-  simp only [e, h, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [e, h, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 end Law
 

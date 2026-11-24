@@ -68,7 +68,7 @@ variable {N : ℕ}
 theorem minor_self_of_lowerUni {X : Matrix (Fin N) (Fin N) ℂ} (hX : IsLowerUni X) (C : Finset (Fin N)) :
     minorIJ X C C = 1 := by
   unfold minorIJ
-  rw [dif_pos rfl, det_of_lowerTriangular (X.submatrix (C.orderEmbOfFin rfl) (C.orderEmbOfFin rfl)) fun a b e =>
+  rw [dite_eq_left rfl, det_of_lowerTriangular (X.submatrix (C.orderEmbOfFin rfl) (C.orderEmbOfFin rfl)) fun a b e =>
     hX.2 _ _ ((C.orderEmbOfFin rfl).strictMono (show a < b from e))]
   exact Finset.prod_eq_one fun a _ => hX.1 _
 
@@ -83,28 +83,28 @@ theorem minor_insert_of_lowerUni {X : Matrix (Fin N) (Fin N) ℂ} (hX : IsLowerU
   let g : Fin C.card → Fin N := fun r => if C.orderEmbOfFin rfl r = b then a else C.orderEmbOfFin rfl r
   have hne : ∀ r s, r < s → C.orderEmbOfFin rfl r ≠ b := fun r s hrs =>
     (((C.orderEmbOfFin rfl).strictMono hrs).trans_le (htop _ (hfm s))).ne
-  have hgr : ∀ r s, r < s → g r = C.orderEmbOfFin rfl r := fun r s hrs => if_neg (hne r s hrs)
+  have hgr : ∀ r s, r < s → g r = C.orderEmbOfFin rfl r := fun r s hrs => ite_eq_right (hne r s hrs)
   have hg : StrictMono g := fun r s hrs => by
     rw [hgr r s hrs]
     have h1 := (C.orderEmbOfFin rfl).strictMono hrs
     by_cases e : C.orderEmbOfFin rfl s = b
     · show _ < ite _ _ _
-      rw [if_pos e]
+      rw [ite_eq_left e]
       exact (h1.trans_le (htop _ (hfm s))).trans hab
     · show _ < ite _ _ _
-      rw [if_neg e]
+      rw [ite_eq_right e]
       exact h1
   have hmem : ∀ r, g r ∈ insert a (C.erase b) := fun r => by
     by_cases e : C.orderEmbOfFin rfl r = b
     · show ite _ _ _ ∈ _
-      rw [if_pos e]
+      rw [ite_eq_left e]
       exact Finset.mem_insert_self _ _
     · show ite _ _ _ ∈ _
-      rw [if_neg e]
+      rw [ite_eq_right e]
       exact Finset.mem_insert_of_mem (Finset.mem_erase.2 ⟨e, hfm r⟩)
   have hu := Finset.orderEmbOfFin_unique hcard hmem hg
   unfold minorIJ
-  rw [dif_pos hcard, ← hu, det_of_lowerTriangular (X.submatrix g (C.orderEmbOfFin rfl)) fun r s e => by
+  rw [dite_eq_left hcard, ← hu, det_of_lowerTriangular (X.submatrix g (C.orderEmbOfFin rfl)) fun r s e => by
     have hrs : r < s := e
     show X (g r) _ = 0
     rw [hgr r s hrs]
@@ -114,11 +114,11 @@ theorem minor_insert_of_lowerUni {X : Matrix (Fin N) (Fin N) ℂ} (hX : IsLowerU
     exact hb
   rw [Finset.prod_eq_single r₀]
   · show X (ite _ _ _) _ = _
-    rw [if_pos hr₀, hr₀]
+    rw [ite_eq_left hr₀, hr₀]
   · intro r _ hr
     have e : C.orderEmbOfFin rfl r ≠ b := fun e => hr ((C.orderEmbOfFin rfl).injective (e.trans hr₀.symm))
     show X (ite _ _ _) _ = _
-    rw [if_neg e]
+    rw [ite_eq_right e]
     exact hX.1 _
   · simp
 
@@ -158,11 +158,11 @@ theorem mul_elem_lower {L : Matrix (Fin N) (Fin N) ℂ} (hL : IsLowerUni L) (hd 
     · rw [add_zero]
 
 theorem lowMat_lowerUni {Ψ : Type} (c : LowIdx Ψ N j → ℂ) (τ : Ψ) : IsLowerUni (lowMat c τ) :=
-  ⟨fun _ => (dif_neg fun e => lt_irrefl _ e.1).trans (if_pos rfl),
-    fun _ _ h => (dif_neg fun e => lt_asymm h e.1).trans (if_neg h.ne)⟩
+  ⟨fun _ => (dite_eq_right fun e => lt_irrefl _ e.1).trans (ite_eq_left rfl),
+    fun _ _ h => (dite_eq_right fun e => lt_asymm h e.1).trans (ite_eq_right h.ne)⟩
 
 theorem lowMat_blockDiag {Ψ : Type} (c : LowIdx Ψ N j → ℂ) (τ : Ψ) : IsBlockDiag j (lowMat c τ) := fun a b h =>
-  (dif_neg fun e => h e.2).trans (if_neg fun e => h (by rw [e]))
+  (dite_eq_right fun e => h e.2).trans (ite_eq_right fun e => h (by rw [e]))
 
 theorem stepOf_val (N j : ℕ) (c : Fin N) :
     (stepOf N j c : ℕ) = if N - j ≤ (c : ℕ) then (c : ℕ) - (N - j) else (c : ℕ) + j := rfl
@@ -224,12 +224,12 @@ theorem pluck_eq {F : FrameData ι Ψ N M.Ω M.blk} (hF : M.IsFrame F) {zb : (Σ
   simp_rw [hz, Finset.mul_sum]
   rw [Finset.sum_comm, Finset.sum_eq_single I]
   · simp_rw [← mul_assoc]
-    rw [← Finset.sum_mul, rel I hI, if_pos rfl, one_mul]
+    rw [← Finset.sum_mul, rel I hI, ite_eq_left rfl, one_mul]
   · intro I' _ hne
     simp_rw [← mul_assoc]
     rw [← Finset.sum_mul]
     by_cases hs : IsStepRows N j p.2 I'
-    · rw [rel I' hs, if_neg (Ne.symm hne), zero_mul]
+    · rw [rel I' hs, ite_eq_right (Ne.symm hne), zero_mul]
     · rw [minorIJ_block_zero hH hs, mul_zero]
   · simp
 
@@ -328,7 +328,7 @@ theorem chart_reads : ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k, Finty
         minorIJ (h τ * (lowMat (wL ε w) τ * (1 + Matrix.single cb ca (wT ε w)))) I (stepCols N j a) :=
     fun k hk m => by
       have := (hex τ a).2.2 k hk m
-      rw [hbs, if_pos rfl] at this
+      rw [hbs, ite_eq_left rfl] at this
       rw [this, show h τ * (lowMat (wL ε w) τ * (1 + Matrix.single cb ca (wT ε w))) =
         wH h ε τ w * (1 + Matrix.single cb ca (wT ε w)) from (Matrix.mul_assoc _ _ _).symm]
   have hread1 : ∀ τ' (a' b' : Fin N), b' < a' → ((a' : ℕ) < N - j ↔ (b' : ℕ) < N - j) →
@@ -358,10 +358,10 @@ theorem chart_reads : ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k, Finty
       rfl
     · show lowRead M F (baseOf M k₀ z) h (fstPt k₀ z) q.1.1 q.1.2.1 q.1.2.2 = w (ε (Sum.inr (Sum.inl q)))
       rw [hbase, hread1 _ _ _ q.2.1 q.2.2]
-      exact dif_pos q.2
+      exact dite_eq_left q.2
     · show lowRead M F (baseOf M k₀ z) h (sndPt k₀ z) τ cb ca - lowRead M F (baseOf M k₀ z) h (fstPt k₀ z) τ cb ca =
         w (ε (Sum.inr (Sum.inr u)))
-      rw [hbase, hread2, hread1 _ _ _ hlt hblk.symm, mul_elem_apply, if_pos rfl, (hL τ).1, one_mul, add_sub_cancel_left]
+      rw [hbase, hread2, hread1 _ _ _ hlt hblk.symm, mul_elem_apply, ite_eq_left rfl, (hL τ).1, one_mul, add_sub_cancel_left]
       rfl
 
 end GlobalTheory.CompanionTheory.Ar.PB.WMan.Read

@@ -285,9 +285,9 @@ theorem exists_inv (v : Pl D) {x : AE D} (hx : x ∈ idAt D (· = v)) (u : (v.ad
       rw [map_sub, map_mul, compAt_idem]
       by_cases hw : w = v
       · subst hw
-        rw [hu, compAt_pair, evalV_single_same, if_pos rfl, Algebra.TensorProduct.tmul_mul_tmul, mul_one, hc,
+        rw [hu, compAt_pair, evalV_single_same, ite_eq_left rfl, Algebra.TensorProduct.tmul_mul_tmul, mul_one, hc,
           ← Algebra.TensorProduct.one_def, sub_self]
-      · rw [compAt_of_idAt hx hw, if_neg hw, zero_mul, sub_zero]
+      · rw [compAt_of_idAt hx hw, ite_eq_right hw, zero_mul, sub_zero]
 
 theorem fixed_unit_or : ∀ (D : D7) (v : Pl D) (ε : AE D), Tame D v → ε * ε = ε → cA D ε = ε → ε ∈ intAt D (· = v) →
     (∀ a, a ∈ idAt D (· = v) ↔ ε * a = a) → ∀ x ∈ intAt D (· = v), cA D x = x →
@@ -316,7 +316,7 @@ theorem fixed_unit_or : ∀ (D : D7) (v : Pl D) (ε : AE D), Tame D v → ε * �
     rw [hu, hcomp]
   · right
     refine exists_inv v (sub_mem (idem_mem_idAt _) hx.1) u ?_
-    rw [hu, map_sub, compAt_idem, if_pos rfl, hcomp, Algebra.TensorProduct.one_def, ← TensorProduct.sub_tmul]
+    rw [hu, map_sub, compAt_idem, ite_eq_left rfl, hcomp, Algebra.TensorProduct.one_def, ← TensorProduct.sub_tmul]
     rfl
 
 end GlobalTheory.IwaFixed

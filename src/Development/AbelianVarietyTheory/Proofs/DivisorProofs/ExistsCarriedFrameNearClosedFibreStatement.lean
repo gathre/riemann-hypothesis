@@ -1358,7 +1358,7 @@ theorem FrameCarried.descend_finiteEtale : ∀ (R : Type) [CommRing R] [IsDomain
         rw [e]; exact (Units.isUnit _).mul (hl' k₀ hk₀)
       rw [_root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.gs_stalkMap (bc.hom.left ≫ pullback.fst G'.hom (specOf (Gal.hom σ))) z₀ (β ⁻¹ᵁ V₁ ⊓ U'.LG.L.U k) ⟨hzO, hk⟩] at hu
       exact (isUnit_map_iff _ _).1 hu
-    · push_neg at hne
+    · push Not at hne
       exact ⟨⟨0, hd⟩, fun z k hz _ => absurd hz (hne z)⟩
   obtain ⟨l, hl⟩ := key
   obtain ⟨V, hyV, -, T, hT, hTc⟩ :=

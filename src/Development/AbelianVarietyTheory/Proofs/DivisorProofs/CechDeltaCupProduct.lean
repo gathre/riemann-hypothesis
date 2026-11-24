@@ -66,8 +66,8 @@ theorem sum_alt_filter_lt_le (F : Finset ι → E) (u : Finset ι) :
     rw [Finset.sum_insert hmu]
     rw [Finset.sum_congr rfl (g := fun j => (-1 : ℤ) ^ (u.filter (· < j)).card •
         (F (u.filter (· < j)) + F (u.filter (· ≤ j)))) (fun j hj => by
-      rw [Finset.filter_insert, if_neg (not_lt.2 (hm j hj).le), Finset.filter_insert,
-        if_neg (not_le.2 (hm j hj))]), ih]
+      rw [Finset.filter_insert, ite_eq_right (not_lt.2 (hm j hj).le), Finset.filter_insert,
+        ite_eq_right (not_le.2 (hm j hj))]), ih]
     have e1 : (insert m u).filter (· < m) = u := by
       ext x; simp only [Finset.mem_filter, Finset.mem_insert]
       constructor

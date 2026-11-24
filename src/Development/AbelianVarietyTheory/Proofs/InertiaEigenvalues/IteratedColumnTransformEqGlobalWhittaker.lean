@@ -116,7 +116,7 @@ theorem blkU_eq_colGL {R : Type} [CommRing R] {a k : ℕ} (hk : k < a) (x : Unip
   · have hne : i ≠ j := fun h => by rw [h] at hij; omega
     have hlt : i < j := by rw [Fin.lt_def]; omega
     rw [Finset.sum_eq_single (⟨(i, j), hij.1, hij.2.ge, hij.2.le⟩ : UnipotentBlockColumnIndex a k k)]
-    · rw [if_neg hne, if_neg hne, dite_eq_left hlt, colX_apply, dite_eq_left hij.2, Matrix.single_apply_same, zero_add]
+    · rw [ite_eq_right hne, ite_eq_right hne, dite_eq_left hlt, colX_apply, dite_eq_left hij.2, Matrix.single_apply_same, zero_add]
       congr 1
       apply Subtype.ext
       apply Prod.ext

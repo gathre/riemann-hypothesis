@@ -189,7 +189,7 @@ theorem idem_exists {D : D7} {T : Type} {Lc : LevCh D T} {sc : GlobalTheory.ChiG
   have hes : ∀ PP ∈ locPl G t, Formalism.L2.NTheta.IsIdemAt (es PP) PP := by
     intro PP hPP
     have h := hnc PP hPP PP hPP
-    simp only [es, dif_pos h]
+    simp only [es, dite_eq_left h]
     exact (Formalism.IndefR.Fin.idem_exists_at PP h).choose_spec.1
   refine ⟨∑ PP ∈ locPl G t, es PP, ⟨es, hes, rfl⟩, ?_⟩
 

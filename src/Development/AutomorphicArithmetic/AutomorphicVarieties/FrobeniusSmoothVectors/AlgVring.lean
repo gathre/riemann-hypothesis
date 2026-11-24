@@ -727,7 +727,7 @@ theorem UpperTheory.V.Fr.alg_vertex :
       (L.map (fun s => w n s.2.1 - w n s.2.2)).sum = j → j ≠ 0 → ∃ s ∈ L, s.2.1 ≠ s.2.2 := by
     intro L j hL hj
     by_contra h
-    push_neg at h
+    push Not at h
     apply hj
     rw [← hL]
     apply List.sum_eq_zero
@@ -741,7 +741,7 @@ theorem UpperTheory.V.Fr.alg_vertex :
       by_cases hd : ∃ s ∈ L, s.2.1 ≠ s.2.2
       · obtain ⟨c, -, hc⟩ := hC.cyc L hL hd
         exact ⟨c, hc⟩
-      · push_neg at hd
+      · push Not at hd
         have hm : (L.map (fun s => ρ.r s.1 s.2.1 s.2.2)).prod ∈ (algebraMap C K).rangeS := by
           apply list_prod_mem
           intro y hy

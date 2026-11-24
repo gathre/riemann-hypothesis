@@ -63,7 +63,7 @@ theorem UpperTheory.V.KT.locfin :
   intro y hy
   have hy' : ∃ a w, (R : ℝ) < ‖embO w (y a)‖ := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     exact hy (fun a _ w => hne a w)
   obtain ⟨a, w, hlt⟩ := hy'
   have hle : ‖embO w (y a)‖ ≤ ‖toR y‖ :=

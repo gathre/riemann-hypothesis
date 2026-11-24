@@ -1579,7 +1579,7 @@ theorem finiteZetaL : GlobalTheory.Published.CuspRapidDecay → GlobalTheory.Pub
   have hU0 : (R.HW i σ).e x ≠ 0 := fun h => hx0 ((hC.models.HW i σ).1 (h.trans (map_zero _).symm))
   obtain ⟨v₀, hv₀⟩ : ∃ v₀, (R.HW i σ).e x v₀ ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hU0 (MultilinearMap.ext h)
   obtain ⟨m1, m2⟩ := mult_values hP hC.models.inf hx.1 v₀
   obtain ⟨B, hB, hb⟩ := GlobalTheory.T.exists_satake_parameters_bounded_eigenfunction D (Wc D i) _ _ (finS R t) hs _ m1 hv₀ m2 ev (part_eigen hx v₀)

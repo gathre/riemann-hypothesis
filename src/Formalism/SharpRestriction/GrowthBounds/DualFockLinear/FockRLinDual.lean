@@ -138,10 +138,10 @@ theorem Aa_dual {K : Type} [Field K] {m : ℕ} (vec : Bool) (M : Matrix (Fin (m 
   have h1 : IsUnit (M⁻¹).det := Matrix.isUnit_nonsing_inv_det M hM
   have h2 : IsUnit ((M⁻¹).transpose).det := by rwa [Matrix.det_transpose]
   cases vec
-  · simp only [Aa, Bool.false_eq_true, if_false]
+  · simp only [Aa, Bool.false_eq_true, ite_false]
     rw [Matrix.nonsing_inv_nonsing_inv _ h2, Matrix.transpose_transpose, Matrix.transpose_transpose,
       Matrix.nonsing_inv_nonsing_inv _ hM, Matrix.nonsing_inv_mul _ hM]
-  · simp only [Aa, if_true]
+  · simp only [Aa, ite_true]
     exact Matrix.nonsing_inv_mul _ h2
 
 theorem multDiv_kapFl (O : Type) [CommRing O] [IsLocalRing O] (p : ℕ) [hp : Fact p.Prime]

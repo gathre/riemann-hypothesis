@@ -68,7 +68,7 @@ theorem ofType_of_finPart_fixed : ∀ (E : Type) [Field E] [NumberField E] [IsCM
   · have hne : f.1 ≠ 0 := fun h => hf0 (Subtype.ext h)
     obtain ⟨v, hv⟩ : ∃ v, f.1 v ≠ 0 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact hne (LinearMap.ext hc)
     refine ⟨f.1 v, AutSub.mem_finPart.1 hf v, hv, fun x hx => ?_⟩
     funext g

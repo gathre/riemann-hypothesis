@@ -330,7 +330,7 @@ theorem _root_.GlobalTheory.AdLat.exists_integral_unit_root : ∀ (F E : Type) [
   have hkey : ∀ v, ∃ ij : Option (Fin n) × Option (Fin n), ¬ Valued.v (p ij.1 ij.2 v) < 1 := by
     intro v
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     choose cy hcy using fun j => _root_.GlobalTheory.AdLat.UnitRoot.conj_mem c _ ⟨Y j, rfl⟩
     have h1 : ∑ i, ρ (Y i) * m i = 1 := by
 
@@ -423,7 +423,7 @@ theorem _root_.GlobalTheory.AdLat.exists_integral_unit_root : ∀ (F E : Type) [
 
     simp only [map_sum, map_mul]
     simp only [hevv, hev, hdv, ite_mul, one_mul, zero_mul, mul_ite, mul_one,
-      mul_zero, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+      mul_zero, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
     exact inv_mul_cancel₀ (hne v)
   refine ⟨∑ q, (e q ⊗ₜ[F] (1 : E)) * m q.1, ?_, ⟨(d ⊗ₜ[F] (1 : E)) *
     ∑ q, (e q ⊗ₜ[F] (1 : E)) * σ (m q.2), ?_, ?_⟩, ?_⟩

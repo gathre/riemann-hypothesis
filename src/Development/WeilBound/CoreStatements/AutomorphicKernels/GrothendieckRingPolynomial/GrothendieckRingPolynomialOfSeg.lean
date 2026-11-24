@@ -409,15 +409,15 @@ theorem class_congr_equiv {N : ℕ} {V W : Type} [AddCommGroup V] [Module ℂ V]
     cl0 π = cl0 τ := by
   by_cases hπ : HasFiniteLength π
   · have hτ := hπ.of_equiv φ
-    simp only [cl0, dif_pos hπ, dif_pos hτ]
+    simp only [cl0, dite_eq_left hπ, dite_eq_left hτ]
     exact clsGL_congr φ hπ hτ
   · have hτ : ¬ HasFiniteLength τ := fun h => hπ (h.of_equiv φ.symm)
-    simp only [cl0, dif_neg hπ, dif_neg hτ]
+    simp only [cl0, dite_eq_right hπ, dite_eq_right hτ]
 
 theorem class_eq_of_jordan_holder_mult {N : ℕ} {V W : Type} [AddCommGroup V] [Module ℂ V] [AddCommGroup W] [Module ℂ W]
     {π : Representation ℂ (GL (Fin N) k) V} {τ : Representation ℂ (GL (Fin N) k) W} (hπ : HasFiniteLength π)
     (hτ : HasFiniteLength τ) (h : ∀ σ : IrrRep (GL (Fin N) k), jhMult σ.ρ π = jhMult σ.ρ τ) : cl0 π = cl0 τ := by
-  simp only [cl0, dif_pos hπ, dif_pos hτ, clsGL]
+  simp only [cl0, dite_eq_left hπ, dite_eq_left hτ, clsGL]
   congr 1
   ext c
   rw [cls_apply, cls_apply, h c.rep]
@@ -663,7 +663,7 @@ variable {N : ℕ} {U V W : Type} [AddCommGroup U] [Module ℂ U] [AddCommGroup 
 
 theorem class_eq_finite_length_class (π : Representation ℂ (GL (Fin N) k) V) (h : HasFiniteLength π) : cl0 π = clsGL π h := by
   unfold cl0
-  exact dif_pos h
+  exact dite_eq_left h
 
 theorem class_irreducible_basis (π : Representation ℂ (GL (Fin N) k) V) (hs : IsSmooth π) (hi : π.IsIrreducible) :
     cl0 π = sg (IrrGL.of π hs hi) := by
@@ -1029,16 +1029,16 @@ theorem jacquet_functional_class (W : List (IrrGL (k := k))) {N : ℕ} {V : Type
     (π : Representation ℂ (GL (Fin N) k) V) (hl : HasFiniteLength π) :
     J W (cl0 π) = (cls π hl).sum fun c m => m * ((jmL W (IrrGL.rep (⟨N, c⟩ : IrrGL (k := k)))).toNat : ℤ) := by
   unfold J cl0
-  rw [dif_pos hl, clsGL, Finsupp.sum_mapDomain_index (fun _ => zero_mul _) (fun _ _ _ => add_mul _ _ _)]
+  rw [dite_eq_left hl, clsGL, Finsupp.sum_mapDomain_index (fun _ => zero_mul _) (fun _ _ _ => add_mul _ _ _)]
 
 
 variable (k) in
 theorem jCls : JCls k := by
   intro W N V _ _ π hπ hl
   by_cases hd : ∑ a, (W.get a).1 = N
-  · have hjπ : jmL W π = jm W.get hd π := dif_pos hd
+  · have hjπ : jmL W π = jm W.get hd π := dite_eq_left hd
     have hjc : ∀ c : IrrCl (GL (Fin N) k), jmL W (IrrGL.rep (⟨N, c⟩ : IrrGL (k := k))) = jm W.get hd c.rep.ρ :=
-      fun c => dif_pos hd
+      fun c => dite_eq_left hd
     refine ⟨by rw [hjπ]; exact jm_ne_top W.get hd π hπ hl, ?_⟩
     set F := (finite_constituents hl).toFinset with hF
     have ha : ∀ c : IrrCl (GL (Fin N) k), jhMult c.rep.ρ π ≠ ⊤ := fun c => jhMult_ne_top c.rep.irr hl
@@ -1060,8 +1060,8 @@ theorem jCls : JCls k := by
         (fun c m => m * ((jmL W (IrrGL.rep (⟨N, c⟩ : IrrGL (k := k)))).toNat : ℤ)) (fun c _ => zero_mul _)]
     refine Finset.sum_congr rfl fun c _ => ?_
     rw [hjc c, cls_apply, Nat.cast_mul]
-  · have hjπ : jmL W π = 0 := dif_neg hd
-    have hjc : ∀ c : IrrCl (GL (Fin N) k), jmL W (IrrGL.rep (⟨N, c⟩ : IrrGL (k := k))) = 0 := fun c => dif_neg hd
+  · have hjπ : jmL W π = 0 := dite_eq_right hd
+    have hjc : ∀ c : IrrCl (GL (Fin N) k), jmL W (IrrGL.rep (⟨N, c⟩ : IrrGL (k := k))) = 0 := fun c => dite_eq_right hd
     refine ⟨by rw [hjπ]; exact ENat.zero_ne_top, ?_⟩
     rw [jacquet_functional_class W π hl, hjπ]
     simp [hjc, Finsupp.sum]
@@ -1189,8 +1189,8 @@ theorem jSeg : JSeg k := by
   have hA := PositivityTheory.Tls2.BZGL.irreducibleAdmissibleGL_top
   have hterm : ∀ a, (Δ.term a).1 = Δ.d := fun _ => rfl
   refine ⟨?_, fun S hS hne => ?_⟩
-  · rw [jmL_seg hA hZ Δ _ (fun w hw => by rw [List.mem_ofFn] at hw; obtain ⟨a, rfl⟩ := hw; rfl) List.length_ofFn, if_pos rfl]
-  · rw [jmL_seg hA hZ Δ _ ?_ ?_, if_neg (vWord_ne hA Δ S hS hne)]
+  · rw [jmL_seg hA hZ Δ _ (fun w hw => by rw [List.mem_ofFn] at hw; obtain ⟨a, rfl⟩ := hw; rfl) List.length_ofFn, ite_eq_left rfl]
+  · rw [jmL_seg hA hZ Δ _ ?_ ?_, ite_eq_right (vWord_ne hA Δ S hS hne)]
     · intro w hw
       obtain ⟨a, -, rfl⟩ := List.mem_map.1 hw
       rfl
@@ -1228,7 +1228,7 @@ theorem class_congr_equiv {N : ℕ} {V W : Type} [AddCommGroup V] [Module ℂ V]
   obtain ⟨φ⟩ := φ
   unfold cl0
   by_cases h : HasFiniteLength π
-  · rw [dif_pos h, dif_pos (h.of_equiv φ)]
+  · rw [dite_eq_left h, dite_eq_left (h.of_equiv φ)]
     exact clsGL_congr φ _ _
   · rw [dite_eq_right h, dite_eq_right (fun h' => h (h'.of_equiv φ.symm))]
 
@@ -1239,7 +1239,7 @@ theorem class_induced_cast {r t N : ℕ} (h : r + t = N) {W : Type} [AddCommGrou
   rfl
 
 theorem class_of_chosen_rep (x : IrrGL (k := k)) : cl0 (IrrGL.rep x) = sg x := by
-  exact (dif_pos x.2.rep.hasFiniteLength).trans ((clsGL_irr x.2.rep x.2.rep.hasFiniteLength).trans
+  exact (dite_eq_left x.2.rep.hasFiniteLength).trans ((clsGL_irr x.2.rep x.2.rep.hasFiniteLength).trans
     (congrArg (fun c => Finsupp.single (⟨x.1, c⟩ : IrrGL (k := k)) (1 : ℤ)) x.2.cl_rep))
 
 theorem mulR_sg (x y : IrrGL (k := k)) : mulR (sg x) (sg y) = cl0 (prod₂ (IrrGL.rep x) (IrrGL.rep y)) := by

@@ -151,7 +151,7 @@ theorem adjoin_perm_eq_top {K : Type} [Field K] {t : ℕ} (α : Fin t → K)
       · rw [Pi.single_eq_of_ne h]
         obtain ⟨c, hc⟩ : ∃ c, σ c ≠ τ c := by
           by_contra hh
-          push_neg at hh
+          push Not at hh
           exact h (Equiv.ext fun c => (hh c).symm)
         exact (Finset.prod_eq_zero (Finset.mem_univ c)
           (Lagrange.eval_basis_of_ne hc (Finset.mem_univ _))).symm

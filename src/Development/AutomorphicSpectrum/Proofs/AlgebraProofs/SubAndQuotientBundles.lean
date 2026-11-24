@@ -73,7 +73,7 @@ theorem finite_not_mapsTo {V V' : Type} [AddCommGroup V] [Module K V] [AddCommGr
   simp only [Set.mem_setOf_eq] at hi
   simp only [Set.mem_iUnion, Set.mem_setOf_eq]
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hi
   intro x hx q
   have hx' : f x = ∑ r, b.repr x r • f (b r) := by
@@ -104,7 +104,7 @@ theorem isBun_sub_quot : ∀ (K : Type) [Field K] (C : ACurve K) (V : Type) [Add
     intro i hi
     simp only [Set.mem_union, Set.mem_setOf_eq] at hi ⊢
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨⟨h1, h2⟩, h3⟩ := hcon
     apply hi
     unfold IsLatOf at h1 ⊢
@@ -126,7 +126,7 @@ theorem isBun_sub_quot : ∀ (K : Type) [Field K] (C : ACurve K) (V : Type) [Add
     intro i hi
     simp only [Set.mem_union, Set.mem_setOf_eq] at hi ⊢
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨⟨h1, h2⟩, h3⟩ := hcon
     apply hi
     unfold IsLatOf at h1 ⊢

@@ -222,7 +222,7 @@ theorem pts_comb (II : IntersectionSystem) (hII : IsFullIntersectionSystem II) (
           · rw [hEl, hl]
           · rw [hEc]
             simp
-        · push_neg at hs
+        · push Not at hs
           obtain ⟨k, hk⟩ := hs
           have hk' : v k.castSucc = none := by simpa using hk
           refine Finset.prod_eq_zero (Finset.mem_univ k.castSucc) ?_

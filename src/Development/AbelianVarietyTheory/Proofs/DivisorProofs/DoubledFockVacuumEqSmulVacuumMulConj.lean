@@ -387,7 +387,7 @@ theorem vac_box : DerEx → VacLine → ∀ (F E : Type) [Field F] [NumberField 
   have hne1 : f₁ ≠ 0 := fun h0 => _root_.GlobalTheory.tprod_one_pol_ne_zero F P Q R S (hΦ.1 (h0.trans (map_zero Φ).symm))
   obtain ⟨y, hy⟩ : ∃ y, f₁ y ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne1 (SchwartzMap.ext h)
   have hz0 : z' ≠ 0 := by
     rintro rfl

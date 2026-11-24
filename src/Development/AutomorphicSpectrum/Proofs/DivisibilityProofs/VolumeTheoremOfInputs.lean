@@ -720,7 +720,7 @@ private theorem card_le_one_of_linearIndependent_cross_zero (I : Submodule ℤ (
     (hI : ∀ v ∈ I, ∀ w ∈ I, v 0 * w 1 - v 1 * w 0 = 0) (ρ : ℕ) (v : Fin ρ → (Fin 2 → ℤ))
     (hv : ∀ a, v a ∈ I) (hli : LinearIndependent ℤ v) : ρ ≤ 1 := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hli2 : LinearIndependent ℤ ![v ⟨0, by omega⟩, v ⟨1, h⟩] := by
     have h3 := hli.comp (fun i : Fin 2 => (⟨i.1, Nat.lt_of_lt_of_le i.2 h⟩ : Fin ρ))
       (fun i j hij => Fin.ext (by simpa using congrArg Fin.val hij))
@@ -1033,7 +1033,7 @@ private theorem exists_cuspData_cuspWeight_eq_of_torus_invariant (K : Type) [Fin
           positivity
         apply mul_pos hC1
         by_contra hle
-        push_neg at hle
+        push Not at hle
         have h1 : ((v 0 : ℤ) : ℝ) ^ 2 = 0 := by nlinarith [sq_nonneg ((v 0 : ℤ) : ℝ), sq_nonneg ((v 1 : ℤ) : ℝ)]
         have h2 : ((v 1 : ℤ) : ℝ) ^ 2 = 0 := by nlinarith [sq_nonneg ((v 0 : ℤ) : ℝ), sq_nonneg ((v 1 : ℤ) : ℝ)]
         have e0' : v 0 = 0 := by exact_mod_cast (pow_eq_zero_iff two_ne_zero).mp h1
@@ -1493,8 +1493,8 @@ theorem abs_sub_le_telescope (II : IntersectionSystem) (hII : IsFullIntersection
         have hne' : ((τ i.castSucc : Fin (D + 1)) : ℕ) ≠ k := fun e => hne (Fin.ext e)
         simp only [Function.comp, Fin.snoc_castSucc, E, X]
         by_cases h1 : ((τ i.castSucc : Fin (D + 1)) : ℕ) < k
-        · rw [if_pos h1, if_pos (by omega)]
-        · rw [if_neg h1, if_neg (by omega)]
+        · rw [ite_eq_left h1, ite_eq_left (by omega)]
+        · rw [ite_eq_right h1, ite_eq_right (by omega)]
     rw [← hsym P _ (X k) τ hP (hX k), ← hsym P _ (X (k + 1)) τ hP (hX (k + 1)), e1, e2]
     refine h kk E fun i => ⟨τ i.castSucc, ?_⟩
     simp only [E, X]

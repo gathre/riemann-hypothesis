@@ -939,7 +939,7 @@ theorem exists_chart_theta_unit : ∀ (E : Type) [Field E] [NumberField E] [IsCM
   have hw0 : Ha.T < ((Ha.T + 1 : ℝ) * Complex.I : ℂ).im := by simp
   have hne : ∃ j, th.f j ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     obtain ⟨hs, hp⟩ := Θ.pos _ hw0
     have h7 := (GlobalTheory.ThetaBlock.thetaCharOff_ne_zero_differentiable_quasiPeriodic g Θ.S (Θ.τ ((Ha.T + 1 : ℝ) * Complex.I)) Θ.c₁ Θ.c₂ hs hp Θ.half₁ Θ.half₂ Θ.c₁_S).1
     apply h7
@@ -958,7 +958,7 @@ theorem exists_chart_theta_unit : ∀ (E : Type) [Field E] [NumberField E] [IsCM
     have e := hv j z hU
     have e0 : valAt' (show Sp ℂ ⟶ _ from (Ha.ex₀ z).b.left) (a.D₀.P.L.U j) (th.f j) = 0 := by
       rw [hc j]
-      exact (dif_pos hU).trans ((congrArg _ (map_zero _)).trans (map_zero _))
+      exact (dite_eq_left hU).trans ((congrArg _ (map_zero _)).trans (map_zero _))
     rw [e0] at e
     have := (mul_eq_zero.1 e.symm).resolve_right (n j z hU)
     exact (mul_eq_zero.1 this).resolve_left Θ.κ_ne
@@ -1278,7 +1278,7 @@ theorem main_of_lemmas (hFib : ∀ (E : Type) [Field E] [NumberField E] [IsCMFie
       yF ≫ pullback.snd _ _ = spMap c.F.val.toRingHom ∧ y w = yF ≫ Y.j := by
     intro w hw
     have h := hlift w hw
-    exact ⟨h.choose, h.choose_spec.1, h.choose_spec.2, dif_pos h⟩
+    exact ⟨h.choose, h.choose_spec.1, h.choose_spec.2, dite_eq_left h⟩
   refine ⟨y, fun U f hUf => ?_, ?_⟩
   · obtain ⟨T', hT'⟩ := Ha.point U f hUf
     refine ⟨max T' Ha.T, fun w hw => ?_⟩

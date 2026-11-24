@@ -120,10 +120,10 @@ theorem up_deco_of (p : PtY ST SG Q y) (P : ST) (q : 𝓞 X.E) (x : Sp X.E n)
   · apply mv_deco
     refine (hN hc).trans ?_
     unfold DecoSet.up
-    rw [dif_pos hc]
-  · have h1 : p.1.1.deco.up P q x = p.1.1.deco := dif_neg hc
+    rw [dite_eq_left hc]
+  · have h1 : p.1.1.deco.up P q x = p.1.1.deco := dite_eq_right hc
     rw [h1]
-    exact congrArg (fun q : PtY ST SG Q y => q.1.1.deco) (dif_pos ⟨p.1.1.2, p.2⟩ : p.mv p.1.1.deco = _)
+    exact congrArg (fun q : PtY ST SG Q y => q.1.1.deco) (dite_eq_left ⟨p.1.1.2, p.2⟩ : p.mv p.1.1.deco = _)
 
 theorem dn_deco_of (p : PtY ST SG Q y) (P : ST) (g : Sp X.E n → 𝓞 X.E ⧸ P.1.asIdeal)
     (hN : (p.1.1.deco.1.dn P g).Ok → (p.mv (p.1.1.deco.dn P g)).1.1.deco.1.N = (p.1.1.deco.1.dn P g).N) :
@@ -132,10 +132,10 @@ theorem dn_deco_of (p : PtY ST SG Q y) (P : ST) (g : Sp X.E n → 𝓞 X.E ⧸ P
   · apply mv_deco
     refine (hN hc).trans ?_
     unfold DecoSet.dn
-    rw [dif_pos hc]
-  · have h1 : p.1.1.deco.dn P g = p.1.1.deco := dif_neg hc
+    rw [dite_eq_left hc]
+  · have h1 : p.1.1.deco.dn P g = p.1.1.deco := dite_eq_right hc
     rw [h1]
-    exact congrArg (fun q : PtY ST SG Q y => q.1.1.deco) (dif_pos ⟨p.1.1.2, p.2⟩ : p.mv p.1.1.deco = _)
+    exact congrArg (fun q : PtY ST SG Q y => q.1.1.deco) (dite_eq_left ⟨p.1.1.2, p.2⟩ : p.mv p.1.1.deco = _)
 
 theorem ok_forget {d : Deco X.E n ST SG} (hc : d.Ok) : (Deco.mk (SG := ∅) d.N d.f (fun w => absurd w.2 (Finset.notMem_empty _))).Ok :=
   { lat := hc.lat, uni := hc.uni, f_add := hc.f_add, f_smul := hc.f_smul, f_off := hc.f_off, f_ne := hc.f_ne,

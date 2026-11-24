@@ -215,7 +215,7 @@ theorem sF_scal {R : Type} [CommRing R] [IsDomain R] (D : DegPre R) {F : Type} [
     refine valF_resTop_scal D.P.A.hom ((algebraMap (FractionRing R) F).comp (algebraMap R _)) y.left ?_ _ h r
     rw [Over.w y, GlobalTheory.Ex.spMap_comp']
     rfl
-  · simp only [valF, dif_neg h, mul_zero]
+  · simp only [valF, dite_eq_right h, mul_zero]
 
 end GlobalTheory.Mum.Rescale
 
@@ -329,10 +329,10 @@ theorem adic_coeffs_tendsto_zero :
       refine ⟨a, ha, fun n hn hzn => hn fun j => ?_⟩
       have hlt : n < N := by
         by_contra hle
-        push_neg at hle
+        push Not at hle
         exact (Nat.find_spec h) (anti hle hzn)
       exact Ideal.pow_le_pow_right (by omega) (hm j)
-    · push_neg at h
+    · push Not at h
       have hz0 : z χ = 0 := by
         have : z χ ∈ (⨅ i : ℕ, m ^ i • ⊤ : Submodule R M) := Submodule.mem_iInf _ |>.mpr h
         rw [krull] at this
@@ -895,7 +895,7 @@ theorem core {R : Type} [CommRing R] [IsDomain R] [IsLocalRing R] [IsNoetherianR
       simpa [zS, Algebra.smul_def] using this
     rw [hz, Finset.mul_sum]
     refine Finset.sum_congr rfl fun j _ => ?_
-    simp only [apply_ite, map_zero, ite_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    simp only [apply_ite, map_zero, ite_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
     rw [← IsScalarTower.algebraMap_apply]
     ring
   · refine (hcn n).subset fun χ hχ hall => hχ fun k => ?_

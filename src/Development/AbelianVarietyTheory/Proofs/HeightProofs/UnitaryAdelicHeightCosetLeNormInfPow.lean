@@ -142,7 +142,7 @@ theorem infHt_le_normInf (hV : 0 < V.rank) (τ : D.what₂.Tau) (g : GA D V) :
     exact_mod_cast this
   have h5 : 1 ≤ normInf θ V g := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have a0 := (infNorm θ V τ g).coe_nonneg
     have b0 := (infNorm θ V τ g⁻¹).coe_nonneg
     nlinarith

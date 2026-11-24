@@ -79,7 +79,7 @@ theorem exists_place_of_prim {R : Type} [CommRing R] (j : Ainf F ⊗[F] E ≃+* 
   classical
   have hyy : y * y = y := j.injective (by rw [map_mul, hy, he])
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨w0⟩ : Nonempty (InfinitePlace F) := inferInstance
   obtain ⟨w1, -, h1⟩ := hne w0
   obtain ⟨w2, h12, h2⟩ := hne w1

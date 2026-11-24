@@ -209,7 +209,7 @@ theorem exists_sandwich : ∀ (F : Type) [Field F] [NumberField F] (v : HeightOn
     simp [hsB, hout s hs]
   · intro s hs
     by_cases hsB : s ∈ B
-    · simp only [Set.indicator, Set.mem_compl_iff, hsB, not_true_eq_false, if_false, if_true, zero_add]
+    · simp only [Set.indicator, Set.mem_compl_iff, hsB, not_true_eq_false, ite_false, ite_true, zero_add]
       exact ⟨hg0 s, hgK s hs⟩
     · simp [Set.indicator, hsB]
   · rw [hIm]; linarith

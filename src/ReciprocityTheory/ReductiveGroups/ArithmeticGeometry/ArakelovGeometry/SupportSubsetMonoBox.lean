@@ -158,7 +158,7 @@ theorem card_mPiece_irrel {q : Ideal (MRing ι)} {k : K} (hk : ∀ i, (X ⟨k, i
       have hsum := hs m hm k
       obtain ⟨i, hi⟩ : ∃ i, 0 < m ⟨k, i⟩ := by
         by_contra hc
-        push_neg at hc
+        push Not at hc
         have h0 : ∑ i, m ⟨k, i⟩ = 0 := Finset.sum_eq_zero fun i _ => by have := hc i; omega
         omega
       have e : MvPolynomial.monomial m (AddMonoidAlgebra.coeff s m) =

@@ -108,7 +108,7 @@ theorem exists_inv_of_not_dvd_discr (E : Type) [Field E] [NumberField E] {V : Ty
       Finset.sum_congr rfl fun _ _ => mul_comm _ _, h1]
     by_cases h : σ = τ
     · subst h; simp
-    · rw [if_neg (fun h' => h (e'.symm.injective h').symm), if_neg h]
+    · rw [ite_eq_right (fun h' => h (e'.symm.injective h').symm), ite_eq_right h]
   · intro i i'
     have h1 := congrFun (congrFun (Matrix.mul_nonsing_inv A hu) i') i
     rw [Matrix.mul_apply, Matrix.one_apply] at h1
@@ -119,7 +119,7 @@ theorem exists_inv_of_not_dvd_discr (E : Type) [Field E] [NumberField E] {V : Ty
       Finset.sum_congr rfl fun _ _ => mul_comm _ _, h1]
     by_cases h : i = i'
     · subst h; simp
-    · rw [if_neg (Ne.symm h), if_neg h]
+    · rw [ite_eq_right (Ne.symm h), ite_eq_right h]
 
 theorem red_bijective (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (l : Level H)
     (c : Coeff l) (p : ℕ) [Fact p.Prime] (T : CDVR) (io : c.F →+* T.Fr) (X : ValExt T p)
@@ -144,7 +144,7 @@ theorem red_bijective (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Ho
   refine ⟨fun σ τ hst => ?_, fun χ => ?_⟩
   · by_contra hne
     have h1 := hAC' σ τ
-    rw [if_neg hne, hst, hAC' τ τ, if_pos rfl] at h1
+    rw [ite_eq_right hne, hst, hAC' τ τ, ite_eq_left rfl] at h1
     exact one_ne_zero h1
   · let ρ : 𝓞 E →+* Module.End (ResidueField X.O) (ResidueField X.O) :=
       (Algebra.lmul (ResidueField X.O) (ResidueField X.O)).toRingHom.comp χ

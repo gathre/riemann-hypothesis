@@ -348,7 +348,7 @@ private theorem coverCore (hE : EtnGood) (hS : BcSplits) (hG : BcGal) (hU : Corr
   refine ⟨Tm, ?_, key, fun m => ?_⟩
   · have hh : hop l H Ω g = hEx.choose := by
       unfold hop
-      exact dif_pos hEx
+      exact dite_eq_left hEx
     rw [hh]
     exact hU l Ω (pullback.snd H.q g₀) _ _ _ _ hEx.choose_spec hA
   · exact (hGood m).inj _ _ (bcMap g₀ c rfl) (bcMap_snd _ _ _) G _ hgal'
@@ -1622,28 +1622,28 @@ theorem OccMove_holds : OccMove := by
       exact absurd (hmax q (Finset.mem_filter.2 ⟨Finset.mem_univ _, h0⟩)) (not_le.2 hq)
     refine ⟨S, fun q => if c q = c q₀ then z q else 0, fun h0 => ?_, fun σ hσ => ?_⟩
     · have h1 : (if c q₀ = c q₀ then z q₀ else 0) = 0 := congrFun h0 q₀
-      rw [if_pos rfl] at h1
+      rw [ite_eq_left rfl] at h1
       exact (Finset.mem_filter.1 hq₀).2 h1
     obtain ⟨hB, hρ⟩ := hc σ
     have hE := congrFun (h σ hσ)
     funext p
     simp only [Matrix.mulVec, dotProduct, Matrix.map_apply, Pi.smul_apply] at hE ⊢
     by_cases hp : c p = c q₀
-    · rw [if_pos hp, ← hE p]
+    · rw [ite_eq_left hp, ← hE p]
       refine Finset.sum_congr rfl fun q _ => ?_
       rw [hρ]
       by_cases hq : c q = c q₀
-      · rw [if_pos hq, if_pos (hp.trans hq.symm)]
-      · rw [if_neg hq, map_zero, mul_zero]
+      · rw [ite_eq_left hq, ite_eq_left (hp.trans hq.symm)]
+      · rw [ite_eq_right hq, map_zero, mul_zero]
         rcases lt_or_gt_of_ne hq with hlt | hgt'
         · rw [hB (lt_of_lt_of_eq hlt hp.symm), map_zero, zero_mul]
         · rw [hgt q hgt', map_zero, mul_zero]
-    · rw [if_neg hp, smul_zero]
+    · rw [ite_eq_right hp, smul_zero]
       refine Finset.sum_eq_zero fun q _ => ?_
       rw [hρ]
       by_cases hq : c q = c q₀
-      · rw [if_neg (fun e => hp (e.trans hq)), map_zero, zero_mul]
-      · rw [if_neg hq, map_zero, mul_zero]
+      · rw [ite_eq_right (fun e => hp (e.trans hq)), map_zero, zero_mul]
+      · rw [ite_eq_right hq, map_zero, mul_zero]
 
 end PositivityTheory.AutomorphicGaloisHodgeTate.G8
 

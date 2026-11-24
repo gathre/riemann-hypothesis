@@ -217,7 +217,7 @@ theorem exp_block_col {n : ℕ} (S : Finset (Fin n)) (M : Matrix (Fin n) (Fin n)
     · simp [hb, hM a b (Or.inr hb)]
   have h := congrFun (congrFun (exp_mul_of_mul_eq_zero M _ hMP) j) i
   rw [Matrix.mul_diagonal, Matrix.diagonal_apply] at h
-  simp only [hi, if_false, mul_one] at h
+  simp only [hi, ite_false, mul_one] at h
   rw [h]
   by_cases hji : j = i
   · subst hji

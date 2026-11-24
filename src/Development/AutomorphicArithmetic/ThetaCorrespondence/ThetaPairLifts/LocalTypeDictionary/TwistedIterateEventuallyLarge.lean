@@ -858,7 +858,7 @@ theorem exists_rowMeas (j : ℕ) : ∃ ρ : Measure (rowGrp G j), (j < D.R.m →
   · let J : GlobalTheory.Unf.JacLev D ((D.R.m - 1 - j) / 2) :=
       ⟨G.V (.grid D.R.m j), G.V (.top j), rowJac G j (by omega) _ (by omega), cocpt_top G (by omega), v,
         (GlobalTheory.Unf.Inhab.nonempty_volN _).some⟩
-    have e : rowGrp G j = jacGrp J.d := dif_pos h
+    have e : rowGrp G j = jacGrp J.d := dite_eq_left h
     obtain ⟨ρ, h1, h2⟩ := exists_haar_heq e J.μR (GlobalTheory.QuotZero.jac_haar_inv J).2.1
     refine ⟨ρ, fun _ => h1, fun t M hM => ⟨fun σ hj => ?_, fun σ hj => by omega⟩⟩
     obtain rfl : σ = (D.R.m - 1 - j) / 2 := by omega
@@ -873,7 +873,7 @@ theorem exists_rowMeas (j : ℕ) : ∃ ρ : Measure (rowGrp G j), (j < D.R.m →
         GlobalTheory.SeeSaw.Model.isLineVec_nLine (pow_ne_zero _ (GlobalTheory.Unf.Inhab.cmHost_imaginaryGenerator_ne_zero D)), cocpt_top G (by omega), v,
         (GlobalTheory.Unf.Inhab.nonempty_volN _).some⟩
     have e : rowGrp G j = besGrp B.d B.o := by
-      simp only [rowGrp, dif_neg h, dif_pos h']
+      simp only [rowGrp, dite_eq_right h, dite_eq_left h']
       rfl
     obtain ⟨ρ, h1, h2⟩ := exists_haar_heq e B.μR (GlobalTheory.QuotZero.bes_haar_inv B).2.1
     refine ⟨ρ, fun _ => h1, fun t M hM => ⟨fun σ hj => by omega, fun σ hj => ?_⟩⟩

@@ -64,9 +64,9 @@ theorem lastRow_mul_of_mem {h : GA E (m + 1)} (hh : h ∈ mirU (Ad E) (m + 1) m)
   funext j
   simp only [GlobalTheory.ZEul.lastRow, Units.val_mul, Matrix.mul_apply]
   rw [Finset.sum_eq_single (Fin.last m)]
-  · rw [(mem_mirU_last.1 hh) (Fin.last m), if_pos rfl, one_mul]
+  · rw [(mem_mirU_last.1 hh) (Fin.last m), ite_eq_left rfl, one_mul]
   · intro l _ hl
-    rw [(mem_mirU_last.1 hh) l, if_neg hl, zero_mul]
+    rw [(mem_mirU_last.1 hh) l, ite_eq_right hl, zero_mul]
   · simp
 
 

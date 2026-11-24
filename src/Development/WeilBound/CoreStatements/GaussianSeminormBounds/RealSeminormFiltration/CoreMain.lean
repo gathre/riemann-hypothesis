@@ -336,80 +336,80 @@ theorem local_of (act : Mat r s →ₗ[ℂ] Module.End ℂ M) (hL : IsLie act) (
       intro a b hab
       by_cases h : a = c
       · subst h
-        rw [if_pos rfl, if_pos rfl, hX]
+        rw [ite_eq_left rfl, ite_eq_left rfl, hX]
         dsimp only
-        rw [if_pos hab]
-      · rw [if_neg h, if_neg h, mul_zero]
+        rw [ite_eq_left hab]
+      · rw [ite_eq_right h, ite_eq_right h, mul_zero]
     have t2 : ∀ a b, sameBlock a b → ρ a b * (if d = b then ρ c a else 0) = if b = d then Y a else 0 := by
       intro a b hab
       by_cases h : b = d
       · subst h
-        rw [if_pos rfl, if_pos rfl, hY]
+        rw [ite_eq_left rfl, ite_eq_left rfl, hY]
         dsimp only
-        rw [if_pos hab]
-      · rw [if_neg (Ne.symm h), if_neg h, mul_zero]
+        rw [ite_eq_left hab]
+      · rw [ite_eq_right (Ne.symm h), ite_eq_right h, mul_zero]
     have t3 : ∀ a b, sameBlock a b → (if b = c then ρ a d else 0) * ρ b a = if b = c then Y a else 0 := by
       intro a b hab
       by_cases h : b = c
       · subst h
-        rw [if_pos rfl, if_pos rfl, hY]
+        rw [ite_eq_left rfl, ite_eq_left rfl, hY]
         dsimp only
-        rw [if_pos (_root_.PositivityTheory.KReal.sb_trans hab hcd)]
-      · rw [if_neg h, if_neg h, zero_mul]
+        rw [ite_eq_left (_root_.PositivityTheory.KReal.sb_trans hab hcd)]
+      · rw [ite_eq_right h, ite_eq_right h, zero_mul]
     have t4 : ∀ a b, sameBlock a b → (if d = a then ρ c b else 0) * ρ b a = if a = d then X b else 0 := by
       intro a b hab
       by_cases h : a = d
       · subst h
-        rw [if_pos rfl, if_pos rfl, hX]
+        rw [ite_eq_left rfl, ite_eq_left rfl, hX]
         dsimp only
-        rw [if_pos (_root_.PositivityTheory.KReal.sb_trans hcd hab)]
-      · rw [if_neg (Ne.symm h), if_neg h, zero_mul]
+        rw [ite_eq_left (_root_.PositivityTheory.KReal.sb_trans hcd hab)]
+      · rw [ite_eq_right (Ne.symm h), ite_eq_right h, zero_mul]
     have n1 : ∀ a b, ¬ sameBlock a b → (if a = c then X b else 0) = 0 := by
       intro a b hab
       by_cases h : a = c
       · subst h
-        rw [if_pos rfl, hX]
+        rw [ite_eq_left rfl, hX]
         dsimp only
-        rw [if_neg hab]
-      · rw [if_neg h]
+        rw [ite_eq_right hab]
+      · rw [ite_eq_right h]
     have n2 : ∀ a b, ¬ sameBlock a b → (if a = d then X b else 0) = 0 := by
       intro a b hab
       by_cases h : a = d
       · subst h
-        rw [if_pos rfl, hX]
+        rw [ite_eq_left rfl, hX]
         dsimp only
-        rw [if_neg (fun h' => hab (_root_.PositivityTheory.KReal.sb_trans (hsym hcd) h'))]
-      · rw [if_neg h]
+        rw [ite_eq_right (fun h' => hab (_root_.PositivityTheory.KReal.sb_trans (hsym hcd) h'))]
+      · rw [ite_eq_right h]
     have n3 : ∀ a b, ¬ sameBlock a b → (if b = c then Y a else 0) = 0 := by
       intro a b hab
       by_cases h : b = c
       · subst h
-        rw [if_pos rfl, hY]
+        rw [ite_eq_left rfl, hY]
         dsimp only
-        rw [if_neg (fun h' => hab (_root_.PositivityTheory.KReal.sb_trans h' (hsym hcd)))]
-      · rw [if_neg h]
+        rw [ite_eq_right (fun h' => hab (_root_.PositivityTheory.KReal.sb_trans h' (hsym hcd)))]
+      · rw [ite_eq_right h]
     have n4 : ∀ a b, ¬ sameBlock a b → (if b = d then Y a else 0) = 0 := by
       intro a b hab
       by_cases h : b = d
       · subst h
-        rw [if_pos rfl, hY]
+        rw [ite_eq_left rfl, hY]
         dsimp only
-        rw [if_neg hab]
-      · rw [if_neg h]
+        rw [ite_eq_right hab]
+      · rw [ite_eq_right h]
     have hterm : ∀ a b, (if sameBlock a b then ρ a b * ρ b a else 0) * ρ c d -
         ρ c d * (if sameBlock a b then ρ a b * ρ b a else 0) =
         (if a = c then X b else 0) - (if a = d then X b else 0) +
           ((if b = c then Y a else 0) - (if b = d then Y a else 0)) := by
       intro a b
       by_cases hab : sameBlock a b
-      · rw [if_pos hab]
+      · rw [ite_eq_left hab]
         have e : ρ a b * ρ b a * ρ c d - ρ c d * (ρ a b * ρ b a) =
             ρ a b * (ρ b a * ρ c d - ρ c d * ρ b a) + (ρ a b * ρ c d - ρ c d * ρ a b) * ρ b a := by
           noncomm_ring
         rw [e, hgl b a c d (hsym hab) hcd, hgl a b c d hab hcd, mul_sub, sub_mul,
           t1 a b hab, t2 a b hab, t3 a b hab, t4 a b hab]
         abel
-      · rw [if_neg hab, n1 a b hab, n2 a b hab, n3 a b hab, n4 a b hab]
+      · rw [ite_eq_right hab, n1 a b hab, n2 a b hab, n3 a b hab, n4 a b hab]
         simp
     calc casK ρ * ρ c d - ρ c d * casK ρ = ∑ a, ∑ b, ((if a = c then X b else 0) -
           (if a = d then X b else 0) + ((if b = c then Y a else 0) - (if b = d then Y a else 0))) := by
@@ -418,32 +418,32 @@ theorem local_of (act : Mat r s →ₗ[ℂ] Module.End ℂ M) (hL : IsLie act) (
           simp only [Finset.sum_add_distrib, Finset.sum_sub_distrib]
           rw [Finset.sum_comm (f := fun a b => if a = c then X b else 0),
             Finset.sum_comm (f := fun a b => if a = d then X b else 0)]
-          simp only [Finset.sum_ite_eq', Finset.mem_univ, if_true, sub_self, add_zero]
+          simp only [Finset.sum_ite_eq', Finset.mem_univ, ite_true, sub_self, add_zero]
   have hfe : casK ρ f = ((c0 : ℝ) : ℂ) • f := by
     have hterm : ∀ a b, (if sameBlock a b then ρ a b * ρ b a else 0) f =
         (((if a = b then La a ^ 2 else 0) + (if posC a b then La a - La b else 0) : ℚ) : ℂ) • f := by
       intro a b
       by_cases hsb : sameBlock a b
-      · rw [if_pos hsb, Module.End.mul_apply]
+      · rw [ite_eq_left hsb, Module.End.mul_apply]
         rcases (posC_props_and_sameBlock_trichotomy a b).2.2.2 hsb with rfl | h | h
-        · rw [hw.1 a, map_smul, hw.1 a, smul_smul, if_pos rfl, if_neg (fun h' => (posC_props_and_sameBlock_trichotomy a a).2.1 h' rfl)]
+        · rw [hw.1 a, map_smul, hw.1 a, smul_smul, ite_eq_left rfl, ite_eq_right (fun h' => (posC_props_and_sameBlock_trichotomy a a).2.1 h' rfl)]
           push_cast
           ring_nf
         · have hc := LinearMap.congr_fun (hgl a b b a hsb (hsym hsb)) f
           simp only [LinearMap.sub_apply, Module.End.mul_apply, hw.2 a b h, map_zero, sub_zero] at hc
-          rw [hc, if_neg ((posC_props_and_sameBlock_trichotomy a b).2.1 h), if_pos h]
-          rw [if_pos trivial, if_pos trivial, hw.1 a, hw.1 b]
+          rw [hc, ite_eq_right ((posC_props_and_sameBlock_trichotomy a b).2.1 h), ite_eq_left h]
+          rw [ite_eq_left trivial, ite_eq_left trivial, hw.1 a, hw.1 b]
           push_cast
           rw [zero_add, sub_smul]
-        · rw [hw.2 b a h, map_zero, if_neg (fun h' => (posC_props_and_sameBlock_trichotomy b a).2.1 h h'.symm),
-            if_neg ((posC_props_and_sameBlock_trichotomy b a).2.2.1 h)]
+        · rw [hw.2 b a h, map_zero, ite_eq_right (fun h' => (posC_props_and_sameBlock_trichotomy b a).2.1 h h'.symm),
+            ite_eq_right ((posC_props_and_sameBlock_trichotomy b a).2.2.1 h)]
           simp
-      · rw [if_neg hsb, if_neg (fun (h' : a = b) => hsb (h' ▸ _root_.PI.FockOneDegW.HwC.sameBlock_refl' a)),
-          if_neg (fun h' => hsb ((posC_props_and_sameBlock_trichotomy a b).1 h'))]
+      · rw [ite_eq_right hsb, ite_eq_right (fun (h' : a = b) => hsb (h' ▸ _root_.PI.FockOneDegW.HwC.sameBlock_refl' a)),
+          ite_eq_right (fun h' => hsb ((posC_props_and_sameBlock_trichotomy a b).1 h'))]
         simp
     have hq : (∑ a, ∑ b, ((if a = b then La a ^ 2 else 0) + (if posC a b then La a - La b else 0) : ℚ))
         = casW La := by
-      simp only [casW, Finset.sum_add_distrib, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+      simp only [casW, Finset.sum_add_distrib, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
     simp only [casK, LinearMap.sum_apply, hterm]
     simp_rw [← Finset.sum_smul]
     congr 1
@@ -469,7 +469,7 @@ theorem local_of (act : Mat r s →ₗ[ℂ] Module.End ℂ M) (hL : IsLie act) (
     if h : sameBlock a b then (ρ a b).restrict (fun x hx => hBK a b h x hx) else 0
   have hρ0 : ∀ a b, sameBlock a b → ∀ v : B, ((ρ0 a b v : B) : A) = ρ a b v := by
     intro a b h v
-    simp only [ρ0, dif_pos h, LinearMap.restrict_apply]
+    simp only [ρ0, dite_eq_left h, LinearMap.restrict_apply]
   have hcas0 : casK ρ0 = ((c0 : ℝ) : ℂ) • 1 := by
     refine LinearMap.ext fun v => Subtype.ext ?_
     have := casK_intertw (ρ := ρ0) (ρ' := ρ) B.subtype (fun a b h v => hρ0 a b h v) v

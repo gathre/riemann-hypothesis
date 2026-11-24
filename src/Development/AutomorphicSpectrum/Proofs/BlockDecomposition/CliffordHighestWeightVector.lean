@@ -221,15 +221,15 @@ theorem s_gl : Formalism.REAL.GlRel (sF g) := by
   rw [hs a b, hs d e, hz, u_bracket hg]
   by_cases h1 : b = d <;> by_cases h2 : a = e
   · subst h1 h2
-    simp only [if_true, hs]
+    simp only [ite_true, hs]
     module
   · have h3 : ¬ e = a := fun h => h2 h.symm
-    simp only [h1, h2, h3, if_true, if_false, hs]
+    simp only [h1, h2, h3, ite_true, ite_false, hs]
     simp
     module
   · have h3 : ¬ d = b := fun h => h1 h.symm
     subst h2
-    simp only [h1, h3, if_true, if_false, hs]
+    simp only [h1, h3, ite_true, ite_false, hs]
     simp
     module
   · have h3 : ¬ e = a := fun h => h2 h.symm
@@ -266,7 +266,7 @@ theorem c_diag : ∑ a, ∑ f, g a a * g f f = (n : ℂ) • (1 : A) := by
     rw [hg a a f f]
     simp
   rw [h2]
-  simp only [Finset.sum_ite_eq, Finset.mem_univ, if_true, Finset.sum_const, Finset.card_univ, Fintype.card_fin,
+  simp only [Finset.sum_ite_eq, Finset.mem_univ, ite_true, Finset.sum_const, Finset.card_univ, Fintype.card_fin,
     ← Nat.cast_smul_eq_nsmul ℂ, smul_smul, ← add_smul]
   congr 1
   ring
@@ -291,7 +291,7 @@ theorem u_four : (∑ a, ∑ b, uF g a b * uF g b a) + (∑ a, ∑ b, uF g a b *
       g a e * g f a * uF g e f + (2 : ℂ) • (g a e * g e a) - if e = a then (2 : ℂ) • (g a a * g f f) else 0 := by
     intro a e f
     have h1 := u_comm hg e f f a
-    rw [if_pos rfl] at h1
+    rw [ite_eq_left rfl] at h1
     rw [eq_add_of_sub_eq' h1]
     by_cases h : e = a
     · subst h
@@ -365,14 +365,14 @@ theorem s_cas : Formalism.REAL.Cas (sF g) = (((n : ℂ) ^ 3 - n) / 4) • (1 : A
     unfold sF
     by_cases h : a = b
     · subst h
-      simp only [if_true, sub_mul, mul_sub, smul_mul_assoc, mul_smul_comm, one_mul, mul_one, smul_sub, smul_smul]
+      simp only [ite_true, sub_mul, mul_sub, smul_mul_assoc, mul_smul_comm, one_mul, mul_one, smul_sub, smul_smul]
       module
     · have h' : ¬ b = a := fun e => h e.symm
-      simp only [h, h', if_false, sub_zero, smul_mul_assoc, mul_smul_comm, smul_smul]
+      simp only [h, h', ite_false, sub_zero, smul_mul_assoc, mul_smul_comm, smul_smul]
       congr 1
       norm_num
   unfold Formalism.REAL.Cas
-  simp only [hs, Finset.sum_sub_distrib, ← Finset.smul_sum, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+  simp only [hs, Finset.sum_sub_distrib, ← Finset.smul_sum, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
   rw [u_trace hg]
   simp only [Finset.sum_const, Finset.card_univ, Fintype.card_fin, ← Nat.cast_smul_eq_nsmul ℂ]
   have h4 := u_four hg
@@ -506,10 +506,10 @@ theorem dirac_sq_ring (p k g : Fin n → Fin n → A)
     intro a d
     by_cases h : a = d
     · subst h
-      simp only [hW, hU, if_true]
+      simp only [hW, hU, ite_true]
       module
     · have h' : ¬ d = a := fun e => h e.symm
-      simp only [hW, hU, h, h', if_false]
+      simp only [hW, hU, h, h', ite_false]
       module
   have hZ : ∑ a, ∑ d, k a d * (W a d + W a d + (W a d + W a d)) =
       ∑ a, ∑ d, k a d * W a d + ∑ a, ∑ d, k a d * W a d + (∑ a, ∑ d, k a d * W a d + ∑ a, ∑ d, k a d * W a d) := by
@@ -557,7 +557,7 @@ theorem gelfVal_two_eq (n : ℕ) (χ : Fin n → ℂ) :
       · simp [h]
     have hc : (univ.filter fun a : Fin n => a < c).card = (c : ℕ) := by
       rw [Finset.filter_gt_eq_Iio, Fin.card_Iio]
-    simp only [e, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    simp only [e, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     rw [← Finset.sum_filter, Finset.sum_const, hc]
     simp [sub_eq_add_neg]
   have hrow : ∀ c, ∑ b, B c b = l c - ((n : ℂ) - 1 - ((c : ℕ) : ℂ)) := by
@@ -576,7 +576,7 @@ theorem gelfVal_two_eq (n : ℕ) (χ : Fin n → ℂ) :
       rw [Nat.sub_sub, Nat.cast_sub (by omega)]
       push_cast
       ring
-    simp only [e, Finset.sum_add_distrib, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    simp only [e, Finset.sum_add_distrib, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
     rw [← Finset.sum_filter, Finset.sum_const, hc]
     simp only [nsmul_eq_mul, hc']
     ring
@@ -899,7 +899,7 @@ theorem dirac_ineq : ∀ {n : ℕ} (lam : Fin n → ℤ) (V : Type) [NormedAddCo
     exact_mod_cast hEq
   have hle : 4 * (S - R) + 3 * R - T ≤ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have := mul_pos hcon hN
     linarith
   have hT' : T = ∑ a, (τ a + rhoV n a) ^ 2 - R := by

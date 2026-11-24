@@ -148,8 +148,8 @@ variable {X : Fields} {n : ℕ} {ST SG Q Q' : Finset (HeightOneSpectrum (𝓞 X.
 theorem mv_deco {y : Ys X n} (p : PtY ST SG Q y) (d : DecoSet (E := X.E) (n := n) (ST := ST) (SG := SG)) (h : (p.mv d).1.1.deco.1.N = d.1.N) :
     (p.mv d).1.1.deco = d := by
   by_cases hc : (∀ (P : Q) (x : Sp X.E n), p.1.1.1.2 P x ∈ d.1.at P.1 ↔ x ∈ stdAt X.E n P.1) ∧ p.1.2 ∈ y.ys d.1.N
-  · exact congrArg (fun q : PtY ST SG Q y => q.1.1.deco) (dif_pos hc : p.mv d = _)
-  · have h1 : p.mv d = p := dif_neg hc
+  · exact congrArg (fun q : PtY ST SG Q y => q.1.1.deco) (dite_eq_left hc : p.mv d = _)
+  · have h1 : p.mv d = p := dite_eq_right hc
     rw [h1] at h
     refine absurd ⟨fun P x => ?_, h ▸ p.2⟩ hc
     have := p.1.1.2 P x
@@ -168,16 +168,16 @@ theorem up_deco (hT : (tdatY ST T y β Λ Θ pref).Tied T) (b : β) (p : PtY ST 
     have h1 := congrArg Deco.N (hT.up_deco b p P x hx hf)
     refine Eq.trans h1 ?_
     unfold DecoSet.up
-    rw [dif_pos hc]
+    rw [dite_eq_left hc]
     rfl
-  · have h1 : p.1.1.deco.up P (T : 𝓞 X.E) x = p.1.1.deco := dif_neg hc
+  · have h1 : p.1.1.deco.up P (T : 𝓞 X.E) x = p.1.1.deco := dite_eq_right hc
     rw [h1]
-    exact congrArg (fun q : PtY ST SG Q y => q.1.1.deco) (dif_pos ⟨p.1.1.2, p.2⟩ : p.mv p.1.1.deco = _)
+    exact congrArg (fun q : PtY ST SG Q y => q.1.1.deco) (dite_eq_left ⟨p.1.1.2, p.2⟩ : p.mv p.1.1.deco = _)
 
 theorem dia_deco (p : PtY ST SG Q y) (P : ST) (a : (Res P.1)ˣ) :
     (p.mv (DecoSet.dia1 P a p.1.1.deco)).1.1.deco = DecoSet.dia1 P a p.1.1.deco :=
   congrArg (fun q : PtY ST SG Q y => q.1.1.deco)
-    (dif_pos ⟨p.1.1.2, p.2⟩ : p.mv (DecoSet.dia1 P a p.1.1.deco) = _)
+    (dite_eq_left ⟨p.1.1.2, p.2⟩ : p.mv (DecoSet.dia1 P a p.1.1.deco) = _)
 
 theorem exists_lift {y' : Ys X n} (hy : ∀ N, y.ys N = {∅}) {Λ₁ Λ₂ : LevFam X.E X.K n SG} {Θ₁ : LevQFam X.E X.K n Q}
     {Θ₂ : LevQFam X.E X.K n Q'} (hΛ : Λ₁ = Λ₂) (h₁ : Θ₁ = LevQFam.top X.E X.K n Q) (h₂ : Θ₂ = LevQFam.top X.E X.K n Q')

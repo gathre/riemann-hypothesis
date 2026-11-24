@@ -136,7 +136,7 @@ theorem exists_cong_subset {U : Set (GL n k)} (hU : U ∈ 𝓝 (1 : GL n k)) :
   refine ⟨γ, hγ1, fun g hg => hTU ?_⟩
   have := hγ (g.val - 1)
   have hg' : ∀ i j, valuation k ((g.val - 1) i j) < γ := hg
-  rw [Set.mem_preimage, Set.mem_preimage, if_pos hg', sub_add_cancel] at this
+  rw [Set.mem_preimage, Set.mem_preimage, ite_eq_left hg', sub_add_cancel] at this
   exact this
 
 variable {a b : Type} [Fintype a] [DecidableEq a] [Fintype b] [DecidableEq b]
@@ -203,7 +203,7 @@ theorem cong_contract (e : a ⊕ b ≃ n) (γ : (ValueGroupWithZero k)ˣ) (hγ :
   rcases i with i | i <;> rcases j with j | j
   · simpa [mul_comm, mul_left_comm] using h1
   · simp [(mem_parabLower_two k).1 hc' i j]
-  · simp only [Matrix.one_apply, EmbeddingLike.apply_eq_iff_eq, reduceCtorEq, if_false, sub_zero] at h1 ⊢
+  · simp only [Matrix.one_apply, EmbeddingLike.apply_eq_iff_eq, reduceCtorEq, ite_false, sub_zero] at h1 ⊢
     simpa using (mul_le_of_le_one_right' hz).trans_lt h1
   · simpa using h1
 

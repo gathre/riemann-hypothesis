@@ -166,8 +166,8 @@ theorem congr_of_sigPosH_eq : ∀ {n : ℕ} (A B : Matrix (Fin n) (Fin n) ℂ) (
     funext i
     simp only [Function.comp_apply, signVec]
     by_cases hi : 0 < hB.eigenvalues i
-    · rw [if_pos hi, if_pos ((he i).2 hi)]
-    · rw [if_neg hi, if_neg (fun h => hi ((he i).1 h))]
+    · rw [ite_eq_left hi, ite_eq_left ((he i).2 hi)]
+    · rw [ite_eq_right hi, ite_eq_right (fun h => hi ((he i).1 h))]
   refine ⟨VA * GeneralLinearGroup.mkOfDetNeZero P hPdet * VB⁻¹, ?_⟩
   set W : Matrix (Fin n) (Fin n) ℂ := ((VB⁻¹ : GL (Fin n) ℂ) : Matrix (Fin n) (Fin n) ℂ) with hW
   have hVW : (VB : Matrix (Fin n) (Fin n) ℂ) * W = 1 := by

@@ -128,7 +128,7 @@ theorem det_posM_eq_one {R : Type} [CommRing R] {a : ℕ} {ι : Type} [Fintype �
     intro i j hij
     simp only [posM, Matrix.sum_apply, Matrix.single_apply]
     refine Finset.sum_eq_zero fun t _ => ?_
-    rw [if_neg]
+    rw [ite_eq_right]
     rintro ⟨rfl, rfl, -⟩
     exact absurd (hp t) (not_lt.2 hij)
   have hT : (1 + posM p x).IsUpperTriangular := by

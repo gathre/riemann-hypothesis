@@ -54,9 +54,9 @@ private theorem selectThrough {α β : Type} (f : α → β) (S : Set α) (a : �
   have hg : ∀ b ∈ f '' S, g b ∈ S ∧ f (g b) = b := by
     intro b hb
     by_cases h : b = f a
-    · simp only [g, if_pos h]
+    · simp only [g, ite_eq_left h]
       exact ⟨ha, h.symm⟩
-    · simp only [g, if_neg h]
+    · simp only [g, ite_eq_right h]
       exact ⟨Function.invFunOn_mem hb, Function.invFunOn_eq hb⟩
   refine ⟨g '' (f '' S), ?_, ?_, ?_, ?_⟩
   · rintro _ ⟨b, hb, rfl⟩

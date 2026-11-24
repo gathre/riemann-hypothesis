@@ -183,7 +183,7 @@ theorem intPsd_common_kernel_of_sum_not_posDef : ∀ (a g rk : ℕ) (B : Fin a �
     by_cases hi : i.val < rk
     · have := congrFun hw ⟨i, hi⟩
       simpa [mulVec, dotProduct, e] using this
-    · push_neg at hi
+    · push Not at hi
       simp [hSi i _ hi]
   refine ⟨v, ?_, ?_, ?_⟩
   · intro hv
@@ -1003,7 +1003,7 @@ theorem GlobalTheory.PeriodFrame.not_perTau_mulVec_eq_continuous : ∀ (n a g r�
   have hslim : Filter.Tendsto (fun R => logExp a (s R)) Filter.atTop (𝓝 0) := by
     refine tendsto_pi_nhds.2 fun k => ?_
     by_cases hk : (k : ℕ) < a
-    · simp only [logExp, hs, hk, if_true, Pi.zero_apply]
+    · simp only [logExp, hs, hk, ite_true, Pi.zero_apply]
       have h3 : Filter.Tendsto (fun R : ℝ => ((Real.exp (-R) : ℝ) : ℂ)) Filter.atTop (𝓝 ((0 : ℝ) : ℂ)) :=
         (Complex.continuous_ofReal.tendsto 0).comp Real.tendsto_exp_neg_atTop_nhds_zero
       simpa [Complex.ofReal_exp] using h3
@@ -1826,7 +1826,7 @@ theorem GlobalTheory.ShFam.Hor.LogCh.exists_periodChart_of_latFam : ∀ (n a g r
   intro s hs hz Hm hHm
   have hnz : ∀ i : Fin a, logExp a s (Fin.castLE ha i) ≠ 0 := by
     intro i
-    simp only [logExp, Fin.coe_castLE, i.isLt, if_true]
+    simp only [logExp, Fin.coe_castLE, i.isLt, ite_true]
     exact Complex.exp_ne_zero _
   rw [hPH s hs hz Hm hHm, hY _ hnz]
   congr 2
@@ -1835,7 +1835,7 @@ theorem GlobalTheory.ShFam.Hor.LogCh.exists_periodChart_of_latFam : ∀ (n a g r
   rw [← GlobalTheory.IndefiniteRowSideFullHecke.HodgePeriodGram.im_period ha τ₀ B (logExp a s) (fun k => s (Fin.castLE ha k)) ?_]
   · rw [hτ₀e s hs hz]; rfl
   · intro i
-    simp only [logExp, Fin.coe_castLE, i.isLt, if_true]
+    simp only [logExp, Fin.coe_castLE, i.isLt, ite_true]
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsPeriodChartHolomorphicLatticeFamily =====

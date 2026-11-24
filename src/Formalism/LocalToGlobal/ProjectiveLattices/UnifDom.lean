@@ -76,7 +76,7 @@ theorem sum_castLE {R : Type} [AddCommMonoid R] {i n : ℕ} (h : i ≤ n) (f : F
   refine (Fintype.sum_of_injective (Fin.castLE h) (Fin.castLE_injective h)
     (fun c => f (Fin.castLE h c)) f (fun c hc => hf c ?_) (fun _ => rfl)).symm
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   exact hc ⟨⟨c, hlt⟩, rfl⟩
 
 theorem sub_mul_tri {i : ℕ} (h : i ≤ r) (Q A : Matrix (Fin r) (Fin r) ℂ) (hQ : Q.IsUpperTriangular) :

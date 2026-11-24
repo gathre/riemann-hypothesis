@@ -250,7 +250,7 @@ private theorem inCC_real_smul_comp_Gf_of_inCC {k r : ℕ} {Wp Wq : Type} [Norme
       have hX := Real.rpow_pos_of_pos (gN_pos h1)
         ((0 : ℝ) + ((([] ++ [] : List (B.Mat k (j + ρ))).map (fun X => costP k j ρ X + d)).sum : ℕ))
       by_contra hneg
-      push_neg at hneg
+      push Not at hneg
       have := mul_neg_of_neg_of_pos hneg hX
       linarith [norm_nonneg (B.dLR [] [] φ 1)]
     have hw'lie : ∀ X ∈ w.map nrm, B.unitLie k (j + ρ) X := by

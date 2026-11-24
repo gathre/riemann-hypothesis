@@ -137,7 +137,7 @@ theorem log_dimAt_le : ∀ (D : D7) (i : Fin D.R.m) (L : ℝ) (hL : GlobalTheory
       exact_mod_cast this
     linarith
   have hL0 : 0 ≤ L := by
-    by_contra h; push_neg at h
+    by_contra h; push Not at h
     have := Real.exp_lt_exp.2 h; rw [Real.exp_zero] at this; linarith
   set b := Real.exp L with hbdef
   set B := b ^ 2

@@ -125,7 +125,7 @@ theorem scalar_eq_one {g n : ℕ} (hn : Even n) (σ : Matrix (Fin g ⊕ Fin g) (
     obtain ⟨m, rfl⟩ := ThetaRatio.exists_eq_halfVec h₁
     obtain ⟨m', rfl⟩ := ThetaRatio.exists_eq_halfVec h₂
     by_contra hc
-    push_neg at hc
+    push Not at hc
     refine theta_ne_zero hτ (halfVec m) (halfVec m') (funext fun w => ?_)
     have := hc w
     rw [ThetaRatio.thetaChar_ofRealVec] at this

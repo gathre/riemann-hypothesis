@@ -118,7 +118,7 @@ private theorem exists_mul_eq_one_of_dedekind_ideal_ne_bot {Ω : Type} [Field Ω
     refine ⟨o, ?_⟩
     rw [← mul_div_assoc, ← map_mul, ← ho, map_mul, mul_div_cancel_right₀ _ hσx]
   by_contra hne
-  push_neg at hne
+  push Not at hne
   let C : O → Prop := fun y => ∃ h : σ y / σ x ∈ R, (⟨_, h⟩ : R) ∈ IsLocalRing.maximalIdeal R
   have hx : x ∈ 𝔡 * 𝔞 := h𝔞 ▸ Ideal.mem_span_singleton_self x
   have hC : C x := by
@@ -240,7 +240,7 @@ theorem sum_apply_smul_preDualBasis {Ω : Type} [Field Ω] {V : Type} [AddCommGr
     by_cases h : i = j
     · subst h
       simp
-    · rw [if_neg h, if_neg (Ne.symm h)]
+    · rw [ite_eq_right h, ite_eq_right (Ne.symm h)]
   conv_rhs => rw [← (preDualBasis B).sum_repr v]
   refine Finset.sum_congr rfl (fun i _ => ?_)
   rw [← Module.Basis.coord_apply, hc]
@@ -269,9 +269,9 @@ theorem Lat.predualIn_isFrameAt {X : Scheme.{0}} {Ω : Type} [Field Ω] {ξ : Sp
       rw [LinearMap.sum_apply]
       simp only [LinearMap.smul_apply, apply_preDualBasis]
       rw [Finset.sum_eq_single j]
-      · rw [if_pos rfl, Subring.smul_def, smul_eq_mul, _root_.mul_one]
+      · rw [ite_eq_left rfl, Subring.smul_def, smul_eq_mul, _root_.mul_one]
       · intro b _ hb
-        rw [if_neg hb, smul_zero]
+        rw [ite_eq_right hb, smul_zero]
       · intro hj0
         exact absurd (Finset.mem_univ j) hj0
     rw [← hj, hj']

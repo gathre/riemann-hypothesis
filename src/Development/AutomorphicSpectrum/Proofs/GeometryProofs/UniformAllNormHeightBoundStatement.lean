@@ -823,8 +823,8 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : ReciprocityTheo
 theorem sum_abs_exOf_le (u : GlobalTheory.AllWt.Weight Dw) :
     ∑ s : (Σ τ : E →+* ℂ, Fin (Dw.mult τ)), |((exOf Dw u 0 (some s) : ℤ) : ℝ)| ≤ GlobalTheory.CovHt.l1 u := by
   classical
-  have hm1 : ∀ {τ : E →+* ℂ}, τ (H.rt : E) = H.rt0 → Dw.mult τ = Dw.p := fun h => if_pos h
-  have hm2 : ∀ {τ : E →+* ℂ}, ¬ τ (H.rt : E) = H.rt0 → Dw.mult τ = Dw.q := fun h => if_neg h
+  have hm1 : ∀ {τ : E →+* ℂ}, τ (H.rt : E) = H.rt0 → Dw.mult τ = Dw.p := fun h => ite_eq_left h
+  have hm2 : ∀ {τ : E →+* ℂ}, ¬ τ (H.rt : E) = H.rt0 → Dw.mult τ = Dw.q := fun h => ite_eq_right h
   let φ : (Σ τ : E →+* ℂ, Fin (Dw.mult τ)) → Psi H × Fin (Dw.p + Dw.q) := fun s =>
     if h : s.1 (H.rt : E) = H.rt0 then
       (⟨s.1, h⟩, ⟨s.2, by have := lt_of_lt_of_eq s.2.2 (hm1 h); omega⟩)
@@ -845,20 +845,20 @@ theorem sum_abs_exOf_le (u : GlobalTheory.AllWt.Weight Dw) :
   have hinj : Function.Injective φ := by
     rintro ⟨τ, i⟩ ⟨τ', i'⟩ e
     by_cases h : τ (H.rt : E) = H.rt0 <;> by_cases h' : τ' (H.rt : E) = H.rt0
-    · simp only [φ, dif_pos h, dif_pos h'] at e
+    · simp only [φ, dite_eq_left h, dite_eq_left h'] at e
       have e1 : τ = τ' := congrArg (fun x : Psi H × Fin (Dw.p + Dw.q) => x.1.1) e
       subst e1
       have e2 : (i : ℕ) = i' := congrArg (fun x : Psi H × Fin (Dw.p + Dw.q) => (x.2 : ℕ)) e
       exact congrArg (Sigma.mk τ) (Fin.ext e2)
-    · simp only [φ, dif_pos h, dif_neg h'] at e
+    · simp only [φ, dite_eq_left h, dite_eq_right h'] at e
       have e2 : (i : ℕ) = Dw.p + (Dw.q - 1 - i') := congrArg (fun x : Psi H × Fin (Dw.p + Dw.q) => (x.2 : ℕ)) e
       have hi := lt_of_lt_of_eq i.2 (hm1 h)
       omega
-    · simp only [φ, dif_neg h, dif_pos h'] at e
+    · simp only [φ, dite_eq_right h, dite_eq_left h'] at e
       have e2 : Dw.p + (Dw.q - 1 - i) = (i' : ℕ) := congrArg (fun x : Psi H × Fin (Dw.p + Dw.q) => (x.2 : ℕ)) e
       have hi' := lt_of_lt_of_eq i'.2 (hm1 h')
       omega
-    · simp only [φ, dif_neg h, dif_neg h'] at e
+    · simp only [φ, dite_eq_right h, dite_eq_right h'] at e
       have e1 : conjEmb τ = conjEmb τ' := congrArg (fun x : Psi H × Fin (Dw.p + Dw.q) => x.1.1) e
       have e3 : τ = τ' := by rw [← conjEmb_conjEmb τ, e1, conjEmb_conjEmb]
       subst e3
@@ -1385,7 +1385,7 @@ theorem clear_integral {r : ℕ} (U : ∀ σ : c.F →+* ℂ, Unf Xo c σ r) (hH
     obtain ⟨v, hv', hle⟩ := hHT p la hp hpl w hw
     have h1 := hle u f ((GlobalTheory.AllWt.cuspOn_le U Z _).trans (GlobalTheory.AllWt.cuspW_le_secZ _) hf)
     have h2 := hv p la hp hpl v hv'
-    rw [if_pos hpS] at h2
+    rw [ite_eq_left hpS] at h2
     have h3 := h2.trans h1
     have hvp : 0 ≤ vLa la (p : c.F) := vLa_natCast_nonneg la hp.ne_zero
     have h4 : (2 * ((vLa la (p : c.F) : ℝ) * exTwo E p * GlobalTheory.CovHt.l1 u)) ≤ (vLa la ((clearN E S u : ℕ) : c.F) : ℝ) := by
@@ -1408,7 +1408,7 @@ theorem clear_integral {r : ℕ} (U : ∀ σ : c.F →+* ℂ, Unf Xo c σ r) (hH
   · have hpm : p ∉ GlobalTheory.CompHt.htPrimes l Bd := by rw [hS]; exact hpS
     rw [GlobalTheory.CompHt.mixVals_of_not_mem hp hpm hpl] at hw
     have h2 := hv p la hp hpl w hw
-    rw [if_neg hpS] at h2
+    rw [ite_eq_right hpS] at h2
     have h3 : (0 : EReal) ≤ w f := by simpa using h2
     refine add_nonneg ?_ h3
     exact_mod_cast hvN

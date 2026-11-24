@@ -1021,7 +1021,7 @@ theorem res_onto : Quoted → ∀ (K : Type) [Field K] [NumberField K] (G : Geo 
       simp only [Finset.smul_sum, smul_smul]
       rw [Finset.sum_comm]
       simp only [← Finset.sum_smul, ← Matrix.mul_apply, Matrix.nonsing_inv_mul g hg, Matrix.one_apply, ite_smul,
-        one_smul, zero_smul, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+        one_smul, zero_smul, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
     have h := _root_.GlobalTheory.HSKerRes.vanishesTo_of_isUnit G (fun i => ∑ j, g i j • s j) g⁻¹ (Matrix.isUnit_nonsing_inv_det g hg) hf
     rwa [e] at h
   have key : ∀ y₀ : sectionsOnClosedSubscheme G.str (G.adj₂ 0) (G.ideal s), ∃ f, resTo suppIn_top f = y₀ := by
@@ -1257,7 +1257,7 @@ theorem exists_filV_mulPow {K : Type} [Field K] [NumberField K] (X : Data K) {s 
   rw [key]
   by_cases hα : α' = α
   · subst hα; simp
-  · rw [if_neg (fun h => hα (Subtype.ext h)), Pi.single_eq_of_ne hα, map_zero]; rfl
+  · rw [ite_eq_right (fun h => hα (Subtype.ext h)), Pi.single_eq_of_ne hα, map_zero]; rfl
 
 theorem totSym_incl {K : Type} [Field K] [NumberField K] {X : Data K} {s : Fin X.D → Fin X.N → K} {hs : X.IsGood s}
     {δ : ℕ} (Co : Coord X.toGeo hs δ) (a : ℕ) (f : filV X s a) (y : totFil X s a) (h : y.1 = incl X X.T f.1) :

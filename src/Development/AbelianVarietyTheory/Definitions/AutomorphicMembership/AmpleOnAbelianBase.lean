@@ -167,7 +167,7 @@ theorem numL_homog (num : Multiset A → ℝ) (d e : ℕ) (he : e ≠ d) (P : Mv
     rw [Finsupp.degree_eq_weight_one]; exact this
   have h2 : MvPolynomial.monomial m (P.coeff m) = P.coeff m • MvPolynomial.basisMonomials A ℝ m := by
     simp [MvPolynomial.smul_monomial]
-  rw [h2, map_smul, numL, Module.Basis.constr_basis, if_neg (h1 ▸ he), smul_zero]
+  rw [h2, map_smul, numL, Module.Basis.constr_basis, ite_eq_right (h1 ▸ he), smul_zero]
 
 end Degrees
 

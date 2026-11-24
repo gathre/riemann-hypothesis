@@ -217,7 +217,7 @@ theorem contrProps_of {H₁ H₂ FF : Type}
     simp
   · intro φ hφ Y hY
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hφ
     let L : H₂ →SL[starRingEnd ℂ] H₁ := (It φ).mkContinuous ‖φ‖ (hb φ)
     have h0 : ∀ y, It φ y = 0 := fun y =>

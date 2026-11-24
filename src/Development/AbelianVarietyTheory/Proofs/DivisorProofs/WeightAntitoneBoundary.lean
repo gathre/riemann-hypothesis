@@ -189,7 +189,7 @@ theorem gapsAt (PP A M : ℝ) (hi : (i : ℕ) + 1 < D.R.m) (hw : WtNum p i PP) (
     · have g := (g2 hbp).1
       have hT0 : (0 : ℤ) < 2 * (lenT p i PP : ℤ) := by omega
       by_contra hc
-      push_neg at hc
+      push Not at hc
       have := mul_neg_of_pos_of_neg hT0 hc
       nlinarith
     · have g := g1 hbp
@@ -204,7 +204,7 @@ theorem gapsAt (PP A M : ℝ) (hi : (i : ℕ) + 1 < D.R.m) (hw : WtNum p i PP) (
     have hT0 : (0 : ℤ) < 4 * (lenT p i PP : ℤ) := by omega
     have hle : (lenT p i PP : ℤ) ≤ P.u₁ τ a - P.u₁ τ b - 3 * (((dat p i).p + (dat p i).q : ℕ) : ℤ) := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       have := mul_lt_mul_of_pos_left hc hT0
       nlinarith
     have : (0 : ℤ) ≤ (((dat p i).p + (dat p i).q : ℕ) : ℤ) := by positivity

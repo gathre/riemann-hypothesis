@@ -286,7 +286,7 @@ theorem exists_edge {F : Type} [Field F] [NumberField F] (v : HeightOneSpectrum 
     omega
   obtain ⟨s, hs1, hs⟩ : ∃ s : v.adicCompletion F, Valued.v s ≤ 1 ∧ χ (t₀ * s) ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hnot ((hn t₀).1 h)
   refine ⟨t₀ * s, hs, fun m hm => ?_⟩
   have hm' := _root_.GlobalTheory.Proof.IntegralPowerExpansion.le_exp_neg_one_of_lt_one hm
@@ -446,7 +446,7 @@ theorem psi_trace_split (ψ : AddChar (AF D.host.F) ℂ) (a Z Z₁ : AE D) :
 theorem redM_apply_of_mem (PP : Pl D.host.E) {b a : ℕ} (N : Matrix (Fin b) (Fin a) (Datum.EAf D)) (i : Fin b) (j : Fin a)
     (h : N i j ∈ Formalism.L2.Herm.intAf D.host.F D.host.E) : redM PP N i j = resS D.host.F PP ⟨N i j, h⟩ := by
   simp only [redM]
-  exact dif_pos h
+  exact dite_eq_left h
 
 
 set_option maxHeartbeats 800000 in
@@ -530,7 +530,7 @@ theorem GlobalTheory.HalfDuality.exists_dual_half : ∀ {D : D7} {G : Type} [Gro
   obtain ⟨⟨es, hes, -⟩, -⟩ := he
   obtain ⟨a, b, hab⟩ : ∃ a b, redM PP (frMapAdj (Vc D i) (Wc D i) (R.βV i) (R.βW i) x) a b ≠ 0 := by
     by_contra hn
-    push_neg at hn
+    push Not at hn
     exact hred (Matrix.ext hn)
   have hu : resS D.host.F PP ⟨_, hint a b⟩ ≠ 0 := by
     rw [← GlobalTheory.HalfDuality.redM_apply_of_mem]

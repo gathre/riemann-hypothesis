@@ -65,11 +65,11 @@ theorem mul_single_mul (l ρ : Matrix (Fin n) (Fin n) K) (i j k m : Fin n) (c : 
     rw [Matrix.mul_apply, Matrix.of_apply]
     by_cases hx : x = j
     · subst hx
-      rw [if_pos rfl, Finset.sum_eq_single i]
+      rw [ite_eq_left rfl, Finset.sum_eq_single i]
       · simp
       · intro y _ hy; simp [Ne.symm hy]
       · simp
-    · rw [if_neg hx]
+    · rw [ite_eq_right hx]
       exact Finset.sum_eq_zero fun y _ => by simp [Ne.symm hx]
   rw [h1, Matrix.mul_apply, Finset.sum_eq_single j]
   · simp [mul_assoc]
@@ -181,18 +181,18 @@ theorem constG (e : K ≃ₐ[F] F × F) (ι : E →+* K) (Dd : Fin (r + 1) → K
     simp only [lG, Matrix.of_apply, AlgEquiv.apply_symm_apply]
     by_cases hxl : x = Fin.last r
     · subst hxl
-      rw [if_pos rfl, (ha _ _).2 rfl, (hb _ _).2 rfl]
+      rw [ite_eq_left rfl, (ha _ _).2 rfl, (hb _ _).2 rfl]
       simp [Fin.val_last, div_self (hy _)]
-    · rw [if_neg hxl, (ha _ _).1 (lt_of_le_of_ne (Fin.le_last x) hxl), (hb _ _).1 (lt_of_le_of_ne (Fin.le_last x) hxl)]
+    · rw [ite_eq_right hxl, (ha _ _).1 (lt_of_le_of_ne (Fin.le_last x) hxl), (hb _ _).1 (lt_of_le_of_ne (Fin.le_last x) hxl)]
       simp
   have hr : ρG e ι Dd a b (Fin.last r) y = if y = Fin.last r then 1 else 0 := by
     apply e.injective
     simp only [ρG, Matrix.of_apply, AlgEquiv.apply_symm_apply]
     by_cases hyl : y = Fin.last r
     · subst hyl
-      rw [if_pos rfl, (ha _ _).2 rfl, (hb _ _).2 rfl]
+      rw [ite_eq_left rfl, (ha _ _).2 rfl, (hb _ _).2 rfl]
       simp [Fin.val_last, div_self (hx _)]
-    · rw [if_neg hyl, (hb _ _).1 (lt_of_le_of_ne (Fin.le_last y) hyl), (ha _ _).1 (lt_of_le_of_ne (Fin.le_last y) hyl)]
+    · rw [ite_eq_right hyl, (hb _ _).1 (lt_of_le_of_ne (Fin.le_last y) hyl), (ha _ _).1 (lt_of_le_of_ne (Fin.le_last y) hyl)]
       simp
   rw [hl, hr, Matrix.single_apply]
   by_cases hxl : x = Fin.last r <;> by_cases hyl : y = Fin.last r

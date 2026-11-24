@@ -212,7 +212,7 @@ theorem finite : Module.Finite ℤ_[l] S := by
     refine le_antisymm (fun x hx => hA.mem_span_of hS g hg (fun x hx => ⟨g (x 1), Submodule.subset_span ⟨_, rfl⟩, ?_⟩) hx)
       (Submodule.span_le.2 (Set.range_subset_iff.2 hg))
     have h : ∃ y ∈ S, y 1 = x 1 := ⟨x, hx, rfl⟩
-    simp only [g, dif_pos h]
+    simp only [g, dite_eq_left h]
     exact h.choose_spec.2.symm
   rw [Module.Finite.iff_fg, hS']
   exact Submodule.fg_span (Set.finite_range g)

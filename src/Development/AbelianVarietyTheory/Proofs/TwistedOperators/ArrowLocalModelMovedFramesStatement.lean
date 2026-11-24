@@ -287,7 +287,7 @@ theorem model_of_vec : ∀ {D : D7} {Γ : Type} [Group Γ] [Fintype Γ] {Pl0 T :
     (node_isV ch.G hL (X := .grid D.R.m j) ⟨le_rfl, hj.le⟩).sd (node_isV ch.G hL (X := .grid D.R.m (j + 1)) ⟨le_rfl, hj⟩).sd
     _ _ (frRow ch.S.B t w j hj.le) (frRow ch.S.B t w (j + 1) hj) (hLat t w hw p hp j hj).1 v _ f hθ hSB hTA
   refine ⟨Tm, hM, hO, Φ, fun x => ?_, hf⟩
-  rw [hΦ, if_pos (GlobalTheory.LocMod.Witness.up_half p _ _ x), coord_up ch t w p hp j hj x]
+  rw [hΦ, ite_eq_left (GlobalTheory.LocMod.Witness.up_half p _ _ x), coord_up ch t w p hp j hj x]
 
 theorem weil_move : ∀ (D : D7) (k : Type) [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] (p : Place D k) (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp D) (χS χT : (AE D)ˣ →* Circle) (ω : GA D S × GA D T →* Module.End ℂ (WO S T → ℂ)), IsWeilDatumO ψ S T χS χT ω → ∀ (Γ : GlobalTheory.SplitFlip.Grid k) (i j : ℕ), p.IsComp χS (Γ.kappa (.theta i j) (i, j + 1)) → p.IsComp χT (Γ.kappa (.theta i j) (i, j)) → ∀ (FS : Frame k S.rank (Fin (Γ.rank (i, j)))) (FT : Frame k T.rank (Fin (Γ.rank (i, j + 1)))) (Tm : SB (Matrix (Fin (Γ.rank (i, j + 1))) (Fin (Γ.rank (i, j))) k) →ₗ[ℂ] (WO S T → ℂ)), p.IsModel ψ FS FT Tm → ∀ (g : Γ.VertexGroup) (ρ : GA D S) (ρ' : GA D T), p.IsLoc FS ρ (g (i, j)) → p.IsLoc FT ρ' (g (i, j + 1)) → ∀ Φ₀ : SB (Matrix (Fin (Γ.rank (i, j + 1))) (Fin (Γ.rank (i, j))) k), ∃ Φ₁ : SB (Matrix (Fin (Γ.rank (i, j + 1))) (Fin (Γ.rank (i, j))) k), (∀ x, Φ₁.1 x = Γ.edgeFactor .one g (.theta i j) * Φ₀.1 (((g (i, j + 1))⁻¹).val * x * (g (i, j)).val)) ∧ ω (ρ, ρ') (Tm Φ₀) = Tm Φ₁ := by
   intro D k _ _ _ _ p ψ S T χS χT ω hω Γ i j hS hT FS FT Tm hM g ρ ρ' hρ hρ' Φ₀

@@ -108,7 +108,7 @@ theorem isUPt_tauPt (τ : L →+* ℂ) (B : GL (Fin n) ℂ) : IsUPt (tauPt τ B)
     simp [tauPt, hne, Matrix.transpose_transpose]
   · by_cases h2 : σ = ComplexEmbedding.conjugate τ
     · subst h2
-      simp only [tauPt, if_neg h1, conj_conj, if_true]
+      simp only [tauPt, ite_eq_right h1, conj_conj, ite_true]
       rw [← Matrix.transpose_transpose (B.val), ← Matrix.transpose_mul, Matrix.transpose_transpose,
         ← Units.val_mul, mul_inv_cancel, Units.val_one, Matrix.transpose_one]
     · have h3 : ComplexEmbedding.conjugate σ ≠ τ := fun e => h2 (by rw [← e, conj_conj])

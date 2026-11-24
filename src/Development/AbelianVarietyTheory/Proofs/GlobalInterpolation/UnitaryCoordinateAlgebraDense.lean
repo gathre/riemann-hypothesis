@@ -75,9 +75,9 @@ theorem coord_conj (τ : E →+* ℂ) (z : Cinf E) : coord (ComplexEmbedding.con
   unfold coord
   rw [InfinitePlace.mk_conjugate_eq]
   rcases InfinitePlace.embedding_mk_eq τ with h | h
-  · rw [if_pos h, if_neg (by rw [h]; exact hne.symm)]
+  · rw [ite_eq_left h, ite_eq_right (by rw [h]; exact hne.symm)]
     rfl
-  · rw [if_pos h, if_neg (by rw [h]; exact hne)]
+  · rw [ite_eq_left h, ite_eq_right (by rw [h]; exact hne)]
     simp
 
 theorem entry_inv (τ : E →+* ℂ) (x : UA E n) (i j : Fin n) :
@@ -99,7 +99,7 @@ theorem eq_of_entry {x y : infU E n} (h : ∀ τ i j, (cEmb τ x.1).val i j = (c
     have h1 : coord w.embedding (pInf E (x.1.1.val i j)) = coord w.embedding (pInf E (y.1.1.val i j)) :=
       h w.embedding i j
     unfold coord at h1
-    rw [InfinitePlace.mk_embedding, if_pos rfl] at h1
+    rw [InfinitePlace.mk_embedding, ite_eq_left rfl] at h1
     exact h1
   · exact (MonoidHom.mem_ker.1 x.2).trans (MonoidHom.mem_ker.1 y.2).symm
 

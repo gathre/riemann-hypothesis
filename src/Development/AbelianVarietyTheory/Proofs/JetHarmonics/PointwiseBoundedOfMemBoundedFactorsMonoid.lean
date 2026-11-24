@@ -135,9 +135,9 @@ theorem up_index {l j : ℕ} (hl : l ∈ Finset.Icc 1 (P.k - 1)) {a b : M.Ty P} 
   have h1 := h ⟨l - 1, by omega⟩
   have h2 := h' ⟨l - 1, by omega⟩
   have e : l - 1 + 1 = l := by omega
-  simp only [e, if_true] at h1 h2
+  simp only [e, ite_true] at h1 h2
   by_contra hne
-  rw [if_neg (fun x => hne x.symm)] at h2
+  rw [ite_eq_right (fun x => hne x.symm)] at h2
   omega
 
 theorem up_ne {l : ℕ} (hl : l ∈ Finset.Icc 1 (P.k - 1)) {a b : M.Ty P} (h : M.Up P l a b) : b ≠ a := by
@@ -145,7 +145,7 @@ theorem up_ne {l : ℕ} (hl : l ∈ Finset.Icc 1 (P.k - 1)) {a b : M.Ty P} (h : 
   rintro rfl
   have h1 := h ⟨l - 1, by omega⟩
   have e : l - 1 + 1 = l := by omega
-  simp only [e, if_true] at h1
+  simp only [e, ite_true] at h1
   omega
 
 omit [StarRing A] in
@@ -170,7 +170,7 @@ omit [StarRing A] in
 theorem proj_mul_proj (κ : (M.Ty P → ℂ) →ₐ[ℂ] A) {ρ ρ' : M.Ty P} (h : ρ' ≠ ρ) :
     NF.proj κ ρ' * NF.proj κ ρ = 0 := by
   have := kap_mul_proj κ (fun x => if x = ρ' then 1 else 0) ρ
-  rw [if_neg (Ne.symm h), zero_smul] at this
+  rw [ite_eq_right (Ne.symm h), zero_smul] at this
   exact this
 
 theorem proj_SS_proj (d : Q.NFData P A) (hd : d.Rel) {j : ℕ} {ρ ρ' : M.Ty P} (h : ¬ M.Up P j ρ ρ') :
@@ -182,7 +182,7 @@ theorem proj_SS_proj (d : Q.NFData P A) (hd : d.Rel) {j : ℕ} {ρ ρ' : M.Ty P}
     · have : ¬ M.Up P j a ρ' := fun h' => hb (up_unique hab h')
       simp [hb, this])
   have h2 : NF.proj d.κ ρ' * d.SS j = _ := h1
-  rw [h2, mul_assoc, kap_mul_proj, if_neg h, zero_smul, mul_zero]
+  rw [h2, mul_assoc, kap_mul_proj, ite_eq_right h, zero_smul, mul_zero]
 
 theorem proj_raising_proj_eq_smul (d : Q.NFData P A) (hd : d.Rel) {l : ℕ} (hl : l ∈ Finset.Icc 1 (P.k - 1)) (Y : ℂ)
     {ρ ρ' : M.Ty P} (h : M.Up P l ρ ρ') :
@@ -228,9 +228,9 @@ theorem ss_formula : ∀ (P : M.Par) (A : Type) [Ring A] [StarRing A] [Algebra �
     rw [sum_proj, one_mul, mul_one]
   refine h0.trans (Finset.sum_congr rfl fun ρ _ => Finset.sum_congr rfl fun ρ' _ => ?_)
   by_cases h : M.Up P l ρ ρ'
-  · simp only [if_pos h]
+  · simp only [ite_eq_left h]
     rw [proj_raising_proj_eq_smul d hr hl Y h, smul_smul, inv_mul_cancel₀ (xEx_ne_zero _ _ _ (hY ρ)), one_smul]
-  · simp only [if_neg h]
+  · simp only [ite_eq_right h]
     rw [zero_smul, proj_SS_proj d hr h]
 
 end GlobalTheory.HatNF.RaiseFormula

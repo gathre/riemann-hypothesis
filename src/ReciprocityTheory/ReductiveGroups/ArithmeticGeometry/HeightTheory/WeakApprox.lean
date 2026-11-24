@@ -139,14 +139,14 @@ theorem wa_eq_of_le (v w : AddValuation F (WithTop ℤ)) (hv : ∀ a : F, a ≠ 
     constructor
     · intro hm0
       by_contra hn0
-      push_neg at hn0
+      push Not at hn0
       obtain ⟨y, c, d, hc, hd, hc0, hd0⟩ := exists_pos_neg_valuation v w hq1 hp hm hn one_pos hm0 hn0
       have hy := h y (by rw [hc, ← WithTop.coe_zero, WithTop.coe_lt_coe]; exact hc0)
       rw [hd, ← WithTop.coe_zero, WithTop.coe_le_coe] at hy
       omega
     · intro hn0
       by_contra hm0
-      push_neg at hm0
+      push Not at hm0
       obtain ⟨y, c, d, hc, hd, hc0, hd0⟩ := exists_pos_neg_valuation w v hq1' hr hn hm one_pos hn0 hm0
       have hy := h y⁻¹ (by rw [wa_inv v hd, ← WithTop.coe_zero, WithTop.coe_lt_coe]; omega)
       rw [wa_inv w hc, ← WithTop.coe_zero, WithTop.coe_le_coe] at hy
@@ -182,7 +182,7 @@ theorem wa_pair (v w : AddValuation F (WithTop ℤ)) (hv : ∀ a : F, a ≠ 0 �
     (hw : ∀ a : F, a ≠ 0 → w a ≠ ⊤) (hv1 : ∃ π : F, v π = 1) (hw1 : ∃ ρ : F, w ρ = 1)
     (hne : v ≠ w) : ∃ s, 0 < v s ∧ w s < 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   exact hne (wa_eq_of_le v w hv hw hv1 hw1 hcon)
 
 private theorem addValuation_add_eq_of_lt (w : AddValuation F (WithTop ℤ)) {x y : F} (h : w x < w y) :

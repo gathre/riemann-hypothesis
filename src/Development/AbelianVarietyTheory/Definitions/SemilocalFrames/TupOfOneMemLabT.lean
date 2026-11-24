@@ -197,7 +197,7 @@ theorem ES_congr {S T : Set (Tup2 D)} (h : ∀ t ∈ labT D, t ∈ S ↔ t ∈ T
 theorem ES_univ : ES D Set.univ = 1 := by
   classical
   rw [ES_eq_sum_coef]
-  simp only [Set.mem_univ, if_true]
+  simp only [Set.mem_univ, ite_true]
   refine (PrimeDegreeVariant.Ten.sum_tens (PrimeDegreeVariant.Ten.ESer D)).trans ?_
   simp only [PrimeDegreeVariant.Ten.ESer_sum]
   exact PrimeDegreeVariant.Ten.tens_one

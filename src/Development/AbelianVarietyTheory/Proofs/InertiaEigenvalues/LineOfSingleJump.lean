@@ -234,7 +234,7 @@ theorem line_of_single_jump (ν : Representation LL G V) (τ : K →ₐ[Qp] LL) 
     inf_le_inf_left _ (GlobalTheory.Cmp.SmallJumps.filV_anti PD haa)
   have st : ∀ a, a ≠ b → FildR PD ν τ (a + 1) = FildR PD ν τ a := fun a ha => by
     have := h a
-    rw [if_neg ha, multV] at this
+    rw [ite_eq_right ha, multV] at this
     exact Submodule.eq_of_le_of_finrank_eq (anti (by omega)) (by omega)
   have up : ∀ a, b + 1 ≤ a → FildR PD ν τ a = FildR PD ν τ (b + 1) := fun a ha => by
     obtain ⟨n, rfl⟩ : ∃ n : ℕ, a = b + 1 + n := by
@@ -267,7 +267,7 @@ theorem line_of_single_jump (ν : Representation LL G V) (τ : K →ₐ[Qp] LL) 
     · exact (up a ha ▸ hx : x ∈ FildR PD ν τ a).2
   have one : finrank LL (FildR PD ν τ b) = 1 := by
     have := h b
-    rw [if_pos rfl, multV, bot, finrank_bot] at this
+    rw [ite_eq_left rfl, multV, bot, finrank_bot] at this
     omega
   obtain ⟨d, -, hd⟩ := finrank_eq_one_iff'.1 one
   refine ⟨d, d.2, fun a y hy => ?_⟩

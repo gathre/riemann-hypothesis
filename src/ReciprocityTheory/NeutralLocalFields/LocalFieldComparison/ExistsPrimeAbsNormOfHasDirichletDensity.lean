@@ -233,7 +233,7 @@ theorem exists_prime_absNorm_of_hasDirichletDensity {S : Set (HeightOneSpectrum 
     ∃ 𝔭 ∈ S, 𝔭 ∉ T ∧ (Ideal.absNorm 𝔭.asIdeal).Prime := by
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨B, hB0, hbound⟩ : ∃ B : ℝ, 0 ≤ B ∧
       ∀ s : ℝ, 1 < s → NumberField.Set.primeIdealZetaSum S s ≤ B := by
     refine ⟨(hT.toFinset.card : ℝ) + (Module.finrank ℚ K : ℝ) * ∑' m : ℕ, 1 / (m : ℝ) ^ 2,

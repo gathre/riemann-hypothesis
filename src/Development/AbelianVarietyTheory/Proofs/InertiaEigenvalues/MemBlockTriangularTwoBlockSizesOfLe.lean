@@ -68,13 +68,13 @@ theorem blkOf_eq_zero {n r t : ℕ} (h : n ≤ r) : (blkOf r t : Fin n → ℕ) 
   funext a
   have := a.2
   simp only [blkOf]
-  rw [if_pos (by omega)]
+  rw [ite_eq_left (by omega)]
 
 theorem twoBlockSizes_eq_zero_of_le {n r : ℕ} (h : n ≤ r) : (blk2 r : Fin n → ℕ) = fun _ => 0 := by
   funext a
   have := a.2
   simp only [blk2]
-  rw [if_pos (by omega)]
+  rw [ite_eq_left (by omega)]
 
 theorem mem_blockTriangular_twoBlockSizes_of_le {n r : ℕ} {κ : Type} [CommRing κ] (h : n ≤ r) (g : GL (Fin n) κ) : g ∈ blockTri (blk2 r) := by
   intro i k hik

@@ -475,10 +475,10 @@ private lemma continuous_cpt' (x0 : Frame X.Ψ r) : Continuous (cpt X x0) := by
   refine hr.comp ?_
   refine continuous_pi fun τ => continuous_pi fun a => continuous_pi fun b => ?_
   by_cases h : b < a
-  · simp only [dif_pos h]
+  · simp only [dite_eq_left h]
     first
     | fun_prop
-  · simp only [dif_neg h]
+  · simp only [dite_eq_right h]
     exact continuous_const
 
 theorem densF_meas (x0 : Frame X.Ψ r) : Measurable (densF X x0) := by

@@ -142,7 +142,7 @@ theorem exists_isCoverIt_swap (p q r s : ℕ) (T₀ : GrpData (p * r + q * s) (p
     infer_instance
   · intro x hx
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hcon' : ∀ P : Pol p q r s, A x (F.ι P) = 0 := fun P => by
       have := hcon (MvPolynomial.rename Prod.swap P)
       rwa [hB, hsw, MvPolynomial.rename_rename, Prod.swap_swap_eq, MvPolynomial.rename_id_apply] at this

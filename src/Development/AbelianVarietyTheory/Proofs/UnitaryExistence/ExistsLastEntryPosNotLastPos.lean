@@ -191,18 +191,18 @@ theorem rowShift_minor (σ : T) (i i' : Fin (r σ)) (hi : i' < i) (t : k) (σ' :
     · subst hx
       simp only [AlgHom.mapMatrix_apply, Matrix.map_apply, Matrix.of_apply, rowShift, aeval_X,
         Matrix.updateRow_self, Pi.add_apply, Pi.smul_apply, smul_eq_mul]
-      rw [if_pos ⟨_, rfl⟩]
+      rw [ite_eq_left ⟨_, rfl⟩]
       rfl
     · simp only [AlgHom.mapMatrix_apply, Matrix.map_apply, Matrix.of_apply, rowShift, aeval_X,
         Matrix.updateRow_ne hx]
-      rw [if_neg]
+      rw [ite_eq_right]
       rintro ⟨b, hb⟩
       have := eq_of_heq (Sigma.mk.inj_iff.1 hb).2
       exact hx (Fin.castLE_injective s.isLt (congrArg Prod.fst this))
   · congr 1
     ext1 x y
     simp only [AlgHom.mapMatrix_apply, Matrix.map_apply, Matrix.of_apply, rowShift, aeval_X]
-    rw [if_neg]
+    rw [ite_eq_right]
     rintro ⟨b, hb⟩
     obtain ⟨rfl, hb'⟩ := Sigma.mk.inj_iff.1 hb
     exact h ⟨x, by rw [show Fin.castLE s.isLt x = i from congrArg Prod.fst (eq_of_heq hb')]⟩
@@ -230,9 +230,9 @@ theorem gaps_sum (b : ℕ → ℕ) (hb : Antitone b) (N i : ℕ) (hi : i ≤ N) 
   induction N, hi using Nat.le_induction with
   | base =>
     rw [Nat.sub_self]
-    exact Finset.sum_eq_zero fun s hs => if_neg (by simpa using hs)
+    exact Finset.sum_eq_zero fun s hs => ite_eq_right (by simpa using hs)
   | succ N hN ih =>
-    rw [Finset.sum_range_succ, ih, if_pos hN]
+    rw [Finset.sum_range_succ, ih, ite_eq_left hN]
     have := hb hN
     have := hb (Nat.le_succ N)
     simp only [Nat.succ_eq_add_one] at this
@@ -266,7 +266,7 @@ theorem minorMonomial_rowDegree (a : T → ℕ → ℕ) (ha : ∀ σ, Antitone (
         · simp [w]
         · intro j _ hj
           simp only [w]
-          rw [if_neg]
+          rw [ite_eq_right]
           intro e
           have e' : Fin.castLE s.isLt j = i := eq_of_heq (Sigma.mk.inj_iff.1 e).2
           exact hj (Fin.ext (congrArg Fin.val e' :))
@@ -274,7 +274,7 @@ theorem minorMonomial_rowDegree (a : T → ℕ → ℕ) (ha : ∀ σ, Antitone (
       · rw [Finset.sum_eq_zero, smul_zero]
         intro j _
         simp only [w]
-        rw [if_neg]
+        rw [ite_eq_right]
         intro e
         have := congrArg Fin.val (eq_of_heq (Sigma.mk.inj_iff.1 e).2)
         have := j.isLt
@@ -300,15 +300,15 @@ theorem not_inPsi_conjugate {τ : E →+* ℂ} (h : InPsi H τ) : ¬ InPsi H (Co
   rw [ComplexEmbedding.conjugate_coe_eq, h, (rt0_conj_neg_ne_zero H).1] at h'
   exact (rt0_conj_neg_ne_zero H).2 (by linear_combination (-1 / 2 : ℂ) * h')
 
-theorem mult_of_inPsi {τ : E →+* ℂ} (h : InPsi H τ) : Dw.mult τ = Dw.p := if_pos h
+theorem mult_of_inPsi {τ : E →+* ℂ} (h : InPsi H τ) : Dw.mult τ = Dw.p := ite_eq_left h
 
-theorem mult_of_not_inPsi {τ : E →+* ℂ} (h : ¬ InPsi H τ) : Dw.mult τ = Dw.q := if_neg h
+theorem mult_of_not_inPsi {τ : E →+* ℂ} (h : ¬ InPsi H τ) : Dw.mult τ = Dw.q := ite_eq_right h
 
 def trunc (Dw : Datum H) (a : (E →+* ℂ) × ℕ → ℕ) : (E →+* ℂ) × ℕ → ℕ :=
   fun x => if x.2 < Dw.mult x.1 then a x else 0
 
 theorem trunc_row (a : (E →+* ℂ) × ℕ → ℕ) (τ : E →+* ℂ) (i : Fin (Dw.mult τ)) : trunc Dw a (τ, i) = a (τ, i) :=
-  if_pos i.isLt
+  ite_eq_left i.isLt
 
 theorem rowsDominant_of_dom {a : (E →+* ℂ) × ℕ → ℕ} {n : ℕ} (h : Dom a n) : RowsDominant Dw a :=
   fun τ _ _ hij => h.1 τ hij
@@ -343,21 +343,21 @@ theorem exists_harmA_ne_zero {a : (E →+* ℂ) × ℕ → ℕ} {n : ℕ} (ha : 
     intro τ i j hij
     have := congrArg Fin.val hij
     by_cases h : InPsi H τ
-    · simp only [col, dif_pos h] at this
+    · simp only [col, dite_eq_left h] at this
       exact Fin.ext this
-    · simp only [col, dif_neg h] at this
+    · simp only [col, dite_eq_right h] at this
       exact Fin.ext (by omega)
   have hdis : ∀ τ, InPsi H τ → ∀ i j, col τ i ≠ col (ComplexEmbedding.conjugate τ) j := by
     intro τ h i j hij
     have := congrArg Fin.val hij
-    simp only [col, dif_pos h, dif_neg (not_inPsi_conjugate h)] at this
+    simp only [col, dite_eq_left h, dite_eq_right (not_inPsi_conjugate h)] at this
     have := i.isLt
     have := mult_of_inPsi (Dw := Dw) h
     omega
   rw [← harmA_trunc]
   exact ⟨minorsP Dw.mult n col c.F fun τ i => trunc Dw a (τ, i),
     ⟨⟨minorMonomial_mem_harmonic _ _ _ _ _ _ hdis _, minorMonomial_rowInvariant _ _ _ _ _,
-      minorMonomial_rowDegree _ _ _ _ _ (antitone_trunc ha) fun τ => if_neg (lt_irrefl _)⟩,
+      minorMonomial_rowDegree _ _ _ _ _ (antitone_trunc ha) fun τ => ite_eq_right (lt_irrefl _)⟩,
       minorMonomial_coeff_mem _ _ _ _ _ _⟩, minorMonomial_ne_zero _ _ _ _ hinj _⟩
 
 variable {Xo c}

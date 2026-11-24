@@ -157,7 +157,7 @@ theorem intertwining_mem_ne_zero {D : D7} {δ t0 : ℂ} (hC : Formalism.MainNoti
     Or.inr ⟨L, L', hL, hL', rfl⟩
   have hne : ∃ z, Θ z ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hΘ0 (funext h)
   have hS := Formalism.L2.GlobalTheoryTheory.IntegralLatticeDensity.IO.semiChar_of_ne_zero _ hΘ hne
   have hI := Formalism.L2.GlobalTheoryTheory.IntegralLatticeDensity.IO.Iop_mem_ThSp _ hS he0.1

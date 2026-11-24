@@ -115,8 +115,8 @@ theorem det_bord {p m : ℕ} (M : Matrix (Fin (p + m)) (Fin p) ℂ) (c : Fin m �
   simp only [bord, Matrix.of_apply, Fin.append_left, Fin.append_right]
   rw [Finset.prod_boole]
   by_cases h : (fun k => σ (Fin.natAdd p k)) = c
-  · rw [if_pos h, if_pos (fun k _ => congrFun h k), mul_one]
-  · rw [if_neg h, if_neg (fun hh => h (funext fun k => hh k (Finset.mem_univ _)))]
+  · rw [ite_eq_left h, ite_eq_left (fun k _ => congrFun h k), mul_one]
+  · rw [ite_eq_right h, ite_eq_right (fun hh => h (funext fun k => hh k (Finset.mem_univ _)))]
     simp
 
 theorem sum_perm_eq {A : Type} [AddCommGroup A] [Module ℂ A] {p m : ℕ}
@@ -977,7 +977,7 @@ theorem group_identity (hz' : inWb k r z') (hT : 0 < Tz k r z') (Y : ℂ) :
       rw [evAt_apply] at h
       rw [h, Module.End.mul_apply, mulE_apply _ hs _ hx, LinearMap.add_apply, Submodule.coe_add, Pi.add_apply,
         mulE_apply _ (hνs a j) _ hx, smul_add, smul_smul]
-      simp only [hQ1, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true, hν]
+      simp only [hQ1, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true, hν]
       rw [mul_inv_cancel_left₀ hx.2]
       rfl)
     (fun a j => end_ext _ fun G x hx => by
@@ -1148,7 +1148,7 @@ theorem rad_cap (hD : P5.IsData P Bs.z Bs.z' Bs.π Bs.π' X μ L st l0) (Y : ℂ
     | succ n ih =>
       intro hn N hN
       have h : n < P.r := by omega
-      simp only [Q.sandw, dif_pos h]
+      simp only [Q.sandw, dite_eq_left h]
       apply ih (by omega)
       intro a b f₁ f₂ he y' hy'
       simp only [Q.oMul, Finset.sum_apply]

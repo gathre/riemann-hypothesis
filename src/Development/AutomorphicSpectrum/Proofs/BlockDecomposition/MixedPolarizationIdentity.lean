@@ -72,7 +72,7 @@ theorem multilinear_eq_zero {V : Type} [AddCommGroup V] {N : ℕ}
       simp [this]
     · obtain ⟨t, ht, hc⟩ := Finset.not_subset.1 h
       obtain ⟨j, -, rfl⟩ := Finset.mem_image.1 (Finset.notMem_compl.1 hc)
-      exact M.map_coord_zero j (if_pos ht)
+      exact M.map_coord_zero j (ite_eq_left ht)
   have hinner : ∀ f : Fin N → Fin N, ∑ T : Finset (Fin N), (-1 : ℝ) ^ T.card *
       (if T ⊆ (Finset.univ.image f)ᶜ then M (a ∘ f) else 0) =
       if Function.Surjective f then M a else 0 := by
@@ -86,9 +86,9 @@ theorem multilinear_eq_zero {V : Type} [AddCommGroup V] {N : ℕ}
           ((Finset.univ.image f)ᶜ).powerset := by
         ext T; simp
       rw [h2, Finset.sum_eq_zero (s := Finset.univ.filter _) (fun T hT => by
-        rw [if_neg (Finset.mem_filter.1 hT).2, mul_zero]), add_zero]
+        rw [ite_eq_right (Finset.mem_filter.1 hT).2, mul_zero]), add_zero]
       refine Finset.sum_congr rfl fun T hT => ?_
-      rw [if_pos (Finset.mem_powerset.1 hT)]
+      rw [ite_eq_left (Finset.mem_powerset.1 hT)]
     have h3 : (∑ T ∈ ((Finset.univ.image f)ᶜ).powerset, (-1 : ℝ) ^ T.card) =
         if (Finset.univ.image f)ᶜ = ∅ then 1 else 0 := by
       have := congrArg (Int.cast : ℤ → ℝ)
@@ -100,8 +100,8 @@ theorem multilinear_eq_zero {V : Type} [AddCommGroup V] {N : ℕ}
       simp [Function.Surjective]
     rw [h1, h3]
     by_cases h : Function.Surjective f
-    · rw [if_pos (h4.2 h), if_pos h, one_mul, hsurj f h]
-    · rw [if_neg (fun e => h (h4.1 e)), if_neg h, zero_mul]
+    · rw [ite_eq_left (h4.2 h), ite_eq_left h, one_mul, hsurj f h]
+    · rw [ite_eq_right (fun e => h (h4.1 e)), ite_eq_right h, zero_mul]
   have htot : ∑ f : Fin N → Fin N, (if Function.Surjective f then M a else 0) = 0 := by
     simp only [← hinner]
     rw [Finset.sum_comm]
@@ -164,9 +164,9 @@ theorem combLine_add {κ : Type} [Fintype κ] (A : κ → HermLine ι) (a b : κ
   · funext z
     simp only [combLine, HermLine.tensor]
     by_cases hz : ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0
-    · rw [if_pos hz, if_pos hz, if_pos hz, ← Finset.prod_mul_distrib]
+    · rw [ite_eq_left hz, ite_eq_left hz, ite_eq_left hz, ← Finset.prod_mul_distrib]
       exact Finset.prod_congr rfl fun o _ => zpow_add₀ ((A o).pos z hz).ne' _ _
-    · rw [if_neg hz, if_neg hz, if_neg hz, mul_zero]
+    · rw [ite_eq_right hz, ite_eq_right hz, ite_eq_right hz, mul_zero]
 
 theorem combLine_elim_zero {κ : Type} [Fintype κ] (A₀ : HermLine ι) (A : κ → HermLine ι) (n : κ → ℤ) :
     combLine (fun o : Option κ => o.elim A₀ A) (fun o => o.elim 0 n) = combLine A n := by
@@ -183,10 +183,10 @@ theorem combLine_elim_one {κ : Type} [Fintype κ] (A₀ : HermLine ι) (A : κ 
   · funext z
     by_cases hz : ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0
     · simp only [combLine]
-      rw [if_pos hz]
+      rw [ite_eq_left hz]
       simp [Fintype.prod_option]
     · simp only [combLine]
-      rw [if_neg hz, c₀ z hz]
+      rw [ite_eq_right hz, c₀ z hz]
 
 end Line
 

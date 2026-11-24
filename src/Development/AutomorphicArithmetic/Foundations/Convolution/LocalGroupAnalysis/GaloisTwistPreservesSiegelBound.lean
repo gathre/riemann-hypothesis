@@ -134,7 +134,7 @@ theorem UpperTheory.exists_lower_entry_ne_zero_of_norm_charpoly_irreducible :
           ∀ r : ℕ, 0 < r → r < n → ∃ i j : Fin n, (i : ℕ) < r ∧ r ≤ (j : ℕ) ∧ (δ : Matrix (Fin n) (Fin n) E) j i ≠ 0 := by
   intro F E _ _ _ _ _ σ hgen n δ p hp hpc r hr0 hrn
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   let Q : Fin n → Prop := fun i => (i : ℕ) < r
   have hL : LowZero Q (δ : Matrix (Fin n) (Fin n) E) :=
     fun j hj i hi => hcon i j hi (not_lt.mp hj)

@@ -441,10 +441,10 @@ private theorem untwist (k N : ℕ) [NeZero N] (hk : 1 ≤ k) (χ ψ : Dirichlet
     rw [e, hn, hn n, Nat.cast_mul, map_mul, Eigenform.a]
     by_cases hpn : p ∣ n
     · obtain ⟨m, rfl⟩ := hpn
-      rw [if_pos (dvd_mul_right _ _), Nat.mul_div_cancel_left _ hp.pos] at this ⊢
+      rw [ite_eq_left (dvd_mul_right _ _), Nat.mul_div_cancel_left _ hp.pos] at this ⊢
       rw [hn, Nat.cast_mul, map_mul]
       linear_combination ψ⁻¹ (p : ZMod N) * (ψ⁻¹ (p : ZMod N) * ψ⁻¹ (m : ZMod N)) * this
-    · rw [if_neg hpn] at this ⊢
+    · rw [ite_eq_right hpn] at this ⊢
       linear_combination ψ⁻¹ (p : ZMod N) * ψ⁻¹ (n : ZMod N) * this
   · rw [e]
     linear_combination χ (p : ZMod N) * (ψ⁻¹ (p : ZMod N) * ψ (p : ZMod N) + 1) * e1

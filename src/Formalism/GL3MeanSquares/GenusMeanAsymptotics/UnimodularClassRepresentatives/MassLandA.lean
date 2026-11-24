@@ -78,7 +78,7 @@ variable {K}
 
 theorem exists_star_ne (hK : Formalism.HermitianLatticesTheory.IsCMUnram K) : ∃ a : K, star a ≠ a := by
   by_contra h
-  push_neg at h
+  push Not at h
   let φ : K →+* ℂ := (IsAlgClosed.lift : K →ₐ[ℚ] ℂ).toRingHom
   have hφ : ComplexEmbedding.IsReal φ := by
     rw [ComplexEmbedding.isReal_iff]

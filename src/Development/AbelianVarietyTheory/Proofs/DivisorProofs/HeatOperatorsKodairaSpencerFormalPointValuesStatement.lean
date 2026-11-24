@@ -1222,7 +1222,7 @@ theorem valR_cst_eq_iota : ∀ (R : Type) [CommRing R] (G : Over (Sp R)) (Ω : T
   let F : Γ(Sp R, (Sp R).basicOpen s) →+* FractionRing Ω :=
     (Scheme.ΓSpecIso (CommRingCat.of (FractionRing Ω))).hom.hom.comp (z.appLE (GlobalTheory.HeatV.bo R c).1 ⊤ h').hom
   have hF : ∀ θ, valR z (GlobalTheory.HeatV.bo R c).1 θ = F θ := fun θ => by
-    simp only [valR, dif_pos h']; rfl
+    simp only [valR, dite_eq_left h']; rfl
   suffices e : F = iota by rw [hF]; exact DFunLike.congr_fun e θ
   refine IsLocalization.ringHom_ext (Submonoid.powers s) (S := Γ(Sp R, (Sp R).basicOpen s)) ?_
   ext y0

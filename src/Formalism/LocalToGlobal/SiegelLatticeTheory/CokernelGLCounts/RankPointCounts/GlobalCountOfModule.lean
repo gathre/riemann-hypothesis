@@ -491,7 +491,7 @@ theorem prim_comp {M : Model F E} {V : Type} [AddCommGroup V] [Module E V] (H : 
     rw [hcoef i]
     apply Finset.sum_eq_zero
     intro j _
-    rw [if_neg (fun h => hi ⟨j, h⟩)]
+    rw [ite_eq_right (fun h => hi ⟨j, h⟩)]
   rw [Submodule.mem_span_range_iff_exists_fun]
   refine ⟨fun j => a (e j), ?_⟩
   rw [← ha]

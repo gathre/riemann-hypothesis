@@ -439,7 +439,7 @@ theorem maximal_point (hN : ReciprocityTheory.ChartRestriction.G.Geo.Tor.IsNorma
       ((b : Ω₂) = 0 ∨ (b : Ω₂)⁻¹ ∉ M₂.O z₂) := by
     intro b hb
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨hb0, hbinv⟩ := hcon
     obtain ⟨c, hc, d, hd, hd0, hdinv, hcd⟩ := GlobalTheory.T.exists_fraction_ringOn_of_mem_modelLocalRing _ _ M₂ _ hU₂ z₂ hz₂U _ hbinv
     have e : ψ ⟨d, hd⟩ = ψ ⟨c, hc⟩ * b := by

@@ -156,7 +156,7 @@ theorem le_gn_of_ker_eq_span {ξ : AInf K p} (hξ : RingHom.ker θ = Ideal.span 
 
 theorem exists_iotaQ_ne_zero {a : ACris K p} (ha : a ≠ 0) : ∃ m, iotaQ K p (m + 1) a ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   apply ha
   apply iota_injective (K := K) (p := p)
   rw [map_zero]
@@ -190,7 +190,7 @@ theorem exists_lower_bound {a : ACris K p} (ha : a ≠ 0) :
   obtain ⟨k₀, hk₀⟩ : ∃ k₀ : ℕ, ¬ ∃ w : latticeQ K p (m + 1),
       x = (p : latticeQ K p (m + 1)) ^ k₀ * w := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hx0
     refine IsHausdorff.haus' (I := Ideal.span {(p : latticeQ K p (m + 1))}) x fun n => ?_
     obtain ⟨w, hw⟩ := h n
@@ -198,7 +198,7 @@ theorem exists_lower_bound {a : ACris K p} (ha : a ≠ 0) :
     exact ⟨w, hw⟩
   refine ⟨r₀ ^ (k₀ + v + m), k₀, pow_pos hr0 _, fun N hN c hc => ?_⟩
   by_contra hle
-  push_neg at hle
+  push Not at hle
   obtain ⟨M, c', hc'⟩ := IsLocalization.Away.surj (p : AInf K p) (c : 𝔸)
   rw [map_natCast] at hc'
   have hgc' : gn K p r₀ (algebraMap _ 𝔸 c') ≤ r₀ ^ ((k₀ + v + M) + m) := by

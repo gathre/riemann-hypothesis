@@ -575,7 +575,7 @@ theorem UpperTheory.Gal.UnramifiedFromSplittingCriterion.kumMove :
   obtain ⟨e, D', hD'ℓ, hDe⟩ := Nat.exists_eq_pow_mul_and_not_dvd hDpos.ne' ℓ hℓ.one_lt.ne'
   refine ⟨b + e, fun k hk ζ y hζ hy => ?_⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   haveI : NeZero (ℓ ^ k) := ⟨pow_ne_zero _ hℓ.ne_zero⟩
   have hpow : ∀ τ : G ℚ Ω, ∃ a, τ ζ = ζ ^ a := by
     intro τ
@@ -690,7 +690,7 @@ theorem UpperTheory.Gal.UnramifiedFromSplittingCriterion.moveRoot :
     omega
   have hex : ∃ σ ∈ E.fixingSubgroup, σ ζ0 ≠ ζ0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hnot
     rw [← InfiniteGalois.fixedField_fixingSubgroup E, IntermediateField.mem_fixedField_iff]
     exact hcon

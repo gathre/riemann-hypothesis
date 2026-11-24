@@ -70,7 +70,7 @@ theorem seq_le (F : ℕ → ℤ) (h0 : ∀ k, 0 ≤ F k) (hlc : ∀ k, F (k + 1)
     have := Finset.single_le_sum (f := fun i => |p i|) (fun i _ => abs_nonneg (p i)) (Finset.self_mem_range_succ d)
     simpa [hd] using this
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hF0 : 0 < F 0 := by
     rcases (h0 0).eq_or_lt with h | h
     · have := hlc 0

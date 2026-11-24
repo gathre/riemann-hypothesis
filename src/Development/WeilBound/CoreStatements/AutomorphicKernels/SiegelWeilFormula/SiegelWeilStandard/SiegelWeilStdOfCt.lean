@@ -568,7 +568,7 @@ theorem exists_poly {Φ : d.Fn} (hΦ : d.KFin Φ) {k : d.G} (hk : k ∈ d.K) :
     have hfin : Finite ℕ := (Polynomial.basisMonomials ℂ).linearIndependent.finite
     exact not_finite ℕ
   rw [injective_iff_map_eq_zero] at hni
-  push_neg at hni
+  push Not at hni
   obtain ⟨q, hq0, hq⟩ := hni
   refine ⟨q, hq, ?_⟩
   rw [hφ, Polynomial.lsum_apply, Polynomial.sum_over_range] at hq0
@@ -876,7 +876,7 @@ theorem mZ_place (R : RD d) (w : InfinitePlace F) (tA : Matrix (Fin d.n) (Fin d.
     have hVb : (V' * (b1 d)ᵀ).map (piInf (d.B.emb w)) = V * ((d.b.1.map (d.B.emb w).1).toCols₁)ᵀ := by
       rw [map_mul_incM_transpose_eq]
       have := hV w
-      rw [if_pos rfl] at this
+      rw [ite_eq_left rfl] at this
       rw [show V'.map (piInf (d.B.emb w)) = d.cw w V' from rfl, this]
       rfl
     rw [hX, hVb]
@@ -885,7 +885,7 @@ theorem mZ_place (R : RD d) (w : InfinitePlace F) (tA : Matrix (Fin d.n) (Fin d.
     have hVb : (V' * (b1 d)ᵀ).map (piInf (d.B.emb w')) = 0 := by
       rw [map_mul_incM_transpose_eq]
       have := hV w'
-      rw [if_neg hw'] at this
+      rw [ite_eq_right hw'] at this
       rw [show V'.map (piInf (d.B.emb w')) = d.cw w' V' from rfl, this, Matrix.zero_mul]
     rw [hVb]
     simp
@@ -942,9 +942,9 @@ theorem var_span' (R : RD d) (w : InfinitePlace F) (k : Fin d.m × Fin d.n × Bo
     change (∑ j, ∑ b, x b j * (if j = k.2.1 then c * fi k.1 b else 0)) =
       c * ∑ b, fi k.1 b * x b k.2.1
     simp only [mul_ite, mul_zero]
-    rw [Finset.sum_eq_single k.2.1 (fun j _ hj => by simp only [if_neg hj, mul_zero, Finset.sum_const_zero]) (by simp)]
+    rw [Finset.sum_eq_single k.2.1 (fun j _ hj => by simp only [ite_eq_right hj, mul_zero, Finset.sum_const_zero]) (by simp)]
     simp only [Finset.mul_sum]
-    exact Finset.sum_congr rfl fun b _ => by simp only [if_true]; ring
+    exact Finset.sum_congr rfl fun b _ => by simp only [ite_true]; ring
   obtain ⟨Z₁, h1, e1⟩ := key (Matrix.of fun b j => if j = k.2.1 then 1 * fi k.1 b else 0)
   obtain ⟨Z₂, h2, e2⟩ := key (Matrix.of fun b j => if j = k.2.1 then (-Complex.I) * fi k.1 b else 0)
   have hl : ∀ X, evX (MvPolynomial.X k) (R.loc w X) =

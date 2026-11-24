@@ -60,7 +60,7 @@ private lemma key {K : Type} [Field K] [CharZero K] {a : ℕ} (M : Matrix (Fin a
     exact h2.symm
   have ht : Matrix.trace (Polynomial.aeval M (u * Polynomial.X ^ k)) = 0 := by
     apply trace_aeval_eq_zero M h
-    rw [Polynomial.coeff_mul_X_pow', if_neg (by omega)]
+    rw [Polynomial.coeff_mul_X_pow', ite_eq_right (by omega)]
   have hE0 := idem_eq_zero _ hE ht
   refine ⟨k, ?_⟩
   calc M ^ k = M ^ k * Polynomial.aeval M (u * Polynomial.X ^ k + v * q) := by

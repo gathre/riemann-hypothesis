@@ -225,7 +225,7 @@ theorem sv_le (X : Inst D L) (K : Consts) (hK : K.Nonneg) (P : ParameterChoice' 
         have hs' := hTT s (Finset.mem_filter.1 hs).1
         have h1 : fill X b j (false, s) = (b s : ℝ) + X.off j (false, s) := by
           unfold fill
-          rw [if_pos ⟨rfl, hs'⟩]
+          rw [ite_eq_left ⟨rfl, hs'⟩]
         have h2 := (X.off_top j (false, s) ⟨rfl, hs'⟩).1
         have h3 := kaJ_le P j hj
         unfold fillG
@@ -396,13 +396,13 @@ theorem lo_bounds (K : Consts) (hK : 0 ≤ K.La) (L : SizeData₂ D) (C bo : ℝ
           C * (rG L.sc : ℝ) * L.sc.b' * Real.log L.sc.x +
           C * Real.log L.sc.x * (La K L.sc * L.sc.a / ((p : ℝ) * D.R.k) + L.sc.a * (p : ℝ) ^ (-(L1 D L.sc p : ℝ))) := by
         unfold lo
-        simp only [if_pos hc0, if_pos h1, if_pos (And.intro hc0 h2)]
+        simp only [ite_eq_left hc0, ite_eq_left h1, ite_eq_left (And.intro hc0 h2)]
       have t1 : C * Real.log L.sc.x * (L.sc.a * (p : ℝ) ^ (-(L1 D L.sc p : ℝ))) ≤
           C * Real.log L.sc.x * (L.sc.a * ((((D.R.k : ℝ) * L.sc.x ^ Scale.A) ^ 4)⁻¹)) :=
         mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_left hPL ha0.le) hu
       have t0 : 0 ≤ C * Real.log L.sc.x * (L.sc.a * (p : ℝ) ^ (-(L1 D L.sc p : ℝ))) :=
         mul_nonneg hu (mul_nonneg ha0.le hPL0)
-      rw [e, if_pos m1, if_pos m2, if_pos m2]
+      rw [e, ite_eq_left m1, ite_eq_left m2, ite_eq_left m2]
       constructor
       · have : C * Real.log L.sc.x * (La K L.sc * L.sc.a / ((p : ℝ) * D.R.k) + L.sc.a * (p : ℝ) ^ (-(L1 D L.sc p : ℝ))) =
           C * Real.log L.sc.x * (La K L.sc * L.sc.a / ((p : ℝ) * D.R.k)) +
@@ -418,8 +418,8 @@ theorem lo_bounds (K : Consts) (hK : 0 ≤ K.La) (L : SizeData₂ D) (C bo : ℝ
       have e : lo K L C bo p = C * (cG L + L.etaSz) * Real.logb p (2 * L.sc.a) +
           C * (rG L.sc : ℝ) * L.sc.b' * Real.log L.sc.x + 0 := by
         unfold lo
-        simp only [if_pos hc0, if_pos h1, if_neg (fun h : IsResidueClassZero D p ∧ (p : ℝ) < L.sc.X' => h2 h.2)]
-      rw [e, if_pos m1, if_neg m2, if_neg m2]
+        simp only [ite_eq_left hc0, ite_eq_left h1, ite_eq_right (fun h : IsResidueClassZero D p ∧ (p : ℝ) < L.sc.X' => h2 h.2)]
+      rw [e, ite_eq_left m1, ite_eq_right m2, ite_eq_right m2]
       constructor
       · linarith
       · have t2 : 0 ≤ Real.log p * (C * Real.log L.sc.x * (L.sc.a * ((((D.R.k : ℝ) * L.sc.x ^ Scale.A) ^ 4)⁻¹))) :=
@@ -432,7 +432,7 @@ theorem lo_bounds (K : Consts) (hK : 0 ≤ K.La) (L : SizeData₂ D) (C bo : ℝ
       have e : lo K L C bo p = C * (cG L + L.etaSz) * Real.logb p (2 * L.sc.a) + c3 L C bo +
           C * Real.log L.sc.x * (La K L.sc * L.sc.a / ((p : ℝ) * D.R.k) + L.sc.a / (p : ℝ) ^ 2) := by
         unfold lo c3
-        simp only [if_pos hc0, if_neg h1, if_pos h2, if_pos (And.intro hc0 h2)]
+        simp only [ite_eq_left hc0, ite_eq_right h1, ite_eq_left h2, ite_eq_left (And.intro hc0 h2)]
       have hpp : L.sc.a / (p : ℝ) ^ 2 ≤ 1 / p * (L.sc.a / L.sc.p0 D.R.k) := by
         rw [div_mul_div_comm, one_mul]
         apply div_le_div_of_nonneg_left ha0.le (by positivity)
@@ -444,7 +444,7 @@ theorem lo_bounds (K : Consts) (hK : 0 ≤ K.La) (L : SizeData₂ D) (C bo : ℝ
         have := mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_left hpp hu) hl.le
         calc _ ≤ Real.log p * (C * Real.log L.sc.x * (1 / p * (L.sc.a / L.sc.p0 D.R.k))) := this
           _ = _ := by ring
-      rw [e, if_neg m1, if_pos m2, if_pos m2]
+      rw [e, ite_eq_right m1, ite_eq_left m2, ite_eq_left m2]
       constructor
       · have : C * Real.log L.sc.x * (La K L.sc * L.sc.a / ((p : ℝ) * D.R.k) + L.sc.a / (p : ℝ) ^ 2) =
           C * Real.log L.sc.x * (La K L.sc * L.sc.a / ((p : ℝ) * D.R.k)) +
@@ -455,8 +455,8 @@ theorem lo_bounds (K : Consts) (hK : 0 ≤ K.La) (L : SizeData₂ D) (C bo : ℝ
     · have m2 : p ∉ prB L.sc.X' := fun h => h2 (mem_prB.1 h).2
       have e : lo K L C bo p = C * (cG L + L.etaSz) * Real.logb p (2 * L.sc.a) + 0 + 0 := by
         unfold lo
-        simp only [if_pos hc0, if_neg h1, if_neg h2, if_neg (fun h : IsResidueClassZero D p ∧ (p : ℝ) < L.sc.X' => h2 h.2)]
-      rw [e, if_neg m1, if_neg m2, if_neg m2]
+        simp only [ite_eq_left hc0, ite_eq_right h1, ite_eq_right h2, ite_eq_right (fun h : IsResidueClassZero D p ∧ (p : ℝ) < L.sc.X' => h2 h.2)]
+      rw [e, ite_eq_right m1, ite_eq_right m2, ite_eq_right m2]
       constructor
       · linarith
       · linarith [hcp]

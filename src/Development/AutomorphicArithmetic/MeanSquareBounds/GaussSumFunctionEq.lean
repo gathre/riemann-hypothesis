@@ -204,7 +204,7 @@ private lemma psi0_bound {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) :
   have he := exp_sqrt_le hc (x := t) (by linarith)
   have hC : 0 ≤ C := by
     by_contra hneg
-    push_neg at hneg
+    push Not at hneg
     have := mul_neg_of_neg_of_pos (mul_neg_of_neg_of_pos hneg ht0) (Real.exp_pos (-c * Real.sqrt (Real.log t)))
     linarith [norm_nonneg (PI.psi0 χ t)]
   calc _ ≤ C * t * Real.exp (-c * Real.sqrt (Real.log t)) := hb
@@ -289,14 +289,14 @@ private lemma psi_zero_div_sq_integrable {N : ℕ} [NeZero N] (χ : DirichletCha
 private lemma gChi_ne {N : ℕ} [NeZero N] {χ : DirichletCharacter ℂ N} (h : χ ≠ 1) (y : ℝ) :
     G0 χ y = Formalism.HermitianLattices.GL2PrimeSums.Gchi (aChi χ) (-(logDerivLAtOne χ)) y := by
   unfold G0
-  rw [if_neg h]
+  rw [ite_eq_right h]
   unfold Formalism.HermitianLattices.ZeroFreeRegionGL2.Gchi Formalism.HermitianLattices.GL2PrimeSums.Gchi aChi
   ring
 
 private lemma gChi_one {N : ℕ} [NeZero N] {χ : DirichletCharacter ℂ N} (h : χ = 1) (y : ℝ) :
     G0 χ y = ((Formalism.HermitianLattices.GL2PrimeSums.Gone (fun n => vonMangoldt n) y : ℝ) : ℂ) := by
   unfold G0
-  rw [if_pos h]
+  rw [ite_eq_left h]
   rfl
 
 private lemma series_aChi {N : ℕ} [NeZero N] {χ : DirichletCharacter ℂ N} (h : χ ≠ 1) :
@@ -328,7 +328,7 @@ private theorem l21a {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) (hp : 
     have hfun : (fun u : ℝ => PI.psi0 χ u / (u:ℂ)^2) =
         fun u => (((Formalism.HermitianLattices.GL2PrimeSums.psumR (fun n => vonMangoldt n) u - u) / u ^ 2 : ℝ) : ℂ) := by
       funext u
-      simp only [PI.psi0, if_pos h, hone, mul_one, Formalism.HermitianLattices.GL2PrimeSums.psumR]
+      simp only [PI.psi0, ite_eq_left h, hone, mul_one, Formalism.HermitianLattices.GL2PrimeSums.psumR]
       push_cast
       ring
     have hlim2 : Tendsto (fun U => ∫ u in y..U, PI.psi0 χ u / (u:ℂ)^2) atTop (𝓝 (I : ℂ)) := by
@@ -863,7 +863,7 @@ private theorem pt_zero_sum {C7 C lam ka : ℝ} (hC : 0 < C) (hlam : 1 ≤ lam) 
             have : (i : ℝ) ≤ 2 := hile.trans h2
             exact_mod_cast this
           have h4 : lam / ka ≤ a i := by
-            simp only [ha, if_pos hi2]
+            simp only [ha, ite_eq_left hi2]
             have : 0 ≤ 2 * (1 / ((i : ℝ) + 1)) := by positivity
             linarith
           calc (1 : ℝ) = lam / ka * (ka / lam) := by field_simp
@@ -1105,12 +1105,12 @@ private theorem gauss_sum_function_eq {N : ℕ} [NeZero N] (χ : DirichletCharac
     exact max_eq_left (by linarith)
   unfold Formalism.HC.An.gChi G0
   by_cases h : χ = 1
-  · simp only [h, if_true]
+  · simp only [h, ite_true]
     congr 1
     unfold Formalism.HC.An.G G1
     congr 1
     exact Finset.sum_congr rfl fun n hn => by rw [key n hn]
-  · simp only [h, if_false]
+  · simp only [h, ite_false]
     unfold Formalism.HC.An.sumLamChi Gchi
     congr 1
     exact Finset.sum_congr rfl fun n hn => by rw [key n hn]
@@ -1161,7 +1161,7 @@ theorem thinH :
   by_cases hqd : H.q ∣ N ∨ H.d ∣ N
   · exact hRB (Formalism.HC.PChar.mk N χ hprim) hχ (isReal_of_sq χ h2) hqd β
       (by have := min_le_right c₀s (1 / 400); linarith)
-  · push_neg at hqd
+  · push Not at hqd
     have hQ0 : H.QS ≠ 0 := (H.QS_pos).ne'
     have hsplitQ := Nat.ordProj_mul_ordCompl_eq_self H.QS 2
     have hprimes : ∀ p : ℕ, p.Prime → p ∣ N → p ∣ 8 * (H.QS / 2 ^ H.QS.factorization 2) ∨ p = H.q ∨ p = H.d := by

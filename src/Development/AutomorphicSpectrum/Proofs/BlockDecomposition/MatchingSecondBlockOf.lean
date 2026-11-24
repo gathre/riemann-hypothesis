@@ -137,7 +137,7 @@ theorem unitary_function_at_T (hT : w ∈ d.T) : d.g₀ w = fun y => (((iwU n w 
   have h : d.g₀ w = fun y => (d.c w).sum fun x t =>
       t * (((iwU n w (d.b w)).relIndex (KL n w) : ℕ) : ℂ) * fU n w (d.b w) (d.ϖ w) (lOf x) y := by
     unfold LocData.g₀
-    rw [if_pos hT]
+    rw [ite_eq_left hT]
   rw [h]
   funext y
   rw [Finsupp.sum, Finset.mul_sum, ← Finset.sum_coe_sort (d.c w).support]

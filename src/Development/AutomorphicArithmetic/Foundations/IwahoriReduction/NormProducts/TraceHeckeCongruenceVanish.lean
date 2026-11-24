@@ -179,11 +179,11 @@ private theorem exists_ne_zero_act_eq_mul_of_cocycle {K : Type} [Field K] {Q : T
   let tt : (E →* K) → K := fun s => if h : ∃ p, res p = s then t h.choose else 0
   have htt : ∀ q, tt (res q) = t q := fun q => by
     have h : ∃ p, res p = res q := ⟨q, rfl⟩
-    simp only [tt, dif_pos h]
+    simp only [tt, dite_eq_left h]
     exact hwd _ _ h.choose_spec
   obtain ⟨y, hy⟩ : ∃ y : E, ∑ s ∈ S, tt s * s y ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hli := linearIndependent_iff'.1 (linearIndependent_monoidHom E K) S (fun s => tt s) (by
       funext y
       simpa [Finset.sum_apply, smul_eq_mul] using hcon y)
@@ -339,7 +339,7 @@ theorem UpperTheory.Kd.K4.h90 :
     have hg : ∀ q, res q = g (πW q) := by
       intro q
       have h : ∃ q' : H, πW q' = πW q := ⟨q, rfl⟩
-      simp only [g, dif_pos h]
+      simp only [g, dite_eq_left h]
       ext x
       have hc : (h.choose : SL(2, ℤ)) * (q : SL(2, ℤ))⁻¹ ∈ CongruenceSubgroup.Gamma W := by
         show _ ∈ πW.ker
@@ -1127,7 +1127,7 @@ theorem UpperTheory.Kd.K4.eb :
         rw [map_inv₀, Subfield.coe_inv, hσu]
         exact hz2
       exact ValuationSubring.mem_comap.1 ((hσ u⁻¹).1 (ValuationSubring.mem_comap.2 h0))
-  · push_neg at hcase
+  · push Not at hcase
     have hall : ∀ a : RatFunc Ω,
         algebraMap (RatFunc Ω) (lev X (CongruenceSubgroup.Gamma M)) a
           ∈ W.comap (lev X (CongruenceSubgroup.Gamma M)).subtype ↔

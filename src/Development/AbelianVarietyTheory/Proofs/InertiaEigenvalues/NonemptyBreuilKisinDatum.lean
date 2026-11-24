@@ -440,14 +440,14 @@ theorem sq_dvd {R O : Type*} [CommRing R] [IsDomain R] [CommRing O] [IsLocalRing
     intro i
     rw [Polynomial.coeff_sub, Polynomial.coeff_X_pow]
     rcases lt_trichotomy i E.natDegree with h | h | h
-    · rw [if_neg h.ne, sub_zero]; exact hd i h
-    · rw [if_pos h, h, hE.coeff_natDegree, sub_self]; exact dvd_zero _
-    · rw [if_neg h.ne', Polynomial.coeff_eq_zero_of_natDegree_lt h, sub_self]; exact dvd_zero _
+    · rw [ite_eq_right h.ne, sub_zero]; exact hd i h
+    · rw [ite_eq_left h, h, hE.coeff_natDegree, sub_self]; exact dvd_zero _
+    · rw [ite_eq_right h.ne', Polynomial.coeff_eq_zero_of_natDegree_lt h, sub_self]; exact dvd_zero _
   obtain ⟨g, hg⟩ := hg
   have hg0 : g.coeff 0 = w := by
     have := congrArg (fun q => _root_.AddMonoidAlgebra.coeff (M := ℕ) q 0) hg
     simp only [Polynomial.coeff_sub, Polynomial.coeff_X_pow, Polynomial.coeff_C_mul] at this
-    rw [if_neg (by omega), sub_zero, h0] at this
+    rw [ite_eq_right (by omega), sub_zero, h0] at this
     exact (mul_left_cancel₀ hp this).symm
   have hu : IsUnit (Polynomial.aeval π g) := by
     have e : Polynomial.aeval π g
@@ -472,7 +472,7 @@ theorem exists_uniformiser : ∀ (l : ℕ) [Fact l.Prime] (a : ℕ) [NeZero a] (
   obtain ⟨E, hm, hpos, hd, ⟨w, h0⟩, hr, hs, hmin⟩ := _root_.GlobalTheory.TotRam.eisenstein_minpoly_Wq l a O hinj hres π hπ
   by_cases h : ∃ i, ¬ l ∣ i ∧ E.coeff i ≠ 0
   · exact ⟨π, E, hπ, ⟨hm, hpos, hd, w, h0⟩, h, hr, hs, hmin⟩
-  push_neg at h
+  push Not at h
   haveI : CharZero (Wq l a) := by
     refine charZero_of_inj_zero fun n hn => ?_
     by_contra hn0

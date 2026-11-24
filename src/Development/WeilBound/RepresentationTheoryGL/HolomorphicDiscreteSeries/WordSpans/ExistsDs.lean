@@ -86,7 +86,7 @@ theorem signs {n : ℕ} {ε : Fin (n + 1) → Bool} {lam : Fin (n + 1) → ℝ} 
     · obtain ⟨c, rfl⟩ := key0 a hz
       exact ⟨c, by rw [← hε' c]; exact ha⟩
   · by_contra hno
-    push_neg at hno
+    push Not at hno
     have key : ∀ x, x ≠ zi e → ε x = false := by
       intro x hx
       obtain ⟨c, rfl⟩ := key0 x hx

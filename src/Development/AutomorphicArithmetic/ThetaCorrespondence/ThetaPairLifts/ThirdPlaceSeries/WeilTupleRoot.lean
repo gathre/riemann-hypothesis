@@ -99,7 +99,7 @@ theorem GlobalTheory.TupRoot.weil_tuple_root_alt : ∀ (D : D7) (L : SizeData₂
     rw [twist_eq hW0 hWt (GlobalTheory.ExtCore.isDetRoot_mul _ _ _ _ _ hy (hxr j))
       (GlobalTheory.ExtCore.isDetRoot_mul _ _ _ _ _ hy' (hxr (j + 1))) hg]
     have e : ((_root_.GlobalTheory.Fam.pk_z W).xi t (y * xr j))⁻¹ * (_root_.GlobalTheory.Fam.pk_z W).xi t (y' * xr (j + 1)) = w j := by
-      simp only [w, if_pos hj, map_mul, hinf _ hy1, hinf _ hy1', one_mul]
+      simp only [w, ite_eq_left hj, map_mul, hinf _ hy1, hinf _ hy1', one_mul]
     rw [e]
   · intro j h g hg
     have hW0 := isWeil_rec (idx_top h) _ (hc.chain.ωX W.P.A3.A.μ0)
@@ -108,7 +108,7 @@ theorem GlobalTheory.TupRoot.weil_tuple_root_alt : ∀ (D : D7) (L : SizeData₂
     have e := twist_eq hW0 hWt (hxr (j + 1)) hxT hg
     have hw : w (j + 1) = ((_root_.GlobalTheory.Fam.pk_z W).xi t (xr (j + 1)))⁻¹ * (_root_.GlobalTheory.Fam.pk_z W).xi t xT := by
       simp only [w]
-      rw [if_neg (by omega)]
+      rw [ite_eq_right (by omega)]
     show _ = ((w (j + 1) : Circle) : ℂ) • _
     rw [hw]
     exact e

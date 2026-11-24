@@ -339,7 +339,7 @@ theorem glueSum_le : ∀ (D : D7) (X : HidaSetting D) (Y : Full X) (u u' : D.wha
   have hrow : ∃ Λ₁ ∈ Y.what₂ u,
       (Formalism.L2.SG.CntLocal.EZ (Formalism.L2.SG.CntLocal.Tn u') (X.Fu u) Λ₁ (ZhatL (lf D (X.Fu u)) G')).Nonempty := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     apply hnu
     unfold Formalism.L2.SG.CntLocal.nu
     rw [Finset.sum_eq_zero (fun Λ₁ h1 => by simp [Formalism.L2.SG.CntLocal.cntE, hno Λ₁ h1]), zero_div]
@@ -961,7 +961,7 @@ theorem countConst_eq_unscaledConst : PI.VolStabS.MassDataS.SWXS → ∀ (Cg cb 
   refine ⟨hng, ?_⟩
   set B0 := Formalism.L2.SG.MassDataConc.bCF X hb Y.hK (Y.FN u) (Y.FN u') u u' X0 ψ (Y.tO u u') 0 0 1 vR0 Q0 Y.M Y.δ i0 i0' νq
     with hB0
-  have eU : kapU D = Formalism.L2.SG.MassDataConc.kapN D := if_pos hκ
+  have eU : kapU D = Formalism.L2.SG.MassDataConc.kapN D := ite_eq_left hκ
   have eA : (bkU X hb Y u u' X0 ψ sd C Th vR Q i0 i0' νq).AA = B0.AA / kapU D := by
     show B0.volB * (B0.Coo / kapU D) * (B0.MM / B0.volZZ) / B0.μK =
       B0.volB * B0.Coo * (B0.MM / B0.volZZ) / B0.μK / kapU D
@@ -1233,7 +1233,7 @@ theorem weightsFam_of (hS : PI.VolStabS.MassDataS.SWXS) : GlobalTheory.SnFam.Wei
   have hc0 : 0 ≤ 2 * (bkU X hb Y u u' X0 ψ sd C Th vR Q i0 i0' νq).AA *
       PN.abelian₂ (2 * D.host.v) D.R.rS D.R.k D.R.f := by
     by_contra hneg
-    push_neg at hneg
+    push Not at hneg
     have h1 : HP ^ (3 * (D.R.rS + 1) ^ 2) * (2 * (bkU X hb Y u u' X0 ψ sd C Th vR Q i0 i0' νq).AA *
         PN.abelian₂ (2 * D.host.v) D.R.rS D.R.k D.R.f) ≤ 0 := mul_nonpos_of_nonneg_of_nonpos hHa.le hneg.le
     have h2 := mul_nonpos_of_nonpos_of_nonneg h1 hY0

@@ -297,8 +297,8 @@ theorem letters_independent : ThetaUnifAV → Out.Laws → IndSt := by
       refine ⟨fun τ => ?_, b, c, by rw [(FA false).fib.1]; simpa using d⟩
       rw [a]
       by_cases h : τ H.rt = ρ
-      · rw [if_pos h, if_neg (by simpa [hsq] using h)]
-      · rw [if_neg h, if_pos (by simpa [hsq] using h)]
+      · rw [ite_eq_left h, ite_eq_right (by simpa [hsq] using h)]
+      · rw [ite_eq_right h, ite_eq_left (by simpa [hsq] using h)]
     · obtain ⟨a, b, c, d, -⟩ := _root_.GlobalTheory.CM.EigDec.eigen_decomposition E H K ρ (X.A true) (FA true) 1 0 X.split X.typeP X.ρ_sq
       refine ⟨fun τ => ?_, b, c, by rw [(FA true).fib.1]; simpa using d⟩
       rw [a]

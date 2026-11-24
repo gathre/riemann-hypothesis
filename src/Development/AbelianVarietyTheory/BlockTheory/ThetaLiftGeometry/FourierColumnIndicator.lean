@@ -82,7 +82,7 @@ theorem colFn_indicator (P : HeightOneSpectrum (𝓞 E)) {n : ℕ} (y₀ : Sp E 
   refine ⟨fun y hy => ?_, fun y z hz => ?_, fun y => ?_⟩
   · have h : y - y₀ ∈ stdAt E n P := by
       by_contra h
-      exact hy (if_neg h)
+      exact hy (ite_eq_right h)
     have h1 : (qOf P : E) • (y - y₀) ∈ stdAt E n P := by
       rw [Nat.cast_smul_eq_nsmul]
       exact nsmul_mem h _

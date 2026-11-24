@@ -276,14 +276,14 @@ theorem one_le_fill (hw : 1 ≤ L0.sc.w'' D.R.n) (j : ℕ) (z : Bool × G.HH D) 
   by_cases htop : G.IsTopPl D z
   · have ho := (X0.off_top j z htop).1
     have hc : z.1 = false ∧ z.2 ∈ D.host.TT := htop
-    rw [if_pos hc]
+    rw [ite_eq_left hc]
     have hbl : (0 : ℝ) ≤ (G.bL L0 z.2 : ℝ) := by
       unfold G.bL
       rw [dite_eq_left hc.2]
       exact hb'.trans (L0.bT_ge _)
     linarith [hs.1]
   · have hc : ¬ (z.1 = false ∧ z.2 ∈ D.host.TT) := htop
-    rw [if_neg hc, zero_add]
+    rw [ite_eq_right hc, zero_add]
     by_cases hthick : G.IsThickPl D z
     · linarith [(X0.off_thick j z hthick).1, hs.2]
     · linarith [(X0.off_thin j z ⟨htop, hthick⟩).1]

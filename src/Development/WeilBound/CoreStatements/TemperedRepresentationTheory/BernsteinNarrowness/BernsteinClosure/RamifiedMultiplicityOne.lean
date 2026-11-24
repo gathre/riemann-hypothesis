@@ -377,7 +377,7 @@ theorem dichotomy {V X T : Type} [AddCommGroup V] [Module ℂ V] [AddCommGroup X
   have hV : Module.finrank ℂ V ≤ 1 := (LinearMap.finrank_le_finrank_of_injective hι).trans hX
   obtain ⟨v, hv⟩ : ∃ v, φ v ≠ 0 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     exact hφ (LinearMap.ext hne)
   have hv0 : v ≠ 0 := by
     rintro rfl
@@ -751,7 +751,7 @@ theorem prod₂_detRep_isIrreducible :
     (GlobalTheory.CompanionTheory.DegenSeries.isAdmissible_degenerate k a b χ₁ χ₂ s₁ s₂)
     (GlobalTheory.CompanionTheory.DegenerateSeries.isUnitarisable_degenerateSeries k a b χ₁ χ₂ s₁ s₂ u₁ u₂) W
   by_contra h
-  push_neg at h
+  push Not at h
   have hW' : W' ≠ ⊥ := by
     rintro rfl
     exact h.2 (eq_top_of_isCompl_bot hc)

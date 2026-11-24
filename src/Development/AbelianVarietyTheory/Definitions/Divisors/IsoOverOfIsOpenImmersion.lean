@@ -634,7 +634,7 @@ theorem iSup_nonzeroLocus {ι : Type} {v : ι → W} (hv : Submodule.span k (Set
     exact sub_eq_zero.1 ((mul_left_mem_nonZeroDivisors_eq_zero_iff hn).1 e)
   have htop : J = ⊤ := (Ideal.eq_top_iff_one _).2 (h1 ▸ hx)
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hle : J ≤ IsLocalRing.maximalIdeal _ := by
     rw [Ideal.span_le]
     rintro _ ⟨i, rfl⟩

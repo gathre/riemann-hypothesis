@@ -101,7 +101,7 @@ theorem VertRIndex.proof (hL : LogCardLength.Statement) (hF : SectionQuotFinite.
   calc _ = ∑ᶠ W ∈ divSupp (mCoordIdeal y) s, (locLen (curvePtIdeal y W) (sectionQuot y (aeval y s)) : ℝ) *
           Real.log (Nat.card (curveRing y ⧸ curvePtIdeal y W)) := by
         refine finsum_mem_congr rfl fun W hW => ?_
-        rw [if_neg (CurveDivVertical.full Unit (fun _ => T) _ s _ hP hs hsP W hW), hmult W hW,
+        rw [ite_eq_right (CurveDivVertical.full Unit (fun _ => T) _ s _ hP hs hsP W hW), hmult W hW,
           ← hR T K' y s hP hs hsP W hW]
         congr 3
     _ = ∑ᶠ m ∈ {m : Ideal (curveRing y) | m.IsMaximal ∧ locLen m (sectionQuot y (aeval y s)) ≠ 0},

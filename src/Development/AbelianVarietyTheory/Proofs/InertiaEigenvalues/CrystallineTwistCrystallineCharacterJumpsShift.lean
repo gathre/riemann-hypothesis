@@ -103,14 +103,14 @@ theorem multV_of_le_one (ρ : Representation LL G V) (τ : K →ₐ[Qp] LL)
   rcases lt_trichotomy a b with h | h | h
   · have := mono (a + 1) b (by omega)
     have := mono a (a + 1) (by omega)
-    rw [if_neg h.ne]
+    rw [ite_eq_right h.ne]
     omega
   · subst h
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     omega
   · have := mono (b + 1) a (by omega)
     have := mono a (a + 1) (by omega)
-    rw [if_neg h.ne']
+    rw [ite_eq_right h.ne']
     omega
 
 def transport (e : V ≃ₗ[LL] V') (ρ' : Representation LL G V') : Representation LL G V where

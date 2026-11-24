@@ -122,7 +122,7 @@ theorem delta_extremal_weight_core : ∀ (D : D7) (G : Type) [Group G] [Fintype 
     · subst e
       rw [show compAt R.θ ρ (Formalism.L2.Theta.mt (Wc D i) g) = _ from a2, ← Matrix.mul_assoc, ← Matrix.mul_assoc, h1,
         Matrix.one_mul, Matrix.mul_assoc, h1, Matrix.mul_one]
-      simp only [θs, if_true]
+      simp only [θs, ite_true]
     · rw [show compAt R.θ ρ (Formalism.L2.Theta.mt (Wc D i) g) = _ from a3 ρ e, Matrix.mul_one, h1]
       simp [θs, e]
   have e1 : ∀ ρ, (R.BV i ρ)⁻¹ * compAt R.θ ρ (Formalism.L2.Theta.mt (Vc D i) 1) * R.BV i ρ = 1 := fun ρ => by
@@ -143,7 +143,7 @@ theorem delta_extremal_weight_core : ∀ (D : D7) (G : Type) [Group G] [Fintype 
   congr 1
   by_cases hp : (j : ℕ) < ((Wc D i).sig (tauE D τ)).1
   · simp [θs, hp, mul_assoc]
-  · rw [if_neg hp, if_neg hp, if_neg (by have := hpq τ; omega),
+  · rw [ite_eq_right hp, ite_eq_right hp, ite_eq_right (by have := hpq τ; omega),
       show (Wc D i).rank - 1 - ((Wc D i).rank - 1 - (j - ((Wc D i).sig (tauE D τ)).1)) =
         j - ((Wc D i).sig (tauE D τ)).1 by omega]
     simp [θs, mul_assoc]

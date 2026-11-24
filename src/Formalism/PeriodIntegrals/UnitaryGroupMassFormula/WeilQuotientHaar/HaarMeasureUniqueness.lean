@@ -142,7 +142,7 @@ theorem haar_measure_uniqueness : HaarUniq := by
           ((Measure.haarMeasure_self (K₀ := K₀)).symm.le.trans (measure_mono (Set.subset_univ _)))).ne'
       obtain ⟨n, hn⟩ : ∃ n, Measure.haarMeasure K₀ (spanningSets ρ' n) ≠ 0 := by
         by_contra hall
-        push_neg at hall
+        push Not at hall
         exact hne (measure_iUnion_null_iff.2 hall)
       have h2 : ρ' (spanningSets ρ' n) = (c • Measure.haarMeasure K₀) (spanningSets ρ' n) :=
         congrArg (fun m : Measure H => m (spanningSets ρ' n)) hK0

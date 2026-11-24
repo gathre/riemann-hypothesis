@@ -155,7 +155,7 @@ theorem actW_apply {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂
     rw [Lev.levChi, this, Units.val_one]
   show Lev.actG0 (Wc D i) (R.βW i) (R.datWp i R.triv) (R.eG g) (X v) h = _
   have h2 : Lev.actG0 (Wc D i) (R.βW i) (R.datWp i R.triv) (R.eG g) (X v) = fun h =>
-      (Lev.levChi (Wc D i) (R.βW i) (Lev.flagL (R.datWp i R.triv)) hk.choose)⁻¹ * X v (h * hk.choose) := dif_pos hk
+      (Lev.levChi (Wc D i) (R.βW i) (Lev.flagL (R.datWp i R.triv)) hk.choose)⁻¹ * X v (h * hk.choose) := dite_eq_left hk
   rw [h2, h1, inv_one]
   exact one_mul _
 
@@ -166,7 +166,7 @@ theorem chiIs_of_values {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.wh
   have hex : ∃ chi, ChiIs R i chi :=
     ⟨MonoidHom.mk' (fun g => Units.mk0 (a g) (hne g)) fun g g' => Units.ext (D.what₂.embLL.injective (by
       simp only [Units.val_mk0, Units.val_mul, map_mul, ha, chiC_mul])), ha⟩
-  rw [chiTop, dif_pos hex]
+  rw [chiTop, dite_eq_left hex]
   exact hex.choose_spec
 
 variable {T : CoreJ D} [Algebra T.Q.c.F D.what₂.LL] {R : RealDat D A T.Q.c.F} {κ : ∀ i : Fin D.R.m, WeightFamilies.Wt D ((i : ℕ) + 1)}

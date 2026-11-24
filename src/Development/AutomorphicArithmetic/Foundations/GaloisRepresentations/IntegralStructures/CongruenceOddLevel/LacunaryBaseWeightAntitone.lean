@@ -148,7 +148,7 @@ theorem dGen_ne_zero (a : ℕ) : DGen a ≠ 0 := by
   · refine Finset.prod_ne_zero_iff.2 fun i _ => Finset.prod_ne_zero_iff.2 fun j _ => Finset.prod_ne_zero_iff.2 fun k _ => ?_
     split_ifs with h
     · exact one_ne_zero
-    · push_neg at h
+    · push Not at h
       rw [X_pow_eq_monomial, X, X, monomial_mul, one_mul]
       refine hm _ _ fun e => ?_
       have := DFunLike.congr_fun e j

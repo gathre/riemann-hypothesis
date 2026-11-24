@@ -116,7 +116,7 @@ theorem UpperTheory.V.Ws.Bl.cardP :
   obtain ⟨y, hyP, hy0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hP
   have hx : ∃ x ∈ P, x ∉ lev A T 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hall : ∀ k : ℕ, ∀ z ∈ P, z ∈ lev A T k := by
       intro k
       induction k with
@@ -1002,7 +1002,7 @@ theorem UpperTheory.V.Ws.Bl.primEx :
     ∀ (A : Type) [CommRing A] [IsDomain A] [IsDiscreteValuationRing A] (T : Type) [AddCommGroup T] [Module A T] [Module.Finite A T] [Module.Free A T] (Γ : Type) [Group Γ] [TopologicalSpace Γ] (ρ : Representation A Γ T) (c : Γ) (N : Set Γ) (H : Subgroup Γ) (P : Submodule A T), Lat ρ H P → (∀ n, (Zn ρ c N H P n).Finite) → (∀ n, n ≤ Nat.card (Zn ρ c N H P n)) → ∀ n, 0 < n → ∃ z ∈ Zn ρ c N H P n, Prim z := by
   intro A _ _ _ T _ _ _ _ Γ _ _ ρ c N H P hL hfin hcard n hn
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨t, ht⟩ := IsDiscreteValuationRing.exists_irreducible A
   have hA : ∀ k, ∀ z ∈ Zn ρ c N H P (n + k), ¬Prim z := by
     intro k

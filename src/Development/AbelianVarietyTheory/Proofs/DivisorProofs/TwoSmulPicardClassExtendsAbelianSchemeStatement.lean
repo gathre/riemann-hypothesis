@@ -1384,7 +1384,7 @@ theorem exists_sec_near : ∀ (B C : Type) [CommRing B] [IsNoetherianRing B] [Co
     exact (Units.mul_left_inj _).1 h3
   obtain ⟨i, hi⟩ : ∃ i, e i ∉ y.asIdeal := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     apply y.isPrime.ne_top
     rw [Ideal.eq_top_iff_one, ← hsum]
     exact Ideal.sum_mem _ fun i _ => Ideal.mul_mem_left _ _ (hne i)

@@ -94,7 +94,7 @@ theorem cosetIn_act_of_liftsInv : ∀ {B : Base} {X : PreX B.toPre} (I : TC B X)
       (g ((frsF I.sel (I.tup a) p'.1.1 P).symm y) - (frsF I.sel (I.tup a) p.1.1 P).symm y) ∈ stdAt B.fields.E (B.R.N i) P.1 := by
     intro y hy
     by_cases hP : P.1 ∈ (B.primes X).vGs
-    · rw [if_pos hP, pow_zero, inv_one, one_smul]
+    · rw [ite_eq_left hP, pow_zero, inv_one, one_smul]
       by_cases hj : i + 1 = B.R.m
       swap
       · have h0 : p.1.2 = ∅ := by
@@ -151,7 +151,7 @@ theorem cosetIn_act_of_liftsInv : ∀ {B : Base} {X : PreX B.toPre} (I : TC B X)
         rw [Units.inv_mul, Matrix.one_mulVec]
       have hm := sub_mem_stdAt_of_redV P.1 hq (⟨g, hL.1⟩ * passFr (w := w) _ h.1 hf hf') _ hv0 hred
       exact hm
-    · rw [if_neg hP]
+    · rw [ite_eq_right hP]
       have hQ : P.1 ∈ I.Q a := (Finset.mem_union.mp P.2).resolve_left hP
       have hF' : frsF I.sel (I.tup a) p'.1.1 P = frsF I.sel (I.tup a) p.1.1 P * g := by
         unfold frsF

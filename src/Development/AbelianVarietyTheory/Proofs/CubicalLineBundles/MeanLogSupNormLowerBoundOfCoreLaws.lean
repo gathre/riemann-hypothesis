@@ -180,7 +180,7 @@ theorem lamwAt_of_lawsCore : ∃ C0 : ℝ, 0 < C0 ∧ ∀ (D : D7) (T : Core D) 
       supC (T.Q.Xo j) T.Q.c (T.U j) (xiR D) (goodOf T.Q.c σ) (wtA w) w.n F.1 := fun σ => by
     change cutN T.C T.Ns j w σ F = _
     unfold cutN Core.Ns
-    rw [if_pos hj]
+    rw [ite_eq_left hj]
   have hSpos : ∀ σ, 0 < supC (T.Q.Xo j) T.Q.c (T.U j) (xiR D) (goodOf T.Q.c σ) (wtA w) w.n F.1 := fun σ => by
     rw [← hsup]
     exact lt_of_le_of_ne ((recB h).supN_nonneg j w σ F) fun h0 => hF0 (((recB h).supN_eq_zero j w σ F).1 h0.symm)

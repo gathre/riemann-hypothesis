@@ -161,7 +161,7 @@ theorem key_identity :
     rw [Finset.sum_comm]
     refine Finset.sum_congr rfl fun l _ => ?_
     by_cases h : d = R i
-    · simp only [h, if_true, minor_expand, Finset.smul_sum]
+    · simp only [h, ite_true, minor_expand, Finset.smul_sum]
     · simp [h]
   rw [h1, h2, h3, sum_pair_swap, ← Finset.sum_add_distrib]
   refine Finset.sum_congr rfl fun i _ => ?_
@@ -174,12 +174,12 @@ theorem key_identity :
       -((-1) ^ (i : ℕ) * (-1) ^ ((k : ℕ) + (l : ℕ))) := by
     rw [pow_add, ← mul_assoc, sign_pair_swap, pow_add]; ring
   by_cases hd : d = R i
-  · simp only [hd, if_true, map_smul, smul_smul, hs]
+  · simp only [hd, ite_true, map_smul, smul_smul, hs]
     rw [capEntry_apply_shift E x (R (i.succAbove k)) (C 0)]
     by_cases hc : C 0 = R (i.succAbove k)
-    · simp only [hc, if_true, smul_add, Fin.val_succ, pow_add, pow_one]
+    · simp only [hc, ite_true, smul_add, Fin.val_succ, pow_add, pow_one]
       module
-    · simp only [hc, if_false, add_zero, smul_zero, Fin.val_succ, pow_add, pow_one]
+    · simp only [hc, ite_false, add_zero, smul_zero, Fin.val_succ, pow_add, pow_one]
       module
   · simp [hd]
 

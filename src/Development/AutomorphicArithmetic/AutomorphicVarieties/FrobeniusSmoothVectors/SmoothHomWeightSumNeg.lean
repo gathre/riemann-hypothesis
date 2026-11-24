@@ -125,7 +125,7 @@ theorem UpperTheory.smoothHom_weight_sum_neg :
       apply List.prod_eq_zero
       rw [List.mem_map]
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hle : ∀ t ∈ L, w n t.2.1 - w n t.2.2 ≤ 0 := by
         intro t ht
         rcases lt_trichotomy t.2.1 t.2.2 with h | h | h

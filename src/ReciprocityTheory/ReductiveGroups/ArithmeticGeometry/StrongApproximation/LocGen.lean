@@ -249,14 +249,14 @@ theorem OFam.extend {r : ℕ} (F : OFam (σ := σ) (J := J) e f r) (hns : ¬ F.S
     ring
   have horth := fun t => OFam.sub_proj_orth hσ hJ he hff hef F t
   unfold OFam.Spans at hns
-  push_neg at hns
+  push Not at hns
   obtain ⟨x, hx⟩ := hns
   have key : ∃ t : ι → K, hf σ J (t - F.proj t) (t - F.proj t) ≠ 0 := by
     by_cases hyy : hf σ J (x - F.proj x) (x - F.proj x) = 0
     · have hy0 : x - F.proj x ≠ 0 := sub_ne_zero.mpr (Ne.symm hx)
       have hz' : ∃ z', hf σ J (x - F.proj x) z' ≠ 0 := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         exact hy0 (nondeg hdet hcon)
       obtain ⟨z', hz'⟩ := hz'
       have hyproj : ∀ t, hf σ J (x - F.proj x) (F.proj t) = 0 := by
@@ -270,7 +270,7 @@ theorem OFam.extend {r : ℕ} (F : OFam (σ := σ) (J := J) e f r) (hns : ¬ F.S
         exact hz'
       by_cases hzz : hf σ J (z' - F.proj z') (z' - F.proj z') = 0
       · by_contra hall
-        push_neg at hall
+        push Not at hall
         apply hyz
         have e1 : (x + z') - F.proj (x + z') = (x - F.proj x) + (z' - F.proj z') := by
           rw [OFam.proj_add]
@@ -423,7 +423,7 @@ theorem gp [IsReduced K] (h2 : IsUnit (2 : K)) {δ : K} (hδ : IsUnit δ) (hσδ
     (hxy : IsCoprime x y) :
     IsUnit x ∨ IsUnit (x + δ * y) ∨ IsUnit (x + (-1) * δ * y) := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨h1, h2', h3⟩ := hcon
   have e1 := norm_zero_of_not_unit hσ hfix h1
   have e2 := norm_zero_of_not_unit hσ hfix h2'
@@ -470,7 +470,7 @@ theorem stepA {K : Type*} [CommRing K] {σ : K →+* K}
     (hnc : ¬ IsCoprime α β) :
     IsCoprime (α - ω + c * β) β ∨ IsCoprime (α + ω + c * β) β := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨h1, h1'⟩ := hcon
   obtain ⟨m0, hm0, ha0, hb0⟩ := exists_max_of_not_coprime hnc
   obtain ⟨m1, hm1, ha1, hb1⟩ := exists_max_of_not_coprime h1
@@ -1006,7 +1006,7 @@ theorem max_ideals_le_two {k K : Type*} [Field k] [CommRing K] [Algebra k K]
   classical
   haveI : FiniteDimensional k K := Module.finite_of_finrank_pos (by omega)
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨h01, h02, h12⟩ := hcon
   have hS : ∀ I J : Ideal K, I < J →
       Module.finrank k (I.restrictScalars k) < Module.finrank k (J.restrictScalars k) := by
@@ -1049,7 +1049,7 @@ theorem locGen : LocGenStatement := by
     rw [(map_ofNat (algebraMap k K) 2).symm, ← map_mul, mul_inv_cancel₀ h2, map_one]
   have hex : ∃ x : K, σ x ≠ x := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hsurj : Function.Surjective (Algebra.linearMap k K) := fun x => (hfix x).mp (hno x)
     have h1 := LinearMap.finrank_range_le (Algebra.linearMap k K)
     rw [LinearMap.range_eq_top.mpr hsurj, finrank_top, Module.finrank_self] at h1

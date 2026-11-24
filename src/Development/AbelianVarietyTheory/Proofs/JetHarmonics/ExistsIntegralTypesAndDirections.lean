@@ -383,16 +383,16 @@ theorem exists_integral_types_and_directions : ∀ (E : Type) [Field E] [NumberF
     simp only [map_sum, map_mul] at h
     rw [h]
     by_cases hl : ℓ = ℓ'
-    · rw [if_pos hl, if_pos hl, map_one]
-    · rw [if_neg hl, if_neg hl, map_zero]
+    · rw [ite_eq_left hl, ite_eq_left hl, map_one]
+    · rw [ite_eq_right hl, ite_eq_right hl, map_zero]
   · obtain ⟨b, hb⟩ := Ideal.mem_span_singleton'.1 (hε τ τ')
     refine Ideal.mem_span_singleton'.2 ⟨f b, ?_⟩
     have h := congrArg f hb
     rw [pow_one, map_mul, map_natCast, map_sub] at h
     rw [h, RingHom.comp_apply]
     by_cases ht : τ = τ'
-    · rw [if_pos ht, if_pos ht.symm, map_one]
-    · rw [if_neg ht, if_neg (Ne.symm ht), map_zero]
+    · rw [ite_eq_left ht, ite_eq_left ht.symm, map_one]
+    · rw [ite_eq_right ht, ite_eq_right (Ne.symm ht), map_zero]
 
 end GlobalTheory.PowGerm
 end -- clump:auto

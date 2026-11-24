@@ -74,7 +74,7 @@ theorem card_mul_le_jumpSum_of_mem_upper_not_mem : ∀ (F L : Type) [Field F] [V
   have hphi := _root_.GlobalTheory.PMon.Ram.card_mul_herbrandPhi_natCast_of_totallyRamified F L h0 (m - 1)
   have hle : m - 1 ≤ n := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hmem : σ ∈ wild F L n := by
       rw [wild, show ((n : ℤ) + 1) = ((n + 1 : ℕ) : ℤ) by push_cast; ring,
         mem_lowerRamificationGroup_natCast_iff_lowerIndex, ← hm]

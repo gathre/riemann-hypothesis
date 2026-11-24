@@ -65,7 +65,7 @@ theorem exists_embeddings_agree_on_subfield_ne (L Ω : Type) [Field L] [Field Ω
     have h1 : (a ⊗ₜ[L] (1 : Ω) : Ω ⊗[L] Ω) = (1 : Ω) ⊗ₜ[L] a := sub_eq_zero.mp h
     obtain ⟨φ, hφ⟩ : ∃ φ : Module.Dual L Ω, φ 1 ≠ 0 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact one_ne_zero ((Module.forall_dual_apply_eq_zero_iff L (1 : Ω)).mp hc)
     have h2 := congrArg (fun x => TensorProduct.rid L Ω (LinearMap.lTensor Ω φ x)) h1
     simp only [LinearMap.lTensor_tmul, TensorProduct.rid_tmul] at h2
@@ -75,7 +75,7 @@ theorem exists_embeddings_agree_on_subfield_ne (L Ω : Type) [Field L] [Field Ω
   have hn : ¬ IsNilpotent (a ⊗ₜ[L] (1 : Ω) - (1 : Ω) ⊗ₜ[L] a : Ω ⊗[L] Ω) :=
     fun h => he h.eq_zero
   rw [nilpotent_iff_mem_prime] at hn
-  push_neg at hn
+  push Not at hn
   obtain ⟨J, hJ, heJ⟩ := hn
   haveI := hJ
   let g : (Ω ⊗[L] Ω) →+* FractionRing ((Ω ⊗[L] Ω) ⧸ J) :=

@@ -368,7 +368,7 @@ theorem injective_rd (Z : CellTie hρ Y rd) : Function.Injective rd := by
     haveI : IsEmpty ↥(half (ρ.ch i) (admissibleConjugatePairPlaces X i ∅ 0)) := ⟨fun P => Finset.notMem_empty _ (admissibleConjugatePairPlaces_subset i ∅ 0 (mem_half.1 P.2).1)⟩
     rw [Z.thU_eq ∅ 0 d hQ (fun _ => x) fun a => by rw [hx, Z.th_eq, ρ.xi_of_empty i j b Y (by simp)], grpSum,
       Finset.sum_eq_single 0 (fun a _ h => absurd (funext fun P => isEmptyElim P) h)
-        (fun h => absurd (@Finset.mem_univ _ (_) _) h), map_zero, coefAt_tmul_single, if_pos rfl]
+        (fun h => absurd (@Finset.mem_univ _ (_) _) h), map_zero, coefAt_tmul_single, ite_eq_left rfl]
   have h1 := key (Y.th i _ b d + f) (by rw [map_add (f := _), hf, add_zero])
   rw [key _ rfl] at h1
   exact left_eq_add.1 h1

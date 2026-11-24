@@ -257,7 +257,7 @@ theorem exists_prime_hom_of_not_surjective {X : Type} [AddCommGroup X] {r : ℕ}
     subst hn0
     obtain ⟨i, hi⟩ : ∃ i, e i ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       apply not_subsingleton ((Fin r → ℤ) ⧸ M.range)
       refine ⟨fun a b => f.injective ?_⟩
       have key : ∀ x : (Fin 0 →₀ ℤ) × DirectSum κ (fun j ↦ ZMod (p j ^ e j)), x = 0 := fun x => by

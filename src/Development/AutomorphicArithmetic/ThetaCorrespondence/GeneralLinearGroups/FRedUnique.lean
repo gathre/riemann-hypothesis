@@ -497,14 +497,14 @@ private theorem count_msupp {ρ : IrrGL (k := k)} (hρ : ρ.IsCusp) {Δ : Segmen
     have hp := Δ.len_pos
     by_cases e : Δ = D
     · subst e
-      rw [if_pos (by omega), if_neg (by omega), if_pos rfl]
+      rw [ite_eq_left (by omega), ite_eq_right (by omega), ite_eq_left rfl]
       omega
     · have hl : Δ.len ≠ D.len := fun e' => e (Segment.ext_first (h.trans hD.symm) e')
-      rw [if_neg e]
+      rw [ite_eq_right e]
       by_cases e2 : Δ.len < D.len
-      · rw [if_pos (by omega), if_pos e2]
+      · rw [ite_eq_left (by omega), ite_eq_left e2]
         omega
-      · rw [if_neg (by omega), if_neg e2]
+      · rw [ite_eq_right (by omega), ite_eq_right e2]
         omega
 
 private theorem start_unique {ρ : IrrGL (k := k)} (hρ : ρ.IsCusp) {𝔪 𝔫 : Multiset (Segment k)}

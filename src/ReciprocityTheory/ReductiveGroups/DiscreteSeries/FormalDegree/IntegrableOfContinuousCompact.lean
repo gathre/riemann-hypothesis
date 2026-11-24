@@ -87,10 +87,10 @@ theorem leading_minor_exp_re_pos {ε : Fin n → Bool} (y : PCoord ε → ℂ) {
 
 theorem continuous_leading_minor (i : ℕ) : Continuous (fun A : Matrix (Fin n) (Fin n) ℂ => Del A i) := by
   by_cases h : i ≤ n
-  · simp only [Del, dif_pos h]
+  · simp only [Del, dite_eq_left h]
     first
     | exact (continuous_id.matrix_submatrix _ _).matrix_det
-  · simp only [Del, dif_neg h]
+  · simp only [Del, dite_eq_right h]
     exact continuous_const
 
 section
@@ -137,12 +137,12 @@ theorem continuous_potential_conj {ε : Fin n → Bool} (lam : Fin n → ℝ) (z
 private theorem continuous_pmat {ε : Fin n → Bool} : Continuous (fun y : PCoord ε → ℂ => pmat y) := by
   refine continuous_pi fun a => continuous_pi fun b => ?_
   by_cases h1 : b < a ∧ ε a ≠ ε b
-  · simp only [pmat, dif_pos h1]
+  · simp only [pmat, dite_eq_left h1]
     exact continuous_apply _
   · by_cases h2 : a < b ∧ ε b ≠ ε a
-    · simp only [pmat, dif_neg h1, dif_pos h2]
+    · simp only [pmat, dite_eq_right h1, dite_eq_left h2]
       exact (continuous_apply _).star
-    · simp only [pmat, dif_neg h1, dif_neg h2]
+    · simp only [pmat, dite_eq_right h1, dite_eq_right h2]
       exact continuous_const
 
 theorem continuous_potential_conj_prod {ε : Fin n → Bool} (lam : Fin n → ℝ) :
@@ -156,12 +156,12 @@ theorem continuous_potential_pmat {ε : Fin n → Bool} (lam : Fin n → ℝ) :
   have hpm : Continuous (fun y : PCoord ε → ℂ => pmat y) := by
     refine continuous_pi fun a => continuous_pi fun b => ?_
     by_cases h1 : b < a ∧ ε a ≠ ε b
-    · simp only [pmat, dif_pos h1]
+    · simp only [pmat, dite_eq_left h1]
       exact continuous_apply _
     · by_cases h2 : a < b ∧ ε b ≠ ε a
-      · simp only [pmat, dif_neg h1, dif_pos h2]
+      · simp only [pmat, dite_eq_right h1, dite_eq_left h2]
         exact (continuous_apply _).star
-      · simp only [pmat, dif_neg h1, dif_neg h2]
+      · simp only [pmat, dite_eq_right h1, dite_eq_right h2]
         exact continuous_const
   exact continuous_potential_comp lam hpm (fun y => ⟨y, rfl⟩)
 

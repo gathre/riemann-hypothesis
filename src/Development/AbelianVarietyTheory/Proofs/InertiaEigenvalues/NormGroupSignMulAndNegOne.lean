@@ -222,14 +222,14 @@ theorem omega_mul_neg_one : ∀ (F E : Type) [NontriviallyNormedField F] [Nontri
     split_ifs with hs
     · exact (hω s).1 hs
     · exact (hω s).2 hs
-  refine ⟨fun s t => ?_, by rw [hval, if_pos hneg]⟩
+  refine ⟨fun s t => ?_, by rw [hval, ite_eq_left hneg]⟩
   rw [hval s, hval t, hval (s * t)]
   by_cases hs : ∃ y, A.NL y = s <;> by_cases ht : ∃ y, A.NL y = t
-  · rw [if_pos hs, if_pos ht, if_pos (hmul s t hs ht)]; ring
-  · rw [if_pos hs, if_neg ht, if_neg (fun h => ht (hdiv s t hs h))]; ring
+  · rw [ite_eq_left hs, ite_eq_left ht, ite_eq_left (hmul s t hs ht)]; ring
+  · rw [ite_eq_left hs, ite_eq_right ht, ite_eq_right (fun h => ht (hdiv s t hs h))]; ring
   · have hst : ¬ ∃ y, A.NL y = ((s * t : A.Kˣ) : A.K) := fun h => hs (hdiv t s ht (by rwa [mul_comm]))
-    rw [if_neg hs, if_pos ht, if_neg hst]; ring
-  · rw [if_neg hs, if_neg ht, if_pos (hprod s t hs ht)]; ring
+    rw [ite_eq_right hs, ite_eq_left ht, ite_eq_right hst]; ring
+  · rw [ite_eq_right hs, ite_eq_right ht, ite_eq_left (hprod s t hs ht)]; ring
 
 end GlobalTheory.JR.WeilQuad.NormSign
 end -- clump:auto

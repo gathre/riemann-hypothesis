@@ -202,7 +202,7 @@ lemma toMatrix_luD_diag (w : Ix ι r → ℂ) (i : Ix ι r) :
       by_cases hbk : b < k <;> simp [Pi.single_apply, sl, up, hbk]
     · simp [Pi.single_apply, up, hka]
   rw [Finset.sum_congr rfl (fun k _ => hs1 k), Finset.sum_congr rfl (fun k _ => hs2 k)]
-  simp only [Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   split_ifs <;> simp
 
 theorem det_luD (w : Ix ι r → ℂ) :
@@ -218,14 +218,14 @@ lemma hasFDerivAt_entry1 (w : Ix ι r → ℂ) (τ : ι) (a k : Fin r) :
     HasFDerivAt (fun v : Ix ι r → ℂ => (1 + sl v τ) a k)
       (if k < a then ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Ix ι r => ℂ) (τ, a, k) else 0) w := by
   by_cases hk : k < a
-  · rw [if_pos hk]
+  · rw [ite_eq_left hk]
     have hf : (fun v : Ix ι r → ℂ => (1 + sl v τ) a k) =
         fun v => (1 : Matrix (Fin r) (Fin r) ℂ) a k + v (τ, a, k) := by
       funext v
       simp [sl, hk]
     rw [hf]
     exact (hasFDerivAt_apply (𝕜 := ℝ) (τ, a, k) w).const_add _
-  · rw [if_neg hk]
+  · rw [ite_eq_right hk]
     have hf : (fun v : Ix ι r → ℂ => (1 + sl v τ) a k) =
         fun _ => (1 : Matrix (Fin r) (Fin r) ℂ) a k := by
       funext v
@@ -237,13 +237,13 @@ lemma hasFDerivAt_entry2 (w : Ix ι r → ℂ) (τ : ι) (k b : Fin r) :
     HasFDerivAt (fun v : Ix ι r → ℂ => up v τ k b)
       (if b < k then 0 else ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : Ix ι r => ℂ) (τ, k, b)) w := by
   by_cases hk : b < k
-  · rw [if_pos hk]
+  · rw [ite_eq_left hk]
     have hf : (fun v : Ix ι r → ℂ => up v τ k b) = fun _ => (0 : ℂ) := by
       funext v
       simp [up, hk]
     rw [hf]
     exact hasFDerivAt_const _ _
-  · rw [if_neg hk]
+  · rw [ite_eq_right hk]
     have hf : (fun v : Ix ι r → ℂ => up v τ k b) = fun v => v (τ, k, b) := by
       funext v
       simp [up, hk]

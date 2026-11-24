@@ -282,11 +282,11 @@ theorem gramFiltration_of (hDx : DiffOpenOnLattice) : GramFiltration := by
     intro i j k
     show PositiveNearLattice.crd b (Fv F v) (e0 i j) k ∈ v.adicCompletionIntegers F
     by_cases hij : i = i0 ∧ j = j0
-    · simp only [e0, if_pos hij, PositiveNearLattice.crd_incl, b.repr_self, Finsupp.single_apply]
+    · simp only [e0, ite_eq_left hij, PositiveNearLattice.crd_incl, b.repr_self, Finsupp.single_apply]
       split_ifs
       · simp
       · simp
-    · simp only [e0, if_neg hij, PositiveNearLattice.crd, map_zero, Finsupp.zero_apply]
+    · simp only [e0, ite_eq_right hij, PositiveNearLattice.crd, map_zero, Finsupp.zero_apply]
       exact zero_mem _
   have hφe : φ e0 = 1 := by
     show PositiveNearLattice.crd b (Fv F v) (e0 i0 j0) k0 = 1

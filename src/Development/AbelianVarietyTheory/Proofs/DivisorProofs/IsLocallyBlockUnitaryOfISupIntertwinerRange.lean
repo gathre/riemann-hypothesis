@@ -205,7 +205,7 @@ theorem locU_pi_fin : ∀ (ι M : Type) [Fintype ι] [DecidableEq ι] [AddCommGr
     rw [hip', Complex.re_sum]
     obtain ⟨j, hj⟩ : ∃ j, x j ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hx0 (funext h)
     have hnn : ∀ i ∈ (Finset.univ : Finset (Fin n)), 0 ≤ (ip (x i) (x i)).re := by
       intro i _

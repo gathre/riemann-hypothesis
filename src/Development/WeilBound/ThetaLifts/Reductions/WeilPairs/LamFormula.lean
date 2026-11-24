@@ -172,8 +172,8 @@ theorem lam_formula {σ : E →ₐ[F] E} {B : Base F E} (hB : B.IsGood σ) {nS n
   simp_rw [hint]
   rw [← integral_tsum_of_summable_integral_norm hFint hsumint]
   simp_rw [integral_const_mul, horth]
-  rw [tsum_eq_single 0 (fun ξ hξ => by rw [if_neg hξ, mul_zero])]
-  rw [if_pos rfl, ha, hemb]
+  rw [tsum_eq_single 0 (fun ξ hξ => by rw [ite_eq_right hξ, mul_zero])]
+  rw [ite_eq_left rfl, ha, hemb]
   have hz : (fun i : Fin N => (0 : AF F)) + x = x := by funext i; simp
   simp only [Pi.zero_apply, map_zero]
   rw [hz, Measure.real]

@@ -228,7 +228,7 @@ theorem F_le (hFD : L.FDef) (hS : SizesAt L) (j : ℕ) (hj : j ∈ SizeData₂.l
   ·
     have hI := FInert_le j (4 * Pz ^ 5 * L.sc.b) hW0 hW hk (f_le L) _ hp
     unfold gC
-    rw [if_pos h3.2]
+    rw [ite_eq_left h3.2]
     refine le_trans hI ?_
     rw [div_le_div_iff_of_pos_right hp0]
     have hk0 : 0 ≤ (D.R.k : ℝ) - 1 := by linarith

@@ -468,7 +468,7 @@ theorem exists_pow_smul_eq_zero_of_localizedModule_map_injective
       Function.Injective (LocalizedModule.map P.primeCompl φ))
     (k : M) (hk : φ k = 0) : ∃ n : ℕ, f ^ n • k = 0 := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   let I : Ideal R := LinearMap.ker (LinearMap.toSpanSingleton R M k)
   have hd : Disjoint (I : Set R) (Submonoid.powers f : Set R) := by
     rw [Set.disjoint_left]

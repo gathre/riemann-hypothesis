@@ -408,14 +408,14 @@ theorem isSimpleRing_of_isAzumaya (k B : Type) [Field k] [Ring B] [Algebra k B]
   right
   obtain ⟨z, hzI, hz0⟩ : ∃ z ∈ I, z ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     apply h
     ext x
     rw [TwoSidedIdeal.mem_bot]
     exact ⟨hc x, fun hx => hx ▸ I.zero_mem⟩
   obtain ⟨φ, hφ⟩ : ∃ φ : Module.Dual k B, φ z ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hz0 ((Module.forall_dual_apply_eq_zero_iff k z).1 hc)
   let f : B →ₗ[k] B := (φ z)⁻¹ • φ.smulRight (1 : B)
   have hf : f z = 1 := by
@@ -1104,7 +1104,7 @@ theorem basisLoc : ∀ (F B : Type) [Field F] [NumberField F] [Ring B] [Algebra 
     have h' := congrArg π h
 
     rw [hsum, map_sum, hπ1] at h'
-    simp only [hπ2, Finset.sum_ite_eq', Finset.mem_univ, if_true] at h'
+    simp only [hπ2, Finset.sum_ite_eq', Finset.mem_univ, ite_true] at h'
     exact h'
   have hli : LinearIndependent (cenOrder ℓ F) v := by
     rw [Fintype.linearIndependent_iff]

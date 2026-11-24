@@ -683,18 +683,18 @@ theorem strictDom_smul_sub {E : Type} [Field E] [NumberField E] [IsCMField E] {H
     have h3 := hl τ ((U.X k).p0 - 1 - j) ((U.X k).p0 - 1 - i) (by omega) (by omega)
     have h4 := mul_lt_mul_of_pos_left (Int.ofNat_lt.2 h3) hs'
     simp only [Pi.sub_apply, Pi.smul_apply]
-    simp only [laU, h1, h2, if_false, hz, nsmul_eq_mul]
+    simp only [laU, h1, h2, ite_false, hz, nsmul_eq_mul]
     linarith
   · have hij' : (i : ℕ) < j := hij
     have h1 : (U.X k).p0 ≤ (j : ℕ) := by omega
     have h3 := hu τ (i - (U.X k).p0) (j - (U.X k).p0) (by omega) (by omega)
     have h4 := mul_lt_mul_of_pos_left (Int.ofNat_lt.2 h3) hs'
     simp only [Pi.sub_apply, Pi.smul_apply]
-    simp only [laU, h1, hi, if_true, hz, nsmul_eq_mul]
+    simp only [laU, h1, hi, ite_true, hz, nsmul_eq_mul]
     linarith
   · have h1 : ¬ (U.X k).p0 ≤ (i : ℕ) := by omega
     simp only [Pi.sub_apply, Pi.smul_apply]
-    simp only [laU, h1, hj, if_true, if_false, hz, nsmul_eq_mul]
+    simp only [laU, h1, hj, ite_true, ite_false, hz, nsmul_eq_mul]
     have h3 := mul_nonneg hs'.le (Int.natCast_nonneg
       (a (Function.invFun (relab c σ) (conjEmb τ.1), (U.X k).p0 - 1 - (i : ℕ))))
     have h4 := mul_nonneg hs'.le (Int.natCast_nonneg
@@ -735,7 +735,7 @@ theorem weights_of_run : ∀ (D : D7) (T : Top D) (h : LawsP T) (j : ℕ) (hj : 
     obtain ⟨t, ht, -⟩ := key τ
     rw [ht]
     refine wtA_lt_upper wL t hxy (extendByZero_strictAnti_of_positive_gaps _ (wL.aPlus_antitone t) (fun i hi => ?_) hxy (by omega))
-    rw [hLP t i, if_pos hi]
+    rw [hLP t i, ite_eq_left hi]
     exact fdiv_pos hT (hgP t i hi)
   have hl : ∀ τ : ((T.U j σ).X k).Ψ, ∀ x y, x < y → y < ((T.U j σ).X k).p0 →
       wtA wL (Function.invFun (relab T.Q.c σ) (conjEmb τ.1), y) <
@@ -744,7 +744,7 @@ theorem weights_of_run : ∀ (D : D7) (T : Top D) (h : LawsP T) (j : ℕ) (hj : 
     obtain ⟨t, -, ht⟩ := key τ
     rw [ht]
     refine wtA_lt_lower wL t hxy (extendByZero_strictAnti_of_positive_gaps _ (wL.aM_anti t) (fun i hi => ?_) hxy (by omega))
-    rw [hLM t i, if_pos hi]
+    rw [hLM t i, ite_eq_left hi]
     exact fdiv_pos hT (hgM t i hi)
   have h20 : 20 ≤ wL.n / 2 := by omega
   refine ⟨nd_eq _ hf hpq, ?_, fun i hi => ?_, fun hm => Or.inl ?_⟩
@@ -967,7 +967,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {Dw : D
 theorem rdU_of_mem (U : Unf Xo c σ r) (f : Rul Xo c) (k : U.Comp) {x} (hx : x ∈ (U.X k).dom) :
     rdU U f k x = toC (evR Xo c f (U.un k ⟨x, hx⟩)) := by
   unfold rdU
-  exact dif_pos hx
+  exact dite_eq_left hx
 
 def rdHom (U : Unf Xo c σ r) (k : U.Comp) {x} (hx : x ∈ (U.X k).dom)
     (hT : FromTest (K := c.F) (fun S _ _ => FrPt Xo c S) (fun φ y z => FrMap φ y z) (U.un k ⟨x, hx⟩)) :
@@ -989,7 +989,7 @@ theorem rdU_aeval (U : Unf Xo c σ r) (k : U.Comp) {x} (hx : x ∈ (U.X k).dom)
   ext a
   show toC (evR Xo c (algebraMap _ _ a) _) = σ a
   unfold evR toC evalAt
-  rw [dif_pos (by exact hT)]
+  rw [dite_eq_left (by exact hT)]
   erw [AlgHom.commutes]
   rfl
 
@@ -1114,7 +1114,7 @@ theorem trdeg_ratios_record : ∀ (D : D7) (T : Top D) (h : LawsP T) (j : ℕ) (
     have het : evC hG Z G.et.1 ≠ 0 := evC_ne_zero_of_nonZeroComp h hj hG G.et hnz Z (G.w i1) hg
     have het0 : ∃ x ∈ ((T.U j σ).X k).dom, rdU (T.U j σ) G.et.1 k x ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact het ((hk _ _).mpr hcon)
     have hr : 0 < g0 D := by
       have hr0 : 0 < D.R.r := by

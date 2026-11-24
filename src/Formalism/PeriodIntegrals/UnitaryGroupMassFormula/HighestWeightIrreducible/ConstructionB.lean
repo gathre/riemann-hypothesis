@@ -242,8 +242,8 @@ theorem bC_graded {r n : ℕ} (M : Submodule ℂ (MvPolynomial (Fin r × Fin n) 
         rw [hw]
         exact e a (Finset.mem_univ a)
     by_cases e1 : Finsupp.weight (rowW r n) m = μ
-    · rw [if_pos e1, if_pos (hiff.mp e1)]
-    · rw [if_neg e1, if_neg (fun h' => e1 (hiff.mpr h'))]
+    · rw [ite_eq_left e1, ite_eq_left (hiff.mp e1)]
+    · rw [ite_eq_right e1, ite_eq_right (fun h' => e1 (hiff.mpr h'))]
   rw [e]
   exact hhM
 
@@ -258,7 +258,7 @@ private theorem isWeightedHomogeneous_coeff_rowGen_X_fst_weight {r n : ℕ} (a b
       (0 : MvPolynomial (Fin r × Fin n) ℂ) e :=
     fun e => MvPolynomial.isWeightedHomogeneous_zero ℂ _ e
   by_cases hb : v.1 = b
-  · rw [if_pos hb, Polynomial.X_mul_C, Polynomial.C_mul_X_eq_monomial, Polynomial.coeff_add,
+  · rw [ite_eq_left hb, Polynomial.X_mul_C, Polynomial.C_mul_X_eq_monomial, Polynomial.coeff_add,
       Polynomial.coeff_C, Polynomial.coeff_monomial]
     by_cases hk0 : k = 0
     · subst hk0
@@ -271,13 +271,13 @@ private theorem isWeightedHomogeneous_coeff_rowGen_X_fst_weight {r n : ℕ} (a b
           ring
         rw [e]
         simpa using hX (a, v.2)
-      · rw [if_neg hk0, Finsupp.single_eq_of_ne hk1, add_zero]
+      · rw [ite_eq_right hk0, Finsupp.single_eq_of_ne hk1, add_zero]
         exact h0 _
-  · rw [if_neg hb, add_zero, Polynomial.coeff_C]
+  · rw [ite_eq_right hb, add_zero, Polynomial.coeff_C]
     by_cases hk0 : k = 0
     · subst hk0
       simpa using hX v
-    · rw [if_neg hk0]
+    · rw [ite_eq_right hk0]
       exact h0 _
 
 private theorem isWeightedHomogeneous_coeff_mul_fst_weight {r n : ℕ} (c : ℤ)
@@ -313,7 +313,7 @@ private theorem isWeightedHomogeneous_coeff_rowGen_monomial {r n : ℕ} (a b : F
     by_cases hk : k = 0
     · subst hk
       simpa using MvPolynomial.isWeightedHomogeneous_C (fun v : Fin r × Fin n => ((v.1 : ℕ) : ℤ)) c0
-    · rw [if_neg hk]
+    · rw [ite_eq_right hk]
       exact MvPolynomial.isWeightedHomogeneous_zero ℂ _ _
   next v e m _ _ ih =>
     intro k
@@ -332,7 +332,7 @@ private theorem isWeightedHomogeneous_coeff_rowGen_monomial {r n : ℕ} (a b : F
         by_cases hk : k = 0
         · subst hk
           simpa using MvPolynomial.isWeightedHomogeneous_one ℂ (fun v : Fin r × Fin n => ((v.1 : ℕ) : ℤ))
-        · rw [if_neg hk]
+        · rw [ite_eq_right hk]
           exact MvPolynomial.isWeightedHomogeneous_zero ℂ _ _
       | succ j ihj =>
         intro k

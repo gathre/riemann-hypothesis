@@ -60,7 +60,7 @@ theorem eq_smul_of_sigmaFinite (μ ν : Measure G) [SigmaFinite μ] [SigmaFinite
     ∃ c : ℝ≥0, c ≠ 0 ∧ μ = c • ν := by
   obtain ⟨n, hn⟩ : ∃ n, ν (spanningSets (μ + ν) n) ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hν
     have : ν Set.univ = 0 := by
       rw [← iUnion_spanningSets (μ + ν)]

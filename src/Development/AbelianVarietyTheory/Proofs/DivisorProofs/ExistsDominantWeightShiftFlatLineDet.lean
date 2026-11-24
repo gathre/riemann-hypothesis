@@ -60,19 +60,19 @@ theorem exists_shift : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H
     · have hi : i < Dw.mult ρ := lt_of_le_of_lt hij hj
       have h1 : a (ρ, j) ≤ a (ρ, i) := hD.1 ρ hij
       obtain ⟨e, -⟩ := flat_step Dw τ ρ i j hi hj
-      simp only [if_pos hi, if_pos hj]
+      simp only [ite_eq_left hi, ite_eq_left hj]
       omega
-    · simp only [if_neg hj]; exact Nat.zero_le _
+    · simp only [ite_eq_right hj]; exact Nat.zero_le _
   · have h1 := ha ρ i hi
     have h2 := (flat_step Dw τ ρ i i hi hi).2
-    simp only [if_pos hi]
+    simp only [ite_eq_left hi]
     omega
   · funext x
     rcases x with _ | ⟨ρ, i⟩
     · simp [exZ, wtZ, wtOf_snd]
     · have h1 := ha ρ i i.2
       have h2 := (flat_step Dw τ ρ i i i.2 i.2).2
-      simp only [exZ, wtZ, Prod.fst_add, Pi.add_apply, if_pos i.2]
+      simp only [exZ, wtZ, Prod.fst_add, Pi.add_apply, ite_eq_left i.2]
       omega
 
 end GlobalTheory.FlatShift

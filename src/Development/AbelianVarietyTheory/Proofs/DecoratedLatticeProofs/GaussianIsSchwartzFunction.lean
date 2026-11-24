@@ -229,7 +229,7 @@ theorem re_trace_pos {M : Matrix (Fin m) (Fin m) ℂ} (hM : M.PosDef) {Z : Matri
     0 < (Matrix.trace (Zᴴ * M * Z)).re := by
   obtain ⟨j, hj⟩ : ∃ j, (fun a => Z a j) ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hZ
     ext a j
     exact congrFun (h j) a

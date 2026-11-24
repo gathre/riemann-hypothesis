@@ -728,14 +728,14 @@ theorem heckeFunI_one : ∀ (L : Type) [Field L] [NumberField L] [IsCMField L] (
     unfold InertDatum.hval
     rw [dite_eq_left hg]
     by_cases hxU : x ∈ U
-    · rw [if_pos hxU]
+    · rw [ite_eq_left hxU]
       have hK := GlobalTheory.T.inertLocal_mem_integralPoints_of_latticeStabilizer L n v w Dv x ((hU x hx).1 hxU) hg
       unfold Formalism.UG.dosetInd
       rw [Set.indicator_of_mem]
       · rfl
       · rw [DoubleCoset.mem_doubleCoset]
         exact ⟨_, hK, 1, one_mem _, by simp⟩
-    · rw [if_neg hxU]
+    · rw [ite_eq_right hxU]
       unfold Formalism.UG.dosetInd
       apply Set.indicator_of_notMem
       intro hmem
@@ -760,10 +760,10 @@ theorem heckeFunI_one : ∀ (L : Type) [Field L] [NumberField L] [IsCMField L] (
     have hmem : hc.choose ∈ U := by
       have := QuotientGroup.eq.1 hc.choose_spec.1.symm
       simpa using this
-    rw [key _ hc.choose_spec.2, if_pos hmem, one_smul, hfU _ hmem]
+    rw [key _ hc.choose_spec.2, ite_eq_left hmem, one_smul, hfU _ hmem]
   · intro c hc1
     split_ifs with hc
-    · rw [key _ hc.choose_spec.2, if_neg, zero_smul]
+    · rw [key _ hc.choose_spec.2, ite_eq_right, zero_smul]
       intro hmem
       apply hc1
       rw [← hc.choose_spec.1]
@@ -880,18 +880,18 @@ theorem exists_satAt : ∀ (L : Type) [Field L] [NumberField L] [IsCMField L] (n
     · rw [Finset.sum_apply]
       refine Finset.sum_congr rfl fun c _ => ?_
       by_cases hc : ∃ x : GAf L n, (x : GAf L n ⧸ U) = c ∧ TrivOutside {v} x
-      · simp only [dif_pos hc]
+      · simp only [dite_eq_left hc]
         rfl
-      · simp only [dif_neg hc, zero_smul]
+      · simp only [dite_eq_right hc, zero_smul]
         rfl
     · intro c hc0
       rw [Function.mem_support] at hc0
       by_cases hc : ∃ x : GAf L n, (x : GAf L n ⧸ U) = c ∧ TrivOutside {v} x
-      · rw [dif_pos hc] at hc0
+      · rw [dite_eq_left hc] at hc0
         rw [Set.Finite.coe_toFinset]
         refine ⟨hc.choose, hc.choose_spec.1, hc.choose_spec.2, fun h0 => hc0 ?_⟩
         rw [h0, zero_smul]
-      · exact absurd (dif_neg hc) hc0
+      · exact absurd (dite_eq_right hc) hc0
   have hmemV : ∀ h ∈ Formalism.UG.Hecke ℂ (Formalism.UG.KU Dv.σw n), ∀ f ∈ V, heckeFunI L n U Dv h f ∈ V := by
     intro h hh f hf
     refine ⟨?_, GlobalTheory.T.inertHeckeOperator_preserves_productLevel_invariance L n v w Dv U hU hdec' π.W h hh f hf.2⟩
@@ -911,7 +911,7 @@ theorem exists_satAt : ∀ (L : Type) [Field L] [NumberField L] [IsCMField L] (n
     else 0
   have hT : ∀ h (hh : h ∈ Formalism.UG.Hecke ℂ (Formalism.UG.KU Dv.σw n)) (f : V),
       ((T h f : V) : GAf L n → π.W) = heckeFunI L n U Dv h f := fun h hh f => by
-    simp only [T, dif_pos hh]
+    simp only [T, dite_eq_left hh]
     rfl
   have hK := Formalism.UG.P.isCommensurated_integral_unitary_of_unramified Dv.unram n
   obtain ⟨α, x, hx0, hx⟩ := GlobalTheory.T.exists_satU_eigenvector_alt Dv.ϖ Dv.σw _ n Dv.unram V T

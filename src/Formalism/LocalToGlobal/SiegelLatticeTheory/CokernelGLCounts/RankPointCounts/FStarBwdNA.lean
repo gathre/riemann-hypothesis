@@ -99,7 +99,7 @@ theorem riesz (F : S.V →ₗ[E] E) : ∃ w, ∀ v, S.hT w v = F v := by
     rw [Finset.sum_eq_single i]
     · rw [hsw S (b i) (bs i), hbs i i]; simp
     · intro j _ hj
-      rw [hsw S (b i) (bs j), hbs i j, if_neg (Ne.symm hj)]; simp
+      rw [hsw S (b i) (bs j), hbs i j, ite_eq_right (Ne.symm hj)]; simp
     · simp
   rw [key]
 

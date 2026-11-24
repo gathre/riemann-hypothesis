@@ -114,14 +114,14 @@ theorem _root_.GlobalTheory.NormBall.val_trace_sq_le {d : F} (hd : ∀ r : F, r 
   rcases eq_or_ne (2 * a) 0 with h2a | h2a
   · simp [h2a]
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   set e := a ^ 2 - d * b ^ 2 with he
   have ha : a ≠ 0 := right_ne_zero_of_mul h2a
   have h2 : (2 : F) ≠ 0 := left_ne_zero_of_mul h2a
   have het : e = e / (2 * a) ^ 2 * (2 * a) ^ 2 := by field_simp
   have ht : valuation F (e / (2 * a) ^ 2) < 1 := by
     by_contra hge
-    push_neg at hge
+    push Not at hge
     have hv : valuation F e = valuation F (e / (2 * a) ^ 2) * valuation F (2 * a) ^ 2 := by
       rw [← map_pow, ← map_mul, ← het]
     have : valuation F (2 * a) ^ 2 ≤ valuation F e := by
@@ -173,7 +173,7 @@ private lemma mem_union_of_valuation_sq_le (u : Fˣ) {y : F} (h : valuation F y 
   by_cases hy : valuation F y ≤ 1
   · exact Or.inl hy
   · right
-    push_neg at hy
+    push Not at hy
     calc valuation F y = valuation F y * 1 := (mul_one _).symm
       _ ≤ valuation F y * valuation F y := by gcongr
       _ = valuation F y ^ 2 := (sq _).symm

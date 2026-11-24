@@ -144,7 +144,7 @@ theorem isFF_of_trdeg_eq_one {k F : Type} [Field k] [Field F] [Algebra k F] [Alg
     rw [trdeg_eq_zero_iff.mpr ha] at h; exact zero_ne_one h
   obtain ⟨x, hx⟩ : ∃ x : F, Transcendental k x := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hna ⟨fun x => by simpa [Transcendental] using hc x⟩
   exact ⟨x, hx, finiteDimensional_adjoin_of_trdeg_le_one h.le x hx⟩
 

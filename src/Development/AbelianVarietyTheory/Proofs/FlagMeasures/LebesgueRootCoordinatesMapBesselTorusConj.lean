@@ -104,23 +104,23 @@ theorem aT_mem {α : ℂ} (h : α ≠ 0) : aT k r α ∈ UH (Hpk k r) := by
   have hj := j.isLt
   simp only [Hpk, Pi.star_apply]
   by_cases h1 : i.val < r ∧ i.val + j.val = 2 * r + k
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     unfold dT
-    rw [if_pos h1.1, if_neg (by omega), if_neg (by omega), show j.val - (r + k) = r - i.val by omega, star_pow,
+    rw [ite_eq_left h1.1, ite_eq_right (by omega), ite_eq_right (by omega), show j.val - (r + k) = r - i.val by omega, star_pow,
       mul_one, mul_inv_cancel₀ (pow_ne_zero _ hs)]
-  rw [if_neg h1]
+  rw [ite_eq_right h1]
   by_cases h2 : j.val < r ∧ i.val + j.val = 2 * r + k
-  · rw [if_pos h2]
+  · rw [ite_eq_left h2]
     unfold dT
-    rw [if_pos h2.1, if_neg (by omega), if_neg (by omega), show i.val - (r + k) = r - j.val by omega, star_inv₀,
+    rw [ite_eq_left h2.1, ite_eq_right (by omega), ite_eq_right (by omega), show i.val - (r + k) = r - j.val by omega, star_inv₀,
       star_pow, star_star, mul_one, inv_mul_cancel₀ (pow_ne_zero _ h)]
-  rw [if_neg h2]
+  rw [ite_eq_right h2]
   by_cases h3 : r ≤ i.val ∧ i.val ≤ r + k ∧ i = j
-  · rw [if_pos h3]
+  · rw [ite_eq_left h3]
     obtain ⟨h3, h4, rfl⟩ := h3
     unfold dT
-    rw [if_neg (show ¬ i.val < r by omega), if_pos h4, star_one, one_mul, mul_one]
-  rw [if_neg h3, mul_zero, zero_mul]
+    rw [ite_eq_right (show ¬ i.val < r by omega), ite_eq_left h4, star_one, one_mul, mul_one]
+  rw [ite_eq_right h3, mul_zero, zero_mul]
 
 theorem conj_entry {α : ℂ} (h : α ≠ 0) (g : B.Mat k r) (i j : Fin (2 * r + k + 1))
     (hg : g i j = if i = j then 1 else 0) :

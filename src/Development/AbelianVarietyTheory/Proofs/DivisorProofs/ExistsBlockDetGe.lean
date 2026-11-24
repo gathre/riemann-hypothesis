@@ -118,7 +118,7 @@ theorem leading_gram (h : p ≤ n) (g : Matrix (Fin n) (Fin n) ℂ) :
     rw [Matrix.mul_apply]
     refine Fintype.sum_of_injective (Fin.castLE h) (Fin.castLE_injective h) _ _ (fun k hk => ?_)
       (fun k => ?_)
-    · rw [if_neg]
+    · rw [ite_eq_right]
       intro hlt
       exact hk ⟨⟨k, hlt⟩, Fin.ext rfl⟩
     · simp [topT, Matrix.conjTranspose_apply]

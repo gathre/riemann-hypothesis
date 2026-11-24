@@ -180,7 +180,7 @@ theorem UpperTheory.Gal.TP.Loc.contraUnit :
     simp at h1
   obtain ⟨w0, hw0⟩ : ∃ w : V, w ≠ 0 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     haveI : IsSimpleOrder (Subrepresentation ρ) := hirr
     apply (bot_ne_top : (⊥ : Subrepresentation ρ) ≠ ⊤)
     generalize (⊥ : Subrepresentation ρ) = a
@@ -570,11 +570,11 @@ theorem UpperTheory.Gal.TP.Loc.pairOfLift :
   · intro hB
     obtain ⟨Φ0, hΦ0⟩ : ∃ Φ0, β Φ0 ≠ 0 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact hβ0 (LinearMap.ext hc)
     obtain ⟨v, hv⟩ : ∃ v, β Φ0 v ≠ 0 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact hΦ0 (LinearMap.ext hc)
     obtain ⟨l, hl⟩ := hS k d W π hπ _ hv
     let Ψ0 : SB (Matrix (Fin d) (Fin n) k) :=
@@ -869,7 +869,7 @@ private theorem tprod_ne_zero' {ι : Type} [Fintype ι] {X : ι → Type} [∀ i
     (x : ∀ i, X i) (hx : ∀ i, x i ≠ 0) : PiTensorProduct.tprod ℂ x ≠ 0 := by
   have hl : ∀ i, ∃ l : Module.Dual ℂ (X i), l (x i) ≠ 0 := fun i => by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hx i ((Module.forall_dual_apply_eq_zero_iff ℂ (x i)).1 hc)
   choose l hl using hl
   intro h

@@ -293,9 +293,9 @@ private theorem exists_mem_Kc_rows_unitriangular (p : GL (Fin n) k) (i : Fin n)
   have hdv : ∀ j, valuation k (d j) < 1 := by
     intro j
     by_cases hj : j ≤ i
-    · simp only [d, if_pos hj]
+    · simp only [d, ite_eq_left hj]
       exact hd j hj
-    · simp only [d, if_neg hj, map_zero]
+    · simp only [d, ite_eq_right hj, map_zero]
       exact zero_lt_one
   have hint : ∀ j, d j ∈ 𝒪[k] := fun j => (Valuation.mem_integer_iff _ _).2 (hdv j).le
   have hI := Valuation.integer.integers (valuation k)
@@ -408,9 +408,9 @@ private theorem descent {W : Type} [AddCommGroup W] [Module ℂ W] (τ : Represe
           rw [Pi.single_apply]
           rcases eq_or_ne i j with h | h
           · subst h
-            simp only [Matrix.one_apply_eq, if_true]
+            simp only [Matrix.one_apply_eq, ite_true]
             ring
-          · simp only [h, Matrix.one_apply_ne h, if_false]
+          · simp only [h, Matrix.one_apply_ne h, ite_false]
             ring
         rw [e, AddChar.map_sub_eq_div, hs s, div_self']
       have h3 := lev_lt ψ hψ _ h2

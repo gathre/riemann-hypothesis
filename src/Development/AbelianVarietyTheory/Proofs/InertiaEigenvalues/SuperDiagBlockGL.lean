@@ -65,7 +65,7 @@ theorem superDiag_blockGL {R : Type} [CommRing R] {j n : ℕ} (hj : j ≤ n) (g 
     have hij : ¬ (i : ℕ) < j := fun h => hi ⟨⟨i, h⟩, rfl⟩
     refine Finset.sum_eq_zero fun b _ => ?_
     split_ifs with hb
-    · rw [coe_blockGL, blockMat_apply, dite_eq_right hij, if_neg]
+    · rw [coe_blockGL, blockMat_apply, dite_eq_right hij, ite_eq_right]
       intro h; rw [h] at hb; omega
     · rfl
   · intro i

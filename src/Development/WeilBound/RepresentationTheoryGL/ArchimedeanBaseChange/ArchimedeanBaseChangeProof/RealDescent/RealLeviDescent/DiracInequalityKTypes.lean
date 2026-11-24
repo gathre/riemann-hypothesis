@@ -304,7 +304,7 @@ theorem dot_swap (x g : Fin n → ℝ) {i j : Fin n} (hij : i ≠ j) :
         ring
       · simp [h1, h2, Equiv.swap_apply_of_ne_of_ne]
   have h3 : dot (x ∘ Equiv.swap i j) g - dot x g = (x j - x i) * g i + (x i - x j) * g j := by
-    simp only [dot, Function.comp, ← sum_sub_distrib, h, sum_add_distrib, sum_ite_eq', mem_univ, if_true]
+    simp only [dot, Function.comp, ← sum_sub_distrib, h, sum_add_distrib, sum_ite_eq', mem_univ, ite_true]
   linarith
 
 theorem domC_anti (x : Fin n → ℝ) : Antitone (domC x) := by
@@ -1124,7 +1124,7 @@ theorem expU_two_pi (a : Fin n) (hX : (Matrix.single a a Complex.I)ᴴ = -(Matri
         simp
       · simp [hc, Ne.symm hc]
     · rw [Matrix.diagonal_apply_ne _ hij, Matrix.smul_apply, Matrix.single_apply,
-        if_neg (fun hh => hij (hh.1.symm.trans hh.2)), smul_zero]
+        ite_eq_right (fun hh => hij (hh.1.symm.trans hh.2)), smul_zero]
   rw [e, Matrix.exp_diagonal, ← Matrix.diagonal_one]
   congr 1
   funext c
@@ -1420,7 +1420,7 @@ theorem dirac_ineq0 : ∀ {n : ℕ} (lam : Fin n → ℤ) (V : Type) [NormedAddC
     exact_mod_cast hEq
   have hle : 4 * (S - R) + 3 * R - T ≤ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have := mul_pos hcon hN
     linarith
   have hT' : T = ∑ a, (τ a + rhoV n a) ^ 2 - R := by

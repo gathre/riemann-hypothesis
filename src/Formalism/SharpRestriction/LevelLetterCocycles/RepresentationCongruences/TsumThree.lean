@@ -108,7 +108,7 @@ theorem tsum_three (l : ℕ) (hl : 11 ≤ l) (f : ℕ → ℝ) (x₀ x₁ X : �
       · subst hi1
         simp
         linarith [mul_le_mul_of_nonneg_right h1 py.le]
-      · rw [if_neg hi0, if_neg hi1, add_zero, add_zero]
+      · rw [ite_eq_right hi0, ite_eq_right hi1, add_zero, add_zero]
         exact mul_le_mul_of_nonneg_right (h2 i (by omega)) (pow_nonneg py.le i)
   have H := ((hasSum_geometric_of_lt_one py.le hyl).mul_left X).add
     ((hasSum_ite_eq (0:ℕ) (x₀ - X)).add (hasSum_ite_eq (1:ℕ) ((x₁ - X) * y)))

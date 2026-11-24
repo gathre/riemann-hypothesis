@@ -1195,7 +1195,7 @@ theorem charDom : CharDom := by
   have hind := indep (domM k n) (fun t => dom_translate t) t₀ E E' c c' hc h
   refine ⟨hind, fun hE => ?_⟩
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨μ, hμ⟩ := Multiset.exists_mem_of_ne_zero hE
   have := indep (domM k n) (fun t => dom_translate t) t₀ E 0 1 0 one_ne_zero
     (fun t ht => by rw [one_mul, hne t ht]; simp) μ hμ
@@ -1312,7 +1312,7 @@ theorem UpperTheory.Gal.Join.twExp :
 
   have hex : ∃ χ : T → ℂ, χ ∘ s = χ ∧ N χ ≠ ⊥ := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     let J := {χ : T → ℂ // χ ∘ s ≠ χ}
     let N' : J → Submodule ℂ P := fun j => N j.1
     have hind' : iSupIndep N' := hind.comp Subtype.val_injective

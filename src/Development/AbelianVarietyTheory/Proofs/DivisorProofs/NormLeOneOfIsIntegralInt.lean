@@ -102,7 +102,7 @@ theorem smallIdeal_isPrime (σ : K →+* PadicAlgCl p) : (smallIdeal σ).IsPrime
     have : σ ((a * b : 𝓞 K) : K) = σ (a : K) * σ (b : K) := by simp
     rw [this, norm_mul] at hab
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     nlinarith [hcon.1, hcon.2]
 
 theorem dvd_of_natCast_mem {R : Type*} [CommRing R] (I : Ideal R) (hI : I ≠ ⊤) {q M : ℕ} (hq : q.Prime)
@@ -122,7 +122,7 @@ theorem norm_p_lt_one : ‖(p : PadicAlgCl p)‖ < 1 := by
 theorem exists_embedding (w : HeightOneSpectrum (𝓞 K)) (hw : (p : 𝓞 K) ∈ w.asIdeal) :
     ∃ σ : K →+* PadicAlgCl p, w.asIdeal = smallIdeal σ := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hnle : ∀ σ : K →ₐ[ℚ] PadicAlgCl p, ¬ w.asIdeal ≤ smallIdeal (σ : K →+* PadicAlgCl p) := by
     intro σ hle
     exact hcon (σ : K →+* PadicAlgCl p) (w.isMaximal.eq_of_le (smallIdeal_isPrime _).ne_top hle)

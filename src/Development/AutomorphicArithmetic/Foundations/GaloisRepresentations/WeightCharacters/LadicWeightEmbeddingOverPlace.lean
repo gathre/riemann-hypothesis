@@ -649,7 +649,7 @@ theorem UpperTheory.Gal.Wt.famEx_of : NeatLev → EllC → Twist → TwistBd →
   rw [famOf_apply, hv, hnM]
   have e : (F q₀).1 (b g i) g - ∑ q, pev (P q) (φ (ℓ g)) * delta ν ((φ (c q))⁻¹ * φ (ℓ g)) * (F q).1 (b g i) g =
       ∑ q, ((if q = q₀ then 1 else 0) - pev (P q) (φ (ℓ g)) * delta ν (φ ((c q)⁻¹ * ℓ g))) * (F q).1 (b g i) g := by
-    simp only [sub_mul, Finset.sum_sub_distrib, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true, hδ]
+    simp only [sub_mul, Finset.sum_sub_distrib, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true, hδ]
 
   rw [e, map_sum]
   refine IsUltrametricDist.norm_sum_le_of_forall_le_of_nonneg hε.le fun q _ => ?_
@@ -659,14 +659,14 @@ theorem UpperTheory.Gal.Wt.famEx_of : NeatLev → EllC → Twist → TwistBd →
   by_cases hq : q = q₀
   · subst hq
     have hb3 := hb2 _ hε' h1
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     have e2 : 1 - pev (P q) (φ (ℓ g)) * delta ν (φ ((c q)⁻¹ * ℓ g)) =
         -((pev (P q) (φ (ℓ g)) - 1) * delta ν (φ ((c q)⁻¹ * ℓ g)) + (delta ν (φ ((c q)⁻¹ * ℓ g)) - 1)) := by ring
     rw [e2, map_neg, norm_neg, map_add (f := _)]
     refine (IsUltrametricDist.norm_add_le_max _ _).trans (max_le ?_ hb3)
     rw [map_mul, norm_mul]
     exact (mul_le_mul h2 hb1 (norm_nonneg _) hε').trans_eq (mul_one _)
-  · rw [if_neg hq, zero_sub, map_neg, norm_neg, map_mul, norm_mul]
+  · rw [ite_eq_right hq, zero_sub, map_neg, norm_neg, map_mul, norm_mul]
     exact (mul_le_mul (h3 q hq) hb1 (norm_nonneg _) hε').trans_eq (mul_one _)
 end -- clump:auto
 end -- clump:auto
@@ -803,7 +803,7 @@ theorem famOff_holds : FamOff := by
   set v := InfinitePlace.mk τ' with hv
   obtain ⟨e, he⟩ : ∃ e, B y₁ y₂ (GlobalTheory.CoefIrred.tenMul W e) ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have h1 : B y₁ y₂ = 0 := by
       apply (Formalism.L2.DIV.bVV ℂ W).ext
       intro i
@@ -981,7 +981,7 @@ theorem famSum_of : ExpBasic → EvLem → TorFacts → QR → WtBd → EmbProj 
       rfl
   · obtain ⟨y, v', hv'⟩ : ∃ y v', B 1 y v' ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       obtain ⟨u, b, hb, rfl⟩ := hQR a y₁
       obtain ⟨x', -, h2⟩ := hxu u
       have e1 := hB.inf x' 1 ((cEmb τ x'.1)⁻¹ * y₂) (W.rep x'⁻¹ v)
@@ -1281,7 +1281,7 @@ private theorem tor_entry_mem_expLe_one_expGe_zero (h : ExpBasic) (a k : ℕ) (A
     by_cases hl : (l:ℕ) < k
     · convert (hmon ((A : Matrix (Fin a) (Fin a) ℂ) i l * (B : Matrix (Fin a) (Fin a) ℂ) l j) 1).1 using 1
       funext z
-      simp only [hl, if_true, zpow_one]
+      simp only [hl, ite_true, zpow_one]
       ring
     · convert (hmono 0 1 (by norm_num)).1
         (hconst ((A : Matrix (Fin a) (Fin a) ℂ) i l * (B : Matrix (Fin a) (Fin a) ℂ) l j)).1 using 1
@@ -1292,7 +1292,7 @@ private theorem tor_entry_mem_expLe_one_expGe_zero (h : ExpBasic) (a k : ℕ) (A
     · convert (hmono 0 1 (by norm_num)).2
         (hmon ((A : Matrix (Fin a) (Fin a) ℂ) i l * (B : Matrix (Fin a) (Fin a) ℂ) l j) 1).2 using 1
       funext z
-      simp only [hl, if_true, zpow_one]
+      simp only [hl, ite_true, zpow_one]
       ring
     · convert (hconst ((A : Matrix (Fin a) (Fin a) ℂ) i l * (B : Matrix (Fin a) (Fin a) ℂ) l j)).2 using 1
       funext z

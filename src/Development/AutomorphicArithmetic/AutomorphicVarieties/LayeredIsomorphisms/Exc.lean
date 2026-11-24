@@ -141,7 +141,7 @@ theorem UpperTheory.V.Win.exc :
     have hfar : ∀ i : Fin R', (l : ℝ) ^ (-(Nat.log l Z : ℤ)) ≤ ‖s i - (e : K)‖ := by
       intro i
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       apply hne
       rw [hnear]
       simp only [Finset.mem_biUnion, Finset.mem_univ, true_and, Finset.mem_filter, Finset.mem_Icc]

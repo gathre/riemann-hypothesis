@@ -254,7 +254,7 @@ theorem hasSum_inner_quotient_eulerProduct_injective : ∀ (Γ : Type) [Group Γ
     intro f g hf
     have hfeq : f = (e (QuotientGroup.mk g)).1 := funext fun w => (hf w).trans (he g w).symm
     subst hfeq
-    simp only [B', dif_pos (e (QuotientGroup.mk g)).2, Subtype.coe_eta, Equiv.symm_apply_apply]
+    simp only [B', dite_eq_left (e (QuotientGroup.mk g)).2, Subtype.coe_eta, Equiv.symm_apply_apply]
     exact BK g
   have h1 : ∀ v, a' v (x0 v) = 1 := by
     intro v
@@ -448,7 +448,7 @@ theorem GlobalTheory.UpInj.localSum_hasSum : ∀ (Γ : Type) [Group Γ] (K : Sub
     intro b
     by_cases hb : ∃ x0, q x0 = b
     swap
-    · push_neg at hb
+    · push Not at hb
       haveI : IsEmpty {x // q x = b} := ⟨fun y => hb y.1 y.2⟩
       simp [tsum_empty]
     obtain ⟨x0, rfl⟩ := hb
@@ -593,9 +593,9 @@ theorem quotient_equiv_restrictedFamilies : ∀ (Γ : Type) [Group Γ] (K : Subg
     show F (QuotientGroup.mk _) w = f w
     rw [hF, ← hcw w, hlist x hf.toFinset.toList (Finset.nodup_toList _) w]
     by_cases hw : w ∈ hf.toFinset.toList
-    · rw [if_pos hw, hcw]
+    · rw [ite_eq_left hw, hcw]
       exact Quotient.out_eq (f w)
-    · rw [if_neg hw]
+    · rw [ite_eq_right hw]
       rw [Finset.mem_toList, Set.Finite.mem_toFinset, Set.mem_setOf_eq, not_not] at hw
       exact hw.symm
   exact ⟨Equiv.ofBijective G ⟨hinj, hsurj⟩, fun g v => rfl⟩

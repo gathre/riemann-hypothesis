@@ -1159,17 +1159,17 @@ def AdjRel (It : P →ₗ[ℂ] SmT M →ₗ[ℂ] SmT M') (Tp : P → SmT M' →�
 theorem clause_ne (hI : GlobalTheory.Grid.IsIntw θ M' M ω' pt It) (hA : AdjRel It Tp) : ∃ φ, Tp φ ≠ 0 := by
   have h1 : ∃ p, It p ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hI.ne (LinearMap.ext h)
   obtain ⟨p, hp⟩ := h1
   have h2 : ∃ u : M.Vec, It p (PiTensorProduct.tprod ℂ u) ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hp (PiTensorProduct.ext (MultilinearMap.ext fun u => by simpa using h u))
   obtain ⟨u, hu⟩ := h2
   have h3 : ∃ w : M'.Vec, ellT M' (fun τ => w τ) (inclT M' (It p (PiTensorProduct.tprod ℂ u))) ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hu (sm_ext M' fun w => by simpa using h w)
   obtain ⟨w, hw⟩ := h3
   refine ⟨p, fun h0 => hw ?_⟩

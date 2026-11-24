@@ -351,7 +351,7 @@ theorem exists_integral_cball_char_eq_zero :
   intro F _ _ _ _ _ _ _ lam _ ψ _ _ hne
   obtain ⟨t, ht⟩ : ∃ t, ψ t ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (by ext x; simpa using h x)
   have ht0 : t ≠ 0 := by
     rintro rfl
@@ -423,14 +423,14 @@ open Classical in
 def absE (x : F) : ℝ≥0∞ := if h : x = 0 then 0 else (distribHaarChar F (Units.mk0 x h) : ℝ≥0∞)
 
 theorem absE_ne_zero {x : F} (hx : x ≠ 0) : absE x ≠ 0 := by
-  simp only [absE, dif_neg hx, ne_eq, ENNReal.coe_eq_zero]
+  simp only [absE, dite_eq_right hx, ne_eq, ENNReal.coe_eq_zero]
   exact (distribHaarChar_pos (A := F) (g := Units.mk0 x hx)).ne'
 
 theorem absE_ne_top (x : F) : absE x ≠ ∞ := by
   unfold absE; split_ifs <;> simp
 
 theorem absE_inv {x : F} (hx : x ≠ 0) : absE x⁻¹ = (absE x)⁻¹ := by
-  simp only [absE, dif_neg hx, dif_neg (inv_ne_zero hx)]
+  simp only [absE, dite_eq_right hx, dite_eq_right (inv_ne_zero hx)]
   rw [← ENNReal.coe_inv (distribHaarChar_pos (A := F) (g := Units.mk0 x hx)).ne', ← map_inv]
   congr 3
   ext; simp
@@ -452,7 +452,7 @@ theorem absE_eq_of_val_eq {x y : F} (h : valuation F y = valuation F x) : absE y
   have e1 := absE_eq_one hu
   have hyx : Units.mk0 y hy = Units.mk0 x hx * Units.mk0 (y / x) (div_ne_zero hy hx) := by
     ext; simp [mul_div_cancel₀ _ hx]
-  simp only [absE, dif_neg hy, dif_neg hx, dif_neg (div_ne_zero hy hx)] at e1 ⊢
+  simp only [absE, dite_eq_right hy, dite_eq_right hx, dite_eq_right (div_ne_zero hy hx)] at e1 ⊢
   rw [hyx, map_mul, ENNReal.coe_mul, e1, mul_one]
 
 section Meas
@@ -507,7 +507,7 @@ theorem map_mul_haar (lam : Measure F) [lam.IsAddHaarMeasure] {x : F} (hx : x �
     ext y
     rw [Set.mem_preimage, Set.mem_smul_set_iff_inv_smul_mem, inv_inv, Units.smul_def,
       Units.val_mk0, smul_eq_mul]
-  rw [hset, ← distribHaarChar_mul, absE, dif_neg hx, map_inv,
+  rw [hset, ← distribHaarChar_mul, absE, dite_eq_right hx, map_inv,
     ENNReal.coe_inv (distribHaarChar_pos (A := F) (g := Units.mk0 x hx)).ne']
 
 def U : Set F := {y | valuation F y = 1}
@@ -613,7 +613,7 @@ theorem eq_smul_haar_of_homog : ∀ (F : Type) [Field F] [CharZero F] [Valuative
     intro x hx
     have h := hn (Units.mk0 x hx)
     simp only [Units.val_mk0] at h
-    rw [h, absE, dif_neg hx, ← ENNReal.coe_inv (distribHaarChar_pos (A := F) (g := Units.mk0 x hx)).ne']
+    rw [h, absE, dite_eq_right hx, ← ENNReal.coe_inv (distribHaarChar_pos (A := F) (g := Units.mk0 x hx)).ne']
     ext s; rw [Measure.smul_apply, Measure.smul_apply, ENNReal.smul_def]
   have hUO : (U : Set F) ⊆ (𝒪[F] : Set F) := fun y hy ↦
     (Valuation.mem_integer_iff _ _).mpr (le_of_eq hy)
@@ -809,7 +809,7 @@ theorem setIntegral_pair_char {X : Type} [AddCommGroup X] [TopologicalSpace X] [
       simp only; rw [he.symm]; exact hx m hm)]
     rw [setIntegral_const]
     simp
-  · push_neg at hx
+  · push Not at hx
     obtain ⟨m₀, hm₀, hne⟩ := hx
     have h := setIntegral_addSubgroup_add μ M hM hm₀ (fun m => e x m)
     have hsplit : ∀ m, e x (m + m₀) = e x m * e x m₀ := fun m => by
@@ -875,8 +875,8 @@ theorem gauss_integral_eventually_const : ∀ (X : Type) [AddCommGroup X] [Topol
         Set.indicator M' (fun x => ((μ.real (M : Set X) : ℝ) : ℂ) * f x) := by
       funext x
       by_cases hx : x ∈ M'
-      · rw [Set.indicator_of_mem hx, if_pos (show ∀ m ∈ (M : Set X), e m x = 1 from hx)]; ring
-      · rw [Set.indicator_of_notMem hx, if_neg (show ¬ ∀ m ∈ (M : Set X), e m x = 1 from hx)]; ring
+      · rw [Set.indicator_of_mem hx, ite_eq_left (show ∀ m ∈ (M : Set X), e m x = 1 from hx)]; ring
+      · rw [Set.indicator_of_notMem hx, ite_eq_right (show ¬ ∀ m ∈ (M : Set X), e m x = 1 from hx)]; ring
     rw [this, integral_indicator hM'm, Measure.restrict_restrict hM'm, Set.inter_eq_left.mpr hM'L,
       integral_const_mul]
   rw [h4, Complex.real_smul] at h3
@@ -1035,14 +1035,14 @@ theorem hasGauss_norm_mul : ∀ (F : Type) [Field F] [CharZero F] [ValuativeRel 
       funext z
       show ψ ((t : F) * Algebra.norm F z) = ψ (Algebra.norm F ((w : E) * z))
       rw [MonoidHom.map_mul (Algebra.norm F) (w : E) z, ← hw, Units.coe_map]
-    have hs : sgn E t = 1 := by rw [sgn, if_pos ⟨w, hw⟩]
+    have hs : sgn E t = 1 := by rw [sgn, ite_eq_left ⟨w, hw⟩]
     have e2 : γ * (sgn E t * (((nabs F t)⁻¹ : ℝ) : ℂ)) = (((((distribHaarChar F t)⁻¹ : NNReal) : ℝ)) : ℂ) * γ := by
       rw [hs, one_mul, mul_comm]
       simp [nabs]
     rw [e1, e2]
     exact h
   · obtain ⟨s₀, hcan⟩ := _root_.GlobalTheory.KSp.Cancel.gauss_cancel F E c δ hE ψ hψ hψ1 hψ0 μ t ht
-    have hs : sgn E t = -1 := by rw [sgn, if_neg ht]
+    have hs : sgn E t = -1 := by rw [sgn, ite_eq_right ht]
     intro K hK
     obtain ⟨a₁, ha₁⟩ := exists_cball_of_isCompact (hK.image hNc)
     obtain ⟨a₂, ha₂⟩ := exists_cball_of_isCompact (hK₁.image hNc)
@@ -1223,7 +1223,7 @@ theorem pr_diag_norm : ∀ (F : Type) [Field F] [CharZero F] (E : Type) [Field E
       algebraMap F E (∑ i, ∑ j, D' i * D j * Algebra.norm F (Y i j)) := by
 
     simp only [Matrix.trace, diag_apply, Matrix.mul_apply, dD', dD, diagonal_apply, ite_mul, mul_ite, zero_mul, mul_zero,
-    Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, if_true, transpose_apply, map_apply,
+    Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, ite_true, transpose_apply, map_apply,
     map_sum, map_mul, hE.algebraMap_norm]
     refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
     ring
@@ -1264,15 +1264,15 @@ variable {F : Type} [Field F] [CharZero F] [ValuativeRel F] [TopologicalSpace F]
 
 def sgnHom : Fˣ →* ℂ where
   toFun := sgn E
-  map_one' := by simp only [sgn]; exact if_pos (one_mem _)
+  map_one' := by simp only [sgn]; exact ite_eq_left (one_mem _)
   map_mul' s t := _root_.GlobalTheory.KSp.sgn_mul_of_isQuad F E c δ hE s t
 
 theorem sgn_inv (t : Fˣ) : sgn E t⁻¹ = sgn E t := by
   have h := (Units.map (Algebra.norm F : E →* F)).range.inv_mem_iff (x := t)
   unfold sgn
   by_cases ht : t ∈ (Units.map (Algebra.norm F : E →* F)).range
-  · rw [if_pos ht, if_pos (h.mpr ht)]
-  · rw [if_neg ht, if_neg (mt h.mp ht)]
+  · rw [ite_eq_left ht, ite_eq_left (h.mpr ht)]
+  · rw [ite_eq_right ht, ite_eq_right (mt h.mp ht)]
 
 variable {ν : Type} [Fintype ν] [DecidableEq ν]
 

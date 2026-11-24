@@ -124,7 +124,7 @@ theorem exists_pow_eq_self_cong [IsAlgClosed Ω] (A : ValuationSubring Ω) {N : 
     rw [eval_multiset_prod, Multiset.map_map] at this
     simpa [hP, Function.comp_def] using this
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hge : ∀ a ∈ P.roots, 1 ≤ A.valuation (x - a) := by
     intro a ha
     refine hno a ?_

@@ -134,7 +134,7 @@ theorem isIrreducible_of_jhMult_eq_one {s N : ℕ} {d : Fin s → ℕ} (e : (Σ 
     rw [← h] at this
     exact hx this
   by_contra hS
-  push_neg at hS
+  push Not at hS
   obtain ⟨hS0, hS1⟩ := hS
   have n1 : Nontrivial S.toSubmodule := by
     by_contra hn
@@ -199,7 +199,7 @@ theorem occurs_of_embedding (hG : GeometricLemma) (hBZ : BernsteinZelevinskyFini
     have h1 : φ v ≠ 0 := fun h => hv (hφ (by rw [h, map_zero]))
     obtain ⟨g, hg⟩ : ∃ g, (φ v).1.1 g ≠ 0 := by
       by_contra hn
-      push_neg at hn
+      push Not at hn
       exact h1 (Subtype.ext (Subtype.ext (funext hn)))
     refine ⟨Submodule.Quotient.mk (Q.π g v), fun h => hg ?_⟩
     have h2 : (φ (Q.π g v)).1.1 1 = 0 := h

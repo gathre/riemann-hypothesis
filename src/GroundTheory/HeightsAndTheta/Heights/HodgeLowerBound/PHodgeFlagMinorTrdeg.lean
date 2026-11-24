@@ -102,7 +102,7 @@ theorem pivotMinor_eq_zero_of_block {n j : ℕ} (M : Matrix (Fin n) (Fin n) R)
     (ha : (a : ℕ) < j) (hb : j ≤ (b : ℕ)) : pivotMinor M a b = 0 := by
   unfold pivotMinor
   refine Matrix.det_eq_zero_of_column_eq_zero (Fin.last a) fun r => ?_
-  simp only [Matrix.submatrix_apply, pivotCols, Fin.val_last, lt_irrefl, dif_neg, not_false_eq_true]
+  simp only [Matrix.submatrix_apply, pivotCols, Fin.val_last, lt_irrefl, dite_eq_right, not_false_eq_true]
   exact hz _ _ (by simp only [Fin.val_castLE]; have := r.2; omega) hb
 
 theorem pivotMinor_block {n j : ℕ} (h : j ≤ n) (M : Matrix (Fin n) (Fin n) R)
@@ -194,14 +194,14 @@ theorem topLeft_eq (τ : Ψ) : topLeft h (genMat0Fr F Ψ n j τ) = (genMatFr F �
   ext r c
   have hc : ¬ (j ≤ (Fin.castLE h c : ℕ)) := by simp
   simp only [topLeft, genMat0Fr, Matrix.submatrix_apply, Matrix.of_apply, Matrix.map_apply, genMatFr, φA,
-    renFr_algebraMap, rename_X, hc, and_false, if_false]
+    renFr_algebraMap, rename_X, hc, and_false, ite_false]
   rfl
 
 theorem botRight_eq (τ : Ψ) : botRight h (genMat0Fr F Ψ n j τ) = (genMatFr F Ψ (n - j) τ).map (φD F Ψ h) := by
   ext r c
   have hr : ¬ ((j + r : ℕ) < j) := by omega
   simp only [botRight, genMat0Fr, Matrix.submatrix_apply, Matrix.of_apply, Matrix.map_apply, genMatFr, φD,
-    renFr_algebraMap, rename_X, hr, false_and, if_false]
+    renFr_algebraMap, rename_X, hr, false_and, ite_false]
   rfl
 
 theorem det_genMatFr_ne_zero (m : ℕ) (τ : Ψ) : (genMatFr F Ψ m τ).det ≠ 0 := by
@@ -371,12 +371,12 @@ theorem z_indep : AlgebraicIndependent F (z F Ψ h) := by
   rcases q with q | q
   · have hne : δ (Sum.inl (inclIdx Ψ j q)) ≠ Sum.inl (inclIdx Ψ j q) :=
       fun e => diag_ne Ψ j q (Sum.inl_injective e)
-    rw [Function.comp_apply, Sum.map_inl, if_neg hne]
+    rw [Function.comp_apply, Sum.map_inl, ite_eq_right hne]
     simp only [z, w, δ, Sum.map_inl, Sum.elim_inl, pivotRatio, map_div₀]
     rfl
   · have hne : δ (Sum.inr (inclIdx Ψ (n - j) q)) ≠ Sum.inr (inclIdx Ψ (n - j) q) :=
       fun e => diag_ne Ψ (n - j) q (Sum.inr_injective e)
-    rw [Function.comp_apply, Sum.map_inr, if_neg hne]
+    rw [Function.comp_apply, Sum.map_inr, ite_eq_right hne]
     simp only [z, w, δ, Sum.map_inr, Sum.elim_inr, pivotRatio, map_div₀]
     rfl
 

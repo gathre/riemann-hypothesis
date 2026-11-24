@@ -124,8 +124,8 @@ theorem rowComp_rename_perm {O : Type} [CommRing O] {N : ℕ} (σ : Equiv.Perm (
     rw [weightedHomogeneousComponent_of_mem (isWeightedHomogeneous_monomial _ _ _ rfl),
       weightedHomogeneousComponent_of_mem (isWeightedHomogeneous_monomial _ _ _ rfl)]
     by_cases h : Finsupp.weight (Formalism.GradedWeylDivisibility.rowW N N) d = u ∘ σ
-    · rw [if_pos (Eq.symm (key.2 h)), if_pos h.symm, rename_monomial]
-    · rw [if_neg (fun h' => h (key.1 h'.symm)), if_neg (fun h' => h h'.symm), map_zero]
+    · rw [ite_eq_left (Eq.symm (key.2 h)), ite_eq_left h.symm, rename_monomial]
+    · rw [ite_eq_right (fun h' => h (key.1 h'.symm)), ite_eq_right (fun h' => h h'.symm), map_zero]
   | add p q hp hq => rw [map_add (f := _), map_add (f := _), hp, hq, map_add (f := _), map_add (f := _)]
 
 variable (O : Type) [CommRing O] (N : ℕ) {ι : Type} [DecidableEq ι] (lam : ι → ℕ → ℕ)
@@ -252,7 +252,7 @@ theorem antitone_of_pot_max : ∀ (O : Type) [CommRing O] [IsDomain O] [IsDiscre
   apply antitone_of_adj
   intro a b hab
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have h1 := hmax _ (jointWt_perm O N lam Gm w hw τ (Equiv.swap a b))
   have h2 := pot_lt_swap w τ a b hab hlt
   omega

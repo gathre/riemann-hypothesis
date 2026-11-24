@@ -187,9 +187,9 @@ theorem injective_of_constantCoeff {R S V : Type*} [CommRing R] [CommRing S]
 
     conv_lhs => rw [P.as_sum, map_sum, coeff_sum]
     rw [Finset.sum_eq_single a]
-    · rw [hmon, coeff_mul_monomial', if_pos le_rfl, tsub_self, mul_one, constantCoeff_eq]
+    · rw [hmon, coeff_mul_monomial', ite_eq_left le_rfl, tsub_self, mul_one, constantCoeff_eq]
     · intro b hb hba
-      rw [hmon, coeff_mul_monomial', if_neg]
+      rw [hmon, coeff_mul_monomial', ite_eq_right]
       exact fun hle => hba (le_antisymm hle (hmin hb hle))
     · exact fun h => absurd ha h
   simp only [hP, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] at this
@@ -391,7 +391,7 @@ theorem isPrincipal_elimIdeal [Nonempty β] {p : Ideal (MvPolynomial σ K)} [p.I
   have ht (i : β) : ∑ j, t (i, j) * C (ξ j) = 0 := by
     rw [← Finset.add_sum_erase _ _ (Finset.mem_univ j₀),
       Finset.sum_subtype (p := fun l => l ≠ j₀) (F := inferInstance) _ (by simp)]
-    simp only [t, s, dif_pos, neg_mul, Finset.sum_mul, mul_assoc, ← C_mul, div_mul_cancel₀ _ h0]
+    simp only [t, s, dite_eq_left, neg_mul, Finset.sum_mul, mul_assoc, ← C_mul, div_mul_cancel₀ _ h0]
     rw [neg_add_eq_zero]
     exact Finset.sum_congr rfl fun k _ => by rw [dite_eq_right k.2]
   have hz : aeval t (rename (fun v => δ (some v)) g) = 0 := by
@@ -421,10 +421,10 @@ theorem isPrincipal_elimIdeal [Nonempty β] {p : Ideal (MvPolynomial σ K)} [p.I
       have : ∑ k : {j : σ // j ≠ j₀}, (if k.1 = κ i then (-1 : F) else 0) * (ξ k / ξ j₀) =
           -(ξ (κ i) / ξ j₀) := by
         rw [Finset.sum_eq_single ⟨κ i, hκ0 i i.2⟩]
-        · rw [if_pos rfl]
+        · rw [ite_eq_left rfl]
           ring
         · intro k _ hk
-          rw [if_neg fun h => hk (Subtype.ext h), zero_mul]
+          rw [ite_eq_right fun h => hk (Subtype.ext h), zero_mul]
         · simp
       set_option synthInstance.maxHeartbeats 100000 in
         simp only [ψ, s, AlgHom.toRingHom_eq_coe, RingHom.coe_coe, aeval_X, RingHom.comp_apply,

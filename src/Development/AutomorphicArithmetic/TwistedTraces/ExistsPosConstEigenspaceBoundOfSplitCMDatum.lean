@@ -146,7 +146,7 @@ private theorem dep_extend {ι α : Type*} {β : α → Type*} (w : ι → α) (
     rw [e]
     intro hs
     rfl
-  · exact dif_neg hv
+  · exact dite_eq_right hv
 
 section Loc
 variable {K : Type} [Field K] [NumberField K] {n : ℕ} (μ : Measure (normOneGL (K := K) (n := n))) [μ.IsHaarMeasure]
@@ -255,7 +255,7 @@ private theorem mem_levOn (P : Finset (Pl K)) (h : AdelicGLn.FiniteAdelicGL K n)
       · rw [Subgroup.mem_bot] at h1; rw [h1]; exact one_mem _
       · exact h1
     · have h1 := H v
-      rw [if_pos hv] at h1
+      rw [ite_eq_left hv] at h1
       exact Subgroup.mem_bot.1 h1
   · rintro ⟨H1, H2⟩ v
     split_ifs with hv
@@ -783,13 +783,13 @@ private theorem exists_ext {ι A : Type*} {X : A → Type*} (wi : ι → A) (hw 
     (ψ : ∀ i, X (wi i)) (d : ∀ a, X a) :
     ∃ h : ∀ a, X a, (∀ i, h (wi i) = ψ i) ∧ ∀ a, a ∉ Set.range wi → h a = d a := by
   refine ⟨fun a => if ha : ∃ i, wi i = a then ha.choose_spec ▸ ψ ha.choose else d a, fun i => ?_,
-    fun a ha => dif_neg ha⟩
+    fun a ha => dite_eq_right ha⟩
   have key : ∀ j (hj : wi j = wi i), (hj ▸ ψ j : X (wi i)) = ψ i := by
     intro j hj
     obtain rfl := hw hj
     rfl
   have ha : ∃ j, wi j = wi i := ⟨i, rfl⟩
-  simp only [dif_pos ha]
+  simp only [dite_eq_left ha]
   exact key _ _
 
 private theorem finprod_split {A M : Type*} [CommMonoid M] {r : ℕ} (wi : Fin r → A) (hw : Function.Injective wi)

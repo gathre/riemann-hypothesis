@@ -599,7 +599,7 @@ theorem relLen_map_lsmul : ∀ (C : Type) [Field C] (v : AddValuation C (WithTop
   unfold GlobalTheory.IndefiniteRowSideFullHecke.MultiplicationKernelIdentity.RelLen
   refine ⟨n, b, b.map e, Matrix.diagonal (fun _ => c), fun k => ?_, ?_⟩
   · simp only [Basis.map_apply, Matrix.diagonal_apply, ite_smul, zero_smul,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     rfl
   · rw [Matrix.det_diagonal, Finset.prod_const, Finset.card_univ, Fintype.card_fin,
       Subring.coe_pow, AddValuation.map_pow, hr, ← WithTop.coe_nsmul, nsmul_eq_mul]

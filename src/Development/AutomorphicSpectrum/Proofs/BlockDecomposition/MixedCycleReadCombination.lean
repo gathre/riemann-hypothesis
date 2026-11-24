@@ -116,6 +116,6 @@ theorem readComb : ReadComb := by
   · rw [ha, Finset.sum_map_toList]
     rfl
   · rw [hh z hz, Finset.prod_map_toList]
-    exact (if_pos hz).symm
+    exact (ite_eq_left hz).symm
 
 end GlobalTheory.CompanionTheory.MixZ

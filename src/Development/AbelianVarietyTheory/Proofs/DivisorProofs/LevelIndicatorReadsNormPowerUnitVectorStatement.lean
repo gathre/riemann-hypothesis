@@ -427,15 +427,15 @@ theorem reads_level : ∀ {D : D7} (ψ : AddChar (AF D.host.F) ℂ) (θ : InfFam
     · have e1 : ∀ y, symplO S T t (e • y) = symplO S T t y := fun y => by
         rw [← cA_cA e, ← GlobalTheory.PlaceModel.symplO_smul, (GlobalTheory.PlaceModel.mem_half S T).1 ((GlobalTheory.PlaceModel.isHalf_iff S T).1 h1.2)]
       simp only [e1]
-      rw [if_pos h1, mul_one]
+      rw [ite_eq_left h1, mul_one]
       by_cases h2 : ∀ i j, GlobalTheory.IndefiniteRowSideFullHecke.UnitCharTriangle.InId I (toEAf D (t i j))
-      · rw [if_pos ⟨h1.2, h2⟩, Finset.sum_congr rfl fun q _ =>
+      · rw [ite_eq_left ⟨h1.2, h2⟩, Finset.sum_congr rfl fun q _ =>
           kill_of_inId hψ hcc hLS hLT hSd hTd he h1.2 h2 (hsm _ (nsmul_mem (neg_mem (hzY q)) 2)),
           Finset.sum_const, Finset.card_univ, hcard, nsmul_eq_mul, mul_one, inv_mul_cancel₀ hn]
-      · rw [if_neg fun h => h2 h.2]
+      · rw [ite_eq_right fun h => h2 h.2]
         obtain ⟨w, hw, hw1⟩ : ∃ w ∈ Y, ψ (symplO S T t (GlobalTheory.VacUnique.finRat S T w)) ≠ 1 := by
           by_contra h
-          push_neg at h
+          push Not at h
           exact h2 (hkI t h1.2 h1.1 h)
         have h3 := sum_section π (fun q => ⟨2 • z q, nsmul_mem (hzY q) 2⟩) hπ
           (fun w => ψ (symplO S T t (GlobalTheory.VacUnique.finRat S T (-w.1))))
@@ -445,7 +445,7 @@ theorem reads_level : ∀ {D : D7} (ψ : AddChar (AF D.host.F) ℂ) (θ : InfFam
           (by simpa only [neg_neg] using hw1)
         simp only [smul_neg]
         rw [h3, mul_zero]
-    · rw [if_neg h1, mul_zero, mul_zero, if_neg fun h => h1 ⟨(half_mem_iff hcc hLS hLT hSd hTd he t h.1).2 fun i j => (h.2 i j).1, h.1⟩]
+    · rw [ite_eq_right h1, mul_zero, mul_zero, ite_eq_right fun h => h1 ⟨(half_mem_iff hcc hLS hLT hSd hTd he t h.1).2 fun i j => (h.2 i j).1, h.1⟩]
   have hv : Tm (halfInd (cA D e) (latO S T LS LT fun _ => True)) = vac := by simpa using hTm.vac
   have hee := GlobalTheory.PlaceVec.idemSum_mul_self he.1
   have hTmΦ : Tm (cosetFn (cA D e) I 0) = ((Ideal.absNorm I ^ (S.rank * T.rank) : ℕ) : ℂ)⁻¹ •

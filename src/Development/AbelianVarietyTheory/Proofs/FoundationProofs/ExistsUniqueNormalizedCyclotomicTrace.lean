@@ -164,7 +164,7 @@ theorem sum_reindex (p : ℕ) [hpf : Fact p.Prime] (L m : ℕ) (hm1 : 1 ≤ m) (
     set k := (b : ZMod (p ^ L)).val / p ^ m
     have hk : k < p ^ (L - m) := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       have : p ^ m * p ^ (L - m) ≤ p ^ m * k := Nat.mul_le_mul_left _ hc
       rw [hN] at this
       omega

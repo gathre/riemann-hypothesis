@@ -190,21 +190,21 @@ variable {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T : Type} {A : FamIn D.w
 theorem cc_eq (R : RealDat D A Ks) (F : Face D A) (tupT : D.what₂.Tup → T) (hm : 0 < D.R.m) (hTop : TopMultH R)
     (b : Bool) (μ : D.what₂.Tup) (j : ℕ) (hj : j < D.R.m) :
     (toChainReal R F tupT hm hTop).CC b μ j = R.CC (tupT μ) j := by
-  simp only [ChainReal.CC, toChainReal, if_pos hj]
+  simp only [ChainReal.CC, toChainReal, ite_eq_left hj]
   rfl
 
 theorem ccp_eq (R : RealDat D A Ks) (F : Face D A) (tupT : D.what₂.Tup → T) (hm : 0 < D.R.m) (hTop : TopMultH R)
     (b : Bool) (μ : D.what₂.Tup) (j : ℕ) (hj : j < D.R.m) :
     (toChainReal R F tupT hm hTop).CCP b μ j = MultT R.θ (R.MY j) (levS _ (R.βY j) (R.datYt (tupT μ) j (R.levR F b)))
       (levChi _ (R.βY j) (R.datYt (tupT μ) j (R.levR F b))) := by
-  simp only [ChainReal.CCP, toChainReal, if_pos hj]
+  simp only [ChainReal.CCP, toChainReal, ite_eq_left hj]
   rfl
 
 theorem ioC_val (R : RealDat D A Ks) (F : Face D A) (tupT : D.what₂.Tup → T) (hm : 0 < D.R.m) (hTop : TopMultH R)
     (b : Bool) (μ : D.what₂.Tup) (k : ℕ) (hk : k + 1 < D.R.m) (y : (toChainReal R F tupT hm hTop).CC b μ (k + 1))
     (hy : y.1 ∈ R.CC (tupT μ) (k + 1)) :
     ((toChainReal R F tupT hm hTop).ioC b μ k y).1 = (R.ioY (tupT μ) k ⟨y.1, hy⟩).1 := by
-  simp only [toChainReal, dif_pos hk]
+  simp only [toChainReal, dite_eq_left hk]
   rfl
 
 theorem ioX_val (R : RealDat D A Ks) (F : Face D A) (tupT : D.what₂.Tup → T) (hm : 0 < D.R.m) (hTop : TopMultH R)

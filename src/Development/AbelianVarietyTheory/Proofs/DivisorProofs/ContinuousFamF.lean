@@ -873,7 +873,7 @@ theorem stFamBlow_of (hB : StBlow) : StFamBlow := by
     by_cases hkN : k = Fintype.card ι
     · subst hkN
       simpa using (key (Fintype.card ι)).2
-    · rw [if_neg hkN]
+    · rw [ite_eq_right hkN]
       have hlt : k < Fintype.card ι := lt_of_le_of_ne hk' hkN
       have h0 : Tendsto (fun t : ℝ => ((t : ℂ) ^ (Fintype.card ι - k))⁻¹) atTop (𝓝 0) := by
         have h2 : Tendsto (fun t : ℝ => (t ^ (Fintype.card ι - k))⁻¹) atTop (𝓝 0) :=
@@ -894,7 +894,7 @@ theorem stFamBlow_of (hB : StBlow) : StFamBlow := by
       field_simp
   have hsum := tendsto_finsetSum _ hlim
   rw [Finset.sum_ite_eq' (Finset.range (Fintype.card ι + 1)) (Fintype.card ι),
-    if_pos (Finset.self_mem_range_succ _)] at hsum
+    ite_eq_left (Finset.self_mem_range_succ _)] at hsum
   exact hsum.congr' (by filter_upwards [heq] with t ht using ht.symm)
 
 end GlobalTheory.PsCo.PcdSFB
@@ -949,7 +949,7 @@ theorem stConst_holds : StConst := by
     rw [Metric.mem_closedBall, dist_zero_right, not_le] at hw
     have : ∃ x, 1 < ‖w x‖ := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact absurd ((pi_norm_le_iff_of_nonneg zero_le_one).2 h) (not_le.2 hw)
     obtain ⟨x, hx⟩ := this
     apply hf0

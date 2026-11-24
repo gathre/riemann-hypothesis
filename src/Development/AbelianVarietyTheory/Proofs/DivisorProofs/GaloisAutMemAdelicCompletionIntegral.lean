@@ -413,10 +413,10 @@ theorem hermA_sum_idem (c : E ≃ₐ[F] E) (G : Matrix (Fin n) (Fin n) E) {T : T
   rw [hl, TensorProduct.sum_tmul]
   refine Finset.sum_congr rfl fun m _ => ?_
   rw [hr, Finset.sum_eq_single m]
-  · rw [hermA_tmul, hε, if_pos rfl, ← hx, mul_comm, ← Algebra.smul_def,
+  · rw [hermA_tmul, hε, ite_eq_left rfl, ← hx, mul_comm, ← Algebra.smul_def,
       TensorProduct.smul_tmul, Algebra.algebraMap_eq_smul_one]
   · intro m' _ hm
-    rw [hermA_tmul, hε, if_neg hm.symm, TensorProduct.zero_tmul]
+    rw [hermA_tmul, hε, ite_eq_right hm.symm, TensorProduct.zero_tmul]
   · simp
 
 theorem exists_unit_norm (c : E ≃ₐ[F] E) (G : Matrix (Fin n) (Fin n) E) (L : Set (Fin n → E))

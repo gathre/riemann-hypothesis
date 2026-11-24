@@ -558,7 +558,7 @@ theorem posAt_of_cptCpt (hA : P5.ThmPActualCpt) (p : KB.Pl P Wp Wq) (nn : ℝ �
   · have hrr : p.RR F j w h h =
         p.form j hj w (KB.slv p.T F j hj w h hh.2) (KB.slv p.T F j hj w h hh.2) := by
       unfold KB.Pl.RR D.RRplace
-      rw [dif_pos ⟨hh, hh⟩, dif_pos hj]
+      rw [dite_eq_left ⟨hh, hh⟩, dite_eq_left hj]
       rfl
     rw [hrr]
     have hx := Formalism.FourierDecayAlt.P.module_form_pos_compact_support hA _ _ P p j hj w hw.1 (KB.slv p.T F j hj w h hh.2)
@@ -566,7 +566,7 @@ theorem posAt_of_cptCpt (hA : P5.ThmPActualCpt) (p : KB.Pl P Wp Wq) (nn : ℝ �
     exact (Complex.le_def.mp hx).1
   · have hrr : p.RR F j w h h = 0 := by
       unfold KB.Pl.RR D.RRplace
-      rw [dif_neg (fun hc => hh hc.1)]
+      rw [dite_eq_right (fun hc => hh hc.1)]
     rw [hrr]
     simp
 
@@ -578,7 +578,7 @@ theorem truncated_limit_positivity_holdsCpt (hA : P5.ThmPActualCpt) (p : KB.Pl P
         p.form 0 (Nat.zero_le _) w (KB.slv p.T F 0 (Nat.zero_le _) w [] hh.2)
           (KB.slv p.T F 0 (Nat.zero_le _) w [] hh.2) := by
       unfold KB.Pl.RR D.RRplace
-      rw [dif_pos ⟨hh, hh⟩, dif_pos (Nat.zero_le _)]
+      rw [dite_eq_left ⟨hh, hh⟩, dite_eq_left (Nat.zero_le _)]
       rfl
     rw [hrr]
     have hx := Formalism.FourierDecayAlt.P.module_form_pos_compact_support hA _ _ P p 0 (Nat.zero_le _) w hw.1
@@ -587,7 +587,7 @@ theorem truncated_limit_positivity_holdsCpt (hA : P5.ThmPActualCpt) (p : KB.Pl P
     exact (Complex.le_def.mp hx).1
   · have hrr : p.RR F 0 w [] [] = 0 := by
       unfold KB.Pl.RR D.RRplace
-      rw [dif_neg (fun hc => hh hc.1)]
+      rw [dite_eq_right (fun hc => hh hc.1)]
     rw [hrr]
     simp
 
@@ -612,8 +612,8 @@ theorem glGramCpt : GLGramCpt := by
   have hu : ∀ a, PBL.CV (p.T.bs i) (u a) := by
     intro a
     by_cases ha : D.IsLocPt a i
-    · simp only [u, dif_pos ha]; exact PBL.cv_smul _ (hslv a ha)
-    · simp only [u, dif_neg ha]; exact PBL.cv_zero
+    · simp only [u, dite_eq_left ha]; exact PBL.cv_smul _ (hslv a ha)
+    · simp only [u, dite_eq_right ha]; exact PBL.cv_zero
   let β : (Wd.Ix (Fin w.length) → B.Mat P.k (P.r - i) → (Wq →L[ℂ] Wp)) →
       (Wd.Ix (Fin w.length) → B.Mat P.k (P.r - i) → (Wq →L[ℂ] Wp)) → ℂ :=
     fun x y => (c0 : ℂ) * p.form i hi w x y
@@ -633,27 +633,27 @@ theorem glGramCpt : GLGramCpt := by
   simp only [β]
   by_cases ha : D.IsLocPt a i
   · by_cases hb : D.IsLocPt b i
-    · simp only [u, dif_pos ha, dif_pos hb]
+    · simp only [u, dite_eq_left ha, dite_eq_left hb]
       rw [formC_smul_l p i hi w _ _ _ (hslv a ha) (PBL.cv_smul _ (hslv b hb)),
         formC_smul_r p i hi w _ _ _ (hslv a ha) (hslv b hb), Complex.conj_ofReal]
       have hrr : p.RR F i w a b = p.form i hi w (KB.slv p.T F i hi w a ha.2) (KB.slv p.T F i hi w b hb.2) := by
         unfold KB.Pl.RR D.RRplace
-        rw [dif_pos ⟨ha, hb⟩, dif_pos hi]
+        rw [dite_eq_left ⟨ha, hb⟩, dite_eq_left hi]
         rfl
       unfold TBB.NP
       rw [hrr, hc0]
       simp only [sq]
       push_cast
       ring
-    · simp only [u, dif_neg hb]
+    · simp only [u, dite_eq_right hb]
       rw [formC_zero_r p i hi w _ (hu a)]
       unfold TBB.NP KB.Pl.RR D.RRplace
-      rw [dif_neg (fun h => hb h.2)]
+      rw [dite_eq_right (fun h => hb h.2)]
       simp
-  · simp only [u, dif_neg ha]
+  · simp only [u, dite_eq_right ha]
     rw [formC_zero_l p i hi w _ (hu b)]
     unfold TBB.NP KB.Pl.RR D.RRplace
-    rw [dif_neg (fun h => ha h.1)]
+    rw [dite_eq_right (fun h => ha h.1)]
     simp
 
 end

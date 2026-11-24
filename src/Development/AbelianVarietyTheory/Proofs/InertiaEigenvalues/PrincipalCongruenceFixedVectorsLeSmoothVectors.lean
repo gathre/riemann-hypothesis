@@ -133,7 +133,7 @@ theorem exists_simple {G W : Type} [Group G] [Fintype G] [AddCommGroup W] [Modul
     have hc : (Nat.card G : ℂ) ≠ 0 := Nat.cast_ne_zero.2 Nat.card_pos.ne'
     have := invertibleOfNonzero hc
     have h := Representation.char_orthonormal σU σU
-    rw [if_pos ⟨Representation.Equiv.refl σU⟩, inv_mul_eq_one₀ hc] at h
+    rw [ite_eq_left ⟨Representation.Equiv.refl σU⟩, inv_mul_eq_one₀ hc] at h
     exact h.symm
   · refine LinearMap.ext fun u => Subtype.ext ?_
     refine Eq.trans ?_ (hfix _ u.2)
@@ -167,13 +167,13 @@ theorem mem_unipRadical_iff {d a : ℕ} (had : a < d) (x : Gn g d) :
     · ext i j
       have hi : (i : ℕ) < d := by omega
       have hj : (j : ℕ) < d := by omega
-      simp only [tl, Formalism.MainNotions.ArithmeticCylinders.entN, hi, hj, and_self, dif_pos]
+      simp only [tl, Formalism.MainNotions.ArithmeticCylinders.entN, hi, hj, and_self, dite_eq_left]
       rw [h _ _ (by simp)]
       simp [Matrix.one_apply, Fin.ext_iff]
     · ext i j
       have hi : a + (i : ℕ) < d := by omega
       have hj : a + (j : ℕ) < d := by omega
-      simp only [br, Formalism.MainNotions.ArithmeticCylinders.entN, hi, hj, and_self, dif_pos]
+      simp only [br, Formalism.MainNotions.ArithmeticCylinders.entN, hi, hj, and_self, dite_eq_left]
       rw [h _ _ (by simp)]
       simp [Matrix.one_apply, Fin.ext_iff]
   · rintro ⟨h0, h1, h2⟩ i j hij

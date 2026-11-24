@@ -116,7 +116,7 @@ theorem formZ_direct :
   have H := exists_height h₃ codimOne_holds _root_.GlobalTheory.CompanionTheory.MixZ.ExRat.existsRat _root_.GlobalTheory.CompanionTheory.MixZ.CycleRat.cycleOfRat h₇ h₈ GlobalTheory.CompanionTheory.MixZ.Vert.vertEq GlobalTheory.CompanionTheory.MixZ.PtLenProof.ptLen curveInt hR II hII
     (comb M a) (combLine A a) Rc sC
   refine ⟨_, (isometric_comb_pull M a i rfl).symm.isArithHeight hX (H.restrict (mp_var m n) i rfl), ?_⟩
-  rw [htFn_eq II _ ((dim_of_generic i).trans hX.dim_eq), cycVal, if_pos hhor, hΦ]
+  rw [htFn_eq II _ ((dim_of_generic i).trans hX.dim_eq), cycVal, ite_eq_left hhor, hΦ]
   refine (expand_comb A sA cA (D + 1) (II (Fin (m + 1)) (Bk n) (ptIdeal (i (genericPoint X))) (D + 1))
     (fun L j B C hL hB hC => hII.2.1 _ _ _ _ L j B C hP hL hB hC) a)
 
@@ -151,7 +151,7 @@ theorem height_eq_direct : ReciprocityTheory.ChartRestriction.G.Geo.ResK.ResKSta
     ((GlobalTheory.CompanionTheory.MixZ.dim_closure_generic Z).trans (dim_of_isArithVar _root_.GlobalTheory.CompanionTheory.MixZ.ptDict i hd))
   refine e.trans ?_
   rw [GlobalTheory.CompanionTheory.MixZ.cycVal]
-  exact if_pos hd.2.2.1
+  exact ite_eq_left hd.2.2.1
 
 theorem projQ_direct (hAIS : Geo.ArithIntersectionSystemStatement)
     (hK : ReciprocityTheory.ChartRestriction.G.Geo.ResK.ResKStatement) : ProjQ := by

@@ -101,7 +101,7 @@ private theorem exists_heightOneSpectrum_range_iff_finitePlace_le_one {O : Type}
   constructor
   · rintro ⟨o, ho⟩
     by_contra hx
-    push_neg at hx
+    push Not at hx
     have hx0 : x ≠ 0 := by
       rintro rfl
       simp at hx

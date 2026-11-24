@@ -429,8 +429,8 @@ theorem logBinomialDeficit : LogBinomialDeficit := by
     intro u hu
     have hn := fT'_nonneg k' (Bs u) (hB0 u hu)
     by_cases h0 : u = 0
-    · rw [if_pos h0]; linarith
-    · rw [if_neg h0]
+    · rw [ite_eq_left h0]; linarith
+    · rw [ite_eq_right h0]
       have e : u - 1 + 1 = u := Nat.succ_pred_eq_of_pos (Nat.pos_of_ne_zero h0)
       have h := h4 (u - 1) (by rw [e]; exact hu)
       rw [e] at h
@@ -829,18 +829,18 @@ lemma G_split {n : ℕ} {la : ℕ → ℤ} (hd : Dom n la) {i j : ℕ} (hij : i 
   unfold pa pb pc
   rw [G_eq hij]
   by_cases hi0 : la i = 0 <;> by_cases hj0 : la j = 0
-  · rw [if_neg (show ¬(la i ≠ 0 ∧ la j ≠ 0) from fun h => h.1 hi0), if_pos hj0, if_pos hi0,
+  · rw [ite_eq_right (show ¬(la i ≠ 0 ∧ la j ≠ 0) from fun h => h.1 hi0), ite_eq_left hj0, ite_eq_left hi0,
       hi0, hj0]
     simp [hh_zero]
   · have hm : max (-(la j)) 0 = la i - la j := by
       rw [hi0, max_eq_left (show (0 : ℤ) ≤ -la j by linarith), zero_sub]
-    rw [if_neg (show ¬(la i ≠ 0 ∧ la j ≠ 0) from fun h => h.1 hi0), if_neg hj0, if_pos hi0, hm]
+    rw [ite_eq_right (show ¬(la i ≠ 0 ∧ la j ≠ 0) from fun h => h.1 hi0), ite_eq_right hj0, ite_eq_left hi0, hm]
     ring
   · have hm : max (la i) 0 = la i - la j := by
       rw [hj0, sub_zero, max_eq_left (by linarith)]
-    rw [if_neg (show ¬(la i ≠ 0 ∧ la j ≠ 0) from fun h => h.2 hj0), if_pos hj0, if_neg hi0, hm]
+    rw [ite_eq_right (show ¬(la i ≠ 0 ∧ la j ≠ 0) from fun h => h.2 hj0), ite_eq_left hj0, ite_eq_right hi0, hm]
     ring
-  · rw [if_pos ⟨hi0, hj0⟩, if_neg hj0, if_neg hi0]
+  · rw [ite_eq_left ⟨hi0, hj0⟩, ite_eq_right hj0, ite_eq_right hi0]
     ring
 
 lemma sum_ite_const_le {n Ns : ℕ} (p : ℕ → Prop) [DecidablePred p]
@@ -917,7 +917,7 @@ lemma sum_pa_le {Ns n : ℕ} {la : ℕ → ℤ} {L : ℝ} (hL0 : 0 ≤ L)
     rw [Finset.mem_range] at hj
     by_cases hj0 : la j = 0
     · simp [pa, hj0]
-    · rw [if_pos hj0]
+    · rw [ite_eq_left hj0]
       have h1 : ∑ i ∈ range j, pa la i j ≤ ∑ i ∈ range j, (if la i ≠ 0 then L else 0) := by
         apply Finset.sum_le_sum
         intro i hi
@@ -925,7 +925,7 @@ lemma sum_pa_le {Ns n : ℕ} {la : ℕ → ℤ} {L : ℝ} (hL0 : 0 ≤ L)
         unfold pa
         by_cases hi0 : la i = 0
         · simp [hi0]
-        · rw [if_pos ⟨hi0, hj0⟩, if_pos hi0]
+        · rw [ite_eq_left ⟨hi0, hj0⟩, ite_eq_left hi0]
           exact hG i j hi hj
       have h2 : ∑ i ∈ range j, (if la i ≠ 0 then L else 0) ≤
           ∑ i ∈ range n, (if la i ≠ 0 then L else 0) := by
@@ -1017,7 +1017,7 @@ theorem logWeylDimensionEstimate : LogWeylDimensionEstimate := by
     rw [Finset.mem_range] at hi
     unfold Formalism.InvariantFactorPaths.BranchingDimensions.TDim.pb
     by_cases hp : 0 < la i
-    · rw [if_pos hp, if_pos hp]
+    · rw [ite_eq_left hp, ite_eq_left hp]
       have hm : max (la i) 0 = la i := max_eq_left hp.le
       rw [hm]
       have hz : (0 : ℝ) ≤ ((la i : ℤ) : ℝ) := by exact_mod_cast hp.le
@@ -1025,7 +1025,7 @@ theorem logWeylDimensionEstimate : LogWeylDimensionEstimate := by
         have := htop i hi
         linarith
       exact pos_row h2 hK hn hd hP hM hL0 hi hp (_root_.Formalism.InvariantFactorPaths.BranchingDimensions.TDim.log_one_add_le_lemma hz (hA _ hle))
-    · rw [if_neg hp, if_neg hp]
+    · rw [ite_eq_right hp, ite_eq_right hp]
       have hm : max (la i) 0 = 0 := max_eq_right (not_lt.mp hp)
       rw [hm]
       simp [Formalism.InvariantFactorPaths.BranchingDimensions.TDim.hh_zero, Formalism.InvariantFactorPaths.BranchingDimensions.TDim.fT_zero]
@@ -1040,7 +1040,7 @@ theorem logWeylDimensionEstimate : LogWeylDimensionEstimate := by
     rw [Finset.mem_range] at hj
     unfold Formalism.InvariantFactorPaths.BranchingDimensions.TDim.pc
     by_cases hp : la j < 0
-    · rw [if_pos hp, if_pos hp]
+    · rw [ite_eq_left hp, ite_eq_left hp]
       have hm : max (-(la j)) 0 = -la j := max_eq_left (by omega)
       rw [hm]
       have h0 : (0 : ℤ) ≤ -la j := by omega
@@ -1049,7 +1049,7 @@ theorem logWeylDimensionEstimate : LogWeylDimensionEstimate := by
         have := hbot j hj
         linarith
       exact neg_row h2 hK hn hd hP hM hL0 hj hp (_root_.Formalism.InvariantFactorPaths.BranchingDimensions.TDim.log_one_add_le_lemma hz (hA _ hle))
-    · rw [if_neg hp, if_neg hp]
+    · rw [ite_eq_right hp, ite_eq_right hp]
       have hm : max (-(la j)) 0 = 0 := max_eq_right (by omega)
       rw [hm]
       simp [Formalism.InvariantFactorPaths.BranchingDimensions.TDim.hh_zero, Formalism.InvariantFactorPaths.BranchingDimensions.TDim.fT_zero]
@@ -1201,7 +1201,7 @@ lemma HStrip.tailPos_le {n : ℕ} {a b : ℕ → ℤ} (h : HStrip n a b) (u : �
 lemma wsize_eq_tails (n : ℕ) (a : ℕ → ℤ) : wsize n a = tailPos n a 0 - tailPos n (revW n a) 0 := by
   unfold wsize tailPos revW
   rw [Finset.sum_filter, Finset.sum_filter]
-  simp only [Nat.zero_le, if_true]
+  simp only [Nat.zero_le, ite_true]
   have h := Finset.sum_range_reflect (fun m => max (-(a m)) 0) n
   try simp only at h
   rw [h, ← Finset.sum_sub_distrib]
@@ -1362,7 +1362,7 @@ lemma pre_size (hk : 1 ≤ D.k) (hP : D.IsPre mu) : ∀ i, i ≤ D.n0 →
       simp only [Nat.add_sub_cancel] at hS hW
       have hd := HStrip.diff_le hS 0 hk0
       have h1 := hS.1 (D.k - 1) hk1
-      rw [if_neg (by simp [hv]), if_pos hv]
+      rw [ite_eq_right (by simp [hv]), ite_eq_left hv]
       push_cast at ih1 ih2 ⊢
       constructor <;> linarith
     · have hv' : D.vec (i + 1) = false := by simpa using hv
@@ -1371,7 +1371,7 @@ lemma pre_size (hk : 1 ≤ D.k) (hP : D.IsPre mu) : ∀ i, i ≤ D.n0 →
       simp only [Nat.add_sub_cancel] at hS hW
       have hd := HStrip.diff_le hS (D.k - 1) hk1
       have h1 := hS.1 0 hk0
-      rw [if_pos hv', if_neg hv]
+      rw [ite_eq_left hv', ite_eq_right hv]
       push_cast at ih1 ih2 ⊢
       constructor <;> linarith
 
@@ -1390,7 +1390,7 @@ lemma path_rows (hP : D.IsPATH mu) : ∀ i, i ≤ D.Ns →
     by_cases hv : D.vec (i + 1) = true
     · have hS := hP.2.2.1 (i + 1) (by omega) hi hv
       simp only [Nat.add_sub_cancel] at hS
-      rw [if_pos hv, if_neg (by simp [hv])]
+      rw [ite_eq_left hv, ite_eq_right (by simp [hv])]
       refine ⟨fun m hm hmk => ?_, fun m hm => ?_⟩
       · obtain ⟨m', rfl⟩ : ∃ m', m = m' + 1 := ⟨m - 1, by omega⟩
         exact (hS.2 m' hmk).trans (ih1 m' (by omega) (by omega))
@@ -1398,7 +1398,7 @@ lemma path_rows (hP : D.IsPATH mu) : ∀ i, i ≤ D.Ns →
     · have hv' : D.vec (i + 1) = false := by simpa using hv
       have hS := hP.2.2.2.1 (i + 1) (by omega) hi hv'
       simp only [Nat.add_sub_cancel] at hS
-      rw [if_neg hv, if_pos hv']
+      rw [ite_eq_right hv, ite_eq_left hv']
       refine ⟨fun m hm hmk => ?_, fun m hm => ?_⟩
       · exact (hS.1 m hmk).trans (ih1 m (by omega) hmk)
       · exact (ih2 (m + 1) (by omega)).trans (hS.2 m (by omega))
@@ -1642,7 +1642,7 @@ lemma pos_A (hP : D.IsPATH mu) (i u : ℕ) (ha : actV D (i + 1) = true) :
   · rw [stLen_le _ hi, stLen_le _ (by omega), stage_le _ hi, stage_le _ (by omega)]
     exact hS.tailPos_shift u
   · unfold Letters.SPos
-    rw [latestV_succ i hi, if_pos hv, List.drop_succ_cons]
+    rw [latestV_succ i hi, ite_eq_left hv, List.drop_succ_cons]
 
 lemma pos_active_zero (hP : D.IsPATH mu) (i : ℕ) (ha : actV D (i + 1) = true) :
     tailPos (D.stLen (i + 1)) (stage mu (i + 1)) 0 - tailPos (D.stLen i) (stage mu i) 0 ≤
@@ -1653,7 +1653,7 @@ lemma pos_active_zero (hP : D.IsPATH mu) (i : ℕ) (ha : actV D (i + 1) = true) 
   simp only [Nat.add_sub_cancel] at hS hW
   rw [stLen_le _ hi, stLen_le _ (by omega), stage_le _ hi, stage_le _ (by omega)]
   unfold Letters.SPos
-  rw [latestV_succ i hi, if_pos hv, List.drop_zero, List.drop_zero, List.sum_cons]
+  rw [latestV_succ i hi, ite_eq_left hv, List.drop_zero, List.drop_zero, List.sum_cons]
   have h1 := hS.tailPos_zero
   push_cast
   linarith
@@ -1672,7 +1672,7 @@ lemma pos_I (hW : D.Wf) (hP : D.IsPATH mu) (i u : ℕ) (hN : i < D.Ns) (ha : act
     · rw [stLen_le _ hi, stLen_le _ (by omega), stage_le _ hi, stage_le _ (by omega)]
       exact tailPos_mono hS.1 u
     · unfold Letters.SPos
-      rw [latestV_succ i hi, if_neg (by simp [hv])]
+      rw [latestV_succ i hi, ite_eq_right (by simp [hv])]
   · refine ⟨(frame_step hW hP i u hN (by omega)).1, ?_⟩
     unfold Letters.SPos
     rw [latestV_frame (i + 1) i (by omega) (by omega)]
@@ -1687,7 +1687,7 @@ lemma neg_A (hP : D.IsPATH mu) (i u : ℕ) (ha : actC D (i + 1) = true) :
   · rw [stLen_le _ hi, stLen_le _ (by omega), stage_le _ hi, stage_le _ (by omega), tailNeg_eq, tailNeg_eq]
     exact hS.rev.tailPos_shift u
   · unfold Letters.SNeg
-    rw [latestC_succ i hi, if_pos (by simp [hv]), List.drop_succ_cons]
+    rw [latestC_succ i hi, ite_eq_left (by simp [hv]), List.drop_succ_cons]
 
 lemma neg_active_zero (hP : D.IsPATH mu) (i : ℕ) (ha : actC D (i + 1) = true) :
     tailNeg (D.stLen (i + 1)) (stage mu (i + 1)) 0 - tailNeg (D.stLen i) (stage mu i) 0 ≤
@@ -1698,7 +1698,7 @@ lemma neg_active_zero (hP : D.IsPATH mu) (i : ℕ) (ha : actC D (i + 1) = true) 
   simp only [Nat.add_sub_cancel] at hS hW
   rw [stLen_le _ hi, stLen_le _ (by omega), stage_le _ hi, stage_le _ (by omega), tailNeg_eq, tailNeg_eq]
   unfold Letters.SNeg
-  rw [latestC_succ i hi, if_pos (by simp [hv]), List.drop_zero, List.drop_zero, List.sum_cons]
+  rw [latestC_succ i hi, ite_eq_left (by simp [hv]), List.drop_zero, List.drop_zero, List.sum_cons]
   have h1 := hS.rev.tailPos_zero
   rw [wsize_rev, wsize_rev] at h1
   push_cast
@@ -1718,7 +1718,7 @@ lemma neg_I (hW : D.Wf) (hP : D.IsPATH mu) (i u : ℕ) (hN : i < D.Ns) (ha : act
     · rw [stLen_le _ hi, stLen_le _ (by omega), stage_le _ hi, stage_le _ (by omega), tailNeg_eq, tailNeg_eq]
       exact tailPos_mono (fun m hm => by unfold revW; exact neg_le_neg (hS.1 _ (by omega))) u
     · unfold Letters.SNeg
-      rw [latestC_succ i hi, if_neg (by simp [hv])]
+      rw [latestC_succ i hi, ite_eq_right (by simp [hv])]
   · refine ⟨(frame_step hW hP i u hN (by omega)).2, ?_⟩
     unfold Letters.SNeg
     rw [latestC_frame (i + 1) i (by omega) (by omega)]

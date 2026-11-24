@@ -725,10 +725,10 @@ theorem exists_pureTensor (P : CuspidalAutomorphicRepresentation K n) (D : Adeli
   refine ⟨a, fun v => if D.finite.ξ v ≠ 0 then D.finite.ξ v else w v, ?_, ha, fun v => ?_⟩
   · show ∀ᶠ v in cofinite, _ = _
     filter_upwards [D.finite.ne_zero] with v h
-    simp only [if_pos h]
+    simp only [ite_eq_left h]
   · by_cases h : D.finite.ξ v ≠ 0
-    · simp only [if_pos h]; exact h
-    · simp only [if_neg h]; exact hw v
+    · simp only [ite_eq_left h]; exact h
+    · simp only [ite_eq_right h]; exact hw v
 
 section Sph
 
@@ -753,7 +753,7 @@ theorem exists_pureTensor_spherical (P : CuspidalAutomorphicRepresentation K n) 
     ?_, ha, fun v => ?_, fun v hv => ?_⟩
   · show ∀ᶠ v in cofinite, _ = _
     filter_upwards [D.finite.ne_zero, D.finite.mem_fixedVectors] with v h1 h2
-    exact if_pos (And.intro h1 h2)
+    exact ite_eq_left (And.intro h1 h2)
   · dsimp only
     split_ifs with h
     · exact h.1

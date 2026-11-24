@@ -147,7 +147,7 @@ theorem GlobalTheory.TensorFactor.exists_equiv_extTensor : ∀ (G H X Y : Type) 
   let ι' : homSpace τ ρ := ⟨ι, hι⟩
   obtain ⟨y0, hy0⟩ : ∃ v, ι v ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hι0 (LinearMap.ext h)
   have hy0' : y0 ≠ 0 := fun h => hy0 (by simp [h])
   have hsurj : Function.Surjective (evMap τ ρ) :=

@@ -75,7 +75,7 @@ theorem of_alg (x : D) :
   obtain ⟨p, rfl⟩ := Polynomial.map_surjective h.rangeRestrict h.rangeRestrict_surjective q
   refine ⟨p, ?_, ?_⟩
   · by_contra hc
-    push_neg at hc
+    push Not at hc
     apply hq0
     ext n
     simp only [coeff_map, coeff_zero]

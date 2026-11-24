@@ -365,7 +365,7 @@ theorem sig_all_of_sideB : ∀ (D : D7) (cf : CharFrame D) (Rw : RowSide D) (low
   refine EigModel.sig_all_of hN hM hC ?_
   rintro i j hj b ev ⟨y, hyV, hy0, hyE⟩
   by_contra hno
-  push_neg at hno
+  push Not at hno
   apply hy0
   refine eq_zero_of_joint (fun t : ℕ × PlE D.host => D.nexp.hkF i j b t.1 t.2) (fun t => HkIdx i t.1 t.2)
     (fun t => ev t.1 t.2) _ y ?_ (fun t ht => hyE t.1 t.2 ht) (good_part_le_span_triple_eigenvectors Bs hF i j hj b hyV)
@@ -606,7 +606,7 @@ theorem type_mem (t : RowsT K w Z Wt p0) (v : B.places.Pl) (i : Fin 2) (hv : B.p
   have hm : 0 < B.R.m := by have := B.R.two_le_m; omega
   have z := fk_zero t v h ⟨0, hm⟩
   unfold FK at z
-  rw [if_pos ⟨i, hv⟩] at z
+  rw [ite_eq_left ⟨i, hv⟩] at z
   exact fTypeG_ne t.r.Y.kap 1 le_rfl hm z
 
 end GlobalTheory.Mem.Top.Bl.Model3

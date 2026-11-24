@@ -177,7 +177,7 @@ private theorem val_of_inflates {i : ℚ_[g] ≃+* k} {θ : Kˣ →* ℂˣ} {τ 
   obtain ⟨φ, hφ0, hφ⟩ := hinf
   obtain ⟨v, hv⟩ : ∃ v, φ v ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hφ0 (LinearMap.ext hc)
   set c : GL (Fin 1) ℤ_[g] := GeneralLinearGroup.scalar (Fin 1) u with hc
   have hy0 : ((red g 1 c : Gn g 1) : Mt g 1) 0 0 = PadicInt.toZMod (u : ℤ_[g]) := by

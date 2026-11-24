@@ -434,7 +434,7 @@ theorem _root_.GlobalTheory.SW.Dict.tauOf_mem (hΨ : _root_.GlobalTheory.SW.IsTy
     · exact (hpos τ hv).le
   have hex : ∃ τ : Ψ, v τ ≠ 0 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have hall : ∀ σ : E →+* ℂ, ∀ a, ∑ j, σ (Module.finBasis ℚ E j) * m (a, j) = 0 := by
       intro σ a
       by_cases hσ : σ ∈ Ψ

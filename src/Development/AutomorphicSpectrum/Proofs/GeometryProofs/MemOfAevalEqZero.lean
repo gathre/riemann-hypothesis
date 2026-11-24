@@ -105,14 +105,14 @@ theorem homog_X [DecidableEq K] (p : Σ k, ι k) : IsMultiHomog (X p : MRing ι)
     rw [Finset.sum_eq_single i0]
     · simp
     · intro i _ hi
-      rw [Finsupp.single_apply, if_neg]
+      rw [Finsupp.single_apply, ite_eq_right]
       intro h
       exact hi (sigma_mk_injective h).symm
     · simp
   · rw [Pi.single_eq_of_ne hk]
     apply Finset.sum_eq_zero
     intro i _
-    rw [Finsupp.single_apply, if_neg]
+    rw [Finsupp.single_apply, ite_eq_right]
     intro h
     exact hk (congrArg Sigma.fst h).symm
 

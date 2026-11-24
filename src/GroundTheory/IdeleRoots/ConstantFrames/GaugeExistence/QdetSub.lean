@@ -212,7 +212,7 @@ theorem prod_linear (m : ℕ) (c : Fin m → A) :
 theorem tmPoly_diag {n : ℕ} (E : Fin n → Fin n → A) (k : ℕ) (a : Fin n) :
     tmPoly E k a a = X + C (E a a - algebraMap ℂ A (k : ℂ)) := by
   unfold tmPoly
-  simp only [if_true, map_sub]
+  simp only [ite_true, map_sub]
   abel
 
 theorem sum_fin_cast (n : ℕ) : ∑ k : Fin n, ((k : ℕ) : ℂ) = (n : ℂ) * ((n : ℂ) - 1) / 2 := by

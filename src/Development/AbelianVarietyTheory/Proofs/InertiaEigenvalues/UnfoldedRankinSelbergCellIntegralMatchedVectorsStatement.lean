@@ -197,7 +197,7 @@ theorem exists_fourier_gauss_lattice : ∀ (E : Type) [Field E] [NumberField E] 
       exact ⟨by rw [Complex.ofReal_re]; exact (Real.exp_pos _).le, Complex.ofReal_im _⟩
     · rw [mul_zero]
       exact ⟨le_refl _, rfl⟩
-  · rw [hFG, hGv, hφ, if_pos (fun j v => by simp)]
+  · rw [hFG, hGv, hφ, ite_eq_left (fun j v => by simp)]
     rw [mul_one, Complex.ofReal_re]
     exact Real.exp_pos _
   · intro ϖ hϖ a ha y hy
@@ -236,7 +236,7 @@ theorem exists_fourier_gauss_lattice : ∀ (E : Type) [Field E] [NumberField E] 
           fun t ht => (Valuation.map_sub _ _ _).trans (max_le ht h1)
         exact iff_of_true (key _ (by rw [map_mul]; exact mul_le_one' h3 h2)) (key _ h2)
     · rintro ⟨w, hw⟩
-      rw [hFy, hGv, if_neg, mul_zero]
+      rw [hFy, hGv, ite_eq_right, mul_zero]
       intro hP
       have hwS : w ∉ S := fun h => by rw [ha w h] at hw; exact lt_irrefl _ hw
       obtain ⟨j, hj⟩ := (hy w hwS).2
@@ -359,7 +359,7 @@ theorem exists_val_lastRow_eq_one (w : HeightOneSpectrum (𝓞 E)) {m : ℕ} {k 
     (hk : k ∈ KGL w (n := (m + 1))) : ∃ j, Valued.v ((k : Matrix (Fin (m + 1)) (Fin (m + 1)) (w.adicCompletion E)) (Fin.last m) j) = 1 := by
   rw [GlobalTheory.HenQ.Basic.mem_KGL_iff] at hk
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hlt : ∀ j, Valued.v ((k : Matrix (Fin (m + 1)) (Fin (m + 1)) (w.adicCompletion E)) (Fin.last m) j) < 1 :=
     fun j => lt_of_le_of_ne (hk.1 _ _) (hne j)
   have h1 : ((k : Matrix (Fin (m + 1)) (Fin (m + 1)) (w.adicCompletion E)) * ((k⁻¹ : GL (Fin (m + 1)) (w.adicCompletion E)) :
@@ -412,7 +412,7 @@ theorem sphW_pad (q : ℕ) (hq : 0 < q) {j n : ℕ} (hj : j ≤ n) (α : Fin n �
       simp [padNat, hij]
     · intro i
       simp [padNat, hcast]
-  rw [sphW, if_pos hl, hc, Complex.ofReal_cpow hqR.le, GlobalTheory.ZEulLocal.wtS_eq_sum]
+  rw [sphW, ite_eq_left hl, hc, Complex.ofReal_cpow hqR.le, GlobalTheory.ZEulLocal.wtS_eq_sum]
   congr 2
   push_cast
   rw [Finset.mul_sum, ← Finset.sum_add_distrib]
@@ -438,7 +438,7 @@ theorem localTerm_mixed (q : ℕ) (hq : 0 < q) {j n : ℕ} (hj : j ≤ n) (α : 
     push_cast
     refine Finset.sum_congr rfl fun i _ => ?_
     exact_mod_cast (Int.toNat_of_nonneg (h0 i)).symm
-  rw [sphW_pad q hq hj α v h0 hv, hβ, rsTermNM, if_pos ⟨h0, hv⟩, ← key2, map_mul, Complex.conj_ofReal]
+  rw [sphW_pad q hq hj α v h0 hv, hβ, rsTermNM, ite_eq_left ⟨h0, hv⟩, ← key2, map_mul, Complex.conj_ofReal]
   set s : ℝ := ∑ i, (v i : ℝ)
   set A : ℝ := (q : ℝ) ^ (-((GlobalTheory.CellDec.wtS j v : ℝ) + ((n : ℝ) - j) * s) / 2) with hA
   set A' : ℝ := (q : ℝ) ^ (-((GlobalTheory.CellDec.wtS j v : ℝ) + ((j : ℝ) - j) * s) / 2) with hA'
@@ -647,8 +647,8 @@ theorem GlobalTheory.CellEvalNM.uIntNM_cell_eval : ∀ (E : Type) [Field E] [Num
   · obtain ⟨w, hw⟩ := not_forall.1 hgood
     have hws : w ∈ l.1.support := by
       rw [Finsupp.mem_support_iff]; intro h0; rw [h0] at hw; exact hw ⟨fun _ => le_rfl, antitone_const⟩
-    rw [Finsupp.prod, Finsupp.prod, Finsupp.prod, Finset.prod_eq_zero hws (by rw [GlobalTheory.RSnmUnf.rsTermNM, if_neg hw]),
-      Finset.prod_eq_zero hws (if_neg hw), Finset.prod_eq_zero hws (if_neg hw), GlobalTheory.RSnmUnf.uIntNM]
+    rw [Finsupp.prod, Finsupp.prod, Finsupp.prod, Finset.prod_eq_zero hws (by rw [GlobalTheory.RSnmUnf.rsTermNM, ite_eq_right hw]),
+      Finset.prod_eq_zero hws (ite_eq_right hw), Finset.prod_eq_zero hws (ite_eq_right hw), GlobalTheory.RSnmUnf.uIntNM]
     by_cases ha : ∀ w, Antitone (l.1 w)
     · have h0 := hF2 ⟨w, not_le.1 fun h => hw ⟨fun i => le_trans h (ha w (Fin.le_last i)), ha w⟩⟩
       simp [h0]
@@ -701,11 +701,11 @@ theorem GlobalTheory.CellEvalNM.uIntNM_cell_eval : ∀ (E : Type) [Field E] [Num
         GroundTheory.Automorphic.GJMatrix.adelicFourierPi E F (GlobalTheory.ZEul.lastRow g) *
         ((GlobalTheory.RSnm.detAbs g ^ ((0 : ℝ) - (((m + r + 1 + 1 : ℕ) : ℝ) - ((m + 1 : ℕ) : ℝ)) / 2) : ℝ) : ℂ) *
         ((GlobalTheory.RSnm.detAbs g ^ x : ℝ) : ℂ)) * hcc
-  · rw [e1, e3, hdet, GlobalTheory.CellDec.dinv, Finsupp.prod, Finset.prod_congr rfl fun w _ => if_pos (hgood w)]
+  · rw [e1, e3, hdet, GlobalTheory.CellDec.dinv, Finsupp.prod, Finset.prod_congr rfl fun w _ => ite_eq_left (hgood w)]
     refine ennreal_collect _ _ _ _ _ (fun w => zpow_nonneg (Nat.cast_nonneg _) _)
       (fun w => Real.rpow_nonneg (Nat.cast_nonneg _) _) (fun w _ => ?_) c _ hc _ _
     exact localTerm_diag (qV E w) (hq w) hmn _ x _ (by push_cast; ring) (l.1 w) (hgood w).1 (hgood w).2
-  · rw [e2, e3, hdet, GlobalTheory.CellDec.dinv, Finsupp.prod, Finset.prod_congr rfl fun w _ => if_pos (hgood w)]
+  · rw [e2, e3, hdet, GlobalTheory.CellDec.dinv, Finsupp.prod, Finset.prod_congr rfl fun w _ => ite_eq_left (hgood w)]
     refine ennreal_collect _ _ _ _ _ (fun w => zpow_nonneg (Nat.cast_nonneg _) _)
       (fun w => Real.rpow_nonneg (Nat.cast_nonneg _) _) (fun w _ => ?_) c _ hc _ _
     have := localTerm_diag (qV E w) (hq w) le_rfl (fun i => (β w i : ℂ)) x x (by ring) (l.1 w) (hgood w).1 (hgood w).2
@@ -1213,7 +1213,7 @@ theorem term_le_locFac {m k : ℕ} (h : m + 1 ≤ k) (q : ℕ) (a : Fin k → �
       GlobalTheory.RSCell.locFac q a x (padInt h v) := by
   split_ifs with hv
   · have hv' := padInt_valid h hv
-    rw [GlobalTheory.RSCell.locFac, if_pos ⟨hv'.2, hv'.1⟩, toNat_padInt h v, sum_padNat h]
+    rw [GlobalTheory.RSCell.locFac, ite_eq_left ⟨hv'.2, hv'.1⟩, toNat_padInt h v, sum_padNat h]
   · exact bot_le
 
 theorem term_zero {m k : ℕ} (q : ℕ) (a : Fin k → ℂ) (x : ℝ) :
@@ -1221,7 +1221,7 @@ theorem term_zero {m k : ℕ} (q : ℕ) (a : Fin k → ℂ) (x : ℝ) :
           ENNReal.ofReal (‖GlobalTheory.JSW.schurAt (GlobalTheory.RSnmUnf.padNat (n := k) fun i => ((0 : Fin (m + 1) → ℤ) i).toNat) a‖ ^ 2 *
             (q : ℝ) ^ (-(((∑ i, ((0 : Fin (m + 1) → ℤ) i).toNat : ℕ) : ℝ) * x))) else 0) = 1 := by
   have h0 : (fun i : Fin (m + 1) => ((0 : Fin (m + 1) → ℤ) i).toNat) = 0 := funext fun _ => rfl
-  rw [if_pos ⟨fun _ => le_rfl, fun _ _ _ => le_rfl⟩, h0, padNat_zero]
+  rw [ite_eq_left ⟨fun _ => le_rfl, fun _ _ _ => le_rfl⟩, h0, padNat_zero]
   rw [show (0 : Fin k → ℕ) = fun _ => 0 from rfl, GlobalTheory.RSPole.EulerPole.schurAt_const_zero]
   simp
 
@@ -1280,7 +1280,7 @@ theorem rsTermNM_zero (q : ℕ) {n m : ℕ} (α : Fin n → ℂ) (β : Fin m →
   have h1 : (GlobalTheory.RSnmUnf.padNat (n := n) fun i : Fin m => ((0 : Fin m → ℤ) i).toNat) = fun _ => 0 := by
     funext i; simp [GlobalTheory.RSnmUnf.padNat]
   have h2 : (fun i : Fin m => ((0 : Fin m → ℤ) i).toNat) = fun _ => 0 := by funext i; simp
-  rw [GlobalTheory.RSnmUnf.rsTermNM, if_pos ⟨fun i => le_rfl, antitone_const⟩, h1, h2]
+  rw [GlobalTheory.RSnmUnf.rsTermNM, ite_eq_left ⟨fun i => le_rfl, antitone_const⟩, h1, h2]
   simp [GlobalTheory.JSW.schurAt, GlobalTheory.JSW.schur_zero]
 
 set_option synthInstance.maxHeartbeats 400000 in

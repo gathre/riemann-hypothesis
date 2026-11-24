@@ -97,7 +97,7 @@ private theorem dx_zpow {Γ R : Type} [TopologicalSpace Γ] [CommRing R] (I : Id
     funext g
     have hx : IsUnit (Ideal.Quotient.mk (I ^ N) (Ψ g : R)) := (Ψ g).isUnit.map _
     have e : hx.unit = Units.map (Ideal.Quotient.mk (I ^ N)).toMonoidHom (Ψ g) := Units.ext rfl
-    simp only [Function.comp_apply, dif_pos hx]
+    simp only [Function.comp_apply, dite_eq_left hx]
     rw [e, ← map_zpow]
     rfl
   rw [key]

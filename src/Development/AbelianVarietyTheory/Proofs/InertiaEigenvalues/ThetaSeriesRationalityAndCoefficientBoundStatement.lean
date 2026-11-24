@@ -978,7 +978,7 @@ theorem placeIn_unique : ∀ (Λ : Subring ℂ) [IsDiscreteValuationRing Λ] (l 
   have hsub : ∀ x : L, ι x ∈ Λ → la.valuation L x ≤ 1 := by
     intro x hx
     by_contra hv
-    push_neg at hv
+    push Not at hv
     have hx0 : x ≠ 0 := by rintro rfl; simp at hv
     have hy : la.valuation L x⁻¹ < 1 := by rw [map_inv₀]; exact inv_lt_one_of_one_lt₀ hv
     obtain ⟨a, s, h⟩ := la.exists_primeCompl_mul_eq_of_integer (K := L) x⁻¹ hy.le
@@ -1153,7 +1153,7 @@ theorem exists_sum_fibres {T : CoreJ D} {j : Fin D.R.m} {C : Cover T ((j : ℕ) 
   refine ⟨_, sum_mem_intForms' C _ _ _ _ fun a' => intForms_fibre hRF hT hU hray hu hQ a' _ _ _ (hφ (a - a')), fun g => ?_⟩
   change (∑ a', _ : GA D _ → ℂ) g = φ _ g
   rw [Finset.sum_apply, Finset.sum_eq_single (Multiplicative.toAdd (detChar _ (u.delQ Q) g))
-    (fun a' _ ha' => by rw [if_neg (Ne.symm ha'), zero_mul]) (fun h0 => absurd (Finset.mem_univ _) h0), if_pos rfl, one_mul]
+    (fun a' _ ha' => by rw [ite_eq_right (Ne.symm ha'), zero_mul]) (fun h0 => absurd (Finset.mem_univ _) h0), ite_eq_left rfl, one_mul]
 
 section Main
 

@@ -272,7 +272,7 @@ theorem exists_dvr (hv : ∃ x : K, v x ≠ 0 ∧ v x < 1) :
       have := (WithZero.log_le_log ((v.ne_zero_iff).2 hy') one_ne_zero).2 ((v.mem_valuationSubring_iff _).1 y.2)
       rwa [WithZero.log_one] at this
     have hm0 : m ≤ 0 := by
-      by_contra h; push_neg at h
+      by_contra h; push Not at h
       have : (0 : ℤ) < d * m := mul_pos hdz h
       omega
     set n := (-m).toNat with hn

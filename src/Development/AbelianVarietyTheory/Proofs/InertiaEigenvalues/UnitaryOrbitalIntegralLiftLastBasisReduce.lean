@@ -265,7 +265,7 @@ theorem unitU_liftH_of_norm_le_one {F E : Type} [NontriviallyNormedField F] [Non
   simp only [e]
   by_cases h1 : ‖l‖ ≤ 1 <;>
     by_cases h2 : (∀ i j, ‖X.1.1 i j‖ ≤ 1) ∧ (∀ i, ‖X.2.1 i‖ ≤ 1) ∧ ‖X.2.2‖ ≤ 1 <;>
-    simp only [h1, h2, if_true, if_false, true_and, false_and, and_self, mul_one, mul_zero, implies_true]
+    simp only [h1, h2, ite_true, ite_false, true_and, false_and, and_self, mul_one, mul_zero, implies_true]
 
 end GlobalTheory.JR.Step
 end -- clump:auto

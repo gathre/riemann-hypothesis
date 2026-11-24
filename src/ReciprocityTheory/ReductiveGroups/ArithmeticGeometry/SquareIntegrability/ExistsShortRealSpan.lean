@@ -118,7 +118,7 @@ lemma exists_out {σ : E →+* ℂ} {ρ : ℕ}
     (hu : Submodule.span ℝ (Set.range u) = IR I) (W : Submodule ℂ (Vsp X.dim))
     (hW : Module.finrank ℂ W < ρ) : ∃ j, prj σ (u j) ∉ W := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle := span_inf_partSub_le u hu W hcon
   have h2 : Module.finrank ℂ ((Submodule.span ℂ (I : Set (Vsp X.dim)) ⊓ partSub σ :
       Submodule ℂ (Vsp X.dim))) ≤ Module.finrank ℂ W := Submodule.finrank_mono hle

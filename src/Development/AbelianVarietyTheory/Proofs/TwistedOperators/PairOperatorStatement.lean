@@ -293,7 +293,7 @@ theorem Gs_mul_GsStar (hχ : χ ≠ 1) :
   rw [Finset.sum_eq_single (1 : 𝓀[k]ˣ)]
   · simp
   · intro u _ hu
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h0
     apply hu
     ext
@@ -360,7 +360,7 @@ theorem FF_FFStar [Fintype n] (hχ : χ ≠ 1) (φ : Form k n M) :
       simp [resCard, Nat.card_eq_fintype_card]
     simp only [hiff, hcard]
   simp only [hinner, sub_smul, ite_smul, zero_smul, one_smul, Finset.sum_sub_distrib, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
 
 
 variable (χ) in
@@ -543,8 +543,8 @@ theorem operatorIdentities [Fintype n] (hχ : χ ≠ 1) : OperatorIdentities k n
       funext x
       unfold phiOne
       by_cases hM : Maps P Q x
-      · rw [if_pos hM, if_pos ((maps_dia c).mpr hM)]
-      · rw [if_neg hM, if_neg fun h' => hM ((maps_dia c).mp h')]
+      · rw [ite_eq_left hM, ite_eq_left ((maps_dia c).mpr hM)]
+      · rw [ite_eq_right hM, ite_eq_right fun h' => hM ((maps_dia c).mp h')]
     twisted_class_sum ε φ L _ _ f := by
       rw [dia_apply, smul_ofDual, FFStar_ofDual]
       simp [LinearMap.smul_apply]

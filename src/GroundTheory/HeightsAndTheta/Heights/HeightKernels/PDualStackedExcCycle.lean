@@ -308,7 +308,7 @@ theorem DualStackedExcCycle.proof (hR : DualStackedExcReduced.Statement) : DualS
       obtain ⟨l, hgl⟩ := hl'
       have hj : ∃ j, C (a j) * graphFirst j ∉ W := by
         by_contra hno
-        push_neg at hno
+        push Not at hno
         refine hWE (hexc W x hW (sup_le hΓW (Ideal.span_le.mpr ?_)))
         rintro _ ⟨s, rfl⟩
         exact hno s

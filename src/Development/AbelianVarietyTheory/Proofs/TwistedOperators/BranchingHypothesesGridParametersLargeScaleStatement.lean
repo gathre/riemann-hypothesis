@@ -468,29 +468,29 @@ theorem merged_word_succ_lt (G : GridData) (hga : 0 < G.ga) (hvb : 1 ≤ G.v G.k
   have hg : (0 : ℚ) < G.ga := by exact_mod_cast hga
   unfold mergedDecreasingWordPiZeroDZero
   rcases lt_trichotomy p G.m with h | rfl | h
-  · rw [if_pos (by omega : p + 1 ≤ G.m), if_pos h.le, G.a_eq_succ_add p]; linarith
-  · rw [if_neg (by omega), if_pos (by omega), if_pos (by omega), if_pos le_rfl,
+  · rw [ite_eq_left (by omega : p + 1 ≤ G.m), ite_eq_left h.le, G.a_eq_succ_add p]; linarith
+  · rw [ite_eq_right (by omega), ite_eq_left (by omega), ite_eq_left (by omega), ite_eq_left le_rfl,
       show (G.m + 1 - G.m + 3) / 2 = 2 by omega, G.a_m]
     linarith
-  · rw [if_neg (show ¬ p + 1 ≤ G.m by omega), if_neg (show ¬ p ≤ G.m by omega)]
+  · rw [ite_eq_right (show ¬ p + 1 ≤ G.m by omega), ite_eq_right (show ¬ p ≤ G.m by omega)]
     rcases lt_trichotomy p (G.m + 2 * (G.k - 1)) with h' | h' | h'
-    · rw [if_pos (show p + 1 ≤ G.m + 2 * (G.k - 1) by omega), if_pos h'.le]
+    · rw [ite_eq_left (show p + 1 ≤ G.m + 2 * (G.k - 1) by omega), ite_eq_left h'.le]
       by_cases hj : (p - G.m) % 2 = 1
-      · rw [if_neg (show ¬ (p + 1 - G.m) % 2 = 1 by omega), if_pos hj, show (p + 1 - G.m + 2) / 2 = (p - G.m + 3) / 2 by omega, vHalf]
+      · rw [ite_eq_right (show ¬ (p + 1 - G.m) % 2 = 1 by omega), ite_eq_left hj, show (p + 1 - G.m + 2) / 2 = (p - G.m + 3) / 2 by omega, vHalf]
         linarith
-      · rw [if_pos (show (p + 1 - G.m) % 2 = 1 by omega), if_neg hj, show (p + 1 - G.m + 3) / 2 = (p - G.m + 2) / 2 + 1 by omega, vHalf]
+      · rw [ite_eq_left (show (p + 1 - G.m) % 2 = 1 by omega), ite_eq_right hj, show (p + 1 - G.m + 3) / 2 = (p - G.m + 2) / 2 + 1 by omega, vHalf]
         have := G.v_anti ((p - G.m + 2) / 2) ((p - G.m + 2) / 2 + 1) (by omega) (by omega) (by omega)
         have : ((G.v ((p - G.m + 2) / 2 + 1) : ℤ) : ℚ) + 1 ≤ (G.v ((p - G.m + 2) / 2) : ℚ) := by
           exact_mod_cast this
         linarith
     · subst h'
-      rw [if_neg (show ¬ G.m + 2 * (G.k - 1) + 1 ≤ G.m + 2 * (G.k - 1) by omega), if_pos le_rfl,
-        if_neg (show ¬ (G.m + 2 * (G.k - 1) - G.m) % 2 = 1 by omega),
+      rw [ite_eq_right (show ¬ G.m + 2 * (G.k - 1) + 1 ≤ G.m + 2 * (G.k - 1) by omega), ite_eq_left le_rfl,
+        ite_eq_right (show ¬ (G.m + 2 * (G.k - 1) - G.m) % 2 = 1 by omega),
         show G.m + 2 * (G.k - 1) + 1 - G.m - 2 * (G.k - 1) = 1 by omega,
         show (G.m + 2 * (G.k - 1) - G.m + 2) / 2 = G.k by omega, vHalf]
       have : (1 : ℚ) ≤ (G.v G.k : ℚ) + (G.b 1 : ℚ) := by exact_mod_cast hvb
       linarith
-    · rw [if_neg (show ¬ p + 1 ≤ G.m + 2 * (G.k - 1) by omega), if_neg (show ¬ p ≤ G.m + 2 * (G.k - 1) by omega),
+    · rw [ite_eq_right (show ¬ p + 1 ≤ G.m + 2 * (G.k - 1) by omega), ite_eq_right (show ¬ p ≤ G.m + 2 * (G.k - 1) by omega),
         show p + 1 - G.m - 2 * (G.k - 1) = (p - G.m - 2 * (G.k - 1)) + 1 by omega]
       have := G.b_mono (p - G.m - 2 * (G.k - 1)) (p - G.m - 2 * (G.k - 1) + 1) (by omega) (by omega) (by omega)
       have : ((G.b (p - G.m - 2 * (G.k - 1)) : ℤ) : ℚ) < (G.b (p - G.m - 2 * (G.k - 1) + 1) : ℚ) := by
@@ -522,9 +522,9 @@ theorem exists_pos_of_mem_lam (G : GridData) {x : ℚ × Bool} (hx : x ∈ G.lam
     · simp [h]; omega
   · obtain ⟨i, hi2, hik, hv⟩ := mem_cloudHalf.1 hc
     refine ⟨G.m + 2 * i - 2, by omega, ?_, ?_⟩
-    · rw [hv, mergedDecreasingWordPiZeroDZero, if_neg (show ¬ G.m + 2 * i - 2 ≤ G.m by omega),
-        if_pos (show G.m + 2 * i - 2 ≤ G.m + 2 * (G.k - 1) by omega),
-        if_neg (show ¬ (G.m + 2 * i - 2 - G.m) % 2 = 1 by omega),
+    · rw [hv, mergedDecreasingWordPiZeroDZero, ite_eq_right (show ¬ G.m + 2 * i - 2 ≤ G.m by omega),
+        ite_eq_left (show G.m + 2 * i - 2 ≤ G.m + 2 * (G.k - 1) by omega),
+        ite_eq_right (show ¬ (G.m + 2 * i - 2 - G.m) % 2 = 1 by omega),
         show (G.m + 2 * i - 2 - G.m + 2) / 2 = i by omega]
     · rw [hs, mergedDecreasingWordParity]; simp; omega
 
@@ -534,14 +534,14 @@ theorem exists_position_of_mem_D0 (G : GridData) {x : ℚ × Bool} (hx : x ∈ G
   rcases mem_discrete_parameter_iff.1 hx with ⟨hc, hs⟩ | ⟨l, hl1, hlm, rfl⟩
   · obtain ⟨i, hi2, hik, hv⟩ := mem_cloud.1 hc
     refine ⟨G.m + 2 * i - 3, by omega, ?_, ?_⟩
-    · rw [hv, mergedDecreasingWordPiZeroDZero, if_neg (show ¬ G.m + 2 * i - 3 ≤ G.m by omega),
-        if_pos (show G.m + 2 * i - 3 ≤ G.m + 2 * (G.k - 1) by omega),
-        if_pos (show (G.m + 2 * i - 3 - G.m) % 2 = 1 by omega),
+    · rw [hv, mergedDecreasingWordPiZeroDZero, ite_eq_right (show ¬ G.m + 2 * i - 3 ≤ G.m by omega),
+        ite_eq_left (show G.m + 2 * i - 3 ≤ G.m + 2 * (G.k - 1) by omega),
+        ite_eq_left (show (G.m + 2 * i - 3 - G.m) % 2 = 1 by omega),
         show (G.m + 2 * i - 3 - G.m + 3) / 2 = i by omega]
     · rw [hs, mergedDecreasingWordParity]; simp; omega
   · refine ⟨G.m + 2 * (G.k - 1) + l, by omega, ?_, ?_⟩
-    · rw [mergedDecreasingWordPiZeroDZero, if_neg (show ¬ G.m + 2 * (G.k - 1) + l ≤ G.m by omega),
-        if_neg (show ¬ G.m + 2 * (G.k - 1) + l ≤ G.m + 2 * (G.k - 1) by omega),
+    · rw [mergedDecreasingWordPiZeroDZero, ite_eq_right (show ¬ G.m + 2 * (G.k - 1) + l ≤ G.m by omega),
+        ite_eq_right (show ¬ G.m + 2 * (G.k - 1) + l ≤ G.m + 2 * (G.k - 1) by omega),
         show G.m + 2 * (G.k - 1) + l - G.m - 2 * (G.k - 1) = l by omega]
     · simp only [mergedDecreasingWordParity, Nat.even_iff]
       by_cases h : (l - 1) % 2 = 0
@@ -1229,7 +1229,7 @@ theorem realInputPar : Ev fun {D} _ _ {sc} _ _ _ => ∀ (τ : D.what₂.Tau) (ε
   have hD : dualPar (parB (Ptw D) 0 τ) = (GlobalTheory.ChiGrid.num D 1 τ).parD0 := by
     rw [← GlobalTheory.SignedHC.GridData.parD_zero_zero, parB, ← parV_zero D 1 (Nat.zero_le _) τ, _root_.Formalism.IndefR.Mult.dualPar_dualPar]
     show GlobalTheory.SignedHC.shift (if Odd (0 + 0) then -(1 / 2) else 0) _ = _
-    rw [if_neg (by decide), shift_zero_lemma_2]
+    rw [ite_eq_right (by decide), shift_zero_lemma_2]
   have hm' : IsEnum (GlobalTheory.ChiGrid.num D 1 τ).parD0 mu ε' := hD ▸ hmu
   have hr : D.R.r = D.R.k + D.R.m - 1 := rfl
   have h2m := D.R.two_le_m

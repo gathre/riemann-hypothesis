@@ -197,18 +197,18 @@ private theorem latCls_val {O K : Type} [CommRing O] [IsDomain O] [IsDiscreteVal
   right; right
   have hab : v a < v b := by
     by_contra hba
-    push_neg at hba
+    push Not at hba
     have h1 : v a < v c := by
       by_contra h1
-      push_neg at h1
+      push Not at h1
       exact hA ⟨hba, h1⟩
     exact hC ⟨hba.trans h1.le, h1.le⟩
   have hcb : v c < v b := by
     by_contra hbc
-    push_neg at hbc
+    push Not at hbc
     have h1 : v c < v a := by
       by_contra h1
-      push_neg at h1
+      push Not at h1
       exact hC ⟨hbc, h1⟩
     exact hA ⟨hbc.trans h1.le, h1.le⟩
   have hs : v (a + b + c) = v b := by

@@ -118,7 +118,7 @@ theorem mk_psTrunc_X {τ : Type} [Fintype τ] [DecidableEq τ] (m : ℕ) (q : τ
       · simp [h3]
     · have h4 : AddMonoidAlgebra.coeff (X q : MvPolynomial τ S) e = 0 := by
         rw [MvPolynomial.coeff_X']
-        exact if_neg (Ne.symm h2)
+        exact ite_eq_right (Ne.symm h2)
       split_ifs <;> simp [h4]
   rw [Ideal.Quotient.eq, hs]
   split_ifs with h

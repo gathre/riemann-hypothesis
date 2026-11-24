@@ -116,7 +116,7 @@ theorem exists_remb_eq_of_mem_dual {ι : Type} [Fintype ι] [DecidableEq ι] (b 
     have : Algebra.trace ℚ F (ν * b i) = c i := by
       set_option synthInstance.maxHeartbeats 100000 in
         simp only [ν, Finset.sum_mul, smul_mul_assoc, map_sum, map_smul, hdel, smul_eq_mul,
-        mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+        mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
     rw [this]; simp
   have hind : LinearIndependent ℝ (fun i => remb F (b i)) := by
     rw [Fintype.linearIndependent_iff]
@@ -124,7 +124,7 @@ theorem exists_remb_eq_of_mem_dual {ι : Type} [Fintype ι] [DecidableEq ι] (b 
     have := congrArg (fun w => ⟪w, remb F (b' j)⟫) hg
     simp only [sum_inner, real_inner_smul_left, inner_remb_eq_trace, inner_zero_left] at this
     simp only [mul_comm (b _) (b' j), hdel] at this
-    rw [Finset.sum_eq_single j (fun i _ hi => by rw [if_neg hi]; simp) (by simp)] at this
+    rw [Finset.sum_eq_single j (fun i _ hi => by rw [ite_eq_right hi]; simp) (by simp)] at this
     simpa using this
   have hcard : Fintype.card ι = Module.finrank ℝ (RSp F) := by
     rw [finrank_euclideanSpace, GlobalTheory.card_realEmbeddings, Module.finrank_eq_card_basis b]

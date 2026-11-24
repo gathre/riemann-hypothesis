@@ -494,7 +494,7 @@ theorem measurable_integrand {r : ℕ} [MeasurableSpace (BlockIx a r → Ad E)] 
     refine measurable_uncurry_of_continuous_of_measurable (fun u => ?_) (fun y => ?_)
     · exact ((φ.2 (unip u * g)).continuousOn).restrict
     · have e : Φ y = fun u => φ.1 (unip u * g * infGL E a y.2.unit) := by
-        funext u; exact dif_pos y.2
+        funext u; exact dite_eq_left y.2
       rw [e]
       exact (hc.comp ((continuous_unip.mul continuous_const).mul continuous_const)).measurable
   have hy : Measurable (fun x : X => (⟨toL (γ x).val, val_mem_invSet (γ x)⟩ : invSet E a)) :=

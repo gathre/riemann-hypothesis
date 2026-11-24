@@ -198,7 +198,7 @@ theorem div_of_mem_nonzeroLocus : ∀ (o Ω : Type) [CommRing o] [Field Ω] [Alg
     show (M.pt.appLE _ ⊤ hptU ≫ (Sp Ω).presheaf.map (homOfLE le_top).op).hom _ = _
     rw [Scheme.Hom.appLE_map]
   have hv : ∀ b, valF M.pt (δ.U k) ((t b).f k) = e.hom.hom ((M.pt.appLE (δ.U k) ⊤ hptU).hom ((t b).f k)) :=
-    fun b => dif_pos hptU
+    fun b => dite_eq_left hptU
   have hei : ∀ x : Ω, e.hom.hom (e.inv.hom x) = x := fun x => by
     rw [← CommRingCat.comp_apply, Iso.inv_hom_id, CommRingCat.id_apply]
   have key : ∀ b, valF M.pt (δ.U k) ((t b).f k) * th a = valF M.pt (δ.U k) ((t a).f k) * th b := by
@@ -946,7 +946,7 @@ theorem keyVals : ∀ κ : Rule, Homog (fun _ => 1) κ → Funct κ → KeyLoc �
   have hf : ∀ c i, genericPoint S ∈ (VB.det (LieVB.omega G) g).U c ⊓ δ.U i → KeyVals.IsKeyVal κ g L σ c i (f c i) := by
     intro c i h
     have ex := exists_keyVal κ S s G g L δ σ hg hN hs h0 hsa hsm hne hop hsym hδ hpol hunif hnz c i h
-    simp only [f, dif_pos ex]
+    simp only [f, dite_eq_left ex]
     exact ex.choose_spec
   have hgen : ∀ U : S.Opens, (U : Set S).Nonempty → genericPoint S ∈ U := fun U ⟨p, hp⟩ =>
     ((genericPoint_spec S).mem_open_set_iff U.isOpen).2 ⟨p, trivial, hp⟩

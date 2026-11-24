@@ -217,7 +217,7 @@ lemma homogeneousComponent_mul_of_isHomogeneous {Δ : MvPolynomial σ ℝ} {D : 
     rw [homogeneousComponent_of_mem (hΔ.mul (homogeneousComponent_isHomogeneous m l))]
     by_cases h : n = m
     · subst h; simp
-    · rw [if_neg (by omega), if_neg h]
+    · rw [ite_eq_right (by omega), ite_eq_right h]
   simp_rw [key]
   rw [Finset.sum_ite_eq]
   split_ifs with h
@@ -286,7 +286,7 @@ lemma rename_swap_delta (τ₀ : T) {a b : Fin N} (hab : a ≠ b) :
         simp only [AlgHom.mapMatrix_apply, Matrix.map_apply, Matrix.vandermonde_apply, map_pow,
           map_neg, rename_X]
         rw [Equiv.swap_apply_of_ne_of_ne (by simp [hτ]) (by simp [hτ])]
-      rw [this, if_neg hτ, one_mul]
+      rw [this, ite_eq_right hτ, one_mul]
   unfold antisymDelta
   simp_rw [delta_factor_eq_det]
   rw [map_prod]
@@ -368,7 +368,7 @@ theorem AntisymDivisible.proof : AntisymDivisible.Statement := by
   have hΔh := isHomogeneous_delta (T := T) (N := N)
   have hP1 : P = antisymDelta T N * homogeneousComponent 1 l := by
     have := homogeneousComponent_mul_of_isHomogeneous hΔh l 1
-    rw [← hl, homogeneousComponent_of_mem hPh, if_pos rfl] at this
+    rw [← hl, homogeneousComponent_of_mem hPh, ite_eq_left rfl] at this
     exact this
   have hΔ0 : antisymDelta T N ≠ 0 := by
     rw [hΔ, Finset.prod_ne_zero_iff]
@@ -402,7 +402,7 @@ theorem AntisymDivisible.proof : AntisymDivisible.Statement := by
     simp only [map_smul, rename_X] at h
     rw [coeff_lin, coeff_lin] at h
     simp only [Equiv.swap_apply_eq_iff, Equiv.swap_apply_left, Finset.sum_ite_eq',
-      Finset.mem_univ, if_true, id] at h
+      Finset.mem_univ, ite_true, id] at h
     exact h.symm
   refine ⟨l₁, ⟨?_, ?_⟩, hP1⟩
   · exact homogeneousComponent_isHomogeneous 1 l

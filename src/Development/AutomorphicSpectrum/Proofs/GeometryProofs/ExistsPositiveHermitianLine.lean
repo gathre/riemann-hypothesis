@@ -81,7 +81,7 @@ variable {K : Type} [Fintype K] {J : K → Type} [∀ k, Fintype (J k)]
 theorem exists_block_ne {z w : (Σ k, J k) → ℂ} (hw : ∀ c : K → ℂ, w ≠ torusSmul c z) :
     ∃ k, ∀ c : ℂ, (fun i => w ⟨k, i⟩) ≠ fun i => c * z ⟨k, i⟩ := by
   by_contra h
-  push_neg at h
+  push Not at h
   choose c hc using h
   exact hw c (funext fun p => by
     obtain ⟨k, i⟩ := p

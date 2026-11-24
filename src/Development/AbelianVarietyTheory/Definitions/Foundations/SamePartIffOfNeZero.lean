@@ -314,7 +314,7 @@ theorem _root_.GlobalTheory.BadShare.good_iff {ι : Type} {m N : ℕ} {ch : ι �
     have hD : ∀ a : ℕ, 1 ≤ a → 2 * a ≤ N → ∃ w, ¬∃ q : (ZMod g)[X], q ∣ F w ∧ q.natDegree = a := by
       intro a ha1 ha2
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact h4 ⟨a, ha1, ha2, hc⟩
     exact ⟨⟨hA, hS, fun l hl hB w => h2 w l hl hB, fun l hl hlg w j => (h3 w j).1 l hl hlg, hD, v, hv⟩,
       ⟨hA, hS, fun l hl hB w => h2 w l hl hB, fun l hl hlg w j => (h3 w j).2 l hl hlg, hD, v, hv⟩⟩

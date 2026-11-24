@@ -129,7 +129,7 @@ theorem kfin_wt_orth (hσ : IsURepOn (UJset ε) σ) {μ ν : Fin n → ℝ} {v w
   classical
   obtain ⟨a, ha⟩ : ∃ a, μ a ≠ ν a := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (funext h)
   have hd : ν a - μ a ≠ 0 := sub_ne_zero.mpr (Ne.symm ha)
   set c : ℝ := Real.pi / (ν a - μ a) with hc
@@ -137,7 +137,7 @@ theorem kfin_wt_orth (hσ : IsURepOn (UJset ε) σ) {μ ν : Fin n → ℝ} {v w
   let θ : Fin n → ℝ := fun b => if b = a then c else 0
   have hs : ∀ f : Fin n → ℝ, ∑ b, f b * θ b = f a * c := by
     intro f
-    simp only [θ, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    simp only [θ, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   obtain ⟨h1, h2⟩ := kfin_diag_mem_Kset (n := n) ε θ
   have hK : Matrix.diagonal (fun b => Complex.exp ((θ b : ℂ) * Complex.I)) ∈ Formalism.REAL.Kset ε :=
     kfin_diag_mem_Kset ε θ
@@ -217,7 +217,7 @@ theorem kfin_key (hσ : IsURepOn (UJset ε) σ) (hD : IsDerivedOn ε σ D E)
     exact Submodule.sub_mem _ (hS hx) (hFcl (Fm.starProjection_apply_mem x))
   obtain ⟨z0, hz0M, hz0⟩ : ∃ z0 : D, z0 ∈ genSub E V ∧ inner ℂ (z0 : H) y ≠ 0 := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hyo : y ∈ ((genSub E V).map D.subtype)ᗮ := by
       rw [Submodule.mem_orthogonal]
       rintro u ⟨z1, hz1, rfl⟩

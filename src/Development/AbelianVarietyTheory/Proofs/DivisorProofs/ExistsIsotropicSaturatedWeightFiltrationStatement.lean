@@ -700,7 +700,7 @@ theorem mem_of_perp_perp (hZ : IsIsoSat D Z) (y : D.La) (hy : ∀ p ∈ perp D Z
   have hu : (Z.restrictScalars ℤ).mkQ y ≠ 0 := fun h => hyZ ((Submodule.Quotient.mk_eq_zero _).1 h)
   obtain ⟨χ, hχ⟩ : ∃ χ : Module.Dual ℤ (D.La ⧸ Z.restrictScalars ℤ), χ ((Z.restrictScalars ℤ).mkQ y) ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hu ((Module.forall_dual_apply_eq_zero_iff ℤ _).1 hc)
   obtain ⟨p, hp⟩ := exists_ef_eq D (χ.comp (Z.restrictScalars ℤ).mkQ).toAddMonoidHom
   have hpZ : p ∈ perp D Z := fun z hz => by
@@ -1760,7 +1760,7 @@ theorem tateIsoQ_y_cois : ∀ {E : Type} [Field E] [NumberField E] [IsCMField E]
     _root_.GlobalTheory.Ex.Specialise.exists_eq_smul_of_dvd D hn fun a => ((I.ζ_prim n hn).zpow_eq_one_iff_dvd _).1 (h a)
   refine ⟨fun x => ?_, fun a ha => ?_⟩
   · by_contra hx
-    push_neg at hx
+    push Not at hx
     obtain ⟨t, ht, hS, hx'⟩ := exists_char hζ hn (LinearMap.range (y n)).toAddSubgroup x (by
       rintro s ⟨a, rfl⟩ e
       exact hx a e)
@@ -1769,7 +1769,7 @@ theorem tateIsoQ_y_cois : ∀ {E : Type} [Field E] [NumberField E] [IsCMField E]
     obtain ⟨e', he'⟩ := dv b' fun a => by rw [h2]; rfl
     exact hx' (by rw [h3 ⟨e - e', by rw [he, he', smul_sub, add_sub_cancel]⟩]; rfl)
   · by_contra hne
-    push_neg at hne
+    push Not at hne
     obtain ⟨t, ht, -, hx'⟩ := exists_char hζ hn ⊥ (y n a) (by
       intro s hs e h
       rw [AddSubgroup.mem_bot] at hs

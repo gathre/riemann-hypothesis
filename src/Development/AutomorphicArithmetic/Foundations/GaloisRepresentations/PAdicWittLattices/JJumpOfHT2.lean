@@ -231,7 +231,7 @@ theorem UpperTheory.Gal.G3.jJumpOfHT2 :
     exact eig_coord (Per.σC h) _ Pm _ z _ e2 e1 i
   have hc0 : ∃ i, c i ≠ 0 := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     apply hz0
     have hc' : c = 0 := funext hall
     have : (Pm : Matrix (Fin d) (Fin d) ℂ_[l]).mulVec c = z := by

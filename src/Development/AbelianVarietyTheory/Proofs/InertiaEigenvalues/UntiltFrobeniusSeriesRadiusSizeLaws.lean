@@ -126,7 +126,7 @@ theorem gam_exists_max_of_tendsto (f : ℤ → ℝ) (hf0 : ∀ n, 0 ≤ f n)
     (hf : Filter.Tendsto f Filter.cofinite (nhds 0)) : ∃ n₀, ∀ n, f n ≤ f n₀ := by
   by_cases hall : ∀ n, f n = 0
   · exact ⟨0, fun n => by rw [hall n, hall 0]⟩
-  push_neg at hall
+  push Not at hall
   obtain ⟨m, hm⟩ := hall
   have hmpos : 0 < f m := lt_of_le_of_ne (hf0 m) (Ne.symm hm)
   have hev : ∀ᶠ n in Filter.cofinite, f n < f m := hf (Iio_mem_nhds hmpos)

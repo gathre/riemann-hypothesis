@@ -189,7 +189,7 @@ theorem reps_orth : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp D),
     have hx'fin := hxfin ((isHalf_iff S T).2 hx'h)
     obtain ⟨l, hl, hψl⟩ : ∃ l ∈ Λ, ψ (symplO S T x' l) ≠ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hx'Λ ((hdual x' hx'fin).2 hcon)
     have hl' := hsm hc l hl
     obtain ⟨y₀, hy₀h, hy₀⟩ := half_div S T c k hk _ hl'.2

@@ -348,7 +348,7 @@ theorem exists_affine_res_ne_zero {X : Scheme.{0}} {U : X.Opens} (f : Γ(X, U)) 
     ∃ (V : X.Opens) (hV : IsAffineOpen V) (hVU : V ≤ U), X.presheaf.map (homOfLE hVU).op f ≠ 0 := by
   have : ∃ (x : X) (hx : x ∈ U), X.presheaf.germ U x hx f ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hf (TopCat.Presheaf.section_ext X.sheaf U f 0 (fun x hx => by rw [map_zero]; exact hc x hx))
   obtain ⟨x, hx, hne⟩ := this
   obtain ⟨V, hV, hxV, hVU⟩ := exists_isAffineOpen_mem_and_subset (x := x) (U := U) hx
@@ -1138,7 +1138,7 @@ theorem ratio_odd_mul : ∀ (R : Type) [CommRing R] [IsDomain R] [IsLocalRing R]
   · refine ⟨1, 1, one_ne_zero, one_ne_zero, fun W _ _ _ T => ?_⟩
     obtain ⟨a, b, ha, hb, h⟩ := hθ W T
     exact ⟨a, a, 1, ha, ha, GlobalTheory.T.expansion_scalar_arbitrary_of_members_zero R hR D C W T 1 le_rfl θ₀ F₁ hz a b h a, by simp⟩
-  push_neg at hz
+  push Not at hz
   obtain ⟨G, S, hG, hS⟩ := GlobalTheory.T.exists_oddMultiplication_pullback_thetaFamily_degree_sq R hR D C m hm F₁ θ₀
   have hGz := hG hz
   have hk : 1 ≤ m ^ 2 := Nat.one_le_pow _ _ hm.pos

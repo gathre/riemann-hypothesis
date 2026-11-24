@@ -112,7 +112,7 @@ theorem UpperTheory.V.KT.psdcone :
     intro k hk hk0
     have hw : ∃ w, mat k w ≠ 0 := by
       by_contra hne
-      push_neg at hne
+      push Not at hne
       exact hk0 (HS_ext fun w => by rw [hne w, mat_zero])
     obtain ⟨w, hw⟩ := hw
     show 0 < ∑ w, ((mat k w).trace).re
@@ -139,7 +139,7 @@ private theorem ryne_place (L : Type) [Field L] [NumberField L] (x : 𝓞 L) (hx
     ∃ w : InfinitePlace L, 1 ≤ w (x : L) := by
   classical
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have hprod := InfinitePlace.prod_eq_abs_norm (x : L)
   rw [← Algebra.coe_norm_int] at hprod
   have hn : Algebra.norm ℤ x ≠ 0 := Algebra.norm_ne_zero_iff.mpr hx
@@ -171,7 +171,7 @@ theorem UpperTheory.V.KT.ryne :
     norm_cast
   obtain ⟨a, ha⟩ : ∃ a, y a ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hy (funext hc)
   obtain ⟨w, hw⟩ := ryne_place L (y a) ha
   have hw' : ‖embO w (y a)‖ = w ((y a : 𝓞 L) : L) := by

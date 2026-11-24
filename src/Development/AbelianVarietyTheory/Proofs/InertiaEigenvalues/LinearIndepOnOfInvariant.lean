@@ -83,7 +83,7 @@ theorem main {K B W G ι : Type} [Field K] [CommRing B] [IsDomain B] [Algebra K 
     | H T ih =>
       intro hTs f hf
       by_contra hne
-      push_neg at hne
+      push Not at hne
       obtain ⟨i₀, hi₀, hfi₀⟩ := hne
 
       have hrel : ∀ j ∈ T, ∀ g : G, f i₀ * a g (f j) = a g (f i₀) * f j := by

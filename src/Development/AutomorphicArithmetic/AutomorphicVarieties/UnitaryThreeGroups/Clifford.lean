@@ -108,7 +108,7 @@ private theorem exists_compl {Γ κ V : Type*} [Group Γ] [Field κ] [AddCommGro
     {F | F ≠ ⊥ ∧ F ≠ ⊤ ∧ ∀ g ∈ H, ∀ v ∈ F, σ g v ∈ F} ⟨W₀, hb, ht, h0⟩
   have hex : ∃ g, ¬ W ≤ U.comap (σ g) := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     rcases hirr (⨅ g, U.comap (σ g)) (fun g v hv => by
       rw [Submodule.mem_iInf] at hv ⊢
       intro k
@@ -241,7 +241,7 @@ theorem UpperTheory.V.U3.exists_selfTwist :
   have hirr' : ∀ W : Submodule κ (Fin m → κ), (∀ g, ∀ v ∈ W, σ g v ∈ W) → W = ⊥ ∨ W = ⊤ :=
     fun W hW => hirr W fun g _ v hv => hσ g v ▸ hW g v hv
   unfold MatIrr at hred
-  push_neg at hred
+  push Not at hred
   obtain ⟨W₀, h0, hb, ht⟩ := hred
   obtain ⟨U, W, hc, hU0, hW0, hU, hW⟩ := exists_compl σ H hirr' W₀
     (fun g hg v hv => by rw [hσ]; exact h0 g hg v hv) hb ht

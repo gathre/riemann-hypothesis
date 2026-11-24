@@ -83,16 +83,16 @@ theorem kum_pow_coc_of (hk : LkumTex) (hmk : LevMk) (hd : LevDelta) (he : kum_ex
     intro p s h V U g x
     by_cases hs : s = 0
     · subst hs
-      simp only [a, dif_pos]
+      simp only [a, dite_eq_left]
       rw [(hk q).1 V U g _ (isUnit_q_pull q x hq)]
       exact congrArg (kumT q V) (units_map_appTop_comp g x u)
-    · simp only [a, dif_neg hs, map_zero]
+    · simp only [a, dite_eq_right hs, map_zero]
   obtain ⟨α, hα⟩ := hmk (ZMod q) a ha
   refine ⟨Cocycle.mk (δ 0 1 α) 2 (by norm_num) (δ_δ 0 1 2 α), ⟨?_, ?_⟩, ?_⟩
   · have key : ∀ (U : Scheme.{0}) (x : Sx (sch.obj X) (0 + 1) U), ev (δ 0 1 α) (0 + 1) 0 (by simp) U x = 0 := by
       intro U x
       rw [(hd (ZMod q) (n := 0) (m := 1) (by norm_num) α U).2 0 (-1) 0 (by simp) (by simp) x, hα]
-      have z : a (0 + 1) (-1) (by simp) U x = 0 := dif_neg (by norm_num)
+      have z : a (0 + 1) (-1) (by simp) U x = 0 := dite_eq_right (by norm_num)
       have f0 : x.face 0 = x.face 1 := rfl
       rw [z, Fin.sum_univ_two, f0]
       simp [Sec.map]
@@ -104,7 +104,7 @@ theorem kum_pow_coc_of (hk : LkumTex) (hmk : LevMk) (hd : LevDelta) (he : kum_ex
     have h1 := (hd (ZMod q) (n := 0) (m := 1) (by norm_num) α U).1 x
     refine h1.trans ?_
     erw [hα]
-    simp only [a, dif_pos]
+    simp only [a, dite_eq_left]
     exact e2.symm.trans e1
   · rw [CohomologyClass.mk_eq_zero_iff]
     exact ⟨0, by norm_num, α, rfl⟩

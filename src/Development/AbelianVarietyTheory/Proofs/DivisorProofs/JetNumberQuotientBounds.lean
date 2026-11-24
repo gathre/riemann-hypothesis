@@ -103,8 +103,8 @@ theorem mult_add_mult_conj {E : Type} [Field E] [NumberField E] [IsCMField E] {H
     conj_eq_iff H.d_prime.pos hsq H.sqrt_neg_disc_sq
   unfold Datum.mult
   by_cases h : τ (H.rt : E) = H.rt0
-  · rw [if_pos h, if_neg (fun h' => key.1 h' h)]
-  · rw [if_neg h, if_pos (key.2 h), add_comm]
+  · rw [ite_eq_left h, ite_eq_right (fun h' => key.1 h' h)]
+  · rw [ite_eq_right h, ite_eq_left (key.2 h), add_comm]
 
 end GlobalTheory.ConjugateMultiplicitySum
 end -- clump:auto

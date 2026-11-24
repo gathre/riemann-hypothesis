@@ -636,14 +636,14 @@ theorem isMultiHomog_rename_baseInc {β : MRing (baseIdx ι blk)} {b : NonPlucke
   by_cases h : ∀ p, blk p ≠ some k
   · have e : ∀ i : ι k, (Finsupp.mapDomain (baseInc blk) m₀) ⟨k, i⟩ = m₀ ⟨⟨k, h⟩, i⟩ := fun i =>
       Finsupp.mapDomain_apply_of_injective (baseInc_injective blk) m₀ (⟨⟨k, h⟩, i⟩ : Σ k, baseIdx ι blk k)
-    simp only [e, extDeg, dif_pos h]
+    simp only [e, extDeg, dite_eq_left h]
     exact hβ m₀ hm₀ ⟨k, h⟩
   · have e : ∀ i : ι k, (Finsupp.mapDomain (baseInc blk) m₀) ⟨k, i⟩ = 0 := fun i =>
       Finsupp.mapDomain_of_notMem_range _ _ (by
         rintro ⟨q, hq⟩
         have : q.1.1 = k := congrArg Sigma.fst hq
         exact h (this ▸ q.1.2))
-    simp only [e, extDeg, dif_neg h, Finset.sum_const_zero]
+    simp only [e, extDeg, dite_eq_right h, Finset.sum_const_zero]
 
 omit [Fintype K] [∀ k, Fintype (ι k)] in
 theorem evC_rename_baseInc (z : (Σ k, ι k) → ℂ) (β : MRing (baseIdx ι blk)) :
@@ -1105,8 +1105,8 @@ theorem stXB : StX := by
   let cl : ℝ → ℝ := fun t => if 0 < t ∧ t ≤ S.t₀ then t else S.t₀
   have hcl : ∀ t, 0 < cl t ∧ cl t ≤ S.t₀ := fun t => by
     by_cases h : 0 < t ∧ t ≤ S.t₀
-    · simp only [cl, if_pos h]; exact h
-    · simp only [cl, if_neg h]; exact ⟨h0, le_rfl⟩
+    · simp only [cl, ite_eq_left h]; exact h
+    · simp only [cl, ite_eq_right h]; exact ⟨h0, le_rfl⟩
   refine ⟨fun t r => Top.combLine (fun a => Re.line a (cl t)) (Cmp.rootOnFund r), fun t r => ?_,
     fun t r => smooth_comb _ _ fun a => Re.line_smooth a _ (hcl t).1 (hcl t).2, fun t r z => ?_, ?_⟩
   · funext k
@@ -1124,7 +1124,7 @@ theorem stXB : StX := by
   · show ∏ a, _ = ∏ a, _
     exact Finset.prod_congr rfl fun a _ => by rw [hc a (cl t) z]
   · filter_upwards [Ioo_mem_nhdsGT h0] with t ht r z _
-    have : cl t = t := if_pos ⟨ht.1, ht.2.le⟩
+    have : cl t = t := ite_eq_left ⟨ht.1, ht.2.le⟩
     rw [this]
 
 end SquareStatements

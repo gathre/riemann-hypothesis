@@ -911,14 +911,14 @@ theorem card_eq (hPT : PoitouTateTotallyComplex) (hLF : LocalFiniteness) (hLD : 
     (fun g => ⟨0, by simp⟩) (IsLocalRing.ResidueField (X.O0 i)) htors (Tgl i s) (Or.inl rfl)
   have cl : ∀ (τ : GE N →* GL (Fin D.R.r) (X.O0 i)) v, v ∈ placesOver D.host.E (X.l i) →
       Formalism.GaloisCohomology.bkCond (red i (IsLocalRing.ResidueField (X.O0 i)) τ) N.plOm (X.l i) (Spl i ∪ ↑(∅ : Finset (PlE D.host))) (bkOn bkP i τ 1 (IsLocalRing.ResidueField (X.O0 i))) v =
-        bkOn bkP i τ 1 (IsLocalRing.ResidueField (X.O0 i)) v := fun τ v hv => if_pos hv
+        bkOn bkP i τ 1 (IsLocalRing.ResidueField (X.O0 i)) v := fun τ v hv => ite_eq_left hv
   have cp : ∀ (τ : GE N →* GL (Fin D.R.r) (X.O0 i)) v, v ∈ Spl (X := X) i →
       Formalism.GaloisCohomology.bkCond (red i (IsLocalRing.ResidueField (X.O0 i)) τ) N.plOm (X.l i) (Spl i ∪ ↑(∅ : Finset (PlE D.host))) (bkOn bkP i τ 1 (IsLocalRing.ResidueField (X.O0 i))) v = ⊤ :=
-    fun τ v hv => (if_neg hv.2).trans (if_pos (Or.inl hv))
+    fun τ v hv => (ite_eq_right hv.2).trans (ite_eq_left (Or.inl hv))
   have cu : ∀ (τ : GE N →* GL (Fin D.R.r) (X.O0 i)) v, v ∉ Sl ∪ Sp →
       Formalism.GaloisCohomology.bkCond (red i (IsLocalRing.ResidueField (X.O0 i)) τ) N.plOm (X.l i) (Spl i ∪ ↑(∅ : Finset (PlE D.host))) (bkOn bkP i τ 1 (IsLocalRing.ResidueField (X.O0 i))) v =
         Formalism.GaloisCohomology.unrAt (red i (IsLocalRing.ResidueField (X.O0 i)) τ) (N.plOm.1 v) :=
-    fun τ v hv => (if_neg (hnot v hv).1).trans (if_neg (by simpa using (hnot v hv).2))
+    fun τ v hv => (ite_eq_right (hnot v hv).1).trans (ite_eq_right (by simpa using (hnot v hv).2))
   obtain ⟨f1, f2, e⟩ := _root_.GlobalTheory.DualPairFormula.greenbergWiles_dualPair hPT hLF hGF hGE D.host.E N.Om (X.l i) (IsLocalRing.ResidueField (X.O0 i)) (Fin D.R.r → (IsLocalRing.ResidueField (X.O0 i))) (Fin D.R.r → (IsLocalRing.ResidueField (X.O0 i)))
     (red i (IsLocalRing.ResidueField (X.O0 i)) (Tgl i s)) (red i (IsLocalRing.ResidueField (X.O0 i)) ρ) (fun g => algebraMap (X.O0 i) (IsLocalRing.ResidueField (X.O0 i)) ((eps0 X i g : (X.O0 i)ˣ) : X.O0 i))
     (dotProductBilin (IsLocalRing.ResidueField (X.O0 i)) (IsLocalRing.ResidueField (X.O0 i))) hc hc' (residue_globalCyclotomicCharacter i)

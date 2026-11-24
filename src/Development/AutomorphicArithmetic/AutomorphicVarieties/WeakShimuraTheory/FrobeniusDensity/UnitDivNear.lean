@@ -180,7 +180,7 @@ private theorem exists_F (K : Type) [Field K] [NumberField K] [_root_.NumberFiel
   let F : Ideal (𝓞 K) → ℤ_[l]ˣ := fun I => if hI : ∃ u, P I u then hI.choose else 1
   have hF : ∀ I u, P I u → F I = u := fun I u hI => by
     have h1 : ∃ u, P I u := ⟨u, hI⟩
-    simp only [F, dif_pos h1]
+    simp only [F, dite_eq_left h1]
     exact uniq I _ _ h1.choose_spec hI
   have ex : ∀ I, I ≠ ⊥ → IsCoprime I w → ∃ a, IsUnit (ι a) ∧ I ^ h = Ideal.span {a} ∧
       (F I : ℤ_[l]) = ι a ^ (m * (l - 1)) := fun I hI hw => by
@@ -355,7 +355,7 @@ private theorem differs [NumberField K] {A B B' : ValuationSubring Ω} (hA : A.v
     (hD : Dec (F := ℚ) A ≤ K.fixingSubgroup) (h : ∀ x ∈ K, x ∈ B ↔ x ∈ A) {σ : G ℚ Ω} (hσ : σ ∉ K.fixingSubgroup)
     (hB : ∀ x, σ x ∈ B ↔ x ∈ B') : ∃ x ∈ K, ¬ (x ∈ B' ↔ x ∈ A) := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨g, hg⟩ := conj_of_agree hA hne
   obtain ⟨g', hg'⟩ := conj_of_agree hA h
   set τ : G ℚ Ω := (resQ K g')⁻¹ * σ * resQ K g with hτ
@@ -515,7 +515,7 @@ theorem UpperTheory.V.Ws.Tw.bt0 :
     intro s hs
     have hdis : ∃ x ∈ K, ¬(x ∈ B ↔ x ∈ A) := by
       by_contra hne
-      push_neg at hne
+      push Not at hne
       exact hB ((val_agree hne (natCast_mem K l)).mpr hA)
     have h1 : μ s = 1 := hμker B hdis hs
     have h2 : cycZ K Ω l s = 1 := (places K Ω l B).2.2.2 hB hs

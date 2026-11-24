@@ -263,7 +263,7 @@ private theorem vanish_unit {O K : Type} [CommRing O] [IsDomain O] [IsDiscreteVa
       · simp [him]
   have hne : l.re ≠ 0 ∨ l.im * s ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hl0
     apply QuadraticAlgebra.ext
     · simpa using h.1
@@ -540,7 +540,7 @@ theorem UpperTheory.V.Z.Sym.Loc.vanish :
   intro O K _ _ _ _ _ Δ τ hL c d m hD hc
   obtain ⟨S, hS⟩ : ∃ S, IsFix O c d m S := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     apply hc
     unfold lcount wcount
     apply finsum_eq_zero_of_forall_eq_zero
@@ -592,7 +592,7 @@ theorem UpperTheory.V.Z.Sym.Loc.vanish :
     exact Submodule.sub_mem _ (Submodule.add_mem _ h1 hz) (Submodule.add_mem _ hy hy)
   have hex : ∃ y ∈ S, y.2 ≠ 0 := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have h01 : ((0 : Lsq K Δ), (1 : EL Δ τ)) ∈ S := by
       rw [hS.dual]
       intro x hx

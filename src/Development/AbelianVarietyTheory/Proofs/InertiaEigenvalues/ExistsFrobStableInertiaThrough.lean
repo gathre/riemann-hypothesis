@@ -94,7 +94,7 @@ theorem inertialEig_inf_iSup_eq_bot (ρ : Representation LL G V) (I : Subgroup G
     have ih' := ih hbT
     obtain ⟨g, hg⟩ : ∃ g : I, b g ≠ a0 g := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hba0 (MonoidHom.ext h)
     have hne : ((b g : LLˣ) : LL) - ((a0 g : LLˣ) : LL) ≠ 0 := by
       intro h

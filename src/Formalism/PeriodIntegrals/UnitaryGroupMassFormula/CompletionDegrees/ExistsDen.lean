@@ -104,7 +104,7 @@ private theorem norm_le_one_of_isIntegral_int' {l : ℕ} [Fact l.Prime] (z : Om 
     (hz : IsIntegral ℤ z) : ‖z‖ ≤ 1 := by
   obtain ⟨p, hmon, hp⟩ := hz
   by_contra hgt
-  push_neg at hgt
+  push Not at hgt
   have hcoef : ∀ c : ℤ, ‖(c : Om l)‖ ≤ 1 := fun c => by
     first
       | exact IsUltrametricDist.norm_intCast_le_one (Om l) c

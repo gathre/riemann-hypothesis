@@ -138,7 +138,7 @@ theorem vertical_eq (h₃ : PtDict) (hV : VertEq) (II : IntersectionSystem) (N :
       rw [← map_natCast (algebraMap κ Γ(Z, ⊤)) p, CharP.cast_eq_zero, map_zero]
     exact hp0 (Nat.cast_eq_zero.1 h0)
   obtain ⟨hpr, hz⟩ := hp₅ hnh
-  rw [cycVal, if_neg hnh]
+  rw [cycVal, ite_eq_right hnh]
   generalize charOf (ptIdeal (i (genericPoint Z))) = l at hpr hz ⊢
   haveI : Fact l.Prime := ⟨hpr⟩
   haveI : CharP Γ(Z, ⊤) l := charP_of_cast hpr hz
@@ -193,7 +193,7 @@ theorem rec_pow (h₅ : ExistsRat) (h₆ : CycleOfRat) (h₇ : ArchIntEq) (h₈ 
       simp only [HermLB.archInt, e₁]
       exact finsum_congr fun σ => (Weight.chernInt_congr (isOpen_offSupp _).measurableSet (e₂ σ)).symm
     have e₄ : ((N.restr i).pow mm).div hr = ((N.pow mm).restr i).div hr' := e₁.symm
-    rw [cycVal, if_pos hP.2.2.1, ← hpw, hrr, e₃, hint, e₄, hcyc]
+    rw [cycVal, ite_eq_left hP.2.2.1, ← hpw, hrr, e₃, hint, e₄, hcyc]
     rfl
 
 theorem exists_height (h₃ : PtDict) (h₄ : CodimOne) (h₅ : ExistsRat) (h₆ : CycleOfRat) (h₇ : ArchIntEq)
@@ -234,13 +234,13 @@ theorem combLine_single [DecidableEq κ] (A : κ → HermLine ι)
   · funext z
     by_cases hz : ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0
     · simp only [combLine]
-      rw [if_pos hz, Finset.prod_eq_single o]
+      rw [ite_eq_left hz, Finset.prod_eq_single o]
       · simp
       · intro b _ hb
         simp [hb]
       · simp
     · simp only [combLine]
-      rw [if_neg hz, cA o z hz]
+      rw [ite_eq_right hz, cA o z hz]
 
 theorem expand_comb (A : κ → HermLine ι) (sA : ∀ o, IsSmoothHerm (A o))
     (cA : ∀ j z, (¬ ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0) → (A j).h z = 0) (e : ℕ) (F : (Fin e → HermLine ι) → ℝ)

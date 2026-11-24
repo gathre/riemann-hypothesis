@@ -132,8 +132,8 @@ theorem comp_over_comp_norm : ∀ (D : D7) (T : CoreJ D), LawsJ T → ∀ j, For
     obtain ⟨P₂, -, p₂, u₂, -, N₂⟩ := hP₂ _ ⟨x, hx⟩
     exact hn _ _ _ _ _ F F₂ _ _ P P₂ p p₂ u u₂ (N hd') (N₂ hd)
   · have e : rdU (T.U j σ) f (T.dict j σ h₀).1 x' =
-        toC (evR (T.Q.Xo j) T.Q.c f ((T.U j σ).un (T.dict j σ h₀).1 ⟨x', hx'⟩)) := dif_pos hx'
+        toC (evR (T.Q.Xo j) T.Q.c f ((T.U j σ).un (T.dict j σ h₀).1 ⟨x', hx'⟩)) := dite_eq_left hx'
     rw [e]
-    exact (dif_pos hx).trans (hr n a f hf f₂ hp)
+    exact (dite_eq_left hx).trans (hr n a f hf f₂ hp)
 
 end GlobalTheory.CoverFrameMod

@@ -513,7 +513,7 @@ theorem exists_res_degree (hRes : ResExistsStatement) {K₀ K : Type} [Fintype K
   obtain ⟨F₁, hF₁J, hF₁P, a₄, hF₁h⟩ : ∃ F ∈ J', F ∉ mCoordIdeal y ∧ ∃ a, IsMultiHomog F a := by
     obtain ⟨S, hS, rfl⟩ := hJ'h
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hJ'P
     rw [Ideal.span_le]
     intro f hf

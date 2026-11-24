@@ -725,7 +725,7 @@ theorem eta_eq_uq_eta : ∀ (K : UQ) (F E : Type) [NontriviallyNormedField F] [N
   by_cases hx : x = 0
   · subst hx
     simp only [map_zero, WithZero.log_zero, neg_zero, zpow_zero, Rat.cast_one]
-    rw [if_pos ⟨0, by simp⟩]
+    rw [ite_eq_left ⟨0, by simp⟩]
   set z := φ.symm (algebraMap F E x) with hz
   have hz0 : z ≠ 0 := by simpa [z] using hx
   have hvz : v z ≠ 0 := (Valuation.ne_zero_iff v).2 hz0

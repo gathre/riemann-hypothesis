@@ -75,7 +75,7 @@ theorem main {Ω : Type} [Field Ω] (S : Type) [CommRing S] [IsDomain S] [IsDede
     (hS : ∀ s : S, algebraMap S Ω s ∈ A) {x : Ω} (hx : x ∈ A) :
     ∃ s t : S, A.valuation (algebraMap S Ω s) = 1 ∧ algebraMap S Ω s * x = algebraMap S Ω t := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hSle : ∀ c : S, A.valuation (algebraMap S Ω c) ≤ 1 := fun c => (A.valuation_le_one_iff _).2 (hS c)
   let M : Submodule S Ω :=
     { carrier := {z | A.valuation z < 1}

@@ -214,7 +214,7 @@ theorem UpperTheory.exists_irreducible_subrep_hecke_eigen_of_invariant_form :
       have : s ∈ N ⊓ V := by rw [heq]; exact hs
       exact hNi h s (Submodule.mem_inf.1 this).1
     · left
-      push_neg at hF
+      push Not at hF
       have hS1 : N ⊓ V = ⊥ := by
         by_contra hne
         obtain ⟨s1, hs1, hs1ne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hne
@@ -259,7 +259,7 @@ theorem UpperTheory.exists_irreducible_subrep_hecke_eigen_of_invariant_form :
       have hvv : B v v ≠ 0 := fun h => hv0 (hB v h)
       have hex2 : ∃ h : H, ∃ s ∈ N0 ⊓ V, B (ρ h s) v ≠ 0 := by
         by_contra hall
-        push_neg at hall
+        push Not at hall
         have hle : U ≤ LinearMap.ker (B.flip v) := by
           rw [Submodule.span_le]
           rintro w ⟨h, s, hs, rfl⟩

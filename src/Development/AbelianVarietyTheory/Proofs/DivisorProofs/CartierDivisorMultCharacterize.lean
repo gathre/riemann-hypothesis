@@ -103,7 +103,7 @@ theorem eff_supp_eq_of_mult : ∀ (X : Scheme.{0}) [IsIntegral X] [IsLocallyNoet
       simpa using this
   refine ⟨hEff D, fun x => ⟨fun hx => ?_, fun ⟨z, hz, hm⟩ => ?_⟩, fun E h => ?_, fun x g h => ?_⟩
   · by_contra hne
-    push_neg at hne
+    push Not at hne
     obtain ⟨g, hg⟩ := D.exists_isEqn x
     refine (hg.mem_supp_iff.1 hx) (unitAt_of_ord x g fun z hz => ?_)
     rw [← (IsEqn.of_specializes hg hz).mult_eq]

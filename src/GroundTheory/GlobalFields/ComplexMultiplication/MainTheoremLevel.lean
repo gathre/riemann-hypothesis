@@ -1513,17 +1513,17 @@ theorem ofJ_map [DecidableEq F] [DecidableEq F'] (f : F →+* F') (j : F) :
     exact f.injective.eq_iff.symm
   unfold ofJ
   by_cases a : j = 0
-  · rw [if_pos a, if_pos (hj0.1 a)]
+  · rw [ite_eq_left a, ite_eq_left (hj0.1 a)]
     by_cases b : (3 : F) = 0
-    · rw [if_pos b, if_pos (h3.1 b)]
+    · rw [ite_eq_left b, ite_eq_left (h3.1 b)]
       ext <;> simp [ofJ1728]
-    · rw [if_neg b, if_neg (mt h3.2 b)]
+    · rw [ite_eq_right b, ite_eq_right (mt h3.2 b)]
       ext <;> simp [ofJ0]
-  · rw [if_neg a, if_neg (mt hj0.2 a)]
+  · rw [ite_eq_right a, ite_eq_right (mt hj0.2 a)]
     by_cases b : j = 1728
-    · rw [if_pos b, if_pos (hj1728.1 b)]
+    · rw [ite_eq_left b, ite_eq_left (hj1728.1 b)]
       ext <;> simp [ofJ1728]
-    · rw [if_neg b, if_neg (mt hj1728.2 b)]
+    · rw [ite_eq_right b, ite_eq_right (mt hj1728.2 b)]
       ext <;> simp [ofJNe0Or1728, map_ofNat]
 
 theorem toShortNF_map (W : WeierstrassCurve F) [Invertible (2 : F)] [Invertible (3 : F)]

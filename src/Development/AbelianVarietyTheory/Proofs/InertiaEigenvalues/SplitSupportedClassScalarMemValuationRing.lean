@@ -353,7 +353,7 @@ theorem unimod_hLat {D : D7} (V : HSp D) (hg : V.gram = 1) (g : Bridge.Gf V) :
   have h := (GlobalTheory.MovedLat.isSelfDualC_hLat V g).2 v
   rw [h]
   refine forall_congr' fun w => imp_congr_right fun _ => ?_
-  simp only [hg, Matrix.one_apply, mul_ite, mul_one, mul_zero, ite_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+  simp only [hg, Matrix.one_apply, mul_ite, mul_one, mul_zero, ite_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
   have e : ∑ j, (IsCMField.complexConj D.host.E) (v j) * w j =
       IsCMField.complexConj D.host.E (∑ x, star (w x) * v x) := by
 
@@ -660,7 +660,7 @@ theorem val_le_one_of_mem {k : Type} [Field k] [NumberField k] (σ : k →+* ℂ
     exact e2.symm
   have hle : mb ≤ ma := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h1 : A.valuation (σ (α : k)) ^ ma ≤ A.valuation (σ (α : k)) ^ mb := by
       rw [← key]
       exact mul_le_of_le_one_left' (pow_le_one' hz e)

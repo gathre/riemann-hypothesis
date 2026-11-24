@@ -144,7 +144,7 @@ theorem core {R : Type} [CommRing R] (σ : R →+* R) (hσ : ∀ x, σ (σ x) = 
         have : (d + c * ((↑h2.unit⁻¹ : R) • (B' + cj σ B'))).map π = d.map π + c.map π * B := by
           rw [← hmap]; simp [Matrix.map_add (f := _), Matrix.map_mul]
         rw [this]; exact hBd
-    · push_neg at hst
+    · push Not at hst
       obtain ⟨y, hy, hσy⟩ := hst
       obtain ⟨r, i, hi, hri⟩ := h𝔭.exists_inv hσy
       obtain ⟨B, hBd⟩ := fieldB _ _ _ _ hXY'
@@ -263,7 +263,7 @@ theorem emb_cases (σ : E →ₐ[F] E) (hσ1 : σ ≠ AlgHom.id F E) (h2 : Modul
     τ = τ0 ∨ τ = τ0.comp σ := by
   classical
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hd : τ0 ≠ τ0.comp σ := by
     intro h
     apply hσ1

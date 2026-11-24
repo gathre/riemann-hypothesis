@@ -70,7 +70,7 @@ private theorem int_zero {μ : Measure U4} (hH : Haar4 μ) {ν ν' : Fin (2 + 2)
     (hF : ∀ θ h, chi ν' θ * F (dg θ * h) = chi ν θ * F h) : ∫ h, F h ∂μ = 0 := by
   obtain ⟨θ, hθ⟩ : ∃ θ, chi ν θ ≠ chi ν' θ := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hne (u4.2.2.2.2.2.2.2.2.2.2.1 ν ν' hc)
   have hT : ∫ h, F (dg θ * h) ∂μ = ∫ h, F h ∂μ :=
     (hH.left (dg θ)).integral_comp (Homeomorph.mulLeft (dg θ)).measurableEmbedding F

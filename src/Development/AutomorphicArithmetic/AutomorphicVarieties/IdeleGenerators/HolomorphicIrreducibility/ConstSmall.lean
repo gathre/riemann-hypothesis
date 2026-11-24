@@ -322,7 +322,7 @@ private theorem sum_multiples (M w : ℕ) (hw : 0 < w) (f : ℕ → ℂ) :
   rw [Finset.sum_eq_single 0]
   · simp
   · intro b hb hb0
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h
     exact hb0 (Nat.eq_zero_of_dvd_of_lt ((Nat.dvd_add_left (dvd_mul_right w j)).1 h) (mem_range.1 hb))
   · intro h; exact absurd (mem_range.2 hw) h

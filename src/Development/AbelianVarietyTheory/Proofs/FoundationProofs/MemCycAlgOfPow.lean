@@ -93,7 +93,7 @@ theorem mem_of_pow_mem (A : ValuationSubring Ω) {x : Ω} {n : ℕ} (hn : n ≠ 
   rw [← A.valuation_le_one_iff] at h ⊢
   rw [map_pow] at h
   by_contra hx
-  push_neg at hx
+  push Not at hx
   exact absurd h (not_le.2 (one_lt_pow' hx hn))
 
 end GlobalTheory.RecOne

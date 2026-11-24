@@ -185,10 +185,10 @@ private lemma star_eU_eq_eU_swap (a : S) (i j : Fin 2) : star (eU a i j : SlopeT
     by_cases h1 : l a = i ∧ k a = j ∧ ∀ b, b ≠ a → l b = k b
     · have h2 : k a = j ∧ l a = i ∧ ∀ b, b ≠ a → k b = l b :=
         ⟨h1.2.1, h1.1, fun b hb => (h1.2.2 b hb).symm⟩
-      rw [if_pos h1, if_pos h2, star_one]
+      rw [ite_eq_left h1, ite_eq_left h2, star_one]
     · have h2 : ¬ (k a = j ∧ l a = i ∧ ∀ b, b ≠ a → k b = l b) :=
         fun h => h1 ⟨h.2.1, h.1, fun b hb => (h.2.2 b hb).symm⟩
-      rw [if_neg h1, if_neg h2, star_zero]
+      rw [ite_eq_right h1, ite_eq_right h2, star_zero]
   exact Matrix.ext key
 
 lemma free_star {a : S} {x : SlopeTestRemainingChoices S A} (hx : FreeOf a x) : FreeOf a (star x) := by
@@ -640,8 +640,8 @@ theorem free_star [StarRing A] {c : S} {b : SlopeTestRemainingChoices S A} (h : 
     refine Matrix.ext fun x y => ?_
     simp only [Matrix.star_apply, Formalism.FourierDecayAlt.Wd.eU, Matrix.of_apply]
     by_cases h1 : y c = j ∧ x c = i ∧ ∀ b, b ≠ c → y b = x b
-    · rw [if_pos h1, if_pos ⟨h1.2.1, h1.1, fun b hb => (h1.2.2 b hb).symm⟩, star_one]
-    · rw [if_neg h1, if_neg (fun h2 => h1 ⟨h2.2.1, h2.1, fun b hb => (h2.2.2 b hb).symm⟩), star_zero]
+    · rw [ite_eq_left h1, ite_eq_left ⟨h1.2.1, h1.1, fun b hb => (h1.2.2 b hb).symm⟩, star_one]
+    · rw [ite_eq_right h1, ite_eq_right (fun h2 => h1 ⟨h2.2.1, h2.1, fun b hb => (h2.2.2 b hb).symm⟩), star_zero]
   have hs := (h j i).star_star
   rwa [key] at hs
 

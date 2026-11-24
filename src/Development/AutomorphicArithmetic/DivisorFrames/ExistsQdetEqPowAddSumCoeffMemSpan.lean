@@ -159,7 +159,7 @@ theorem UpperTheory.exists_qdet_eq_pow_add_sum_coeff_mem_span :
       simp [hF1]
     · obtain ⟨k, hk⟩ : ∃ k, σ k ≠ k := by
         by_contra hc
-        push_neg at hc
+        push Not at hc
         exact hs (Equiv.Perm.ext fun k => by simpa using hc k)
       apply List.prod_eq_zero
       exact List.mem_ofFn.mpr ⟨k, by simp [hF1, hk]⟩

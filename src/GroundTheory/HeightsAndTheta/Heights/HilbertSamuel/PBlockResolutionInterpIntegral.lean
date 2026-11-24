@@ -97,8 +97,8 @@ theorem locDens_interp (d : HSMBlockDatum D K ι Ω) {A' : HermLine ι} (hA' : I
     congr 1
     funext k y'
     by_cases hk : k.val < i
-    · simp only [hk, if_true]; rfl
-    · simp only [hk, if_false]; rfl
+    · simp only [hk, ite_true]; rfl
+    · simp only [hk, ite_false]; rfl
   have hpure : (fun _ : Fin D => ReciprocityTheory.AnForm.hessC (fun y' => (1 - t) * a y' + t * b y') y) =
       fun _ => (t : ℂ) • H₁ + (1 - (t : ℂ)) • H₀ := by
     funext k
@@ -111,8 +111,8 @@ theorem locDens_interp (d : HSMBlockDatum D K ι Ω) {A' : HermLine ι} (hA' : I
     intro i
     funext k
     by_cases hk : k.val < i
-    · simp only [hk, if_true]; rfl
-    · simp only [hk, if_false]; rfl
+    · simp only [hk, ite_true]; rfl
+    · simp only [hk, ite_false]; rfl
   rw [hL]
   simp only [hR]
   unfold ReciprocityTheory.AnForm.maDens
@@ -173,7 +173,7 @@ theorem mInt_interp (d : HSMBlockDatum D K ι Ω) {A' : HermLine ι} (hdeg : A'.
     · exact AnResBridge.isPotential_potOf d.R d.semipos.1
   unfold mInt
   by_cases hP : Nonempty (ChartPartition d.R.A)
-  · simp only [dif_pos hP]
+  · simp only [dite_eq_left hP]
     unfold integralWith
     simp_rw [Finset.mul_sum]
     rw [Finset.sum_comm]
@@ -199,7 +199,7 @@ theorem mInt_interp (d : HSMBlockDatum D K ι Ω) {A' : HermLine ι} (hdeg : A'.
       _ = _ := by
           rw [integral_finsetSum _ hint]
           exact Finset.sum_congr rfl fun i _ => integral_const_mul _ _
-  · simp only [dif_neg hP, mul_zero, Finset.sum_const_zero]
+  · simp only [dite_eq_right hP, mul_zero, Finset.sum_const_zero]
 
 theorem proof : BlockResolutionInterpIntegral.Statement := by
   intro D K _ _ ι _ Ω _ _ d A' hdeg hA'

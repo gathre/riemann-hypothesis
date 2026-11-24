@@ -484,7 +484,7 @@ theorem classFun_char_scalar {G : Type} [Group G] [Fintype G] (e : MonoidAlgebra
   letI : Invertible (Nat.card G : ℂ) := invertibleOfNonzero hcard
   have h1 := Representation.card_inv_mul_sum_char_mul_char_eq_finrank ρ ρ
   have horth := Formalism.L2.Col.gx_orth (G := G) (k := ℂ) hψ' hψ'
-  rw [if_pos rfl] at horth
+  rw [ite_eq_left rfl] at horth
   rw [horth] at h1
   have hfr : finrank ℂ (ρ.IntertwiningMap ρ) = 1 := by exact_mod_cast h1.symm
   have hnt : Nontrivial (Fin n → ℂ) := by
@@ -553,7 +553,7 @@ theorem leftRegular_character (g : G) :
   by_cases h : g = 1
   · subst h
     simp
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     refine Finset.sum_eq_zero fun x _ => ?_
     have hx : g * x ≠ x := by simpa using h
     simp [Matrix.diag, LinearMap.toMatrix_apply, MonoidAlgebra.basis, hx]

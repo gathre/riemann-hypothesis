@@ -344,7 +344,7 @@ private lemma hasSum_hilbertDiagonalTraceCoefficient_lemma_3 (F : Type) [Field F
   have hν : ∀ ξ, a ξ ≠ 0 → (N : ℚ) * Algebra.trace ℚ F ξ = ν ξ := by
     intro ξ hξ
     have h := hint ξ hξ
-    simp only [ν, dif_pos h]
+    simp only [ν, dite_eq_left h]
     exact h.choose_spec
   have hN0 : (N : ℂ) ≠ 0 := by exact_mod_cast hN.ne'
   have hgA : ∀ ξ, A ξ * Complex.exp (P * ((Algebra.trace ℚ F ξ : ℚ) : ℂ) * τ) = A ξ * q ^ ν ξ := by

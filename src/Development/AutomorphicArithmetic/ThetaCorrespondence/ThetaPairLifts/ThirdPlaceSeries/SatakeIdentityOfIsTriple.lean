@@ -137,9 +137,9 @@ theorem IsGaloisTripleOfExpansion.adm8 (h : _root_.GlobalTheory.Triple.IsGaloisT
   · obtain ⟨hl, hg⟩ := notMem_of_mem_pD hv
     cases hb : X.side i s
     · refine Or.inl fun g hI => (matW_of_mem_Ine hu hl hg hA hI).trans ?_
-      rw [chiS, X.twistCharacterFamily_at_auxiliaryPlaces i _ _ v hv A hA g hI, hb, if_neg Bool.false_ne_true, inv_inv]
+      rw [chiS, X.twistCharacterFamily_at_auxiliaryPlaces i _ _ v hv A hA g hI, hb, ite_eq_right Bool.false_ne_true, inv_inv]
     · refine Or.inr fun g hI => (matW_of_mem_Ine hu hl hg hA hI).trans ?_
-      rw [chiS, X.twistCharacterFamily_at_auxiliaryPlaces i _ _ v hv A hA g hI, hb, if_pos rfl]
+      rw [chiS, X.twistCharacterFamily_at_auxiliaryPlaces i _ _ v hv A hA g hI, hb, ite_eq_left rfl]
   · change _ = algebraMap (X.O0 i) (X.O i) (1 - matW s g).det
 
     rw [← sum_coeff_charpolyRev, map_sum, matW_eq]

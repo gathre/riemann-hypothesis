@@ -1073,7 +1073,7 @@ theorem exists_rowPart_ne_bot_positiveDimension (hCusp : GlobalTheory.Published.
     (hC : R.WeakCharacterisation F) (hEx : R.toRealDat.ExAt) (hcar : ∀ c, R.EEc c ≠ ⊥ → ∃ p, R.Carries p c) (hN : RowsNe R.toRealDat F.lv2) :
     ∃ p, R.EEp3 p ≠ ⊥ := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hc0 : ∀ c, R.EEc c = ⊥ := by
     intro c
     by_contra h

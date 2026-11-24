@@ -226,9 +226,9 @@ theorem coeff_sum_fin_C_mul_X_pow {n : ℕ} (c : Fin n → R) (k : ℕ) :
   rw [finsetSum_coeff]
   simp only [coeff_C_mul_X_pow]
   split_ifs with h
-  · rw [Finset.sum_eq_single ⟨k, h⟩ (fun j _ hj ↦ if_neg fun hk ↦ hj (Fin.ext hk.symm))
-      (fun h' ↦ absurd (Finset.mem_univ _) h'), if_pos rfl]
-  · exact Finset.sum_eq_zero fun j _ ↦ if_neg fun (hk : k = (j : ℕ)) ↦ h (hk ▸ j.2)
+  · rw [Finset.sum_eq_single ⟨k, h⟩ (fun j _ hj ↦ ite_eq_right fun hk ↦ hj (Fin.ext hk.symm))
+      (fun h' ↦ absurd (Finset.mem_univ _) h'), ite_eq_left rfl]
+  · exact Finset.sum_eq_zero fun j _ ↦ ite_eq_right fun (hk : k = (j : ℕ)) ↦ h (hk ▸ j.2)
 
 theorem monic_monicOfCoeffs {n : ℕ} (c : Fin n → R) : (monicOfCoeffs c).Monic :=
   monic_X_pow_add (degree_sum_fin_lt c)

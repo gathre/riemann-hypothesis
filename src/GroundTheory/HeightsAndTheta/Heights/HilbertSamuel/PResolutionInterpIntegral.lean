@@ -86,9 +86,9 @@ theorem locDens_resPot_interp (d : HSMDatum D Ω κ) {m₁ : ConeMetric ℂ (Ix 
         fun k y' => mixPot d.m m₁ D i k (γ y') := by
       funext k y'
       by_cases hk : k.val < i
-      · simp only [hk, if_true, mixPot]
+      · simp only [hk, ite_true, mixPot]
         rfl
-      · simp only [hk, if_false, mixPot]
+      · simp only [hk, ite_false, mixPot]
         rfl
     show ReciprocityTheory.AnForm.maDens _ y = _
     rw [e]
@@ -112,7 +112,7 @@ theorem mInt_resPot_interp (d : HSMDatum D Ω κ) {m₁ : ConeMetric ℂ (Ix κ)
     · exact isPotential_resPot d d.smooth
   unfold mInt
   by_cases hP : Nonempty (ChartPartition d.R.A)
-  · simp only [dif_pos hP]
+  · simp only [dite_eq_left hP]
     unfold integralWith
     simp_rw [Finset.mul_sum]
     rw [Finset.sum_comm]
@@ -134,7 +134,7 @@ theorem mInt_resPot_interp (d : HSMDatum D Ω κ) {m₁ : ConeMetric ℂ (Ix κ)
       _ = _ := by
           rw [integral_finsetSum _ hint]
           exact Finset.sum_congr rfl fun i _ => integral_const_mul _ _
-  · simp only [dif_neg hP, mul_zero, Finset.sum_const_zero]
+  · simp only [dite_eq_right hP, mul_zero, Finset.sum_const_zero]
 
 namespace ResolutionInterpIntegral
 

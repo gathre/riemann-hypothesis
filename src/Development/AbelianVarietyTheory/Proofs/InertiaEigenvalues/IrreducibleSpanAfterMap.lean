@@ -128,7 +128,7 @@ theorem _root_.GlobalTheory.isIrrSub_mapRep_of_span_restrict_eq_top {k Γ : Type
     obtain ⟨x, hx, hx0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot h0
     obtain ⟨i, hi⟩ : ∃ i, x i ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hx0 (funext h)
     rw [Submodule.span_le]
     rintro _ ⟨w₀, hw₀, rfl⟩

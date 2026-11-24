@@ -103,7 +103,7 @@ theorem siegelWeilStd_lt_k (h : _root_.PositivityTheory.SiegelWeilFormula.SWStdL
       EisValueAt (flat a (fun x => l (om x Φ)) (((m : ℂ) - n) / 2)) (((m : ℂ) - n) / 2)
         fun x => (if n < m then 1 else 2) * ⨍ g in D, thetaSum F (om x (S g Φ)) ∂μ := by
   intro F E _ _ _ _ _ σ B m n A Y r s r' s' hlt h1 h2 h3 h4 h5 χ h6 h7 κ _ dd om S l h8 b K a h9 h10 h11 μ D h12 h13 Φ h14 h15
-  simp only [if_pos hlt, one_mul]
+  simp only [ite_eq_left hlt, one_mul]
   exact h F E σ B m n A Y r s r' s' χ κ dd om S l b K a μ D Φ
     ⟨h1, h2, h3, hlt, h4, h5, h6, h7, h8, h9, h10, h11, h12, h13, h14, h15⟩
 end PositivityTheory.SiegelWeilFormula.Khead
@@ -164,7 +164,7 @@ theorem Atop.fieldOf_k : _root_.PositivityTheory.SiegelWeilFormula.FieldOf_k := 
   by_cases hlt : n < m
   · exact _root_.PositivityTheory.SiegelWeilFormula.Khead.siegelWeilStd_lt_k hLt F E σ B m n A Y r s r' s' hlt h1 h2 h3 h4 h5 χ h6 h7 κ dd om S l h8 b K a h9 h10 h11
       μ D h12 h13 Φ h14 h15
-  · simp only [if_neg hlt]
+  · simp only [ite_eq_right hlt]
     let d : _root_.PositivityTheory.SiegelWeilFormula.SD_k σ :=
       { B := B, m := m, n := n, A := A, Y := Y, r := r, s := s, χ := χ, κ := κ, dd := dd, om := om, S := S, l := l, b := b,
         K := K, a := a, μ := μ, D := D, bs := _root_.PositivityTheory.SiegelWeilFormula.Khead.basis2_k h1,

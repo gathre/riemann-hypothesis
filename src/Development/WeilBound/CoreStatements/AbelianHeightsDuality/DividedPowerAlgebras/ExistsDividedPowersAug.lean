@@ -258,7 +258,7 @@ private theorem dividedPower_identities_D_and_e_eq_gb (Q : PDPoly B) : ∃ D : �
     · rw [Nat.sub_add_cancel (Nat.pos_of_ne_zero hK), Q.e.repr_self, Finsupp.single_eq_same, hF,
         PowerSeries.coeff_mk, one_pow, map_one, one_mul]
     · intro k _ hk
-      rw [Q.e.repr_self, Finsupp.single_apply, if_neg (by omega), F0]
+      rw [Q.e.repr_self, Finsupp.single_apply, ite_eq_right (by omega), F0]
     · intro h
       exact absurd (Finset.mem_union_right _ (Finset.mem_singleton_self _)) h
 

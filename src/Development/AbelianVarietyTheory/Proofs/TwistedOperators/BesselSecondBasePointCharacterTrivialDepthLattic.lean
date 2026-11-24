@@ -181,9 +181,9 @@ theorem coef_mem (p : Fin c) (hp : p.rev ≠ p) {y : Fin B.rank → D.host.E} (h
   have e : (antiDiagonalSignGramMatrix c ε *ᵥ u) p.rev = u p := by
     have := p.2
     rw [mulVec, dotProduct, Finset.sum_eq_single p]
-    · rw [antiDiagonalSignGramMatrix, if_pos (by rw [Fin.val_rev]; omega), if_neg hp, one_mul]
+    · rw [antiDiagonalSignGramMatrix, ite_eq_left (by rw [Fin.val_rev]; omega), ite_eq_right hp, one_mul]
     · intro q _ hq
-      rw [antiDiagonalSignGramMatrix, if_neg, zero_mul]
+      rw [antiDiagonalSignGramMatrix, ite_eq_right, zero_mul]
       rw [Fin.val_rev]
       intro h
       exact hq (Fin.ext (by omega))
@@ -213,7 +213,7 @@ theorem qX_apply {A B B₀ : HSp D} {c ρ : ℕ} (d : HermitianOrthogonalExtensi
       have := congrFun (congrFun h1 (Fin.castLE (by omega) i : Fin c).rev) (Fin.castLE (by omega) i)
       refine Eq.trans this ?_
       have := i.2
-      rw [antiDiagonalSignGramMatrix, if_pos (by rw [Fin.val_rev, Fin.val_castLE]; omega), if_neg]
+      rw [antiDiagonalSignGramMatrix, ite_eq_left (by rw [Fin.val_rev, Fin.val_castLE]; omega), ite_eq_right]
       intro h
       have := congrArg Fin.val h
       rw [Fin.val_rev, Fin.val_castLE] at this
@@ -382,9 +382,9 @@ theorem ychar : OnStd fun {D} _ _ {sc} {G} W F => ∀ ρ (h : 2 * ρ + 2 ≤ D.R
   have e : ell D ρ ⬝ᵥ ((F.dJ ρ h).pX ⬝ (u ⬝ (F.dB ρ h).j0)) *ᵥ ratV (vecB (F.oB ρ h) (F.ζ (ρ + 1))) =
       ratV r ⬝ᵥ (show Mx D _ _ from u) *ᵥ ratV z := by
     rw [hz, ratV_mulVec, ← mulVec_mulVec, ← mulVec_mulVec, dotProduct, Finset.sum_eq_single i]
-    · rw [ell, if_pos hi, one_mul]; rfl
+    · rw [ell, ite_eq_left hi, one_mul]; rfl
     · intro j _ hj
-      rw [ell, if_neg fun e => hj (Fin.ext (by omega)), zero_mul]
+      rw [ell, ite_eq_right fun e => hj (Fin.ext (by omega)), zero_mul]
     · exact fun h => absurd (Finset.mem_univ i) h
   rw [e]
   obtain ⟨n0, n1, n2⟩ := ideals_ne D

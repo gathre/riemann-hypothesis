@@ -328,7 +328,7 @@ private theorem trace_one (σ : F₁ ≃ₐ[F₀] F₁) (d : ℕ) (hG : UpperThe
     simp [hG.pos]
   obtain ⟨i, hi⟩ : ∃ i, T (y i) ≠ 0 := by
     by_contra hn
-    push_neg at hn
+    push Not at hn
     simp [hn] at hs
   refine ⟨y i * (T (y i))⁻¹, ?_⟩
   simp only [map_mul, map_inv₀, hTj]

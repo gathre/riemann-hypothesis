@@ -72,9 +72,9 @@ def wtQ (j : ℕ) (hj : j ≤ R.m) (i : Fin (R.N j)) : ℚ :=
 
 theorem wtQ_eq_wtN (j : ℕ) (hj : j ≤ R.m) (i : Fin (R.N j)) : wtQ P j hj i = wtN P i.1 := by
   by_cases h : i.1 < R.k
-  · simp only [wtQ, wtN, dif_pos h]
+  · simp only [wtQ, wtN, dite_eq_left h]
   · have hb : blkN R i.1 < R.m := R.blk_lt hj i h
-    rw [wtQ, wtN, dite_eq_right h, dite_eq_right h, dif_pos hb]
+    rw [wtQ, wtN, dite_eq_right h, dite_eq_right h, dite_eq_left hb]
     rfl
 
 theorem u_step (i : ℕ) (hi : i + 1 < R.k) : P.u ⟨i + 1, hi⟩ + 1 ≤ P.u ⟨i, by omega⟩ := by
@@ -97,7 +97,7 @@ theorem u_step (i : ℕ) (hi : i + 1 < R.k) : P.u ⟨i + 1, hi⟩ + 1 ≤ P.u �
 private theorem wtN_eq_neg_wG_blkN (n : ℕ) (hn : ¬ n < R.k) (hb : blkN R n < R.m) :
     wtN P n = -wG R (P.e ⟨blkN R n, hb⟩) (blkN R n + 1) := by
   unfold wtN
-  rw [dite_eq_right hn, dif_pos hb]
+  rw [dite_eq_right hn, dite_eq_left hb]
 
 private theorem neg_wG_le_of_adjacent_blocks (c c' : ℕ) (hc : c < R.m) (hc' : c' < R.m) (h : c' = c ∨ c' = c + 1) :
     -wG R (P.e ⟨c', hc'⟩) (c' + 1) ≤ -wG R (P.e ⟨c, hc⟩) (c + 1) := by
@@ -114,7 +114,7 @@ theorem wtN_step (n : ℕ) (hn : n + 1 < R.N R.m) : wtN P (n + 1) ≤ wtN P n :=
   · by_cases hA : n + 1 < R.k
     · have hs := u_step P n hA
       unfold wtN
-      rw [dif_pos hA, dif_pos hn0]
+      rw [dite_eq_left hA, dite_eq_left hn0]
       simp only [hcToWeightQ, rhoVec]
       push_cast
       linarith
@@ -138,7 +138,7 @@ theorem wtN_step (n : ℕ) (hn : n + 1 < R.N R.m) : wtN P (n + 1) ≤ wtN P n :=
       have h2 : ((R.t : ℚ) + 3) / 2 ≤ P.e ⟨0, hm0⟩ - P.b ⟨0, hm0⟩ := P.gap_be ⟨0, hm0⟩
       have hnq : (n : ℚ) + 1 = R.k := by exact_mod_cast hk
       unfold wtN
-      rw [dif_pos hn0]
+      rw [dite_eq_left hn0]
       simp only [wG, hcToWeightQ, rhoVec]
       push_cast
       linarith
@@ -182,7 +182,7 @@ theorem wtQ_int (j : ℕ) (hj : j ≤ R.m) (i : Fin (R.N j)) : ∃ z : ℤ, wtQ 
   by_cases h : i.1 < R.k
   · obtain ⟨z, hz⟩ := P.u_half ⟨i.1, h⟩
     refine ⟨z + 1 - a + i.1, ?_⟩
-    rw [wtQ, dif_pos h]
+    rw [wtQ, dite_eq_left h]
     simp only [hcToWeightQ, rhoVec, hz]
     rw [hk]
     push_cast
@@ -202,7 +202,7 @@ def lamOf (j : ℕ) : DomWeight (R.N j) :=
 
 theorem lamOf_eq (j : ℕ) (hj : j ≤ R.m) (i : Fin (R.N j)) : ((lamOf P j).w i : ℚ) = wtQ P j hj i := by
   obtain ⟨z, hz⟩ := wtQ_int P j hj i
-  simp only [lamOf, dif_pos hj, hz, Int.floor_intCast]
+  simp only [lamOf, dite_eq_left hj, hz, Int.floor_intCast]
 
 end Weights
 

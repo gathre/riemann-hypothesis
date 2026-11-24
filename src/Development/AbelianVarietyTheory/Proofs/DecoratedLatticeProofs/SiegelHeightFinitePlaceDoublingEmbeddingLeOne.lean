@@ -181,7 +181,7 @@ theorem absFin_le_one_of_pow_le {v : HeightOneSpectrum (𝓞 F)} {x : Fv F v ⊗
     (h : ∀ k : ℕ, absFin F v (x ^ k) ≤ C) : absFin F v x ≤ 1 := by
   refine (absFin_le_iff F v).2 fun τ => ?_
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   obtain ⟨k, hk⟩ := ((tendsto_pow_atTop_atTop_of_one_lt hlt).eventually_gt_atTop C).exists
   have := (le_absFin F v τ (x ^ k)).trans (h k)
   have hpw : ∀ (z : FvBar F v) (m : ℕ), absBar F v (z ^ m) = absBar F v z ^ m := by

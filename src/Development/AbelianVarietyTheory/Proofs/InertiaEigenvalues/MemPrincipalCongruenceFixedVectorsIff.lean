@@ -53,14 +53,14 @@ theorem entN_tl (M : Matrix (Fin (a + b)) (Fin (a + b)) R) (i j : Fin a) :
     entN M i j = M (Fin.castAdd b i) (Fin.castAdd b j) := by
   have hi : (i : ℕ) < a + b := by omega
   have hj : (j : ℕ) < a + b := by omega
-  simp only [entN, hi, hj, and_self, dif_pos]
+  simp only [entN, hi, hj, and_self, dite_eq_left]
   rfl
 
 theorem entN_br (M : Matrix (Fin (a + b)) (Fin (a + b)) R) (i j : Fin b) :
     entN M (a + i) (a + j) = M (Fin.natAdd a i) (Fin.natAdd a j) := by
   have hi : a + (i : ℕ) < a + b := by omega
   have hj : a + (j : ℕ) < a + b := by omega
-  simp only [entN, hi, hj, and_self, dif_pos]
+  simp only [entN, hi, hj, and_self, dite_eq_left]
   rfl
 
 theorem entN_self {m : ℕ} (M : Matrix (Fin m) (Fin m) R) (i j : Fin m) : entN M i j = M i j := by
@@ -98,7 +98,7 @@ def dg (x : Matrix (Fin a) (Fin a) R) (y : Matrix (Fin b) (Fin b) R) : Matrix (F
 theorem dg_par (x : Matrix (Fin a) (Fin a) R) (y : Matrix (Fin b) (Fin b) R) (i j : Fin (a + b))
     (hj : (j : ℕ) < a) (hi : a ≤ (i : ℕ)) : dg x y i j = 0 := by
   unfold dg
-  rw [if_neg (by omega), if_neg (by omega)]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega)]
 
 theorem dg_tl (x : Matrix (Fin a) (Fin a) R) (y : Matrix (Fin b) (Fin b) R) (i j : Fin a) :
     entN (dg x y) i j = x i j := by
@@ -140,6 +140,6 @@ variable {π : Representation ℂ (GL (Fin (a + b)) ℚ_[g]) V} {σ : Representa
 theorem blk_val (x : Gn g a) (y : Gn g b) : (blk a b (a + b) x y).val = dg x.val y.val := by
   have hu := dg_unit x y
   change (toG (dg x.val y.val)).val = _
-  rw [toG, dif_pos hu, IsUnit.unit_spec]
+  rw [toG, dite_eq_left hu, IsUnit.unit_spec]
 
 end GlobalTheory.GLp.ParInd

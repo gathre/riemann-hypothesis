@@ -101,7 +101,7 @@ theorem chi_add_lat_k (C : _root_.PositivityTheory.ThKW.Ctx_k σ B JS JT ξ₀ �
   have hy := finIdem_smul_fin (F := F) (E := E) x
   generalize finIdem F E • x = y at hy ⊢
   by_cases h : y ∈ latOF F E nS nT Λ
-  · rw [if_pos h, if_pos (add_mem h hu)]
+  · rw [ite_eq_left h, ite_eq_left (add_mem h hu)]
     have h0 : B.ψ (symplOF σ JS JT ξ₀ (intAF F w • y) u) = 1 :=
       (hA _).1 ((latF F E nS nT Λ).smul_mem w (show XFF.mk y hy ∈ latF F E nS nT Λ from h)) u hu
     rw [phaseF, ← AddChar.map_add_eq_mul, ← AddChar.map_add_eq_mul, quad hσ C.hS C.hT C.hξ hw,
@@ -109,7 +109,7 @@ theorem chi_add_lat_k (C : _root_.PositivityTheory.ThKW.Ctx_k σ B JS JT ξ₀ �
   · have h2 : y + (u : WOF F E nS nT) ∉ latOF F E nS nT Λ := fun h' => h (by
       have h3 := sub_mem h' (mem_latF.1 hu)
       rwa [add_sub_cancel_right] at h3)
-    rw [if_neg h, if_neg h2, mul_zero, mul_zero]
+    rw [ite_eq_right h, ite_eq_right h2, mul_zero, mul_zero]
 theorem main_k (C : _root_.PositivityTheory.ThKW.Ctx_k σ B JS JT ξ₀ θ ι) (hG : GoodLat Λ) (hR : RatSD σ JS JT ξ₀ Λ)
     (hO : _root_.UpperTheory.TP.W.IsLatRepL σ JS JT ξ₀ B.ψ hc Λ w lam Om) (hs : CartF σ JS JT ξ₀ B θ s) (a : IxF F nS nT → ℂ) :
     ∃ hf : IsThetaFunOF σ JS JT ξ₀ B.ψ (serF σ JS JT ξ₀ B θ ι s Λ w a),
@@ -158,7 +158,7 @@ theorem main_k (C : _root_.PositivityTheory.ThKW.Ctx_k σ B JS JT ξ₀ θ ι) (
       have e : piWF θ (ratWF (F := F) y) = infRatF (tauB B) y := _root_.PositivityTheory.ThKW.TauSpanIdentities.piWF_ratWF_k C y
       rw [← e]
       exact h2)
-    (fun x hx => by unfold chiLatF; exact if_neg hx)
+    (fun x hx => by unfold chiLatF; exact ite_eq_right hx)
     (fun x => by
       unfold chiLatF
       split_ifs
@@ -384,7 +384,7 @@ theorem chiLat_mul_exp_k (C : _root_.PositivityTheory.ThKW.Ctx_k σ B JS JT ξ�
     _root_.PositivityTheory.ThKW.finRatF_mem_iff_k C hG hR hA z
   unfold chiLatF gaussQF
   by_cases hy : b * y * a - y ∈ Λ
-  · rw [if_pos ((hm _).2 hy), if_pos hy]
+  · rw [ite_eq_left ((hm _).2 hy), ite_eq_left hy]
     show B.ψ (symplOHF σ JS JT ξ₀ (intAF F w • (finRatF F (b * y * a - y) : WOF F E nS nT))
       (finRatF F (b * y * a - y))) = _
     have e : (finRatF F (b * y * a - y) : WOF F E nS nT) + finRatF F y = finRatF F (b * y * a) := by
@@ -397,7 +397,7 @@ theorem chiLat_mul_exp_k (C : _root_.PositivityTheory.ThKW.Ctx_k σ B JS JT ξ�
       rw [gamQF, gamFF, map_smul, cAF_intAF]
       rfl
     rw [h2, ← h1, e, AddChar.map_add_eq_mul, mul_assoc, _root_.PositivityTheory.ThKW.Trc.beta_fin_k C, mul_one]
-  · rw [if_neg (fun h => hy ((hm _).1 h)), if_neg hy, zero_mul]
+  · rw [ite_eq_right (fun h => hy ((hm _).1 h)), ite_eq_right hy, zero_mul]
 theorem left_side_k (C : _root_.PositivityTheory.ThKW.Ctx_k σ B JS JT ξ₀ θ ι) (hG : GoodLat Λ) (hR : RatSD σ JS JT ξ₀ Λ)
     (hA : SelfDual (gamFF σ JS JT ξ₀ B.ψ) (latF F E nS nT Λ)) (ha : IsRatF σ JS g a) (hb : IsRatF σ JT h⁻¹ b)
     (hw : w + sgOF σ w = 1) (halt : ∀ x y, omV (HMF JS JT ξ₀ (tauB B)) x y = -omV (HMF JS JT ξ₀ (tauB B)) y x)
@@ -470,7 +470,7 @@ theorem summable_coefQF_k (C : _root_.PositivityTheory.ThKW.Ctx_k σ B JS JT ξ�
       refine ((_root_.PositivityTheory.ThKW.AutLatA.finLat_k C.good hG R).image (fun y => ratWF (F := F) y)).subset ?_
       rintro _ ⟨⟨y, rfl⟩, h1, h2⟩
       exact ⟨y, ⟨(_root_.PositivityTheory.ThKW.finRatF_mem_iff_k C hG hR hA y).1 h1, by rw [← _root_.PositivityTheory.ThKW.TauSpanIdentities.piWF_ratWF_k C]; exact h2⟩, rfl⟩)
-    (fun x hx => if_neg hx)
+    (fun x hx => ite_eq_right hx)
     (fun x => by
       unfold chiLatF
       split_ifs
@@ -509,8 +509,8 @@ theorem gauss_mul_integral_A_k (C : _root_.PositivityTheory.ThKW.Ctx_k σ B JS J
     Λ.toAddSubgroup ⊓ Λ.toAddSubgroup.comap (sandF b a)
   have hC : ∀ x, x ∈ Cg ↔ x ∈ Λ ∧ b * x * a ∈ Λ := fun x => Iff.rfl
   have hQ : ∀ y, b * y * a - y ∈ Λ →
-      gaussQF σ JS JT ξ₀ B.ψ Λ w a b y = gamQF σ JS JT ξ₀ B.ψ (sgOF σ w • (b * y * a - y)) y := fun y hy => if_pos hy
-  have hQ0 : ∀ y, b * y * a - y ∉ Λ → gaussQF σ JS JT ξ₀ B.ψ Λ w a b y = 0 := fun y hy => if_neg hy
+      gaussQF σ JS JT ξ₀ B.ψ Λ w a b y = gamQF σ JS JT ξ₀ B.ψ (sgOF σ w • (b * y * a - y)) y := fun y hy => ite_eq_left hy
+  have hQ0 : ∀ y, b * y * a - y ∉ Λ → gaussQF σ JS JT ξ₀ B.ψ Λ w a b y = 0 := fun y hy => ite_eq_right hy
   have h0 : κ * ∑ i, coefQF σ JS JT ξ₀ B s Λ w (u i) 0 = κ := by
     obtain ⟨i, hi, hi'⟩ := huT 0 (zero_mem _)
     rw [Finset.sum_eq_single i, coefQF_zero w (by simpa using hi), mul_one]

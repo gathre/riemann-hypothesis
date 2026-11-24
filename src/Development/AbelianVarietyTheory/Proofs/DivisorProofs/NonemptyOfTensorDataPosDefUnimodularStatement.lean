@@ -390,7 +390,7 @@ theorem lamPts_pull {R : Type} [CommRing R] [IsDomain R] {Q : Data R} {D' : DegP
     simp only [map_zpow]
     change ∏ k, ((snd Q.B Q.B ≫ PowLim.inc pr hl i₀) ≫ pr k) ^ m j k = _
     simp only [e]
-    rw [Finset.prod_eq_single i₀ (fun k _ hk => by rw [if_neg hk, one_zpow]) (by simp), if_pos rfl]
+    rw [Finset.prod_eq_single i₀ (fun k _ hk => by rw [ite_eq_right hk, one_zpow]) (by simp), ite_eq_left rfl]
   rw [GlobalTheory.TensPair.lamPts_comp, h1, h2]
 
 theorem xe_xi {R : Type} [CommRing R] [IsDomain R] {Q : Data R} {D' : DegPre R} {r : ℕ}
@@ -420,7 +420,7 @@ theorem pt_pull {R : Type} [CommRing R] [IsDomain R] {Q : Data R} {D' : DegPre R
     calc toUnit (TK R) ≫ Q.c b ^ m i i₀ = (toUnit (TK R) ≫ Q.c b) ^ m i i₀ := map_zpow (preHom (toUnit (TK R))) _ _
       _ = ∏ k, ((toUnit (TK R) ≫ Q.c b ≫ PowLim.inc pr hl i₀) ≫ pr k) ^ m i k := by
         simp only [e]
-        rw [Finset.prod_eq_single i₀ (fun k _ hk => by rw [if_neg hk, one_zpow]) (by simp), if_pos rfl]
+        rw [Finset.prod_eq_single i₀ (fun k _ hk => by rw [ite_eq_right hk, one_zpow]) (by simp), ite_eq_left rfl]
       _ = (toUnit (TK R) ≫ Q.c b ≫ PowLim.inc pr hl i₀) ≫ ∏ k, pr k ^ m i k := by
         change _ = preHom (toUnit (TK R) ≫ Q.c b ≫ PowLim.inc pr hl i₀) (∏ k, pr k ^ m i k)
         rw [map_prod]
@@ -466,10 +466,10 @@ theorem pairing_factor : ∀ (R : Type) [CommRing R] [IsDomain R] [IsLocalRing R
       simp only [Sum.elim_inl, lamPts_pull, Fintype.prod_prod_type]
       symm
       rw [Finset.prod_eq_single i₀ ?_ (by simp)]
-      · exact Finset.prod_congr rfl fun j _ => Finset.prod_congr rfl fun l _ => by rw [if_pos rfl]
+      · exact Finset.prod_congr rfl fun j _ => Finset.prod_congr rfl fun l _ => by rw [ite_eq_left rfl]
       · intro i _ hi
         refine Finset.prod_eq_one fun j _ => ?_
-        rw [Fin.prod_univ_four, if_neg hi]
+        rw [Fin.prod_univ_four, ite_eq_right hi]
         simp only [GlobalTheory.PolDeg.lamPts, Oε, _root_.one_mul]
         simp
         apply Additive.ofMul.injective
@@ -483,8 +483,8 @@ theorem pairing_factor : ∀ (R : Type) [CommRing R] [IsDomain R] [IsLocalRing R
       val (Q.tau a b) (𝟙 _) z J' = GlobalTheory.PolDeg.lamVal w (lift (toUnit (TK R) ≫ Q.c a) (toUnit (TK R) ≫ Q.c b) : TK R ⟶ G2 Q.B).left z J J' *
         val (D'.toPre.tau (PowLim.xi xe i₀ a) b') (𝟙 _) z J by
     exact key _ (fun j => (PowLim.xe_smul xe (symUnitOf W h) (TensO.binv _) (PowLim.xi xe i₀ b) j).trans (by
-      rw [Finset.sum_eq_single i₀ (fun k _ hk => by rw [xe_xi, if_neg hk, smul_zero]) (by simp),
-        xe_xi, if_pos rfl]))
+      rw [Finset.sum_eq_single i₀ (fun k _ hk => by rw [xe_xi, ite_eq_right hk, smul_zero]) (by simp),
+        xe_xi, ite_eq_left rfl]))
   intro b' hb'
   have hPl : (lift (toUnit (TK R) ≫ D'.toPre.c (PowLim.xi xe i₀ a)) (toUnit (TK R) ≫ D'.toPre.c b') : TK R ⟶ G2 D'.toPre.P.A).left =
       (lift (toUnit (TK R) ≫ Q.c a) (toUnit (TK R) ≫ Q.c b) : TK R ⟶ G2 Q.B).left ≫
@@ -494,9 +494,9 @@ theorem pairing_factor : ∀ (R : Type) [CommRing R] [IsDomain R] [IsLocalRing R
   have hPi : ∏ i, ∏ j, val (Q.tau (xe (PowLim.xi xe i₀ a) i) (xe b' j)) (𝟙 _) z J' ^ ((W + W.transpose) i j) =
       ∏ j, val (Q.tau a (TensO.mat _ (TensO.binv (symUnitOf W h)) j i₀ • b)) (𝟙 _) z J' ^ ((W + W.transpose) i₀ j) := by
     rw [Finset.prod_eq_single i₀ (fun i _ hi => Finset.prod_eq_one fun j _ => by
-      rw [xe_xi, if_neg hi, t0, one_zpow]) (by simp)]
+      rw [xe_xi, ite_eq_right hi, t0, one_zpow]) (by simp)]
     refine Finset.prod_congr rfl fun j _ => ?_
-    rw [xe_xi, if_pos rfl, hb']
+    rw [xe_xi, ite_eq_left rfl, hb']
   have e1 := hv₁ (PowLim.xi xe i₀ a) b' z J' J hJ' hJ
   rw [hPi, hPl] at e1
   have e2 := hvw _ (lift (toUnit (TK R) ≫ Q.c a) (toUnit (TK R) ≫ Q.c b) : TK R ⟶ G2 Q.B).left z J' hJ'

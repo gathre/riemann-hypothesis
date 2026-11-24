@@ -419,7 +419,7 @@ theorem det_trace_lift {E A₁ A₂ : Type} [Field E] [CommRing A₁] [CommRing 
     | left i' =>
       induction l using Fin.addCases with
       | left l' =>
-        rw [hcc, if_neg]
+        rw [hcc, ite_eq_right]
         rintro rfl
         exact lt_irrefl _ hli
       | right j =>
@@ -431,7 +431,7 @@ theorem det_trace_lift {E A₁ A₂ : Type} [Field E] [CommRing A₁] [CommRing 
       induction l using Fin.addCases with
       | left l' => exact hnc j' l'
       | right j =>
-        rw [hnn, if_neg]
+        rw [hnn, ite_eq_right]
         rintro rfl
         exact lt_irrefl _ hli
   rw [Matrix.det_of_upperTriangular htri, Fin.prod_univ_add]

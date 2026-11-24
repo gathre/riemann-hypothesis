@@ -793,7 +793,7 @@ theorem hermitian_eq_smul_of_const_on_unitary_orbit :
     (matForm_symm hA) (matForm_symm hB) (Pi.single i 1) e he
     (by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply hdet
       refine Matrix.det_eq_zero_of_row_eq_zero i fun j => ?_
       rw [← matForm_single B i j, hcon])

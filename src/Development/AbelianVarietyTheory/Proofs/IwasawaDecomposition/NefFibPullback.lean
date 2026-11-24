@@ -208,7 +208,7 @@ theorem topSelf_pull_nonneg (t : X ⟶ Sp ℤ) [IsProper t] (hd : topologicalKru
   have := isNoetherian_of_locallyOfFiniteType_field (strHom (ZMod ℓ) W)
   by_cases hc : ∀ w, g w = g (genericPoint W)
   · exact (topSelf_pull_eq_zero_of_const (ZMod ℓ) hM g _ hc).ge
-  push_neg at hc
+  push Not at hc
   obtain ⟨x₀, hx₀⟩ := hc
   let φ : W ⟶ g.image := g.toImage
   have e : φ ≫ g.imageι = g := g.toImage_imageι

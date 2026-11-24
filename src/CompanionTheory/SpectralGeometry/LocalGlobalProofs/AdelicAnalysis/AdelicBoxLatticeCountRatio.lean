@@ -112,7 +112,7 @@ theorem Sep.exists_near {e : Λ →+ V} {r R : ℝ} (hr : 0 < r) {s : Finset Λ}
     {l : Λ} (hl : ‖e l‖ ≤ R) : ∃ t ∈ s, ‖e (l - t)‖ ≤ r := by
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hns : l ∉ s := fun h => by
     have := hcon l h
     simp only [sub_self, map_zero, norm_zero] at this

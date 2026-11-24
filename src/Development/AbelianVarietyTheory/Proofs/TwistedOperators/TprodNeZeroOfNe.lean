@@ -109,7 +109,7 @@ theorem tprod_ne_zero_of_ne {ι : Type} [Fintype ι] {B : ι → Type} [∀ τ, 
   classical
   have : ∀ τ, ∃ f : Module.Dual ℂ (B τ), f (w τ) ≠ 0 := fun τ => by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hw τ ((Module.forall_dual_apply_eq_zero_iff ℂ (w τ)).1 hc)
   choose f hf using this
   intro h
@@ -158,7 +158,7 @@ theorem contrTensor : ContrTensor := by
   refine ⟨It, hT, fun hne h0 => ?_⟩
   have : ∀ τ, ∃ P v, Itl τ P v ≠ 0 := fun τ => by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hne τ (LinearMap.ext fun P => LinearMap.ext fun v => hc P v)
   choose P v hPv using this
   apply tprod_ne_zero_of_ne _ hPv

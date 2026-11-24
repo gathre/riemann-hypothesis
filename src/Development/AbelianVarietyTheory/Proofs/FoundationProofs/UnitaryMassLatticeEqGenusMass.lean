@@ -132,7 +132,7 @@ theorem exists_approx (v : HeightOneSpectrum (𝓞 F)) (d : 𝓞 F) (hd : d ≠ 
   have hb : ∀ w : HeightOneSpectrum (𝓞 F), w ≠ v → ∃ b ∈ v.asIdeal ^ k, b ∉ w.asIdeal := by
     intro w hw
     by_contra h
-    push_neg at h
+    push Not at h
     have hle : v.asIdeal ≤ w.asIdeal := Ideal.IsPrime.le_of_pow_le (fun b hb' => h b hb')
     exact hw (HeightOneSpectrum.ext (v.isMaximal.eq_of_le w.isPrime.ne_top hle).symm)
   have hval : ∀ w : HeightOneSpectrum (𝓞 F), w ≠ v → w.intValuation t ≤ w.intValuation d := by
@@ -199,7 +199,7 @@ theorem exists_den {n : ℕ} (Λ : Submodule (𝓞 E) (Fin n → E))
     funext i
     rw [Finset.sum_apply, Pi.smul_apply]
     simp only [Pi.smul_apply, Pi.single_apply, smul_ite, smul_zero, Finset.sum_ite_eq,
-      Finset.mem_univ, if_true]
+      Finset.mem_univ, ite_true]
     simp only [Algebra.smul_def, map_intCast]
     push_cast
     show (m : E) * (m' : E) * x i = ((m' : E) * x i) * (m : E)

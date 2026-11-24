@@ -356,7 +356,7 @@ theorem indN_lastRow_tl : ∀ (E : Type) [Field E] [NumberField E] [_root_.Numbe
       exact lt_irrefl _ hw
     have hex : ∃ j, ¬ Valued.v ((compV E (m + 1) w k).val (Fin.last m) j) < 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have h1 : ((compV E (m + 1) w k).val * ((compV E (m + 1) w k)⁻¹).val) (Fin.last m) (Fin.last m) = 1 := by
         rw [← Units.val_mul, mul_inv_cancel, Units.val_one, Matrix.one_apply_eq]
       rw [Matrix.mul_apply] at h1
@@ -370,7 +370,7 @@ theorem indN_lastRow_tl : ∀ (E : Type) [Field E] [NumberField E] [_root_.Numbe
     have hj1 : Valued.v ((compV E (m + 1) w k).val (Fin.last m) j) = 1 :=
       le_antisymm (hint w hwS _ _) (not_lt.1 hj)
     unfold GlobalTheory.RSJ.indN
-    rw [if_neg]
+    rw [ite_eq_right]
     intro hall
     have hz := hlat _ (hall j) w
     dsimp only at hz
@@ -419,7 +419,7 @@ theorem decomp_lastRow : ∀ (E : Type) [Field E] [NumberField E] [_root_.Number
   have hind' : ∀ i : Fin (m + 1), GlobalTheory.RSJ.pFin E (GlobalTheory.ZEul.lastRow g i) - (if (i : ℕ) + 1 = m + 1 then 1 else 0) ∈
       GlobalTheory.RSJ.natLat E N := by
     by_contra hc
-    exact hind (by rw [GlobalTheory.RSJ.indN, if_neg hc])
+    exact hind (by rw [GlobalTheory.RSJ.indN, ite_eq_right hc])
   have hf : ∀ v ∈ S, ∀ j, Valued.v ((pFin E ((Pi.single (Fin.last m) 1 ᵥ* g.val) j) -
       (Pi.single (Fin.last m) 1 : Fin (m + 1) → Af E) j) v) ≤
       WithZero.exp (-FractionalIdeal.count E v (J : FractionalIdeal (𝓞 E)⁰ E)) := by
@@ -664,7 +664,7 @@ theorem uInt_cell_eval : ∀ (E : Type) [Field E] [NumberField E] [_root_.Number
     by_cases h0 : Φ (fun i => pInf E (GlobalTheory.ZEul.lastRow g i)) = 0 ∨
         GlobalTheory.RSJ.indN N (fun i => GlobalTheory.RSJ.pFin E (GlobalTheory.ZEul.lastRow g i)) = 0
     · rw [hzero _ _ h0, hzero _ _ h0, hzero _ _ h0]; exact ⟨rfl, rfl⟩
-    push_neg at h0
+    push Not at h0
     obtain ⟨-, -, p, -, -, -, -, e1, e2, e3⟩ := hdec h0.1 h0.2
     rw [e1, e2, e3]; exact ⟨rfl, rfl⟩
   refine ⟨h12.1, h12.2, fun l => ?_⟩
@@ -696,19 +696,19 @@ theorem uInt_cell_eval : ∀ (E : Type) [Field E] [NumberField E] [_root_.Number
       · right
         by_cases hl : ∀ w, 0 ≤ l.1 w (Fin.last m)
         · rw [hind1 hl, h]
-        · push_neg at hl; exact hind2 hl
+        · push Not at hl; exact hind2 hl
     rw [hzero φ φ hz]
     rcases hIt with h | h <;> simp [h]
-  push_neg at hz
+  push Not at hz
   by_cases hlast : ∀ w, 0 ≤ l.1 w (Fin.last m)
   swap
-  · push_neg at hlast
+  · push Not at hlast
     obtain ⟨w, hw⟩ := hlast
     have hws : w ∈ l.1.support := by
       rw [Finsupp.mem_support_iff]; intro h0; rw [h0] at hw; simp at hw
     rw [hind2 ⟨w, hw⟩, hprod0 w hws ?_]
     · simp
-    · rw [GlobalTheory.ZEul.rsTerm, if_neg]; rintro ⟨h1, -⟩; exact absurd (h1 (Fin.last m)) (not_le.2 hw)
+    · rw [GlobalTheory.ZEul.rsTerm, ite_eq_right]; rintro ⟨h1, -⟩; exact absurd (h1 (Fin.last m)) (not_le.2 hw)
   rw [hind1 hlast]
   obtain ⟨u, hu, p, hp, κ, hκ, he, -, e0, -⟩ := hdec hz.1 hz.2
   rw [e0]
@@ -727,14 +727,14 @@ theorem uInt_cell_eval : ∀ (E : Type) [Field E] [NumberField E] [_root_.Number
   rw [hW _ hNφ hKφ, hW _ hNφ' hKφ', hcc _ (hnorm _)]
   by_cases hanti : ∀ w, Antitone (l.1 w)
   swap
-  · push_neg at hanti
+  · push Not at hanti
     obtain ⟨w, hw⟩ := hanti
     have hw0 : l.1 w ≠ 0 := by rintro h0; rw [h0] at hw; exact hw antitone_const
     have hwS : w ∉ S := fun h => hw0 (l.2 w h)
     have hws : w ∈ l.1.support := Finsupp.mem_support_iff.2 hw0
     rw [_root_.GlobalTheory.CellVanish.eq_zero_of_not_antitone E m S J w hwS (hψ w hwS) ϖ (hϖ w) (GlobalTheory.JSW.whit φ) hNφ hKφ l.1 hw p (hp.1 w hwS), hprod0 w hws ?_]
     · simp
-    · rw [GlobalTheory.ZEul.rsTerm, if_neg]; rintro ⟨-, h2⟩; exact hw h2
+    · rw [GlobalTheory.ZEul.rsTerm, ite_eq_right]; rintro ⟨-, h2⟩; exact hw h2
   have hnn : ∀ w i, 0 ≤ l.1 w i := fun w i => le_trans (hlast w) (hanti w (Fin.le_last i))
   obtain ⟨l', hl'app⟩ : ∃ l' : HeightOneSpectrum (𝓞 E) →₀ (Fin (m + 1) → ℕ), ∀ w, l' w = fun i => (l.1 w i).toNat :=
     ⟨Finsupp.mapRange (fun v i => (v i).toNat) (funext fun _ => rfl) l.1, fun w => Finsupp.mapRange_apply⟩

@@ -998,7 +998,7 @@ theorem exists_local_tensor [Module.FaithfullyFlat R B] {c : B ⊗[R] B} (hu : I
   let I := GlobalTheory.FlatDescent.invariants (datum c)
   obtain ⟨φ, m, hm⟩ : ∃ (φ : Module.Dual R I) (m : I), φ m ∉ P := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hP
     rw [Ideal.eq_top_iff_one]
     obtain ⟨z, hz⟩ := hI.bijective.2 1

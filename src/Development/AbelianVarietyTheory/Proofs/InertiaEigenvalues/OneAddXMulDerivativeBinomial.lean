@@ -213,17 +213,17 @@ theorem exists_ev (H : EvLaw l (O := O) v inferInstance) : ∃ ev : L → (O⟦X
     intro ζ
     rw [map_sub, map_mul, constantCoeff_exp, constantCoeff_C, mul_one, map_one, sub_add_cancel]
     by_cases h : ∃ j : ℕ, IsPrimitiveRoot ζ (l ^ j)
-    · simp only [z, if_pos h]
+    · simp only [z, ite_eq_left h]
       exact h.imp fun j hj => hj.pow_eq_one
-    · simp [z, if_neg h]
+    · simp [z, ite_eq_right h]
   have hex : ∀ ζ : Set.range z, ∃ ev : O⟦X⟧ →ₐ[O] L⟦X⟧, ev X = C (ζ : L) * exp L - 1 := by
     rintro ⟨_, ζ, rfl⟩
     exact (H _ (hz ζ)).1.exists
   choose ev hev using hex
   refine ⟨fun ζ => ev ⟨z ζ, ζ, rfl⟩, fun ζ h => ?_, fun ζ h => ?_, fun ζ => ?_⟩
-  · simp only [hev, z, if_pos h]
+  · simp only [hev, z, ite_eq_left h]
   · refine congrArg ev (Subtype.ext ?_)
-    simp only [z, if_neg h, ite_self]
+    simp only [z, ite_eq_right h, ite_self]
   · simp only [hev]; exact hz ζ
 
 

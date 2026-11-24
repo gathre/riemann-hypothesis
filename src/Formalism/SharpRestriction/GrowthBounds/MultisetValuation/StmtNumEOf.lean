@@ -218,8 +218,8 @@ theorem stmtNumE_of (C₀ : ℝ) (h : nc_Need C₀) : Formalism.MainNotions.Form
         have hbq : B s / (p : ℝ) ^ (2 * e + 1) ≤ A s / (p : ℝ) ^ (2 * e + 1) := by
           gcongr <;> exact hBA s hs
         by_cases hF : F s e
-        · simp only [if_pos (hFE s hs e hF), if_pos hF, le_refl]
-        · rw [if_neg hF]
+        · simp only [ite_eq_left (hFE s hs e hF), ite_eq_left hF, le_refl]
+        · rw [ite_eq_right hF]
           split_ifs
           · exact le_max_right _ _
           · exact max_le (le_max_right _ _) (le_trans (by linarith [hCZ s e]) (le_max_left _ _))

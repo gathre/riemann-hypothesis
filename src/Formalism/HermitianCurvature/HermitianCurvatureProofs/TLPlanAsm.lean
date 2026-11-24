@@ -57,10 +57,10 @@ theorem act_e1Vec {k r : ℕ} {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProdu
     P5.act M (Top.firstStateVector Φ) e = (M e e1).1 Φ := by
   unfold P5.act Top.firstStateVector
   rw [Finset.sum_eq_single (fun _ => 0)]
-  · simp only [if_true]
+  · simp only [ite_true]
     rfl
   · intro b _ hb
-    rw [if_neg hb, map_zero]
+    rw [ite_eq_right hb, map_zero]
   · intro h
     exact absurd (Finset.mem_univ _) h
 

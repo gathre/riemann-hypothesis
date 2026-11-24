@@ -916,7 +916,7 @@ theorem path_sep : ∀ (ss : List (Fin n)) (X : GMod n) (χ : Fin n → ℂ)
         have hinj : Function.Injective S := Submodule.injective_subtype _
         have hx' : ∃ j, S x j ≠ 0 := by
           by_contra hcon
-          push_neg at hcon
+          push Not at hcon
           exact hx (hinj ((funext hcon).trans (map_zero S).symm))
         obtain ⟨j, hj⟩ := hx'
         obtain ⟨c, hc, h1⟩ := h _ hj

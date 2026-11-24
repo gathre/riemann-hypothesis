@@ -70,7 +70,7 @@ theorem infMat_prodAt {θ : InfFam D} (hθ : IsInfFam θ) (V : HSp D) {u : D.wha
     (hu : u ∈ UG (gramAt D V)) (ρ : D.what₂.Tau) (l : List D.what₂.Tau) (hl : l.Nodup) :
     infMat D.sp.cm.sig V.gram (θ ρ) (prodAt θ V l u) = if ρ ∈ l then u ρ else 1 := by
   induction l with
-  | nil => rw [if_neg List.not_mem_nil]; exact infMat_one V _
+  | nil => rw [ite_eq_right List.not_mem_nil]; exact infMat_one V _
   | cons τ l ih =>
     have e : prodAt θ V (τ :: l) u = atTau θ V τ (u τ) * prodAt θ V l u := List.prod_cons
     have hs := atTau_spec hθ V τ (hu τ)
@@ -78,7 +78,7 @@ theorem infMat_prodAt {θ : InfFam D} (hθ : IsInfFam θ) (V : HSp D) {u : D.wha
     rw [e, infMat_mul, ih hl.2]
     by_cases c : ρ = τ
     · subst c
-      rw [hs.2.1, if_neg hl.1, if_pos List.mem_cons_self, Matrix.mul_one]
+      rw [hs.2.1, ite_eq_right hl.1, ite_eq_left List.mem_cons_self, Matrix.mul_one]
     · rw [hs.2.2 ρ c, Matrix.one_mul]
       simp only [List.mem_cons, c, false_or]
 
@@ -107,7 +107,7 @@ theorem exists_real_lift : ∀ (D : D7) (θ : InfFam D) (V : HSp D), IsInfFam θ
   let L : (D.what₂.Tau → Mt V.rank) → GA D V := prodAt θ V Finset.univ.toList
   have hm : ∀ u, L u ∈ GinfC V := prodAt_mem θ V _
   have hL : ∀ u ∈ UG (gramAt D V), ∀ τ, infMat D.sp.cm.sig V.gram (θ τ) (L u) = u τ := fun u hu τ => by
-    rw [infMat_prodAt hθ V hu τ _ (Finset.nodup_toList _), if_pos (Finset.mem_toList.2 (Finset.mem_univ _))]
+    rw [infMat_prodAt hθ V hu τ _ (Finset.nodup_toList _), ite_eq_left (Finset.mem_toList.2 (Finset.mem_univ _))]
   refine ⟨L, fun u hu => ⟨hm u, hL u hu⟩, fun u hu u' hu' => ?_, continuousOn_prodAt hθ V _,
     fun g τ => archM_mem hθ V g τ, fun u hu => ?_, fun τ g hg => ?_, r7, fun a ha u hu => (r6 u hu a ha).symm,
     fun τ => ⟨(r1 τ).1, (r1 τ).2.ne_zero⟩⟩

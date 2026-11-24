@@ -114,14 +114,14 @@ theorem phiQ_rowEq (O : Subring F) (ϖ : F) (δ : Fˣ →* ℂˣ) (r t : ℕ) (x
       rw [hA, hD]
       obtain ⟨k, hk⟩ := h.1
       exact ⟨⟨k, k.2, hk⟩, h.2, hB, hC⟩
-    rw [if_pos hc, hA]
+    rw [ite_eq_left hc, hA]
     have hk := Classical.choose_spec h.1
     have e : chi0 δ (Matrix.toRows₁ x).det =
         ((δ (GeneralLinearGroup.det ((Classical.choose h.1 : GLint O r) : GL (Fin r) F)) : ℂˣ) : ℂ) := by
       rw [← unitCharExtendedByZero_det_eq_char_det, hk]
     rw [e]
     simp [Units.val_inv_eq_inv_val]
-  · rw [dite_eq_right h, if_neg]
+  · rw [dite_eq_right h, ite_eq_right]
     rintro ⟨h1, h2, -, -⟩
     rw [hA] at h1
     rw [hD] at h2

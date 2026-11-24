@@ -178,7 +178,7 @@ theorem low_le (X : Inst D L) (K : Consts) (hK : K.Nonneg) (P : ParameterChoice'
   rw [e] at k4
   rw [mul_max_of_nonneg _ _ hl, mul_zero]
   unfold E1
-  rw [if_pos m1]
+  rw [ite_eq_left m1]
   apply max_le <;> linarith
 
 end Formalism.MainNotions.AuxBlock8.Pf.G5

@@ -108,13 +108,13 @@ private lemma continuous_cpt' : Continuous (cpt X x0) := by
   have hn : ∀ (τ : X.Ψ) (a b : Fin r), Continuous fun z : V (nd X) => nmat X z τ a b := by
     intro τ a b
     by_cases h : b < a
-    · simp only [nmat, dif_pos h]
+    · simp only [nmat, dite_eq_left h]
       first
         | exact (EuclideanSpace.proj (𝕜 := ℂ) _).continuous
     · by_cases h' : a = b
-      · simp only [nmat, dif_neg h, if_pos h']
+      · simp only [nmat, dite_eq_right h, ite_eq_left h']
         exact continuous_const
-      · simp only [nmat, dif_neg h, if_neg h']
+      · simp only [nmat, dite_eq_right h, ite_eq_right h']
         exact continuous_const
   refine continuous_pi fun τ => continuous_pi fun a => continuous_pi fun b => ?_
   show Continuous fun z => ∑ k, mat x0 τ a k * mat (nmat X z) τ k b
@@ -157,10 +157,10 @@ theorem Gf_meas (hF : DifferentiableOn ℂ F (OmF X x0)) : Measurable (Gf D la F
     funext x
     by_cases h : x ∈ cell D
     · rw [Set.piecewise_eq_of_mem _ _ _ h]
-      exact if_pos h
+      exact ite_eq_left h
     · first
         | rw [Set.piecewise_eq_of_notMem _ _ _ h]
-      exact if_neg h
+      exact ite_eq_right h
   have hPm : Measurable (P0 D la F) := by
     rw [hP]
     exact hfc.measurable_piecewise continuous_zero.continuousOn hcellO.measurableSet
@@ -214,7 +214,7 @@ theorem Gf_cpt {z : V (nd X)} (hz : z ∈ OmF X x0) :
   rw [hr1] at hΔ hzo hbo
   have hP : P0 D la F (cpt X x0 z) = F z := by
     unfold P0
-    rw [if_pos (show cpt X x0 z ∈ X.dom ∧ D.Δ (cpt X x0 z) ≠ 0 from ⟨hzd, hΔ⟩), hzo, hbo]
+    rw [ite_eq_left (show cpt X x0 z ∈ X.dom ∧ D.Δ (cpt X x0 z) ≠ 0 from ⟨hzd, hΔ⟩), hzo, hbo]
     simp [bchar]
   unfold Gf
   have hp : X.pnorm la (P0 D la F) (cpt X x0 z) =

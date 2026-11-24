@@ -198,7 +198,7 @@ theorem GlobalTheory.DetLine.exists_wedgeCoord : ∀ (g p q : ℕ) (Hm : Matrix 
         field_simp
       · simp
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hz : (Matrix.detRowAlternating (n := Fin q ⊕ Fin p) (R := ℂ)).toMultilinearMap = 0 := by
       refine MultilinearMap.ext_of_span_eq_top (g := fun _ => r) (fun _ => hspan) fun s => ?_
       by_contra hne

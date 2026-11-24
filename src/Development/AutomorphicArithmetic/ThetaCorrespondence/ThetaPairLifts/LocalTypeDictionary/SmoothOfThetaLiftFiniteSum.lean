@@ -281,7 +281,7 @@ theorem signs_pos_of_frame_gram_posdef {r : ℕ} (ε : Fin r → Bool) (fr G : M
   have h5 := congrFun (congrFun h4 i) i
   simp only [Matrix.mul_apply, Matrix.conjTranspose_apply, Formalism.REAL.Jm, Matrix.diagonal_apply_eq, hi'] at h5
   have h6 := congrArg Complex.re h5
-  simp only [Complex.re_sum, Bool.false_eq_true, if_false, Complex.neg_re, Complex.one_re] at h6
+  simp only [Complex.re_sum, Bool.false_eq_true, ite_false, Complex.neg_re, Complex.one_re] at h6
   have h7 : ∀ k, 0 ≤ (Q i k * star (Q i k)).re := by
     intro k
     rw [Complex.star_def, Complex.mul_conj]
@@ -823,7 +823,7 @@ theorem finite_Qm {V : Type} [AddCommGroup V] {Λ : AddSubgroup V} {m : ℕ} {R 
     have := Λ.sub_mem (repm_mem q) (Λ.nsmul_mem hu m)
     rwa [ht, add_sub_cancel_right] at this
   refine ⟨⟨r, hr⟩, ?_⟩
-  simp only [dif_pos hrΛ]
+  simp only [dite_eq_left hrΛ]
   rw [← mk_repm q, QuotientAddGroup.eq, AddSubgroup.mem_addSubgroupOf]
   refine mem_mLat.2 ⟨u, hu, ?_⟩
   change m • u = -r + repm q
@@ -878,7 +878,7 @@ theorem decomp_of_lam (ψ : AddChar (AF D.host.F) ℂ) (Λ : AddSubgroup (WO S T
     simp only [h3]
     rw [Finset.sum_comm]
     simp only [← Finset.sum_smul, hs, charSum_selfAnn D ψ S T Λ m hm hinf hΛ hmax, ← hN, ite_smul, zero_smul]
-    rw [Finset.sum_ite_eq', if_pos (Finset.mem_univ _)]
+    rw [Finset.sum_ite_eq', ite_eq_left (Finset.mem_univ _)]
     obtain ⟨l, hl, hl'⟩ := mem_mLat.1 (repm_zero_mem (m := m) (Λ := Λ))
     have h2 : heisL S T ψ (m • l) f = f := hf l hl
     rw [← hl', hlm l hl, h2, one_mul, smul_smul, mul_inv_cancel₀ hN0, one_smul]
@@ -1137,7 +1137,7 @@ theorem rTr_realAll {θ : InfFam D} (hθ : IsInfFam θ) {V : HSp D} {S : D.what�
         · subst h; simp [hτ]
         · rw [Function.update_of_ne h]; simp [Finset.mem_insert, h]
       rw [e, Finset.prod_insert hτ]
-      simp only [Finset.mem_insert_self, if_true]
+      simp only [Finset.mem_insert_self, ite_true]
       funext x
       have i1 := congrFun ih (x * atTau θ V τ (Mz τ))
       have i2 := congrFun (rTr_atTau_of_scalar hT τ (hM τ) (hc τ) v) x

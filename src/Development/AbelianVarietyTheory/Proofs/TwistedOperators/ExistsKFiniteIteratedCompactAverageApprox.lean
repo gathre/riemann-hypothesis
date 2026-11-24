@@ -215,7 +215,7 @@ theorem unif_right : ∀ (D : D7) (V : HSp D) (φ : GA D V → ℂ), RapidDec V 
   have hT : ∀ y, T ≤ quotHeight V y → ‖φ y‖ < δ / 2 := by
     intro y hy
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 := hC y
     simp only [pow_one] at h1
     have h2 : δ / 2 * T = |C| + δ / 2 := by rw [hTdef]; field_simp
@@ -245,7 +245,7 @@ theorem unif_right : ∀ (D : D7) (V : HSp D) (φ : GA D V → ℂ), RapidDec V 
     have h2 := hT _ (hfar x k₀ hx)
     calc ‖φ (x * a k) - φ (x * a k₀)‖ ≤ ‖φ (x * a k)‖ + ‖φ (x * a k₀)‖ := norm_sub_le _ _
       _ < δ := by linarith
-  · push_neg at hx
+  · push Not at hx
     obtain ⟨γ, hγ⟩ : ∃ γ : GQ V, height V (γ * x) < T * H + 1 :=
       exists_lt_of_ciInf_lt (f := fun γ : GQ V => height V (γ * x)) (by
         change quotHeight V x < T * H + 1

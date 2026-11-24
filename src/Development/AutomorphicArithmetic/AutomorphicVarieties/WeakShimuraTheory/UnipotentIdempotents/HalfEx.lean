@@ -54,7 +54,7 @@ private theorem norm_le_one_of_isIntegral_padicInt' {l : ℕ} [Fact l.Prime] (x 
     ‖x‖ ≤ 1 := by
   obtain ⟨p, hm, hp⟩ := hx
   by_contra h
-  push_neg at h
+  push Not at h
   have hd0 : p.natDegree ≠ 0 := by
     intro h0
     have h1 := Polynomial.eq_one_of_monic_natDegree_zero hm h0

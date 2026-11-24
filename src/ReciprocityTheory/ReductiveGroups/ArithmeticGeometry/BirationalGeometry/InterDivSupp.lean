@@ -174,7 +174,7 @@ theorem isMultiHomogIdeal_of_isHomogeneous [DecidableEq K] {W : Ideal (MRing ι)
       by_cases h : (fun k => ∑ i, m ⟨k, i⟩) = a
       · subst h
         simp
-      · rw [if_neg h, if_neg]
+      · rw [ite_eq_right h, ite_eq_right]
         intro h'
         exact h (funext fun k => h' k (Finset.mem_univ k))
     simp_rw [e]
@@ -187,7 +187,7 @@ theorem isMultiHomogIdeal_of_isHomogeneous [DecidableEq K] {W : Ideal (MRing ι)
   refine Ideal.sum_mem _ fun a _ => Ideal.subset_span ⟨hgW a, a, fun m hm k => ?_⟩
   rw [mem_support_iff, hg a] at hm
   by_contra hk
-  exact hm (if_neg fun h => hk (h k (Finset.mem_univ k)))
+  exact hm (ite_eq_right fun h => hk (h k (Finset.mem_univ k)))
 
 theorem isMultiHomogIdeal_of_mem_minimalPrimes {P W : Ideal (MRing ι)} {s : MRing ι} {a : K → ℕ}
     (hP : IsMultiHomogIdeal P) (hs : IsMultiHomog s a)

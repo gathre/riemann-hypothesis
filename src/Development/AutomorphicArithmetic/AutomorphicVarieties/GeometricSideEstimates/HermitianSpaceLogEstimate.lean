@@ -95,12 +95,12 @@ theorem UpperTheory.geometric_side_upper_bound :
               nlinarith [Real.pi_pos]
             have h1 := Real.exp_le_one_iff.mpr h0
             have h2 : 0 ≤ Real.exp (-Real.pi * (K - 1)) * Real.exp (-Real.pi * (1 / μ * q i)) := by positivity
-            rw [if_pos h]
+            rw [ite_eq_left h]
             linarith
           · have hr : 1 ≤ q i / μ := by
               rw [le_div_iff₀ hμ]
               linarith [hgap i h]
-            rw [if_neg h, zero_add, ← Real.exp_add]
+            rw [ite_eq_right h, zero_add, ← Real.exp_add]
             apply Real.exp_le_exp.mpr
             have e3 : K / μ * q i = K * (q i / μ) := by ring
             have e4 : 1 / μ * q i = q i / μ := by ring

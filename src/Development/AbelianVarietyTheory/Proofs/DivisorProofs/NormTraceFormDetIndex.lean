@@ -155,7 +155,7 @@ lemma map_cc_mul {r : ℕ} (A B : Matrix (Fin r) (Fin r) E) :
 
 lemma exists_ne_zero_cc_eq_neg : ∃ β : E, β ≠ 0 ∧ cc β = -β := by
   by_contra h
-  push_neg at h
+  push Not at h
   apply IsCMField.complexConj_ne_one E
   refine AlgEquiv.ext fun x => ?_
   have h1 : cc (x - cc x) = -(x - cc x) := by

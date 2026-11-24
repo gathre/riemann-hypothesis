@@ -58,7 +58,7 @@ theorem pure_ne_zero {F : Type} [Field F] [NumberField F] {κ : Type} [Fintype �
   classical
   obtain ⟨yi, hyi⟩ : ∃ y, f y ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hf (SchwartzMap.ext h)
   have hS : Set.Finite {v | ¬ (φ v = Set.indicator {x | ∀ i, x i ∈ v.adicCompletionIntegers F} 1)} :=
     Filter.eventually_cofinite.mp hstd
@@ -73,7 +73,7 @@ theorem pure_ne_zero {F : Type} [Field F] [NumberField F] {κ : Type} [Fintype �
       apply hv
       have hvS' : v ∉ S := fun h => hvS (Finset.mem_coe.mpr h)
       show (if v ∈ S then p v i else 0) ∈ (v.adicCompletionIntegers F : Set (v.adicCompletion F))
-      rw [if_neg hvS']
+      rw [ite_eq_right hvS']
       exact zero_mem (v.adicCompletionIntegers F)⟩ :
       RestrictedProduct (fun v : Pl F => v.adicCompletion F) (fun v => (v.adicCompletionIntegers F : Set (v.adicCompletion F))) cofinite)
   let x : κ → AdeleRing (𝓞 F) F := fun i =>
@@ -92,7 +92,7 @@ theorem pure_ne_zero {F : Type} [Field F] [NumberField F] {κ : Type} [Fintype �
       by_contra h
       exact hv (hS.mem_toFinset.mpr h)
     rw [hv']
-    have hzero : (fun i : κ => if v ∈ S then p v i else 0) = fun _ => 0 := funext fun i => if_neg hv
+    have hzero : (fun i : κ => if v ∈ S then p v i else 0) = fun _ => 0 := funext fun i => ite_eq_right hv
     rw [hzero, Set.indicator_of_mem (show (fun _ : κ => (0 : Fv F v)) ∈ {x : κ → Fv F v | ∀ i, x i ∈ v.adicCompletionIntegers F} from fun i => zero_mem _)]
     rfl
   have hsub : Function.mulSupport (fun v => φ v (fun i => if v ∈ S then p v i else 0)) ⊆ S := by
@@ -101,7 +101,7 @@ theorem pure_ne_zero {F : Type} [Field F] [NumberField F] {κ : Type} [Fintype �
     exact hv (hg v h)
   rw [finprod_eq_prod_of_mulSupport_subset _ hsub] at hx
   refine (mul_ne_zero hyi (Finset.prod_ne_zero_iff.mpr fun v hv => ?_)) hx
-  have hpv : (fun i : κ => if v ∈ S then p v i else 0) = p v := funext fun i => if_pos hv
+  have hpv : (fun i : κ => if v ∈ S then p v i else 0) = p v := funext fun i => ite_eq_left hv
   rw [hpv]
   exact hp v
 
@@ -110,7 +110,7 @@ theorem exists_mem_schA_ev_ne_zero : ∀ (F E : Type) [Field F] [NumberField F] 
   obtain ⟨ei, ev, hei, hev, hpure⟩ := hE.loc
   obtain ⟨f, hf⟩ : ∃ f, ei f ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hei (ContinuousLinearMap.ext h)
   refine ⟨GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure f M.vac, GlobalTheory.TensUniq.pure_mem_schA f M.vac (fun v => (hM.vac v).1) hM.std, ?_⟩
   rw [hpure f M.vac (fun v => (hM.vac v).1) (Filter.Eventually.of_forall fun _ => rfl)]

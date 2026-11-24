@@ -139,7 +139,7 @@ theorem eq_zero_of_forall_letterHom {L U D F k : Type} [Field L] [Field U] [AddC
   by_contra hx0
   obtain ⟨φ, hφ⟩ : ∃ φ : Module.Dual U D, φ x ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hx0 ((Module.forall_dual_apply_eq_zero_iff U x).mp h)
   let f : D →ₗ[U] F := (Algebra.linearMap U F) ∘ₗ φ
   have hf : f x ≠ 0 := by
@@ -365,10 +365,10 @@ theorem aeval_stRep_eq_zero : ∀ {l : ℕ} [Fact l.Prime] (P : LocPrime l) (AI 
   have hall : ∀ s : ↥LL.1 →ₐ[ℚ_[l]] Om l, Kills (mulD P ρ) (s : ↥LL.1 →+* Om l) (algebraMap ↥(MaximalUnramifiedExtension l) (Om l)) T := by
     intro s
     have e := hd s LL.1.val
-    have e1 : d LL.1.val = 1 := if_pos h0
+    have e1 : d LL.1.val = 1 := ite_eq_left h0
     rw [e1] at e
     by_contra hs
-    have : d s = 0 := if_neg hs
+    have : d s = 0 := ite_eq_right hs
     omega
 
   have hT0 : T ⟨x, hx⟩ = 0 := by

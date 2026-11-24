@@ -907,7 +907,7 @@ theorem frame_bound : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Numb
           have := mul_le_mul_of_nonneg_left ht hM0.le
           rwa [mul_inv_cancel₀ hM0.ne'] at this
         linarith
-      rw [if_pos ht, if_pos hle, ← ENNReal.ofReal_mul hc₀0.le]
+      rw [ite_eq_left ht, ite_eq_left hle, ← ENNReal.ofReal_mul hc₀0.le]
       refine ENNReal.ofReal_le_ofReal ?_
       have hp := hht.pos t.1.1
       have hq := hht.pos (t.1.1 * u)
@@ -920,7 +920,7 @@ theorem frame_bound : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Numb
       have h7 : 0 < m ^ (d + 1) := by positivity
       rw [hc₀, inv_mul_le_iff₀ h7]
       exact h4.trans (mul_le_mul_of_nonneg_right h5 h6)
-    · rw [if_neg ht]; simp
+    · rw [ite_eq_right ht]; simp
   have hB₁ : ∀ ε : ℝ, 0 < ε → ε ≤ 1 → ENNReal.ofReal ε * (μ U * (ENNReal.ofReal c₀ * ∑' t : T, ENNReal.ofReal (b ε t))) ≤ 2 * B₀ := by
     intro ε h0 h1
     refine le_trans (mul_le_mul_right ?_ _) (hint ε h0 h1)

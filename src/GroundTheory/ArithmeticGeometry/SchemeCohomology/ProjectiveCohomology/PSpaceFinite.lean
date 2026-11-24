@@ -254,12 +254,12 @@ noncomputable def ocone {n : ℕ} (s : ι) : Chain ι n →+ Chain ι (n + 1) :=
 
 lemma ocone_single_of_lt {n : ℕ} {s : ι} {i : Fin (n + 1) → ι} (h : s < i 0) (z : ℤ) :
     ocone s (Finsupp.single i z) = Finsupp.single (Fin.cons s i : Fin (n + 2) → ι) z := by
-  rw [ocone, Finsupp.liftAddHom_apply_single, if_pos h]
+  rw [ocone, Finsupp.liftAddHom_apply_single, ite_eq_left h]
   rfl
 
 lemma ocone_single_of_not_lt {n : ℕ} {s : ι} {i : Fin (n + 1) → ι} (h : ¬ s < i 0) (z : ℤ) :
     ocone s (Finsupp.single i z) = 0 := by
-  rw [ocone, Finsupp.liftAddHom_apply_single, if_neg h]
+  rw [ocone, Finsupp.liftAddHom_apply_single, ite_eq_right h]
   rfl
 
 lemma bd_ocone_add_ocone_bd (n : ℕ) (s : ι) {c : Chain ι (n + 1)}
@@ -524,7 +524,7 @@ noncomputable def cval {m n : ℕ} (σ : Cochain P U m) (i : Fin (n + 1) → ι)
   open Classical in if h : inter U i ≤ inter U j then res P h (σ j) else 0
 
 lemma cval_of_le {m n : ℕ} (σ : Cochain P U m) (i : Fin (n + 1) → ι) (j : Fin (m + 1) → ι)
-    (h : inter U i ≤ inter U j) : cval P U σ i j = res P h (σ j) := dif_pos h
+    (h : inter U i ≤ inter U j) : cval P U σ i j = res P h (σ j) := dite_eq_left h
 
 noncomputable def cev {m n : ℕ} (σ : Cochain P U m) (i : Fin (n + 1) → ι) :
     Chain ι m →+ P.obj (op (inter U i)) :=
@@ -546,7 +546,7 @@ lemma cev_add {m n : ℕ} (σ τ : Cochain P U m) (i : Fin (n + 1) → ι) (c : 
     congr 1
     by_cases h : inter U i ≤ inter U j
     · rw [cval_of_le P U _ i j h, cval_of_le P U _ i j h, cval_of_le P U _ i j h, Pi.add_apply, map_add (f := _)]
-    · simp only [cval, h, dif_neg, not_false_eq_true, add_zero]
+    · simp only [cval, h, dite_eq_right, not_false_eq_true, add_zero]
   exact congrArg (fun L => L c) this
 
 lemma cev_zero {m n : ℕ} (i : Fin (n + 1) → ι) (c : Chain ι m) : cev P U (0 : Cochain P U m) i c = 0 := by
@@ -633,7 +633,7 @@ noncomputable def cvalO {m n : ℕ} (τ : OCochain P U m) (i : Fin (n + 1) → �
 
 lemma cvalO_of {m n : ℕ} (τ : OCochain P U m) (i : Fin (n + 1) → ι) (j : Fin (m + 1) → ι)
     (hj : StrictMono j) (h : inter U i ≤ inter U j) : cvalO P U τ i j = res P h (τ ⟨j, hj⟩) :=
-  dif_pos ⟨hj, h⟩
+  dite_eq_left ⟨hj, h⟩
 
 noncomputable def cevO {m n : ℕ} (τ : OCochain P U m) (i : Fin (n + 1) → ι) :
     Chain ι m →+ P.obj (op (inter U i)) :=
@@ -652,7 +652,7 @@ lemma cevO_add {m n : ℕ} (τ τ' : OCochain P U m) (i : Fin (n + 1) → ι) (c
     by_cases h : StrictMono j ∧ inter U i ≤ inter U j
     · rw [cvalO_of P U _ i j h.1 h.2, cvalO_of P U _ i j h.1 h.2, cvalO_of P U _ i j h.1 h.2,
         Pi.add_apply, map_add]
-    · simp only [cvalO, h, dif_neg, not_false_eq_true, add_zero]
+    · simp only [cvalO, h, dite_eq_right, not_false_eq_true, add_zero]
   exact congrArg (fun L => L c) this
 
 lemma cevO_zero {m n : ℕ} (i : Fin (n + 1) → ι) (c : Chain ι m) :

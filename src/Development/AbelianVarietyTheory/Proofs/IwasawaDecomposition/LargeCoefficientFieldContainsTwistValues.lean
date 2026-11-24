@@ -144,7 +144,7 @@ theorem exists_ram {F E K : Type} [Field F] [NumberField F] [Field E] [NumberFie
     {μ : Chr F E K} {ξ : Formalism.L2.Host.HChar E} (h : Reads σ μ ξ) {v : HeightOneSpectrum (𝓞 F)} (hv : v ∈ Qprime μ) :
     ∃ Q : HeightOneSpectrum (𝓞 E), Q.under (𝓞 F) = v ∧ ¬ ξ.UnrAt Q := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   simp only [Qprime, Set.mem_setOf_eq] at hv
   apply hv
   intro x hx
@@ -636,7 +636,7 @@ theorem qC_subset {B : Base} {px : PreX B.toPre} (I : Col2.ColIn B px) (h : I.Ok
     · obtain ⟨v, hv, rfl⟩ := Finset.mem_image.1 hQ'
       rw [Set.Finite.mem_toFinset] at hv
       unfold qBound
-      rw [if_pos (hr ▸ hfin)]
+      rw [ite_eq_left (hr ▸ hfin)]
       exact ⟨v, hr ▸ hv, h.sel_ok v⟩
     · simp at hQ'
   · simp

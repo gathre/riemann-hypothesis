@@ -404,7 +404,7 @@ theorem exp_le_sizeK (Dw : Datum H) (a : (E →+* ℂ) × ℕ → ℕ) (n : ℕ)
     have e : laOf Dw a n ⟨conjEmb τ, hc⟩ ⟨Dw.p + (Dw.q - 1 - i), by omega⟩ =
         -(a (τ, i) : ℤ) - ((n / 2 : ℕ) : ℤ) := by
       have e2 : Dw.q - 1 - (Dw.p + (Dw.q - 1 - i) - Dw.p) = i := by omega
-      simp only [laOf, GlobalTheory.AllWt.weightOf, hk, if_false, e2, GlobalTheory.AllWt.conjEmb_conjEmb]
+      simp only [laOf, GlobalTheory.AllWt.weightOf, hk, ite_false, e2, GlobalTheory.AllWt.conjEmb_conjEmb]
     have h1 := abs_laOf_le_sizeK Dw a n ⟨conjEmb τ, hc⟩ ⟨Dw.p + (Dw.q - 1 - i), by omega⟩
     have h4 : (a (τ, i) : ℤ) ≤ |laOf Dw a n ⟨conjEmb τ, hc⟩ ⟨Dw.p + (Dw.q - 1 - i), by omega⟩| := by
       rw [e]; exact le_trans (by omega) (neg_le_abs _)
@@ -785,7 +785,7 @@ theorem GlobalTheory.CovGmin.span_thFam : ∃ C : ℝ, 0 ≤ C ∧ ∀ (D : D7) 
     have hτ' : τ ↑T.Q.H.rt = T.Q.H.rt0 := hτ
     have hmp : (T.Q.Dw j).mult τ = (T.Q.Dw j).p := by simp [Datum.mult, hτ']
     have := hpos ⟨τ, hτ⟩ ⟨(T.Q.Dw j).p - 1, by omega⟩ (by simp; omega)
-    simp only [laOf, GlobalTheory.AllWt.weightOf, show (T.Q.Dw j).p - 1 < (T.Q.Dw j).p by omega, if_true] at this
+    simp only [laOf, GlobalTheory.AllWt.weightOf, show (T.Q.Dw j).p - 1 < (T.Q.Dw j).p by omega, ite_true] at this
     rw [hmp]
     omega
   have hn' : 8 * (Module.finrank ℚ D.host.E / 2) * ((T.Q.Dw j).p + (T.Q.Dw j).q) + 4 ≤ n := by

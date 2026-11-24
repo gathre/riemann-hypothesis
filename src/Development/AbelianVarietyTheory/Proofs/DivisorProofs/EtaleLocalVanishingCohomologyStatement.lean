@@ -381,7 +381,7 @@ theorem exists_isolating (B D : Type) [CommRing B] [IsDedekindDomain B] [CommRin
     exact (hfib P hP).2 Q' hQ'P.1 hQ'P.2
   have hch : ∀ Q' ∈ S, Q' ≠ Q → ∃ x, x ∈ Q' ∧ x ∉ Q := fun Q' hQ' hne => by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne ((hSmax Q' hQ').eq_of_le hQ.ne_top h)
   choose! x hxmem hxnot using hch
   refine ⟨∏ Q' ∈ hSfin.toFinset.filter (· ≠ Q), x Q', ?_, ?_⟩

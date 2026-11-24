@@ -91,7 +91,7 @@ theorem isUnit_of_jetAug (a : Jet K ι m) (h : (jetAug : Jet K ι m →ₐ[K] K)
     have hmo0 : mo ≠ 0 := by
       intro h0
       subst h0
-      rw [MvPolynomial.mem_support_iff, MvPolynomial.coeff_sub, MvPolynomial.coeff_C, if_pos rfl,
+      rw [MvPolynomial.mem_support_iff, MvPolynomial.coeff_sub, MvPolynomial.coeff_C, ite_eq_left rfl,
         ← MvPolynomial.constantCoeff_eq, ← hc, sub_self] at hmo
       exact hmo rfl
     obtain ⟨i, hi⟩ := Finsupp.ne_iff.1 hmo0

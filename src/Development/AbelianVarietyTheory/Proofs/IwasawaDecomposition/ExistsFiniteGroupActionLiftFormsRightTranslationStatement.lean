@@ -597,10 +597,10 @@ theorem inv_redZ_mul_g0Hat_type : ∀ (X : Stages) (px : PreX X.B.toPre) (I : Co
     else ((L.xiR t P (Formalism.L2.DIV.dBlk (Formalism.L2.DIV.blk2 X.B.R.r) 1 (Formalism.L2.DIV.redFn (L.βV i) P y)) : ℂˣ) : ℂ) with hFdef
   have hF1 : ∀ P (h : P ∈ (X.B.primes px).vGs), F P =
       (((L.chi ((i : ℕ) + 1) P)⁻¹ (Formalism.L2.DIV.dBlk (Formalism.L2.DIV.blkOf X.B.R.r X.B.R.t) 1 (Formalism.L2.DIV.redFn (L.βV i) P y)) : ℂˣ) : ℂ) :=
-    fun P h => if_pos h
+    fun P h => ite_eq_left h
   have hF2 : ∀ P (h : P ∉ (X.B.primes px).vGs), F P =
       ((L.xiR t P (Formalism.L2.DIV.dBlk (Formalism.L2.DIV.blk2 X.B.R.r) 1 (Formalism.L2.DIV.redFn (L.βV i) P y)) : ℂˣ) : ℂ) :=
-    fun P h => if_neg h
+    fun P h => ite_eq_right h
   have hval : ∀ w, X.toD7.what₂.embLL ((((Formalism.L2.Col.mtTyKK I.Ch I.sel t.1 ((i : ℕ) + 1) w).lam ⟨_, hmem w⟩)⁻¹ :
       X.B.fields.Kˣ) : X.B.fields.K) = F w.1 := fun w => by
     by_cases hw : w.1 ∈ (X.B.primes px).vGs

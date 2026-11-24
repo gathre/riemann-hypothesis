@@ -640,7 +640,7 @@ private theorem vw_eq_zero_of_not_mem_asIdeal {K : Type} [Field K] [NumberField 
     rw [Ideal.dvd_span_singleton]
     exact ht
   rw [← Associates.count_ne_zero_iff_dvd hI w.irreducible] at hnd
-  push_neg at hnd
+  push Not at hnd
   rw [hv, hnd]
   rfl
 

@@ -326,7 +326,7 @@ theorem teichmuller_distinguished_span_isPrime : ∀ (l : ℕ) [Fact l.Prime] (O
     have : ¬ ∀ k : ℕ, ∃ c : WittVector l O,
         a - WittVector.teichmuller l x ^ k * c ∈ Ideal.span {E'} :=
       fun h => ha (teichmuller_distinguished_span_closed l O x e w E' hx he hw hE hc a h)
-    push_neg at this
+    push Not at this
     obtain ⟨k, hk⟩ := this
     rcases teichmuller_distinguished_normal_form_iter l O x e w E' hw hE k a with ⟨a', ha'⟩ | ⟨y, hy, u, hu, hya⟩
     · exfalso
@@ -340,7 +340,7 @@ theorem teichmuller_distinguished_span_isPrime : ∀ (l : ℕ) [Fact l.Prime] (O
   refine ⟨(Ideal.isPrime_iff).mpr ⟨hI, ?_⟩, ?_⟩
   · intro a b hab
     by_contra hne
-    push_neg at hne
+    push Not at hne
     obtain ⟨y, N, hy, u, hu, hya⟩ := hform a hne.1
     obtain ⟨y', N', hy', u', hu', hyb⟩ := hform b hne.2
     obtain ⟨s, hs⟩ := mul_dvd_mul hy hy'

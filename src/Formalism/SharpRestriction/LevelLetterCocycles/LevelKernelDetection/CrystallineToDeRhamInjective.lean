@@ -109,7 +109,7 @@ theorem v_nat_eq_zero (p : ℕ) (hp : p.Prime) (hvp : 0 < v (p : LL)) (m : ℕ) 
     | (have h := congrArg (Int.cast : ℤ → LL) hab; push_cast at h; exact h)
   refine le_antisymm ?_ (v_nat_nonneg v m)
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hA : 0 < v ((a : LL) * (p : LL)) := by
     rw [AddValuation.map_mul]; exact withTop_rat_add_pos_of_nonneg_of_pos (v_int_nonneg v a) hvp
   have hB : 0 < v ((b : LL) * (m : LL)) := by

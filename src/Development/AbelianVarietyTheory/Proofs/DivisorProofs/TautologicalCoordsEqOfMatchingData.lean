@@ -92,10 +92,10 @@ theorem sum_symElem {r : ℕ} (β : LinearMap.BilinForm ℤ (Fin r → ℤ)) (h�
     LinearMap.add_apply, smul_eq_mul]
   simp only [ite_bil_apply, elem_apply, Pi.single_apply, mul_add, Finset.sum_add_distrib, mul_ite, ite_mul, mul_zero, zero_mul]
   simp only [← ite_and]
-  rw [Fintype.sum_eq_single i (fun x hx => Fintype.sum_eq_zero _ (fun y => if_neg (by tauto))),
-    Fintype.sum_eq_single j (fun x hx => Fintype.sum_eq_zero _ (fun y => if_neg (by tauto))),
-    Fintype.sum_eq_single j (fun y hy => if_neg (by tauto)),
-    Fintype.sum_eq_single i (fun y hy => if_neg (by tauto))]
+  rw [Fintype.sum_eq_single i (fun x hx => Fintype.sum_eq_zero _ (fun y => ite_eq_right (by tauto))),
+    Fintype.sum_eq_single j (fun x hx => Fintype.sum_eq_zero _ (fun y => ite_eq_right (by tauto))),
+    Fintype.sum_eq_single j (fun y hy => ite_eq_right (by tauto)),
+    Fintype.sum_eq_single i (fun y hy => ite_eq_right (by tauto))]
   rcases le_or_gt i j with h | h
   · simp [h, not_lt.2 h]
   · simp [h, not_le.2 h, hβ (Pi.single i 1)]

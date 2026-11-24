@@ -600,7 +600,7 @@ theorem exists_sum_trivialSeriesIdempotent_eq_one [Fact g.Prime] (hr : r ≠ 0) 
   refine ⟨hfin.toFinset, fun f => by simp, ?_⟩
   unfold trivialSeriesIdempotent
   rw [Finset.sum_ite_eq']
-  rw [if_pos]
+  rw [ite_eq_left]
   simpa using labelPolynomial_monic_degree r g hr
 
 end Series
@@ -691,7 +691,7 @@ def toyNtypes (ht : THyp H) (htm : TameHyp H)
   eSer_zero := fun k f hf => by
     have : Fact (H.g k).Prime := ⟨H.g_prime k⟩
     unfold trivialSeriesIdempotent
-    rw [if_neg]
+    rw [ite_eq_right]
     rintro rfl
     exact hf (labelPolynomial_monic_degree R.r (H.g k) (r_ne_zero R))
   eSer_sum := fun k => by
@@ -721,7 +721,7 @@ theorem exampleNewtypes_idempotent_zero (ht htm teichC teichC_inj iota iota_inj)
     refine Finset.prod_eq_zero (Finset.mem_univ ⟨0, (⟨0, hf⟩ : Fin R.f)⟩) ?_
     show (trivialSeriesIdempotent _ _ _).coeff _ = 0
     unfold trivialSeriesIdempotent
-    rw [if_neg]
+    rw [ite_eq_right]
     · rfl
     · intro e
       have h2 : 2 ≤ R.r := by have := R.m_add_three_le_k; unfold Ranks.r; omega

@@ -852,7 +852,7 @@ theorem exists_frames : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (
   have hsep : ∀ s s', s ≠ s' → ∃ a, 𝔐.emb s a ≠ 𝔐.emb s' a := by
     intro s s' h
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact h (hinj (RingHom.ext hc))
   have hstab : ∀ a, ∀ e ∈ 𝔐.M.lat p, 𝔐.ρ a e ∈ 𝔐.M.lat p := fun a e he =>
     haveI := 𝔐.t.act.hom a

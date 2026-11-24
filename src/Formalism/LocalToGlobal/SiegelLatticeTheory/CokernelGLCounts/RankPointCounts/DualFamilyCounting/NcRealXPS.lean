@@ -90,7 +90,7 @@ theorem exists_box_alt (μ : ∀ i, Measure (α i)) [∀ i, SigmaFinite (μ i)] 
   have key : ∀ i, ∃ s : Set (α i), MeasurableSet s ∧ μ i s ≠ 0 ∧ μ i s ≠ ∞ := by
     intro i
     by_contra hc
-    push_neg at hc
+    push Not at hc
     apply hne i
     have hz : ∀ n, μ i (spanningSets (μ i) n) = 0 := fun n => by
       by_contra h0
@@ -562,7 +562,7 @@ theorem placeSplit_of (hJG : JacGauge) (hC : CovolRef) : PlaceSplit := by
     intro κ0 dd hddT hκ0
     rw [pi_smul_factors _ dd hddT, pi_smul_factors _ _ (fun v => ENNReal.mul_ne_top
       (by split_ifs <;> simp [hκ0]) (hddT v)), smul_smul, Finset.prod_mul_distrib]
-    simp only [Finset.prod_ite_eq', Finset.mem_univ, if_true]
+    simp only [Finset.prod_ite_eq', Finset.mem_univ, ite_true]
   have hmuN : X.muN u = Measure.pi (fun v => cN v • refNX X u v) := by
     have he : ProductExactness.muNv X u = fun v => d v • refNX X u v := funext hd
     rw [hN, he]

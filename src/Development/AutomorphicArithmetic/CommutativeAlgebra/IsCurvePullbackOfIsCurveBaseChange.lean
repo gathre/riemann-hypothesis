@@ -80,7 +80,7 @@ private theorem dom_fg {k R A ι : Type} [Field k] [IsAlgClosed k] [CommRing R] 
     (∀ i ∈ s, a i = 0) ∨ (∀ j ∈ t, b j = 0) := by
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨⟨i0, hi0, ha⟩, ⟨j0, hj0, hb⟩⟩ := hcon
   haveI : IsJacobsonRing R := isJacobsonRing_of_finiteType (A := k)
   have hab : a i0 * b j0 ≠ 0 := mul_ne_zero ha hb
@@ -91,7 +91,7 @@ private theorem dom_fg {k R A ι : Type} [Field k] [IsAlgClosed k] [CommRing R] 
     simpa using hab
   obtain ⟨m, hm, hnm⟩ : ∃ m : Ideal R, m.IsMaximal ∧ a i0 * b j0 ∉ m := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     apply hnot
     rw [Ideal.jacobson, Submodule.mem_sInf]
     rintro J ⟨-, hJ⟩

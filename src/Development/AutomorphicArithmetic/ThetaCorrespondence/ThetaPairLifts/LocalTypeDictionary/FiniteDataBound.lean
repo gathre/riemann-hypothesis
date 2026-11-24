@@ -699,8 +699,8 @@ theorem UpperTheory.fourierSum_block_transpose_inv_eq :
   rw [fourierSum_apply, fourierSum_apply]
   by_cases hc : ∀ i, ∀ j ∈ Assignment.one.block D₁ D₂, ((ϖ ^ e : kˣ) : k) * Y i j ∈ 𝒪[k]
   swap
-  · rw [if_neg hc, if_neg (mt hcond.2 hc)]
-  rw [if_pos hc, if_pos (hcond.1 hc)]
+  · rw [ite_eq_right hc, ite_eq_right (mt hcond.2 hc)]
+  rw [ite_eq_left hc, ite_eq_left (hcond.1 hc)]
   have hc' := hcond.1 hc
   congr 1
   have hψ1 : ∀ y : k, y ∈ 𝒪[k] → ψ y = 1 := by
@@ -1694,7 +1694,7 @@ private theorem nu_int {D : D7} {T : Type} {L : LevCh D T} {sc : Consts} (G : Gr
   have h12 := (GlobalTheory.SizesOfRows.sizes_of_sizeRows large₂ hS).2.2.2.2.2.2.2
   have e1 : (((locGrid G t w).nu i j (unifAt w) : ℂˣ) : ℂ) =
       ((L.C.mu0 ⟨j, hj⟩).val w : ℂ) * ((L.xiH t).val w : ℂ) * (((G.ch.chiH (D.R.m - i)).val w : ℂ))⁻¹ := by
-    simp only [Grid.nu, locGrid, muBase, dif_pos hj, div_eq_mul_inv]
+    simp only [Grid.nu, locGrid, muBase, dite_eq_left hj, div_eq_mul_inv]
     rw [MonoidHom.mul_apply, MonoidHom.inv_apply, Units.val_mul, Units.val_inv_eq_inv_val]
     rfl
   have hμ := L.C.isMu0 ⟨j, hj⟩
@@ -1813,7 +1813,7 @@ theorem _root_.GlobalTheory.T.flips_loss_bounded_at_exceptional_places : ∃ CF0
   by_cases hW : w ∈ ch.G.pl.W0
   · have hd : depthAt ch.G w = cosExp ch.G w := by
       rw [depthAt, max_eq_left]
-      rw [cosExp, if_pos hW]
+      rw [cosExp, ite_eq_left hW]
       exact ch.G.pl.depth_pos _ _
     obtain ⟨s1, -, s2, -, -, -, -, s3⟩ := GlobalTheory.SizesOfRows.sizes_of_sizeRows large₂ hS.size
     have s2' : (1 : ℝ) ≤ bigN D := by exact_mod_cast s2

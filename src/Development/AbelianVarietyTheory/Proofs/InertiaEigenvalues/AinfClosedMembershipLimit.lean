@@ -249,7 +249,7 @@ theorem abstract {S R A F : Type} [CommRing S] [CommRing A] [IsDomain A] [CommRi
     ext i j
     have := congrFun (hC j) i
     simp only [mulVec, dotProduct, Pi.single_apply, apply_ite ev, map_one, map_zero, mul_ite, mul_one, mul_zero,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true] at this
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true] at this
     rw [this]; rfl
   obtain rfl : n = d := le_antisymm hnd hdn
   refine ⟨Y, fun h => ?_, fun y => ⟨hall y, fun ⟨c, hc⟩ => hc ▸ hY c⟩⟩
@@ -335,7 +335,7 @@ theorem exists_pow_mul (x : Cb l) : ∃ (c : ℕ) (o : OCb l),
   have hb0 : b ≠ 0 := nonZeroDivisors.ne_zero hb
   have : ∃ c, b ∣ bk.flat ^ c := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hb0 (AinfDiv.flat_haus bk b fun n => (ValuationRing.dvd_total _ _).resolve_right (h n))
   obtain ⟨c, q, hq⟩ := this
   refine ⟨c, q * a, ?_⟩

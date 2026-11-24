@@ -267,7 +267,7 @@ theorem twLamQ_mem {j : ℕ} {P : HeightOneSpectrum (𝓞 X.E)} (hP : P ∉ Pr.v
     v ∈ lamYat (Pr := Pr) (R := R) j P ↔ ∀ l, IntAt P (v l) := by
   have e : lamYat (Pr := Pr) (R := R) j P = LocE.lamY P (qOf P) (R.N j) (cOf R j) 0 := by
     unfold lamYat
-    rw [if_neg hP]
+    rw [ite_eq_right hP]
   rw [e]
   unfold LocE.lamY
   rw [ciMem_sclLat]

@@ -456,7 +456,7 @@ theorem inter_pull_eq_deg_mul_inter : ∀ (K : Type) [Field K] (A B : AbVar K) (
   · have hs : ¬ Surjective f.hom.left := by
       intro hs
       exact hi ⟨GlobalTheory.AV.AbVar.isFinite_of_surjective_of_dim_eq K A B f hd hs, hs⟩
-    rw [_root_.GlobalTheory.AV.AbVar.inter_pull_eq_zero_of_not_surjective K A B f hd hs J hJ c, deg, if_neg hi]
+    rw [_root_.GlobalTheory.AV.AbVar.inter_pull_eq_zero_of_not_surjective K A B f hd hs J hJ c, deg, ite_eq_right hi]
     simp
 
 end GlobalTheory.AV.AbVar

@@ -138,7 +138,7 @@ theorem zeta_big {r : ℕ} (TT : ℝ) (d : Fin (r + 1) → ℂ) (h : 0 < D.ptG T
   simp only [D.ptG, ptMatN_bigPt_eq_diagonal', ptMatN_bigPt_head, Matrix.det_diagonal, Fin.prod_univ_castSucc,
     map_mul] at h1
   by_contra hc
-  push_neg at hc
+  push Not at hc
   nlinarith [mul_nonneg (sub_nonneg.2 hc) (Complex.normSq_nonneg (∏ a : Fin r, d a.castSucc))]
 
 end pts

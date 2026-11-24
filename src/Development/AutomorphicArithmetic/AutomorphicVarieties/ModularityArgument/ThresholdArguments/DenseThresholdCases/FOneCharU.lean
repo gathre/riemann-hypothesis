@@ -316,10 +316,10 @@ theorem UpperTheory.V.Z.Kato.used_of_alt :
     intro g
     rw [hW, Wfun, hθ0, h.mult g]
     rcases Int.units_eq_one_or (D.η g) with hg | hg
-    · rw [hg, if_pos rfl, Matrix.trace_fin_two]
+    · rw [hg, ite_eq_left rfl, Matrix.trace_fin_two]
       show (r g).mat 0 0 + (r g).mat 2 2 = _
       simp
-    · rw [hg, if_neg (by decide), Matrix.trace_fin_two, Matrix.mul_diagonal, Matrix.mul_diagonal]
+    · rw [hg, ite_eq_right (by decide), Matrix.trace_fin_two, Matrix.mul_diagonal, Matrix.mul_diagonal]
       show (r g).mat 0 0 * (-1) + (r g).mat 2 2 * 1 = _
       simp
   refine
@@ -595,7 +595,7 @@ private theorem ad_sA {R : Type} [CommRing R] {x : GG (m := 3) (R := R)} (hx : I
     sA (pA (x.adFun (sA Y))) = x.adFun (sA Y) := by
   obtain ⟨a, b, c, d, h, hx⟩ := hx
   rw [ad_eq h hx, theta_eq, conj_eq]
-  by_cases hsign : x.right = 1 <;> simp only [hsign, if_true, if_false]
+  by_cases hsign : x.right = 1 <;> simp only [hsign, ite_true, ite_false]
   all_goals
     ext i j
     fin_cases i <;> fin_cases j <;> first | rfl | simp [sA, pA]
@@ -645,7 +645,7 @@ private theorem pC_ad {R : Type} [CommRing R] {x : GG (m := 3) (R := R)} (hx : I
     pC (x.adFun X) = (if x.right = 1 then 1 else -1 : R) • pC X := by
   obtain ⟨a, b, c, d, h, hx⟩ := hx
   rw [ad_eq h hx, theta_eq, conj_eq]
-  by_cases hs : x.right = 1 <;> simp only [hs, if_true, if_false]
+  by_cases hs : x.right = 1 <;> simp only [hs, ite_true, ite_false]
   all_goals
     ext i j
     fin_cases i <;> fin_cases j <;> simp [pC]
@@ -654,7 +654,7 @@ private theorem ad_pC {R : Type} [CommRing R] {x : GG (m := 3) (R := R)} (hx : I
     x.adFun (pC X) = (if x.right = 1 then 1 else -1 : R) • pC X := by
   obtain ⟨a, b, c, d, h, hx⟩ := hx
   rw [ad_eq h hx, theta_eq, conj_eq]
-  by_cases hs : x.right = 1 <;> simp only [hs, if_true, if_false]
+  by_cases hs : x.right = 1 <;> simp only [hs, ite_true, ite_false]
   all_goals
     ext i j
     fin_cases i <;> fin_cases j <;> simp [pC]
@@ -663,14 +663,14 @@ private theorem pA_ad_one {R : Type} [CommRing R] {x : GG (m := 3) (R := R)} (hx
     (hw : (w : Matrix (Fin 2) (Fin 2) R) = wOf x) (Y : Matrix (Fin 2) (Fin 2) R) :
     pA (x.adFun (sA Y)) = (w : Matrix (Fin 2) (Fin 2) R) * Y * ((w⁻¹ : GL (Fin 2) R) : Matrix (Fin 2) (Fin 2) R) := by
   obtain ⟨a, b, c, d, h, hx⟩ := hx
-  rw [wOf_eq hx, if_pos h1] at hw
+  rw [wOf_eq hx, ite_eq_left h1] at hw
   have : ((w⁻¹ : GL (Fin 2) R) : Matrix (Fin 2) (Fin 2) R) = !![d, -b; -c, a] := by
     apply Units.inv_eq_of_mul_eq_one_right
     rw [hw]
     ext i j
     fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;>
       first | ring1 | linear_combination h
-  rw [ad_eq h hx, if_pos h1, this, hw, conj_eq]
+  rw [ad_eq h hx, ite_eq_left h1, this, hw, conj_eq]
   ext i j
   simp only [Matrix.mul_apply, Fin.sum_univ_two]
   fin_cases i <;> fin_cases j <;> simp [sA, pA] <;> ring
@@ -679,7 +679,7 @@ private theorem pA_ad_c {R : Type} [CommRing R] {x : GG (m := 3) (R := R)} (hx :
     pA (x.adFun (sA Y)) = -(Jmat R 2 * Yᵀ * Jmat R 2) := by
   have hx' : x.mat = !![1, 0, 0; 0, 1, 0; 0, 0, 1] := by
     rw [hx]; ext i j; fin_cases i <;> fin_cases j <;> simp
-  rw [ad_eq (by ring) hx', if_neg (by rw [h1]; decide), theta_eq]
+  rw [ad_eq (by ring) hx', ite_eq_right (by rw [h1]; decide), theta_eq]
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [sA, pA, Jmat, Fin.rev, Matrix.mul_apply, Fin.sum_univ_two]
@@ -769,7 +769,7 @@ theorem UpperTheory.V.Z.Kato.WeilSphericalRecords.bloch_kato_selmer_vanishes_of_
   have hWcc : (W D.cc).val = !![-1, 0; 0, 1] := by
     have hx' : (r D.cc).mat = !![1, 0, 0; 0, 1, 0; 0, 0, 1] := by
       rw [h.norm.atc]; ext i j; fin_cases i <;> fin_cases j <;> simp
-    rw [hW', wOf_eq hx', if_neg (by rw [hrc]; decide), neg_zero]
+    rw [hW', wOf_eq hx', ite_eq_right (by rw [hrc]; decide), neg_zero]
   have hA : Af.BlochKatoSelmerVanishes l (repA r hblk) := by
     refine hR W hWc hext hWd (hmod W hext) θ hθ0 _ ⟨D.cc, Jgl _ 2, D.conj, fun s s' hs => ?_, fun s X => ?_, fun X => ?_⟩
     · have e1 : W (s'.restrictScalars ℚ) = W D.cc * W (s.restrictScalars ℚ) * W D.cc := by

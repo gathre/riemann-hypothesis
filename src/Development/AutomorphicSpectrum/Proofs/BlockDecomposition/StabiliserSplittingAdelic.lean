@@ -462,7 +462,7 @@ theorem topRow_mul {P Q : Matrix (Fin (M + 2)) (Fin (M + 2)) A} (hP0 : P 0 0 = 1
     fun i j => congrFun (congrFun hQb i) j
   simp only [topRow, Matrix.mul_apply, sum_two, hP0, hQ, hrr, Finset.sum_add_distrib, add_mul,
     mul_zero, zero_add, one_mul, Matrix.one_apply, mul_ite, mul_one, Finset.sum_ite_eq', Finset.mem_univ,
-    if_true]
+    ite_true]
   rw [add_comm]
 
 end Vec

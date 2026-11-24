@@ -130,16 +130,16 @@ theorem Phi_remb (k : ℕ) (z : (F →+* ℝ) → ℂ) (ν : F) :
       if ∀ τ : F →+* ℝ, 0 < (SignType.sign (z τ).im : ℝ) * τ ν then rhsTerm k z ν else 0 := by
   unfold Phi
   by_cases hc : ∀ τ : F →+* ℝ, 0 < (SignType.sign (z τ).im : ℝ) * τ ν
-  · rw [if_pos hc, Finset.prod_congr rfl fun τ _ => by rw [remb_apply, phi1, if_pos (hc τ)],
+  · rw [ite_eq_left hc, Finset.prod_congr rfl fun τ _ => by rw [remb_apply, phi1, ite_eq_left (hc τ)],
       Finset.prod_mul_distrib, ← Complex.exp_sum, rhsTerm, Finset.abs_prod, ← Finset.prod_pow, Complex.ofReal_prod]
     congr 2
     rw [Finset.mul_sum]
     refine Finset.sum_congr rfl fun τ _ => ?_
     ring
-  · rw [if_neg hc]
+  · rw [ite_eq_right hc]
     push Not at hc
     obtain ⟨τ, hτ⟩ := hc
-    exact Finset.prod_eq_zero (Finset.mem_univ τ) (by rw [remb_apply, phi1, if_neg (not_lt.2 hτ)])
+    exact Finset.prod_eq_zero (Finset.mem_univ τ) (by rw [remb_apply, phi1, ite_eq_right (not_lt.2 hτ)])
 
 theorem fourier_Phi (k : ℕ) (hk : 2 ≤ k) (he : Even k) (z : (F →+* ℝ) → ℂ) (hz : ∀ τ, (z τ).im ≠ 0)
     (a : F) : 𝓕 (Phi k z) (remb F a) =

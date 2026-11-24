@@ -76,14 +76,14 @@ theorem sum_toLex_gt {s : ℕ} {t : Fin s → ℕ} (f : (Σ a, Fin (t a)) → �
       (∑ a' with a < a', ∑ b', f ⟨a', b'⟩) + ∑ b' with b < b', f ⟨a, b'⟩ := by
   rw [Fintype.sum_sigma, Fintype.sum_eq_add_sum_compl a, add_comm]
   congr 1
-  · rw [Finset.sum_filter, Fintype.sum_eq_add_sum_compl a, if_neg (lt_irrefl a), zero_add]
+  · rw [Finset.sum_filter, Fintype.sum_eq_add_sum_compl a, ite_eq_right (lt_irrefl a), zero_add]
     refine Finset.sum_congr rfl fun a' ha' => ?_
     have hne : a ≠ a' := fun h => by simp [h] at ha'
     by_cases hlt : a < a'
-    · rw [if_pos hlt]
-      exact Finset.sum_congr rfl fun b' _ => by rw [if_pos ((toLex_sigma_lt_iff_ne a a' b b' hne).2 hlt)]
-    · rw [if_neg hlt]
-      exact Finset.sum_eq_zero fun b' _ => by rw [if_neg (mt (toLex_sigma_lt_iff_ne a a' b b' hne).1 hlt)]
+    · rw [ite_eq_left hlt]
+      exact Finset.sum_congr rfl fun b' _ => by rw [ite_eq_left ((toLex_sigma_lt_iff_ne a a' b b' hne).2 hlt)]
+    · rw [ite_eq_right hlt]
+      exact Finset.sum_eq_zero fun b' _ => by rw [ite_eq_right (mt (toLex_sigma_lt_iff_ne a a' b b' hne).1 hlt)]
   · rw [Finset.sum_filter]
     exact Finset.sum_congr rfl fun b' _ => by simp only [toLex_sigma_lt_iff_same]
 
@@ -92,14 +92,14 @@ theorem sum_toLex_lt {s : ℕ} {t : Fin s → ℕ} (f : (Σ a, Fin (t a)) → �
       (∑ a' with a' < a, ∑ b', f ⟨a', b'⟩) + ∑ b' with b' < b, f ⟨a, b'⟩ := by
   rw [Fintype.sum_sigma, Fintype.sum_eq_add_sum_compl a, add_comm]
   congr 1
-  · rw [Finset.sum_filter, Fintype.sum_eq_add_sum_compl a, if_neg (lt_irrefl a), zero_add]
+  · rw [Finset.sum_filter, Fintype.sum_eq_add_sum_compl a, ite_eq_right (lt_irrefl a), zero_add]
     refine Finset.sum_congr rfl fun a' ha' => ?_
     have hne : a' ≠ a := fun h => by simp [h] at ha'
     by_cases hlt : a' < a
-    · rw [if_pos hlt]
-      exact Finset.sum_congr rfl fun b' _ => by rw [if_pos ((toLex_sigma_lt_iff_ne a' a b' b hne).2 hlt)]
-    · rw [if_neg hlt]
-      exact Finset.sum_eq_zero fun b' _ => by rw [if_neg (mt (toLex_sigma_lt_iff_ne a' a b' b hne).1 hlt)]
+    · rw [ite_eq_left hlt]
+      exact Finset.sum_congr rfl fun b' _ => by rw [ite_eq_left ((toLex_sigma_lt_iff_ne a' a b' b hne).2 hlt)]
+    · rw [ite_eq_right hlt]
+      exact Finset.sum_eq_zero fun b' _ => by rw [ite_eq_right (mt (toLex_sigma_lt_iff_ne a' a b' b hne).1 hlt)]
   · rw [Finset.sum_filter]
     exact Finset.sum_congr rfl fun b' _ => by simp only [toLex_sigma_lt_iff_same]
 

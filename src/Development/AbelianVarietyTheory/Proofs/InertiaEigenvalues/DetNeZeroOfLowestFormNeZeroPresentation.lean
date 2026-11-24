@@ -267,7 +267,7 @@ theorem det_expand (x y : B) (hx : x * x = 0) (hy : y ^ Fintype.card μ = 0) (D 
     rw [e, Matrix.det_mul_column]
     congr 1
     rw [Fintype.prod_sum_type]
-    simp only [hν, Function.update_apply, reduceCtorEq, if_false, Sum.elim_inl, Sum.elim_inr,
+    simp only [hν, Function.update_apply, reduceCtorEq, ite_false, Sum.elim_inl, Sum.elim_inr,
       Finset.prod_const_one, one_mul, Sum.inr.injEq]
     rw [Finset.prod_ite, Finset.prod_const_one, one_mul, Finset.prod_const]
     congr 1

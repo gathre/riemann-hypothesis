@@ -310,7 +310,7 @@ theorem exists_of_finset (S : Finset (HeightOneSpectrum (𝓞 E))) (ϖ : ∀ v :
       obtain ⟨l', hl'S, u', hu', k, hk, e'⟩ := ih _ hg'
       refine ⟨Finsupp.single v a + l', fun w hw => ?_, (tl n ϖ (Finsupp.single v a + l'))⁻¹ * x *
         tl n ϖ (Finsupp.single v a + l') * u', mul_mem (tl_inv_conj_mem ϖ _ (finGL_locGL_mem_NA v hu)) hu', k, hk, ?_⟩
-      · rw [Finsupp.add_apply, hl'S w hw, Finsupp.single_apply, if_neg (fun (h : v = w) => hvS (h ▸ hw)), add_zero]
+      · rw [Finsupp.add_apply, hl'S w hw, Finsupp.single_apply, ite_eq_right (fun (h : v = w) => hvS (h ▸ hw)), add_zero]
       · have hg2 : g = x * t * (tl n ϖ l' * (u' * k)) := by
           rw [← e', mul_inv_cancel_left, mul_inv_cancel_left]
         rw [hg2, tl_add, ← ht]

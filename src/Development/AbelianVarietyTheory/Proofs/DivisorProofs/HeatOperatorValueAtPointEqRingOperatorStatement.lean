@@ -72,7 +72,7 @@ def evalAt (x : Sp A ⟶ Y) (V : Y.Opens) (h : ⊤ ≤ x ⁻¹ᵁ V) : Γ(Y, V) 
 theorem valR_eq_evalAt (x : Sp A ⟶ Y) (V : Y.Opens) (h : ⊤ ≤ x ⁻¹ᵁ V) (f : Γ(Y, V)) :
     valR x V f = evalAt x V h f := by
   unfold valR
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   rfl
 
 theorem evalAt_constFn {B : Type} [CommRing B] (x : Sp A ⟶ Y) (p : Y ⟶ Sp B) (ψ : B →+* A) (hx : x ≫ p = spMap ψ)

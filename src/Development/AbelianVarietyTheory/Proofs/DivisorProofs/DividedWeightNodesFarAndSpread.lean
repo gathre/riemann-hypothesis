@@ -83,19 +83,19 @@ theorem Wts.node_lower_int {ι : Type} {N : ℕ} (W : Wts ι N) (H : W.Hyp) (hd 
     by_cases hp : (i : ℕ) = W.p
     · have e1 : W.p ≤ (i : ℕ) := by omega
       have e2 : ¬ W.p ≤ (a : ℕ) := by omega
-      rw [if_pos hp] at hx
-      rw [if_neg e2] at h1
-      rw [if_pos e1]
+      rw [ite_eq_left hp] at hx
+      rw [ite_eq_right e2] at h1
+      rw [ite_eq_left e1]
       linarith
-    · rw [if_neg hp] at hx
+    · rw [ite_eq_right hp] at hx
       by_cases e1 : W.p ≤ (i : ℕ)
       · have e2 : W.p ≤ (a : ℕ) := by omega
-        rw [if_pos e2] at h1
-        rw [if_pos e1]
+        rw [ite_eq_left e2] at h1
+        rw [ite_eq_left e1]
         linarith
       · have e2 : ¬ W.p ≤ (a : ℕ) := by omega
-        rw [if_neg e2] at h1
-        rw [if_neg e1]
+        rw [ite_eq_right e2] at h1
+        rw [ite_eq_right e1]
         linarith
 
 theorem nodes_far_and_spread : ∀ (ι : Type) [Fintype ι] (N : ℕ) (W : Wts ι N), W.Hyp → W.IsDiv → ∀ τ, (∀ i : Fin N, W.kc ≤ (i : ℕ) → W.w τ / (2 * W.T) ≤ -(W.u1 τ i : ℝ) ∧ W.w τ / (4 * W.T) ≤ |(W.u' τ i : ℝ)|) ∧ ∀ i l : Fin N, (W.u' τ i : ℝ) - W.u' τ l ≤ 3 / 2 * W.w τ / W.T := by
@@ -136,7 +136,7 @@ theorem nodes_far_and_spread : ∀ (ι : Type) [Fintype ι] (N : ℕ) (W : Wts �
     unfold Wts.u'
     by_cases h : (i : ℕ) < W.p
     · simp [h]
-    · simp only [h, if_false]
+    · simp only [h, ite_false]
       push_cast
       exact ⟨by linarith, le_rfl, fun h' => by omega⟩
   have node : ∀ i : Fin N, W.kc ≤ (i : ℕ) → q / 2 ≤ -(W.u1 τ i : ℝ) := by

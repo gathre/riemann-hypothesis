@@ -106,16 +106,16 @@ lemma eq_zero_of_negMap (k r : ℕ) (x : Fin (2 * r + k + 1) → ℂ) (hx : negM
       Complex.normSq ((Pk k r *ᵥ x) i) := by
     intro i _
     by_cases h : i.val < r + k
-    · rw [if_pos h, one_mul]
+    · rw [ite_eq_left h, one_mul]
       exact Complex.normSq_nonneg _
-    · rw [if_neg h, hneg i h, map_zero, mul_zero]
+    · rw [ite_eq_right h, hneg i h, map_zero, mul_zero]
   have hsum := re_herm k r x
   have hzero : ∑ i, (if i.val < r + k then (1 : ℝ) else -1) * Complex.normSq ((Pk k r *ᵥ x) i) = 0 :=
     le_antisymm (hsum ▸ hre) (Finset.sum_nonneg hterm)
   ext i
   by_cases h : i.val < r + k
   · have h1 := (Finset.sum_eq_zero_iff_of_nonneg hterm).mp hzero i (Finset.mem_univ i)
-    rw [if_pos h, one_mul] at h1
+    rw [ite_eq_left h, one_mul] at h1
     simpa using Complex.normSq_eq_zero.mp h1
   · simpa using hneg i h
 

@@ -344,7 +344,7 @@ theorem main (C : Type) [NontriviallyNormedField C] [IsUltrametricDist C] [Compl
   · rintro ⟨G, rfl⟩
     rw [map_mul, ev_lin, zero_mul]
   · by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hΦ (eq_zero_of_forall_dvd hπ Φ hc)
 
 end GlobalTheory.SummableSeriesBounds

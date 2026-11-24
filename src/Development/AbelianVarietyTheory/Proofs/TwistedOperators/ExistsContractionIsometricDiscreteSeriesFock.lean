@@ -150,7 +150,7 @@ theorem exists_isCoverIt : ∀ (p q r s : ℕ) (T₀ : GrpData (p * r + q * s) (
     exact ⟨_, Submodule.subset_span ⟨k, rfl⟩, (hsrc _ y _).symm⟩
   · intro y hy
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     haveI := R₁.nontriv
     obtain ⟨x, hx⟩ := exists_ne (0 : R₁.U.H)
     have hz : (fun v : F.H => inner ℂ v (Tm x y)) = fun _ => 0 := by

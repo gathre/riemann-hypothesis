@@ -610,7 +610,7 @@ theorem unitDichotomy_holds : UnitDich := by
     let f : ∀ w : HeightOneSpectrum (𝓞 F), w.adicCompletion F := fun w => if w = v then (a w)⁻¹ else 0
     have hf : ∀ᶠ w in Filter.cofinite, f w ∈ w.adicCompletionIntegers F := by
       filter_upwards [Filter.eventually_cofinite_ne v] with w hw
-      simp only [f, if_neg hw]
+      simp only [f, ite_eq_right hw]
       exact zero_mem _
     let a' : Formalism.L2.Herm.Af F := ⟨f, hf⟩
     have hprod : idem * a * a' = idem := by
@@ -619,7 +619,7 @@ theorem unitDichotomy_holds : UnitDich := by
       show idem w * a w * f w = idem w
       by_cases hw : w = v
       · subst hw
-        simp only [f, if_pos rfl]
+        simp only [f, ite_eq_left rfl]
         rw [mul_assoc, mul_inv_cancel₀ hav, mul_one]
       · rw [hidem, Formalism.L2.DIV.idemAd_neg (P := fun x => x = v) hw, zero_mul, zero_mul]
     refine ⟨σ u * ((1 : E) ⊗ₜ[F] a'), ?_⟩

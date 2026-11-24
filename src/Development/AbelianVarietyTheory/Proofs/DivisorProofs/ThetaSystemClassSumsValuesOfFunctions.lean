@@ -77,7 +77,7 @@ theorem sumI_fourier {V : Type} [CommRing V] [IsDomain V] (I : Ideal V) {n : ℕ
     simp_rw [pw]
     split_ifs with hmu
     · simp [hmu]
-    · push_neg at hmu
+    · push Not at hmu
       obtain ⟨τ₀, h0⟩ := hmu
       set χ : G → V := fun τ => ω ^ (-(w κ τ) + w mu τ).val with hχ
       have hmul : ∀ τ, χ (τ + τ₀) = χ τ * χ τ₀ := fun τ => by
@@ -172,7 +172,7 @@ theorem isClassSum_of_sumI {O : Type} [CommRing O] {bar : O → O} {q s : ℕ} {
   let T := S₀ ∪ L
   refine ⟨T.filter P, fun mu hmu => (Finset.mem_filter.1 hmu).2, fun mu hP hn => ?_, ?_⟩
   · by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     exact hn (Finset.mem_filter.2 ⟨Finset.mem_union_right _ ((Set.Finite.mem_toFinset _).2 ⟨hP, hlt⟩), hP⟩)
   · have h1 := hS₀ T Finset.subset_union_left
     have h2 : ∑ mu ∈ T, f mu = io (∑ mu ∈ T.filter P, Φ.term y mu c) := by
@@ -264,9 +264,9 @@ theorem exact_of_isGeo : ∀ (g n : ℕ) (F : SFam g n (zetaAway n)) (W : Matrix
       (hhτ τ) (fun mu => w mu τ) (fun a mu hY => by simp only [w, hlY τ τ.2 a mu hY])
   let f : (Fin 8 → Φ.X y) → Φ.V y := fun mu => if ∀ v, CongMod (X₁.S.r * X₁.S.N) (mu v) (κ v) then Φ.term y mu c else 0
   have hf := sumI_fourier (maximalIdeal (Φ.V y)) hω (Φ.ev y d) hd w hw κ (fun mu => Φ.term y mu c) (fun τ => Φ.ev y (hτ τ))
-    hsum f (fun mu h => if_pos ((hwκ mu).1 h)) (fun mu h => if_neg fun h' => h ((hwκ mu).2 h'))
+    hsum f (fun mu h => ite_eq_left ((hwκ mu).1 h)) (fun mu h => ite_eq_right fun h' => h ((hwκ mu).2 h'))
   refine ⟨d * ∑ τ : TT, zt ^ (-(w κ τ)).val * hτ τ, isClassSum_of_sumI Φ y _ κ c (RingHom.id _) _ f
-    (fun mu h => if_pos h) (fun mu h => if_neg h) ?_⟩
+    (fun mu h => ite_eq_left h) (fun mu h => ite_eq_right h) ?_⟩
 
   simpa only [map_mul, map_sum, map_pow] using hf
 

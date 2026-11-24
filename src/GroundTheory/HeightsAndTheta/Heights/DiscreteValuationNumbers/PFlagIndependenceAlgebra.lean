@@ -129,7 +129,7 @@ theorem classNum_monomial_eq {σ : Type*} (cls : σ → K → ℤ) (μ : σ →�
     classNum cls (monomial μ c) Q W = c * vNumL W (classList cls μ ++ Q) := by
   classical
   rw [classNum_eq_sum cls _ Q W support_monomial_subset, Finset.sum_singleton, coeff_monomial,
-    if_pos rfl]
+    ite_eq_left rfl]
 
 omit [DecidableEq K] in
 theorem classList_mapDomain {σ τ : Type*} (cls : τ → K → ℤ) (φ : σ → τ) (μ : σ →₀ ℕ) :
@@ -257,7 +257,7 @@ theorem exists_expansion {n : ℕ} (A : MvPolynomial (Fin n) ℤ) :
     obtain ⟨Ps, hP⟩ := hp
     refine ⟨fun i => X (Sum.inl j) * Ps i + if i = j then rename Sum.inr p else 0, ?_⟩
     simp only [mul_add, Finset.sum_add_distrib, mul_ite, mul_zero, Finset.sum_ite_eq',
-      Finset.mem_univ, if_true]
+      Finset.mem_univ, ite_true]
     have : ∑ i, (X (Sum.inl i) - X (Sum.inr i)) * (X (Sum.inl j) * Ps i) =
         X (Sum.inl j) * ∑ i, (X (Sum.inl i) - X (Sum.inr i)) * Ps i := by
       rw [Finset.mul_sum]
@@ -278,12 +278,12 @@ theorem homogeneousComponent_linear_mul {σ : Type*} {L : MvPolynomial σ ℤ} (
     have hm := hL.mul (homogeneousComponent_isHomogeneous j P)
     rw [homogeneousComponent_of_mem ((mem_homogeneousSubmodule _ _).mpr hm)]
     by_cases hjt : j = t - 1 ∧ t ≠ 0
-    · rw [if_pos (by omega), if_pos hjt]
-    · rw [if_neg (by omega), if_neg hjt]
+    · rw [ite_eq_left (by omega), ite_eq_left hjt]
+    · rw [ite_eq_right (by omega), ite_eq_right hjt]
   simp only [h]
   by_cases ht : t = 0
   · simp [ht]
-  · simp only [ht, ne_eq, not_false_eq_true, and_true, if_false]
+  · simp only [ht, ne_eq, not_false_eq_true, and_true, ite_false]
     rw [Finset.sum_ite_eq']
     split_ifs with hmem
     · rfl
@@ -300,7 +300,7 @@ theorem exists_isPairExpansion {n m : ℕ} {A : MvPolynomial (Fin n) ℤ} (hA : 
     hA.rename_isHomogeneous.sub hA.rename_isHomogeneous
   have key := congrArg (homogeneousComponent m) hG
 
-  rw [homogeneousComponent_of_mem ((mem_homogeneousSubmodule _ _).mpr hD), if_pos rfl, map_sum]
+  rw [homogeneousComponent_of_mem ((mem_homogeneousSubmodule _ _).mpr hD), ite_eq_left rfl, map_sum]
   at key
   simp only [homogeneousComponent_linear_mul (hL _)] at key
   rcases Nat.eq_zero_or_pos m with rfl | hm
@@ -309,7 +309,7 @@ theorem exists_isPairExpansion {n m : ℕ} {A : MvPolynomial (Fin n) ℤ} (hA : 
   · refine ⟨fun i => homogeneousComponent (m - 1) (Gs i), ?_,
       fun i => homogeneousComponent_isHomogeneous _ _⟩
     rw [key]
-    simp only [hm.ne', if_false]
+    simp only [hm.ne', ite_false]
 
 end Expansions
 

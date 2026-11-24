@@ -87,7 +87,7 @@ theorem res_indep (e : ι → A ≃+* A) (hd : ∀ i j, i ≠ j → ∃ x, IsUni
 theorem exists_isUnit_sum [Nonempty ι] (e : ι → A ≃+* A)
     (hd : ∀ i j, i ≠ j → ∃ x, IsUnit (e i x - e j x)) : ∃ x, IsUnit (∑ i, e i x) := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have h := res_indep e hd (fun _ => 1) (fun x => by
     have : residue A (∑ i, e i x) = 0 := by
       rw [residue_eq_zero_iff]; exact hne x

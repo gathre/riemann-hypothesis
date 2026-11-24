@@ -928,7 +928,7 @@ private theorem exists_eisensteinCombination_of_isModularForm {w : ℕ} {F : ℍ
     rw [Finset.sum_image (fun x _ y _ h => congrArg Prod.fst h), ← hf τ, ← hc]
     rw [Finset.sum_apply, ← Finset.sum_attach (_root_.ReciprocityTheory.PGsh.monoIdx w)]
     refine Finset.sum_congr rfl fun a _ => ?_
-    simp only [Pi.smul_apply, smul_eq_mul, a.2, dif_pos]
+    simp only [Pi.smul_apply, smul_eq_mul, a.2, dite_eq_left]
     rw [_root_.ReciprocityTheory.PGsh.coe_monoW a.2]
     rfl
 

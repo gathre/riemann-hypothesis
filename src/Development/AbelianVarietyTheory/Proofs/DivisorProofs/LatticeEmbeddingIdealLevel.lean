@@ -116,7 +116,7 @@ theorem low_top_iff {κ : Type} [Zero κ] [One κ] {n r : ℕ} (hrn : r ≤ n) (
     · have := congrFun (congrFun h2 ⟨b.val, hb⟩) a
       rw [topL, dite_eq_left ⟨b.2, a.2⟩, Matrix.one_apply] at this
       simpa only [rectOne, Fin.ext_iff] using this
-    · rw [h1 b a (by omega) a.2, rectOne, if_neg (by omega)]
+    · rw [h1 b a (by omega) a.2, rectOne, ite_eq_right (by omega)]
   · rintro rfl
     exact ⟨lowZero_rectOne _ _ _ _, topL_rectOne _ hrn⟩
 
@@ -285,7 +285,7 @@ theorem rho_onto {Λ : Submodule (𝓞 D.host.E) (Fin W.rank → D.host.E)} (hβ
   rw [Finset.sum_comm]
 
   simp only [← Finset.mul_sum, ← RingHom.map_mul, ← map_sum, ← Matrix.mul_apply, hAB, Matrix.one_apply]
-  rw [Finset.sum_eq_single a (fun b _ hb => by rw [if_neg hb, map_zero, mul_zero]) (by simp), if_pos rfl, map_one, mul_one]
+  rw [Finset.sum_eq_single a (fun b _ hb => by rw [ite_eq_right hb, map_zero, mul_zero]) (by simp), ite_eq_left rfl, map_one, mul_one]
 
 theorem rho_ker {Λ : Submodule (𝓞 D.host.E) (Fin W.rank → D.host.E)} (hβ : IsSDFrame W β Λ 1) (hι : LatEmb W ι)
     {P : Finset (Pl D.host.E)} (he : IsIdemSum e P)

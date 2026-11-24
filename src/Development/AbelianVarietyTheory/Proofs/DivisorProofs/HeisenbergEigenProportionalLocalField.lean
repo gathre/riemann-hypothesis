@@ -73,7 +73,7 @@ theorem GlobalTheory.heisenbergEigen_proportional : ∀ {k : Type} [Field k] {κ
     exact one_ne_zero h2
   obtain ⟨ξ₀, hξ₀⟩ : ∃ ξ₀, f ξ₀ ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hf0 (funext hc)
   refine ⟨g ξ₀ / f ξ₀, ?_⟩
   obtain ⟨h, hh⟩ : ∃ h : (κ → k) → ℂ, ∀ ξ, h ξ = g ξ - g ξ₀ / f ξ₀ * f ξ :=

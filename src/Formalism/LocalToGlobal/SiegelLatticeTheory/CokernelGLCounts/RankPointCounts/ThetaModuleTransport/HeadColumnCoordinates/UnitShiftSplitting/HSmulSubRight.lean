@@ -95,7 +95,7 @@ theorem zz_mem_R {g : SplitG M.L} (hs : M.split = some g) (H : HermSp M V) {r : 
   set w := g.e (H.h (t.f' a) (t.f b)) with hw
   by_cases hab : a = Fin.last r ∧ b = Fin.last r
   · obtain ⟨rfl, rfl⟩ := hab
-    rw [if_pos ⟨rfl, rfl⟩]
+    rw [ite_eq_left ⟨rfl, rfl⟩]
     rw [hF.2] at i1
     rw [hF.2, hF'.2] at i3
     simp only [map_mul, map_sub, map_neg, e_alg, e_cj, eqi, cqi, Prod.fst_mul, Prod.snd_mul,
@@ -113,7 +113,7 @@ theorem zz_mem_R {g : SplitG M.L} (hs : M.split = some g) (H : HermSp M V) {r : 
       simp only [map_sub, AlgEquiv.apply_symm_apply, Prod.fst_sub, Prod.snd_sub, ← hz, ← hqdef]
       field_simp
       try ring
-  · rw [if_neg hab, sub_zero]
+  · rw [ite_eq_right hab, sub_zero]
     have hab' : a ≠ Fin.last r ∨ b ≠ Fin.last r := not_and_or.1 hab
     have hba' : b ≠ Fin.last r ∨ a ≠ Fin.last r := hab'.symm
     rw [hF.1 b a hba'] at i1

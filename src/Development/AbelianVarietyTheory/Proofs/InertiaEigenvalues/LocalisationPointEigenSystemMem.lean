@@ -56,12 +56,12 @@ theorem ptSys_mem_eigSet : ∀ (D : D7) (M : MtFam D), AVTied D M → ∀ (i : D
     ptSys D i x ∈ EigSet (M.loc i) (D.nd.l i) (D.nd.Q i) := by
   intro D M A i x
   refine ⟨fun v k h => ?_, ?_⟩
-  · simp only [ptSys, if_neg h]
+  · simp only [ptSys, ite_eq_right h]
   · obtain ⟨P, hP⟩ := D.naut.pt_surj i x
     obtain ⟨y, hy, hy0⟩ := (Submodule.ne_bot_iff _).1 (D.naut.typeV_ne i P)
     refine ⟨y, hy0, fun v k s ϖ hg hc hu => ?_⟩
     obtain ⟨hw, k1, k2⟩ := (genAt_iff_splitOut D i v k).1 hg
-    simp only [ptSys, if_pos hg]
+    simp only [ptSys, ite_eq_left hg]
     exact (A.ptV i P x).1 hP v k s ϖ hw hc hu k1 k2 y hy
 
 end GlobalTheory.PointEigen

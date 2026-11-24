@@ -133,7 +133,7 @@ private theorem exists_bump {G : Type} [Group G] [TopologicalSpace G] [IsTopolog
     have hgA : g ∈ A k := mul_subset_mul_left hk hg
     obtain ⟨n, hn⟩ : ∃ n, φ n g ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hfg (by simp [hcon])
     have hnk : n ≤ k := by
       by_contra hnk

@@ -256,7 +256,7 @@ theorem det_gram_sum_elim {F : Type} [Field F] [ValuativeRel F] [TopologicalSpac
     simp [HermSp.Dl, hZ]
   have hD0 : H.Dl f f' r = Z.adjugate (Fin.last r) (Fin.last r) := by
     rw [adjugate_last]
-    simp only [HermSp.Dl, Nat.le_succ, dif_pos]
+    simp only [HermSp.Dl, Nat.le_succ, dite_eq_left]
     rfl
   set c : E →+* E := (M.L.cj : E →+* E) with hc
   have hg : H.gram (Sum.elim f f') = Matrix.fromBlocks
@@ -893,7 +893,7 @@ theorem fibre : ∀ (D : D7) (Z : LocDat D) (FP : ∀ p : PlF D, LocNG.FPair (lo
   haveI : Infinite (PlF D) := GlobalTheory.LvT.Inh.ResFin.infinite_places D.host.F
   obtain ⟨p₀, hp₀⟩ : ∃ p : PlF D, p ∉ P := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact Set.infinite_univ (α := PlF D) (P.finite_toSet.subset fun p _ => h p)
   have hΛ₀full : Submodule.IsFullLattice D.host.E Λ₀ :=
     full_of_local_span Z Λ₀ hΛ₀ p₀ (isLat D Z FP p₀ (d0 p₀) _ (hΛ₀t p₀ hp₀)).2
@@ -941,8 +941,8 @@ theorem fibre : ∀ (D : D7) (Z : LocDat D) (FP : ∀ p : PlF D, LocNG.FPair (lo
       have hLp : ∀ p, Lp p ∈ locSet G G' p (y p) := by
         intro p
         by_cases h : p ∈ P
-        · simp only [Lp, dif_pos h]; exact hg ⟨p, h⟩ (Set.mem_univ _)
-        · simp only [Lp, dif_neg h]; exact (single p h).exists.choose_spec
+        · simp only [Lp, dite_eq_left h]; exact hg ⟨p, h⟩ (Set.mem_univ _)
+        · simp only [Lp, dite_eq_right h]; exact (single p h).exists.choose_spec
       have hlat : ∀ p, (Lp p).FG ∧ Submodule.span (D.s.atP p).Ep (Lp p : Set (Vp D p)) = ⊤ :=
         fun p => _root_.GlobalTheory.GenMass.Fibre.termLat D Z FP p (y p) (tm FP G G' p (Lp p)) (hLp p).1
       have hfin' : {p | Lp p ≠ lattice₂ D Z.M p Λ₀}.Finite := by
@@ -956,7 +956,7 @@ theorem fibre : ∀ (D : D7) (Z : LocDat D) (FP : ∀ p : PlF D, LocNG.FPair (lo
       show lattice₂ D Z.M q Λ = g q
       rw [hΛp q]
       show (if h : (q : PlF D) ∈ P then g ⟨q, h⟩ else (single q h).exists.choose) = g q
-      rw [dif_pos q.2]
+      rw [dite_eq_left q.2]
   have e1 := hinj.encard_image
   rw [himg, Set.encard_pi_eq_prod_encard] at e1
   rw [← e1]

@@ -121,10 +121,10 @@ theorem isIdOrConj_toGood (c : Coeff l) (σ : c.F →+* ℂ) : IsIdOrConj (toGoo
   by_cases h : GoodEmb c σ
   · left; intro z
     show toGoodR c σ (toC z) = toC z
-    unfold toGoodR; rw [if_pos h]; rfl
+    unfold toGoodR; rw [ite_eq_left h]; rfl
   · right; intro z
     show toGoodR c σ (toC z) = _
-    unfold toGoodR; rw [if_neg h]
+    unfold toGoodR; rw [ite_eq_right h]
 
 theorem rdEx_of (U : ∀ σ : c.F →+* ℂ, Unf Xo c σ r) (hU : ∀ σ, GoodEmb c σ → IsUnf (U σ)) (hA : AllTest Xo c)
     (hB : ∀ σ, GoodEmb c σ → BCEx Xo c σ) (σ : c.F →+* ℂ) (y : FrPt Xo c (CAt σ)) : ∃ q, RdAt U σ y q := by

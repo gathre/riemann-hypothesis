@@ -66,15 +66,15 @@ theorem eU_mul (a : S) (i j k l : Fin 2) :
   rw [Matrix.mul_apply, Finset.sum_eq_single (Function.update x a j)]
   · by_cases hjk : j = k
     · subst hjk
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       simp only [eU, Matrix.of_apply]
       by_cases hx : x a = i <;> by_cases hy : y a = l <;> by_cases hxy : ∀ b, b ≠ a → x b = y b <;>
         simp (config := {contextual := true}) [hx, hy, hxy]
-    · rw [if_neg hjk]
+    · rw [ite_eq_right hjk]
       simp [eU, Function.update_apply, hjk]
   · intro z _ hz
     simp only [eU, Matrix.of_apply]
-    rw [if_neg, zero_mul]
+    rw [ite_eq_right, zero_mul]
     rintro ⟨_, h2, h3⟩
     apply hz
     funext b
@@ -108,11 +108,11 @@ theorem eU_mul_ins (a : S) (k i : Fin 2) (m : SlopeTestRemainingChoices S A) (N 
   rw [mul_assoc, mul_ins a m N hm, Finset.mul_sum, Finset.sum_eq_single i]
   · rw [Finset.mul_sum]
     refine Finset.sum_congr rfl fun s _ => ?_
-    rw [← mul_assoc, eU_mul, if_pos rfl]
+    rw [← mul_assoc, eU_mul, ite_eq_left rfl]
   · intro r _ hr
     rw [Finset.mul_sum]
     refine Finset.sum_eq_zero fun s _ => ?_
-    rw [← mul_assoc, eU_mul, if_neg (Ne.symm hr), zero_mul]
+    rw [← mul_assoc, eU_mul, ite_eq_right (Ne.symm hr), zero_mul]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -126,10 +126,10 @@ theorem ins_mul_eU (a : S) (j k : Fin 2) (m : SlopeTestRemainingChoices S A) (N 
   refine Finset.sum_congr rfl fun r _ => ?_
   rw [Finset.sum_mul, Finset.sum_eq_single j]
   · have hc : Commute (eU a j k) (N r j * m) := (hN' r j j k).mul_right (hm' j k)
-    rw [mul_assoc, ← hc.eq, ← mul_assoc, eU_mul, if_pos rfl]
+    rw [mul_assoc, ← hc.eq, ← mul_assoc, eU_mul, ite_eq_left rfl]
   · intro s _ hs
     have hc : Commute (eU a j k) (N r s * m) := (hN' r s j k).mul_right (hm' j k)
-    rw [mul_assoc, ← hc.eq, ← mul_assoc, eU_mul, if_neg hs, zero_mul]
+    rw [mul_assoc, ← hc.eq, ← mul_assoc, eU_mul, ite_eq_right hs, zero_mul]
   · intro h
     exact absurd (Finset.mem_univ j) h
 

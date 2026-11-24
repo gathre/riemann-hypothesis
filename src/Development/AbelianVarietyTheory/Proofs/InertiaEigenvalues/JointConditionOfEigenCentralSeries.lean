@@ -64,7 +64,7 @@ theorem prod_plc (a : ∀ i, MonoidAlgebra ℂ (G i)) (L : List ι) (hL : L.Nodu
     (L.map fun i => plc i (a i)).prod = tens (fun j => if j ∈ L then a j else 1) := by
   induction L with
   | nil =>
-    simp only [List.map_nil, List.prod_nil, List.not_mem_nil, if_false]
+    simp only [List.map_nil, List.prod_nil, List.not_mem_nil, ite_false]
     exact tens_one.symm
   | cons i L ih =>
     rw [List.nodup_cons] at hL

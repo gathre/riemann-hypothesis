@@ -72,7 +72,7 @@ theorem Host_rt0_ne_neg : H.rt0 ≠ -H.rt0 := by
 
 theorem pure_type_lattices_orthogonal : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (D : Datum H) (g : ℕ) (ty : Fin g → (E →+* ℂ)) (P : D.La →+ (Fin g → ℂ)) (hP : IsPeriod D ty P) (a b : D.La), a ∈ PureType.lat hP (sgnRt H true) → b ∈ PureType.lat hP (sgnRt H false) → sesq D a b = 0 ∧ sesq D b a = 0 := by
   intro E _ _ _ H D g ty P hP a b ha hb
-  simp only [sgnRt, if_true, Bool.false_eq_true, if_false] at ha hb
+  simp only [sgnRt, ite_true, Bool.false_eq_true, ite_false] at ha hb
   constructor
   · unfold sesq
     refine Finset.sum_eq_zero fun k _ => ?_

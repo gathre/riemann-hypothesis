@@ -129,7 +129,7 @@ theorem integral_eq_of_coset_support
         rw [e]
         simp only [Set.mem_preimage, SetLike.mem_coe, mul_assoc]
         exact Subgroup.mul_mem_cancel_left R₀ hk
-      simp only [Set.indicator, hmem, Finset.sum_ite_eq, if_pos (hsuppT s hs), hrep, hinv k hk]
+      simp only [Set.indicator, hmem, Finset.sum_ite_eq, ite_eq_left (hsuppT s hs), hrep, hinv k hk]
   have hS : (fun x => h (i x)) = fun x => ∑ q ∈ T,
       ((fun y => y * q.out⁻¹) ⁻¹' (i ⁻¹' (R₀ : Set R))).indicator (fun _ => h (i q.out)) x := by
     funext x

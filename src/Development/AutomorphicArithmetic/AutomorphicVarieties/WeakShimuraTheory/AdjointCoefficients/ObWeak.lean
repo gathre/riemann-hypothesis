@@ -108,7 +108,7 @@ theorem UpperTheory.V.Ws.X1.coefEx :
   let co : κ → A → ResidueField Λ := fun u x => if h : x ∈ K then residue Λ ((hex x h).choose u) else 0
   have hco : ∀ x (h : x ∈ K) (a : κ → Λ), x = ∑ u, a u • ε u → ∀ u, co u x = residue Λ (a u) := by
     intro x h a hx u
-    simp only [co, dif_pos h]
+    simp only [co, dite_eq_left h]
     exact huniq _ _ ((hex x h).choose_spec.symm.trans hx) u
   refine ⟨co, ?_, ?_, ?_⟩
   · intro u x hx y hy

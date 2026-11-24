@@ -86,7 +86,7 @@ theorem adic_exists_approx (y : v.adicCompletion K) (hy : Valued.v y ≤ 1) :
     haveI := v.isPrime
     have hex : ∃ N, b ∉ v.asIdeal ^ N := by
       by_contra hall
-      push_neg at hall
+      push Not at hall
       have hmem : b ∈ ⨅ i, v.asIdeal ^ i := Submodule.mem_iInf _ |>.mpr hall
       rw [Ideal.iInf_pow_eq_bot_of_isDomain _ v.isPrime.ne_top, Ideal.mem_bot] at hmem
       exact hb0 (by rw [hmem, map_zero])

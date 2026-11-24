@@ -352,7 +352,7 @@ theorem exists_pos : ∀ (K : UQ) (B : InvAlg K) (ι : Type) [Fintype ι] (e π 
     have hbdd : BddAbove P := by
       have hm0 : ∃ m ∈ M, f * m ≠ 0 := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         have hle : Submodule.span K.E (M : Set B.A) ≤ LinearMap.ker (LinearMap.mulLeft K.E f) := by
           rw [Submodule.span_le]; intro m hm; exact hcon m hm
         rw [hM.1.2] at hle
@@ -363,7 +363,7 @@ theorem exists_pos : ∀ (K : UQ) (B : InvAlg K) (ι : Type) [Fintype ι] (e π 
       obtain ⟨k, hk⟩ := _root_.GlobalTheory.UnitLemma.Desc.smul_pow_integral K B a ha (f * z)
       refine ⟨k, fun p hp => ?_⟩
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       have h1 : IsIntegral K.O ((t ^ (-p)) • (e i * m0)) := hp m0 hm0
       have h2 : IsIntegral K.O ((t ^ (-p)) • (e i * m0) * (t ^ k • (f * z)) * f) :=
         (h1.mul hk).mul (isIntegral_idem B hf)
@@ -382,7 +382,7 @@ theorem exists_pos : ∀ (K : UQ) (B : InvAlg K) (ι : Type) [Fintype ι] (e π 
       ⟨sSup P, Int.csSup_mem hne hbdd, fun h => by have := le_csSup hbdd h; omega⟩
     refine ⟨pi, fun r hr => ?_, hmem⟩
     have hnot' : ¬ ∀ m ∈ M, IsIntegral K.O ((t ^ (-(pi + 1))) • (e i * m)) := hnot
-    push_neg at hnot'
+    push Not at hnot'
     obtain ⟨m, hm, hni⟩ := hnot'
     have hexp : pi + ↑(N0 + 1) = (pi + 1) + N0 := by push_cast; ring
     rw [hexp]

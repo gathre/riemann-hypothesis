@@ -273,11 +273,11 @@ theorem wtTie_base {L : SizeData₂ (I.rec7 l Z)} {hT : GatTies (I.rec7 l Z)} {G
   have hN : 0 < B.R.N i := B.R.N_pos i
   have hN' : 0 < B.R.N (i + 1) := B.R.N_pos (i + 1)
   have hlt : B.R.N i < B.R.N (i + 1) := by unfold Ranks.N; rw [Nat.succ_mul]; omega
-  have d0 : ∀ τ, (B.wts.lamTrue u i τ).detShift = (B.wts.lamTrue u i τ).w ⟨B.R.N i - 1, by omega⟩ := fun τ => dif_pos hN
+  have d0 : ∀ τ, (B.wts.lamTrue u i τ).detShift = (B.wts.lamTrue u i τ).w ⟨B.R.N i - 1, by omega⟩ := fun τ => dite_eq_left hN
   have d' : ∀ τ, (B.wts.lamTrue u (i + 1) τ).detShift = (B.wts.lamTrue u (i + 1) τ).w ⟨B.R.N (i + 1) - 1, by omega⟩ :=
-    fun τ => dif_pos hN'
+    fun τ => dite_eq_left hN'
   have dn : ∀ τ, (B.wts.nuW u (i + 1) τ).detShift = (B.wts.nuW u (i + 1) τ).w (⟨B.R.N i - 1, by omega⟩ : Fin (B.R.N i)) :=
-    fun τ => dif_pos hN
+    fun τ => dite_eq_left hN
   have hs : ∀ (τ : Tau B.R) (r : Fin (B.R.N i)),
       (B.wts.nuW u (i + 1) τ).w r = (B.wts.lamTrue u i τ).w r + ((I.rec7 l Z).chTw u μ).sSharp i τ := fun τ r => by
     have e1 := B.wts.nuW_eq_true u hi' τ r

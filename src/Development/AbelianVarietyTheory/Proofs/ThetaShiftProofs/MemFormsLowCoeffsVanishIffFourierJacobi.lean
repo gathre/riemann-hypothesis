@@ -550,7 +550,7 @@ theorem coefFn_eq_zero_of_fj (X : Data E r) (cu : CuspFD X ρ) (hbas : ∃ bs, I
   refine B.1 ?_ _ (fun i => ?_) hcomp
   · funext b
     have h := hP _ (hdom b)
-    rw [Data.fj, if_pos hfreq, dite_eq_left hex] at h
+    rw [Data.fj, ite_eq_left hfreq, dite_eq_left hex] at h
     rw [partialCoeff, coeff_eq, Pi.zero_apply, ← h]
     congr 2
     funext s
@@ -744,7 +744,7 @@ theorem mem_iff_low_coeff_vanish : ∀ (D : D7) (T : Core D) (h : LawsCore T) (j
     constructor
     · intro h0 x hx
       have := congrFun (e.symm.trans h0) x
-      rwa [if_pos hx] at this
+      rwa [ite_eq_left hx] at this
     · intro h0
       refine e.trans (funext fun x => ?_)
       split_ifs with hx

@@ -132,7 +132,7 @@ private theorem fixed_eq_range {n : ℕ} (τ : FDRep ℂ (Gn g n)) (hτ : IsCusp
       exact h0 (LinearMap.ker_eq_top.1 hk)
   obtain ⟨u0, hu0⟩ : ∃ u, φ u ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact h0 (LinearMap.ext hcon)
   haveI : Nontrivial τ := ⟨⟨u0, 0, fun e => hu0 (by rw [e, map_zero])⟩⟩
   have hT : PositivityTheory.Rg.DzCount.IsTypeMap (τ.ρ.comp (GeneralLinearGroup.map (n := Fin n) (resE i hi).toRingHom)) σ.ρ φ :=

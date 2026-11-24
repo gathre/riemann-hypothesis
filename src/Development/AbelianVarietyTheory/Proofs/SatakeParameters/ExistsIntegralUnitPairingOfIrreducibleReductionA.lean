@@ -213,7 +213,7 @@ theorem main (B : Matrix (Fin a) (Fin a) R)
 
   have hnot : ∃ v ∈ redLattice L, (B.map (residue R)).mulVec v ∉ redLattice L := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     rcases hB _ hcon with h | h
     · exact hA h
     · exact hT h
@@ -234,7 +234,7 @@ theorem main (B : Matrix (Fin a) (Fin a) R)
   let b := Module.Free.chooseBasis R ((Fin a → R) ⧸ L)
   have hj : ∃ j, b.repr (Submodule.Quotient.mk (B.mulVec w)) j ∉ maximalIdeal R := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hdv : ∀ j, ϖ ∣ b.repr (Submodule.Quotient.mk (B.mulVec w)) j := fun j => by
       have := hcon j
       rwa [hϖ, Ideal.mem_span_singleton] at this

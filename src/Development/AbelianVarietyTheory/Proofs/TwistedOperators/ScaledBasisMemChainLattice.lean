@@ -303,7 +303,7 @@ theorem _root_.GlobalTheory.RootEx.UnfoldShape.exists_pt_ne_zero {ψ : AddChar k
     ∃ y : Fin c → (n ⊕ Fin c → k), (∀ i, y i ∈ _root_.GlobalTheory.IndefiniteRowSideFullHecke.ExponentTerms.Yle k n c (i.val + 1)) ∧
       Ψ (_root_.GlobalTheory.IndefiniteRowSideFullHecke.ExponentTerms.pt x₀ y) ≠ 0 := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   apply h
   have hzero : ∀ e, Ψ (_root_.GlobalTheory.RootEx.affPt 1 x₀ e) = 0 := fun e => by
     rw [affPt_eq_pt_col]

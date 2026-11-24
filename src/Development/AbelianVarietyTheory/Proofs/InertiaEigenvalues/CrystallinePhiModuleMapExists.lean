@@ -105,7 +105,7 @@ theorem shift_C {K : Type} [Field K] [CharZero K] (sh : K⟦X⟧ →+* K⟦X⟧�
       rw [← map_natCast (PowerSeries.C : K →+* K⟦X⟧), Ne,
         map_eq_zero_iff _ PowerSeries.C_injective]
       exact Nat.cast_ne_zero.2 (Nat.factorial_ne_zero _)
-    rw [(mul_eq_zero.1 h1).resolve_left h2, PowerSeries.coeff_C, if_neg (Nat.succ_ne_zero n)]
+    rw [(mul_eq_zero.1 h1).resolve_left h2, PowerSeries.coeff_C, ite_eq_right (Nat.succ_ne_zero n)]
 
 theorem exists_crystalline_epsilon_combination {l : ℕ} [Fact l.Prime] {a e : ℕ} {O K : Type} [CommRing O] [NormedField K]
     [IsUltrametricDist K] [Algebra O K] [IsUnitBall O K] [CharZero K] {ι : Type} [Fintype ι] [DecidableEq ι]

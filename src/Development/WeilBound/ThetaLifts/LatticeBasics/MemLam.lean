@@ -97,11 +97,11 @@ theorem sep (ψ : AddChar K ℂ) (hψ : ∀ x, (∀ y : O, ψ (x * algebraMap O 
     rw [← Module.Basis.mem_span_iff_repr_mem O bK z, hrange, hspanO]
   obtain ⟨i, hi⟩ : ∃ i, bK.repr y i ∉ Set.range (algebraMap O K) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hy ((hmem y).mpr hcon)
   obtain ⟨t, ht⟩ : ∃ t : O, ψ (bK.repr y i * algebraMap O K t) ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hi ((hψ _).mp hcon)
   have hψO : ∀ o : O, ψ (algebraMap O K o) = 1 := fun o => by
     have h1 := ((hψ (algebraMap O K o)).mpr ⟨o, rfl⟩) 1

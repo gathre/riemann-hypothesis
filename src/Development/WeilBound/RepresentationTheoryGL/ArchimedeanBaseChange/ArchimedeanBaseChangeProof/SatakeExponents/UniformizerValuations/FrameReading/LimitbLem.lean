@@ -141,7 +141,7 @@ theorem isKer_smul_rank {n : ℕ} [MeasurableSpace (G n)] (μ : Measure (G n)) (
   · have e := h4 u hu x hx
     simp only [PositivityTheory.RgBcC.act, Pi.smul_apply, _root_.smul_apply] at e ⊢
     rw [integral_smul, e]
-    simp only [zOp, gel, Epow, id, if_true, Finset.sum_apply, Finset.sum_const, Finset.card_univ, Fintype.card_fin]
+    simp only [zOp, gel, Epow, id, ite_true, Finset.sum_apply, Finset.sum_const, Finset.card_univ, Fintype.card_fin]
     rw [Nat.cast_smul_eq_nsmul]
 
 theorem isKer_zero_rank {n : ℕ} (hn : n = 0) [MeasurableSpace (G n)] (μ : Measure (G n)) (M : KMod n) (g : ℝ → ℝ)
@@ -164,7 +164,7 @@ theorem tens_update_smul {E : Type} [Field E] [NumberField E] [IsCMField E] {a b
     by_cases h : w = v
     · subst h; simp [ent_smul]
     · simp [h]
-  simp only [e, Finset.prod_mul_distrib, Finset.prod_ite_eq', Finset.mem_univ, if_true]
+  simp only [e, Finset.prod_mul_distrib, Finset.prod_ite_eq', Finset.mem_univ, ite_true]
   simp only [Matrix.smul_apply, Pi.smul_apply, smul_eq_mul, tens, entA]
   ring
 
@@ -179,7 +179,7 @@ theorem tens_update_smul_b {E : Type} [Field E] [NumberField E] [IsCMField E] {a
     by_cases h : w = v
     · subst h; simp [ent_smul]
     · simp [h]
-  simp only [e, Finset.prod_mul_distrib, Finset.prod_ite_eq', Finset.mem_univ, if_true]
+  simp only [e, Finset.prod_mul_distrib, Finset.prod_ite_eq', Finset.mem_univ, ite_true]
   simp only [Matrix.smul_apply, Pi.smul_apply, smul_eq_mul, tens, entA]
   ring
 

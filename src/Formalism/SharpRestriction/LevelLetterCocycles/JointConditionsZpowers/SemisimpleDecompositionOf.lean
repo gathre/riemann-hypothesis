@@ -112,7 +112,7 @@ theorem charpoly_of_isRhoOf (D : D7) (i : D.nd.Loc) (r : D.nd.X i → (GE D.nd �
     intro y hy
     obtain ⟨n, hn⟩ : ∃ n, y ∉ (IsLocalRing.maximalIdeal (D.nd.O i)) ^ n := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply hy
       refine (D.nd.O_complete i).toIsHausdorff.haus y fun n => ?_
       rw [SModEq.zero, Ideal.smul_eq_mul, Ideal.mul_top]

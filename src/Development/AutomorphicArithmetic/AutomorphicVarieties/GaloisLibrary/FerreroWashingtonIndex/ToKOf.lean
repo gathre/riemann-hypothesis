@@ -164,7 +164,7 @@ private theorem UpperTheory.V.FW.phiDvd_nil (k A : Type) [Field k] [CommRing A] 
   by_cases hv : N ≤ Polynomial.rootMultiplicity 0 f
   · exfalso
     exact h (hφ ▸ dvd_mul_of_dvd_left (pow_dvd_pow T hv) _)
-  · push_neg at hv
+  · push Not at hv
     rw [hφ]
     refine ⟨↑hu.unit⁻¹ * T ^ (N - Polynomial.rootMultiplicity 0 f), ?_⟩
     calc T ^ N = T ^ Polynomial.rootMultiplicity 0 f * T ^ (N - Polynomial.rootMultiplicity 0 f) := by
@@ -552,7 +552,7 @@ theorem UpperTheory.V.FW.gcDiff :
       have t0 : t = 0 := by rw [ht, h0, mul_zero]
       rw [t0, ZMod.val_zero] at hvt
       omega
-    rw [hvt, if_neg hs0, sub_zero]
+    rw [hvt, ite_eq_right hs0, sub_zero]
     have e : c * (w + 1) = c * w + c := by ring
     rw [e, key]
     ring
@@ -561,7 +561,7 @@ theorem UpperTheory.V.FW.gcDiff :
       omega
     have ht0 : t = 0 := by rw [htw, hwe, ZMod.natCast_self]
     have hs0 : s = 0 := by rw [hs, ht0, mul_zero]
-    rw [ht0, ZMod.val_zero, if_pos hs0]
+    rw [ht0, ZMod.val_zero, ite_eq_left hs0]
     have e : c * w + c = c * M := by rw [← hwe]; ring
     rw [e, Nat.mul_div_cancel _ hM] at key
     simp only [mul_zero, Nat.zero_div, Nat.cast_zero]
@@ -631,7 +631,7 @@ theorem UpperTheory.V.FW.gcShift :
   rw [hp c, ← sub_mul, ← Int.cast_sub, gauss_count_shift_eq_sum M c s hc F, Int.cast_sum, Finset.sum_mul]
   refine Finset.sum_congr rfl fun j _ => ?_
   by_cases h : (j : ZMod M) = s
-  · rw [if_pos h, if_pos h, h, mul_comm]
+  · rw [ite_eq_left h, ite_eq_left h, h, mul_comm]
     by_cases h' : c ∣ j <;> simp [h']
   · simp [h]
 end -- clump:auto
@@ -677,8 +677,8 @@ theorem UpperTheory.V.FW.pushDiff :
     rw [Finset.mem_filter, ZMod.castHom_apply, ZMod.cast_natCast h]
     simp
   by_cases hj : (j : ZMod m) = y
-  · rw [if_pos (key.mpr hj), if_pos hj]
-  · rw [if_neg (fun t => hj (key.mp t)), if_neg hj]
+  · rw [ite_eq_left (key.mpr hj), ite_eq_left hj]
+  · rw [ite_eq_right (fun t => hj (key.mp t)), ite_eq_right hj]
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.FerreroWashingtonIndex.PushDiff =====
@@ -696,7 +696,7 @@ private theorem sep_pair (l : ℕ) [Fact l.Prime] (x y : ℤ_[l]) :
   · exact Filter.Eventually.of_forall fun _ _ => h
   · obtain ⟨m, hm⟩ : ∃ m, PadicInt.toZModPow m x ≠ PadicInt.toZModPow m y := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact h (PadicInt.ext_of_toZModPow.mp hc)
     filter_upwards [Filter.eventually_ge_atTop m] with n hn heq
     exfalso
@@ -810,7 +810,7 @@ theorem UpperTheory.V.FW.nzd :
   by_contra hne
   obtain ⟨b, hb⟩ : ∃ b, x.coeff b ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hne (AddMonoidAlgebra.ext (Finsupp.ext fun c => by simp [hc c]))
   have hinj : Function.Injective fun n : ℕ => b + n • a := by
     intro n m hnm
@@ -879,7 +879,7 @@ theorem UpperTheory.V.FW.sinLem :
     rw [Finset.sum_eq_single s] at hcoef
     · simpa using hcoef
     · intro t ht hts
-      rw [Finsupp.single_apply, if_neg]
+      rw [Finsupp.single_apply, ite_eq_right]
       intro he
       rw [← map_nsmul φ, ← map_nsmul φ] at he
       have hmem := (QuotientAddGroup.eq (s := H)).mp he
@@ -933,7 +933,7 @@ private theorem coeff_monic_poly_sum {k A ι : Type} [CommRing k] [AddCommGroup 
     (T : Finset ι) (f : ι → AddMonoidAlgebra k A) (a : A) (h : (∑ j ∈ T, f j).coeff a ≠ 0) :
     ∃ j ∈ T, (f j).coeff a ≠ 0 := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   apply h
   rw [AddMonoidAlgebra.coeff_sum, Finsupp.finsetSum_apply]
   exact Finset.sum_eq_zero hc
@@ -1037,12 +1037,12 @@ theorem UpperTheory.V.FW.halfSum :
   · intro x hx
     by_cases h : x ∈ H'
     · simp [h]
-    · simp only [h, if_false]
+    · simp only [h, ite_false]
       exact (hHH' x hx).resolve_left h
   · intro y hy
     by_cases h : y ∈ H
     · simp [h]
-    · simp only [h, if_false]
+    · simp only [h, ite_false]
       exact (hH'H y hy).resolve_left h
   · intro x hx
     by_cases h : x ∈ H'
@@ -1117,7 +1117,7 @@ private theorem half_val {M : ℕ} [NeZero M] (hM : 2 < M) (s : (ZMod M)ˣ) :
     rw [ZMod.natCast_eq_zero_iff] at h5
     have := Nat.le_of_dvd (by norm_num) h5
     omega
-  rw [Units.val_neg, ZMod.neg_val, if_neg hs0]
+  rw [Units.val_neg, ZMod.neg_val, ite_eq_right hs0]
   omega
 
 theorem UpperTheory.V.FW.twCoef :
@@ -1323,7 +1323,7 @@ theorem UpperTheory.V.FW.nonvan :
     intro hd
     have := Nat.le_of_dvd one_pos hd
     omega
-  simp only [hndvd, if_false, sub_zero, mul_one, Nat.cast_one, hΨ, map_one] at hP
+  simp only [hndvd, ite_false, sub_zero, mul_one, Nat.cast_one, hΨ, map_one] at hP
   exact one_ne_zero hP
 end -- clump:auto
 end -- clump:auto

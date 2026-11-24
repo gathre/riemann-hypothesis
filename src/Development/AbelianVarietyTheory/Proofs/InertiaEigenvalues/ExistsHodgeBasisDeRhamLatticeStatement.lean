@@ -345,7 +345,7 @@ theorem exists_adapted_family (F : ℤ → Submodule k M) (hF : Antitone F) :
   have hbdd : ∃ b, ∀ z, D ≤ F z → z ≤ b := by
     obtain ⟨x, hxD, hx0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hD
     have : ¬ ∀ a, x ∈ F a := fun h => hx0 (hsep x hxD h)
-    push_neg at this
+    push Not at this
     obtain ⟨a, ha⟩ := this
     refine ⟨a, fun z hz => ?_⟩
     by_contra hlt
@@ -379,7 +379,7 @@ theorem exists_adapted_family (F : ℤ → Submodule k M) (hF : Antitone F) :
   have hdeg' : ∀ j, a₀ + 1 ≤ h j := by
     intro j
     by_contra hj
-    push_neg at hj
+    push Not at hj
     have hvj : v j ∈ D' := hspan ▸ Submodule.subset_span ⟨j, rfl⟩
     exact (hdeg j).2 (hF (show h j + 1 ≤ a₀ + 1 by omega) (Submodule.mem_inf.mp hvj).2)
   refine ⟨ι ⊕ Fin (Module.finrank k C), inferInstance, Sum.elim v c,
@@ -402,7 +402,7 @@ theorem exists_adapted_family (F : ℤ → Submodule k M) (hF : Antitone F) :
         · simpa using ha
       rw [hall, Set.image_univ, Set.Sum.elim_range, Submodule.span_union, hspan, hcspan, hsup]
       exact hx.1
-    · push_neg at ha
+    · push Not at ha
       have hx' : x ∈ D' ⊓ F a := ⟨⟨hx.1, hF (by omega) hx.2⟩, hx.2⟩
       refine Submodule.span_mono ?_ (hfil a hx')
       rintro _ ⟨j, hj, rfl⟩
@@ -662,10 +662,10 @@ theorem exists_hodge : ∀ (l : ℕ) [Fact l.Prime] (K : FinExt l) (P : LocPrime
   rw [abs_le]
   constructor
   · by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     exact (hbF i).2 (hF (show h i + 1 ≤ -(N : ℤ) by omega) ((hmemF _ _).2 hlo))
   · by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     exact hhi ((hmemF _ _).1 (hF (show (N : ℤ) + 1 ≤ h i by omega) (hbF i).1))
 
 end GlobalTheory.HodgeEx

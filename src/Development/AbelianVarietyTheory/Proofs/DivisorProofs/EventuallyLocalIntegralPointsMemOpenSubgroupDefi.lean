@@ -199,7 +199,7 @@ theorem entry_eq_one_add {w : Pl E} {N N' : Set (Af E)} (h0 : (0 : Af E) ∈ N')
     · rw [pLoc_singleNU_ne huw]
       by_cases huc : u = c
       · subst huc
-        rw [if_neg huw, pLoc_singleNU_self]; abel
+        rw [ite_eq_right huw, pLoc_singleNU_self]; abel
       · rw [hout u huw huc]
         split_ifs
         · simp

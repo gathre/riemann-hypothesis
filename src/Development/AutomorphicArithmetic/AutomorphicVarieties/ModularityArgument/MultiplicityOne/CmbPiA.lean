@@ -144,7 +144,7 @@ theorem cmbPiA : UpperTheory.V.Z.Mult.PiTermA → TwTrSum → CmbPiA := by
     intro w hw
     have h := ((locAlg E n 0 Z L w).2.2.2.1 (φ w) (hφ w hw)).1
     funext g
-    simp only [seen, if_pos (hZ w hw).2]
+    simp only [seen, ite_eq_left (hZ w hw).2]
     exact congrFun h (g, 1)
   have hX : (∏ w ∈ Z, trc (τ w).ρ (KGL w (n := n)) fun g => seen φ L.ln w (g, 1)) =
       ∏ w ∈ Z, trc (τ w).ρ (KGL w (n := n)) fun g => φ w (g, 1) :=

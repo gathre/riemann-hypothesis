@@ -379,9 +379,9 @@ theorem uInv_eq_zero {Y Z : Type} [AddCommGroup Z] [Module ℂ Z] (s : ℂ) (g :
     have h1 := uInv_eq_zero s g w (fun e' => x (Fin.cons 1 e')) (fun a => e a.succ) (fun a => h _)
     simp only [KB.uInv]
     by_cases h : e 0 = 0
-    · simp only [if_pos h]
+    · simp only [ite_eq_left h]
       exact h0
-    · simp only [if_neg h, Pi.add_apply, Pi.smul_apply]
+    · simp only [ite_eq_right h, Pi.add_apply, Pi.smul_apply]
       rw [h0, h1, smul_zero, add_zero]
 
 theorem waveG_cptCoef {k r : ℕ} {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp]

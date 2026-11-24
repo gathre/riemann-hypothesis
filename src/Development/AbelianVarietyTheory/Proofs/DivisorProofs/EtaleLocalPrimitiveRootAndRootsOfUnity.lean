@@ -135,7 +135,7 @@ lemma loc_of_prod_eq_zero {U : Scheme.{0}} (y : Γ(U, ⊤)) (z : ℕ → Γ(U, �
   let γ := (U.presheaf.germ ⊤ x trivial).hom
   have hex : ∃ a ∈ S, ¬ IsUnit (γ (y - z a)) := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have h1 : IsUnit (γ (∏ a ∈ S, (y - z a))) := by
       rw [map_prod]; exact isUnit_prod' S _ hc
     rw [hprod, map_zero] at h1

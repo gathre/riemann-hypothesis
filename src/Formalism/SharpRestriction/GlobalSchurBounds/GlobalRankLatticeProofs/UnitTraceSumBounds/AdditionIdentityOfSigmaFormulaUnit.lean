@@ -380,7 +380,7 @@ theorem norm_two_cp (hp : p ≠ 2) : ‖(2 : ℂ_[p])‖ = 1 := by
 
 theorem norm_le_one_of_quad (x : ℂ_[p]) (t n : ℤ) (h : x ^ 2 = t * x - n) : ‖x‖ ≤ 1 := by
   by_contra hx
-  push_neg at hx
+  push Not at hx
   have h1 : ‖(t : ℂ_[p]) * x‖ ≤ ‖x‖ := by
     rw [norm_mul]
     exact mul_le_of_le_one_left (norm_nonneg _) (norm_int_cp_le t)
@@ -460,7 +460,7 @@ theorem pick_c (hp : p ≠ 2) (x y : ℂ_[p]) (hx : ‖x‖ ≤ 1) (hy : ‖y‖
   have hboth : ∀ z : ℂ_[p], ‖z‖ ≤ 1 → ‖z - 1‖ = 1 ∨ ‖z - (-1)‖ = 1 := by
     intro z hz
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have h1 : ‖z - 1‖ < 1 := lt_of_le_of_ne (sub_le_lemma z 1 hz hn1) hc.1
     have h2 : ‖z - (-1)‖ < 1 := lt_of_le_of_ne (sub_le_lemma z (-1) hz hnm1) hc.2
     have h3 : ‖(2 : ℂ_[p])‖ ≤ max ‖z - (-1)‖ ‖-(z - 1)‖ := by
@@ -471,7 +471,7 @@ theorem pick_c (hp : p ≠ 2) (x y : ℂ_[p]) (hx : ‖x‖ ≤ 1) (hy : ‖y‖
     exact absurd h3 (not_le.mpr (max_lt h2 h1))
   have hxy' : ‖x‖ < 1 ∨ ‖y‖ < 1 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hxy ⟨le_antisymm hx hc.1, le_antisymm hy hc.2⟩
   rcases hxy' with hx1 | hy1
   · rcases hboth y hy with h | h
@@ -625,7 +625,7 @@ theorem coeff_one_subst (f s : PowerSeries ℂ_[p]) (hf : PowerSeries.constantCo
       PowerSeries.constantCoeff t := by
     intro t
     rw [key t, map_add (f := _), map_mul, hf, mul_zero, zero_add, PowerSeries.constantCoeff_C]
-  rw [key s, map_add (f := _), PowerSeries.coeff_C, if_neg one_ne_zero, add_zero, PowerSeries.coeff_mul,
+  rw [key s, map_add (f := _), PowerSeries.coeff_C, ite_eq_right one_ne_zero, add_zero, PowerSeries.coeff_mul,
     Finset.Nat.antidiagonal_succ]
   simp only [Finset.Nat.antidiagonal_zero, Finset.map_singleton, Finset.sum_cons, Finset.sum_singleton]
   simp [PowerSeries.coeff_zero_eq_constantCoeff_apply, hf, c0]

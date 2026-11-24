@@ -162,7 +162,7 @@ theorem additive_character_nontrivial : PsiNT := by
   intro F _ _ ψ v hψ hstd hTR
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
 
   let U : Set (Af F) := {y | ‖ψ (pairA F 0 y) - 1‖ < 1}
   have hc : Continuous (fun y : Af F => ψ (pairA F 0 y)) :=

@@ -106,7 +106,7 @@ theorem trunc_mem_span {n : ℕ} (m : ℕ) (f : PS T n d) (hf : constantCoeff f 
   rw [MvPolynomial.mem_support_iff, MvPowerSeries.coeff_trunc] at ha
   split_ifs at ha with h
   · by_contra hne
-    push_neg at hne
+    push Not at hne
     have h0 : a = 0 := by
       ext i
       simpa using hne i (Set.mem_univ i)

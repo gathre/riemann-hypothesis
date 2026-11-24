@@ -132,8 +132,8 @@ theorem avg_prod (G₁ : Type) [AddCommGroup G₁] [TopologicalSpace G₁] [IsTo
   have e₂ : ∃ p : Measure G₂ × Set G₂, p.1.IsAddHaarMeasure ∧ IsAddFundamentalDomain Γ₂ p.2 p.1 ∧ p.1 p.2 = 1 := by
     obtain ⟨μ, F, a, b, c⟩ := _root_.GlobalTheory.CuspGeneric.exists_fundamentalDomain_mass_one G₂ Γ₂ h₂
     exact ⟨(μ, F), a, b, c⟩
-  have A₁ : ∀ Ψ : G₁ → ℂ, avg Γ₁ Ψ = ∫ x in e₁.choose.2, Ψ x ∂e₁.choose.1 := fun Ψ => dif_pos e₁
-  have A₂ : ∀ Ψ : G₂ → ℂ, avg Γ₂ Ψ = ∫ y in e₂.choose.2, Ψ y ∂e₂.choose.1 := fun Ψ => dif_pos e₂
+  have A₁ : ∀ Ψ : G₁ → ℂ, avg Γ₁ Ψ = ∫ x in e₁.choose.2, Ψ x ∂e₁.choose.1 := fun Ψ => dite_eq_left e₁
+  have A₂ : ∀ Ψ : G₂ → ℂ, avg Γ₂ Ψ = ∫ y in e₂.choose.2, Ψ y ∂e₂.choose.1 := fun Ψ => dite_eq_left e₂
   obtain ⟨H₁, F₁, M₁⟩ := e₁.choose_spec
   obtain ⟨H₂, F₂, M₂⟩ := e₂.choose_spec
   set μ₁ := e₁.choose.1

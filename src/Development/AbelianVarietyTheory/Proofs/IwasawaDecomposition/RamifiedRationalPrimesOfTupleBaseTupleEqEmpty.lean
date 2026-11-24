@@ -890,7 +890,7 @@ theorem lamJ_mul : ∀ (L : Type) [Field L] [NumberField L] (P : HeightOneSpectr
     rw [e, map_mul, map_inv₀, hab, inv_one, mul_one]
     exact hxy)
   rw [map_mul, map_inv, mul_inv_eq_one, map_mul] at tame
-  simp only [chi0, dif_neg hx0, dif_neg ha0, dif_neg hb0, tame, Units.val_mul]
+  simp only [chi0, dite_eq_right hx0, dite_eq_right ha0, dite_eq_right hb0, tame, Units.val_mul]
 
 end Main
 
@@ -1132,7 +1132,7 @@ theorem unitCharExtendedByZero_mul (δ : Fˣ →* ℂˣ) (x y : F) : chi0 δ (x 
   by_cases hy : y = 0
   · simp [chi0, hy]
   have hxy : x * y ≠ 0 := mul_ne_zero hx hy
-  simp only [chi0, dif_neg hx, dif_neg hy, dif_neg hxy]
+  simp only [chi0, dite_eq_right hx, dite_eq_right hy, dite_eq_right hxy]
   rw [← Units.val_mul, ← map_mul]
   congr 3
   ext; simp
@@ -1221,7 +1221,7 @@ theorem fvec_eq {p k : GL (Fin (r + c)) F} (hp : bDA (p : Matrix (Fin (r + c)) (
 
 include hgrp in
 theorem fvec_out {g : GL (Fin (r + c)) F} (hg : g ∉ PJset O ϖ r c) : fvec O ϖ nrm δ ρ v₀ g = 0 := by
-  rw [fvec, dif_neg hg]
+  rw [fvec, dite_eq_right hg]
 
 include hgrp in
 theorem mul_mem_PJ_iff {p g : GL (Fin (r + c)) F} (hp : bDA (p : Matrix (Fin (r + c)) (Fin (r + c)) F) = 0) :
@@ -1246,7 +1246,7 @@ theorem mul_mem_PJ_iff' {k g : GL (Fin (r + c)) F} (hk : k ∈ parJ O ϖ r c) :
 theorem unitCharExtendedByZero_det_eq_char_det (m : GL (Fin c) F) :
     chi0 δ (m : Matrix (Fin c) (Fin c) F).det = ((δ (Matrix.GeneralLinearGroup.det m) : ℂˣ) : ℂ) := by
   have h : (m : Matrix (Fin c) (Fin c) F).det ≠ 0 := m.det_ne_zero
-  rw [chi0, dif_neg h]
+  rw [chi0, dite_eq_right h]
   congr 2
   exact Units.ext (by simp [Matrix.GeneralLinearGroup.val_det_apply])
 
@@ -1334,7 +1334,7 @@ theorem nrm_det_GLint {P : HeightOneSpectrum (𝓞 L)} {nrm : AbsoluteValue (P.a
   have hv : Valued.v (m : Matrix (Fin n) (Fin n) (P.adicCompletion L)).det = 1 :=
     le_antisymm h1 (by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       have := one_lt_inv_iff₀.2 ⟨zero_lt_iff.2 h0, hc⟩
       exact absurd h2 (not_le.2 this))
   exact (hn (Units.mk0 _ m.det_ne_zero)).1 hv
@@ -1347,7 +1347,7 @@ variable {L : Type} [Field L] [NumberField L]
 
 theorem norm_unitCharExtendedByZero_eq_one {P : HeightOneSpectrum (𝓞 L)} {δ : (P.adicCompletion L)ˣ →* ℂˣ} (hδ : IsDel P δ)
     {x : P.adicCompletion L} (hx : x ≠ 0) : ‖chi0 δ x‖ = 1 := by
-  rw [chi0, dif_neg hx]
+  rw [chi0, dite_eq_right hx]
   exact hδ.unitary _
 
 theorem piP_mem (P : HeightOneSpectrum (𝓞 L)) : (piP P : P.adicCompletion L) ∈ OP P := by
@@ -1375,7 +1375,7 @@ theorem exists_typeVec (P : HeightOneSpectrum (𝓞 L)) (δ : (P.adicCompletion 
     rw [chiP, lamJ, ← levA_val h0, ← levD_val h0, nrm_det_GLint hn h1, nrm_det_GLint hn h2]
     simp
   have hlam1 : lamJ δ (1 : GL (Fin (r + c)) (P.adicCompletion L)) = 1 := by
-    rw [lamJ, bDD_one, det_one, chi0, dif_neg one_ne_zero]
+    rw [lamJ, bDD_one, det_one, chi0, dite_eq_right one_ne_zero]
     have : Units.mk0 (1 : P.adicCompletion L) one_ne_zero = 1 := Units.ext rfl
     rw [this, map_one, Units.val_one]
   refine ⟨fvec (OP P) (piP P : P.adicCompletion L) nrm δ ρ v₀, fvec_mem hgrp hlam hfix,

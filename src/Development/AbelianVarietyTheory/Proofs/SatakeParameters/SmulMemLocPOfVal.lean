@@ -361,7 +361,7 @@ theorem subD_ten [DecidableEq ι] (h : a ≤ b) (F : ι → MvPolynomial (Fin a 
     congr 2
     funext v
     have hv : (v.2 : ℕ) < b := lt_of_lt_of_le v.2.2 h
-    simp only [Function.comp_apply, dif_pos hv]
+    simp only [Function.comp_apply, dite_eq_left hv]
     rfl
   rw [e1]
   refine (Finset.prod_congr rfl fun τ _ => aeval_subGen h

@@ -73,7 +73,7 @@ theorem exists_deriv (α : K) (ε : ℝ) (hε : 0 < ε) (m : ℕ) (c : ℝ) (hc 
       ∃ Q : ℤ[X], ‖aeval α Q‖ < ε * ‖aeval α (derivative Q)‖ ^ 2 := by
   by_cases H : ∃ Q : ℤ[X], ‖aeval α Q‖ < ε * ‖aeval α (derivative Q)‖ ^ 2
   · exact ⟨1, one_pos, fun _ _ _ => H⟩
-  · push_neg at H
+  · push Not at H
     have key : ∀ m : ℕ, ∀ c : ℝ, 0 < c → ∃ δ > 0, ∀ P : ℤ[X],
         ‖aeval α P‖ < δ → ‖aeval α (derivative^[m] P)‖ < c := by
       intro m
@@ -88,7 +88,7 @@ theorem exists_deriv (α : K) (ε : ℝ) (hε : 0 < ε) (m : ℕ) (c : ℝ) (hc 
         rw [Function.iterate_succ_apply]
         apply h₁
         by_contra hle
-        push_neg at hle
+        push Not at hle
         have h2 : δ₁ ^ 2 ≤ ‖aeval α (derivative P)‖ ^ 2 := pow_le_pow_left₀ hδ₁.le hle 2
         have h3 := H P
         have h4 := mul_le_mul_of_nonneg_left h2 hε.le
@@ -291,7 +291,7 @@ theorem eventually_root (hH : HenselN K) {π : K} (h0 : π ≠ 0) (h1 : ‖π‖
     rw [le_div_iff₀ hwpos] at hyb
     rw [add_sub_cancel_left, norm_mul]
     by_contra hge
-    push_neg at hge
+    push Not at hge
     have h1' := mul_le_mul_of_nonneg_right hge hwpos.le
     have h2' := mul_le_mul_of_nonneg_left hyb (norm_nonneg l)
     nlinarith

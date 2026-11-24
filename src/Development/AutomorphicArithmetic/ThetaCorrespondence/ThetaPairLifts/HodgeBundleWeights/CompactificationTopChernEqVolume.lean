@@ -1581,7 +1581,7 @@ theorem transv_conj (ξ : Fin r → E) (α : E) :
     intro G ξ x α
     funext a
     simp only [transvMat, herm, Matrix.mulVec, dotProduct, Matrix.of_apply, add_mul, Finset.sum_add_distrib,
-      ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true, Pi.add_apply, Pi.smul_apply,
+      ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true, Pi.add_apply, Pi.smul_apply,
       smul_eq_mul, Finset.mul_sum, Finset.sum_mul]
     congr 1
     exact Finset.sum_congr rfl fun _ _ => Finset.sum_congr rfl fun _ _ => by ring

@@ -88,7 +88,7 @@ theorem mh_C (r : ℤ) : IsMultiHomog (C r : MRing ι) 0 := by
   intro m hm k
   have h0 : m = 0 := by
     by_contra h
-    rw [MvPolynomial.mem_support_iff, MvPolynomial.coeff_C, if_neg (Ne.symm h)] at hm
+    rw [MvPolynomial.mem_support_iff, MvPolynomial.coeff_C, ite_eq_right (Ne.symm h)] at hm
     exact hm rfl
   subst h0
   simp

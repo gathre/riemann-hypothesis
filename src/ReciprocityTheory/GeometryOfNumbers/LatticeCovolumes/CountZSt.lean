@@ -72,7 +72,7 @@ theorem fiber_count_le_ncard_inter_lattice (L : Submodule ℤ E) [DiscreteTopolo
   classical
   by_cases hx : ∃ g0 : L, x ∈ g0 +ᵥ ((2⁻¹ : ℝ) • S)
   swap
-  · push_neg at hx
+  · push Not at hx
     simp [Set.indicator_of_notMem (hx _)]
   obtain ⟨g0, hg0⟩ := hx
 

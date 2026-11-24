@@ -161,7 +161,7 @@ theorem psJet_eq_jetOfSeries {n d : ℕ} [Nonempty (Fin n × Fin d)] (m : ℕ) (
   rw [Ideal.Quotient.eq, MvPolynomial.mem_pow_idealOfVars_iff']
   intro x hx
   rw [MvPolynomial.coeff_sub, MvPowerSeries.coeff_trunc, MvPowerSeries.coeff_truncTotal _ hx,
-    if_pos, sub_self]
+    ite_eq_left, sub_self]
   have hle : ∀ q, x q < m + 1 := fun q => lt_of_le_of_lt (Finsupp.le_degree q x) hx
   refine lt_of_le_of_ne (fun q => by simpa using (hle q).le) fun h => ?_
   obtain ⟨q⟩ := ‹Nonempty (Fin n × Fin d)›

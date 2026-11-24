@@ -71,7 +71,7 @@ theorem analyticSubset_chart_local {e : ℕ} {X : Type} [TopologicalSpace X] (A 
 
   have hex : ∃ i, ∃ w ∈ Metric.ball ((A.chart j) x) ε, f i ((A.chart j).symm w) ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsub : (A.chart j).symm '' Metric.ball ((A.chart j) x) ε ⊆ S := by
       rintro _ ⟨w, hw, rfl⟩
       have hw' := hε hw

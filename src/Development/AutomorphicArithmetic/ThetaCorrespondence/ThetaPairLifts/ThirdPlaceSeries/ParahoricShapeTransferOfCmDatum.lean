@@ -660,12 +660,12 @@ theorem locComp_of_isRc_classMapD_cenLoc : _root_.GlobalTheory.HeightCounting.Up
   rw [h3]
   unfold TwDat.xiTw
   split_ifs with hc
-  · rw [if_pos hc] at hp'
+  · rw [ite_eq_left hc] at hp'
     have hd := f.isDel'.unr P' hp' _ hxu
     show _ = (((f.del'.loc P') ((atFin P') y) * ((T.psi v).loc P') ((atFin P') y) : ℂˣ) : ℂ)
     rw [hd, one_mul]
     rfl
-  · rw [if_neg hc] at hp'
+  · rw [ite_eq_right hc] at hp'
     have hd := f.isDel.unr P' hp' _ hxu
     show _ = (((f.del.loc P') ((atFin P') y) * ((T.psi v).loc P') ((atFin P') y) : ℂˣ) : ℂ)
     rw [hd, one_mul]

@@ -84,7 +84,7 @@ theorem cc_lev_pi (c : ZMod n) (ζ : LL) (hζ : ∃ j : ℕ, IsPrimitiveRoot ζ 
 theorem constantCoeff_q_zero_eq_p : PowerSeries.constantCoeff W.q₀ = (PD.p : O) := by
   have h := congrArg (PowerSeries.coeff 1) W.q₀_def
   rw [PowerSeries.coeff_succ_X_mul, PowerSeries.coeff_zero_eq_constantCoeff_apply] at h
-  rw [h, map_sub, PowerSeries.coeff_one, if_neg one_ne_zero, sub_zero]
+  rw [h, map_sub, PowerSeries.coeff_one, ite_eq_right one_ne_zero, sub_zero]
   have e : ((1 : PowerSeries O) + PowerSeries.X) ^ PD.p =
       (((Polynomial.X + 1) ^ PD.p : Polynomial O) : PowerSeries O) := by
     rw [Polynomial.coe_pow, Polynomial.coe_add, Polynomial.coe_X, Polynomial.coe_one, add_comm]
@@ -150,7 +150,7 @@ theorem lev_q_eq (c : ZMod n) {ζ : LL} (hζ : IsPrimitiveRoot ζ PD.p) (hp : (P
   have hw0 : PowerSeries.constantCoeff w = (PD.p : LL) := by
     have h1 := congrArg (PowerSeries.coeff 1) hw
     rw [PowerSeries.coeff_succ_X_mul, PowerSeries.coeff_zero_eq_constantCoeff_apply, map_sub,
-      hpow, PowerSeries.coeff_one, if_neg one_ne_zero, sub_zero] at h1
+      hpow, PowerSeries.coeff_one, ite_eq_right one_ne_zero, sub_zero] at h1
     exact h1.symm
   have hne : PowerSeries.constantCoeff (W.lev c ζ letπ) ≠ 0 := by rw [hπ]; exact hζ1
   refine ⟨(W.lev c ζ letπ)⁻¹ * w, ?_, ?_⟩

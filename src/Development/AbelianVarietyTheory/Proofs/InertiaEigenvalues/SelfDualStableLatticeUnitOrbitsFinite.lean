@@ -726,7 +726,7 @@ theorem finite_mod_T_of (K : UQ) (B : InvAlg K)
   obtain ⟨a, rfl⟩ := hPr J hJ hst
   have ha : adm a := ⟨h3, h4⟩
   have hex' : ∃ a', adm a' ∧ Mf a' = Mf a := ⟨a, ha, rfl⟩
-  have hg : gch (Mf a) = hex'.choose := dif_pos hex'
+  have hg : gch (Mf a) = hex'.choose := dite_eq_left hex'
   obtain ⟨ha', hMa'⟩ := hex'.choose_spec
   set a' := hex'.choose
 
@@ -902,7 +902,7 @@ theorem orbits_finite : ∀ (K : UQ) (B : InvAlg K), B.P.Separable → ∀ x : B
   intro K B hsep x hxu hxσ
   by_cases h0 : ∃ L0, L0 ∈ B.X x
   swap
-  · push_neg at h0
+  · push Not at h0
     haveI : IsEmpty (B.X x) := ⟨fun L => h0 L.1 L.2⟩
     refine ⟨?_, fun L hL => absurd hL (h0 L)⟩
     unfold Orb

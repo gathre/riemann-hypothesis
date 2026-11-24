@@ -693,7 +693,7 @@ theorem normX : ∀ {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T : Type} {A 
   have hm := hG.core.models
   obtain ⟨w0, v0, hw0⟩ : ∃ (w : R.cX.W) (v : R.MX.Vec), R.prX w (PiTensorProduct.tprod ℂ v) ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     apply hm.prX.1
     refine LinearMap.ext fun w => LinearMap.ext fun x => ?_
     induction x using PiTensorProduct.induction_on with
@@ -889,7 +889,7 @@ theorem isInnerProduct_of_isMet' (t : T) (k : ℕ) {ipD ip} (hm : IsMet (comR R 
 
 theorem exists_tprod_ne {k : ℕ} (w : SmT (R.MY k)) (hw : w ≠ 0) : ∃ v : (R.MY k).Vec, PiTensorProduct.tprod ℂ v ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hid : (LinearMap.id : SmT (R.MY k) →ₗ[ℂ] SmT (R.MY k)) = 0 :=
     PiTensorProduct.ext (MultilinearMap.ext fun v => by simpa using h v)
   exact hw (by simpa using LinearMap.congr_fun hid w)
@@ -899,11 +899,11 @@ theorem exists_vec (hC : R.IsChain) (t : T) {k : ℕ} (hk : k < D.R.m) {ipD ip} 
   have hw : ∃ w : SmT (R.MY k), w ≠ 0 := by
     by_cases hkk : k + 1 < D.R.m
     · by_contra h
-      push_neg at h
+      push Not at h
       exact (hC.ItY t k hkk).ne (LinearMap.ext fun φ => LinearMap.ext fun x => by simpa using h (R.ItY k φ x))
     · obtain rfl : k = D.R.m - 1 := by omega
       by_contra h
-      push_neg at h
+      push Not at h
       exact (hC.ItX t).ne (LinearMap.ext fun φ => LinearMap.ext fun x => by simpa using h (R.ItX φ x))
   obtain ⟨w, hw⟩ := hw
   obtain ⟨v, hv⟩ := exists_tprod_ne R w hw
@@ -1167,7 +1167,7 @@ theorem lift_one_of_mem (V : HSp D) (β : GL (Fin V.rank) (Lev.EAf D)) (r t j : 
     Lev.IsLevelLift V β (Lev.datY V.rank r t j hr Pg Q (LevelP.triv Pg r ℂ) χ ξ Lev.Frm.B) 1 κ := by
   refine ⟨(Subgroup.mem_inf.1 hκ).1, hκ.2.1, ?_⟩
   have h2 := hκ.2.2
-  simp only [Lev.datY, LevelP.triv, if_true] at h2
+  simp only [Lev.datY, LevelP.triv, ite_true] at h2
   exact Subgroup.mem_bot.1 h2
 
 theorem lift_one_one (V : HSp D) (β : GL (Fin V.rank) (Lev.EAf D)) (L : LevDat D.host.E ℂ V.rank) :

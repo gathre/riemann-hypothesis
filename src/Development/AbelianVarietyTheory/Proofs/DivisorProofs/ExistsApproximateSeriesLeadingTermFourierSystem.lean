@@ -280,7 +280,7 @@ theorem GlobalTheory.Poinc.approx_of_vsys : ∀ (O : Type) [CommRing O] [Module.
       have hμe : (fun i => g (a i)) = μ := funext hg
       have hne : ∃ x, g x ≠ x := by
         by_contra hh
-        push_neg at hh
+        push Not at hh
         exact hμa (funext fun i => by rw [← hg, hh])
       obtain ⟨j, hj⟩ := hD.strict g hcong hne
       have hmin := hD.min g hcong

@@ -379,7 +379,7 @@ theorem exists_pLoc_ite {n : ℕ} (c : ∀ w : HeightOneSpectrum (𝓞 E), GL (F
     rw [map_mul, hh w]
     by_cases hw : w = v
     · subst hw
-      rw [pLoc_locGL, if_neg hvT, if_pos (Finset.mem_insert_self _ _), mul_one]
+      rw [pLoc_locGL, ite_eq_right hvT, ite_eq_left (Finset.mem_insert_self _ _), mul_one]
     · rw [pLoc_locGL_of_ne hw, one_mul]
       simp [Finset.mem_insert, hw]
 
@@ -514,9 +514,9 @@ theorem exists_isCompact_mod_NA : ∀ (E : Type) [Field E] [NumberField E] [_roo
     rw [hkTd, map_mul, map_inv, hinf_h, inv_mul_cancel]
   have hkT_T : ∀ w ∈ T, GlobalTheory.CellDec.compV E (m + 1) w kT = 1 := by
     intro w hw
-    rw [hkTd, map_mul, map_inv, hcV_h, if_pos hw, inv_mul_cancel]
+    rw [hkTd, map_mul, map_inv, hcV_h, ite_eq_left hw, inv_mul_cancel]
   have hkT_US : kT ∈ GlobalTheory.CellDec.US E (m + 1) T := GlobalTheory.CellDec.mem_US.2 fun w hw => by
-    rw [hkTd, map_mul, map_inv, hcV_h, if_neg hw, inv_one, one_mul]
+    rw [hkTd, map_mul, map_inv, hcV_h, ite_eq_right hw, inv_one, one_mul]
     exact GlobalTheory.CellDec.mem_US.1 hk w hw
   have hkT_fin : kT = finGL E (m + 1) (GeneralLinearGroup.map (pFin E) kT) := by
     conv_lhs => rw [← infGL_mul_finGL kT]
@@ -550,7 +550,7 @@ theorem exists_isCompact_mod_NA : ∀ (E : Type) [Field E] [NumberField E] [_roo
   set p := h * B⁻¹ with hpd
   have hp_sup : ∀ w ∉ T, GlobalTheory.CellDec.compV E (m + 1) w p = 1 := by
     intro w hw
-    rw [hpd, map_mul, map_inv, hcV_h, if_neg hw, hBd, map_mul, GlobalTheory.CellDec.compV_finGL, hκ1 w hw, hσ, hcV_inf,
+    rw [hpd, map_mul, map_inv, hcV_h, ite_eq_right hw, hBd, map_mul, GlobalTheory.CellDec.compV_finGL, hκ1 w hw, hσ, hcV_inf,
       mul_one, inv_one, one_mul]
   have hp_mir : p ∈ (GlobalTheory.JSW.supS (E := E) (a := m + 1) T ∩ GlobalTheory.JSW.mirSet (GlobalTheory.CuspRep.Ad E) m) := by
     refine ⟨fun w hw => hp_sup w hw, fun j => ?_⟩
@@ -558,8 +558,8 @@ theorem exists_isCompact_mod_NA : ∀ (E : Type) [Field E] [NumberField E] [_roo
     rw [← hpd] at e
     rw [e, Matrix.one_apply]
     by_cases hj : j = Fin.last m
-    · rw [if_pos hj.symm, if_pos hj]
-    · rw [if_neg (Ne.symm hj), if_neg hj]
+    · rw [ite_eq_left hj.symm, ite_eq_left hj]
+    · rw [ite_eq_right (Ne.symm hj), ite_eq_right hj]
   have hcomm : kT * σ⁻¹ = σ⁻¹ * kT := by
     rw [hkT_fin, hσ, ← map_inv]
     exact (infGL_comm _ _).symm
@@ -731,7 +731,7 @@ theorem map_list_prod_locGL {a : ℕ} (g : ∀ w : HeightOneSpectrum (𝓞 E), G
     rw [List.map_cons, List.prod_cons, map_mul, ih (List.nodup_cons.1 hl).2]
     by_cases h : w = v
     · subst h
-      rw [pLoc_locGL, if_neg (List.nodup_cons.1 hl).1, if_pos List.mem_cons_self, mul_one]
+      rw [pLoc_locGL, ite_eq_right (List.nodup_cons.1 hl).1, ite_eq_left List.mem_cons_self, mul_one]
     · rw [pLoc_locGL_of_ne h, one_mul]
       simp [h]
 
@@ -805,7 +805,7 @@ theorem exists_bump_ideal_rowGL : ∀ (E : Type) [Field E] [NumberField E] [_roo
       intro w hw j
       have h1 := val_sub_single_le ℓ hy w j
       rw [hJ, hn] at h1
-      simpa only [hw, if_true] using h1
+      simpa only [hw, ite_true] using h1
     have hmem : ∀ w ∈ T, locGL E a w (rowGL ℓ (fun j => pLoc E w (y j))) ∈ U ∧
         rowGL ℓ (fun j => pLoc E w (y j)) ∈ KGL w (n := a) := by
       intro w hw
@@ -831,9 +831,9 @@ theorem exists_bump_ideal_rowGL : ∀ (E : Type) [Field E] [NumberField E] [_roo
       · exact (hmem w (Finset.mem_toList.1 h)).2
       · exact one_mem _
     · intro w hw
-      rw [key w, if_neg (by simpa using hw)]
+      rw [key w, ite_eq_right (by simpa using hw)]
     · intro w hw j
-      rw [key w, if_pos (Finset.mem_toList.2 hw), val_rowGL (hunit w hw)]
+      rw [key w, ite_eq_left (Finset.mem_toList.2 hw), val_rowGL (hunit w hw)]
       simp [rowMat]
 
 end GlobalTheory.BumpOrbit
@@ -1084,10 +1084,10 @@ theorem exists_sph_whit_tl_ne_zero : ∀ (E : Type) [Field E] [NumberField E] [_
   let B : HeightOneSpectrum (𝓞 E) → Multiset ℂˣ := fun w =>
     if h : w ∈ T then 0 else Finset.univ.val.map (α ⟨w, h⟩)
   obtain ⟨φ₀, hφ₀V, hφ₀0, hφ₀K⟩ := _root_.GlobalTheory.JSW.SphVec.exists_sphVec_of_hasSat E (m + 1) π T B (fun w hw => by
-    simp only [B, dif_neg hw]; exact hα ⟨w, hw⟩)
+    simp only [B, dite_eq_right hw]; exact hα ⟨w, hw⟩)
   obtain ⟨g, hg⟩ : ∃ g, whit φ₀.1 g ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hφ₀0 (_root_.GlobalTheory.JSW.eq_zero_of_whit_eq_zero E (m + 1) φ₀ (π.cusp φ₀ hφ₀V) h)
   set t0 := GlobalTheory.CellDec.tl (m + 1) ϖ (GlobalTheory.RamShift.shift m T ϖ).1
   have hfin := finite_bad E (m + 1) (GeneralLinearGroup.map (pFin E) (t0⁻¹ * g))
@@ -1253,7 +1253,7 @@ theorem one_mem_mirS (S : Finset (HeightOneSpectrum (𝓞 E))) (m : ℕ) : (1 : 
   rw [Units.val_one, Matrix.one_apply]
   by_cases h : j = Fin.last m
   · subst h; simp
-  · rw [if_neg (Ne.symm h), if_neg h]
+  · rw [ite_eq_right (Ne.symm h), ite_eq_right h]
 
 theorem mem_NA_of_mem {u : GA E n} (hu : u ∈ GlobalTheory.JSW.NA (E := E) (a := n)) : u ∈ GlobalTheory.CellDec.NA E n :=
   (GlobalTheory.SmGL.mem_unipB (Ad E)).2 ⟨fun i j hij => hu.1 i j hij, hu.2⟩

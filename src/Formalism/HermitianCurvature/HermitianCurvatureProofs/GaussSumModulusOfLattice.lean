@@ -250,10 +250,10 @@ variable {L Λ : AddSubgroup K}
 
 theorem gaussF_of_mem {x : Fin m → K} (hx : x ∈ PL L m) :
     gaussF ψ L M x = ψ (Ring.inverse 2 * (x ⬝ᵥ M *ᵥ x)) := by
-  unfold gaussF; rw [if_pos (mem_PL.1 hx)]
+  unfold gaussF; rw [ite_eq_left (mem_PL.1 hx)]
 
 theorem gaussF_of_not_mem {x : Fin m → K} (hx : x ∉ PL L m) : gaussF ψ L M x = 0 := by
-  unfold gaussF; rw [if_neg (fun h => hx (mem_PL.2 h))]
+  unfold gaussF; rw [ite_eq_right (fun h => hx (mem_PL.2 h))]
 
 variable {ψ}
 

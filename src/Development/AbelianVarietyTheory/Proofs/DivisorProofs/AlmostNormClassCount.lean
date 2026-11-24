@@ -188,9 +188,9 @@ theorem card_classes_mul_two : ∀ (K L : Type) [Field K] [NumberField K] [Field
     have hy : ∀ w, eta K L w.Completion (y w) = s w := by
       intro w
       rcases Int.units_eq_one_or (s w) with h | h
-      · simp only [y, h, if_true]
+      · simp only [y, h, ite_true]
         exact eta_eq_one_iff.2 (one_mem _)
-      · simp only [y, h, show (-1 : ℤˣ) ≠ 1 by decide, if_false]
+      · simp only [y, h, show (-1 : ℤˣ) ≠ 1 by decide, ite_false]
         exact eta_eq_neg_one_iff.2 (neg_one_not_mem_normGroup hL (hK.isReal w))
     have hy1 : etaProd K L x y = 1 := by
       unfold etaProd

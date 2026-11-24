@@ -112,7 +112,7 @@ theorem exists_not_dvd {A : Type u_1} [CommRing A] [IsNoetherianRing A] [IsLocal
     (hx : ¬ IsUnit x) {K : Ideal A} (hK : K ≠ ⊥) (hs : ∀ u, x * u ∈ K → u ∈ K) :
     ∃ u ∈ K, ¬ x ∣ u := by
   by_contra hall
-  push_neg at hall
+  push Not at hall
   apply hK
   apply Submodule.eq_bot_of_le_smul_of_le_jacobson_bot (Ideal.span {x}) K (IsNoetherian.noetherian K)
   · intro u hu

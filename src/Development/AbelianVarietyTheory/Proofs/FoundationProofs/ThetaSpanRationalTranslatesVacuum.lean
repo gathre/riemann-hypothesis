@@ -159,7 +159,7 @@ theorem mem_span_translates (H : (∀ x y f, W x (W y f) = c x y • W (x + y) f
         exact ⟨_, hv, hs _⟩
       obtain ⟨x₀, hx₀, hne⟩ : ∃ x ∈ A, c x (s (rep q)) ≠ c (s (rep q)) x := by
         by_contra hh
-        push_neg at hh
+        push Not at hh
         exact hv (hsd _ hh)
       have := sum_translate (A₀ := subLa m A) (fun y => c y (s (rep q)) / c (s (rep q)) y) (fun y hy l hl hl' => by
         obtain ⟨b, hb, rfl⟩ := hA0 l hl'

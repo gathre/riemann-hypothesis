@@ -495,7 +495,7 @@ theorem exists_sec_of_lbIso {Y : Scheme.{0}} {A B : LB Y} (hA : A.IsLB) (hB : B.
   obtain ⟨t, b, hb⟩ := hs
   refine ⟨DVR.secOfIso t hu hA hB, ?_⟩
   by_contra hn
-  push_neg at hn
+  push Not at hn
   refine hb (fn_ext fun y hy => ?_)
   obtain ⟨a, ha⟩ := exists_chart hA y
   have e := (DVR.secOfIso_spec t hu hA hB a b).symm

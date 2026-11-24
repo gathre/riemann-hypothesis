@@ -191,14 +191,14 @@ def matAddEquiv {M : Type*} [AddCommGroup M] (S : Matrix (Fin 8) (Fin 8) ℤ) (h
     simp only [Finset.smul_sum, smul_smul]
     rw [Finset.sum_comm]
     simp only [← Finset.sum_smul, ← Matrix.mul_apply, h, Matrix.one_apply, ite_smul, one_smul, zero_smul,
-      Finset.sum_ite_eq, Finset.mem_univ, if_true]
+      Finset.sum_ite_eq, Finset.mem_univ, ite_true]
   right_inv w := by
     funext v
     have h : S * S.adjugate = 1 := by rw [Matrix.mul_adjugate, hS, one_smul]
     simp only [Finset.smul_sum, smul_smul]
     rw [Finset.sum_comm]
     simp only [← Finset.sum_smul, ← Matrix.mul_apply, h, Matrix.one_apply, ite_smul, one_smul, zero_smul,
-      Finset.sum_ite_eq, Finset.mem_univ, if_true]
+      Finset.sum_ite_eq, Finset.mem_univ, ite_true]
   map_add' x y := by
     funext v
     simp only [Pi.add_apply, smul_add, Finset.sum_add_distrib]

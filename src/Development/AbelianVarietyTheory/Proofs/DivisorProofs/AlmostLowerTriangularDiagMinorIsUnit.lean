@@ -71,11 +71,11 @@ theorem det_almost {K : Type} [Field K] {n : ℕ} (A : Matrix (Fin n) (Fin n) K)
     have hij' : i < j := OrderDual.toDual_lt_toDual.1 hij
     rw [hNapp]
     by_cases hja : j = a
-    · rw [hja, Equiv.swap_apply_left, hUapp, if_neg hne.symm]
+    · rw [hja, Equiv.swap_apply_left, hUapp, ite_eq_right hne.symm]
       rw [hja] at hij'
       exact hl i b (lt_trans hij' hlt) (fun h => (ne_of_lt hij') h.1)
     · by_cases hjb : j = b
-      · rw [hjb, Equiv.swap_apply_right, hUapp, if_pos rfl]
+      · rw [hjb, Equiv.swap_apply_right, hUapp, ite_eq_left rfl]
         rw [hjb] at hij'
         by_cases hia : i = a
         · rw [hia, hc, div_mul_cancel₀ _ hab, sub_self]
@@ -84,18 +84,18 @@ theorem det_almost {K : Type} [Field K] {n : ℕ} (A : Matrix (Fin n) (Fin n) K)
             have h2 : (i : ℕ) ≠ a := fun h => hia (Fin.ext h)
             rw [Fin.lt_iff_val_lt_val]; omega
           rw [hl i a hia' (fun h => hia h.1), hl i b (lt_trans hia' hlt) (fun h => hia h.1)]; ring
-      · rw [Equiv.swap_apply_of_ne_of_ne hja hjb, hUapp, if_neg hja]
+      · rw [Equiv.swap_apply_of_ne_of_ne hja hjb, hUapp, ite_eq_right hja]
         exact hl i j hij' (fun h => hjb h.2)
   have hprod := Matrix.det_of_lowerTriangular N htri
   have hmb : b ∈ Finset.univ.erase a := Finset.mem_erase.2 ⟨hne.symm, Finset.mem_univ _⟩
   rw [← Finset.mul_prod_erase _ _ (Finset.mem_univ a), ← Finset.mul_prod_erase _ _ hmb] at hprod
-  have hNa : N a a = A a b := by rw [hNapp, Equiv.swap_apply_left, hUapp, if_neg hne.symm]
-  have hNb : N b b = A b a - c * A b b := by rw [hNapp, Equiv.swap_apply_right, hUapp, if_pos rfl]
+  have hNa : N a a = A a b := by rw [hNapp, Equiv.swap_apply_left, hUapp, ite_eq_right hne.symm]
+  have hNb : N b b = A b a - c * A b b := by rw [hNapp, Equiv.swap_apply_right, hUapp, ite_eq_left rfl]
   have hrest : ∏ i ∈ (Finset.univ.erase a).erase b, N i i = ∏ i ∈ (Finset.univ.erase a).erase b, A i i := by
     refine Finset.prod_congr rfl fun i hi => ?_
     have hib := (Finset.mem_erase.1 hi).1
     have hia := (Finset.mem_erase.1 (Finset.mem_erase.1 hi).2).1
-    rw [hNapp, Equiv.swap_apply_of_ne_of_ne hia hib, hUapp, if_neg hia]
+    rw [hNapp, Equiv.swap_apply_of_ne_of_ne hia hib, hUapp, ite_eq_right hia]
   rw [hNa, hNb, hrest, hdetN] at hprod
   have e : A a b * (A b a - c * A b b) = A a b * A b a - A a a * A b b := by
     rw [hc]; field_simp

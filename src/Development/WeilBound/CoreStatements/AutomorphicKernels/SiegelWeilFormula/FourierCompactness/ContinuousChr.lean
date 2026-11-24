@@ -117,7 +117,7 @@ theorem lamBd : LamBd := by
   have hχ1 : ∀ β, ‖χ β‖ ≤ 1 := by
     intro β
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     obtain ⟨k, hk⟩ := pow_unbounded_of_one_lt R hlt
     have := hχR (k • β)
     rw [hχns, norm_pow] at this

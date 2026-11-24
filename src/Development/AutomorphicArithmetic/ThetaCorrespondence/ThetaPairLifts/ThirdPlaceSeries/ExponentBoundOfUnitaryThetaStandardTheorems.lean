@@ -629,7 +629,7 @@ theorem wts_U_le_h0_of_large : ∀ {D : Formalism.BasicNotions.D7} (L : Formalis
       have hLa : 0 < L.LaG := by
         have h := P5.S_le
         by_contra hc'
-        push_neg at hc'
+        push Not at hc'
         have : L.LaG * L.sc.b' / D.R.k ≤ 0 :=
           div_nonpos_of_nonpos_of_nonneg (mul_nonpos_of_nonpos_of_nonneg hc' hb0.le) (by positivity)
         linarith
@@ -779,7 +779,7 @@ theorem valsAt_of_isLamPrime : ∀ {D : Formalism.BasicNotions.D7} (L : Formalis
       Formalism.IndefR.IndefiniteWeightData.WeightData.r] at hq
     split_ifs at hq with c1 c2 <;> try omega
     have c3 : D.R.k + ↑j + s + 1 ≤ D.R.k + ((j : ℕ) + 1) - 1 + D.R.t := by omega
-    simp only [c3, if_true] at hq
+    simp only [c3, ite_true] at hq
     rw [hp, hmj] at hq
     have hQ : (((lamL j τ).w ⟨_, hal⟩ : ℤ) : ℚ) + ((Vc D j).rank : ℚ) / 2 - ((D.R.k + j + s : ℕ) : ℚ) =
         -(D.hc τ).e ⟨(j : ℕ) + 1 - 1, hj.2⟩ + ((D.R.t : ℚ) - 1) / 2 - s := by
@@ -801,7 +801,7 @@ theorem valsAt_of_isLamPrime : ∀ {D : Formalism.BasicNotions.D7} (L : Formalis
       Formalism.IndefR.IndefiniteWeightData.WeightData.r] at hq
     split_ifs at hq with c1 c2 <;> try omega
     have c3 : ¬ (D.R.k - 1 + (i : ℕ) + D.R.t + 1 ≤ D.R.k + ((j : ℕ) + 1) - 1 + D.R.t) := by omega
-    simp only [c3, if_false] at hq
+    simp only [c3, ite_false] at hq
     rw [show D.R.m - ((j : ℕ) + 1) + 1 - (D.R.m - ((j : ℕ) + 1) + 1 - (D.R.k - 1 + (i : ℕ) + D.R.t + 1 - (D.R.k + ((j : ℕ) + 1) - 1) - D.R.t))
         = (i : ℕ) - j by omega] at hq
     rw [show (j : ℕ) + 1 + ((i : ℕ) - j) = (i : ℕ) + 1 by omega, hp, hmj] at hq
@@ -939,7 +939,7 @@ theorem other_of_not_thick (L : Formalism.BasicNotions.SizeData₂ D) (P5 : Form
       have h1 := P5.S_le
       have h2 := L.Sc_pos
       by_contra hn
-      push_neg at hn
+      push Not at hn
       have : L.LaG * L.sc.b' / D.R.k ≤ 0 :=
         div_nonpos_of_nonpos_of_nonneg (mul_nonpos_of_nonpos_of_nonneg hn hb0.le) hk0.le
       linarith
@@ -1308,7 +1308,7 @@ theorem exZ_res_eq_natW (n : ℕ) (lam : Formalism.BasicNotions.DomWeight n) (f 
     exact a.elim0
   · let m : Fin n := ⟨n - 1, by omega⟩
     have hds : lam.detShift = lam.w m := by
-      simp only [Formalism.BasicNotions.DomWeight.detShift, dif_pos hn]
+      simp only [Formalism.BasicNotions.DomWeight.detShift, dite_eq_left hn]
       rfl
     have hres : res n f = fun a => lam.natW a + f m := by
       funext a

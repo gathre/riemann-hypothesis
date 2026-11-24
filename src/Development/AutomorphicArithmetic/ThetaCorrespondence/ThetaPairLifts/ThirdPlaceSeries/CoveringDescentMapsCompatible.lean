@@ -563,7 +563,7 @@ theorem antitone_smul_hodgeWt {s : ℤ} (hs : 0 ≤ s) (τ : Psi H) : Antitone (
 
 theorem gap_smul_hodgeWt (hp : 1 ≤ Dw.p) (hq : 1 ≤ Dw.q) (s : ℤ) (τ : Psi H) : gap ((s • hodgeWt Dw) τ) (Dw.p - 1) = s := by
   have h : Dw.p - 1 + 1 < Dw.p + Dw.q := by omega
-  simp only [gap, dif_pos h, hodgeWt, CompHt.barWt, Pi.smul_apply, smul_eq_mul]
+  simp only [gap, dite_eq_left h, hodgeWt, CompHt.barWt, Pi.smul_apply, smul_eq_mul]
   split_ifs <;> omega
 
 theorem size_smul_hodgeWt {s : ℤ} (hs : 0 ≤ s) :

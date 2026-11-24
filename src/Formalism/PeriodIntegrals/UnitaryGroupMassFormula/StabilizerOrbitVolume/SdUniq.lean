@@ -87,7 +87,7 @@ theorem transform_indicator (hLo : IsOpen (L : Set V)) (y : V) :
       · simp [Set.indicator, hx]
     rw [e, integral_indicator_const _ hLo.measurableSet]
     simp
-  · rw [Set.indicator_apply, if_neg hy]
+  · rw [Set.indicator_apply, ite_eq_right hy]
     simp only [ann, Set.mem_setOf_eq, not_forall] at hy
     obtain ⟨t, ht, hty⟩ := hy
     set f : V → ℂ := fun x => (L : Set V).indicator (fun _ => (1 : ℂ)) x * χ x y with hf

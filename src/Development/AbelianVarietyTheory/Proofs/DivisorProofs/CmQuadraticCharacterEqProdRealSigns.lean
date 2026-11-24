@@ -123,7 +123,7 @@ theorem mem_normGroup_iff_pos {σ : E →ₐ[F] E} (hcm : IsCMExt F E σ) {w : I
   have hinv : ∀ x, σ (σ x) = x := fun x => τ.1.injective (by rw [hcm.2.2.2, hcm.2.2.2, star_star])
   have hne : ∃ x, σ x ≠ x := by
     by_contra h
-    push_neg at h
+    push Not at h
     haveI := hcm.2.1
     refine (InfinitePlace.not_isReal_iff_isComplex.2 (IsTotallyComplex.isComplex (InfinitePlace.mk τ.1)))
       (InfinitePlace.isReal_mk_iff.2 (ComplexEmbedding.isReal_iff.2 (RingHom.ext fun x => ?_)))
@@ -183,7 +183,7 @@ theorem eta_eq_prod_sign : ∀ (F E : Type) [Field F] [NumberField F] [Field E] 
   · have hneg : r < 0 := lt_of_le_of_ne (not_lt.1 hpos) hr0
     rw [eta_eq_neg_one_iff.2 (fun h => hpos (hx.1 h)), abs_of_neg hneg]
     change ((if (-1 : ℤˣ) = 1 then (1 : Circle) else -1 : Circle) : ℂ) = _
-    rw [if_neg (by decide)]
+    rw [ite_eq_right (by decide)]
     push_cast
     rw [div_neg, div_self (by exact_mod_cast hr0)]
 

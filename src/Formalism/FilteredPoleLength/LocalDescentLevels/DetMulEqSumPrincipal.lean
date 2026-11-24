@@ -133,7 +133,7 @@ theorem detPerturbNumeric : DetPerturbNumeric := by
     Real.exp_le_exp.2 hρx
   have h3 : Real.exp (1/10) ≤ 3/2 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have h4 : (3/2:ℝ)^10 < Real.exp (1/10) ^ 10 := pow_lt_pow_left₀ hc (by norm_num) (by norm_num)
     rw [← Real.exp_nat_mul] at h4
     norm_num at h4
@@ -254,7 +254,7 @@ theorem cauchyBinetMax : CauchyBinetMax := by
     intro S hS
     have hc := (Finset.mem_powersetCard.1 hS).2
     rw [principal_minor_factor M Mᴴ S hc]
-    simp only [g, dif_pos hc]
+    simp only [g, dite_eq_left hc]
     have e : Mᴴ.submatrix (S.orderEmbOfFin hc) id = (M.submatrix id (S.orderEmbOfFin hc))ᴴ := by
       ext a b
       simp [Matrix.conjTranspose_apply]
@@ -265,11 +265,11 @@ theorem cauchyBinetMax : CauchyBinetMax := by
     have := h1.trans (Finset.sum_congr rfl h2)
     exact_mod_cast this
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hlt : ∀ S ∈ (Finset.univ : Finset (Fin N)).powersetCard i, g S < (2 : ℝ) ^ (-(r : ℝ)) := by
     intro S hS
     have hc := (Finset.mem_powersetCard.1 hS).2
-    simp only [g, dif_pos hc]
+    simp only [g, dite_eq_left hc]
     have h4 := hcon _ (S.orderEmbOfFin hc).strictMono
     have h5 : ‖(M.submatrix id (S.orderEmbOfFin hc)).det‖ ^ 2 < ((2 : ℝ) ^ (-(r : ℝ) / 2)) ^ 2 :=
       pow_lt_pow_left₀ h4 (norm_nonneg _) (by norm_num)

@@ -530,7 +530,7 @@ theorem exists_nat_comb_of_infinite {O : Type} [CommRing O] {bar : O → O} {φ 
     set_option synthInstance.maxHeartbeats 100000 in
       simp only [map_nsmul, map_add (f := _), map_sum, Module.Basis.repr_self, Finsupp.smul_apply, Finsupp.add_apply,
       Finset.sum_apply', Finsupp.smul_apply, Finsupp.single_apply, nsmul_eq_mul] at this
-    rw [Finset.sum_eq_zero fun j _ => by rw [if_neg (ho j).symm]; simp] at this
+    rw [Finset.sum_eq_zero fun j _ => by rw [ite_eq_right (ho j).symm]; simp] at this
     have hk' : (k : ℤ) ≠ 0 := by exact_mod_cast hk0.ne'
     exact (mul_eq_zero.1 this).resolve_left hk'
   have hp : ∀ n ∈ s, ∀ j, 0 ≤ (n : ℤ) * bb.repr B' (Sum.inl j) + bb.repr B₀ (Sum.inl j) := by
@@ -541,7 +541,7 @@ theorem exists_nat_comb_of_infinite {O : Type} [CommRing O] {bar : O → O} {φ 
     set_option synthInstance.maxHeartbeats 100000 in
       simp only [map_nsmul, map_add (f := _), map_sum, Module.Basis.repr_self, Finsupp.smul_apply, Finsupp.add_apply,
       Finset.sum_apply', Finsupp.smul_apply, Finsupp.single_apply, nsmul_eq_mul, Sum.inl.injEq] at this
-    simp only [mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true] at this
+    simp only [mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true] at this
     have hk' : (0 : ℤ) < k := by exact_mod_cast hk0
     have h2 : (0 : ℤ) ≤ k * ((n : ℤ) * bb.repr B' (Sum.inl j) + bb.repr B₀ (Sum.inl j)) := by
       push_cast at this ⊢; rw [this]; positivity
@@ -560,7 +560,7 @@ theorem exists_nat_comb_of_infinite {O : Type} [CommRing O] {bar : O → O} {φ 
     have e1 := hp n₁ hn₁ j
     have e2 := hM (Sum.inl j)
     by_contra hneg
-    push_neg at hneg
+    push Not at hneg
     have : (bb.repr B₀ (Sum.inl j)) ≤ M := by omega
     have : (n₁ : ℤ) * bb.repr B' (Sum.inl j) ≤ - n₁ := by nlinarith
     omega
@@ -669,7 +669,7 @@ theorem exists_finite_cones : ∀ (O : Type) [CommRing O] (bar : O → O) (φ : 
     obtain ⟨m, γ, k, cf, hγ, hk, hcf, hkβ⟩ := GlobalTheory.Poinc.Cover.exists_cone O bar φ Y hF _ hβs hβp
     have hγd : ∀ y, y ≠ 0 → 0 < ∑ j, γ j y y := fun y hy => by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have h0 : ∀ j, γ j y y = 0 := fun j => le_antisymm ((Finset.single_le_sum (fun j _ => hγ.nonneg j y)
         (Finset.mem_univ j)).trans hcon) (hγ.nonneg j y)
       have h1 := LinearMap.congr_fun₂ hkβ y y
@@ -827,7 +827,7 @@ theorem finite_minimiser_systems_upTo_aut : ∀ (O : Type) [CommRing O] (bar : O
     · omega
     · omega
   have hmem : μ ∈ T i := by
-    simp only [T, dif_pos hPi]
+    simp only [T, dite_eq_left hPi]
     refine Classical.choose_spec (_root_.GlobalTheory.Poinc.MinSysLat.finite_minimiser_systems_lat Y n N eb i.1.val _ (fun j x y => (hPi.1.mem j).1 x y)
       (fun j y => hPi.1.nonneg j y) hPi.2) (pull e.toLinearMap b) k cf hk hcf ?_ μ h1 h2
     ext a c

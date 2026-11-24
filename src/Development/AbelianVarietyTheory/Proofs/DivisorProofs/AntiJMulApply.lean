@@ -88,7 +88,7 @@ theorem mat_mul_inv (g : GU σ n) : mat g * mat g⁻¹ = 1 := by rw [← mat_mul
 theorem antiJ_mul_apply (M : Matrix (Fin n) (Fin n) L) (i j : Fin n) : (antiJ L n * M) i j = M i.rev j := by
   rw [Matrix.mul_apply, Finset.sum_eq_single i.rev]
   · have : i.val + i.rev.val + 1 = n := by have := i.2; rw [Fin.val_rev]; omega
-    simp only [antiJ, this, if_true, one_mul]
+    simp only [antiJ, this, ite_true, one_mul]
   · intro b _ hb
     have : ¬ (i.val + b.val + 1 = n) := fun h => hb (Fin.ext (by rw [Fin.val_rev]; omega))
     simp [antiJ, this]

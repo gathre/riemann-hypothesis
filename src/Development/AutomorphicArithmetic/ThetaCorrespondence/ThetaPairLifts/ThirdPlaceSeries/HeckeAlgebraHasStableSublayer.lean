@@ -96,7 +96,7 @@ theorem exists_sb_raw (Rl : RealDat3 D A3 Ks) (cG : G0 Rl.Pg D.R.r ≃* G0g D.nd
   · intro j k P α Rr h1 h2 hd x
     have hi' : ∃ i', P ∉ D.ntw.S0 i' := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact hd.offS (Finset.mem_filter.2 ⟨hc i₀, hc⟩)
     obtain ⟨i', hi'⟩ := hi'
     obtain ⟨-, -, -, -, hso, -, -, -⟩ :=

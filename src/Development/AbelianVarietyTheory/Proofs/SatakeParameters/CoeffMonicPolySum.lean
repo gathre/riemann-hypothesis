@@ -186,7 +186,7 @@ theorem descent : ∀ {K C : Type} [Field K] [Field C] (φ : K →+* C) {ι : Ty
   intro K C _ _ φ ι _ G Mg d hd hdg
   classical
   by_contra hne
-  push_neg at hne
+  push Not at hne
   let kerS : Finset G → Submodule K (ι → K) := fun s => ⨅ g ∈ s, LinearMap.ker (Matrix.mulVecLin (Mg g))
   have hex : ∃ m, ∃ s : Finset G, Module.finrank K (kerS s) = m := ⟨_, ∅, rfl⟩
   obtain ⟨s, hs⟩ := Nat.find_spec hex
@@ -233,11 +233,11 @@ theorem descent : ∀ {K C : Type} [Field K] [Field C] (φ : K →+* C) {ι : Ty
 
 theorem coeff_monic_poly_sum {R : Type} [Semiring R] (n k : ℕ) (hk1 : 1 ≤ k) (hk2 : k ≤ n) (c : ℕ → R) :
     (X ^ n + ∑ k' ∈ Finset.Icc 1 n, C (c k') * X ^ (n - k')).coeff (n - k) = c k := by
-  rw [coeff_add, coeff_X_pow, if_neg (by omega), zero_add, finsetSum_coeff]
+  rw [coeff_add, coeff_X_pow, ite_eq_right (by omega), zero_add, finsetSum_coeff]
   rw [Finset.sum_eq_single k]
-  · rw [coeff_C_mul_X_pow, if_pos rfl]
+  · rw [coeff_C_mul_X_pow, ite_eq_left rfl]
   · intro b hb hbk
-    rw [coeff_C_mul_X_pow, if_neg]
+    rw [coeff_C_mul_X_pow, ite_eq_right]
     rw [Finset.mem_Icc] at hb
     omega
   · intro hk

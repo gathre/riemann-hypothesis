@@ -88,7 +88,7 @@ theorem commute_cap_lieS (τ : E →+* ℂ) (u : ℂ) (i j : Fin a) (x : Cinf E)
     conv_lhs => rw [← Finset.univ_sum_single x]
     refine Finset.sum_congr rfl fun w _ => ?_
     unfold atEmb
-    rw [InfinitePlace.mk_embedding, if_pos rfl]
+    rw [InfinitePlace.mk_embedding, ite_eq_left rfl]
 
   rw [hx, map_sum]
   refine Commute.sum_right _ _ _ fun w _ => ?_

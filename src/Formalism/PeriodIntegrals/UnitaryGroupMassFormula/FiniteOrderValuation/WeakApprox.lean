@@ -111,7 +111,7 @@ lemma exists_nat_small (T : Finset (HeightOneSpectrum (𝓞 L))) (δ : HeightOne
     if h : δ w ≠ 0 then Classical.choose (exists_pow_lt h) else 0
   refine ⟨M ^ (∑ w ∈ T, n w), pow_pos hM0 _, fun w hw => ?_⟩
   have hn : exp (-((n w : ℕ) : ℤ)) < δ w := by
-    simp only [n, dif_pos (hδ w hw)]
+    simp only [n, dite_eq_left (hδ w hw)]
     exact Classical.choose_spec (exists_pow_lt (hδ w hw))
   have hle : n w ≤ ∑ u ∈ T, n u := Finset.single_le_sum (fun _ _ => Nat.zero_le _) hw
   calc w.valuation L ((M ^ (∑ u ∈ T, n u) : ℕ) : L)
@@ -189,7 +189,7 @@ theorem weakApprox_units (T : Finset (HeightOneSpectrum (𝓞 L)))
     rw [← Valuation.map_mul, Units.inv_mul, Valuation.map_one]
   rw [Units.val_mk0, key, Valuation.map_mul]
   by_contra hle
-  push_neg at hle
+  push Not at hle
   have h2 := mul_le_mul_of_nonneg_right hle (zero_le' : 0 ≤ Valued.v (x w : w.adicCompletion L))
   rw [mul_assoc, hinv, mul_one] at h2
   exact absurd h (not_lt.mpr h2)

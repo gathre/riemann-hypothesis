@@ -112,11 +112,11 @@ theorem flt_twistX_mem {R : Type*} [CommRing R] {ι : Type*} {n : ℕ} (LL : Let
   unfold twistSub
   rw [MvPolynomial.eval₂Hom_X', AddMonoidHom.neg_apply, flt_cost_single]
   by_cases hS : v.1 ∈ S
-  · rw [if_pos hS]
+  · rw [ite_eq_left hS]
     rcases h with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ <;> cases hb : LL.vec v.1 <;> simp only [hS, true_and] <;>
       norm_num <;>
       exact sum_mem fun b _ => hterm _ _ _ (flt_twistMat_mem R n j _ _ _ (by norm_num) (by norm_num) _ _)
-  · rw [if_neg hS, if_neg (fun h' => hS h'.1), neg_zero]
+  · rw [ite_eq_right hS, ite_eq_right (fun h' => hS h'.1), neg_zero]
     exact hX v
 
 theorem flt_twist_monomial_mem {R : Type*} [CommRing R] {ι : Type*} {n : ℕ} (LL : Letters ι) (S : Set ι) (j : Fin n)

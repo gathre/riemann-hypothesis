@@ -592,7 +592,7 @@ open UpperTheory.Gal.Int.Div
 private theorem two_cases {R : Type} [CommRing R] (T : R → Prop) (hT : ∀ a b, T a → T b → T (a + b))
     (I J : Ideal R) (h : ∀ y, T y → y ∈ I ∨ y ∈ J) : (∀ y, T y → y ∈ I) ∨ (∀ y, T y → y ∈ J) := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨⟨a, ha, haI⟩, b, hb, hbJ⟩ := hcon
   have haJ : a ∈ J := (h a ha).resolve_left haI
   have hbI : b ∈ I := (h b hb).resolve_right hbJ
@@ -1221,7 +1221,7 @@ theorem frobOpsIdx : SphOps → ∀ (E Ω : Type) [Field E] [NumberField E] [IsC
       GlobalTheory.LFun.HasSatGL j.1.1 σ.ρ B → zz j σ = ((UpperTheory.V.Af.algSat a (normV j.1.1) B).map (· ^ j.1.2.2.2)).sum := by
     intro j σ B hB
     have h : ∃ B, GlobalTheory.LFun.HasSatGL j.1.1 σ.ρ B := ⟨B, hB⟩
-    simp only [zz, dif_pos h]
+    simp only [zz, dite_eq_left h]
     rw [show h.choose = B from h.choose_spec.unique hB]
   let T : LocOps l ι Kw J :=
     { pl := fun j => j.1.1

@@ -70,7 +70,7 @@ def Lc (y : GR d.n) (f : d.LF) : d.LF := if h : ∃ g, IsSw g ∧ R.Good w y g f
 theorem isLocOp_of_ok (h : ∀ y, R.OkY w y) : R.IsLocOp w (R.Lc w) := by
   intro y f hf
   have hx := h y f hf
-  have e : R.Lc w y f = hx.choose := by simp only [Lc, dif_pos hx]
+  have e : R.Lc w y f = hx.choose := by simp only [Lc, dite_eq_left hx]
   rw [e]
   exact ⟨hx.choose_spec.1, fun Ψ hΨ Φ hΦ hT => hx.choose_spec.2 Ψ hΨ Φ hΦ hT⟩
 

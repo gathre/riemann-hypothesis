@@ -298,7 +298,7 @@ theorem qf_smul {n : ℕ} (c : ℂ) (A : Matrix (Fin n) (Fin n) ℂ) (w : V n) :
 
 theorem qf_one {n : ℕ} (w : V n) : qf (1 : Matrix (Fin n) (Fin n) ℂ) w = ((‖w‖ ^ 2 : ℝ) : ℂ) := by
   rw [EuclideanSpace.norm_sq_eq]
-  simp only [qf, Matrix.one_apply, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+  simp only [qf, Matrix.one_apply, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
   push_cast
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [Complex.mul_conj, Complex.normSq_eq_norm_sq]; push_cast; ring

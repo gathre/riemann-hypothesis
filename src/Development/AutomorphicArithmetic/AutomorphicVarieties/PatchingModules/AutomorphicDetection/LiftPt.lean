@@ -932,7 +932,7 @@ theorem UpperTheory.V.Pa.Core.ooPt :
     rw [q2El]
     congr 5
     funext k
-    by_cases hk : k = i <;> simp only [Function.comp_apply, map_sub, hp, map_one, hph, hk, if_true, if_false]
+    by_cases hk : k = i <;> simp only [Function.comp_apply, map_sub, hp, map_one, hph, hk, ite_true, ite_false]
   · refine genBy_img (Ideal.Quotient.mkₐ O (ii W)) Ideal.Quotient.mk_surjective
       (rrGen l L G0 T Λ n O r B u J D A W) ?_
     rintro a (((⟨i, g, rfl⟩ | ⟨v, i, g, rfl⟩) | ⟨j, i, h⟩) | rfl)
@@ -1383,8 +1383,8 @@ private theorem mapDomain_partial_charpoly_power_zero {n : ℕ} {R G H : Type} [
   congr 4
   funext k
   by_cases hk : k = i
-  · simp only [Function.comp_apply, if_pos hk, map_one]
-  · simp only [Function.comp_apply, if_neg hk, map_sub, hs, map_one]
+  · simp only [Function.comp_apply, ite_eq_left hk, map_one]
+  · simp only [Function.comp_apply, ite_eq_right hk, map_sub, hs, map_one]
 
 private theorem mapRingHom_single_mul_partial_charpoly_element {n : ℕ} {R S G : Type} [CommRing R] [CommRing S] [Group G] (f : R →+* S) (h ph ta : G)
     (u : Fin n → R) (i : Fin n) (y : R) :
@@ -1396,8 +1396,8 @@ private theorem mapRingHom_single_mul_partial_charpoly_element {n : ℕ} {R S G 
   congr 4
   funext k
   by_cases hk : k = i
-  · simp only [Function.comp_apply, if_pos hk, map_one]
-  · simp only [Function.comp_apply, if_neg hk, map_sub, hs, map_one]
+  · simp only [Function.comp_apply, ite_eq_left hk, map_one]
+  · simp only [Function.comp_apply, ite_eq_right hk, map_sub, hs, map_one]
 
 private theorem comap_tr {n : ℕ} {R G H : Type} [CommRing R] [Group G] [Group H] (D : GDet n R H) (φ : G →* H)
     (z : MonoidAlgebra R G) : (D.comap φ).tr z = D.tr (MonoidAlgebra.mapDomainRingHom R φ z) := by
@@ -1744,7 +1744,7 @@ private theorem tr_zero {n : ℕ} {A G : Type} [CommRing A] [Group G] (D : GDet 
     simp only [GDet.chi, map_zero, sub_zero]
     rw [h1, D.homog, map_one, mul_one]
   simp only [GDet.tr, GDet.lam, hchi, Polynomial.coeff_X_pow]
-  rw [if_neg (by omega)]
+  rw [ite_eq_right (by omega)]
   simp
 
 theorem UpperTheory.V.Pa.Core.patched_trace_single_mul_sub_one_approx_annihilated :

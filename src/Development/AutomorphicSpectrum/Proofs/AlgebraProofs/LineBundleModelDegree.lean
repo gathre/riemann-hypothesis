@@ -268,7 +268,7 @@ theorem line_ne_zero (x : (Σ k, ι k) → Ω) (A : ChartBundle O (mseg x) 1 Ω)
   rintro rfl
   have hnz : ∃ l, e l ≠ 0 := by
     by_contra hn
-    push_neg at hn
+    push Not at hn
     simp [hn] at hsum
   obtain ⟨l, hl0⟩ := hnz
   obtain ⟨b, hb, -, hiff⟩ := hl l

@@ -585,7 +585,7 @@ lemma rr_prod_ite {l : ℕ} (w x : Fin l → Fin n × Fin n) :
   split_ifs with h
   · subst h; simp
   · obtain ⟨i, hi⟩ := Function.ne_iff.mp h
-    exact Finset.prod_eq_zero (Finset.mem_univ i) (if_neg hi)
+    exact Finset.prod_eq_zero (Finset.mem_univ i) (ite_eq_right hi)
 
 lemma rr_op_mul {ε : Fin n → Bool} {Λ : Fin n → ℝ} (T : KType ε Λ) (k k' : KG ε) (v : T.V) :
     T.op (k * k') v = T.op k (T.op k' v) := by
@@ -689,7 +689,7 @@ theorem cpart1_Eaa (ε : Fin n → Bool) (a : Fin n) : cpart1 ε (bdPart ε (sin
   ext i j
   rw [cpart1_bdPart_apply]
   by_cases h : ε i = ε j
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     simp only [single_apply]
     split_ifs <;> aesop
   · simp [h]

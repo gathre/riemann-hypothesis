@@ -440,7 +440,7 @@ def charInt {K : Type} [Field K] [NumberField K] {P : Type} [Group P] (inc : P �
 
 theorem charInt_coe {K : Type} [Field K] [NumberField K] {P : Type} [Group P] (inc : P →* G) (U : Subgroup G) (ψ : U →* Kˣ)
     (g : P) (hg : inc g ∈ U) : ((charInt inc U ψ g : 𝓞 K) : K) = (ψ ⟨inc g, hg⟩ : Kˣ) :=
-  congrArg (fun a : 𝓞 K => (a : K)) (dif_pos hg)
+  congrArg (fun a : 𝓞 K => (a : K)) (dite_eq_left hg)
 
 theorem exists_onTie (h : LawsP T.toTop) (fw : FWTie T.J R κ v₀) (hinj : Function.Injective D.what₂.OtoLL) (EX : ErrX D)
     {Bs : DefBase D.what₂.LL} {Df : DefSide Bs} {S : IndefData Df} {P : Type} [Group P] [Finite P] {oc : OnConst}
@@ -489,7 +489,7 @@ theorem exists_onTie (h : LawsP T.toTop) (fw : FWTie T.J R κ v₀) (hinj : Func
       θ'_eq := fun hr x => ?_, eX_eq := rfl, pr_eq := ?_ }⟩
   · exact charInt_coe inc U ψ g hg
   · change adForm R (ι i) (toForms h fw (ι i) (z i) (θ v i x)) = _
-    simp only [θ, dif_pos hr]
+    simp only [θ, dite_eq_left hr]
     exact (congrArg (adForm R (ι i)) (hw i _)).trans (hr.choose_spec x)
   · change orthProj _ (perpOf _ (LinearMap.ker (θ v i))) = orthProj _ (perpOf _ ((LinearMap.ker (θ v i)).map LinearMap.id))
     rw [Submodule.map_id]

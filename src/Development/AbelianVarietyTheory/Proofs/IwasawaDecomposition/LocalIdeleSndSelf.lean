@@ -128,7 +128,7 @@ def cut (a : FiniteAdeleRing (𝓞 F) F) (T : Finset (HeightOneSpectrum (𝓞 F)
     by_contra h
     apply hw
     have h' : w ∉ T := h
-    simp only [h', if_false]
+    simp only [h', ite_false]
     exact one_mem _⟩
 
 theorem tendsto_cut (a : FiniteAdeleRing (𝓞 F) F) : Filter.Tendsto (cut a) Filter.atTop (nhds a) := by
@@ -154,7 +154,7 @@ theorem prod_local (k : Fˣ) (T : Finset (HeightOneSpectrum (𝓞 F))) :
         if v ∈ insert u T then _ else 1
       by_cases h : v = u
       · subst h
-        rw [localIdele_snd_self, if_neg hu, if_pos (Finset.mem_insert_self _ _), mul_one]; rfl
+        rw [localIdele_snd_self, ite_eq_right hu, ite_eq_left (Finset.mem_insert_self _ _), mul_one]; rfl
       · rw [localIdele_snd_ne F u v h, one_mul]; simp [h]
 
 theorem tendsto_prod_local (k : Fˣ) :

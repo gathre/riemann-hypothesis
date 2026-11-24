@@ -348,24 +348,24 @@ private theorem comb {G ι : Type} [Group G] [Fintype ι] (R : G → ι → ι �
     have hsub : T b ⊆ T x := by
       rintro ⟨t, i, j⟩ hs
       cases t
-      · simp only [T, Finset.mem_filter, Finset.mem_univ, true_and, Bool.false_eq_true, if_false] at hs ⊢
+      · simp only [T, Finset.mem_filter, Finset.mem_univ, true_and, Bool.false_eq_true, ite_false] at hs ⊢
         exact hx2 i i j (hcP.2 i) hs
-      · simp only [T, Finset.mem_filter, Finset.mem_univ, true_and, if_true] at hs ⊢
+      · simp only [T, Finset.mem_filter, Finset.mem_univ, true_and, ite_true] at hs ⊢
         exact hx1 i j j hs (hcP.1 j)
     have heq : T b = T x := Finset.eq_of_subset_of_card_le hsub (hmax x hPx)
     constructor
     · intro i j hij
       have : ((true, i, j) : Bool × ι × ι) ∈ T x := by
-        simp only [T, Finset.mem_filter, Finset.mem_univ, true_and, if_true]
+        simp only [T, Finset.mem_filter, Finset.mem_univ, true_and, ite_true]
         exact hx1 i i j (hb.1 i) hij
       rw [← heq] at this
-      simpa only [T, Finset.mem_filter, Finset.mem_univ, true_and, if_true] using this
+      simpa only [T, Finset.mem_filter, Finset.mem_univ, true_and, ite_true] using this
     · intro i j hij
       have : ((false, i, j) : Bool × ι × ι) ∈ T x := by
-        simp only [T, Finset.mem_filter, Finset.mem_univ, true_and, Bool.false_eq_true, if_false]
+        simp only [T, Finset.mem_filter, Finset.mem_univ, true_and, Bool.false_eq_true, ite_false]
         exact hx2 i j j hij (hb.2 j)
       rw [← heq] at this
-      simpa only [T, Finset.mem_filter, Finset.mem_univ, true_and, Bool.false_eq_true, if_false] using this
+      simpa only [T, Finset.mem_filter, Finset.mem_univ, true_and, Bool.false_eq_true, ite_false] using this
   refine ⟨b, hb.1, ?_, ?_⟩
   · have := (key b⁻¹ ⟨hb.2, by rw [inv_inv]; exact hb.1⟩).2
     rwa [inv_inv] at this

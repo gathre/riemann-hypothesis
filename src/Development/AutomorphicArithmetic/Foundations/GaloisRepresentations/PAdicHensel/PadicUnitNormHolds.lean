@@ -490,10 +490,10 @@ theorem UpperTheory.Gal.G1.pDefSign :
       have hme : InfinitePlace.mk v.embedding = v := InfinitePlace.mk_embedding v
       by_cases hv : v = InfinitePlace.mk A.τ₀
       · have h1 := ((S.sig v.embedding).1 (by rw [hme]; exact hv)).1
-        rw [hεdef, if_pos hv, one_mul]
+        rw [hεdef, ite_eq_left hv, one_mul]
         exact hp.1 h1
       · have h0 := ((S.sig v.embedding).2 (by rw [hme]; exact hv)).1
-        rw [hεdef, if_neg hv, neg_one_mul, neg_pos]
+        rw [hεdef, ite_eq_right hv, neg_one_mul, neg_pos]
         exact hp.2 (by rw [h0]; exact zero_ne_one)
     have h1 : (((A.H n).map v.embedding)ᵀ * (mat S ↑(B.β⁻¹)).map v.embedding) *
         (mat S ↑B.β * (A.H n)⁻¹).map v.embedding = 1 := by
@@ -1253,7 +1253,7 @@ private lemma pow_neg_three_lt_two_norm_sq (q : ℕ) [hq : Fact q.Prime] :
   · have h1 : ‖(2 : ℤ_[q])‖ = 1 := by
       apply le_antisymm (PadicInt.norm_le_one _)
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       have hd := (PadicInt.norm_int_lt_one_iff_dvd (p := q) 2).1 (by exact_mod_cast hlt)
       have hd' : q ∣ 2 := by exact_mod_cast hd
       exact h ((Nat.prime_dvd_prime_iff_eq hq.out Nat.prime_two).1 hd')
@@ -1278,7 +1278,7 @@ theorem UpperTheory.Gal.G1.pPadicSqFin :
   refine ⟨Fintype.card (ZMod (q ^ 3)), fun u => Fintype.equivFin (ZMod (q ^ 3))
     (if h : ‖u‖ ≤ 1 then PadicInt.toZModPow 3 ⟨u, h⟩ else 0), ?_⟩
   intro u u' hu hu' hk
-  simp only [dif_pos hu.le, dif_pos hu'.le, (Fintype.equivFin _).injective.eq_iff] at hk
+  simp only [dite_eq_left hu.le, dite_eq_left hu'.le, (Fintype.equivFin _).injective.eq_iff] at hk
   obtain ⟨a, ha⟩ : ∃ a : ℤ_[q], (a : ℚ_[q]) = u ∧ PadicInt.toZModPow 3 a =
       PadicInt.toZModPow 3 ⟨u, hu.le⟩ := ⟨⟨u, hu.le⟩, rfl, rfl⟩
   obtain ⟨b, hb⟩ : ∃ b : ℤ_[q], (b : ℚ_[q]) = u' ∧ PadicInt.toZModPow 3 b =
@@ -1397,7 +1397,7 @@ theorem UpperTheory.Gal.G1.pPadicUnitNorm :
     exact hab'
   have hor : a ≠ 0 ∨ b ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨ha0, hb0⟩ := hcon
     apply hub
     rw [ha0, hb0] at hab'

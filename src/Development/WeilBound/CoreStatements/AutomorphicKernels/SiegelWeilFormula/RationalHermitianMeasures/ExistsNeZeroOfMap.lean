@@ -89,7 +89,7 @@ theorem ne_zero_of_sig {m r s : ℕ} (hm : 1 ≤ m) (M : Matrix (Fin m) (Fin m) 
 theorem exists_ne_zero_of_map {m : ℕ} (J : Matrix (Fin m) (Fin m) E) (f : E →+* ℂ) (c : ℂ) (h : c • J.map f ≠ 0) :
     ∃ i j, J i j ≠ 0 := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   apply h
   ext i j
   simp [hc i j]

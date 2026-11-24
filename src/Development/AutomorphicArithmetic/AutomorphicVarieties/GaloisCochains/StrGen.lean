@@ -275,7 +275,7 @@ theorem UpperTheory.V.GC.strGen :
       rw [hρ]
       by_cases h : ∀ s, κ (loc v s) = 1
       · rw [h s, Units.val_one, one_mul, sub_self, sub_zero]
-      · rw [show e0 y v = 0 from dif_neg h, mul_zero, sub_zero, sub_zero]
+      · rw [show e0 y v = 0 from dite_eq_right h, mul_zero, sub_zero, sub_zero]
   let ι : ({v // ∀ s, κ (loc v s) = 1} → k) →ₗ[k] Zs :=
     { toFun := fun y => ⟨((0 : Γ → k), e0 y), e0mem y⟩
       map_add' := fun y y' => Subtype.ext (Prod.ext (by simp) (e0add y y'))
@@ -310,10 +310,10 @@ theorem UpperTheory.V.GC.strGen :
       rw [Submodule.mem_bot]
       show e0 (fun v => z.1.2 v.1 - X) v - z.1.2 v - -X = 0
       by_cases h : ∀ s, κ (loc v s) = 1
-      · rw [show e0 (fun v => z.1.2 v.1 - X) v = z.1.2 v - X from dif_pos h]
+      · rw [show e0 (fun v => z.1.2 v.1 - X) v = z.1.2 v - X from dite_eq_left h]
         ring
-      · rw [show e0 (fun v => z.1.2 v.1 - X) v = 0 from dif_neg h]
-        push_neg at h
+      · rw [show e0 (fun v => z.1.2 v.1 - X) v = 0 from dite_eq_right h]
+        push Not at h
         obtain ⟨s, hs⟩ := h
         have e := hcl z v s
         rw [hX] at e

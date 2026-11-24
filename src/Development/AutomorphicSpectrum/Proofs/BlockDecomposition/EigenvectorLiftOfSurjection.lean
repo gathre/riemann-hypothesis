@@ -57,7 +57,7 @@ theorem exists_eigenvector_of_surjective_intertwiner
     (c : ℂ) (w' : W') (hw' : w' ≠ 0) (hS : S w' = c • w') :
     ∃ w : W, w ≠ 0 ∧ T w = c • w := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   haveI : FiniteDimensional ℂ W' := Module.Finite.of_surjective (R := ℂ) f hf
   set A : W →ₗ[ℂ] W := T - c • LinearMap.id with hA
   set B : W' →ₗ[ℂ] W' := S - c • LinearMap.id with hB

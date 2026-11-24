@@ -68,7 +68,7 @@ theorem fin_of_weil (μ μS ν : Measure G) [IsFiniteMeasureOnCompacts μ] (hμ 
     simpa using this
   obtain ⟨C, hC, hνC⟩ : ∃ C : Set G, IsCompact C ∧ ν C ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hν
     have : ν Set.univ = 0 := by
       rw [← iUnion_compactCovering G]

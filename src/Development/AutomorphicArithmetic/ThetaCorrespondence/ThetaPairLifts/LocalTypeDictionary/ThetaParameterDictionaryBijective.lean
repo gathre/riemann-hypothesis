@@ -266,7 +266,7 @@ theorem sub_comp {ι κ : Type} [Fintype κ] [DecidableEq κ] (c c' : ι → κ 
 
   simp only [sub, AlgHom.comp_apply, MvPolynomial.aeval_X, map_sum, map_smul, Finset.smul_sum, smul_smul, AlgHom.id_apply]
   rw [Finset.sum_comm]
-  simp only [← Finset.sum_smul, h, ite_smul, one_smul, zero_smul, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [← Finset.sum_smul, h, ite_smul, one_smul, zero_smul, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 
 open GlobalTheory.FockSubst GlobalTheory.FockCompare GlobalTheory.OrientedHeis in

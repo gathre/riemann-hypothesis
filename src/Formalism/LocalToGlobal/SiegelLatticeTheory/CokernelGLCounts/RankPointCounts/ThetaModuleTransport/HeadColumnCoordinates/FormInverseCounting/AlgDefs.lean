@@ -245,7 +245,7 @@ private theorem h_MMfam_mem_O_of_goodL_integral {t : Term V M r} (hg : GoodL H t
   · by_cases h : a ≠ Fin.last r ∨ b ≠ Fin.last r
     · rw [hg.2.1.1 a b h]
       exact zero_mem _
-    · push_neg at h
+    · push Not at h
       obtain ⟨rfl, rfl⟩ := h
       rw [hg.2.1.2]
       exact neg_mem (alg _ hT)
@@ -255,7 +255,7 @@ private theorem h_MMfam_mem_O_of_goodL_integral {t : Term V M r} (hg : GoodL H t
   · by_cases h : a ≠ Fin.last r ∨ b ≠ Fin.last r
     · rw [hg.2.2.1.1 a b h]
       exact zero_mem _
-    · push_neg at h
+    · push Not at h
       obtain ⟨rfl, rfl⟩ := h
       rw [hg.2.2.1.2]
       exact neg_mem (alg _ hT')

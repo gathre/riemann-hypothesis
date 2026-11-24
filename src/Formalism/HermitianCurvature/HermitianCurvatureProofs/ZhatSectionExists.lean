@@ -72,28 +72,28 @@ private lemma mul_mem_Nset' {k r : ℕ} {A B : Matrix (Fin (2 * r + k + 1)) (Fin
         simp only [Matrix.mul_assoc], hAu', hBu']
   · intro a i hai
     rw [Matrix.mul_apply, Finset.sum_eq_single (eI k r a)]
-    · rw [hBc a (eI k r a) (le_refl a.val), if_pos rfl, mul_one]
+    · rw [hBc a (eI k r a) (le_refl a.val), ite_eq_left rfl, mul_one]
       exact hAc a i hai
     · intro j _ hj
       by_cases hja : a.val ≤ j.val
-      · rw [hBc a j hja, if_neg hj, mul_zero]
+      · rw [hBc a j hja, ite_eq_right hj, mul_zero]
       · rw [not_le] at hja
         have hjr : j.val < r := lt_trans hja a.isLt
         have h1 := hAc ⟨j.val, hjr⟩ i (show j.val ≤ i.val by omega)
         rw [show eI k r ⟨j.val, hjr⟩ = j from Fin.ext rfl] at h1
-        rw [h1, if_neg (by rintro rfl; omega), zero_mul]
+        rw [h1, ite_eq_right (by rintro rfl; omega), zero_mul]
     · intro h; exact absurd (Finset.mem_univ _) h
   · intro i j hj1 hj2 hi
     rw [Matrix.mul_apply, Finset.sum_eq_single j]
-    · rw [hBw j j hj1 hj2 hj1, if_pos rfl, mul_one]
+    · rw [hBw j j hj1 hj2 hj1, ite_eq_left rfl, mul_one]
       exact hAw i j hj1 hj2 hi
     · intro l _ hl
       by_cases hlr : r ≤ l.val
-      · rw [hBw l j hj1 hj2 hlr, if_neg hl, mul_zero]
+      · rw [hBw l j hj1 hj2 hlr, ite_eq_right hl, mul_zero]
       · rw [not_le] at hlr
         have h1 := hAc ⟨l.val, hlr⟩ i (show l.val ≤ i.val by omega)
         rw [show eI k r ⟨l.val, hlr⟩ = l from Fin.ext rfl] at h1
-        rw [h1, if_neg (by rintro rfl; omega), zero_mul]
+        rw [h1, ite_eq_right (by rintro rfl; omega), zero_mul]
     · intro h; exact absurd (Finset.mem_univ _) h
 
 private lemma dite_lt_eq_sum_smul_bvec {k r : ℕ} (g : Fin r → ℂ) :
@@ -104,9 +104,9 @@ private lemma dite_lt_eq_sum_smul_bvec {k r : ℕ} (g : Fin r → ℂ) :
   simp only [Pi.smul_apply, bvec, smul_eq_mul, Pi.single_apply]
   split_ifs with hp
   · rw [Finset.sum_eq_single ⟨p.val, hp⟩]
-    · rw [if_pos (show p = eI k r ⟨p.val, hp⟩ from Fin.ext rfl), mul_one]
+    · rw [ite_eq_left (show p = eI k r ⟨p.val, hp⟩ from Fin.ext rfl), mul_one]
     · intro c _ hc
-      rw [if_neg, mul_zero]
+      rw [ite_eq_right, mul_zero]
       intro h
       apply hc
       apply Fin.ext
@@ -117,7 +117,7 @@ private lemma dite_lt_eq_sum_smul_bvec {k r : ℕ} (g : Fin r → ℂ) :
   · symm
     apply Finset.sum_eq_zero
     intro c _
-    rw [if_neg, mul_zero]
+    rw [ite_eq_right, mul_zero]
     intro h
     apply hp
     rw [h]
@@ -149,14 +149,14 @@ theorem c2_tau_mem : C2.TauMem := by
         simp only [Matrix.mulVec, dotProduct]
         rw [Finset.sum_eq_single p]
         · by_cases hp : r ≤ p.val ∧ p.val ≤ r + k
-          · rw [unipotent_apply_middle_column vX p p hp.1 hp.2, if_pos rfl, one_mul]
+          · rw [unipotent_apply_middle_column vX p p hp.1 hp.2, ite_eq_left rfl, one_mul]
           · have : z p = 0 := by
               apply hz.1
               omega
             rw [this, mul_zero]
         · intro j _ hj
           by_cases hjW : r ≤ j.val ∧ j.val ≤ r + k
-          · rw [unipotent_apply_middle_column vX p j hjW.1 hjW.2, if_neg (Ne.symm hj), zero_mul]
+          · rw [unipotent_apply_middle_column vX p j hjW.1 hjW.2, ite_eq_right (Ne.symm hj), zero_mul]
           · have : z j = 0 := by
               apply hz.1
               omega

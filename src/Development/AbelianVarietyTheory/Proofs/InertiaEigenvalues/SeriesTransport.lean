@@ -86,7 +86,7 @@ theorem cz_X_pow_mul (w : ℕ) (f : PowerSeries L) (k : ℤ) :
     rcases lt_or_ge (k + (w : ℤ)) 0 with h' | h'
     · exact cz_neg _ h'
     · obtain ⟨m, hm⟩ := Int.eq_ofNat_of_zero_le h'
-      rw [hm, cz_nat, PowerSeries.coeff_X_pow_mul', if_neg (by omega)]
+      rw [hm, cz_nat, PowerSeries.coeff_X_pow_mul', ite_eq_right (by omega)]
   · obtain ⟨m, rfl⟩ := Int.eq_ofNat_of_zero_le h
     rw [← Nat.cast_add, cz_nat, cz_nat, PowerSeries.coeff_X_pow_mul]
 

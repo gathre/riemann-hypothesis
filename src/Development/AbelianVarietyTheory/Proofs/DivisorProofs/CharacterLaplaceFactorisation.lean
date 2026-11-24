@@ -176,7 +176,7 @@ theorem wden_addCases (a b : ℕ) (α : Fin a → ℂ) (β : Fin b → ℂ) :
     show ¬ (a + (i : ℕ) < (j : ℕ)); omega
   have h4 : ∀ i j : Fin b, (Fin.natAdd a i < Fin.natAdd a j) ↔ i < j := fun i j => by
     show a + (i : ℕ) < a + (j : ℕ) ↔ (i : ℕ) < j; omega
-  simp only [h1, h2, h3, h4, if_true, if_false, Finset.prod_const_one, mul_one]
+  simp only [h1, h2, h3, h4, ite_true, ite_false, Finset.prod_const_one, mul_one]
   ring
 
 theorem le_sub_of_strictMono {a n : ℕ} (p : Fin a → Fin n) (hp : StrictMono p) :

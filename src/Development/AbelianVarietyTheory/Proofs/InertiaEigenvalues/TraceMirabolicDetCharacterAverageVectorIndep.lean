@@ -80,7 +80,7 @@ theorem mirSet_true_conj {r : ℕ} (a : Fin r → ZMod g) (y z : Gn g r) :
     mirSet a true (y * z * y⁻¹) ↔ mirSet ((↑y⁻¹ : Mt g r) *ᵥ a) true z := by
   have hAB : (y : Mt g r) * (↑y⁻¹ : Mt g r) = 1 := y.mul_inv
   have hBA : (↑y⁻¹ : Mt g r) * (y : Mt g r) = 1 := y.inv_mul
-  simp only [mirSet, if_true, Units.val_mul]
+  simp only [mirSet, ite_true, Units.val_mul]
   constructor
   · intro h x
     obtain ⟨c, hc⟩ := h ((y : Mt g r) *ᵥ x)
@@ -100,7 +100,7 @@ theorem mirSet_false_conj {r : ℕ} (a : Fin r → ZMod g) (y z : Gn g r) :
     mirSet a false (y * z * y⁻¹) ↔ mirSet (a ᵥ* (y : Mt g r)) false z := by
   have hAB : (y : Mt g r) * (↑y⁻¹ : Mt g r) = 1 := y.mul_inv
   have hBA : (↑y⁻¹ : Mt g r) * (y : Mt g r) = 1 := y.inv_mul
-  simp only [mirSet, Bool.false_eq_true, if_false, Units.val_mul]
+  simp only [mirSet, Bool.false_eq_true, ite_false, Units.val_mul]
   constructor
   · intro h x hx
     rw [← dotProduct_mulVec] at hx
@@ -152,7 +152,7 @@ theorem GlobalTheory.MirAvg.tr_mirEl_indep : ∀ (g : ℕ) [Fact g.Prime] (n : �
   | true =>
     obtain ⟨y, hy⟩ := exists_gl_mulVec_single_eq (0 : Fin (n + 1)) ha
     refine tr_mirEl_conj ψ hψ θ a _ true y fun z => ?_
-    rw [mirSet_true_conj, if_pos rfl, ← hy, mulVec_mulVec, y.inv_mul, one_mulVec]
+    rw [mirSet_true_conj, ite_eq_left rfl, ← hy, mulVec_mulVec, y.inv_mul, one_mulVec]
   | false =>
     obtain ⟨P, hP⟩ := exists_gl_mulVec_single_eq (Fin.last n) ha
     let y : Gn g (n + 1) := ⟨(↑P⁻¹ : Mt g (n + 1))ᵀ, (P : Mt g (n + 1))ᵀ,

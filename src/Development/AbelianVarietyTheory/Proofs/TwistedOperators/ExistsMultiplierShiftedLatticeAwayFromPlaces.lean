@@ -71,7 +71,7 @@ theorem shift_mult : ∀ (D : D7) (r : ℕ) (Pg Q : Finset (Formalism.L2.DIV.Pl 
       algebraMap (𝓞 D.host.F) (𝓞 D.host.E) s ∈ PP.asIdeal ∧ s ∉ w.asIdeal := by
     intro PP hPP
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hne PP hPP
     have hle : (HeightOneSpectrum.under (𝓞 D.host.F) PP).asIdeal ≤ w.asIdeal := by
       intro s hs

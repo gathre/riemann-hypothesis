@@ -72,7 +72,7 @@ theorem continuous_twist (τ : E →+* ℂ) : Continuous (twist τ) := by
   · exact Complex.continuous_conj
 
 theorem twist_embedding (w : InfinitePlace E) : twist w.embedding = RingHom.id ℂ := by
-  unfold twist; rw [if_pos (by rw [InfinitePlace.mk_embedding])]
+  unfold twist; rw [ite_eq_left (by rw [InfinitePlace.mk_embedding])]
 
 theorem coord_eq (τ : E →+* ℂ) (z : Cinf E) : coord τ z = twist τ (z (InfinitePlace.mk τ)) := by
   unfold coord twist; split_ifs <;> rfl
@@ -175,7 +175,7 @@ theorem mem_embU (τ : E →+* ℂ) (u : Matrix.unitaryGroup (Fin n) ℂ) :
   refine ⟨pFin_infGL _, ?_⟩
   refine Subgroup.mem_iInf.2 fun τ' => Subgroup.mem_iInf.2 fun h => MonoidHom.mem_ker.2 ?_
   refine Units.ext (Matrix.ext fun i j => ?_)
-  rw [cEmb_infGL, coord_eq, yG_apply, if_neg h, twist_one_apply]
+  rw [cEmb_infGL, coord_eq, yG_apply, ite_eq_right h, twist_one_apply]
   rfl
 
 def inv (τ : E →+* ℂ) (u : Matrix.unitaryGroup (Fin n) ℂ) : embU n τ :=
@@ -186,7 +186,7 @@ def fwd (τ : E →+* ℂ) (x : embU n τ) : Matrix.unitaryGroup (Fin n) ℂ := 
 theorem fwd_inv (τ : E →+* ℂ) (u : Matrix.unitaryGroup (Fin n) ℂ) : fwd τ (inv τ u) = u := by
   refine Subtype.ext (Matrix.ext fun i j => ?_)
   change (cEmb τ ⟨_, infGL_yG_mem_UA τ u⟩).val i j = _
-  rw [cEmb_infGL, coord_eq, yG_apply, if_pos rfl, twist_twist]
+  rw [cEmb_infGL, coord_eq, yG_apply, ite_eq_left rfl, twist_twist]
   rfl
 
 theorem inv_fwd (τ : E →+* ℂ) (x : embU n τ) : inv τ (fwd τ x) = x := by

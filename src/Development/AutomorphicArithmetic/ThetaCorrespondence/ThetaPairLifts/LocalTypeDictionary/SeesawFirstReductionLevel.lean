@@ -763,7 +763,7 @@ theorem exists_isotropic_of_negIdx : ∀ (D : D7) (S : HSp D) (k : ℕ), NegIdx 
     by_cases hj : j = i
     · subst hj; simp [hi]
     · simp [hj]
-  push_neg at hz
+  push Not at hz
 
   have hs : ∀ φ : D.host.E →+* ℂ, (∃ i, 0 < (φ (d i)).re) ∧ ∃ j, (φ (d j)).re < 0 := by
     intro φ
@@ -1411,8 +1411,8 @@ theorem IsSum.exists_bases (hCM : IsCMExt F E σ) (B : Base F E) {n₁ : ℕ} {Y
     (parts_eq_zero hxx hyy hxy hyx' horth hinj) (hprim v).1 (hprim v).2 (eL ▸ hb v)
   refine ⟨x, y, 𝔟, fun v => if h : v ∈ B.P then βY ⟨v, h⟩ else 1, ⟨hxx, hyy, hxy, horth, hg, hlow, hsplit, hinj⟩, h𝔟,
     fun v => ?_, fun v i => ?_⟩
-  · simp only [dif_pos v.2]; exact (hβY v).1
-  · simp only [dif_pos v.2]; exact (hβY v).2 i
+  · simp only [dite_eq_left v.2]; exact (hβY v).1
+  · simp only [dite_eq_left v.2]; exact (hβY v).2 i
 
 theorem IsSum.adapt_herm (hCM : IsCMExt F E σ) {B : Base F E} {n n₁ : ℕ} (hn : n = n₁ + 2) {Y : Spc F E n} {Y₁ : Spc F E n₁}
     {x₀ y₀ : Fin n → E} {ι : Matrix (Fin n) (Fin n₁) E} (h : IsSum σ Y Y₁ x₀ y₀ ι) {r s r₁ s₁ : ℕ} (hY : Y.IsHerm σ B r s)

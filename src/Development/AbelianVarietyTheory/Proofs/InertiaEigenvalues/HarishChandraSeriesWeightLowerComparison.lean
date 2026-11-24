@@ -143,9 +143,9 @@ theorem wh_der_zero (g : ℕ) [Fact g.Prime] (ψ : AddChar (ZMod g) ℂ) (N : �
         refine ⟨fun i j hj _ => absurd hj (Nat.not_lt_zero _), Subsingleton.elim _ _, ?_⟩
         funext i j
         simp [br, entN]
-      rw [if_pos this]
+      rw [ite_eq_left this]
     · intro x _ hx
-      rw [if_neg]
+      rw [ite_eq_right]
       rintro ⟨_, _, hb⟩
       apply hx
       apply Units.ext

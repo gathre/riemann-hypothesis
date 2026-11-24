@@ -910,7 +910,7 @@ theorem resArch_eq_finsum_cycInt : GlobalTheory.Published.Principalisation → �
   have hc (σ : k →+* ℂ) := (_root_.GlobalTheory.Mix.cycInt_of_closedImmersion k X (clo z) p (cloι z ≫ p) σ hX.isProjOver (cloι z) rfl e
     (fun i => MLine.ofHerm (L i) σ) ((MLine.ofHerm N σ).logSec t)).2
   simp only [cloι_genericPoint] at hc
-  refine (dif_pos hgen).trans ?_
+  refine (dite_eq_left hgen).trans ?_
   rcases isArithVar_or_isEmpty hamb' hd with hv | hE
   · refine (_root_.GlobalTheory.MixPolar.mixArch_eq_sum hP k (clo z) (cloι z ≫ p) e hv (fun a => (L a).restr (cloι z)) (N.restr (cloι z))
       (Cartier.secPull t (cloι z)) hgen).trans (finsum_congr fun σ => ?_)

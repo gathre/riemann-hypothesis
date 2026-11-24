@@ -375,7 +375,7 @@ private theorem tr_fib [FiniteDimensional ℂ W] (i₀ : Fin (m + 1)) (S : Modul
     funext j
     by_cases h : j = i₀
     · subst h; simp
-    · simp only [Pi.mul_apply, h, if_false]
+    · simp only [Pi.mul_apply, h, ite_false]
       rw [uu_same, uu_same]
   have h3 : Commute S X := by
     have : X ∈ Submonoid.centralizer ({S} : Set (Module.End ℂ W)) := by

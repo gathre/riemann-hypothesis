@@ -211,11 +211,11 @@ theorem shape_mul {T : Type*} [CommRing T] {d : ℕ} (I : Finset (Fin d)) (P P' 
   ext i j
   rw [Matrix.mul_apply, Finset.sum_eq_single j]
   · by_cases hj : j ∈ I
-    · rw [hP' j hj j, if_pos rfl, mul_one]
+    · rw [hP' j hj j, ite_eq_left rfl, mul_one]
     · rw [hP i j hj, zero_mul]
   · intro k _ hk
     by_cases hkI : k ∈ I
-    · rw [hP' k hkI j, if_neg hk, mul_zero]
+    · rw [hP' k hkI j, ite_eq_right hk, mul_zero]
     · rw [hP i k hkI, zero_mul]
   · intro h
     exact absurd (Finset.mem_univ j) h

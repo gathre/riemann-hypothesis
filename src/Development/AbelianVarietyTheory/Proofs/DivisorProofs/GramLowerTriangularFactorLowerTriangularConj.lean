@@ -180,7 +180,7 @@ theorem det_frameRow (g : Matrix (Fin s) (Fin s) ℂ) (hg : ∀ i j, i < j → g
       · have : a.1 ≠ j := fun e => h ((eq_ldTop_iff a).2 e)
         simp [Matrix.updateRow_ne h, this]
     rw [Fintype.prod_congr _ _ e, prod_lt_succ j (fun b : Fin s => if b = j then 1 else g b b)]
-    simp only [if_true, mul_one]
+    simp only [ite_true, mul_one]
     refine Fintype.prod_congr (fun a : {a : Fin s // (a : ℕ) < j} => if (a : Fin s) = j then (1 : ℂ) else g a a)
       (fun a => g a a) fun a => ?_
     have : a.1 ≠ j := fun e => by have := a.2; rw [e] at this; omega

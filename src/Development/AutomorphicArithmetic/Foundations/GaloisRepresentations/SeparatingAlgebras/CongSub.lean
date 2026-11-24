@@ -248,7 +248,7 @@ theorem UpperTheory.Gal.Gen.congSub_pf :
   refine ⟨J, ⟨hopen, hcomp, hanti, fun n g hg x hx => Jc_normal hg hx, ?_⟩, fun n x hx => ?_⟩
   · intro N hN
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hclosed : ∀ n, IsClosed ((J n : Set (GL (Fin a) F)) \ interior N) := fun n =>
       (Subgroup.isClosed_of_isOpen _ (hopen n)).sdiff isOpen_interior
     obtain ⟨g, hg⟩ := IsCompact.nonempty_iInter_of_sequence_nonempty_isCompact_isClosed

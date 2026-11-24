@@ -193,7 +193,7 @@ theorem chain {t : ℝ} (ht : 0 < t) (ha : 0 < a) (r : Fin a → ℝ) (hr : ∀ 
     exact this.trans (mul_le_mul_of_nonneg_right (pow_le_pow_right₀ hT1 (by omega)) (hr _).le)
   refine ⟨h1, h2, ?_, ?_⟩
   · by_contra hc
-    push_neg at hc
+    push Not at hc
     have hlt : ∏ i, r i < 1 := by
       calc ∏ i, r i ≤ ∏ _i : Fin a, T ^ a * r ⟨0, ha⟩ :=
             Finset.prod_le_prod₀ (fun i _ => (hr i).le) fun i _ => h1 i
@@ -202,7 +202,7 @@ theorem chain {t : ℝ} (ht : 0 < t) (ha : 0 < a) (r : Fin a → ℝ) (hr : ∀ 
     rw [hp] at hlt
     exact lt_irrefl _ hlt
   · by_contra hc
-    push_neg at hc
+    push Not at hc
     have hT0 : 0 < T ^ a := by positivity
     have hlt : 1 < ∏ i, r i := by
       have h3 : ∀ i, r ⟨a - 1, by omega⟩ / T ^ a ≤ r i := fun i => by

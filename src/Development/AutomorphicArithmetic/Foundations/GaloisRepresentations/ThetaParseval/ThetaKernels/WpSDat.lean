@@ -500,7 +500,7 @@ theorem normK : NormK := by
   have hl : ofPrimeValues u (q ^ m) = u q ^ m := by rw [map_pow, ofPrimeValues_prime u hq]
   by_cases hS : S q
   · have hu2 : u q ^ 2 = -(q : ℂ) := by
-      simp only [u, if_pos hS, mul_pow, hsqr, Complex.I_sq]
+      simp only [u, ite_eq_left hS, mul_pow, hsqr, Complex.I_sq]
       ring
     obtain ⟨P₀, hP₀, hf₀, hq₀, hk₀⟩ := hS
     obtain ⟨m₀, hc₀⟩ := res_card P₀ hq hq₀
@@ -512,7 +512,7 @@ theorem normK : NormK := by
       rfl
     · obtain ⟨-, -, -, j, hj, hm⟩ := kept_deg hG hsq hs' hy P hq hqP hc hk
       rw [hc, hl, ← sqrt_pow_nat, hm, pow_mul, pow_mul, hu2, hsqr, hj.neg_pow]
-  · have hu1 : u q = (Real.sqrt q : ℂ) := by simp only [u, if_neg hS, mul_one]
+  · have hu1 : u q = (Real.sqrt q : ℂ) := by simp only [u, ite_eq_right hS, mul_one]
     rw [hc, hl, hu1, sqrt_pow_nat]
     exact ⟨hsqr _, fun hk => absurd ⟨P, hP, hfin, hqP, hk⟩ hS⟩
 
@@ -615,7 +615,7 @@ theorem eta_eq_prod_sign_k : ∀ (F E : Type) [Field F] [NumberField F] [Field E
   · have hneg : r < 0 := lt_of_le_of_ne (not_lt.1 hpos) hr0
     rw [eta_eq_neg_one_iff.2 (fun h => hpos (hx.1 h)), abs_of_neg hneg]
     change ((if (-1 : ℤˣ) = 1 then (1 : Circle) else -1 : Circle) : ℂ) = _
-    rw [if_neg (by decide)]
+    rw [ite_eq_right (by decide)]
     push_cast
     rw [div_neg, div_self (by exact_mod_cast hr0)]
 end GlobalTheory.EtaSignReal

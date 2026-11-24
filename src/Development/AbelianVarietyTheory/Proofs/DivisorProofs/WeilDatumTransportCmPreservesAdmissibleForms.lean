@@ -92,7 +92,7 @@ theorem stdBeta : ∀ (F : Type) [Field F] [NumberField F] (ψ : AddChar (AF F) 
     simp only [LinearMap.neg_apply, Complex.ofReal_neg]
     ring_nf
   · by_contra h
-    push_neg at h
+    push Not at h
     exact ha (GlobalTheory.ArchUniq.Coord.eq_zero_of_trace a fun b => by
       have := h b
       rw [LinearMap.neg_apply, neg_eq_zero] at this

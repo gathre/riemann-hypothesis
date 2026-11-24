@@ -199,7 +199,7 @@ theorem aez {Wp : Type} [NormedAddCommGroup Wp] [NormedSpace ℂ Wp]
   have hGae : ∀ᵐ x ∂νq, G x = 0 := (lintegral_eq_zero_iff hGm).1 hνG
   have hGval : ∀ x, x ∈ S → G x = 0 → F (Matrix.of x) = 0 := by
     intro x hx h0
-    simp only [G, Set.piecewise, hx, if_true] at h0
+    simp only [G, Set.piecewise, hx, ite_true] at h0
     have : (‖F (Matrix.of x)‖₊ : ℝ≥0∞) = 0 := pow_eq_zero_iff (n := 2) (by norm_num) |>.1 h0
     simpa using this
   have hmul : Continuous (fun p : Formalism.QuantumDeterminants.Mt k r × Formalism.QuantumDeterminants.Mt k r =>
@@ -230,7 +230,7 @@ theorem aez {Wp : Type} [NormedAddCommGroup Wp] [NormedSpace ℂ Wp]
     · have hFx := hGval x hxU hx
       have hmem : (fun i j => (Matrix.of (fun i j => (Matrix.of p.1 * Matrix.of p.2) i j) * Matrix.of x) i j :
           Formalism.QuantumDeterminants.Mt k r) ∈ S := Formalism.QuantumDeterminants.WeylGroupFacts.uh_mul hsU hxU
-      simp only [G, Set.piecewise, hmem, if_true]
+      simp only [G, Set.piecewise, hmem, ite_true]
       show (‖F (Matrix.of p.1 * Matrix.of p.2 * Matrix.of x)‖₊ : ℝ≥0∞) ^ 2 = 0
       rw [hFeq _ hp1 _ hp2 (Matrix.of x) hxU, hFx, map_zero, smul_zero]
       simp
@@ -238,7 +238,7 @@ theorem aez {Wp : Type} [NormedAddCommGroup Wp] [NormedSpace ℂ Wp]
           Formalism.QuantumDeterminants.Mt k r) ∉ S := by
         intro hm
         exact hxU (DDSmoothness.uh_cancel hsU hm)
-      simp only [G, Set.piecewise, hnot, if_false]
+      simp only [G, Set.piecewise, hnot, ite_false]
   have hGaeG : ∀ᵐ x ∂μG, G x = 0 := (lintegral_eq_zero_iff hGm).1 hμGint
   have hae : ∀ᵐ x ∂μG, Matrix.of x ∈ UHk → F (Matrix.of x) = 0 := by
     filter_upwards [hGaeG] with x hx hxU

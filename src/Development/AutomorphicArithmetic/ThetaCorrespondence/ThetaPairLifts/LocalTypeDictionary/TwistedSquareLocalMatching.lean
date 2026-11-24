@@ -366,7 +366,7 @@ theorem factorSpace_le (ρ : ι → Module.End ℂ Pr) (σ : ι → Module.End �
   let b' : _ → Pr →ₗ[ℂ] Pi := fun k => ((b k : F') : Pr →ₗ[ℂ] Pi)
   obtain ⟨x, hx⟩ : ∃ x, φ x ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hφ' (by rw [show φ = 0 from LinearMap.ext h]; exact F'.zero_mem)
   obtain ⟨t, ht⟩ := ev_surjective ρ σ q' β' S' F' le_rfl hS' hspan' (φ x)
   let E := TensorProduct.equivFinsuppOfBasisRight (M := Pr) b
@@ -986,7 +986,7 @@ theorem simpleQuot_iso_of_intertwined : ∀ (ι Fm Q Q' Pi : Type) [AddCommGroup
 
   obtain ⟨f, hf⟩ : ∃ f, P ∘ₗ β f ≠ 0 := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     have hle : ∀ f, LinearMap.range (β f) ≤ N' := by
       rintro f _ ⟨x, rfl⟩
       obtain ⟨u, hu, n, hn, he⟩ := hdec (β f x)
@@ -1181,7 +1181,7 @@ theorem twist_quotient_isReal : GlobalTheory.Published.HoweDualityReal → _root
       ∃ f, β f ≠ 0 := by
     intro Fm Q _ _ β h
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have : (⊤ : Submodule ℂ Pi₀) = ⊥ := by
       rw [← h]; exact iSup_eq_bot.2 fun f => by rw [hc f, LinearMap.range_zero]
     exact bot_ne_top this.symm
@@ -1226,7 +1226,7 @@ theorem twist_quotient_isReal : GlobalTheory.Published.HoweDualityReal → _root
   · intro N hN
     have hst : IsStab ρA (N.comap R.mkQ) := fun i x hx => by
       have h1 := hN i.1.1 i.1.2 i.2 _ hx
-      simp only [dif_pos i.2] at h1
+      simp only [dite_eq_left i.2] at h1
       exact h1
     have hle : R ≤ N.comap R.mkQ := fun x hx => by
       show R.mkQ x ∈ N
@@ -1244,12 +1244,12 @@ theorem twist_quotient_isReal : GlobalTheory.Published.HoweDualityReal → _root
     refine ⟨fun f hf => ?_, fun f hf => ?_⟩
     · have hk := rad_le_ker _ _ _ ρA CA _ _ (iA' ⟨f, hf⟩) (kA' ⟨f, hf⟩) radA ss'
       refine ⟨R.liftQ (p ∘ₗ fockF ψ θ true A B f) hk, fun τ Y hY => ?_, fun P => rfl⟩
-      simp only [dif_pos hY]
+      simp only [dite_eq_left hY]
       refine Submodule.linearMap_qext _ (LinearMap.ext fun P => ?_)
       exact LinearMap.congr_fun (iA' ⟨f, hf⟩ ⟨(τ, Y), hY⟩) P
     · have hk := rad_le_ker _ _ _ ρB CB _ _ (iB' ⟨f, hf⟩) (kB' ⟨f, hf⟩) radB ss'
       refine ⟨RB.liftQ (p' ∘ₗ fockF ψ θ false A₁ B f) hk ∘ₗ e.toLinearMap, fun τ Y hY => ?_, fun P => ?_⟩
-      · simp only [dif_pos hY]
+      · simp only [dite_eq_left hY]
         refine LinearMap.ext fun x => ?_
         have h1 := LinearMap.congr_fun (he ⟨(τ, Y), hY⟩) x
         simp only [LinearMap.comp_apply] at h1 ⊢

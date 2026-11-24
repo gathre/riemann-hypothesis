@@ -199,7 +199,7 @@ theorem label_data (hG : Top.Given) (hGl : Top.IsGlobal Xo l c Y) (𝔐 : HodgeC
       (HodgeMetric.periodGram L (fun j => U (Fin.castLE h j)) (HodgeMetric.uncentre 0 ρ π t)).det.re := by
     intro m h
     funext t
-    simp only [M, leadMinor, dif_pos h]
+    simp only [M, leadMinor, dite_eq_left h]
     rfl
   refine ⟨b, M, hflag, hb0, fun t => by simp [M, leadMinor_size_zero], fun m hm => ?_, ?_⟩
   · rw [hM m hm]
@@ -1110,8 +1110,8 @@ theorem local_bounds (hG : Top.Given) (h0 : Flat.FlatLineGenerator) (h1 : Flat.F
         have e1 : ∀ k ∈ Finset.Iic i, Real.log ((hx (τ, k)).h (χ.γ t)) = Real.log ‖F (τ, k) t‖ -
             1 / 2 * (M (.inl τ) ((k : ℕ) + 1) t - M (.inl τ) k t) := fun k hk => by
           have hk' : (k : ℕ) < D.p := lt_of_le_of_lt (Fin.le_def.1 (Finset.mem_Iic.1 hk)) hip
-          have e2 : HodgeCpt.rootIdx D (τ, k) = ⟨.inl τ, ⟨k, hk'⟩⟩ := dif_pos hk'
-          have e3 : HodgeCpt.rootSgn D (τ, k) = 1 := if_pos hk'
+          have e2 : HodgeCpt.rootIdx D (τ, k) = ⟨.inl τ, ⟨k, hk'⟩⟩ := dite_eq_left hk'
+          have e3 : HodgeCpt.rootSgn D (τ, k) = 1 := ite_eq_left hk'
           have := ht k
           rw [e2, e3] at this
           simpa using this
@@ -1128,8 +1128,8 @@ theorem local_bounds (hG : Top.Given) (h0 : Flat.FlatLineGenerator) (h1 : Flat.F
           have hk0 : (i : ℕ) < k := Fin.lt_def.1 (Finset.mem_Ioi.1 hk)
           have hk' : ¬ (k : ℕ) < D.p := by omega
           have hk2 := k.2
-          have e2 : HodgeCpt.rootIdx D (τ, k) = ⟨.inr τ, ⟨D.p + D.q - 1 - k, by show _ < D.q; omega⟩⟩ := dif_neg hk'
-          have e3 : HodgeCpt.rootSgn D (τ, k) = -1 := if_neg hk'
+          have e2 : HodgeCpt.rootIdx D (τ, k) = ⟨.inr τ, ⟨D.p + D.q - 1 - k, by show _ < D.q; omega⟩⟩ := dite_eq_right hk'
+          have e3 : HodgeCpt.rootSgn D (τ, k) = -1 := ite_eq_right hk'
           have := ht k
           rw [e2, e3] at this
           have h2 : Real.log ((hx (τ, k)).h (χ.γ t)) = Real.log ‖F (τ, k) t‖ - ((-1 : ℤ) : ℝ) / 2 *

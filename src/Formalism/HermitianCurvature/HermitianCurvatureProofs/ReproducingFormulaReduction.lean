@@ -72,9 +72,9 @@ theorem psi_cont (z : Fin (2 * r + k + 1) → ℂ) (c : ℂ) :
     (Complex.continuous_re.comp (continuous_const.mul ?_))))
   refine continuous_finsetSum _ fun a _ => ?_
   by_cases h : a.val + 1 < r
-  · simp only [dif_pos h]
+  · simp only [dite_eq_left h]
     fun_prop
-  · simp only [dif_neg h, Matrix.mulVec, dotProduct]
+  · simp only [dite_eq_right h, Matrix.mulVec, dotProduct]
     fun_prop
 
 theorem isClosed_UH : IsClosed (Formalism.QuantumDeterminants.UH (Formalism.QuantumDeterminants.Hpk k r) : Set (Mx k r)) := by

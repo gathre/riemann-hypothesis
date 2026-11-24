@@ -86,7 +86,7 @@ theorem decOrbit_root_count : ∀ (E Ω : Type) [Field E] [NumberField E] [Field
     intro x hx
     have h := (hS x).1 hx
     refine ⟨Classical.choose h, (Classical.choose_spec h).1, (Classical.choose_spec h).2, ?_⟩
-    simp only [φ, dif_pos h]
+    simp only [φ, dite_eq_left h]
 
   have hg0 : g ≠ 0 := hg.ne_zero
   have hconj : ∀ σ : G E Ω, σ β' ∈ (g.aroots Ω).toFinset := by
@@ -309,7 +309,7 @@ theorem crt_approx_integral : ∀ (E Ω : Type) [Field E] [NumberField E] [Field
   obtain ⟨z, hz, y, hy, hzy⟩ := Submodule.mem_sup.1 h1mem
   obtain ⟨s, hsJ, hsP⟩ : ∃ s ∈ J, s ∉ Pg f fint := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     rw [sup_eq_left.2 hcon] at hPJ
     exact hPmax.ne_top hPJ
   have hz1 : z - 1 ∈ Pg f fint ^ a := by
@@ -333,7 +333,7 @@ theorem crt_approx_integral : ∀ (E Ω : Type) [Field E] [NumberField E] [Field
       exact h1.symm.trans h2
     obtain ⟨s', hs'P, hs'Q⟩ : ∃ s' ∈ Pg f fint ^ a, s' ∉ Pg g gint := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       haveI := primePg g gint
       have h1 : Pg f fint ≤ Pg g gint := Ideal.IsPrime.le_of_pow_le hcon
       exact hne (hPmax.eq_of_le (primePg g gint).ne_top h1).symm
@@ -759,7 +759,7 @@ theorem exists_monic_base_root_near : ∀ (E Ω : Type) [Field E] [NumberField E
     simp
   have hex : ∃ a ∈ G.roots, A.valuation (β - a) < A.valuation r := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 : A.valuation r ^ n ≤ A.valuation (aeval β g) := by
       rw [hev, map_multiset_prod, Multiset.map_map]
       have hcard : (G.roots.map (A.valuation ∘ fun a => β - a)).card = n := by

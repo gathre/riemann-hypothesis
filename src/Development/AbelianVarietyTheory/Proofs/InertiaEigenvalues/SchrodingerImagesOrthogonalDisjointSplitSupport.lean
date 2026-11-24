@@ -163,7 +163,7 @@ theorem separate : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp D) (
       rw [cA_cA]; exact hye
     rw [PlaceModel.symplO_skew, AddChar.map_neg_eq_inv, (hdual y hinf).1 hy u hu, inv_one]
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hrx : IsHalf (cA D e) (r • x) := half'.2 (by rw [smul_comm, half'.1 hx])
   have hmem := hce.mem_of_dual hdual (r • x) ((PlaceModel.isHalf_iff S T).1 hrx) (fun y hy => by
     obtain ⟨hy1, hy2⟩ := AddSubgroup.mem_inf.1 hy
@@ -242,8 +242,8 @@ theorem orth_of_disjoint : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (S T : 
         rw [this]
         exact neg_mem (memL u hu hue)
       rw [Finset.sum_eq_single_of_mem (mkL c) (Finset.mem_image_of_mem _ hc) fun q _ hq' => by
-        simp only [P, hq, if_neg (Ne.symm hq')]]
-      simp only [P, hq, if_true]
+        simp only [P, hq, ite_eq_right (Ne.symm hq')]]
+      simp only [P, hq, ite_true]
   have hSB : ∀ Φ : WO S T → ℂ, (∀ t, Φ t ≠ 0 → IsHalf (cA D ea) t ∧ k • t ∈ Λ) →
       (∀ u ∈ Λ, IsHalf (cA D ea) u → ∀ t, Φ (t + k • u) = Φ t) → ∀ q, IsSBHalf (cA D ea) Λ (P Φ q) := by
     intro Φ hsup hinv q
@@ -261,8 +261,8 @@ theorem orth_of_disjoint : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (S T : 
   have hPne : ∀ Φ q t, P Φ q t ≠ 0 → mkL (cA D e • t) = q ∧ Φ t ≠ 0 := fun Φ q t h => by
     by_cases hq : mkL (cA D e • t) = q
     · refine ⟨hq, fun h0 => h ?_⟩
-      simp only [P, hq, h0, if_true]
-    · exact absurd (by simp only [P, hq, if_false]) h
+      simp only [P, hq, h0, ite_true]
+    · exact absurd (by simp only [P, hq, ite_false]) h
 
   have hhalf_ce : ∀ t, IsHalf (cA D ea) t → (e + cA D e) • t = cA D e • t := fun t ht => by
     have h0 : e • t = 0 := by rw [← half'.1 ht, smul_smul, hecea, zero_smul]
@@ -271,7 +271,7 @@ theorem orth_of_disjoint : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (S T : 
   have hdisjP : ∀ q, P Φ₁ q = 0 ∨ P Φ₂ q = 0 := by
     intro q
     by_contra hne
-    push_neg at hne
+    push Not at hne
     obtain ⟨t, ht⟩ := Function.ne_iff.1 hne.1
     obtain ⟨t', ht'⟩ := Function.ne_iff.1 hne.2
     obtain ⟨hq1, h1⟩ := hPne Φ₁ q t ht
@@ -301,7 +301,7 @@ theorem orth_of_disjoint : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (S T : 
       have h1 : symplO S T t y = symplO S T (cA D e • t) y := by rw [symplO_smul S T, cA_cA, half'.1 hy]
       have h2 : cA D e • t = c + k • -w := by rw [smul_neg, ← hwk]; abel
       rw [h1, h2, symplO_add_left S T, AddChar.map_add_eq_mul, hyL _ (neg_mem hw), mul_one]
-    · simp only [P, hq, if_false, mul_zero]
+    · simp only [P, hq, ite_false, mul_zero]
 
   have hsep : ∀ q ∈ Q, ∀ q' ∈ Q, q ≠ q' → ∃ y, IsHalf e y ∧ ∃ a b : ℂ, ‖a‖ = 1 ∧ a ≠ b ∧
       (∀ Φ, (fun t => ψ (symplO S T t y) * P Φ q t) = a • P Φ q) ∧

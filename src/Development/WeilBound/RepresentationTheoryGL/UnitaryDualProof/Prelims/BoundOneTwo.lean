@@ -143,12 +143,12 @@ theorem cutFun_mem (U : Set k) (hU : IsClopen U) (h0 : (0 : k) ∉ U) (ψ : SB (
     · have h2 : ∀ᶠ x' in 𝓝 x, (x'.val).det ∈ U :=
         hdet.continuousAt.preimage_mem_nhds (hU.isOpen.mem_nhds hx)
       filter_upwards [h2, h1 x] with x' hx' h'
-      simp only [cutFun, if_pos hx, if_pos hx', h']
+      simp only [cutFun, ite_eq_left hx, ite_eq_left hx', h']
     · have h2 : ∀ᶠ x' in 𝓝 x, (x'.val).det ∈ Uᶜ :=
         hdet.continuousAt.preimage_mem_nhds (hU.isClosed.isOpen_compl.mem_nhds hx)
       filter_upwards [h2] with x' hx'
       have hx'' : (x'.val).det ∉ U := hx'
-      simp only [cutFun, if_neg hx, if_neg hx'']
+      simp only [cutFun, ite_eq_right hx, ite_eq_right hx'']
   · have hK : IsCompact (tsupport ψ.1 ∩ (fun A : Matrix (Fin m) (Fin m) k => A.det) ⁻¹' U) :=
       ψ.2.2.isCompact.inter_right (hU.isClosed.preimage continuous_id.matrix_det)
     have hKr : tsupport ψ.1 ∩ (fun A : Matrix (Fin m) (Fin m) k => A.det) ⁻¹' U ⊆

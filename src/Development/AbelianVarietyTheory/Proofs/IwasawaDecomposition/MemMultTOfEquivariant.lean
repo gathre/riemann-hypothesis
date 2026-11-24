@@ -111,7 +111,7 @@ theorem rTr_mem {θ : InfFam D} (hθ : IsInfFam θ) (U : Set (GA D V → ℂ))
   have e : GlobalTheory.RealLift.prodAt θ V Finset.univ.toList (fun τ => Formalism.L2.Pj.archM V (θ τ) k) = k :=
     r3 _ (GlobalTheory.RealLift.prodAt_mem θ V _ _) _ hk fun τ => by
       rw [GlobalTheory.RealLift.infMat_prodAt hθ V hu τ _ (Finset.nodup_toList _),
-        if_pos (Finset.mem_toList.2 (Finset.mem_univ _))]
+        ite_eq_left (Finset.mem_toList.2 (Finset.mem_univ _))]
       rfl
   rw [← e]
   clear e

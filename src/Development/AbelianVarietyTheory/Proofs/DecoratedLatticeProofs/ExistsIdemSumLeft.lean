@@ -156,13 +156,13 @@ theorem twSt_h {X : Formalism.L2.Col.Fields} {Pr : Formalism.L2.Col.Primes X} {R
   | succ i =>
     rw [Formalism.L2.Col.twSt]
     by_cases h1 : i + 1 ≤ m2
-    · rw [if_pos h1]
-      exact fun _ => dif_neg fun h => (@Finset.mem_sdiff _ (_) _ _ _).1 h |>.2 hP
-    · rw [if_neg h1]
+    · rw [ite_eq_left h1]
+      exact fun _ => dite_eq_right fun h => (@Finset.mem_sdiff _ (_) _ _ _).1 h |>.2 hP
+    · rw [ite_eq_right h1]
       by_cases h2 : i + 1 = m2 + 1
-      · rw [if_pos h2]
+      · rw [ite_eq_left h2]
         exact fun _ => rfl
-      · rw [if_neg h2]
+      · rw [ite_eq_right h2]
         exact fun al => al.elim
 
 section World

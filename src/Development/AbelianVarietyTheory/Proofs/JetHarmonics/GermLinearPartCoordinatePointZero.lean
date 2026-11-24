@@ -156,7 +156,7 @@ theorem additive_eq_lin (F : Fin d → PS k 2 d) (hF : ∀ i, constantCoeff (F i
 
       simp only [LogExpAdaptedGauge.linMap, map_sum, coeff_C_mul, coeff_X]
       refine (Finset.sum_eq_zero fun j _ => ?_).symm
-      rw [if_neg, mul_zero]
+      rw [ite_eq_right, mul_zero]
       rintro rfl
       simp at he
   rw [← e3, gt_comp1_comp1 _ _ hε _ hℓ0, hi.2.2.2, gt_comp1_pt_right]

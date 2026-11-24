@@ -547,8 +547,8 @@ theorem eq_of_prod_eq {ι : Type} [Fintype ι] {G : ι → Type} [∀ i, Group (
   by_contra hne
   have h1 := (_root_.GlobalTheory.GLq.ZOrth.zorth _ _ _ (h i) (h i)).2.2
   have h2 := (_root_.GlobalTheory.GLq.ZOrth.zorth _ _ _ (h i) (h' i)).2.2
-  rw [if_pos rfl] at h1
-  rw [if_neg hne] at h2
+  rw [ite_eq_left rfl] at h1
+  rw [ite_eq_right hne] at h2
   have h3 : ip (χ i) (χ i) * ∏ k ∈ Finset.univ.erase i, χ k 1 = ip (χ i) (χ' i) * ∏ k ∈ Finset.univ.erase i, χ' k 1 := by
     simp only [ip, mul_assoc, Finset.sum_mul, ← key, e]
   rw [h1, h2, one_mul, zero_mul] at h3

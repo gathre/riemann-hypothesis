@@ -68,7 +68,7 @@ private theorem cc_subst_lemma {σ τ A : Type} [Finite σ] [CommRing A] (a : σ
   · intro e he
     obtain ⟨s, hs⟩ : ∃ s, e s ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact he (Finsupp.ext h)
     rw [map_finsuppProd]
     simp only [map_pow, ha, Finsupp.prod]
@@ -127,11 +127,11 @@ private theorem un1_lift_lemma_2 (f : MvPowerSeries (Fin 1 × Fin dd) C) :
       exact Prod.ext (Subsingleton.elim _ _) rfl
     rw [hc, Finsupp.mapDomain_id]
   rw [finsum_eq_single _ (μ.mapDomain Prod.snd)]
-  · rw [if_pos hμ.symm, smul_eq_mul, mul_one]
+  · rw [ite_eq_left hμ.symm, smul_eq_mul, mul_one]
     show MvPowerSeries.coeff ((μ.mapDomain Prod.snd).mapDomain (fun x : Fin dd => ((0 : Fin 1), x))) f = _
     rw [show (fun x : Fin dd => ((0 : Fin 1), x)) = Prod.mk (0 : Fin 1) from rfl, hμ]
   · intro d hd
-    rw [if_neg, smul_zero]
+    rw [ite_eq_right, smul_zero]
     intro h
     apply hd
     rw [h, ← Finsupp.mapDomain_comp,
@@ -238,9 +238,9 @@ private theorem un1_lift_lemma_4 (h : MvPowerSeries (Fin dd) C) :
   rw [MvPowerSeries.coeff_subst (MvPowerSeries.hasSubst_of_constantCoeff_zero (fun _ => by simp))]
   simp only [prod_X_lemma (Prod.mk (0 : Fin 1)), MvPowerSeries.coeff_monomial]
   rw [finsum_eq_single _ μ]
-  · rw [if_pos rfl, smul_eq_mul, mul_one]
+  · rw [ite_eq_left rfl, smul_eq_mul, mul_one]
   · intro d hd
-    rw [if_neg, smul_zero]
+    rw [ite_eq_right, smul_zero]
     intro h'
     exact hd (Finsupp.mapDomain_injective (Prod.mk_right_injective (0 : Fin 1)) h').symm
 
@@ -282,7 +282,7 @@ theorem lgS_lin (Y : FBChart C V O dd) (p : SelfData Y d I0) (x : Fin 2 × Fin d
         simp at h1
       obtain ⟨c, hc⟩ : ∃ c, μ c ≠ 0 := by
         by_contra h
-        push_neg at h
+        push Not at h
         exact hne (Finsupp.ext h)
       refine ⟨c, ?_⟩
       have hle : Finsupp.single c 1 ≤ μ := by
@@ -361,7 +361,7 @@ theorem sat_self (Y : FBChart C V O dd) (p : SelfData Y d I0) (g : Fin 2) :
     · subst hcc
       simp only [mul_one]
       have hh := p.gm_hyp (p.ty0 c) (g + 1) g
-      rw [if_neg (by fin_cases g <;> decide)] at hh
+      rw [ite_eq_right (by fin_cases g <;> decide)] at hh
       rw [← hh]
       exact Finset.sum_congr rfl (fun r _ => mul_comm _ _)
     · simp

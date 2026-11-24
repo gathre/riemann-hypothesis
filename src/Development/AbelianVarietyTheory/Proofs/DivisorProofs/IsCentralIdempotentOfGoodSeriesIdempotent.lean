@@ -129,7 +129,7 @@ theorem goodSeriesIdempotent_central_idempotent (D : D7) :
   conv_rhs => rw [h]
   refine Finset.sum_congr rfl fun a _ => ?_
   split_ifs with ha
-  · rw [hm, if_pos ha]
+  · rw [hm, ite_eq_left ha]
   · rw [mul_zero]
 
 theorem isCentralIdempotent_of_goodSeriesIdempotent {D : D7} {LL : Type} [Field LL] (σ₀ : LL →+* ℂ) {eC : G0g D.nd → LL}

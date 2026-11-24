@@ -76,7 +76,7 @@ theorem algHom_ext_X (f g : PowerSeries R →ₐ[R] PowerSeries R)
     obtain ⟨b, hb⟩ : PowerSeries.X ^ (k + 1) ∣ a - (PowerSeries.trunc (k + 1) a : PowerSeries R) := by
       rw [PowerSeries.X_pow_dvd_iff]
       intro m hm
-      rw [map_sub, Polynomial.coeff_coe, PowerSeries.coeff_trunc, if_pos hm, sub_self]
+      rw [map_sub, Polynomial.coeff_coe, PowerSeries.coeff_trunc, ite_eq_left hm, sub_self]
     exact ⟨_, b, by rw [← hb]; ring⟩
   obtain ⟨c, hcX⟩ := PowerSeries.X_dvd_iff.mpr h0
   have hcX' : g PowerSeries.X = PowerSeries.X * c := by rw [← h]; exact hcX

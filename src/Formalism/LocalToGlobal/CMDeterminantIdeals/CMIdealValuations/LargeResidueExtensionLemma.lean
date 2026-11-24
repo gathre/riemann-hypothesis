@@ -337,7 +337,7 @@ theorem exists_monic_irreducible_card_gt (k : Type) [Field k] [Finite k] (N : �
     rw [Nat.card_congr (AdjoinRoot.powerBasis hf.ne_zero).basis.equivFun.toEquiv, Nat.card_fun]
     simp [AdjoinRoot.powerBasis_dim]
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hq : 2 ≤ Nat.card k := Finite.one_lt_card
 
   have hdeg : ∀ α : AlgebraicClosure k, (minpoly k α).natDegree ≤ N := by

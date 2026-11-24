@@ -484,7 +484,7 @@ theorem iSup_range_homInto_inf_killed_eq_bot : ∀ (H S0 X : Type) [Group H] [Ad
   have hew : e w ≠ 0 := fun h => hw (e.map_eq_zero_iff.1 h)
   obtain ⟨i, hi⟩ : ∃ i, e w i ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hew (Finsupp.ext h)
   refine killed_ne_bot (LinearEquiv.refl _ σ0.asModule) hi (fun x hx => ?_) hk
   have hxw : x • w = 0 := by

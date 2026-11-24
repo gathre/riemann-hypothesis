@@ -1226,7 +1226,7 @@ theorem UpperTheory.Gal.W2.Seed.pVecCoord :
   let vec : ∀ w : Plc E, AfP p ⊗[ℚ] VQ S.D →+ (Fin n → w.adicCompletion E) := fun w =>
     if hw : (p : 𝓞 E) ∉ w.asIdeal then co w hw else 0
   have hvec : ∀ w (hw : (p : 𝓞 E) ∉ w.asIdeal) v i, vec w v i = ev w hw (ν v i) := fun w hw v i => by
-    simp only [vec, dif_pos hw]; rfl
+    simp only [vec, dite_eq_left hw]; rfl
   have hE : ∀ w (hw : (p : 𝓞 E) ∉ w.asIdeal) (c : 𝓞 E), ev w hw ((1 : AfP p) ⊗ₜ[ℚ] (c : E)) = algebraMap (𝓞 E) (w.adicCompletion E) c := by
     intro w hw c
     rw [← T.Φ_E, hev]

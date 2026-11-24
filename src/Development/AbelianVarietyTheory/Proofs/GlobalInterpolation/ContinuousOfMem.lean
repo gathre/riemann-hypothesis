@@ -111,7 +111,7 @@ theorem continuous_coord (τ : E →+* ℂ) : Continuous (coord τ) := by
 omit [NumberField E] [IsCMField E] in
 theorem coord_embedding (w : InfinitePlace E) (a : Cinf E) : coord w.embedding a = a w := by
   unfold coord
-  rw [InfinitePlace.mk_embedding, if_pos rfl]
+  rw [InfinitePlace.mk_embedding, ite_eq_left rfl]
   rfl
 
 theorem coord_conjugate (τ : E →+* ℂ) (a : Cinf E) :
@@ -122,9 +122,9 @@ theorem coord_conjugate (τ : E →+* ℂ) (a : Cinf E) :
   unfold coord
   rw [InfinitePlace.mk_conjugate_eq]
   rcases InfinitePlace.embedding_mk_eq τ with h | h
-  · rw [if_pos h, if_neg (fun h' => hne (h'.symm.trans h))]
+  · rw [ite_eq_left h, ite_eq_right (fun h' => hne (h'.symm.trans h))]
     rfl
-  · rw [if_pos h, if_neg (fun h' => hne (h.symm.trans h'))]
+  · rw [ite_eq_left h, ite_eq_right (fun h' => hne (h.symm.trans h'))]
     exact (star_star _).symm
 
 theorem continuous_pInf : Continuous (pInf E) := by

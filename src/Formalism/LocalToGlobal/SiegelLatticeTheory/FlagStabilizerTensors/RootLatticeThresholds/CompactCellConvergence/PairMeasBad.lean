@@ -79,7 +79,7 @@ theorem pairMeas_bad (L : LocBessel k r) : pairMeas L {x | ¬ Good L x} = 0 := b
     intro x hx
     simp only [Set.mem_union, Set.mem_prod, Set.mem_univ, Set.mem_setOf_eq, true_and, and_true]
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hx (by unfold Good; exact ⟨hc.1.1, hc.1.2, hc.2.1, hc.2.2⟩)
   refine measure_mono_null hsub ?_
   unfold pairMeas

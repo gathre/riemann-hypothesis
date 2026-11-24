@@ -527,7 +527,7 @@ theorem exists_bound_of_fundamentalDomain {A : HSp D} {m : Measure (GA D A)} [m.
   obtain ⟨C, hC⟩ := hK.exists_bound_of_continuousOn hu.continuousOn
   refine ⟨C, fun g => ?_⟩
   by_contra hg
-  push_neg at hg
+  push Not at hg
   have hopen : IsOpen {x | C < ‖u x‖} := isOpen_lt continuous_const hu.norm
   have hpos : 0 < m {x | C < ‖u x‖} := hopen.measure_pos m ⟨g, hg⟩
   have hnull : m {x | C < ‖u x‖} = 0 := by

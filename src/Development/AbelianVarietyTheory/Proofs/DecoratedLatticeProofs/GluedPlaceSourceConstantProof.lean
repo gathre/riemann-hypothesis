@@ -83,7 +83,7 @@ theorem fn_surjective (P : Pair k n') : Function.Surjective P.fn := by
   intro a
   obtain ⟨x, hx⟩ : ∃ x, P.fn x ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact P.fn_ne (LinearMap.ext h)
   obtain ⟨s, hs⟩ := residue_surjective (R := 𝒪[k]) (a * (P.fn x)⁻¹)
   refine ⟨s • x, ?_⟩

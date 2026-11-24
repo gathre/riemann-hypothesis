@@ -419,11 +419,11 @@ theorem combLine_unit_a (A : HermLine (Bk n)) : (combLine (fun _ : Unit => A) 1)
 
 theorem combLine_unit_h (A : HermLine (Bk n)) {z : (Σ k, Bk n k) → ℂ} (hz : ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0) :
     (combLine (fun _ : Unit => A) 1).h z = A.h z := by
-  simp [combLine, if_pos hz]
+  simp [combLine, ite_eq_left hz]
 
 theorem combLine_unit_h_off (A : HermLine (Bk n)) {z : (Σ k, Bk n k) → ℂ} (hz : ¬ ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0) :
     (combLine (fun _ : Unit => A) 1).h z = 0 :=
-  if_neg hz
+  ite_eq_right hz
 
 theorem isHermRep_combLine_unit {M : HermLB (mpStr ℤ m n)} {A : HermLine (Bk n)} (hA : IsHermRep M A) :
     IsHermRep M (combLine (fun _ : Unit => A) 1) := by

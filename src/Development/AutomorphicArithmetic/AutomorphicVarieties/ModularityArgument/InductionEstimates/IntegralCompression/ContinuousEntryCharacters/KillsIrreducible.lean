@@ -100,7 +100,7 @@ private lemma occ_abs {G H A ι α : Type*} [Group G] [TopologicalSpace G] [Norm
   have key : ∀ i, ∀ v ∈ τ, v ≠ 0 → ∃ a, P i (π (gl i a) v) ≠ 0 := by
     intro i v hv hv0
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hall : ∀ g, P i (π g v) = 0 := by
       intro g
       obtain ⟨a, h, rfl, hc⟩ := hdec i g

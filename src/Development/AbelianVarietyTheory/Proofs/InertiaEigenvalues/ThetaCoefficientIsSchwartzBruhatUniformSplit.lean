@@ -100,21 +100,21 @@ theorem coef_isSBHalf_uniform : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (S
     intro ℓ hℓ
     refine ⟨fun t ht => ?_, k, hk, fun u hu huh t => ?_, fun t ht => ?_⟩
     · by_contra hn
-      exact ht (by simp only [coef, if_neg hn])
+      exact ht (by simp only [coef, ite_eq_right hn])
     · by_cases htt : IsHalf a t
       · have h2 : IsHalf a (t + k • u) := GlobalTheory.SplitScalar.isHalf_add htt (GlobalTheory.SplitScalar.isHalf_nsmul huh k)
-        simp only [coef, if_pos htt, if_pos h2]
+        simp only [coef, ite_eq_left htt, ite_eq_left h2]
         rw [GlobalTheory.SplitScalar.heisO_add_of_orth ψ S T
           (GlobalTheory.SplitScalar.half_orth ha htt (GlobalTheory.SplitScalar.isHalf_nsmul huh k)), hinv u hu]
       · have h2 : ¬ IsHalf a (t + k • u) := fun h => htt (by
           have := GlobalTheory.SplitScalar.isHalf_sub h (GlobalTheory.SplitScalar.isHalf_nsmul huh k)
           rwa [add_sub_cancel_right] at this)
-        simp only [coef, if_neg htt, if_neg h2]
+        simp only [coef, ite_eq_right htt, ite_eq_right h2]
     · have htt : IsHalf a t := by
         by_contra hn
-        exact ht (by simp only [coef, if_neg hn])
+        exact ht (by simp only [coef, ite_eq_right hn])
       refine hsupp ℓ hℓ t htt ?_
-      simpa only [coef, if_pos htt] using ht
+      simpa only [coef, ite_eq_left htt] using ht
   obtain ⟨R, hR, hRm⟩ := GlobalTheory.DiagLiftFix.half_finite_mod (S := S) (T := T) hS.1.fg hT.1.fg ha.1 (k * k)
     (Nat.mul_pos hk hk)
   have tf : Function.Injective fun t : WO S T => k • t := fun x y hxy => by

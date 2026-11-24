@@ -80,7 +80,7 @@ private theorem UpperTheory.V.UnitaryThreeInertia.map_eq_zero_of_cc {O A σ : Ty
       symm
       apply Finset.sum_eq_zero
       intro i _
-      rw [if_neg]
+      rw [ite_eq_right]
       intro hle
       have := hle i
       simp at this
@@ -90,13 +90,13 @@ private theorem UpperTheory.V.UnitaryThreeInertia.map_eq_zero_of_cc {O A σ : Ty
         rw [Finsupp.single_le_iff]
         exact Nat.one_le_iff_ne_zero.mpr (Finsupp.mem_support_iff.mp hjmem)
       rw [Finset.sum_eq_single j]
-      · rw [if_pos hjle, tsub_add_cancel_of_le hjle, if_pos ⟨hn, rfl⟩]
+      · rw [ite_eq_left hjle, tsub_add_cancel_of_le hjle, ite_eq_left ⟨hn, rfl⟩]
       · intro b _ hb
         by_cases hble : Finsupp.single b 1 ≤ n
-        · rw [if_pos hble, tsub_add_cancel_of_le hble, if_neg]
+        · rw [ite_eq_left hble, tsub_add_cancel_of_le hble, ite_eq_right]
           rintro ⟨_, hb'⟩
           exact hb hb'.symm
-        · rw [if_neg hble]
+        · rw [ite_eq_right hble]
       · intro h
         exact absurd (Finset.mem_univ j) h
 

@@ -113,7 +113,7 @@ theorem UpperTheory.HF.loc_onto :
         rw [← norm_mul, ← map_mul]
         exact hab
       by_contra h
-      push_neg at h
+      push Not at h
       nlinarith [h.1, h.2]
   have hlI : ((l : ℤ) : 𝓞 L) ∈ I := by
     rw [hmem]

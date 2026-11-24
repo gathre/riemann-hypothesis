@@ -639,7 +639,7 @@ theorem gpart_none (p : PlF D) (h : (D.s.atP p).split = none) : gpart p = 1 := b
     rw [← D.s_split p, h]; simp
   simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at h1
   unfold gpart
-  rw [if_neg h1.1, if_neg h1.2]
+  rw [ite_eq_right h1.1, ite_eq_right h1.2]
 
 theorem gpart_some (p : PlF D) (sg) (h : (D.s.atP p).split = some sg) : gpart p = Loc.resChar p := by
   have h1 : Loc.resChar p ∈ ({D.host.g 0, D.host.g 1} : Finset ℕ) := by

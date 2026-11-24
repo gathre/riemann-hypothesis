@@ -113,7 +113,7 @@ theorem exists_unit_of_cocycle_rightAction_charZero :
     ring
   have hex : ∃ b, F b ≠ 0 := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     let φ : Γ → (K →* K) := fun γ => (σ γ : K →* K)
     let s : Finset (K →* K) := Finset.univ.image φ
     let g : (K →* K) → K := fun ψ => ∑ γ ∈ Finset.univ.filter (fun γ => φ γ = ψ), ((c γ : K))⁻¹

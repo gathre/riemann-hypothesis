@@ -229,14 +229,14 @@ theorem coeff_blockSum_single {ι : PowerSeries O →ₐ[O] PowerSeries O} {m : 
     ext j
     simp only [powerSeriesBlockSplit, coeff_mk]
     by_cases hi : i = i0
-    · rw [if_pos hi, map_smul, coeff_X_pow, smul_eq_mul]
+    · rw [ite_eq_left hi, map_smul, coeff_X_pow, smul_eq_mul]
       by_cases hj : j = n / m
-      · rw [if_pos ((key i j).mpr ⟨hi, hj⟩), if_pos hj, mul_one]
-      · rw [if_neg (fun h => hj ((key i j).mp h).2), if_neg hj, mul_zero]
-    · rw [if_neg hi, map_zero, if_neg (fun h => hi ((key i j).mp h).1)]
+      · rw [ite_eq_left ((key i j).mpr ⟨hi, hj⟩), ite_eq_left hj, mul_one]
+      · rw [ite_eq_right (fun h => hj ((key i j).mp h).2), ite_eq_right hj, mul_zero]
+    · rw [ite_eq_right hi, map_zero, ite_eq_right (fun h => hi ((key i j).mp h).1)]
   unfold powerSeriesBlockSum
   rw [Finset.sum_eq_single i0]
-  · rw [hb i0, if_pos rfl, map_smul, map_pow, hX]
+  · rw [hb i0, ite_eq_left rfl, map_smul, map_pow, hX]
     have e : (X : PowerSeries O) ^ (i0 : ℕ) * x • (w * X ^ m) ^ (n / m) =
         x • (w ^ (n / m) * X ^ n) := by
       rw [mul_smul_comm, mul_pow, ← pow_mul, hi0]
@@ -244,10 +244,10 @@ theorem coeff_blockSum_single {ι : PowerSeries O →ₐ[O] PowerSeries O} {m : 
       rw [show (X : PowerSeries O) ^ n = X ^ (n % m) * X ^ (m * (n / m)) by
         rw [← pow_add, Nat.mod_add_div]]
       ring
-    rw [e, map_smul, coeff_mul_X_pow', if_pos le_rfl, Nat.sub_self,
+    rw [e, map_smul, coeff_mul_X_pow', ite_eq_left le_rfl, Nat.sub_self,
       coeff_zero_eq_constantCoeff_apply, map_pow, smul_eq_mul]
   · intro i _ hi
-    rw [hb i, if_neg hi, map_zero, mul_zero]
+    rw [hb i, ite_eq_right hi, map_zero, mul_zero]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -261,14 +261,14 @@ theorem coeff_blockSum_triangular {ι : PowerSeries O →ₐ[O] PowerSeries O} {
     funext n'
     simp only [Pi.add_apply]
     rcases lt_trichotomy n' n with h | rfl | h
-    · rw [if_pos h, if_neg h.ne, if_neg (not_lt.mpr h.le), add_zero, add_zero]
+    · rw [ite_eq_left h, ite_eq_right h.ne, ite_eq_right (not_lt.mpr h.le), add_zero, add_zero]
     · simp
-    · rw [if_neg (not_lt.mpr h.le), if_neg h.ne', if_pos h, zero_add, zero_add]
+    · rw [ite_eq_right (not_lt.mpr h.le), ite_eq_right h.ne', ite_eq_left h, zero_add, zero_add]
   conv_lhs => rw [hsplit]
   rw [blockSplit_add, blockSplit_add, blockSum_add, blockSum_add, map_add (f := _), map_add (f := _),
     coeff_blockSum_single hX hm n (g n),
     coeff_blockSum_eq_zero hX hm (fun n' => if n < n' then g n' else 0) n
-      (fun n' hn' => if_neg (not_lt.mpr hn')), add_zero]
+      (fun n' hn' => ite_eq_right (not_lt.mpr hn')), add_zero]
 
 theorem eq_zero_of_blockSum_eq_zero {ι : PowerSeries O →ₐ[O] PowerSeries O} {m : ℕ} {w : PowerSeries O}
     (hX : ι X = w * X ^ m) (hm : 0 < m) (hw0 : IsUnit (constantCoeff w)) (g : ℕ → O)

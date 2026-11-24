@@ -205,8 +205,8 @@ theorem run_weight_dom_definite : ∀ (D : D7) (T : Top D) (h : LawsP T) (j : �
     exact row hpq Tn (WeightFamilies.dimY D j) ((wL.n / 2 : ℕ) : ℤ) ((wF.n / 2 : ℕ) : ℤ) (Int.natCast_nonneg _)
       (Int.natCast_nonneg _) _ (fun _ => 2 * (Tn : ℤ)) _ (fun _ => ((WeightFamilies.dimY D j : ℤ) + 2) * (2 * (Tn : ℤ)))
       (laR T j wL k τ) (laR T j wF k τ) (Int.natCast_nonneg _)
-      (fun a => by rw [hla, hz, if_pos (Nat.zero_le _), if_pos (Nat.zero_le _)])
-      (fun a => by rw [hla, hz, if_pos (Nat.zero_le _), if_pos (Nat.zero_le _)])
+      (fun a => by rw [hla, hz, ite_eq_left (Nat.zero_le _), ite_eq_left (Nat.zero_le _)])
+      (fun a => by rw [hla, hz, ite_eq_left (Nat.zero_le _), ite_eq_left (Nat.zero_le _)])
       bP.1 bP.2.1 bP.2.2.1 bP.2.2.2
       (fun i hi => absurd hi (by omega)) (fun i hi => absurd hi (by omega)) (by omega) (by simp)
   refine ⟨hz, fun τ => ?_, fun τ a b hab => ?_⟩
@@ -659,7 +659,7 @@ theorem containment_any : ∀ (D : D7) (T : Top D) (h : LawsP T) (j : ℕ) (hj :
     refine ⟨cf, fun x hx => ?_⟩
     have h1 := congrFun hcf (e.symm ⟨k, x, hx⟩)
     rw [Equiv.apply_symm_apply, Finset.sum_apply] at h1
-    simp only [dif_pos hx]
+    simp only [dite_eq_left hx]
     simpa using h1.symm
   have hsurj : ∀ v : (Σ k : (T.U j T.σ₀).Comp, Fin (Fl.Fl k).δ) → ℂ, ∃ a : Fin m → ℂ, ∀ p,
       ∑ i, a i * θf i p.1 ((Fl.Fl p.1).xs p.2) = v p := by

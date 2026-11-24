@@ -59,7 +59,7 @@ theorem nc_notSg {T p : ℕ} (hg : GIdx D.host T p) : ¬ Formalism.MainNotions.G
   exact absurd h (by decide)
 
 theorem nc_step {T p : ℕ} (hg : GIdx D.host T p) : Formalism.MainNotions.G.stepP D p = Formalism.MainNotions.G.hP D p := by
-  unfold Formalism.MainNotions.G.stepP; rw [if_neg (nc_notSg hg)]
+  unfold Formalism.MainNotions.G.stepP; rw [ite_eq_right (nc_notSg hg)]
 
 theorem nc_bs_iter (X : Formalism.MainNotions.G.Inst D L) (h t : Formalism.MainNotions.G.HH D) (i : ℕ) : X.bs h (t + i • h) = X.bs h t := by
   induction i with
@@ -90,10 +90,10 @@ theorem nc_tsum_odd (g : ℕ → ℝ) [DecidablePred (fun e : ℕ => Odd e)] :
     by_cases ho : Odd e
     · obtain ⟨k, rfl⟩ := ho
       exact ⟨k, by ring⟩
-    · exact (he (if_neg ho)).elim
+    · exact (he (ite_eq_right ho)).elim
   rw [← hi.tsum_eq hs]
   congr 1
   funext e
-  exact if_pos (odd_two_mul_add_one e)
+  exact ite_eq_left (odd_two_mul_add_one e)
 
 end Formalism.MainNotions.FormalGroupSystem.Pf

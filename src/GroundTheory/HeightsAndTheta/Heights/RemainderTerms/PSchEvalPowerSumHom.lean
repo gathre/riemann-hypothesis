@@ -101,7 +101,7 @@ theorem SchEvalPowerSumHom.proof (h1 : SchPowerSumAtRootsOfUnity.Statement) :
   rw [Finset.sum_eq_single (Finsupp.single (⟨k - 1, by omega⟩ : Fin N) 1)]
   · have hdvd : k ∣ ((⟨k - 1, by omega⟩ : Fin N) : ℕ) + 1 := by
       simp only [Nat.sub_add_cancel hk1, dvd_refl]
-    rw [aeval_monomial, Finsupp.prod_single_index (by simp), pow_one, hzv, if_pos hdvd]
+    rw [aeval_monomial, Finsupp.prod_single_index (by simp), pow_one, hzv, ite_eq_left hdvd]
     simp [mul_comm]
   · intro e he hne
     rw [aeval_monomial]
@@ -111,7 +111,7 @@ theorem SchEvalPowerSumHom.proof (h1 : SchPowerSumAtRootsOfUnity.Statement) :
       push Not at hcon
       exact hne (SchEvalPowerSumHom.eq_single_of_dvd hk1 hkN e hw hcon)
     rw [Finsupp.prod, Finset.prod_eq_zero hi, mul_zero]
-    rw [hzv, if_neg hik, zero_pow (Finsupp.mem_support_iff.mp hi)]
+    rw [hzv, ite_eq_right hik, zero_pow (Finsupp.mem_support_iff.mp hi)]
   · intro h
     rw [MvPolynomial.notMem_support_iff.mp h, monomial_zero, map_zero]
 

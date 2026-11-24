@@ -84,7 +84,7 @@ private lemma coeff_eq_of_X_pow_dvd_sub {n i : ℕ} {a b : PowerSeries R}
 private lemma coeff_mul_of_X_pow_dvd' {n : ℕ} {u : PowerSeries R} (hu : (X : PowerSeries R) ^ n ∣ u)
     (h : PowerSeries R) : coeff n (u * h) = coeff n u * coeff 0 h := by
   obtain ⟨k, rfl⟩ := hu
-  rw [mul_assoc, coeff_X_pow_mul', coeff_X_pow_mul', if_pos le_rfl, if_pos le_rfl, Nat.sub_self]
+  rw [mul_assoc, coeff_X_pow_mul', coeff_X_pow_mul', ite_eq_left le_rfl, ite_eq_left le_rfl, Nat.sub_self]
   simp only [coeff_zero_eq_constantCoeff_apply, map_mul]
 
 private lemma X_pow_dvd_rescale' {k : ℕ} {p : PowerSeries R} (a : R)
@@ -143,7 +143,7 @@ theorem exists_jet_succ_of_lift (A B R : Type) [CommRing A] [CommRing B] [CommRi
     ring
   have hDπ : ∀ b, D (π b) = 0 := fun b => by
     rw [hD_def, hu_def, hmπf, map_sub, coeff_rescale,
-      coeff_eq_of_X_pow_dvd_sub (hψπ b) (Nat.lt_succ_self n), coeff_C, if_neg (by omega)]
+      coeff_eq_of_X_pow_dvd_sub (hψπ b) (Nat.lt_succ_self n), coeff_C, ite_eq_right (by omega)]
     ring
   obtain ⟨c, hc⟩ : ∃ c : R, c * ((2 : R) ^ n - 2) = 1 := by
     have h4 : (4 : ℚ) ≤ 2 ^ n := by
@@ -193,17 +193,17 @@ theorem exists_jet_succ_of_lift (A B R : Type) [CommRing A] [CommRing B] [CommRi
     intro i hi
     simp only [map_sub, map_add (f := _), coeff_rescale, coeff_C_mul_X_pow]
     rcases Nat.lt_succ_iff_lt_or_eq.mp hi with h | h
-    · rw [if_neg h.ne, if_neg h.ne]
+    · rw [ite_eq_right h.ne, ite_eq_right h.ne]
       have := (X_pow_dvd_iff.mp (hu f)) i h
       rw [hu_def, map_sub, coeff_rescale] at this
       linear_combination this
-    · rw [h, if_pos rfl, if_pos rfl, hEm, hE, hD_def, hu_def, map_sub, coeff_rescale]
+    · rw [h, ite_eq_left rfl, ite_eq_left rfl, hEm, hE, hD_def, hu_def, map_sub, coeff_rescale]
       linear_combination (-(coeff n (ψ (m f)) - 2 ^ n * coeff n (ψ f))) * hc
   · intro f
-    rw [← coeff_zero_eq_constantCoeff_apply, map_add (f := _), coeff_C_mul_X_pow, if_neg (by omega),
+    rw [← coeff_zero_eq_constantCoeff_apply, map_add (f := _), coeff_C_mul_X_pow, ite_eq_right (by omega),
       add_zero, hψ0]
   · intro f
-    rw [map_add (f := _), coeff_C_mul_X_pow, if_neg (by omega), add_zero,
+    rw [map_add (f := _), coeff_C_mul_X_pow, ite_eq_right (by omega), add_zero,
       coeff_eq_of_X_pow_dvd_sub (hψφ f) (by omega), hφ1]
   · intro f
     have e : ψ f + C (E f) * X ^ n - φ f = (ψ f - φ f) + C (E f) * X ^ n := by ring

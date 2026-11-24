@@ -93,9 +93,9 @@ theorem scale_bas (s t : ℂ) (S : Finset (Fin (n + n))) :
     congr 1
     rw [Finset.filter_insert, Finset.filter_insert]
     by_cases hn : a.val < n
-    · rw [if_pos hn, if_pos hn, if_neg (not_le.2 hn), Finset.card_insert_of_notMem (by simp [ha])]
+    · rw [ite_eq_left hn, ite_eq_left hn, ite_eq_right (not_le.2 hn), Finset.card_insert_of_notMem (by simp [ha])]
       ring
-    · rw [if_neg hn, if_neg hn, if_pos (not_lt.1 hn), Finset.card_insert_of_notMem (by simp [ha])]
+    · rw [ite_eq_right hn, ite_eq_right hn, ite_eq_left (not_lt.1 hn), Finset.card_insert_of_notMem (by simp [ha])]
       ring
 
 theorem repr_scale (s t : ℂ) (α : Alt n) (S : Finset (Fin (n + n))) :
@@ -104,7 +104,7 @@ theorem repr_scale (s t : ℂ) (α : Alt n) (S : Finset (Fin (n + n))) :
   conv_lhs => rw [← (bas n).sum_repr α]
 
   simp only [map_sum, map_smul, scale_bas, Module.Basis.repr_self, Finsupp.finsetSum_apply, Finsupp.smul_apply,
-  Finsupp.single_apply, smul_eq_mul, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  Finsupp.single_apply, smul_eq_mul, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   ring
 
 theorem scale_pull (L : V n →L[ℂ] V m) (s t : ℂ) (α : Alt m) :
@@ -308,7 +308,7 @@ theorem repr_degPart (k : ℕ) (α : Alt n) (S : Finset (Fin (n + n))) :
 theorem hasDeg_degPart (k : ℕ) (α : Alt n) : HasDeg k (degPart n k α) := fun S hS => by
   rw [repr_degPart] at hS
   by_contra h
-  exact hS (if_neg h)
+  exact hS (ite_eq_right h)
 
 theorem HasDeg.degPart_eq {j : ℕ} {α : Alt n} (h : HasDeg j α) (k : ℕ) : degPart n k α = if j = k then α else 0 := by
   refine (bas n).ext_elem fun S => ?_
@@ -543,7 +543,7 @@ theorem IsDeg.mul {k l : ℕ} {α β : A.Fld} (hα : A.IsDeg k α) (hβ : A.IsDe
 theorem isDeg_degFld (k : ℕ) (α : A.Fld) : A.IsDeg k (A.degFld k α) := fun x => hasDeg_degPart k (α x)
 
 theorem IsDeg.degFld_eq {k : ℕ} {α : A.Fld} (hα : A.IsDeg k α) : A.degFld k α = α :=
-  funext fun x => ((hα x).degPart_eq k).trans (if_pos rfl)
+  funext fun x => ((hα x).degPart_eq k).trans (ite_eq_left rfl)
 
 theorem IsDeg.mul_comm {k l : ℕ} {α β : A.Fld} (hα : A.IsDeg k α) (hβ : A.IsDeg l β) :
     α * β = (-1 : ℂ) ^ (k * l) • (β * α) :=

@@ -1227,7 +1227,7 @@ theorem placedP_of_allTrue : ∀ {B : GlobalTheory.Mem.Base} {X : GlobalTheory.M
       · exact (X.piT u).2
       · exact isIntegral_zero
     · have h0 : TC.z0 X u ⟨B.R.N B.R.m - 1, Nat.sub_lt hpos one_pos⟩ = (X.piT u : B.host.E) :=
-        if_pos (Nat.sub_add_cancel hpos)
+        ite_eq_left (Nat.sub_add_cancel hpos)
       have h1 := (hT'.z0 (Fin.cast (Formalism.L2.Forms.rankN (I.rec7 l Z) _ le_rfl).symm
         ⟨B.R.N B.R.m - 1, Nat.sub_lt hpos one_pos⟩)).trans h0
       have h2 : (X.piT u : B.host.E) * B.host.conj (X.piT u : B.host.E) = (((B.T u : ℕ) : ℤ) : B.host.E) := by

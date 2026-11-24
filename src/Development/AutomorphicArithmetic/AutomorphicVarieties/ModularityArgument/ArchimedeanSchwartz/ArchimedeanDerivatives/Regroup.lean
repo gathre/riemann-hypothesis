@@ -97,7 +97,7 @@ private theorem fiber_split (K E : Type) [Field K] [NumberField K] [Field E] [Nu
     (w w' v : HeightOneSpectrum (𝓞 E)) (hw' : w'.under (𝓞 K) = w.under (𝓞 K))
     (hv : v.under (𝓞 K) = w.under (𝓞 K)) (hne : w' ≠ w) : v = w ∨ v = w' := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hvw : v.asIdeal ≠ w.asIdeal := fun e => h.1 (HeightOneSpectrum.ext e)
   have hvw' : v.asIdeal ≠ w'.asIdeal := fun e => h.2 (HeightOneSpectrum.ext e)
   have hww' : w'.asIdeal ≠ w.asIdeal := fun e => hne (HeightOneSpectrum.ext e)

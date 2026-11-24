@@ -85,7 +85,7 @@ theorem _root_.GlobalTheory.Mass.MaxExists.main : ∀ (K V : Type) [Field K] [Nu
         intro M hM hn
         by_cases hmax : ∀ N : Submodule (𝓞 K) V, _root_.GlobalTheory.Mass.IsIntLat h N → M ≤ N → N = M
         · exact ⟨M, by unfold _root_.GlobalTheory.Mass.IsMaxLat; exact ⟨hM, hmax⟩, le_rfl⟩
-        · push_neg at hmax
+        · push Not at hmax
           obtain ⟨N, hNi, hMN, hne⟩ := hmax
           obtain ⟨hidx0, hdisc⟩ := (D M hM).2.2.1 N hNi hMN
           have hidx1 : _root_.GlobalTheory.Mass.idxN N M ≠ 1 := by

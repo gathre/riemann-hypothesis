@@ -113,7 +113,7 @@ theorem rank_quot_mul_maximal (I P : Ideal A) (hI : I ≠ ⊥) (hP : P.IsMaximal
     exact hP.ne_top (mul_left_cancel₀ (show I ≠ 0 from hI) h2)
   obtain ⟨x, hx, hxP⟩ : ∃ x ∈ I, x ∉ I * P := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (le_antisymm Ideal.mul_le_left h)
   let f : (A ⧸ (I * P)) →ₗ[k] (A ⧸ I) :=
     (Ideal.Quotient.factorₐ k (Ideal.mul_le_left : I * P ≤ I)).toLinearMap

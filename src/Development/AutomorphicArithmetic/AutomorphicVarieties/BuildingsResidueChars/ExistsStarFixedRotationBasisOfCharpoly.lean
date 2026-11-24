@@ -95,7 +95,7 @@ private lemma trace_inverseGram_conj_smul_eq {K : Type} [Field K] [CharZero K] (
   have e1 := hp 1
   have em := hp (-1)
   simp only [Matrix.det_fin_three, Matrix.sub_apply, Matrix.scalar_apply, Matrix.diagonal_apply] at e0 e1 em
-  simp only [Fin.isValue, Fin.reduceEq, if_true, if_false] at e0 e1 em
+  simp only [Fin.isValue, Fin.reduceEq, ite_true, ite_false] at e0 e1 em
   constructor
   · rw [Matrix.trace_fin_three]
     linear_combination e0 - e1 / 2 - em / 2
@@ -182,7 +182,7 @@ theorem UpperTheory.exists_fixed_rotation_basis_of_charpoly :
   let g : W →ₗ[K] W := (Matrix.toLin' M).restrict hW
   obtain ⟨v0, hv0⟩ : ∃ v : W, LinearIndependent K ![v, g v] := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     obtain ⟨a, ha⟩ := LinearMap.exists_eq_smul_id_of_forall_notLinearIndependent hno
     have hMFx : ∀ x : Fin 3 → K, M *ᵥ (F *ᵥ x) = a • (F *ᵥ x) := by
       intro x
@@ -200,7 +200,7 @@ theorem UpperTheory.exists_fixed_rotation_basis_of_charpoly :
       ring
     have hF0 : ∃ x : Fin 3 → K, F *ᵥ x ≠ 0 := by
       by_contra hall
-      push_neg at hall
+      push Not at hall
       have hF00 : F = 0 := by
         apply Matrix.toLin'.injective
         apply LinearMap.ext

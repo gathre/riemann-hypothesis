@@ -230,7 +230,7 @@ theorem exists_small_of_lintegral (W : ℝ → ℝ)
     (hW : (∫⁻ t in Ioi (0 : ℝ), ENNReal.ofReal (W t)) < ⊤) (T₀ : ℝ) (hT₀ : 0 ≤ T₀)
     (ε : ℝ) (hε : 0 < ε) : ∃ T, T₀ ≤ T ∧ W T < ε := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have h1 : (∫⁻ _t in Ioi T₀, ENNReal.ofReal ε) ≤ ∫⁻ t in Ioi (0 : ℝ), ENNReal.ofReal (W t) := by
     calc (∫⁻ _t in Ioi T₀, ENNReal.ofReal ε)
         ≤ ∫⁻ t in Ioi T₀, ENNReal.ofReal (W t) :=

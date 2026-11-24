@@ -197,7 +197,7 @@ lemma xZ_zero (x : Frame X.Ψ r) : X.xZ x 0 = x := by
 
 lemma exp_small : Real.exp (1 / 25) < 3 / 2 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have h25 : Real.exp 1 = Real.exp (1 / 25) ^ 25 := by
     rw [← Real.exp_nat_mul]
     norm_num

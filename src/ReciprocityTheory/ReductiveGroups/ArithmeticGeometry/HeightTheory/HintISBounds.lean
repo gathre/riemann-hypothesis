@@ -237,7 +237,7 @@ theorem hint_log_le (hd : d.AxH 𝒜) {c : ι} {G : WT} {f : A c} (hf : f ∈ �
 
 theorem hint_thp_ne (hd : d.AxH 𝒜) (c : ι) : ∃ k, d.thp k c ≠ 0 := by
   by_contra hall
-  push_neg at hall
+  push Not at hall
   obtain ⟨e, he, -, h3⟩ := hd.a4
   obtain ⟨q, hq, p, hp⟩ := h3 1
   apply hq c

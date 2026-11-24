@@ -199,7 +199,7 @@ private lemma finrank_adjoin_add_inv_eq_two_of_isPrimitiveRoot {M : Type*} [Fiel
     rw [← hdeg]
     exact natDegree_le_natDegree (minpoly.min _ z hmon hroot)
   · by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hpos := minpoly.natDegree_pos hint
     have h1 : (minpoly ℚ⟮z + z⁻¹⟯ z).natDegree = 1 := by omega
     obtain ⟨k, hk⟩ := minpoly.natDegree_eq_one_iff.mp h1
@@ -391,7 +391,7 @@ theorem hostCMType_of (hGal : HostGalois) (hSpec : HostGalSpec) : HostCMType := 
     show _ ↔ sgn σ (bE ζ a b) = 1
     unfold sgn
     by_cases hs : σ (bE ζ a b) = bE ζ a b
-    · rw [if_pos hs, hs, hφ']
+    · rw [ite_eq_left hs, hs, hφ']
       exact ⟨fun _ => rfl, fun _ => rfl⟩
     · have hsb : σ (bE ζ a b) = -(bE ζ a b) := by
         have hsq : (σ (bE ζ a b)) ^ 2 = (bE ζ a b) ^ 2 := by
@@ -399,7 +399,7 @@ theorem hostCMType_of (hGal : HostGalois) (hSpec : HostGalSpec) : HostCMType := 
         rcases sq_eq_sq_iff_eq_or_eq_neg.mp hsq with h' | h'
         · exact absurd h' hs
         · exact h'
-      rw [if_neg hs, hsb, map_neg, hφ']
+      rw [ite_eq_right hs, hsb, map_neg, hφ']
       exact ⟨fun h' => absurd h'.symm hcne, fun h' => absurd h' (by decide)⟩
 
 end Formalism.FrobeniusOrbits

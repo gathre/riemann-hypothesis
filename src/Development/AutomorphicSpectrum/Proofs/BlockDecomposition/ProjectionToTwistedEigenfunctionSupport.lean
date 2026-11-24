@@ -139,7 +139,7 @@ theorem exists_twisted_average_smInd {G : Type} {W : Type} [AddCommGroup W] [Mod
   refine ⟨_, h1, ?_, ?_⟩
   · intro g hg
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hg
     have hz : ∀ i, evalAt P τ g (twOrbit (smInd P τ) L θ f (r i)) = 0 := by
       intro i

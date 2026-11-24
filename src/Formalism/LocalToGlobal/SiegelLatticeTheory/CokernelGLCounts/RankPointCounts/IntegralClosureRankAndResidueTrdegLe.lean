@@ -125,9 +125,9 @@ theorem h_om'_om'U (f f' : Fin (r + 1) → V) (T' : F) (hF' : Formalism.MainNoti
   rw [show H.h (H.om' f f') (H.om' f f') =
       H.h (H.om' f f') (∑ b, (H.Zhat f f').adjugate b (Fin.last r) • f' b) from rfl, h_sum_right]
   rw [Finset.sum_eq_single (Fin.last r)]
-  · rw [h_om'_f'U H f f' T' hF', if_pos rfl, adj_last]
+  · rw [h_om'_f'U H f f' T' hF', ite_eq_left rfl, adj_last]
   · intro b _ hb
-    rw [h_om'_f'U H f f' T' hF', if_neg hb, mul_zero]
+    rw [h_om'_f'U H f f' T' hF', ite_eq_right hb, mul_zero]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -169,9 +169,9 @@ theorem mem_X_ofU (f f' : Fin (r + 1) → V) (T T' : F) (hF : Formalism.MainNoti
     rw [hw]
     rw [hs] at h
     split_ifs with ha
-    · rw [if_pos ha] at h
+    · rw [ite_eq_left ha] at h
       linear_combination h
-    · rw [if_neg ha, zero_add] at h
+    · rw [ite_eq_right ha, zero_add] at h
       exact h
   have key2 : ∀ b, H.Dl f f' (r + 1) * c (Sum.inr b) =
       (H.Zhat f f').adjugate b (Fin.last r) * (algebraMap F E T * c (Sum.inl (Fin.last r))) := by
@@ -189,17 +189,17 @@ theorem mem_X_ofU (f f' : Fin (r + 1) → V) (T T' : F) (hF : Formalism.MainNoti
     have s1 : ∑ a, M.L.cj (c (Sum.inl a)) * H.h (H.om' f f') (f a) =
         M.L.cj (c (Sum.inl (Fin.last r))) * H.Dl f f' (r + 1) := by
       rw [Finset.sum_eq_single (Fin.last r)]
-      · rw [h_om'_f, if_pos rfl, dl_full]
+      · rw [h_om'_f, ite_eq_left rfl, dl_full]
       · intro i _ hi
-        rw [h_om'_f, if_neg hi, mul_zero]
+        rw [h_om'_f, ite_eq_right hi, mul_zero]
       · intro h'
         exact absurd (Finset.mem_univ _) h'
     have s2 : ∑ b, M.L.cj (c (Sum.inr b)) * H.h (H.om' f f') (f' b) =
         M.L.cj (c (Sum.inr (Fin.last r))) * (-algebraMap F E T' * H.Dl f f' r) := by
       rw [Finset.sum_eq_single (Fin.last r)]
-      · rw [h_om'_f'U H f f' T' hF', if_pos rfl]
+      · rw [h_om'_f'U H f f' T' hF', ite_eq_left rfl]
       · intro i _ hi
-        rw [h_om'_f'U H f f' T' hF', if_neg hi, mul_zero]
+        rw [h_om'_f'U H f f' T' hF', ite_eq_right hi, mul_zero]
       · intro h'
         exact absurd (Finset.mem_univ _) h'
     rw [s1, s2] at h2
@@ -278,9 +278,9 @@ theorem decompU (f f' : Fin (r + 1) → V) (T T' : F) (hF : Formalism.MainNotion
       h_omP_f H f f' hD a]
     by_cases ha : a = Fin.last r
     · subst ha
-      rw [if_pos rfl, hF.2, hβ]
+      rw [ite_eq_left rfl, hF.2, hβ]
       ring
-    · rw [if_neg ha, hF.1 (Fin.last r) a (Or.inr ha)]
+    · rw [ite_eq_right ha, hF.1 (Fin.last r) a (Or.inr ha)]
       obtain ⟨i, rfl⟩ := Fin.exists_castSucc_eq.mpr ha
       rw [(mem_perpX_iff H f u).mp hX i]
       ring

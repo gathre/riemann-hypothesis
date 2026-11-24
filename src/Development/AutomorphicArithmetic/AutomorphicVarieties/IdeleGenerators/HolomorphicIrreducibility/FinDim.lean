@@ -81,7 +81,7 @@ private theorem fd_order {F : Type*} [FunLike F ℍ ℂ] {Γ : Subgroup (GL (Fin
   have hq := qParam_tendsto_atImInfty (h := 1) one_pos
   have hle : ((m : ℕ) : ℕ∞) ≤ analyticOrderAt (cuspFunction 1 f) 0 := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     obtain ⟨n, hn⟩ := ENat.ne_top_iff_exists.mp (ne_top_of_lt hlt)
     rw [← hn, Nat.cast_lt] at hlt
     obtain ⟨g, hg, hg0, hev⟩ := hF.analyticOrderAt_eq_natCast.mp hn.symm

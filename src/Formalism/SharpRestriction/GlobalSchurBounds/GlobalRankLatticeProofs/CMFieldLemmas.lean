@@ -124,7 +124,7 @@ theorem branching_interlacing_pairs (D : D7) (sc : Scale) : Conclusion6 D sc := 
   rw [← hndef] at hvar
   set B : ℝ := 4 * β * δ * n * ∑ p ∈ P, ω p with hB
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
 
   have hper : ∀ p ∈ P, ∑ T : Finset (HH D),
       bern δ T * ((T.filter (fun t => BAD (hp p) t T)).card : ℝ) ≤ n * (β * δ) := by
@@ -198,14 +198,14 @@ theorem branching_interlacing_pairs (D : D7) (sc : Scale) : Conclusion6 D sc := 
   obtain ⟨T0, -, hT0⟩ : ∃ T0 ∈ (Finset.univ : Finset (Finset (HH D))),
       (0 : ℝ) < (if good T0 then bern δ T0 else 0) := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have : ∑ T : Finset (HH D), (if good T then bern δ T else 0) ≤ 0 := Finset.sum_nonpos hne
     linarith
   have hgood0 : good T0 := by
     by_contra hg
-    rw [if_neg hg] at hT0
+    rw [ite_eq_right hg] at hT0
     exact lt_irrefl _ hT0
-  rw [if_pos hgood0] at hT0
+  rw [ite_eq_left hgood0] at hT0
   have hlow : B * ∑ T : Finset (HH D), (if good T then bern δ T else 0) <
       ∑ T : Finset (HH D), bern δ T * Y T := by
     calc B * ∑ T : Finset (HH D), (if good T then bern δ T else 0)
@@ -219,7 +219,7 @@ theorem branching_interlacing_pairs (D : D7) (sc : Scale) : Conclusion6 D sc := 
             · exact mul_le_mul_of_nonneg_left (hcon T hg.1 hg.2).le (hbern0 T)
             · exact le_refl _
           · refine ⟨T0, Finset.mem_univ _, ?_⟩
-            rw [if_pos hgood0, if_pos hgood0]
+            rw [ite_eq_left hgood0, ite_eq_left hgood0]
             exact mul_lt_mul_of_pos_left (hcon T0 hgood0.1 hgood0.2) hT0
       _ ≤ ∑ T : Finset (HH D), bern δ T * Y T := by
           apply Finset.sum_le_sum
@@ -354,7 +354,7 @@ theorem dropping_proposition_holds : ∃ C : ℝ, ∀ D : D7, Conclusion5 D C :=
   · intro u₀ t h
     refine ⟨fun hh i₀ => ?_, fun hh => ?_⟩
     · by_contra hc
-      push_neg at hc
+      push Not at hc
       obtain ⟨i1, hi1, i2, hi2, i3, hi3, h12, h13, h23⟩ := Finset.two_lt_card.mp hc
       simp only [Finset.mem_filter, Finset.mem_Ico, transl, Set.mem_setOf_eq] at hi1 hi2 hi3
       obtain ⟨⟨a1, b1⟩, s1, hs1, e1⟩ := hi1

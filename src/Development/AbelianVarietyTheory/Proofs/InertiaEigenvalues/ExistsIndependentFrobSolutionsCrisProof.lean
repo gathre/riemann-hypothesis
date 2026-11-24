@@ -188,9 +188,9 @@ theorem GlobalTheory.onto_OC_additive_poly : ∀ (l : ℕ) [Fact l.Prime] (E N :
   have hcN : f.coeff (l ^ N) = a N := by
     rw [hcoeff]
     have h0 : l ^ N ≠ 0 := pow_ne_zero _ (by omega)
-    rw [if_neg h0, sub_zero, Finset.sum_eq_single N]
+    rw [ite_eq_right h0, sub_zero, Finset.sum_eq_single N]
     · simp
-    · intro k _ hk; rw [if_neg]; intro h; exact hk (hinj h)
+    · intro k _ hk; rw [ite_eq_right]; intro h; exact hk (hinj h)
     · intro h; exact absurd (Finset.mem_range.2 (by omega)) h
   have hbound : ∀ j, ‖f.coeff j‖ ≤ 1 := by
     intro j
@@ -245,7 +245,7 @@ theorem additive_poly_taylor_coeff_sub_norm_le :
     Polynomial.coeff_C_mul, Polynomial.coeff_X_add_C_pow, Polynomial.coeff_X_pow]
   rcases lt_trichotomy j (l ^ k) with h | h | h
   · have hne : j ≠ l ^ k := h.ne
-    simp only [hne, if_false, mul_zero, sub_zero]
+    simp only [hne, ite_false, mul_zero, sub_zero]
     obtain ⟨m, hm⟩ : l ∣ (l ^ k).choose j := hp.dvd_choose_pow (by omega) h.ne
     rw [hm, Nat.cast_mul, norm_mul, norm_mul, norm_mul]
     have h1 : ‖W ^ (l ^ k - j)‖ ≤ 1 := by rw [norm_pow]; exact pow_le_one₀ (norm_nonneg _) hW
@@ -256,7 +256,7 @@ theorem additive_poly_taylor_coeff_sub_norm_le :
   · subst h
     simp
   · have hne : j ≠ l ^ k := h.ne'
-    simp only [hne, if_false, mul_zero, sub_zero, Nat.choose_eq_zero_of_lt h, Nat.cast_zero]
+    simp only [hne, ite_false, mul_zero, sub_zero, Nat.choose_eq_zero_of_lt h, Nat.cast_zero]
     simp
 
 end GlobalTheory
@@ -287,7 +287,7 @@ theorem coeff_sum_monomial_pow (l : ℕ) [Fact l.Prime] (E : ℕ) (a : ℕ → �
   rw [finsetSum_coeff, Finset.sum_eq_single k]
   · simp [coeff_monomial]
   · intro i _ hik
-    rw [coeff_monomial, Finsupp.single_apply, if_neg]
+    rw [coeff_monomial, Finsupp.single_apply, ite_eq_right]
     intro h
     exact hik (Nat.pow_right_injective hl h)
   · intro h
@@ -309,7 +309,7 @@ theorem coeff_sum_monomial_small (l : ℕ) [Fact l.Prime] (E M : ℕ) (a : ℕ �
   · have h0 : (∑ i ∈ Finset.range (E + 1), monomial (l ^ i) (a i) : ℂ_[l][X]).coeff j = 0 := by
       rw [finsetSum_coeff]
       refine Finset.sum_eq_zero fun i hi => ?_
-      rw [coeff_monomial, Finsupp.single_apply, if_neg]
+      rw [coeff_monomial, Finsupp.single_apply, ite_eq_right]
       intro hij
       exact h ⟨i, by have := Finset.mem_range.mp hi; omega, hij⟩
     rw [h0, norm_zero, zero_mul]
@@ -390,7 +390,7 @@ theorem multiset_many_separated_points : ∀ (K : Type) [NormedAddCommGroup K] (
   have hcov : ∀ z ∈ s, ∃ W ∈ Z, ‖z - W‖ ≤ ρ := by
     intro z hz
     by_contra h
-    push_neg at h
+    push Not at h
     have hzZ : z ∉ Z := by
       intro hzZ
       have := h z hzZ
@@ -458,7 +458,7 @@ theorem separated_roots_additive_poly : ∀ (l : ℕ) [Fact l.Prime] (E M h : �
     rw [hcoeff, Finset.sum_eq_single (M + h)]
     · simp
     · intro b _ hb
-      rw [if_neg]
+      rw [ite_eq_right]
       intro hh; exact hb (hinj hh)
     · intro hn; exact absurd (Finset.mem_range.2 (by omega)) hn
   have hcd0 : G.coeff (l ^ (M + h)) ≠ 0 := by
@@ -554,7 +554,7 @@ theorem exists_coef_hasSum_lam : ∀ (l : ℕ) [Fact l.Prime] (h : ℕ) (μ : Fi
   have h0 : (h : ℤ) ≠ 0 := by exact_mod_cast (by omega : h ≠ 0)
   refine ⟨reCoef l h hh μ, reCoef_add l h hh μ, ?_, ?_⟩
   · obtain ⟨i, hi⟩ : ∃ i, μ i ≠ 0 := by
-      by_contra H; push_neg at H; exact hμ (funext H)
+      by_contra H; push Not at H; exact hμ (funext H)
     refine ⟨((i : ℕ) : ℤ), ?_⟩
     have := reCoef_at l h hh μ 0 i
     simp only [zero_mul, zero_add, neg_zero, zpow_zero, one_mul] at this
@@ -566,10 +566,10 @@ theorem exists_coef_hasSum_lam : ∀ (l : ℕ) [Fact l.Prime] (h : ℕ) (μ : Fi
       intro k
       have hn : 0 ≤ k % (h : ℤ) := Int.emod_nonneg k h0
       rw [Finset.sum_eq_single ⟨(k % (h : ℤ)).toNat, emod_toNat_lt h hh k⟩]
-      · simp only [F]; rw [if_pos (by simp [Int.toNat_of_nonneg hn])]
+      · simp only [F]; rw [ite_eq_left (by simp [Int.toNat_of_nonneg hn])]
       · intro b _ hb
         simp only [F]
-        rw [if_neg]
+        rw [ite_eq_right]
         intro hbk
         apply hb
         ext
@@ -588,12 +588,12 @@ theorem exists_coef_hasSum_lam : ∀ (l : ℕ) [Fact l.Prime] (h : ℕ) (μ : Fi
             fun n : ℤ => μ i * ((l : ℂ_[l]) ^ (-n) * sh (pw (n * h + ((i : ℕ) : ℤ)) x)) := by
           funext n
           simp only [Function.comp, F, f]
-          rw [if_pos (emod_at h hh n i), reCoef_at]
+          rw [ite_eq_left (emod_at h hh n i), reCoef_at]
           ring
         rw [heq]; exact this
       · intro k hk
         simp only [F]
-        rw [if_neg]
+        rw [ite_eq_right]
         intro hki
         apply hk
         refine ⟨k / h, ?_⟩
@@ -637,7 +637,7 @@ theorem window_around_last_max : ∀ (β : ℤ → ℝ) (c : ℝ) (h : ℕ), 0 <
     intro k
     by_cases hk : β k₀ ≤ β k
     · exact hm k (by simp [T, hk])
-    · push_neg at hk
+    · push Not at hk
       have : β k₀ ≤ β m := hm k₀ hk₀T
       linarith
   set U := T.filter (fun k => β k = β m) with hU
@@ -673,7 +673,7 @@ theorem window_around_last_max : ∀ (β : ℤ → ℝ) (c : ℝ) (h : ℕ), 0 <
   refine ⟨by omega, by omega, hc₀, fun k => hN ▸ hmax k, fun k hk => hNlast k hk, ?_⟩
   intro k hk
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have := hFB k hlt.le
   omega
 
@@ -788,7 +788,7 @@ theorem poly_root_mod_l : ∀ (l : ℕ) [Fact l.Prime] (h : ℕ) (μ : Fin h →
         intro j hj
         have hj' : j < -(D:ℤ) ∨ (E:ℤ) - D < j := by
           by_contra hc
-          push_neg at hc
+          push Not at hc
           apply hj
           rw [Finset.mem_image]
           exact ⟨(j + D).toNat, Finset.mem_range.2 (by omega), by omega⟩
@@ -870,7 +870,7 @@ theorem GlobalTheory.oneVarCount_onto_independentZeros : ∀ (l : ℕ) [Fact l.P
       rw [hvd, shmul, shpow, hσ, norm_mul, norm_pow, ← hρD] at hmem'
       have hd : ‖sh (u W - u W')‖ ≤ ρ := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         have h1 : ρ ^ l ^ D < ‖sh (u W - u W')‖ ^ l ^ D := pow_lt_pow_left₀ hcon hρ0.le (hlD D)
         have h2 := mul_lt_mul_of_pos_left h1 hl0
         linarith

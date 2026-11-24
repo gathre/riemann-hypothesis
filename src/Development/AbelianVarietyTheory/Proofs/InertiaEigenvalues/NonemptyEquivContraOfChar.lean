@@ -134,9 +134,9 @@ theorem Stable.ballFn_mem_and_one_mem_of_sub_mem (k : Type) [Field k] [Valuative
   simp only [map_one] at hT1 hT2 hT3
   set q : ℂ := (T.card : ℂ) with hqdef
   have hsum : ballFn (0 : k) 1 = ∑ a ∈ T, ballFn a ϖ := by
-    rw [hT3 (ballFn 0 1) rfl (fun x hx => by rw [ballFn_coe, if_neg (by simpa using hx)]) (fun x b hb => ?_)]
+    rw [hT3 (ballFn 0 1) rfl (fun x hx => by rw [ballFn_coe, ite_eq_right (by simpa using hx)]) (fun x b hb => ?_)]
     · refine Finset.sum_congr rfl fun a ha => ?_
-      rw [ballFn_coe, if_pos (by simpa using hT1 a ha), one_smul]
+      rw [ballFn_coe, ite_eq_left (by simpa using hT1 a ha), one_smul]
     · have hb1 : valuation k b ≤ 1 := hb.trans hlt.le
       rw [ballFn_coe, ballFn_coe, sub_zero, sub_zero, map_one]
       congr 1
@@ -278,19 +278,19 @@ theorem ballFn_sub_mem_of_radial (k : Type) [Field k] [ValuativeRel k] [Topologi
     by_cases h1 : valuation k x < 1
     · have h2 : valuation k (x - 1) = 1 := by
         rw [Valuation.map_sub_swap]; exact (valuation k).map_one_sub_of_lt h1
-      rw [if_pos h1, if_neg (by rw [h2]; exact lt_irrefl _), g1 x h1, g2 _ h2]; ring
+      rw [ite_eq_left h1, ite_eq_right (by rw [h2]; exact lt_irrefl _), g1 x h1, g2 _ h2]; ring
     · by_cases h2 : valuation k (x - 1) < 1
       · have h3 : valuation k x = 1 := by
           have := (valuation k).map_one_add_of_lt h2
           rwa [add_sub_cancel] at this
-        rw [if_neg h1, if_pos h2, g1 _ h2, g2 _ h3]; ring
+        rw [ite_eq_right h1, ite_eq_left h2, g1 _ h2, g2 _ h3]; ring
       · have hx0 : x ≠ 0 := by rintro rfl; exact h1 (by simp)
         have h3 : valuation k (x - 1) = valuation k x := by
           rcases (not_lt.1 h1).eq_or_lt with h4 | h4
           · refine le_antisymm ?_ (h4 ▸ not_lt.1 h2)
             exact (valuation k).map_sub_le le_rfl (by rw [map_one]; exact h4.le)
           · exact (valuation k).map_sub_eq_of_lt_left (by rwa [map_one])
-        rw [if_neg h1, if_neg h2, g3 x _ hx0 h3]; ring
+        rw [ite_eq_right h1, ite_eq_right h2, g3 x _ hx0 h3]; ring
 
 end GlobalTheory.LocGL.ProjLine
 end -- clump:auto
@@ -551,8 +551,8 @@ theorem ballFn_mem_smoothPart (a : k) {r : k} (hr : r ≠ 0) : ballFn a r ∈ sm
     fun g hg => funext fun x => if_congr (Set.mem_smul_set_iff_inv_smul_mem.symm.trans
       (Set.ext_iff.1 (MulAction.smul_orbit (⟨g, hg⟩ : J) (∞ : OnePoint k)) x)) rfl rfl)
   have h0 : F (0 : k) ≠ F ∞ := by
-    simp only [F, MulAction.mem_orbit_self, if_true]
-    rw [if_neg]
+    simp only [F, MulAction.mem_orbit_self, ite_true]
+    rw [ite_eq_right]
     · exact zero_ne_one
     · rintro ⟨g, hg⟩
       have h1 : g.1.val 0 0 ≠ 0 := hU g.2

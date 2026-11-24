@@ -641,7 +641,7 @@ theorem le_deg_of_hw {μ : Ix R S → ℚ} {f : Formalism.BasicNotions.TH.Pol P 
         have : monomial β z = z • (monomial β (1 : ℂ)) := by rw [smul_monomial, smul_eq_mul, mul_one]
         rw [this, map_smul, cartan2, MvPolynomial.coeff_smul, MvPolynomial.coeff_smul, MvPolynomial.coeff_smul, coeff_monomial]
         by_cases h : β = α
-        · subst h; simp only [if_true, smul_eq_mul]; ring
+        · subst h; simp only [ite_true, smul_eq_mul]; ring
         · simp [h]
       | add p q hp hq => rw [map_add (f := _), MvPolynomial.coeff_add, MvPolynomial.coeff_add, hp, hq, mul_add]
     have h' := hd f

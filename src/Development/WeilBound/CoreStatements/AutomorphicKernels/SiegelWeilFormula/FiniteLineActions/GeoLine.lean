@@ -109,7 +109,7 @@ theorem cw_inFrame_prod' (R : RD d) (f : InfinitePlace F → GR d.n) (w' : Infin
 theorem dZ_cw_rot' (R : RD d) (t : ℝ) (w : InfinitePlace F) :
     dZ d.n R.ζ * d.cw w (inFrame d.b (rot R t)) = yrotM d.n (R.sg w) t * dZ d.n R.ζ := by
   rw [rot, cw_inFrame_prod' R (fun w => yrot d.n (R.sg w) t) w _ (Finset.nodup_toList _),
-    if_pos (Finset.mem_toList.2 (Finset.mem_univ w)), R.at_w, mR_yrot]
+    ite_eq_left (Finset.mem_toList.2 (Finset.mem_univ w)), R.at_w, mR_yrot]
 
 end PositivityTheory.SiegelWeilFormula.KFP
 

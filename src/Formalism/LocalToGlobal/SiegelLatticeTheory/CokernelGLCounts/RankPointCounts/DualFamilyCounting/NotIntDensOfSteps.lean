@@ -114,7 +114,7 @@ def GaPlusIntMM : Prop :=
 theorem notIntDens_of (h1 : LocSelfDual) (hG : GaPlusIntMM) : NotIntDens := by
   intro D δ M hA L u u' hT F0 what₂ hR ϖ hϖ Z F' hz hZ hP hI
   by_contra hall
-  push_neg at hall
+  push Not at hall
   apply hI
   refine hG D δ M hA L u u' hT F0 what₂ hR Z F' hz hZ hP fun p a b => ?_
   by_contra hab
@@ -199,11 +199,11 @@ theorem flag_hT {T : D.host.E} (F : FlagG (VS D) D.R.rS T) (a b : Fin (D.R.rS + 
     | last => simp [FlagG.fvec, F.z_norm]
     | cast b =>
       simp only [FlagG.fvec, Fin.snoc_last, Fin.snoc_castSucc]
-      rw [if_neg (by simp [Fin.castSucc_ne_last])]
+      rw [ite_eq_right (by simp [Fin.castSucc_ne_last])]
       rw [← (VS D).herm.eq (F.e b) F.z, F.z_orth b, map_zero]
   | cast a =>
     simp only [FlagG.fvec, Fin.snoc_castSucc]
-    rw [if_neg (by simp [Fin.castSucc_ne_last])]
+    rw [ite_eq_right (by simp [Fin.castSucc_ne_last])]
     induction b using Fin.lastCases with
     | last => simp only [Fin.snoc_last]; exact F.z_orth a
     | cast b => simp only [Fin.snoc_castSucc]; exact F.e_iso a b

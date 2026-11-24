@@ -73,7 +73,7 @@ theorem hasQ_lin : ∀ (F : Type) [Field F] [NumberField F] [IsTotallyReal F] (f
   · intro ξ h
     apply both
     by_contra hc
-    push_neg at hc
+    push Not at hc
     apply h
     simp [hc.1, hc.2]
   · intro z
@@ -88,7 +88,7 @@ theorem hasQ_lin : ∀ (F : Type) [Field F] [NumberField F] [IsTotallyReal F] (f
   · intro ξ h
     apply both
     by_contra hc
-    push_neg at hc
+    push Not at hc
     apply h
     simp [hc.1, hc.2]
   · intro z

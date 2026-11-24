@@ -74,7 +74,7 @@ theorem antidiag_det {K : Type} [CommRing K] (t : K) (s : ℕ) :
           Fin.coe_castSucc]
         split_ifs <;> first | rfl | omega
       rw [hm, ih]
-      simp only [Matrix.of_apply, Fin.val_zero, Fin.val_last, zero_add, if_true]
+      simp only [Matrix.of_apply, Fin.val_zero, Fin.val_last, zero_add, ite_true]
       have hexp : (s + 1) * (s + 1 - 1) / 2 = s + s * (s - 1) / 2 := by
         rcases s with _ | k
         · rfl
@@ -151,13 +151,13 @@ theorem ptEntry_append_ge {K : Type} [Zero K] (head tail : List (K × ℕ)) (a b
     simp only [List.map_cons, List.sum_cons] at ha ⊢
     simp only [List.cons_append, ptEntry]
     have hna : ¬ (a < s ∧ b < s) := by omega
-    rw [if_neg hna]
+    rw [ite_eq_right hna]
     by_cases hb : s ≤ b
-    · rw [if_pos ⟨by omega, hb⟩, ih (a - s) (b - s) (by omega)]
+    · rw [ite_eq_left ⟨by omega, hb⟩, ih (a - s) (b - s) (by omega)]
       by_cases hc : (hd.map Prod.snd).sum ≤ b - s
-      · rw [if_pos hc, if_pos (by omega), Nat.sub_sub, Nat.sub_sub]
-      · rw [if_neg hc, if_neg (by omega)]
-    · rw [if_neg (by omega), if_neg (by omega)]
+      · rw [ite_eq_left hc, ite_eq_left (by omega), Nat.sub_sub, Nat.sub_sub]
+      · rw [ite_eq_right hc, ite_eq_right (by omega)]
+    · rw [ite_eq_right (by omega), ite_eq_right (by omega)]
 
 theorem blkDet_ne_zero {K : Type} [CommRing K] [IsDomain K] (bs : List (K × ℕ))
     (h : ∀ b ∈ bs, b.1 ≠ 0) : blkDet bs ≠ 0 := by

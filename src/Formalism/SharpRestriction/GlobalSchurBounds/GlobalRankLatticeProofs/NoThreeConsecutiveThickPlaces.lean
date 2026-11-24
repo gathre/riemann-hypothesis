@@ -76,15 +76,15 @@ private theorem no_three (R : Formalism.HC.Frame) {L : ℕ} (T : Finset ℕ) (hT
     have hφ2 : φ.1.2 = -1 := neg_one_of_ne hφ
     simp only [Formalism.HC.Frame.placeOf] at h0 h1
     rcases Int.units_eq_one_or y.1.2 with hy | hy
-    · rw [if_pos hy] at h0
+    · rw [ite_eq_left hy] at h0
       have hm : (φ * y).1.2 = -1 := by
         simp [Prod.fst_mul, Prod.snd_mul, hφ2, hy]
-      rw [if_neg (by rw [hm]; decide)] at h1
+      rw [ite_eq_right (by rw [hm]; decide)] at h1
       simpa [Formalism.HC.Frame.cc, c0, Prod.fst_mul, Prod.snd_mul, h0] using h1
-    · rw [if_neg (by rw [hy]; decide)] at h0
+    · rw [ite_eq_right (by rw [hy]; decide)] at h0
       have hm : (φ * y).1.2 = 1 := by
         simp [Prod.fst_mul, Prod.snd_mul, hφ2, hy]
-      rw [if_pos hm] at h1
+      rw [ite_eq_left hm] at h1
       have h0' : y.1.1 = 1 := by
         simpa [Formalism.HC.Frame.cc, c0, Prod.fst_mul, Prod.snd_mul] using h0
       simpa [Prod.fst_mul, h0'] using h1

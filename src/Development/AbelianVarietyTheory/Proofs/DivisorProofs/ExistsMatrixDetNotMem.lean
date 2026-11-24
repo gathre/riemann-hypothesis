@@ -134,7 +134,7 @@ theorem _root_.GlobalTheory.Survey.UnimodularStandardLattice.unimod_std :
       · exact Subring.one_mem _
       · exact Subring.zero_mem _
     simp only [Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-      Finset.mem_univ, if_true] at hs
+      Finset.mem_univ, ite_true] at hs
     exact (complexConj_mem_integers_iff (v i)).1 hs
 
 

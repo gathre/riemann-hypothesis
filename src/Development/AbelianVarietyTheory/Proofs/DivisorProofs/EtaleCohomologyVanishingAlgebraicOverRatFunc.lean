@@ -326,7 +326,7 @@ private theorem exists_ne_zero_common_zero_of_lt {k : Type} [Field k] [IsAlgClos
   have hex : ∃ J : Ideal (MvPolynomial (Fin m) k), J.IsMaximal ∧ Q ≤ J ∧
       J ≠ MvPolynomial.vanishingIdeal k {(0 : Fin m → k)} := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hjac : Q.jacobson = Q := isJacobsonRing_iff_prime_eq.1 inferInstance Q hQprime
     have hle : MvPolynomial.vanishingIdeal k {(0 : Fin m → k)} ≤ Q.jacobson := by
       rw [Ideal.jacobson]
@@ -443,7 +443,7 @@ private theorem exists_ne_zero_polynomial_zero_of_homogeneous {k : Type} [Field 
   refine ⟨x, ?_, hΦx ▸ hmapΦ⟩
   obtain ⟨t, ht⟩ : ∃ t, a t ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact ha0 (funext hcon)
   obtain ⟨⟨i, j⟩, rfl⟩ := e.surjective t
   intro hx
@@ -455,7 +455,7 @@ private theorem exists_ne_zero_polynomial_zero_of_homogeneous {k : Type} [Field 
     rw [Finset.sum_eq_single j]
     · simp
     · intro b _ hb
-      rw [if_neg]
+      rw [ite_eq_right]
       intro h
       exact hb (Fin.ext h.symm)
     · simp
@@ -571,7 +571,7 @@ theorem exists_zmod_cast_eq_of_pow_sub_self {p : ℕ} [hp : Fact p.Prime] {Ω : 
     (y : Ω) (hy : y ^ p - y = 0) : ∃ a : ZMod p, ZMod.castHom (dvd_refl p) Ω a = y := by
   classical
   by_contra hne
-  push_neg at hne
+  push Not at hne
   set f := ZMod.castHom (dvd_refl p) Ω
   set P : Polynomial Ω := X ^ p - X
   have hP : P ≠ 0 := Polynomial.X_pow_sub_X_ne_zero hp.out.one_lt

@@ -166,7 +166,7 @@ theorem form_put (L : PeriodPair) (y : n → Fin N' → Fin N → ℂ) (k : Fin 
   simp only [putL, LinearMap.coe_mk, AddHom.coe_mk]
   simp only [hs]
   simp only [hOne, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul, mul_ite, mul_one, mul_zero, ite_mul,
-    zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true, ent]
+    zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true, ent]
   rw [Finset.sum_div]
   refine Finset.sum_congr rfl (fun τ _ => ?_)
   ring
@@ -174,7 +174,7 @@ theorem form_put (L : PeriodPair) (y : n → Fin N' → Fin N → ℂ) (k : Fin 
 theorem alphaQ_put (c : ℝ) (L : PeriodPair) (k : Fin N' × Fin N) (x : n → ℂ) :
     alphaQ c (formV (Formalism.L2.Th1.F.area L) n N N') (putL n N N' k x) = alphaQ c (matH (hOne L n)) x := by
   unfold alphaQ qOf
-  rw [form_put, ent_putL, if_pos rfl]
+  rw [form_put, ent_putL, ite_eq_left rfl]
 
 theorem oneEntry_mem (c : ℝ) (L : PeriodPair) (ΛM : AddSubgroup (n → ℂ)) {F : (n → Fin N' → Fin N → ℂ) → ℂ}
     (hF : F ∈ Formalism.L2.Th1.H.Th (formV (Formalism.L2.Th1.F.area L) n N N') (alphaQ c (formV (Formalism.L2.Th1.F.area L) n N N'))
@@ -190,13 +190,13 @@ theorem oneEntry_mem (c : ℝ) (L : PeriodPair) (ΛM : AddSubgroup (n → ℂ)) 
   · have hX : putL n N N' k x ∈ powLat ΛM N N' := by
       intro i j
       by_cases h : (i, j) = k
-      · simp only [putL, LinearMap.coe_mk, AddHom.coe_mk, h, if_true]
+      · simp only [putL, LinearMap.coe_mk, AddHom.coe_mk, h, ite_true]
         exact hx
-      · simp only [putL, LinearMap.coe_mk, AddHom.coe_mk, h, if_false]
+      · simp only [putL, LinearMap.coe_mk, AddHom.coe_mk, h, ite_false]
         exact ΛM.zero_mem
     have h := hF.2 (putL n N N' k x) hX (setE z k w)
     simp only [Formalism.L2.Th1.H.opU] at h ⊢
-    rw [setE_add, form_put, form_put, ent_setE, ent_putL, if_pos rfl, alphaQ_put] at h
+    rw [setE_add, form_put, form_put, ent_setE, ent_putL, ite_eq_left rfl, alphaQ_put] at h
     exact h
 
 theorem tens_spans (c : ℝ) (L : PeriodPair) (ΛM : AddSubgroup (n → ℂ)) {θ : (n → ℂ) → ℂ} (hθ0 : θ ≠ 0)

@@ -91,7 +91,7 @@ theorem isIrrChar_of_abs {G K : Type} [Group G] [Fintype G] [Field K] [CharZero 
   refine ⟨⟨n, ρc, fun g => (htr g).symm⟩, ?_⟩
   have horth := Formalism.L2.Col.gx_orth (G := G) (k := AlgebraicClosure K) (ψ := ρ.character) (ψ' := ρ.character)
     ⟨n, ρ, hρ, rfl⟩ ⟨n, ρ, hρ, rfl⟩
-  rw [if_pos rfl] at horth
+  rw [ite_eq_left rfl] at horth
   have hcard : (Nat.card G : AlgebraicClosure K) ≠ 0 := Nat.cast_ne_zero.mpr Nat.card_pos.ne'
   have hsum : ∑ g, ρ.character g * ρ.character g⁻¹ = (Nat.card G : AlgebraicClosure K) := by
     rw [← mul_one (Nat.card G : AlgebraicClosure K), ← horth, ← mul_assoc, mul_inv_cancel₀ hcard, one_mul]

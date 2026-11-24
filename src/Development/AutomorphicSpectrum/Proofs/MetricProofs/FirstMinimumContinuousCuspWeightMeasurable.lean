@@ -188,12 +188,12 @@ theorem continuous_nz : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (
   by_cases h : ∃ r v, GroundTheory.Heights₂.Heights.LowerBoundFree.IsNzFamily I r v
   · have e : (fun x => (R x).nz σ I) = fun x => (R x).nzOf σ I h.choose_spec.choose := by
       funext x
-      simp only [RiemLat.nz, dif_pos h]
+      simp only [RiemLat.nz, dite_eq_left h]
     rw [e]
     exact continuous_nzOf R hP hH σ I _
   · have e : (fun x => (R x).nz σ I) = fun _ => 1 := by
       funext x
-      simp only [RiemLat.nz, dif_neg h]
+      simp only [RiemLat.nz, dite_eq_right h]
     rw [e]
     exact continuous_const
 

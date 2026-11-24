@@ -101,9 +101,9 @@ theorem lead_zero_of_sg (δ : ∀ p, (D.s.atP p).Fp) (T T' : ℕ) (p : PlF D) (w
     leadM (modMat δ T T' p w) D.R.rS = 0 ∧ Dmin w D.R.rS = 0 := by
   constructor
   · exact leadM_zero_row _ (sgF w (Fin.last _)) h fun b hb => by
-      rw [modMat_apply', if_neg (by rw [sgF_sgF]; exact hb)]
+      rw [modMat_apply', ite_eq_right (by rw [sgF_sgF]; exact hb)]
   · exact leadM_zero_row (ptMat w) (sgF w (Fin.last _)) h fun b hb => by
-      rw [ptMat_apply', if_neg (by rw [sgF_sgF]; exact hb)]
+      rw [ptMat_apply', ite_eq_right (by rw [sgF_sgF]; exact hb)]
 
 theorem shape_of_sg (δ : ∀ p, (D.s.atP p).Fp) (T T' : ℕ) (p : PlF D) (w : Point D.host.E (D.R.rS + 1))
     (h : sgF w (Fin.last D.R.rS) = Fin.last D.R.rS) :
@@ -127,14 +127,14 @@ theorem shape_of_sg (δ : ∀ p, (D.s.atP p).Fp) (T T' : ℕ) (p : PlF D) (w : P
   rw [hsum] at h5'
   rw [hp] at h3
   refine ⟨fun a => ⟨?_, ?_⟩, fun a => ⟨?_, ?_⟩, ?_, ?_⟩
-  · rw [modMat_apply', if_neg (hne' a)]
-  · rw [modMat_apply', if_neg (hne a)]
-  · rw [ptMat_apply', if_neg (hne' a)]
-  · rw [ptMat_apply', if_neg (hne a)]
-  · rw [modMat_apply', if_pos h.symm]
+  · rw [modMat_apply', ite_eq_right (hne' a)]
+  · rw [modMat_apply', ite_eq_right (hne a)]
+  · rw [ptMat_apply', ite_eq_right (hne' a)]
+  · rw [ptMat_apply', ite_eq_right (hne a)]
+  · rw [modMat_apply', ite_eq_left h.symm]
     simp only [Fin.val_last]
     rw [show 1 + pSt w.1 D.R.rS = D.R.rS + 1 by omega, show pSz w.1 D.R.rS = 1 by omega]
-  · rw [ptMat_apply', if_pos h.symm]
+  · rw [ptMat_apply', ite_eq_left h.symm]
     simp only [Fin.val_last]
 
 variable (Zd : LocDat D)
@@ -200,11 +200,11 @@ theorem isUnit_det_monomial {m : ℕ} (σ : Fin m → Fin m) (hσ : ∀ a, σ (�
     ext a c
     simp only [P, Matrix.mul_apply, Matrix.of_apply, Matrix.one_apply, ite_mul, one_mul, zero_mul]
     rw [Finset.sum_eq_single (σ a)]
-    · simp only [if_true, hσ]
+    · simp only [ite_true, hσ]
       by_cases h : c = a
-      · rw [if_pos h, if_pos h.symm]
-      · rw [if_neg h, if_neg (fun h' => h h'.symm)]
-    · intro b _ hb; rw [if_neg hb]
+      · rw [ite_eq_left h, ite_eq_left h.symm]
+      · rw [ite_eq_right h, ite_eq_right (fun h' => h h'.symm)]
+    · intro b _ hb; rw [ite_eq_right hb]
     · intro h; exact absurd (Finset.mem_univ _) h
   have hP : IsUnit P.det := isUnit_iff_exists_inv.2 ⟨P.det, by rw [← Matrix.det_mul, hPP, Matrix.det_one]⟩
   rw [hAP, Matrix.det_mul, Matrix.det_diagonal]
@@ -232,8 +232,8 @@ theorem isUnit_lead_monomial {r : ℕ} (σ : Fin (r + 1) → Fin (r + 1)) (hσ :
   · simp only [Matrix.submatrix_apply]
     rw [hA]
     by_cases h : b = σ' a
-    · rw [if_pos h, if_pos (by rw [h, hcast])]
-    · rw [if_neg h, if_neg (fun h' => h (Fin.castLE_injective _ (h'.trans (hcast a).symm)))]
+    · rw [ite_eq_left h, ite_eq_left (by rw [h, hcast])]
+    · rw [ite_eq_right h, ite_eq_right (fun h' => h (Fin.castLE_injective _ (h'.trans (hcast a).symm)))]
 
 end Mono
 
@@ -263,7 +263,7 @@ variable (Zd : LocDat D)
 theorem blkMod_isUnit (T T' : ℕ) (p : PlF D) (w : Point D.host.E (D.R.rS + 1)) (a : Fin (D.R.rS + 1))
     (ha : a ≠ Fin.last D.R.rS) :
     IsUnit (blkMod Zd.δ T T' p (1 + pSt w.1 a.val) (pSz w.1 a.val) (pTau w.1 a.val)) := by
-  rw [modMat_blk Zd T T' p w a, if_neg (fun h => ha h.1), sub_zero]
+  rw [modMat_blk Zd T T' p w a, ite_eq_right (fun h => ha h.1), sub_zero]
   have hy := yP_ne Zd p
   have hcf : ∀ b, cf Zd p b ≠ 0 := fun b => pow_ne_zero _ (inv_ne_zero hy)
   refine ((isUnit_iff_ne_zero.2 (mul_ne_zero (hcf a) (hcf _))).map _).mul ?_ |>.mul ?_

@@ -219,7 +219,7 @@ theorem exists_isDelta (L : Type) [NontriviallyNormedField L] [IsUltrametricDist
   have hbound : ∀ a ∈ I, ‖a‖ ≤ ‖N‖ / ‖(2 : L)‖ := by
     intro a ha
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hNle : ‖N‖ ≤ ‖N‖ / ‖(2 : L)‖ := by
       rw [le_div_iff₀ h2pos]
       nlinarith [norm_nonneg N]
@@ -1725,7 +1725,7 @@ theorem tor_e (hH : IsHerm s h) (hF : IsFrame h δ e f W) (hδ : δ ≠ 0) (u : 
   have hs : s δ ≠ 0 := (map_ne_zero s).2 hδ
   rw [tor_apply]
   simp only [pair_fe hH hF, hF.1, zero_smul, smul_zero, Finset.sum_const_zero, add_zero, ite_smul,
-    smul_ite, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    smul_ite, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   rw [smul_smul, mul_assoc, inv_mul_cancel₀ hs, mul_one, sub_smul, one_smul]
   abel
 
@@ -1733,7 +1733,7 @@ theorem tor_f (hH : IsHerm s h) (hF : IsFrame h δ e f W) (hδ : δ ≠ 0) (u : 
     tor hH δ e f u (f j) = (s (u j))⁻¹ • f j := by
   rw [tor_apply]
   simp only [hF.2.1, hF.2.2.1, zero_smul, smul_zero, Finset.sum_const_zero, add_zero, ite_smul,
-    smul_ite, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    smul_ite, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   rw [smul_smul, mul_assoc, inv_mul_cancel₀ hδ, mul_one, sub_smul, one_smul]
   abel
 

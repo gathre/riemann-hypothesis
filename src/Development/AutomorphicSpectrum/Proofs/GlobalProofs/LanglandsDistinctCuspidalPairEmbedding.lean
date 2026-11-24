@@ -269,7 +269,7 @@ theorem exists_map_two_step (hBZ : BernsteinZelevinskyFiniteness) {D : ℕ} (hD 
         fin_cases i <;> simp [ψ]
       · funext i
         fin_cases i <;> simp [ψ]
-  · push_neg at hsc
+  · push Not at hsc
     obtain ⟨z, v, hv⟩ := hsc
     rcases central_dichotomy X a q hq _ (hcent z) _ (hρz z) with h | h
     · exact h

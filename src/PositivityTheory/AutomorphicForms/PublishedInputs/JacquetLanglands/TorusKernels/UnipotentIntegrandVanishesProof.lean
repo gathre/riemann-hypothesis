@@ -207,7 +207,7 @@ theorem integral_prod_log {I : Type} [Fintype I] [Nontrivial I] (φ : I → ℝ 
   have hψprod : ∀ (w : I) (x : I → ℝ),
       ∏ v, ψ w v (x v) = (Real.log (1 + x w ^ 2) : ℂ) * ∏ v, φ v (x v) := by
     intro w x
-    simp only [hψ, Finset.prod_mul_distrib, Finset.prod_ite_eq', Finset.mem_univ, if_true]
+    simp only [hψ, Finset.prod_mul_distrib, Finset.prod_ite_eq', Finset.mem_univ, ite_true]
   have hψint : ∀ w v, Integrable (ψ w v) := by
     intro w v
     by_cases hv : v = w
@@ -386,9 +386,9 @@ theorem UpperTheory.Esk.unipotent_integrand_vanishes_proof : UpperTheory.Esk.B1a
         ((((large₂ (I := I)) ⁻¹' Set.Icc (Real.log A - ∑ v, Real.log (1 + x v ^ 2)) (Real.log B)).indicator b y : ℝ) : ℂ) * ∏ v, φ v (x v) := by
       funext y
       by_cases h : large₂ y ∈ Set.Icc (Real.log A - ∑ v, Real.log (1 + x v ^ 2)) (Real.log B)
-      · rw [if_pos ((hcond x y).mpr h),
+      · rw [ite_eq_left ((hcond x y).mpr h),
           Set.indicator_of_mem (show y ∈ (large₂ (I := I)) ⁻¹' Set.Icc (Real.log A - ∑ v, Real.log (1 + x v ^ 2)) (Real.log B) from h), Complex.real_smul]
-      · rw [if_neg (fun h' => h ((hcond x y).mp h')),
+      · rw [ite_eq_right (fun h' => h ((hcond x y).mp h')),
           Set.indicator_of_notMem (show y ∉ (large₂ (I := I)) ⁻¹' Set.Icc (Real.log A - ∑ v, Real.log (1 + x v ^ 2)) (Real.log B) from h), smul_zero]
         simp
     rw [e1, integral_mul_const, integral_complex_ofReal, integral_indicator hS, mul_comm]
@@ -445,10 +445,10 @@ theorem UpperTheory.Esk.unipotent_integrand_vanishes_proof : UpperTheory.Esk.B1a
     refine (hx0.norm.div_const ‖∏ v, φ v (x0 v)‖).congr (Filter.Eventually.of_forall fun y => ?_)
     show ‖b y • (if A / ∏ v, (1 + x0 v ^ 2) ≤ ∏ v, |(y v).1| ∧ ∏ v, |(y v).1| ≤ B then ∏ v, φ v (x0 v) else 0)‖ / ‖∏ v, φ v (x0 v)‖ = _
     by_cases h : large₂ y ∈ Set.Icc (Real.log A - ∑ v, Real.log (1 + x0 v ^ 2)) (Real.log B)
-    · rw [if_pos ((hcond x0 y).mpr h),
+    · rw [ite_eq_left ((hcond x0 y).mpr h),
         Set.indicator_of_mem (show y ∈ (large₂ (I := I)) ⁻¹' Set.Icc (Real.log A - ∑ v, Real.log (1 + x0 v ^ 2)) (Real.log B) from h), norm_smul,
         Real.norm_of_nonneg (hb0 y), mul_div_assoc, div_self (norm_ne_zero_iff.mpr (hP0 x0)), mul_one]
-    · rw [if_neg (fun h' => h ((hcond x0 y).mp h')),
+    · rw [ite_eq_right (fun h' => h ((hcond x0 y).mp h')),
         Set.indicator_of_notMem (show y ∉ (large₂ (I := I)) ⁻¹' Set.Icc (Real.log A - ∑ v, Real.log (1 + x0 v ^ 2)) (Real.log B) from h), smul_zero,
         norm_zero, zero_div]
   have hfin : m (Set.Icc (Real.log A - ∑ v, Real.log (1 + x0 v ^ 2)) (Real.log B)) ≠ ⊤ := by

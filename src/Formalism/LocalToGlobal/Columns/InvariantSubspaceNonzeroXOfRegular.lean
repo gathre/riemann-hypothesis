@@ -149,12 +149,12 @@ theorem tensorWeights_scalar_action (lam : ι → DomWeight n) (t : ι → Kˣ) 
         · have h1 : τ ∈ insert a S ↔ τ ∈ S := by simp [hτ]
           simp only [Pi.mul_apply, Pi.mulSingle_eq_of_ne hτ, one_mul]
           by_cases h2 : τ ∈ S
-          · rw [if_pos (h1.mpr h2), if_pos h2]
-          · rw [if_neg (fun h => h2 (h1.mp h)), if_neg h2]
+          · rw [ite_eq_left (h1.mpr h2), ite_eq_left h2]
+          · rw [ite_eq_right (fun h => h2 (h1.mp h)), ite_eq_right h2]
       rw [h0, map_mul, ih, Formalism.L2.GlobalTheoryTheory.TraceIntegrality.rhoK_single_scalar, Finset.prod_insert ha, smul_mul_smul, one_mul]
       rfl
   have h := key Finset.univ
-  simp only [Finset.mem_univ, if_true] at h
+  simp only [Finset.mem_univ, ite_true] at h
   exact h
 
 end RhoScal

@@ -295,9 +295,9 @@ theorem lintegral_flat {g : (Ix ι r → ℂ) → ENNReal} (hg : Measurable g) :
   · exact (hFm.comp (eS ι r).symm.measurable).aemeasurable
   refine lintegral_congr fun x => lintegral_congr fun y => ?_
   by_cases h : ∀ τ b, y (dI τ b) ≠ 0
-  · rw [if_pos h, Set.indicator_of_mem ((mem_sS_eS x y).2 h)]
+  · rw [ite_eq_left h, Set.indicator_of_mem ((mem_sS_eS x y).2 h)]
     simp only [jac_eS]
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     first
     | exact Set.indicator_of_notMem (fun hm => h ((mem_sS_eS x y).1 hm)) _
 end -- clump:auto
@@ -346,12 +346,12 @@ theorem det_LA (A : ι → Matrix (Fin r) (Fin r) ℂ) :
       Matrix.of_apply]
     by_cases h : (τ, b) = (τ', d)
     · obtain ⟨rfl, rfl⟩ := Prod.mk.inj h
-      rw [if_pos rfl, Finset.sum_eq_single c]
+      rw [ite_eq_left rfl, Finset.sum_eq_single c]
       · simp
       · intro k _ hk
         simp [hk]
       · simp
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       refine Finset.sum_eq_zero fun k _ => ?_
       have : ((τ, k, b) : Ix ι r) ≠ (τ', c, d) := by
         intro he
@@ -470,11 +470,11 @@ lemma normSq_det_jac {y : Frame X.Ψ r} (hy : y ∈ X.dom) :
     Finset.prod_congr rfl fun i _ => by rw [normSq_β0_diag X hy, min_eq_left (not_lt.1 i.2)]; rfl
   have e2 : ∏ i : {i : Ix X.Ψ r // ¬ i.2.2 < i.2.1},
       Complex.normSq (if i.1.2.2 < i.1.2.1 then β0 X y i.1.1 i.1.2.2 i.1.2.2 else 1) = 1 :=
-    Finset.prod_eq_one fun i _ => by rw [if_neg i.2, map_one]
+    Finset.prod_eq_one fun i _ => by rw [ite_eq_right i.2, map_one]
   have e3 : ∏ i : {i : Ix X.Ψ r // i.2.2 < i.2.1},
       Complex.normSq (if i.1.2.2 < i.1.2.1 then β0 X y i.1.1 i.1.2.2 i.1.2.2 else 1) =
       ∏ i : {i : Ix X.Ψ r // i.2.2 < i.2.1}, δ X y i.1.1 (min i.1.2.1 i.1.2.2) :=
-    Finset.prod_congr rfl fun i _ => by rw [if_pos i.2, normSq_β0_diag X hy, min_eq_right i.2.le]; rfl
+    Finset.prod_congr rfl fun i _ => by rw [ite_eq_left i.2, normSq_β0_diag X hy, min_eq_right i.2.le]; rfl
   rw [e1, e2, e3, mul_one, mul_comm]
 
 lemma norm_dmin {y : Frame X.Ψ r} (hy : y ∈ X.dom) (τ : X.Ψ) (i : Fin (r + 1)) :
@@ -666,7 +666,7 @@ theorem inner_eq {x0 : Frame X.Ψ r} (hx0 : X.IsOrtho x0) {φ : Frame X.Ψ r →
       intro y
       split_ifs with hd
       · rw [hrw, hφ Y hY _ (UF_mem X hd), Wf_rmul_UF X hY hd]; ring
-      · push_neg at hd
+      · push Not at hd
         obtain ⟨τ, b, hb⟩ := hd
         have hC : Lβ (β0 X Y) y ∉ Cy X.Ψ r := fun hC => by
           have := ((hC (dI τ b)).1 rfl).1
@@ -682,14 +682,14 @@ theorem inner_eq {x0 : Frame X.Ψ r} (hx0 : X.IsOrtho x0) {φ : Frame X.Ψ r →
       rw [h0, map_zero] at this
       exact (abs_re_pos X hY τ b).ne this
     rw [lintegral_congr hpt, lintegral_const_mul _ hmeas, lintegral_upper _ (β0_upper X hY) hdiag,
-      exponent_identity X hY (norm_dmin_last X hx0 x), GLo, if_pos hY, densY_eq, mul_assoc]
+      exponent_identity X hY (norm_dmin_last X hx0 x), GLo, ite_eq_left hY, densY_eq, mul_assoc]
   · have hpt : ∀ y, (if ∀ τ b, y (dI τ b) ≠ 0 then
         ENNReal.ofReal (Complex.normSq (jacU y)) * gI X x0 φ (lu ((eS X.Ψ r).symm (x, y))) else 0) = 0 := by
       intro y
       split_ifs with hd
       · rw [hrw, Wf_rmul_not_dom X hY (UF_mem X hd), mul_zero, mul_zero]
       · rfl
-    rw [lintegral_congr hpt, lintegral_zero, GLo, if_neg hY, zero_mul]
+    rw [lintegral_congr hpt, lintegral_zero, GLo, ite_eq_right hY, zero_mul]
 
 theorem core {x0 : Frame X.Ψ r} (hx0 : X.IsOrtho x0) {φ : Frame X.Ψ r → ENNReal} (hφm : Measurable φ)
     (hφ : ∀ x ∈ X.dom, ∀ b ∈ Bor X.Ψ r, φ (rmul x b) = φ x) :

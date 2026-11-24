@@ -145,7 +145,7 @@ theorem entry_le_of_lg_le {R : ℝ} {y : Mat n} (hy : lg y ≤ R) :
   have key : ∀ t : ℝ, 0 ≤ t → t ^ 2 ≤ Real.exp R → 1 ≤ Real.exp R → t ≤ Real.exp R := by
     intro t ht h h'
     by_contra hc
-    push_neg at hc
+    push Not at hc
     nlinarith
   have hE : 1 ≤ Real.exp R := by linarith
   exact ⟨fun a b => key _ (norm_nonneg _) ((sq_entry_le_hs y a b).trans (by linarith)) hE,

@@ -498,8 +498,8 @@ theorem exists_arch_sign_char : ∀ (F E : Type) [Field F] [NumberField F] [Fiel
     split_ifs <;> simp
   have hgc : ∀ w, Continuous (g w) := fun w => by
     by_cases h : c w = 1
-    · simp only [g, h, if_true]; exact continuous_const
-    · simp only [g, h, if_false]; exact continuous_normChar _ (hθc w)
+    · simp only [g, h, ite_true]; exact continuous_const
+    · simp only [g, h, ite_false]; exact continuous_normChar _ (hθc w)
   have happ : ∀ x, (∏ w, g w) x = ∏ w, g w x := fun x => MonoidHom.finsetProd_apply _ _ _
   have hc2 : ∀ w, c w = 1 ∨ c w = -1 := fun w => sq_eq_one _ (by simp only [c]; rw [← map_mul]; exact hsq _)
   refine ⟨∏ w, g w, ?_, fun b => ?_, fun b hb => ?_⟩
@@ -509,17 +509,17 @@ theorem exists_arch_sign_char : ∀ (F E : Type) [Field F] [NumberField F] [Fiel
     rw [happ, ← Finset.prod_mul_distrib]
     refine Finset.prod_eq_one fun w _ => ?_
     by_cases h : c w = 1
-    · simp only [g, h, if_true, MonoidHom.one_apply, mul_one]
-    · simp only [g, h, if_false]
+    · simp only [g, h, ite_true, MonoidHom.one_apply, mul_one]
+    · simp only [g, h, ite_false]
       rw [hval]; split_ifs <;> simp
   · rw [happ, eta_eq_prod η hsq b hb]
     refine Finset.prod_congr rfl fun w _ => ?_
     by_cases h : c w = 1
-    · simp only [g, h, if_true, MonoidHom.one_apply]
+    · simp only [g, h, ite_true, MonoidHom.one_apply]
       change 1 = if _ then c w else 1
       rw [h]; split_ifs <;> rfl
     · have h' : c w = -1 := (hc2 w).resolve_left h
-      simp only [g, h, if_false]
+      simp only [g, h, ite_false]
       rw [hval]
       change _ = if _ then c w else 1
       rw [h']
@@ -594,7 +594,7 @@ theorem mem_range_of_fixed : ∀ (F E : Type) [Field F] [NumberField F] [Field E
   haveI : Module.Finite F E := Module.Finite.of_restrictScalars_finite ℚ _ _
   obtain ⟨x, hx⟩ : ∃ x : E, σ x ≠ x := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     obtain ⟨w⟩ : Nonempty (InfinitePlace E) := inferInstance
     refine (InfinitePlace.not_isReal_iff_isComplex.2 (htc.isComplex w)) ?_
     rw [InfinitePlace.isReal_iff, ComplexEmbedding.isReal_iff]

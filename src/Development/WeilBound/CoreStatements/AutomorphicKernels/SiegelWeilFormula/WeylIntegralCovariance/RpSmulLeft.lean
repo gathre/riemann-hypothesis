@@ -101,13 +101,13 @@ theorem ek_eq (d : SD σ) (q : Ix d) : ek d q = incM F (eq d q) := by
   show _ = (1 : AF F) ⊗ₜ[F] _
   by_cases h : (i, j) = (i0, j0)
   · obtain ⟨rfl, rfl⟩ := Prod.mk.inj h
-    rw [if_pos rfl, Finset.sum_eq_single k0]
+    rw [ite_eq_left rfl, Finset.sum_eq_single k0]
     · simp
     · intro b _ hb
       have : ((i, j, k0) : Ix d) ≠ (i, j, b) := fun e => hb (by simp at e; exact e.symm)
       simp [this]
     · simp
-  · rw [if_neg h, TensorProduct.tmul_zero]
+  · rw [ite_eq_right h, TensorProduct.tmul_zero]
     refine Finset.sum_eq_zero fun k _ => ?_
     have : ((i0, j0, k0) : Ix d) ≠ (i, j, k) := fun e => h (by simp at e; rw [e.1, e.2.1])
     simp [this]

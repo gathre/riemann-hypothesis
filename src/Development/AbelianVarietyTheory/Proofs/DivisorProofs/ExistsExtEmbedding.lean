@@ -87,7 +87,7 @@ theorem aPl_last_pos (i : Fin D.R.m) (τ : D.what₂.Tau) : 0 < aPl D i (D.R.k +
     linarith
   have h2 := Int.floor_pos.2 h1
   unfold aPl
-  rw [if_pos hn, hlam]
+  rw [ite_eq_left hn, hlam]
   omega
 
 end GlobalTheory.PtStringTest

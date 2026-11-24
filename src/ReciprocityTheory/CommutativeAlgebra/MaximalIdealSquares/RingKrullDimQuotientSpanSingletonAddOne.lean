@@ -71,7 +71,7 @@ theorem spanFinrank_span_finset_le {R : Type*} [CommRing R] (s : Finset R) :
 theorem exists_repr_ne_zero {K V ι : Type*} [Field K] [AddCommGroup V] [Module K V]
     (b : Module.Basis ι K V) {v : V} (hv : v ≠ 0) : ∃ j, b.repr v j ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   exact hv (b.repr.map_eq_zero_iff.mp (Finsupp.ext fun j => by simpa using h j))
 
 theorem span_insert_image_erase_eq_top {K V : Type*} [Field K] [AddCommGroup V]
@@ -271,7 +271,7 @@ theorem exists_mem_maximalIdeal_notMem_sq_notMem_minimalPrimes (R : Type*) [Comm
     first
     | exact minimalPrimes.finite_of_isNoetherianRing R
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsub : ((maximalIdeal R : Set R)) ⊆ ⋃ i ∈ (↑(insert (maximalIdeal R ^ 2) hfin.toFinset) :
       Set (Ideal R)), (i : Set R) := by
     intro z hz

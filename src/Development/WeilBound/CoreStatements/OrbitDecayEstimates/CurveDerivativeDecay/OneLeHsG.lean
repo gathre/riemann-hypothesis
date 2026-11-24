@@ -231,7 +231,7 @@ theorem one_le_hsG {n : ℕ} (hn : 1 ≤ n) {ε : Fin n → Bool} (g : UJ ε) : 
   have h2 : ((coeMatrixAlt ε g)ᴴ * Jm ε * coeMatrixAlt ε g) j j =
       ∑ i, (if ε i then 1 else -1) * (((‖coeMatrixAlt ε g i j‖ ^ 2 : ℝ)) : ℂ) := by
     simp only [Jm, Matrix.mul_apply, Matrix.conjTranspose_apply, Matrix.diagonal_apply, mul_ite, mul_zero,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     refine Finset.sum_congr rfl fun i _ => ?_
     have := Complex.conj_mul' (coeMatrixAlt ε g i j)
     split_ifs <;> simp [← this]

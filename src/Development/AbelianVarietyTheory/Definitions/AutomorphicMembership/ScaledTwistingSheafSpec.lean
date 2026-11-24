@@ -98,7 +98,7 @@ theorem norm_valF_unit {X : Scheme.{0}} {C : Type} [NontriviallyNormedField C] [
   have h' : ⊤ ≤ (spMap (intO C).subtype ≫ z) ⁻¹ᵁ U := fun x _ => h (Set.mem_univ _)
   let ev : Γ(X, U) →+* ↥(intO C) := (Scheme.ΓSpecIso (CommRingCat.of ↥(intO C))).hom.hom.comp (z.appLE U ⊤ h).hom
   have e : ∀ a, valF (spMap (intO C).subtype ≫ z) U a = (ev a : C) := fun a => by
-    rw [valF, dif_pos h']
+    rw [valF, dite_eq_left h']
     have e1 : (spMap (intO C).subtype ≫ z).appLE U ⊤ h' = z.appLE U ⊤ h ≫ (spMap (intO C).subtype).appTop := by
       rw [Scheme.Hom.appTop, Scheme.Hom.app_eq_appLE]
       exact (Scheme.Hom.appLE_comp_appLE (spMap (intO C).subtype) z U ⊤ ⊤ h le_top).symm
@@ -279,7 +279,7 @@ theorem limRA_of_ample (h : IsAmpleLB M.L.lb) : M.LimRA := by
   · rw [Category.id_comp]; exact M.Z.proj
   · rw [Category.id_comp]; exact M.Z.flat
   · rw [Category.id_comp]; exact IsPullback.of_hasPullback _ _
-  · rw [if_neg (Finset.notMem_empty p)]; exact logBd_pullGenLB t _ p
+  · rw [ite_eq_right (Finset.notMem_empty p)]; exact logBd_pullGenLB t _ p
 
 
 def scaledTwistingSheaf (Z : Code Y c hg) (m : ℕ) : QLB Y c hg :=

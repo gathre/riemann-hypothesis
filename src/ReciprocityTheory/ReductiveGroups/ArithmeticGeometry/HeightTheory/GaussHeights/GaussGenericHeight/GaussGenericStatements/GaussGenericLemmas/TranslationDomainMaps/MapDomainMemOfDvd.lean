@@ -253,7 +253,7 @@ theorem eq_zero_of_transl [Infinite K] {g : MvPolynomial (Fin (D + 1) × Fin (N 
     refine Finset.sum_eq_zero fun s hs => ?_
     obtain ⟨j, hj⟩ : ∃ j, s (0, j) ≠ 0 := by
       by_contra hne
-      push_neg at hne
+      push Not at hne
       have h1 := h0 s hs
       simp [bdeg, hne] at h1
     apply mul_eq_zero_of_right

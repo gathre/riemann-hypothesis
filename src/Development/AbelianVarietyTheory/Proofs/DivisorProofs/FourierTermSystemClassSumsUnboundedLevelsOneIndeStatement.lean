@@ -700,7 +700,7 @@ theorem exists_classSum_fun : ∀ (I : Type) (X₁ : GlobalTheory.GSep.GSet) (z�
           rwa [show X₁.S.TT X₁.M z₁ = X₁.S.perp (X₁.S.HH X₁.M z₁) from rfl, TestBasis.perp_perp]
         have hex' : ∃ τ ∈ X₁.S.TT X₁.M z₁, eStd X₁.S.g _ d τ ≠ 0 := by
           by_contra hc
-          push_neg at hc
+          push Not at hc
           exact hd' hc
         obtain ⟨τ₀, hτ₀, h₀⟩ := hex'
         have h₀' : eStd X₁.S.g _ τ₀ d ≠ 0 := by
@@ -732,7 +732,7 @@ theorem exists_classSum_fun : ∀ (I : Type) (X₁ : GlobalTheory.GSep.GSet) (z�
     have key := sumI_comp hinj (fun mu hmu => ?_) hsum
     · simp only [hfam, hin, ite_true] at key
       exact key
-    · rw [hfam, if_neg]
+    · rw [hfam, ite_eq_right]
       intro hd
       apply hmu
       have h1 := (hcong _ _ 0 (hsub _ _ _ _ (hA mu) hκ)).1 ((hint _).1 hd)
@@ -1667,7 +1667,7 @@ theorem classSums_deeper : ∀ (O : Type) [CommRing O] (bar : O → O) (q : ℕ)
       rw [hkk₀]
       rfl
     · have := congrFun (hKlin y c (fun _ => x)) 0
-      simp only [kk, hy, dif_neg, not_false_eq_true, one_apply]
+      simp only [kk, hy, dite_eq_right, not_false_eq_true, one_apply]
       exact this
   choose aκ haκ using (hyy y₀).2.1
   have hper : ∀ κ κ' c, (∀ v, CongMod L₂ (κ v) (κ' v)) → Fv (aκ κ) c = Fv (aκ κ') c := by

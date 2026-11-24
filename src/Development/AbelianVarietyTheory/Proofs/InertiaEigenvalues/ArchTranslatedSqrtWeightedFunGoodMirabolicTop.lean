@@ -64,7 +64,7 @@ theorem secRow_eq_rowMat {R : Type} [CommRing R] (y : Fin (m + 1) → R) :
   simp only [secRow, GlobalTheory.RSTheta.rowMat, Matrix.of_apply, Matrix.updateRow_apply]
   by_cases h : i = Fin.last m
   · subst h; simp
-  · rw [if_neg h, if_neg (fun e => h (Fin.ext (by simpa using e)))]
+  · rw [ite_eq_right h, ite_eq_right (fun e => h (Fin.ext (by simpa using e)))]
 
 
 omit [NumberField E] [_root_.NumberField.IsTotallyComplex E] in

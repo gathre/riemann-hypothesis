@@ -609,7 +609,7 @@ theorem core {G : Type} [Group G] {W U : Type} [AddCommGroup W] [Module ℂ W] [
     exact sup_le ((Submodule.span_singleton_le_iff_mem _ _).2 hxC) hDC
   obtain ⟨F, hF⟩ : ∃ F, ¬ LinearMap.range (FR F) ≤ C := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hC.1
     rw [eq_top_iff, ← htop]
     exact iSup_le h

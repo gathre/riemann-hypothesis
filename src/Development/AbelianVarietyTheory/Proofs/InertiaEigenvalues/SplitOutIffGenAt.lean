@@ -72,7 +72,7 @@ theorem sys_inj (L : LocAll (lay0 D)) (i : L.X.nd.Loc) {x x' : L.X.nd.X i} (h : 
     have hv : SplitOut L.X.nd i v ∧ 1 ≤ k ∧ k ≤ D.R.nV := ⟨⟨hs, hl, hS, hQ⟩, k1, k2⟩
     have := congrFun (congrFun h v) k
     unfold sys at this
-    rw [if_pos hv, if_pos hv] at this
+    rw [ite_eq_left hv, ite_eq_left hv] at this
     exact iotaO_injective L i this
   exact hle hf
 

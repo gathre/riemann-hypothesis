@@ -268,7 +268,7 @@ private theorem adicCompletion_eq_unit_mul_pow {A : Type} [CommRing A] [IsDomain
     rw [maximalIdeal_adicCompletion_eq_span' hϖ, Ideal.span_singleton_pow]
   have hex : ∃ N, x ∉ IsLocalRing.maximalIdeal (AdicCompletion (IsLocalRing.maximalIdeal A) A) ^ N := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hx
     refine IsHausdorff.haus (I := IsLocalRing.maximalIdeal (AdicCompletion (IsLocalRing.maximalIdeal A) A)) inferInstance x fun n => ?_
     simpa [SModEq.zero] using h n
@@ -302,7 +302,7 @@ private theorem isDomain_adicCompletion_of_dvr' {A : Type} [CommRing A] [IsDomai
   have hnzd : NoZeroDivisors (AdicCompletion (IsLocalRing.maximalIdeal A) A) := by
     refine ⟨fun {a b} hab => ?_⟩
     by_contra hne
-    push_neg at hne
+    push Not at hne
     obtain ⟨n, u, rfl⟩ := adicCompletion_eq_unit_mul_pow hϖ a hne.1
     obtain ⟨m, v, rfl⟩ := adicCompletion_eq_unit_mul_pow hϖ b hne.2
     apply hp (n + m)

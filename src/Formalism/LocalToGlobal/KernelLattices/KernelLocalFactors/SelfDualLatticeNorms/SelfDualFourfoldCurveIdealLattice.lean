@@ -114,14 +114,14 @@ theorem hermitianSelfDual_of_fourfoldBlock {n : Type} [Fintype n] (h : Matrix n 
       exact ⟨m, by rw [key, hm]⟩
     rw [hsd] at h1
     have h2 := h1 0
-    rwa [CmData.slice_embA, if_pos rfl] at h2
+    rwa [CmData.slice_embA, ite_eq_left rfl] at h2
   · intro hx y hy
     have h1 : CmData.embA 0 x ∈ dualLat (matH (blk4 h)) (pow4 Λ) := by
       rw [hsd]
       exact CmData.embA_mem Λ 0 hx
     obtain ⟨m, hm⟩ := h1 _ (CmData.embA_mem Λ 0 hy)
     refine ⟨m, ?_⟩
-    rw [key, CmData.slice_embA, if_pos rfl] at hm
+    rw [key, CmData.slice_embA, ite_eq_left rfl] at hm
     exact hm
 
 theorem locNorm_of_kappa (a₀ : ℕ) (b₀ c₀ : ℤ) (dK : ℕ) (ha : 0 < a₀) (hdK : 0 < dK) (lam : ℂ) (hlam : lam ≠ 0)

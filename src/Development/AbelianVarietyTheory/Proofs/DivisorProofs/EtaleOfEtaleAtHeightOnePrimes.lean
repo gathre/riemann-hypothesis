@@ -253,7 +253,7 @@ theorem etale_of_etale_height_one : ∀ (R A : Type) [CommRing R] [IsDomain R] [
     by_cases h0 : Algebra.discr R b = 0
     · obtain ⟨y, hy0, hyu⟩ : ∃ y : R, y ≠ 0 ∧ ¬ IsUnit y := by
         by_contra H
-        push_neg at H
+        push Not at H
         exact hR ⟨exists_pair_ne R, mul_comm, fun {a} ha => (H a ha).exists_right_inv⟩
       obtain ⟨P, hP, h1, hyP⟩ := exists_height_one_mem R hy0 hyu
       exact key P hP h1 (h0 ▸ P.zero_mem)

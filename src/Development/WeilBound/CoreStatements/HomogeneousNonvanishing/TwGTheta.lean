@@ -54,7 +54,7 @@ theorem anti_one {B : Type} [CommRing B] (σ : B ≃+* B) (I : Ideal B)
     (hspan : Ideal.span (Set.range fun x : B => x - σ x) = ⊤) (P : Ideal B) (hP : ¬ I ≤ P * I) :
     ∃ x ∈ I, x - σ x ∉ P * I := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hP
   intro i hi
   have hJ : Ideal.span (Set.range fun x : B => x - σ x) ≤

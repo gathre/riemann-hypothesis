@@ -142,7 +142,7 @@ theorem nOf_mem (g : UG c (stdJ ν E)) : nOf c g ∈ sieg c ν := by
 theorem pOf_mem (g : UG c (stdJ ν E)) (hd : IsUnit (mat c g).toBlocks₂₂.det) : pOf c g ∈ sieg c ν := by
   rw [mem_sieg]
   have hk : mat c (pOf c g) = mat c g * (-stdJ ν E * (fromBlocks 1 (-(-vOf c g)) 0 1 * stdJ ν E)) := by
-    simp only [pOf, kOf, _root_.mul_inv_rev, inv_inv, nOf, dif_pos hd]
+    simp only [pOf, kOf, _root_.mul_inv_rev, inv_inv, nOf, dite_eq_left hd]
     rfl
   rw [hk]
   have hDV : (mat c g).toBlocks₂₂ * vOf c g = (mat c g).toBlocks₂₁ := mul_nonsing_inv_cancel_left _ _ hd
@@ -204,7 +204,7 @@ theorem tendsto_nOf : Tendsto (nOf c) (𝓝 (1 : UG c (stdJ ν E))) (𝓝 1) := 
       MulOpposite.op (fromBlocks 1 (-(-vOf c g)) 0 1 : Matrix (ν ⊕ ν) (ν ⊕ ν) E))) =ᶠ[𝓝 1]
       (Units.embedProduct _ ∘ fun g => ((nOf c g : UG c (stdJ ν E)) : GL (ν ⊕ ν) E)) := by
     filter_upwards [eventually_isUnit c] with g hg
-    simp only [Function.comp_apply, nOf, dif_pos hg]
+    simp only [Function.comp_apply, nOf, dite_eq_left hg]
     rfl
   refine Tendsto.congr' hE ?_
   have h1 : Units.embedProduct _ ((1 : UG c (stdJ ν E)) : GL (ν ⊕ ν) E) = (1, MulOpposite.op 1) := rfl

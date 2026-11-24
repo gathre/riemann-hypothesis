@@ -126,7 +126,7 @@ theorem exists_sfd {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup
     have hn0 : n = n0 := by
       apply le_antisymm
       · by_contra hlt
-        push_neg at hlt
+        push Not at hlt
         exact hnmin n0 hlt ((hinv γ' x n0).mpr hn0x)
       · exact not_lt.mp fun h => hmin n h hxn
     rw [hn0] at hn

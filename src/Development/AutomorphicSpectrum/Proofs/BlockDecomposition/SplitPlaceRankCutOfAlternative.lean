@@ -941,7 +941,7 @@ theorem coY_sum_mul_eq_zero : ∀ (k : Type) [Field k] [Fintype k] (n : ℕ) (ψ
     have hA : T - β ≠ 0 := sub_ne_zero.mpr hne
     obtain ⟨i, j, hij⟩ : ∃ i j, (T - β) i j ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hA (Matrix.ext h)
     obtain ⟨a, ha⟩ := (AddChar.ne_one_iff).1 hψ
     refine (AddChar.ne_one_iff).2 ⟨Matrix.single j i (a / (T - β) i j), ?_⟩

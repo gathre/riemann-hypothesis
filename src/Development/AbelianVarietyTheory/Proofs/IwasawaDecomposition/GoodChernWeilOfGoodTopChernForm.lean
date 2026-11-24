@@ -1293,10 +1293,10 @@ theorem ptr_mul_trProd_mem_reach (n : ℕ) (S : Type) [CommRing S] [Algebra ℝ 
         rw [← hσ A (r + i - a) (by omega), Finset.mul_sum]
         exact Finset.sum_congr rfl fun j _ => (mul_smul_comm _ _ _).symm
       rw [Finset.sum_congr rfl e, Finset.sum_eq_single r]
-      · rw [if_pos (by omega), Algebra.smul_def, map_natCast, mul_assoc]
+      · rw [ite_eq_left (by omega), Algebra.smul_def, map_natCast, mul_assoc]
       · intro a ha har
         rw [Finset.mem_range] at ha
-        rw [if_neg (by omega), mul_zero]
+        rw [ite_eq_right (by omega), mul_zero]
       · intro h
         exact absurd (Finset.mem_range.2 (by omega)) h
     simp only [Pi.smul_apply, Finset.sum_apply]

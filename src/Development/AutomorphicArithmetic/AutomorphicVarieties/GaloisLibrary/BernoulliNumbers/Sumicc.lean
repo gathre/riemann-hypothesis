@@ -67,7 +67,7 @@ theorem UpperTheory.V.Bern.b_sumicc :
     have ha' := Finset.mem_Icc.1 ha
     simp only [ZMod.val_natCast]
     rcases Nat.lt_or_ge a N with h | h
-    · rw [Nat.mod_eq_of_lt h, if_neg (by omega)]
+    · rw [Nat.mod_eq_of_lt h, ite_eq_right (by omega)]
     · have hEq : a = N := by omega
       subst hEq
       simp

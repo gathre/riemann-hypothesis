@@ -490,7 +490,7 @@ theorem _root_.GlobalTheory.AwayNorm.exists_normed_away : ∀ (p : ℕ) (R : Typ
   have hnz : nrm 0 = 0 := by
     refine le_antisymm ?_ (hnn 0)
     by_contra h
-    push_neg at h
+    push Not at h
     obtain ⟨n, hn⟩ := exists_pow_lt_of_lt_one h hp1
     have := hle1 0 n (hzero n)
     rw [zpow_natCast] at this
@@ -902,7 +902,7 @@ theorem trunc_mul_sub_mem (φ : R →+* P.R.BdR) (hφ : ∀ x, φ x ∈ FilB P 0
   have hd : Polynomial.X ^ m ∣ f.trunc m * g.trunc m - (f * g).trunc m := by
     rw [Polynomial.X_pow_dvd_iff]
     intro d hd
-    rw [Polynomial.coeff_sub, PowerSeries.coeff_trunc, if_pos hd,
+    rw [Polynomial.coeff_sub, PowerSeries.coeff_trunc, ite_eq_left hd,
       PowerSeries.coeff_mul_eq_coeff_trunc_mul_trunc f g hd, ← Polynomial.coe_mul,
       Polynomial.coeff_coe, sub_self]
   obtain ⟨q, hq⟩ := hd

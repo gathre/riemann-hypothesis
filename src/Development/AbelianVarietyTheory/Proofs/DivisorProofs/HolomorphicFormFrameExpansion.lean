@@ -124,7 +124,7 @@ theorem atTau_spec (R : RealPoints θ V) (ρ : D.what₂.Tau) {g : Matrix (Fin V
       · subst c; exact hg
       · simp
     exact ⟨k, hk, by simpa using h ρ, fun τ c => by simpa [c] using h τ⟩
-  rw [atTau, dif_pos h]
+  rw [atTau, dite_eq_left h]
   exact h.choose_spec
 
 def toLie (R : RealPoints θ V) (x : D.what₂.Tau → Matrix (Fin V.rank) (Fin V.rank) ℂ) {Ψ : Finset (D.host.E →+* ℂ)}

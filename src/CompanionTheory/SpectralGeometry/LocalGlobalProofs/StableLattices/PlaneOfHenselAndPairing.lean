@@ -128,7 +128,7 @@ theorem lat_primitive {Λ : AddSubgroup V} (hΛ : IsLat L Λ) {p : L} (hp0 : p �
   obtain ⟨m, b, hb⟩ := id hΛ
   have hex : ∃ i, b.repr v i ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hv (b.repr.map_eq_zero_iff.1 (Finsupp.ext hcon))
   obtain ⟨i, hi⟩ := hex
   set C : ℝ := ∑ j, ‖b.repr v j‖ + 1 with hC
@@ -400,11 +400,11 @@ theorem stPlane_of_hensel_pairing : StHensel → StPairing → StPlane := by
   have c2 := lat_commens hM.1 hΛ.1 hp0 hp1
   have hmin1 : ∀ k < Nat.find c1, ∃ z ∈ M, p ^ k • z ∉ Λ := fun k hk => by
     have := Nat.find_min c1 hk
-    push_neg at this
+    push Not at this
     exact this
   have hmin2 : ∀ k < Nat.find c2, ∃ z ∈ Λ, p ^ k • z ∉ M := fun k hk => by
     have := Nat.find_min c2 hk
-    push_neg at this
+    push Not at this
     exact this
   have up : ∀ (A : AddSubgroup V), IsLat L A → ∀ (B : AddSubgroup V) {a b : ℕ}, a ≤ b →
       (∀ y ∈ B, p ^ a • y ∈ A) → ∀ y ∈ B, p ^ b • y ∈ A := by

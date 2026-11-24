@@ -365,7 +365,7 @@ private lemma list_ne (h : Slots π V m ι E A U) (hall : ∀ j, ∃ v ∈ eigIn
     have hk : k ∉ L := (List.nodup_cons.1 hL).1
     obtain ⟨hcl, hinv, hirr⟩ := cutIrr Γ G H π V m ι E A U h
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     simp only [List.map_cons, List.prod_cons, ContinuousLinearMap.mul_apply] at hcon
     let M : Submodule ℂ H :=
       { carrier := {w | w ∈ eigIn V E 1 ∧ ∀ g, A k (π (ι k g) w) = 0}
@@ -438,7 +438,7 @@ private lemma spectral_ne {T : H →L[ℂ] H} (hT : IsCompactOperator T) (hsa : 
   · obtain ⟨j, hj⟩ := hl
     exact ⟨l j, b j, hj, b.orthonormal.ne_zero j, hb j⟩
   · exfalso
-    push_neg at hl
+    push Not at hl
     apply hu
     rw [← (hsum u).tsum_eq]
     simp [hl]
@@ -527,7 +527,7 @@ theorem UpperTheory.ConvolutionTheory.L1.jointEx :
     rw [hw1] at h3
     have h6 : 0 ≤ r * ‖(w : H)‖ ^ 2 := h5 ▸ h3
     by_contra hneg
-    push_neg at hneg
+    push Not at hneg
     nlinarith
   have hrne : r ≠ 0 := by
     rintro rfl

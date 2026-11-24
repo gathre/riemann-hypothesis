@@ -314,7 +314,7 @@ theorem step_same [CharZero k] (hv : M.TieVars w e zv sv) (hr : 1 ≤ r) {o n z 
       ((j.factorial : k) ^ 2 * (((o + n + r + z + 1 + j - 1).choose j : ℕ) : k) * (z.factorial : k)) *
         M.fockK y (Formalism.GM.tiePhi w e o n z y') := by
   have h := ProjS.fockForm_raiseAug_pow_augLift (z := z) hv hr hy hy' hz hz' j j
-  rw [if_pos rfl, ProjS.fockK_smul_left, ProjS.fockK_smul_right, tieEh_pow_apply, tieEh_pow_apply] at h
+  rw [ite_eq_left rfl, ProjS.fockK_smul_left, ProjS.fockK_smul_right, tieEh_pow_apply, tieEh_pow_apply] at h
   have hf : (j.factorial : k) ≠ 0 := Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero j)
   have h2 : M.fockK (Ehp w e zv sv ^ j * M.tieP w e zv sv o n z y) (Ehp w e zv sv ^ j * M.tieP w e zv sv o n z y') =
       (j.factorial : k) * ((j.factorial : k) * (((j.factorial : k))⁻¹ * (((j.factorial : k))⁻¹ *
@@ -583,7 +583,7 @@ theorem degU (hB : D.BlockOK) (j : Fin D.T.t → ℕ) (jp : ℕ) :
     (D.lettersAt j jp).deg D.uPos = D.LL.deg D.uPos - jp := by
   simp only [BlockData.lettersAt]
   rw [← Fin.sum_univ_def]
-  rw [Finset.sum_eq_zero (fun i _ => if_neg (by have := hB.2.1 i; omega))]
+  rw [Finset.sum_eq_zero (fun i _ => ite_eq_right (by have := hB.2.1 i; omega))]
   simp
 
 theorem deg_fst (hB : D.BlockOK) (j : Fin D.T.t → ℕ) (jp : ℕ) (i : Fin D.T.t) :
@@ -593,9 +593,9 @@ theorem deg_fst (hB : D.BlockOK) (j : Fin D.T.t → ℕ) (jp : ℕ) (i : Fin D.T
   have hv : (D.letterAt (D.T.pos i) : ℕ) = D.T.pos i := letterAt_val (by omega)
   simp only [BlockData.lettersAt]
   rw [← Fin.sum_univ_def]
-  rw [Finset.sum_eq_single i (fun i' _ hi' => if_neg (by
+  rw [Finset.sum_eq_single i (fun i' _ hi' => ite_eq_right (by
       rw [hv]; have := pos_ne hB (Ne.symm hi'); have := pos_ne_succ hB i i'; omega)) (by simp),
-    if_pos (Or.inl hv), if_neg (by intro h; rw [h] at hv; omega)]
+    ite_eq_left (Or.inl hv), ite_eq_right (by intro h; rw [h] at hv; omega)]
   simp
 
 theorem deg_snd (hB : D.BlockOK) (j : Fin D.T.t → ℕ) (jp : ℕ) (i : Fin D.T.t) :
@@ -605,9 +605,9 @@ theorem deg_snd (hB : D.BlockOK) (j : Fin D.T.t → ℕ) (jp : ℕ) (i : Fin D.T
   have hv : (D.letterAt (D.T.pos i + 1) : ℕ) = D.T.pos i + 1 := letterAt_val (by omega)
   simp only [BlockData.lettersAt]
   rw [← Fin.sum_univ_def]
-  rw [Finset.sum_eq_single i (fun i' _ hi' => if_neg (by
+  rw [Finset.sum_eq_single i (fun i' _ hi' => ite_eq_right (by
       rw [hv]; have := pos_ne hB (Ne.symm hi'); have := pos_ne_succ hB i' i; omega)) (by simp),
-    if_pos (Or.inr hv), if_neg (by intro h; rw [h] at hv; omega)]
+    ite_eq_left (Or.inr hv), ite_eq_right (by intro h; rw [h] at hv; omega)]
   simp
 
 end Block

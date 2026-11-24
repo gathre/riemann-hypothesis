@@ -69,9 +69,9 @@ private theorem polZ_proj {l : ℕ} [Fact l.Prime] (F : GFrame l) :
     rw [this] at ha
     exact ha.elim
   · intro g
-    exact Subtype.ext (if_pos g.2)
+    exact Subtype.ext (ite_eq_left g.2)
   · intro g
-    refine Subtype.ext ((if_neg (polZ_nmem F g)).trans ?_)
+    refine Subtype.ext ((ite_eq_right (polZ_nmem F g)).trans ?_)
     rw [mul_assoc, F.c_sq, mul_one]
 
 private theorem polZ_cases {l : ℕ} [Fact l.Prime] (F : GFrame l) (γ : F.Γ) :

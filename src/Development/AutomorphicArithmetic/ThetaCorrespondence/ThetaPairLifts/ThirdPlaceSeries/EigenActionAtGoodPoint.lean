@@ -141,7 +141,7 @@ theorem main_alt_alt : ∀ (D : D7) (Q : PairedCharacterCondition.Pend D), Globa
     rw [e1, prod_plc _ L hnd]
     congr 1
     funext j
-    rw [if_pos (hall j)]
+    rw [ite_eq_left (hall j)]
   have hz : PairedCharacterCondition.mapCoef (iotaO D.nd D.naut i) (z : MonoidAlgebra (D.nd.O i) (G0g D.nd)) =
       (D.what₂.restRowsFiniteGroupCard : ℂ) • D.ntypes.e0 := by
     rw [e0_eq, eGood, Finset.smul_sum, AddSubmonoidClass.coe_finsetSum]

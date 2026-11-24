@@ -103,8 +103,8 @@ theorem isCusp_psi (θ : Fbar p →* ℂ) (hθ : ∀ x y : Fbar p, x ≠ 0 → y
     refine mul_eq_zero_of_right _ (Eq.trans ?_ h2)
     refine Finset.sum_congr rfl fun u _ => ?_
     by_cases hu : u ∈ (Formalism.D.Classical.grUnipBlock d a : Set (GL (Fin d) (ZMod p)))
-    · rw [if_pos ((GlobalTheory.GreenExists.mem_grUnipBlock_iff had u).1 hu), Set.indicator_of_mem (by exact hu)]
-    · rw [if_neg (mt (GlobalTheory.GreenExists.mem_grUnipBlock_iff had u).2 hu), Set.indicator_of_notMem (by exact hu), mul_zero]
+    · rw [ite_eq_left ((GlobalTheory.GreenExists.mem_grUnipBlock_iff had u).1 hu), Set.indicator_of_mem (by exact hu)]
+    · rw [ite_eq_right (mt (GlobalTheory.GreenExists.mem_grUnipBlock_iff had u).2 hu), Set.indicator_of_notMem (by exact hu), mul_zero]
 
 theorem thetaOf_gen (L : LabelDatum p) {d : ℕ} (hd : 0 < d) (k : ℕ) {z : Fbar p} (hz : z ^ (p ^ d - 1) = 1) :
     thetaOf L d (L.gen d ^ k) z = L.teich z ^ k := by
@@ -170,8 +170,8 @@ theorem isCuspOf_cuspOn (L : LabelDatum p) {ι : Type} [Fintype ι] [DecidableEq
   have hι : Function.Injective (Units.map L.teich) := fun a b e =>
     Units.ext (L.teich_inj _ _ a.ne_zero b.ne_zero (congrArg Units.val e))
   let f : Fbar p → ℂ := fun x => if h : x = 0 then 0 else ((Units.map L.teich (Units.mk0 x h) : ℂˣ) : ℂ)
-  have hf0 : ∀ x (hx : x ≠ 0), f x = ((Units.map L.teich (Units.mk0 x hx) : ℂˣ) : ℂ) := fun x hx => dif_neg hx
-  have hfz : f 0 = 0 := dif_pos rfl
+  have hf0 : ∀ x (hx : x ≠ 0), f x = ((Units.map L.teich (Units.mk0 x hx) : ℂˣ) : ℂ) := fun x hx => dite_eq_right hx
+  have hfz : f 0 = 0 := dite_eq_left rfl
   let ω : Fbar p →*₀ ℂ :=
     { toFun := f
       map_zero' := hfz

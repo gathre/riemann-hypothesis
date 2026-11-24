@@ -69,7 +69,7 @@ theorem lastPos_of_kapIs {D : D7} {κ : ∀ i : Fin D.R.m, WeightFamilies.Wt D (
   have h3 : (⟨(a : ℕ) - (D.R.k - 1), h2⟩ : Fin D.R.m) = i := Fin.ext (by show (a : ℕ) - (D.R.k - 1) = i; omega)
   have h4 : (((D.R.sigW ((i : ℕ) + 1)).1 : ℕ) : ℚ) = (a : ℕ) + 1 := by exact_mod_cast ha.symm
   have h5 := (D.hc τ).gap_be i
-  simp only [aPl, if_pos a.2, Formalism.L2.NTheta.lamAt, dif_neg h1, dif_pos h2, h3, h4]
+  simp only [aPl, ite_eq_left a.2, Formalism.L2.NTheta.lamAt, dite_eq_right h1, dite_eq_left h2, h3, h4]
   rw [Int.le_toNat (Int.floor_nonneg.2 (by linarith)), Int.le_floor]
   push_cast
   linarith
@@ -81,16 +81,16 @@ theorem lastPos_wtA_of_pins {D : D7} (Q : Par D) (h : Q.Pins) {j : ℕ} (hj : In
   have hmult : (Q.Dw j).mult (DV.tauEmb D t) = (D.R.sigW j).1 := by
     unfold Datum.mult
     have hτ' : (DV.tauEmb D t) (Q.H.rt : D.host.E) = Q.H.rt0 := hτ
-    rw [if_pos hτ']
+    rw [ite_eq_left hτ']
     exact (h.2.2.2 j hj).1
   rw [hmult] at hm ⊢
   have h1 : 1 ≤ w.aP t ⟨(D.R.sigW j).1 - 1, by omega⟩ := hw t _ (by show (D.R.sigW j).1 - 1 + 1 = _; omega)
   have h2 : ext0 (w.aP t) ((D.R.sigW j).1 - 1) = w.aP t ⟨(D.R.sigW j).1 - 1, by omega⟩ := by
     unfold ext0
-    rw [dif_pos (by omega)]
+    rw [dite_eq_left (by omega)]
   unfold wtA
   refine lt_of_lt_of_le ?_ (Finset.single_le_sum (fun _ _ => Nat.zero_le _) (Finset.mem_univ t))
-  simp only [if_true]
+  simp only [ite_true]
   omega
 
 section Frame

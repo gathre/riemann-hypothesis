@@ -720,11 +720,11 @@ theorem partner_two (h : C.LPt) (n : ℕ) (t c : ℂ) (a : ℕ) (ha : a < D.ptSi
   rw [show h ++ [(n + 1, t), (1, c)] = (h ++ [(n + 1, t)]) ++ [(1, c)] by simp]
   rw [Dx2.SL.partner_append 1 c (h ++ [(n + 1, t)]) a (by rw [Dx2.SL.ptSize_append]; omega), Dx2.SL.ptSize_append]
   by_cases h1 : a < D.ptSize h + (n + 1)
-  · rw [if_pos h1, Dx2.SL.partner_append (n + 1) t h a h1]
+  · rw [ite_eq_left h1, Dx2.SL.partner_append (n + 1) t h a h1]
     by_cases h2 : a < D.ptSize h
-    · rw [if_pos h2, if_pos h2]
-    · rw [if_neg h2, if_neg h2, if_pos h1]; omega
-  · rw [if_neg h1, if_neg (by omega), if_neg h1]; omega
+    · rw [ite_eq_left h2, ite_eq_left h2]
+    · rw [ite_eq_right h2, ite_eq_right h2, ite_eq_left h1]; omega
+  · rw [ite_eq_right h1, ite_eq_right (by omega), ite_eq_right h1]; omega
 
 theorem scal_two (h : C.LPt) (n : ℕ) (t c : ℂ) (a : ℕ) (ha : a < D.ptSize h + (n + 1 + 1)) :
     D.ptScal (h ++ [(n + 1, t), (1, c)]) a =
@@ -732,11 +732,11 @@ theorem scal_two (h : C.LPt) (n : ℕ) (t c : ℂ) (a : ℕ) (ha : a < D.ptSize 
   rw [show h ++ [(n + 1, t), (1, c)] = (h ++ [(n + 1, t)]) ++ [(1, c)] by simp]
   rw [Dx2.SL.scal_append 1 c (h ++ [(n + 1, t)]) a (by rw [Dx2.SL.ptSize_append]; omega), Dx2.SL.ptSize_append]
   by_cases h1 : a < D.ptSize h + (n + 1)
-  · rw [if_pos h1, Dx2.SL.scal_append (n + 1) t h a h1]
+  · rw [ite_eq_left h1, Dx2.SL.scal_append (n + 1) t h a h1]
     by_cases h2 : a < D.ptSize h
-    · rw [if_pos h2, if_pos h2]
-    · rw [if_neg h2, if_neg h2, if_pos h1]
-  · rw [if_neg h1, if_neg (by omega), if_neg h1]
+    · rw [ite_eq_left h2, ite_eq_left h2]
+    · rw [ite_eq_right h2, ite_eq_right h2, ite_eq_left h1]
+  · rw [ite_eq_right h1, ite_eq_right (by omega), ite_eq_right h1]
 
 theorem kapB_mul (n : ℕ) :
     kapB n * ((Real.toNNReal (‖U.betaU‖ / (2 * Real.pi)) ^ (Fintype.card (Fin (n + 1)) +
@@ -771,20 +771,20 @@ theorem sliceOmBlock : SliceOmBlock := by
     have ha : a.val < ph + (n + 1 + 1) := by have := a.isLt; omega
     rw [hspec a, partner_two h n t c a.val ha]
     by_cases h1 : a.val < ph
-    · rw [if_pos h1]
+    · rw [ite_eq_left h1]
       have e : Fin.cast hP a = Fin.castAdd (n + 1 + 1) ⟨a.val, h1⟩ := Fin.ext rfl
       rw [e, Fub.sigQ_castAdd]
       exact hspec' ⟨a.val, h1⟩
-    · rw [if_neg h1]
+    · rw [ite_eq_right h1]
       have e : Fin.cast hP a = Fin.natAdd ph ⟨a.val - ph, by omega⟩ := Fin.ext (by simp; omega)
       rw [e, Fub.sigQ_natAdd, Fin.val_natAdd]
       by_cases h2 : a.val < ph + (n + 1)
-      · rw [if_pos h2]
+      · rw [ite_eq_left h2]
         have e2 : (⟨a.val - ph, by omega⟩ : Fin (n + 1 + 1)) = Fin.castAdd 1 ⟨a.val - ph, by omega⟩ := Fin.ext rfl
         rw [e2, Om.σB, Fub.sigQ_castAdd, Fin.val_castAdd]
         simp only [Fin.revPerm_apply, Fin.val_rev]
         omega
-      · rw [if_neg h2]
+      · rw [ite_eq_right h2]
         have e2 : (⟨a.val - ph, by omega⟩ : Fin (n + 1 + 1)) = Fin.natAdd (n + 1) (0 : Fin 1) :=
           Fin.ext (by simp; omega)
         rw [e2, Om.σB, Fub.sigQ_natAdd, Fin.val_natAdd]
@@ -798,17 +798,17 @@ theorem sliceOmBlock : SliceOmBlock := by
     simp only [D.ptDiag]
     rw [scal_two h n t c a.val ha]
     by_cases h1 : a.val < ph
-    · rw [if_pos h1]
+    · rw [ite_eq_left h1]
       have e : Fin.cast hP a = Fin.castAdd (n + 1 + 1) ⟨a.val, h1⟩ := Fin.ext rfl
       rw [e, Fub.dQ, Fin.addCases_left]; rfl
-    · rw [if_neg h1]
+    · rw [ite_eq_right h1]
       have e : Fin.cast hP a = Fin.natAdd ph ⟨a.val - ph, by omega⟩ := Fin.ext (by simp; omega)
       rw [e, Fub.dQ, Fin.addCases_right]
       by_cases h2 : a.val < ph + (n + 1)
-      · rw [if_pos h2]
+      · rw [ite_eq_left h2]
         have e2 : (⟨a.val - ph, by omega⟩ : Fin (n + 1 + 1)) = Fin.castAdd 1 ⟨a.val - ph, by omega⟩ := Fin.ext rfl
         rw [e2, Fub.dQ, Fin.addCases_left]
-      · rw [if_neg h2]
+      · rw [ite_eq_right h2]
         have e2 : (⟨a.val - ph, by omega⟩ : Fin (n + 1 + 1)) = Fin.natAdd (n + 1) (0 : Fin 1) :=
           Fin.ext (by simp; omega)
         rw [e2, Fub.dQ, Fin.addCases_right]

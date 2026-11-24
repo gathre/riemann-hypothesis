@@ -203,7 +203,7 @@ theorem norm_le_of_dvd (a b : OCb l) (hb : b ≠ 0) (h : ∀ n, b ∣ a * rt b n
     refine norm_pos_iff.2 fun h0 => GlobalTheory.FrobInt.sharpRoot_ne_zero b hb 0 ?_
     exact_mod_cast h0
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hA : 0 < A := hB.trans hlt
   have key : ∀ n : ℕ, A ^ (l ^ n) * B ≤ B ^ (l ^ n) := by
     intro n

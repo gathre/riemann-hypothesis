@@ -124,7 +124,7 @@ theorem mem_SB_of_pureA_mem {f : SInf F κ} (hf : f ≠ 0) {g : (κ → Af F) �
     g ∈ SB (κ → Af F) := by
   obtain ⟨a, ha⟩ : ∃ a, f a ≠ 0 := by
     by_contra h0
-    push_neg at h0
+    push Not at h0
     exact hf (SchwartzMap.ext h0)
   let L : ((κ → AF F) → ℂ) →ₗ[ℂ] ((κ → Af F) → ℂ) := LinearMap.funLeft ℂ ℂ (ptAt a)
   have hle : schA F κ ≤ (SB (κ → Af F)).comap L := by

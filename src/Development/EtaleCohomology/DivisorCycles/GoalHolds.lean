@@ -1225,7 +1225,7 @@ theorem Rep_of : Rep := by
   have hcol : ∀ k, ∃ v : Fin N → C, p k *ᵥ v = v ∧ v ≠ 0 := by
     intro k
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hp.2 k
     ext x c
     have h1 := hcon (p k *ᵥ Pi.single c 1) (by rw [Matrix.mulVec_mulVec, (hp.1.idem k).eq])

@@ -204,13 +204,13 @@ theorem UpperTheory.V.Sd.Wc.glFacts :
         rw [map_mul, Pi.mul_apply, gl_loc, hv]
         by_cases h : v = u
         · subst h
-          rw [Pi.mulSingle_eq_same, if_neg hu, mul_one, if_pos (Finset.mem_insert_self _ _)]
+          rw [Pi.mulSingle_eq_same, ite_eq_right hu, mul_one, ite_eq_left (Finset.mem_insert_self _ _)]
           ext i j
           fin_cases i <;> fin_cases j <;> simp [low]
         · rw [Pi.mulSingle_eq_of_ne h, one_mul]
           simp [h]
     obtain ⟨k, hk, hv⟩ := key Finset.univ
-    exact ⟨k, hk, fun v => by rw [hv, if_pos (Finset.mem_univ _)]; rfl⟩
+    exact ⟨k, hk, fun v => by rw [hv, ite_eq_left (Finset.mem_univ _)]; rfl⟩
   · funext v
     rw [gl_apply, pLoc_locGL_of_ne (fun e : D.pl v = w => hw (e ▸ D.mem v)), map_one, Pi.one_apply]
   · refine Subtype.ext (MvPolynomial.funext fun y => ?_)
@@ -240,7 +240,7 @@ theorem UpperTheory.V.Sd.Wc.glFacts :
       obtain ⟨x, hx, ex⟩ := unit_val D v
       have hs : ∀ e, D.uf e (D.pl v) = D.em v x ^ e v := by
         intro e
-        rw [LDat.uf, Finset.prod_eq_single v (fun u _ hu => if_neg fun h => hu (D.inj h)) (by simp), if_pos rfl, ex]
+        rw [LDat.uf, Finset.prod_eq_single v (fun u _ hu => ite_eq_right fun h => hu (D.inj h)) (by simp), ite_eq_left rfl, ex]
       have h1 := nu_eq_one D v hx
       have h0 : D.em v x ≠ 0 := by intro h; rw [h] at h1; simp at h1
       obtain ⟨m, hm⟩ := he v
@@ -250,6 +250,6 @@ theorem UpperTheory.V.Sd.Wc.glFacts :
         rw [← zpow_natCast, ← zpow_mul, hl, ← hm, mul_sub, ← zpow_add₀ h0, mul_one, add_sub_cancel]
       rw [hs, hs, e1, map_mul, map_zpow₀, h1, one_zpow, one_mul]
       exact val_zpow_sub (by rw [map_pow, h1, one_pow]) (D.res v x hx) m
-    · have hs : ∀ e, D.uf e w = 1 := fun e => Finset.prod_eq_one fun v _ => if_neg fun h => hw ⟨v, h⟩
+    · have hs : ∀ e, D.uf e w = 1 := fun e => Finset.prod_eq_one fun v _ => ite_eq_right fun h => hw ⟨v, h⟩
       rw [hs, hs, sub_self, map_zero]
       exact zero_lt_one

@@ -116,7 +116,7 @@ private lemma dot_nonneg_sum_root_of_antitone {n : ℕ} (v : Fin n → ℝ) (c :
     rw [Finset.sum_comm]
     refine Finset.sum_congr rfl (fun b _ => ?_)
     simp only [Pi.smul_apply, smul_eq_mul, Formalism.REAL.root, Pi.sub_apply, Pi.single_apply, mul_sub,
-      Finset.sum_sub_distrib, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      Finset.sum_sub_distrib, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     ring
   rw [hdot]
   refine Finset.sum_nonneg (fun a _ => Finset.sum_nonneg (fun b _ => ?_))

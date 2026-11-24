@@ -452,12 +452,12 @@ private theorem prod_tens_idem_mul {K Ω : Type} [Field K] [Field Ω] [Algebra K
   rw [← Finset.prod_mul_distrib]
   by_cases hts : t = s
   · subst hts
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact Finset.prod_congr rfl fun i _ => ((exists_unitary_diagonal_of_isHermitian g₀ (gs i) (hgs i) θ).1.idem (t i)).eq
   · obtain ⟨i, hi⟩ := Function.ne_iff.mp hts
-    rw [if_neg hts]
+    rw [ite_eq_right hts]
     refine Finset.prod_eq_zero (Finset.mem_univ i) ?_
-    rw [(exists_unitary_diagonal_of_isHermitian g₀ (gs i) (hgs i) θ).1.toOrthogonalIdempotents.mul_eq (t i) (s i), if_neg hi]
+    rw [(exists_unitary_diagonal_of_isHermitian g₀ (gs i) (hgs i) θ).1.toOrthogonalIdempotents.mul_eq (t i) (s i), ite_eq_right hi]
 
 theorem GlobalTheory.EtC.GalSec.Tens.lem_hom : ∀ (K Ω : Type) [Field K] [Field Ω] [Algebra K Ω] [IsSepClosure K Ω] (B : Type) [CommRing B] (k : ℕ) (g₀ : Ω →+* B) (gs : Fin k → (Ω →+* B)), (∀ i, (gs i).comp (algebraMap K Ω) = g₀.comp (algebraMap K Ω)) → ∀ θ : Ω, ∃ v : GlobalTheory.EtC.GalSec.LCRing K Ω k →+* B, ∀ φ, v φ = GlobalTheory.EtC.GalSec.Tens.lev g₀ gs θ φ := by
   intro K Ω _ _ _ _ B _ k g₀ gs hgs θ
@@ -470,7 +470,7 @@ theorem GlobalTheory.EtC.GalSec.Tens.lem_hom : ∀ (K Ω : Type) [Field K] [Fiel
     rw [Finset.sum_mul_sum]
     refine Finset.sum_congr rfl fun t _ => ?_
     rw [Finset.sum_congr rfl fun s _ => by rw [mul_mul_mul_comm, prod_tens_idem_mul g₀ gs hgs θ]]
-    simp only [mul_ite, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    simp only [mul_ite, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
   · simp [Tens.lev]
   · intro φ ψ
     simp only [Tens.lev, LocallyConstant.coe_add, Pi.add_apply, map_add (f := _), add_mul, Finset.sum_add_distrib]
@@ -585,7 +585,7 @@ theorem GlobalTheory.EtC.GalSec.Tens.lem_indep : ∀ (K Ω : Type) [Field K] [Fi
   simp only [hsum, Finset.mul_sum]
   rw [Finset.sum_comm]
   refine Finset.sum_congr rfl fun t' _ => ?_
-  simp only [mul_ite, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, if_true, key]
+  simp only [mul_ite, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, ite_true, key]
 theorem GlobalTheory.EtC.GalSec.Tens.lem_legs : ∀ (K Ω : Type) [Field K] [Field Ω] [Algebra K Ω] [IsSepClosure K Ω] (B : Type) [CommRing B] (k : ℕ) (g₀ : Ω →+* B) (gs : Fin k → (Ω →+* B)), (∀ i, (gs i).comp (algebraMap K Ω) = g₀.comp (algebraMap K Ω)) → (∀ (θ a : Ω), GlobalTheory.EtC.GalSec.Tens.lev g₀ gs θ (GlobalTheory.EtC.GalSec.legHom K Ω k 0 a) = g₀ a) ∧ ∀ (i : Fin k) (a : Ω), GlobalTheory.EtC.GalSec.Tens.lev g₀ gs a (GlobalTheory.EtC.GalSec.legHom K Ω k i.succ a) = gs i a := by
   intro K Ω _ _ _ _ B _ k g₀ gs hgs
   classical
@@ -601,14 +601,14 @@ theorem GlobalTheory.EtC.GalSec.Tens.lem_legs : ∀ (K Ω : Type) [Field K] [Fie
         g₀ (t i : Ω) * ∏ j, Tens.idem (K := K) g₀ a (gs j a) (t j) =
           ∏ j, (if j = i then g₀ (t j : Ω) else 1) * Tens.idem (K := K) g₀ a (gs j a) (t j) := by
       intro t
-      rw [Finset.prod_mul_distrib, Finset.prod_ite_eq' Finset.univ i, if_pos (Finset.mem_univ _)]
+      rw [Finset.prod_mul_distrib, Finset.prod_ite_eq' Finset.univ i, ite_eq_left (Finset.mem_univ _)]
     rw [Finset.sum_congr rfl fun t _ => hfac t,
       sum_pi_prod_eq_prod_sum (fun (j : Fin k) (s : Tens.conj K Ω a) => (if j = i then g₀ (s : Ω) else 1) * Tens.idem (K := K) g₀ a (gs j a) s)]
     rw [Finset.prod_eq_single i]
-    · simp only [if_true]
+    · simp only [ite_true]
       exact (exists_unitary_diagonal_of_isHermitian g₀ (gs i) (hgs i) a).2.2.symm
     · intro j _ hj
-      simp only [if_neg hj, one_mul]
+      simp only [ite_eq_right hj, one_mul]
       exact (exists_unitary_diagonal_of_isHermitian g₀ (gs j) (hgs j) a).1.complete
     · intro h; exact absurd (Finset.mem_univ i) h
 private theorem map_tens_idem {K Ω : Type} [Field K] [Field Ω] [Algebra K Ω] {B C : Type} [CommRing B]

@@ -247,7 +247,7 @@ theorem lie_mem (hZ : ∀ g ∈ UJ σ J, (g : Matrix n n E) ∈ commSub φ Z) (h
     {X : Matrix n n E} (hX : cT σ X * J = -(J * X)) : X ∈ commSub φ Z := by
   obtain ⟨t, ht0, htp⟩ : ∃ t : ℕ, (t : E) ≠ 0 ∧ IsUnit (1 - (t : E) • X).det := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hq : X.charpolyRev ≠ 0 := by
       intro h
       have := eval_det_one_sub X 0
@@ -479,7 +479,7 @@ theorem exists_unit_gen (h : IsCMExt F E σ) (τ : E →ₐ[F] Fv F v) {k : ℕ}
       (∀ j, c * u j ∈ intLoc F E v) ↔ ((α⁻¹ : (Fv F v ⊗[F] E)ˣ) : Fv F v ⊗[F] E) * c ∈ intLoc F E v := by
   have hne : ∀ ρ : E →ₐ[F] Fv F v, ∃ j, splitProj ρ (u j) ≠ 0 := fun ρ => by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have := congrArg (splitProj ρ) hl
 
     rw [map_sum, map_one, Finset.sum_eq_zero fun j _ => by rw [map_mul, hc j, mul_zero]] at this
@@ -759,7 +759,7 @@ theorem line_moved (q : SplitPt D k) {PP : Formalism.L2.DIV.Pl D.host.E} (hq : F
       refine Finset.sum_comm.trans (Finset.sum_congr rfl fun m _ => Finset.sum_congr rfl fun r _ => ?_)
       ring
     rw [h1]
-    simp only [hp, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    simp only [hp, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     ring
   rw [csec_mem_iff hΛ]
   constructor
@@ -820,15 +820,15 @@ theorem line_bes (q : SplitPt D k) {PP : Formalism.L2.DIV.Pl D.host.E} (hq : For
       simp only [h1, Matrix.mul_apply, Matrix.map_apply, hπ, Finset.sum_mul, Finset.mul_sum]
       refine Finset.sum_comm.trans (Finset.sum_congr rfl fun l _ => Finset.sum_congr rfl fun r _ => ?_)
       ring
-    rw [h6, if_neg (by simp)]
+    rw [h6, ite_eq_right (by simp)]
     simp only [h5, mul_zero, Finset.sum_const_zero, zero_mul]
   have hj := j.2
   rcases lt_trichotomy j.val ρ with h | h | h
-  · rw [if_neg (by simp only [Sum.inr.injEq, Fin.ext_iff]; omega)]
+  · rw [ite_eq_right (by simp only [Sum.inr.injEq, Fin.ext_iff]; omega)]
     simp only [h2 ⟨j.val, h⟩ j rfl, hπ, mul_assoc, ← Finset.mul_sum, key]
     rw [B.d.ee, Matrix.zero_apply, star_zero, map_zero]
     simp
-  · rw [if_neg (by simp only [Sum.inr.injEq, Fin.ext_iff]; omega)]
+  · rw [ite_eq_right (by simp only [Sum.inr.injEq, Fin.ext_iff]; omega)]
     have h5 := key (B.d.i₀ * replicateCol Unit (vecB B.o B.ζ)) ()
     rw [Matrix.conjTranspose_mul, Matrix.mul_assoc, Matrix.mul_assoc, ← Matrix.mul_assoc B.d.i₀ᴴ, B.d.i₀e, Matrix.mul_zero,
         Matrix.zero_apply, star_zero, map_zero] at h5
@@ -846,9 +846,9 @@ theorem line_bes (q : SplitPt D k) {PP : Formalism.L2.DIV.Pl D.host.E} (hq : For
       rfl
     rw [h6, key, B.d.e'e]
     by_cases e : j.val = 2 * ρ
-    · rw [if_pos (by simp only [Sum.inr.injEq, Fin.ext_iff]; omega), Matrix.one_apply, if_pos (by simp only [Fin.ext_iff]; omega)]
+    · rw [ite_eq_left (by simp only [Sum.inr.injEq, Fin.ext_iff]; omega), Matrix.one_apply, ite_eq_left (by simp only [Fin.ext_iff]; omega)]
       simp [e]
-    · rw [if_neg (by simp only [Sum.inr.injEq, Fin.ext_iff]; omega), Matrix.one_apply, if_neg (by simp only [Fin.ext_iff]; omega)]
+    · rw [ite_eq_right (by simp only [Sum.inr.injEq, Fin.ext_iff]; omega), Matrix.one_apply, ite_eq_right (by simp only [Fin.ext_iff]; omega)]
       simp
 
 theorem val_nat (q : SplitPt D k) {PP : Formalism.L2.DIV.Pl D.host.E} (hq : Formalism.L2.NTheta.IsIdemAt q.e PP) (T : ℕ)
@@ -1436,7 +1436,7 @@ open Formalism.BasicNotions Formalism.MainNotions.GlobalTheoryTheory.GenusMassVo
 theorem exists_anti (D : D7) : ∃ e : D.host.E, D.sp.cm.sig e = -e ∧ e ≠ 0 := by
   have hx : ∃ x : D.host.E, x ∉ Set.range (algebraMap D.host.F D.host.E) := by
     by_contra h
-    push_neg at h
+    push Not at h
     have htop : (⊥ : Subalgebra D.host.F D.host.E) = ⊤ :=
       eq_top_iff.2 fun x _ => Algebra.mem_bot.2 (h x)
     have := Subalgebra.bot_eq_top_iff_finrank_eq_one.1 htop

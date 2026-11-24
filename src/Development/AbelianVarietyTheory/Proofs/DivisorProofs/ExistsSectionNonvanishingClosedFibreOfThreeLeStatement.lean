@@ -564,7 +564,7 @@ theorem unitAt_pow {S : Scheme.{0}} [IsLocallyNoetherian S] (hL : Laws) (P : Pol
   let θ : LB.Sec (LPow P.A P.L 1 (Over.mk t)) := SecM.toSec P.A f
   obtain ⟨k, hk⟩ : ∃ k, θ.f k ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hf (Subtype.ext (funext h))
   have hD : (((Over.mk t ⊗ P.A).left.basicOpen (θ.f k) : (Over.mk t ⊗ P.A).left.Opens) :
       Set (Over.mk t ⊗ P.A).left).Nonempty := by

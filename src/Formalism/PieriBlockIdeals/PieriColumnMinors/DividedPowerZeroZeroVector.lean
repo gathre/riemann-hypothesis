@@ -76,7 +76,7 @@ theorem muSupport : MuSupport := by
   unfold mu at hmu
   obtain ⟨tau, htau, hne⟩ : ∃ tau ∈ shapes p w i lam2, boxesOfContent lam2 tau c ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hmu (Nat.eq_zero_of_le_zero (Finset.sup_le fun t ht => (hcon t ht).le))
   unfold boxesOfContent at hne
   obtain ⟨a, ha⟩ := Finset.card_pos.mp (Nat.pos_of_ne_zero hne)
@@ -133,7 +133,7 @@ theorem muRange : MuRange := by
   unfold mu at hmu
   obtain ⟨tau, htau, hne⟩ : ∃ tau ∈ shapes p w i lam2, boxesOfContent lam2 tau c ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hmu (Nat.eq_zero_of_le_zero (Finset.sup_le fun t ht => (hcon t ht).le))
   unfold boxesOfContent at hne
   obtain ⟨a, ha⟩ := Finset.card_pos.mp (Nat.pos_of_ne_zero hne)
@@ -148,7 +148,7 @@ theorem muRange : MuRange := by
   constructor
   · omega
   · by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hna ⟨by omega, by omega⟩
 
 theorem dnDvd : DnDvd := by
@@ -163,7 +163,7 @@ theorem dnDvd : DnDvd := by
       exact one_dvd _
     · have h := muRange p w i q m lam2 _ hb hmu
       have hk : k ∈ Finset.Ico (m + 1) (w + q) := Finset.mem_Ico.mpr (by omega)
-      rw [if_pos hk]
+      rw [ite_eq_left hk]
       have he : ((w : ℤ) - ((k : ℤ) - (q : ℤ))) = ((w + q - k : ℕ) : ℤ) := by omega
       rw [he, Nat.cast_pow]
       exact pow_dvd_pow _ (muLe p w i q lam2 _)

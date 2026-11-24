@@ -136,7 +136,7 @@ theorem exists_eq_mul_unit (hx0 : x ≠ 0) (hxu : ¬ IsUnit x) (y : AdicCompleti
     ∃ (a : V) (n : ℕ), a ∣ x ^ n ∧ ∃ u : (AdicCompletion (Ideal.span {x}) V)ˣ, y = algebraMap V (AdicCompletion (Ideal.span {x}) V) a * u := by
   obtain ⟨n, hn⟩ : ∃ n, AdicCompletion.evalₐ (Ideal.span {x}) n y ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hy (AdicCompletion.ext_evalₐ fun n => by rw [hc n, map_zero])
   obtain ⟨a, ha⟩ := Ideal.Quotient.mk_surjective (AdicCompletion.evalₐ (Ideal.span {x}) (n + 1) y)
   have hna : ¬ x ^ n ∣ a := by
@@ -178,7 +178,7 @@ theorem GlobalTheory.adicCompletion_valuationRing_props : ∀ (V : Type) [CommRi
   have hdom : IsDomain (AdicCompletion (Ideal.span {x}) V) := by
     refine @NoZeroDivisors.to_isDomain _ _ hnt ⟨fun {y z} hyz => ?_⟩
     by_contra hc
-    push_neg at hc
+    push Not at hc
     obtain ⟨a, n, ⟨c, hc1⟩, u, rfl⟩ := exists_eq_mul_unit hx0 hxu y hc.1
     obtain ⟨b, m, ⟨d, hd1⟩, w, rfl⟩ := exists_eq_mul_unit hx0 hxu z hc.2
     apply algebraMap_pow_ne_zero hx0 hxu (n + m)

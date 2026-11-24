@@ -333,9 +333,9 @@ private theorem char_mult (K L : FinExt l) (κ : ↥(GK K) →* (↥L.1)ˣ) (hκ
     rw [FildR, le_bot_iff.1 ((inf_le_inf_right _ hle).trans ((h i).2 hi).le), finrank_bot]
   unfold multV
   rcases lt_trichotomy a (-w) with ha | ha | ha
-  · rw [h1 a ha.le, h1 (a + 1) ha, if_neg ha.ne]; simp
-  · rw [h1 a ha.le, h0 (a + 1) (by omega), if_pos ha]; simp
-  · rw [h0 a ha, h0 (a + 1) (by omega), if_neg ha.ne']; simp
+  · rw [h1 a ha.le, h1 (a + 1) ha, ite_eq_right ha.ne]; simp
+  · rw [h1 a ha.le, h0 (a + 1) (by omega), ite_eq_left ha]; simp
+  · rw [h0 a ha, h0 (a + 1) (by omega), ite_eq_right ha.ne']; simp
 private theorem flag_mult (K L : FinExt l) (n : ℕ) : ∀ (ρ : Representation ↥L.1 ↥(GK K) (Fin n → ↥L.1))
     (M : ↥(GK K) → Matrix (Fin n) (Fin n) ↥L.1) (κ : Fin n → ↥(GK K) →* (↥L.1)ˣ),
     (∀ g x, ρ g x = (M g).mulVec x) → (∀ g i j, j < i → M g i j = 0) → (∀ g i, M g i i = κ i g) →

@@ -69,7 +69,7 @@ theorem smul_cancel (hv : v.Integers R) {n : Type} {e : Matrix n n R} (he : e �
     (h : x • e = y • e) : x = y := by
   obtain ⟨i, j, hij⟩ : ∃ i j, e i j ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact he (Matrix.ext hc)
   have h1 := congrFun (congrFun h i) j
   simp only [Matrix.smul_apply, smul_eq_mul] at h1
@@ -160,7 +160,7 @@ theorem proj (p : ℕ) [Fact p.Prime] (hv : v.Integers R) (hpv : v (algebraMap R
   have hdecomp : ∀ M : Matrix n n R, M = ∑ j, M * εT j := fun M => by
     rw [← Finset.mul_sum, hsum, Matrix.mul_one]
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hP'0 : (∑ γ, (ψ i γ ^ (Fintype.card G - 1)) ^ p • (A γ).map (algebraMap ℤ_[p] R)) = 0 := by
     rw [hdecomp (∑ γ, (ψ i γ ^ (Fintype.card G - 1)) ^ p • (A γ).map (algebraMap ℤ_[p] R))]
     refine Finset.sum_eq_zero fun j _ => ?_
@@ -204,8 +204,8 @@ theorem proj (p : ℕ) [Fact p.Prime] (hv : v.Integers R) (hpv : v (algebraMap R
     · simp
   obtain ⟨a, b, hab⟩ : ∃ a b, εT i a b ∉ mI hv := by
     by_contra hc
-    push_neg at hc
-    exact hi (idem_eq_zero hv (εT i) (by rw [horth, if_pos rfl]) hc)
+    push Not at hc
+    exact hi (idem_eq_zero hv (εT i) (by rw [horth, ite_eq_left rfl]) hc)
   haveI := charP p hv hpv
   have hfrob : res hv ((∑ γ, (ψ i γ ^ (Fintype.card G - 1)) ^ p •
       (A γ).map (algebraMap ℤ_[p] R)) a b) =

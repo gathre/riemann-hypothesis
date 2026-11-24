@@ -1133,32 +1133,32 @@ theorem choose_em (j : Fin L.n) (h : ∃ j', L.em j' = L.em j) : h.choose = j :=
 theorem ext_sub (X : Mx F E d.m d.n) (hX : ∀ a, X a L.i₀ = 0) : ext L (X.submatrix id L.em) = X := by
   funext a i
   by_cases h : ∃ j, L.em j = i
-  · simp only [ext, dif_pos h, Matrix.submatrix_apply, id, h.choose_spec]
+  · simp only [ext, dite_eq_left h, Matrix.submatrix_apply, id, h.choose_spec]
   · have : i = L.i₀ := by
       by_contra hi
       exact h ((L.rng i).1 hi)
-    simp only [ext, dif_neg h]
+    simp only [ext, dite_eq_right h]
     rw [this, hX]
 
 theorem crd_ext (X' : Mx F E d.m L.n) (k : Fin d.m × Fin d.n × Fin 2) :
     (d.crd (ext L X') k).2 = ins L (fun k' => (L.sd.crd X' k').2) k := by
   by_cases h : ∃ j, L.em j = k.2.1
-  · simp only [SD.crd, ext, ins, dif_pos h]
-  · simp only [SD.crd, ext, ins, dif_neg h, map_zero, Finsupp.coe_zero, Pi.zero_apply]
+  · simp only [SD.crd, ext, ins, dite_eq_left h]
+  · simp only [SD.crd, ext, ins, dite_eq_right h, map_zero, Finsupp.coe_zero, Pi.zero_apply]
     rfl
 
 theorem continuous_ins : Continuous (ins L (F := F)) := by
   refine continuous_pi fun k => ?_
   by_cases h : ∃ j, L.em j = k.2.1
-  · simp only [ins, dif_pos h]; exact continuous_apply _
-  · simp only [ins, dif_neg h]; exact continuous_const
+  · simp only [ins, dite_eq_left h]; exact continuous_apply _
+  · simp only [ins, dite_eq_right h]; exact continuous_const
 
 def prj (z : Fin d.m × Fin d.n × Fin 2 → Af F) : Fin d.m × Fin L.n × Fin 2 → Af F := fun k => z (k.1, L.em k.2.1, k.2.2)
 
 theorem prj_ins (z : Fin d.m × Fin L.n × Fin 2 → Af F) : prj L (ins L z) = z := by
   funext k
   have h : ∃ j, L.em j = L.em k.2.1 := ⟨_, rfl⟩
-  simp only [prj, ins, dif_pos h, choose_em L k.2.1 h]
+  simp only [prj, ins, dite_eq_left h, choose_em L k.2.1 h]
 
 theorem SB_ins {g : (Fin d.m × Fin d.n × Fin 2 → Af F) → ℂ} (hg : g ∈ SB (Fin d.m × Fin d.n × Fin 2 → Af F)) :
     (fun z => g (ins L z)) ∈ SB (Fin d.m × Fin L.n × Fin 2 → Af F) := by
@@ -1188,12 +1188,12 @@ theorem gauss_ext (R : RD d) (R' : RD L.sd) (w : InfinitePlace F) (X' : Mx F E d
   · have h : ¬ ∃ j, L.em j = i := fun ⟨j, hj⟩ => hi ⟨j, hj⟩
     have : (fun b => d.cw w (ext L X') b i) = 0 := by
       funext b
-      simp only [SD.cw, ext, Matrix.map_apply, dif_neg h, map_zero, Pi.zero_apply]
+      simp only [SD.cw, ext, Matrix.map_apply, dite_eq_right h, map_zero, Pi.zero_apply]
     simp [this]
   · have h : ∃ j', L.em j' = L.em j := ⟨_, rfl⟩
     have e : (fun b => d.cw w (ext L X') b (L.em j)) = fun b => L.sd.cw w X' b j := by
       funext b
-      simp only [SD.cw, ext, Matrix.map_apply, dif_pos h, choose_em L j h]
+      simp only [SD.cw, ext, Matrix.map_apply, dite_eq_left h, choose_em L j h]
     rw [e]
     exact norm_frame_eq d.ok.hm (d.A.J.map (d.B.emb w).1) (R'.fr w) (R.fr w) R'.ζ R.ζ (R'.sg w) (R.sg w) (hζ' R')
       (hζ' R) (R'.hfr w) (R.hfr w) _
@@ -1633,7 +1633,7 @@ theorem lpack (hLO : LOrd) {F E : Type} [Field F] [NumberField F] [Field E] [Num
   have hHe' : ∀ i : Fin (m + 1), ∀ᶠ s in 𝓝[≠] (((m + 1 - i : ℕ) : ℂ)), H i s = Z i s := by
     intro i
     have h := hHe i
-    rw [if_pos (by exact_mod_cast hj1 i)] at h
+    rw [ite_eq_left (by exact_mod_cast hj1 i)] at h
     simpa only [pow_zero, one_mul, Int.cast_natCast] using h
   have hHa' : ∀ i : Fin (m + 1), AnalyticAt ℂ (H i) ((m + 1 - i : ℕ) : ℂ) := fun i => by
     simpa only [Int.cast_natCast] using hHa i

@@ -127,7 +127,7 @@ theorem exists_scale (PP : Pl D.host.E) : ∃ c : D.host.E, (∀ a ∈ D.host.AA
     exact ⟨x, hx⟩
   have hex : ∃ c ∈ D.host.AA⁻¹, ∃ a ∈ D.host.AA, ∃ x : 𝓞 D.host.E, (x : D.host.E) = c * a ∧ x ∉ PP.asIdeal := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have hle : D.host.AA⁻¹ * D.host.AA ≤ (PP.asIdeal : FractionalIdeal (nonZeroDivisors (𝓞 D.host.E)) D.host.E) := by
       rw [FractionalIdeal.mul_le]
       intro c hc a ha

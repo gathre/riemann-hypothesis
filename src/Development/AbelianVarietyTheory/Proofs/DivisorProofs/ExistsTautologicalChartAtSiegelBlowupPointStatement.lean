@@ -570,11 +570,11 @@ theorem eq_sum_halfForm {r : ℕ} (e : Module.Basis (Fin r) ℤ X) (β : LinearM
   refine LinearMap.ext_basis e e fun i₀ j₀ => ?_
   simp only [LinearMap.sum_apply, LinearMap.smul_apply, halfForm_basis, smul_eq_mul, mul_ite, mul_one, mul_zero]
   rw [Finset.sum_eq_single (min i₀ j₀, max i₀ j₀)]
-  · simp only [and_self, if_true]
+  · simp only [and_self, ite_true]
     rcases le_total i₀ j₀ with h | h
     · rw [min_eq_left h, max_eq_right h]
     · rw [min_eq_right h, max_eq_left h, hβ]
-  · intro p _ hp; rw [if_neg]; rintro ⟨h1, h2⟩; exact hp (Prod.ext h1 h2)
+  · intro p _ hp; rw [ite_eq_right]; rintro ⟨h1, h2⟩; exact hp (Prod.ext h1 h2)
   · intro h; exact absurd (Finset.mem_univ _) h
 
 theorem bimul_ext {G : Type} [CommGroup G] {r : ℕ} (e : Module.Basis (Fin r) ℤ X) (f g : X → X → G)
@@ -657,11 +657,11 @@ theorem existsUnique_coeff {ε : ι → LinearMap.BilinForm ℤ X} (hε : IsSymB
       (fun i j => by
         simp only [halfForm_basis]
         rw [Finset.prod_eq_single (min i j, max i j)]
-        · simp only [and_self, if_true, zpow_one]
+        · simp only [and_self, ite_true, zpow_one]
           rcases le_total i j with h | h
           · rw [min_eq_left h, max_eq_right h]
           · rw [min_eq_right h, max_eq_left h, hsym]
-        · intro p _ hp; rw [if_neg, zpow_zero]; rintro ⟨h1, h2⟩; exact hp (Prod.ext h1 h2)
+        · intro p _ hp; rw [ite_eq_right, zpow_zero]; rintro ⟨h1, h2⟩; exact hp (Prod.ext h1 h2)
         · intro h; exact absurd (Finset.mem_univ _) h)
     exact congrFun (congrFun this x) y
   · have h0 : ∀ x y, ∏ k, (σ k / ∏ p, q (e p.1) (e p.2) ^ c p k) ^ ε k x y = 1 := fun x y => by
@@ -674,11 +674,11 @@ theorem existsUnique_coeff {ε : ι → LinearMap.BilinForm ℤ X} (hε : IsSymB
         (fun i j => by
           simp only [halfForm_basis]
           rw [Finset.prod_eq_single (min i j, max i j)]
-          · simp only [and_self, if_true, zpow_one]
+          · simp only [and_self, ite_true, zpow_one]
             rcases le_total i j with h | h
             · rw [min_eq_left h, max_eq_right h]
             · rw [min_eq_right h, max_eq_left h, hsym]
-          · intro p _ hp; rw [if_neg, zpow_zero]; rintro ⟨h1, h2⟩; exact hp (Prod.ext h1 h2)
+          · intro p _ hp; rw [ite_eq_right, zpow_zero]; rintro ⟨h1, h2⟩; exact hp (Prod.ext h1 h2)
           · intro h; exact absurd (Finset.mem_univ _) h)
       exact congrFun (congrFun this x) y
     exact div_eq_one.1 (eq_one_of_prod_zpow hε _ h0 k)
@@ -843,7 +843,7 @@ theorem exists_roots_of_periods : ∀ (g n : ℕ) (φ : InvFun ℤ), IsPolFan id
     IsFractionRing.lift hinj', s, ⟨inferInstance, inferInstance, inferInstance, ?_⟩, inferInstance, hinj, hfin, hloc,
     hfK, fun k => ⟨?_, fun h => ?_⟩, fun k => ?_, fun x y => ?_⟩
   · by_contra h
-    push_neg at h
+    push Not at h
     have h1 := hβp x hx
     rw [hβv] at h1
     exact h1.not_ge (Finset.sum_nonpos fun j _ =>

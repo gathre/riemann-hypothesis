@@ -318,7 +318,7 @@ theorem jnorm {u u' : D.what₂.Word} (hPin : PinAll (Y := Y) u u') (hCv : Covol
     have h2f : thetaS hI C hB t ^ (2 * Fintype.card D.what₂.Tau) =
         volRC hI t ^ 2 * P1 hI C hB t / hsNormSq (JtOf hI t) := by
       unfold thetaS
-      rw [if_pos hpos]
+      rw [ite_eq_left hpos]
       rw [show (1 : ℝ) / (2 * Fintype.card D.what₂.Tau) = ((2 * Fintype.card D.what₂.Tau : ℕ) : ℝ)⁻¹ by
         push_cast; ring]
       exact Real.rpow_inv_natCast_pow hx hn
@@ -807,7 +807,7 @@ theorem thetaWin_of {large₂ : SizeData₂ D} {C1 : ℝ} {u u' : D.what₂.Word
     rw [hth]
     exact hW
   · unfold thetaS
-    rw [if_neg h]
+    rw [ite_eq_right h]
     exact h1
 
 end ThetaCut
@@ -848,7 +848,7 @@ theorem thetaEqN_of {u u' : D.what₂.Word} (hJ : JFactN hI C hB u u') : ThetaEq
   have hx : 0 ≤ volRC hI t ^ 2 * P1 hI C hB t / hsNormSq (JtOf hI t) :=
     div_nonneg (mul_nonneg (sq_nonneg _) hP0.le) hJ0.le
   unfold thetaS
-  rw [if_pos ⟨hJ0, hP0⟩]
+  rw [ite_eq_left ⟨hJ0, hP0⟩]
   rw [show (1 : ℝ) / (2 * Fintype.card D.what₂.Tau) = ((2 * Fintype.card D.what₂.Tau : ℕ) : ℝ)⁻¹ by
     push_cast; ring]
   rw [Real.rpow_inv_natCast_pow hx hn, div_eq_iff hJ0.ne']

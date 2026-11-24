@@ -62,7 +62,7 @@ theorem UpperTheory.V.U3.dat_loc :
       have hl : (1 : NNReal) < l := by exact_mod_cast (Fact.out : l.Prime).one_lt
       simpa using hl
     by_contra h
-    push_neg at h
+    push Not at h
     apply hnot
     have hle : (Loc.placeJ D.j).valuation (l : Ω) ≤ 1 :=
       ((Loc.placeJ D.j).valuation_le_one_iff _).2 (natCast_mem _ l)

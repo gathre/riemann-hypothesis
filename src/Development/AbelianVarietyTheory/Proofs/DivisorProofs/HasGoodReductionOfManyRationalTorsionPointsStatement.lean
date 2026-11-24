@@ -525,7 +525,7 @@ theorem sep_elem (R : Type) [CommRing R] (X : Over (Sp R)) (hX : IsSeparated X.h
       spMap ψ ≫ x ≠ spMap ψ ≫ y := by
   obtain ⟨I, hI⟩ := GlobalTheory.T.equalizer_sections_closed_ideal R X hX x y hx hy
   have h1 : ¬ ∀ r ∈ I, e r = 0 := fun h => hne ((hI K e).2 h)
-  push_neg at h1
+  push Not at h1
   obtain ⟨r, hrI, hr⟩ := h1
   refine ⟨r, hr, fun F _ ψ hψ heq => hψ ((hI F ψ).1 heq r hrI)⟩
 
@@ -543,9 +543,9 @@ theorem pairs : ∀ (R : Type) [CommRing R] (X : Over (Sp R)), IsSeparated X.hom
     by_cases h : p.1 ∈ t ∧ p.2 ∈ t ∧ p.1 ≠ p.2
     · have hs := Classical.choose_spec
         (sep_elem R X hX K e p.1 p.2 (ht _ h.1) (ht _ h.2.1) (hsep _ h.1 _ h.2.1 h.2.2))
-      simp only [g, dif_pos h]
+      simp only [g, dite_eq_left h]
       exact ⟨hs.1, fun F _ ψ hψ _ _ _ => hs.2 F ψ hψ⟩
-    · simp only [g, dif_neg h]
+    · simp only [g, dite_eq_right h]
       exact ⟨by simp, fun F _ ψ _ h1 h2 h3 => absurd ⟨h1, h2, h3⟩ h⟩
   refine ⟨∏ p ∈ t ×ˢ t, g p, ?_, ?_⟩
   · rw [map_prod]
@@ -1165,7 +1165,7 @@ variable {k : Type} [Field k] [IsAlgClosed k]
 
 theorem exists_eval_ne_zero_of_ne_zero {p : Polynomial k} (hp : p ≠ 0) : ∃ t, p.eval t ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   exact hp (Polynomial.funext fun t => by rw [h t, Polynomial.eval_zero])
 
 theorem comp_linear_ne_zero {p : Polynomial k} (hp : p ≠ 0) {c e : k} (hc : c ≠ 0) :
@@ -1176,7 +1176,7 @@ theorem comp_linear_ne_zero {p : Polynomial k} (hp : p ≠ 0) {c e : k} (hc : c 
   · exact hp h
   · have := congrArg (fun p : Polynomial k => p.coeff 1) h
     simp only [Polynomial.coeff_add, Polynomial.coeff_C_mul, Polynomial.coeff_X_one, Polynomial.coeff_C,
-      one_ne_zero, if_false, add_zero] at this
+      one_ne_zero, ite_false, add_zero] at this
     exact hc (by simpa using this)
 
 theorem exists_rational_family {G : Over (Sp k)} [GrpObj G] (hG : SmConn G)

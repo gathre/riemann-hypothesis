@@ -262,18 +262,18 @@ theorem twAct_lie {q : Tens F p₁ q₁ r s →ₗ[ℂ] P} {w : InfinitePlace F}
     (hK : ∀ Y, Keeps q (atPl w (fockAct2 p₁ q₁ r s Y))) (ε : Bool) (Y Z : Mat r s) :
     twAct ε q w (Y * Z - Z * Y) = twAct ε q w Y * twAct ε q w Z - twAct ε q w Z * twAct ε q w Y := by
   cases ε
-  · simp only [twAct, Bool.false_eq_true, if_false, LinearMap.comp_apply]
+  · simp only [twAct, Bool.false_eq_true, ite_false, LinearMap.comp_apply]
     rw [negT_lie, fockOp_lie hq hK]
-  · simp only [twAct, if_true]
+  · simp only [twAct, ite_true]
     exact fockOp_lie hq hK Y Z
 
 theorem twAct_comm {q : Tens F p₁ q₁ r s →ₗ[ℂ] P} (hq : Function.Surjective q)
     (hK : ∀ w Y, Keeps q (atPl w (fockAct2 p₁ q₁ r s Y))) (ε : Bool) {w w' : InfinitePlace F} (hw : w ≠ w')
     (Y Z : Mat r s) : twAct ε q w Y * twAct ε q w' Z = twAct ε q w' Z * twAct ε q w Y := by
   cases ε
-  · simp only [twAct, Bool.false_eq_true, if_false, LinearMap.comp_apply]
+  · simp only [twAct, Bool.false_eq_true, ite_false, LinearMap.comp_apply]
     exact fockOp_comm hq hK hw _ _
-  · simp only [twAct, if_true]
+  · simp only [twAct, ite_true]
     exact fockOp_comm hq hK hw _ _
 
 end Laws
@@ -377,7 +377,7 @@ theorem exp_col {n : Type} [Fintype n] [DecidableEq n] (Y : Matrix n n ℂ) (c :
     | succ k ih =>
       intro a
       rw [pow_succ', Matrix.mul_apply]
-      simp only [ih, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true, h]
+      simp only [ih, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true, h]
       split_ifs <;> simp [pow_succ']
   have h1 := (NormedSpace.exp_series_hasSum_exp' (𝕂 := ℂ) Y).mapL
     (LinearMap.toContinuousLinearMap (Matrix.entryLinearMap ℂ ℂ a c))
@@ -889,7 +889,7 @@ private theorem fock_second_action_eq_derivation {n d : ℕ} (Y : Mat d 0) :
       LinearMap.sum_apply, LinearMap.smul_apply, Module.End.mul_apply,
       LinearMap.mulLeft_apply, smul_eq_mul]
   · simp only [Prod.mk.injEq, true_and, smul_ite, smul_zero, Finset.sum_ite_eq, Finset.mem_univ,
-      if_true, Finset.sum_const, Finset.card_univ, smul_smul, ← Finset.sum_smul]
+      ite_true, Finset.sum_const, Finset.card_univ, smul_smul, ← Finset.sum_smul]
     have hcard : Fintype.card (FockH1Action.Ix n 0) = n := by simp [FockH1Action.Ix]
     rw [hcard, ← Nat.cast_smul_eq_nsmul ℂ, smul_smul, ← Finset.sum_mul, Matrix.trace]
     simp only [Matrix.diag]
@@ -1122,7 +1122,7 @@ private theorem isExp_partial (L U : ∀ i, Module.End ℂ (V i)) (hL : ∀ i, L
   | empty =>
     have : (PiTensorProduct.map fun i =>
         if i ∈ (∅ : Finset ι) then U i else (LinearMap.id : V i →ₗ[ℂ] V i)) = 1 := by
-      simp only [Finset.notMem_empty, if_false]
+      simp only [Finset.notMem_empty, ite_false]
       exact PiTensorProduct.map_id
     rw [this, Finset.sum_empty]
     exact isExp_zero_one
@@ -1359,7 +1359,7 @@ private theorem omAct_one_pk {n d : ℕ} (M : Matrix (Ln n 0 d 0) (Ln n 0 d 0) �
     · exact i.elim0
     · exact i.elim0
   simp only [omAct, LinearMap.sum_apply, LinearMap.smulRight_apply, Matrix.entryLinearMap_apply, LinearMap.smul_apply, hE]
-  simp only [smul_ite, smul_zero, Finset.sum_ite_eq, Finset.mem_univ, if_true, Matrix.trace, Matrix.diag_apply]
+  simp only [smul_ite, smul_zero, Finset.sum_ite_eq, Finset.mem_univ, ite_true, Matrix.trace, Matrix.diag_apply]
   rw [← Finset.sum_smul, smul_smul, mul_comm]
 private theorem fock_first_action_one_polynomial {n d : ℕ} (Y : Mat n 0) :
     fockAct1 n 0 d 0 Y (1 : Formalism.BasicNotions.TH.Pol n 0 d 0) = (((d : ℂ) / 2) * Y.trace) • (1 : Formalism.BasicNotions.TH.Pol n 0 d 0) := by

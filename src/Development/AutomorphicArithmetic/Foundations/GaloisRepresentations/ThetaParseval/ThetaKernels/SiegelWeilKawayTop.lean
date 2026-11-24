@@ -245,8 +245,8 @@ theorem away_conj_k (hT : _root_.PositivityTheory.SiegelWeilFormula.TAll_k) {x�
       rcases hz with hz | hz
       · simp [_root_.PositivityTheory.SiegelWeilFormula.RD_k.tens, hz]
       · have hn : ¬ ∃ X₀, Ψ X₀ ≠ 0 ∧ B₁ (B₂ Ψ) X₀ ≠ 0 := fun ⟨X₀, h, _⟩ => h (hz X₀)
-        simp [_root_.PositivityTheory.SiegelWeilFormula.RD_k.tens, dif_neg hn]
-    · push_neg at hz
+        simp [_root_.PositivityTheory.SiegelWeilFormula.RD_k.tens, dite_eq_right hn]
+    · push Not at hz
       obtain ⟨⟨u₀, hu₀⟩, ⟨X₁, hX₁⟩⟩ := hz
       have hex : ∃ X₀, Ψ X₀ ≠ 0 ∧ B₁ (B₂ Ψ) X₀ ≠ 0 := by
         refine ⟨X₁, hX₁, fun h0' => ?_⟩
@@ -261,7 +261,7 @@ theorem away_conj_k (hT : _root_.PositivityTheory.SiegelWeilFormula.TAll_k) {x�
         linear_combination -this
       rw [e]
       funext X
-      simp only [_root_.PositivityTheory.SiegelWeilFormula.RD_k.tens, Function.comp_apply, id_eq, dif_pos hex, Pi.smul_apply, smul_eq_mul, hA]
+      simp only [_root_.PositivityTheory.SiegelWeilFormula.RD_k.tens, Function.comp_apply, id_eq, dite_eq_left hex, Pi.smul_apply, smul_eq_mul, hA]
       ring
 end Step
 theorem awayAct_of_k : _root_.PositivityTheory.SiegelWeilFormula.TAll_k → _root_.PositivityTheory.SiegelWeilFormula.SiegelWeilDatumProperties → _root_.PositivityTheory.SiegelWeilFormula.AdDecomp_k → _root_.PositivityTheory.SiegelWeilFormula.AwayAct_k := by

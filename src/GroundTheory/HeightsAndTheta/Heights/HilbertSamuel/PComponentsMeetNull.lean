@@ -146,7 +146,7 @@ theorem ComponentsMeetNull.proof (hA : ChartDimLt.Statement) (hB : ChartRatioIma
     have : W.IsPrime := hW.1.1
     obtain ⟨g, hgW', hgW⟩ : ∃ g ∈ W', g ∉ W := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hne (le_antisymm (hW.2 hW'.1 hcon) hcon)
     have hg0 : Ideal.Quotient.mk W g ≠ 0 := by rwa [Ne, Ideal.Quotient.eq_zero_iff_mem]
     have h1 := ringKrullDim_quotient_succ_le_of_nonZeroDivisor (mem_nonZeroDivisors_of_ne_zero hg0)

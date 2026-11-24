@@ -199,7 +199,7 @@ theorem conj_of_charpoly_inert : ∀ (E : Type) [Field E] [NumberField E] [IsCMF
   have hmapc : ∀ M : Matrix (Fin n) (Fin n) O, (cT c M).map ι = cT (cj w) (M.map ι) := fun M => by
     ext i j; rfl
   have hUL : ∀ x : GLw n w, x ∈ UL n w ↔ cT (cj w) x.val * x.val = 1 := fun x => by
-    rw [UL, if_neg hw]
+    rw [UL, ite_eq_right hw]
     change cT (cj w) x.val * 1 * x.val = 1 ↔ _
     rw [mul_one]
   have hmv : ∀ x : GL (Fin n) O, (GeneralLinearGroup.map ι x).val = x.val.map ι := fun x => by

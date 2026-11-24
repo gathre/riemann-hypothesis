@@ -290,7 +290,7 @@ theorem GlobalTheory.VacDensity.proj : ∀ (D : D7) (ψ : AddChar (AF D.host.F) 
   obtain ⟨ℓ, hℓ⟩ : ∃ ℓ : Module.Dual ℂ (WO S T → ℂ), ℓ v = 1 := by
     obtain ⟨f, hf⟩ : ∃ f : Module.Dual ℂ (WO S T → ℂ), f v ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hv0 ((Module.forall_dual_apply_eq_zero_iff ℂ v).1 h)
     exact ⟨(f v)⁻¹ • f, by rw [LinearMap.smul_apply, smul_eq_mul, inv_mul_cancel₀ hf]⟩
   let P : (WO S T → ℂ) →ₗ[ℂ] (WO S T → ℂ) := ℓ.smulRight v
@@ -314,7 +314,7 @@ theorem GlobalTheory.VacDensity.proj : ∀ (D : D7) (ψ : AddChar (AF D.host.F) 
       fun w hw => ?_).resolve_right hg0
     by_cases hA : ∀ u ∈ U', u.map (infPart D) = 0 → ψ (symplO S T u w) = 1
     · exact hfo _ (hWst ⟨w, hw, hA⟩ g hgW)
-    · push_neg at hA
+    · push Not at hA
       obtain ⟨u, hu, h0, hne1⟩ := hA
       have hwg : IsThetaFunO ψ S T (heisO ψ S T w g) := laws.1 w g hgT
       have e1 : GlobalTheory.RawLift.thetaIP vol.μ vol.𝓕 f (heisO ψ S T w g) =

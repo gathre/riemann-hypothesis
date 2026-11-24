@@ -276,7 +276,7 @@ theorem box_lattice_point_bound : BoxBound := by
       _ = Real.sqrt n * Real.exp (Real.sqrt (Formalism.REAL.hs X)) := Real.sqrt_sq (by positivity)
   show hsN (Formalism.MainNotions.S.uMat g) ≤ Real.sqrt n * Real.exp (sInf S)
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   rcases Nat.eq_zero_or_pos n with hn0 | hnpos
   · subst hn0
     have h0 : hsN (Formalism.MainNotions.S.uMat g) = 0 := by

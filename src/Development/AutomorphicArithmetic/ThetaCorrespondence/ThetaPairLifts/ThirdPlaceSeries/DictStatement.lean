@@ -538,7 +538,7 @@ theorem main_alt_alt : ∀ (hL : _root_.UpperTheory.Zero.LLC.RecTExists) (D : D7
       exact hQ this
   obtain ⟨Q0, hQ0⟩ : ∃ Q, g Q ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hf0
     rw [← hgsum, show g = 0 from Finsupp.ext h, Finsupp.sum_zero_index]
   set G : D.naut.AV i → (GAf D.host.E D.R.nV → (P.M.loc i).wt.W) := fun Q => (P.M.loc i).real (g Q) with hGdef
@@ -1604,7 +1604,7 @@ theorem finsum_cosets {G W ι : Type} [Group G] [AddCommGroup W] (J : Subgroup G
   rw [finsum_eq_sum_of_support_subset _ hsupp, Finset.sum_image]
   · refine Finset.sum_congr rfl fun γ hγ => ?_
     have hc : ∃ y ∈ T, (y : G ⧸ J) = (x γ : G ⧸ J) := ⟨x γ, h1 γ hγ, rfl⟩
-    rw [dif_pos hc]
+    rw [dite_eq_left hc]
     obtain ⟨hy, he⟩ := hc.choose_spec
     exact (hF _ hy _ (h1 γ hγ) (QuotientGroup.eq.1 he) g).symm
   · intro γ hγ γ' hγ' e
@@ -1717,7 +1717,7 @@ theorem transport_alt : GlobalTheory.Published.AutomorphicFormsFiniteGL → ∀ 
   let xi : Formalism.L2.Theta.GA D (Formalism.IndefR.Links.Vc D j) → Formalism.AUTREP.GAf D.host.E D.R.nV := fun γ =>
     if hγ : γ ∈ Formalism.L2.Theta.GfC (Formalism.IndefR.Links.Vc D j) then ((A.PV j).onto γ hγ).choose else 1
   have hxi : ∀ γ ∈ GlobalTheory.Hk3.rep (Formalism.IndefR.Links.Vc D j) sp.w (List.replicate k 1 ++ List.replicate (D.R.nV - k) 0), (A.PV j).ψ (xi γ) = γ := fun γ hγ => by
-    simp only [xi, dif_pos (hGf γ hγ)]
+    simp only [xi, dite_eq_left (hGf γ hγ)]
     exact ((A.PV j).onto γ (hGf γ hγ)).choose_spec
   have hT : ∀ x ∈ Formalism.AUTREP.tSet D.host.E D.R.nV sp ϖ k, TrivOutside {sp.v} x := fun x hx => hx.1
   suffices key : ∀ (m : ℕ) (e : j.1 + 1 = m) (p1 : 1 ≤ m) (p2 : m ≤ D.R.m),

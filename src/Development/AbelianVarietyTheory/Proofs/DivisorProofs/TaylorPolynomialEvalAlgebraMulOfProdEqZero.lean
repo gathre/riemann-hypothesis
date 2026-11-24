@@ -96,7 +96,7 @@ theorem coeff_sum_monomial_finsuppAntidiag (N : ℕ) (F : MvPowerSeries I ℂ) (
         MvPolynomial.monomial m (MvPowerSeries.coeff m F)) n = MvPowerSeries.coeff n F := by
   simp only [MvPolynomial.coeff_sum, MvPolynomial.coeff_monomial, Finset.sum_ite_eq',
     Finset.mem_finsuppAntidiag, Finset.subset_univ, and_true]
-  rw [← Finsupp.degree_eq_sum, Finset.sum_ite_eq, if_pos (Finset.mem_range.2 hn)]
+  rw [← Finsupp.degree_eq_sum, Finset.sum_ite_eq, ite_eq_left (Finset.mem_range.2 hn)]
 
 theorem aeval_sum_monomial_finsuppAntidiag (N : ℕ) (t : I → D) (F : MvPowerSeries I ℂ) :
     MvPolynomial.aeval t (∑ k ∈ Finset.range (N + 1),

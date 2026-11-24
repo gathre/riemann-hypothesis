@@ -810,9 +810,9 @@ theorem UpperTheory.V.X.So.vanEOf :
   simp only [z, Fin.rev_rev] at e0 e0' e1 e1'
   simp only [U3.cob, Matrix.sub_apply, Matrix.smul_apply, smul_eq_mul, U3.adRep_baseLift_apply, X, Matrix.of_apply, Fin.rev_rev]
   by_cases hη : F.η g = 1
-  · simp only [hη, if_true] at e0 e0' e1 e1' ⊢
+  · simp only [hη, ite_true] at e0 e0' e1 e1' ⊢
     linear_combination e0 - e0' + e1 + e1'
-  · simp only [hη, if_false] at e0 e0' e1 e1' ⊢
+  · simp only [hη, ite_false] at e0 e0' e1 e1' ⊢
     linear_combination e0 - e0' + e1 + e1'
 end -- clump:auto
 end -- clump:auto

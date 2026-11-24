@@ -1291,7 +1291,7 @@ theorem exists_isoW_k {σ : E →ₐ[F] E} {B : Base F E} {n d : ℕ} {W : Spc F
     have e5 : (f j : ℕ) = j := rfl
     rw [Matrix.smul_apply]
     simp only [antiJ]
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
     simp
   · obtain ⟨h3, h4⟩ := (mem_latW_iff hw h W z).1 hz
     rw [← Matrix.mulVec_transpose]

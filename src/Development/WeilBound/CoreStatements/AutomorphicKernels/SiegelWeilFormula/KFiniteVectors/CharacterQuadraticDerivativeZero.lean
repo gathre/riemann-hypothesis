@@ -482,7 +482,7 @@ theorem T_D_dg {Φ : d.Fn} (hΦ : Φ ∈ d.sch) {Z : Mx F E d.m d.n} (hZ : At (e
     rw [map_add (f := _), Box.D_add_left, td_T_add] at E
     simp only [mZ]
     linear_combination E
-  push_neg at hB hC
+  push Not at hB hC
   have hz := all_zero (d := d) hB hC
   have hu := td_at_mul hZ (dg d)ᵀ
   have hu0 : Z * (dg d)ᵀ = 0 := eq_zero_of_nf hu ha (hz _)
@@ -527,7 +527,7 @@ theorem theta_derivative_second_frame {Φ : d.Fn} (hΦ : Φ ∈ d.sch) {Z : Mx F
     simp only [mZ]
     push_cast
     ring
-  push_neg at hB
+  push Not at hB
   have hsp : ∀ v, At (evI F) v → sp d (Z * (b2 d)ᵀ) v = 0 := by
     intro v hv
     obtain ⟨Z₁, Z₂, h1, h2, rfl⟩ := split_arch hv

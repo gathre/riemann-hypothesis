@@ -371,8 +371,8 @@ theorem exists_approx_core (s : Pl F) (T₁ : Finset (InfinitePlace F))
   obtain ⟨r, hr, hball⟩ := exists_radius (F := F) cI
     (fun w => if w ∈ T₁ then OI w else Set.univ) (fun w => by
       by_cases h : w ∈ T₁
-      · simpa only [if_pos h] using hOI w h
-      · simp only [if_neg h]
+      · simpa only [ite_eq_left h] using hOI w h
+      · simp only [ite_eq_right h]
         exact Filter.univ_mem)
 
   obtain ⟨d, hd0, hd⟩ := exists_scale (F := F) T₂
@@ -422,7 +422,7 @@ theorem exists_approx_core (s : Pl F) (T₁ : Finset (InfinitePlace F))
         _ < r / R * R := mul_lt_mul_of_pos_right h1 hR
         _ = r := by field_simp
     have := hball w _ hlt
-    simp only [if_pos hw] at this
+    simp only [ite_eq_left hw] at this
     rw [hcompI]
     exact this
   · obtain ⟨o, ho, heq⟩ := hOv v (h₂ v hv)

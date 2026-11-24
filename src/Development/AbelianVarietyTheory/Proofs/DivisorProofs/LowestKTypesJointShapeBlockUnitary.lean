@@ -87,7 +87,7 @@ theorem below_all {l : List ℚ} {v : ℚ} (h : ∀ e ∈ l, e < v) : below l v 
   induction l with
   | nil => simp [below]
   | cons e l ih =>
-    rw [below_cons, ih fun x hx => h x (List.mem_cons_of_mem _ hx), if_pos (h e List.mem_cons_self)]
+    rw [below_cons, ih fun x hx => h x (List.mem_cons_of_mem _ hx), ite_eq_left (h e List.mem_cons_self)]
     simp; ring
 
 theorem below_none {l : List ℚ} {v : ℚ} (h : ∀ e ∈ l, v ≤ e) : below l v = 0 := by
@@ -95,7 +95,7 @@ theorem below_none {l : List ℚ} {v : ℚ} (h : ∀ e ∈ l, v ≤ e) : below l
   | nil => simp [below]
   | cons e l ih =>
     rw [below_cons, ih fun x hx => h x (List.mem_cons_of_mem _ hx),
-      if_neg (not_lt.2 (h e List.mem_cons_self))]
+      ite_eq_right (not_lt.2 (h e List.mem_cons_self))]
     simp
 
 theorem below_mono (l : List ℚ) {u v : ℚ} (h : u ≤ v) : below l u ≤ below l v := by
@@ -195,7 +195,7 @@ theorem shiftNu_blattner {p q : ℕ} {l₁ l₂ : List ℚ} (h₁ : l₁.length 
     rw [List.count_eq_one_of_mem n1 hm, h₁] at a1
     rw [List.count_eq_zero_of_not_mem (fun h => n3 _ hm _ h rfl), h₂] at a2
     simp only [shiftNu, blattner, rhoNC, Finset.card_filter, Fintype.sum_sum_type]
-    simp only [sameBlock, ofBlocks, getD_map' h₁, not_true, not_false_iff, true_and, false_and, if_false]
+    simp only [sameBlock, ofBlocks, getD_map' h₁, not_true, not_false_iff, true_and, false_and, ite_false]
     push_cast
     rw [e1, e2, e3, e4]
     simp only [below, above] at a1 a2 ⊢
@@ -208,7 +208,7 @@ theorem shiftNu_blattner {p q : ℕ} {l₁ l₂ : List ℚ} (h₁ : l₁.length 
     rw [List.count_eq_one_of_mem n2 hm, h₂] at a2
     rw [List.count_eq_zero_of_not_mem (fun h => n3 _ h _ hm rfl), h₁] at a1
     simp only [shiftNu, blattner, rhoNC, Finset.card_filter, Fintype.sum_sum_type]
-    simp only [sameBlock, ofBlocks, getD_map' h₂, not_true, not_false_iff, true_and, false_and, if_false]
+    simp only [sameBlock, ofBlocks, getD_map' h₂, not_true, not_false_iff, true_and, false_and, ite_false]
     push_cast
     rw [e1, e2, e3, e4]
     simp only [below, above] at a1 a2 ⊢

@@ -159,7 +159,7 @@ private theorem exists_entry_ne_zero_of_irr {Γ K : Type} [Group Γ] [Field K] (
     (hr : Irr r) : ∀ i j, ∃ g, r g i j ≠ 0 := by
   intro i j
   by_contra h
-  push_neg at h
+  push Not at h
   let W : Submodule K (Matrix (Fin 4) (Fin 4) K) :=
     { carrier := {M | M i j = 0}
       add_mem' := by

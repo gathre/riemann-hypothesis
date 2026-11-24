@@ -185,7 +185,7 @@ theorem cc_span_partFull : GlobalTheory.Published.CuspRapidDecay → ∀ D : D7,
   obtain ⟨hLU, -, hH⟩ := hops
   by_cases hsm : ∀ τ, s.M.sm τ ≠ ⊥
   swap
-  · push_neg at hsm
+  · push Not at hsm
     obtain ⟨τ, hτ⟩ := hsm
     refine Submodule.eq_top_iff'.2 fun u => ?_
     have h0 : PiTensorProduct.lift.symm (u : SmT s.M →ₗ[ℂ] (GA D s.V → ℂ)) = 0 := by
@@ -354,7 +354,7 @@ theorem partPar : GlobalTheory.Published.CuspRapidDecay → ∀ D : D7, ForStage
   have hu1 : (u : SmT s.M →ₗ[ℂ] (GA D s.V → ℂ)) ≠ 0 := fun h => hu0 (Subtype.ext h)
   obtain ⟨v, hv⟩ : ∃ v, PiLocalization₂.val u v ≠ 0 := by
     by_contra hh
-    push_neg at hh
+    push Not at hh
     exact hu1 (LinearMap.ext hh)
   obtain ⟨C, hC⟩ := (hval u v).2.1
   have hbdd : (fun g => conj (PiLocalization₂.val u v g)) ∈ GlobalTheory.FinZeta.bddAut s.V := by
@@ -409,7 +409,7 @@ theorem parIndep_even : ∀ D : D7, ParIndep D := by
   obtain ⟨hne0, _⟩ := hpar i₀
   obtain ⟨v, hv⟩ : ∃ v, PiLocalization₂.val (x i₀) v ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hne0
     apply Subtype.ext
     apply LinearMap.ext

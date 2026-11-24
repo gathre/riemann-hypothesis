@@ -91,18 +91,18 @@ theorem exists_sqrt_adele (d : 𝓞 F) : ∃ s ι : Af F, ∀ v,
     ⟨fun v => if ∃ y : Fv F v, y * y = algebraMap F (Fv F v) (d : F) then 1 else 0,
       Filter.Eventually.of_forall fun v => ?_⟩, fun v => ?_⟩
   · by_cases h : ∃ y : Fv F v, y * y = algebraMap F (Fv F v) (d : F)
-    · simp only [h, dif_pos]; exact sqrt_mem_of_int F d v _ h.choose_spec
-    · simp only [h, dif_neg, not_false_iff]; exact zero_mem _
+    · simp only [h, dite_eq_left]; exact sqrt_mem_of_int F d v _ h.choose_spec
+    · simp only [h, dite_eq_right, not_false_iff]; exact zero_mem _
   · by_cases h : ∃ y : Fv F v, y * y = algebraMap F (Fv F v) (d : F)
-    · simp only [h, if_true]; exact one_mem _
-    · simp only [h, if_false]; exact zero_mem _
+    · simp only [h, ite_true]; exact one_mem _
+    · simp only [h, ite_false]; exact zero_mem _
   · by_cases h : ∃ y : Fv F v, y * y = algebraMap F (Fv F v) (d : F)
     · left
-      refine ⟨if_pos h, ?_⟩
+      refine ⟨ite_eq_left h, ?_⟩
       have e : ∀ x : Fv F v, x = h.choose → x * x = algebraMap F (Fv F v) (d : F) := fun x hx => hx ▸ h.choose_spec
-      exact e _ (dif_pos h)
+      exact e _ (dite_eq_left h)
     · right
-      exact ⟨if_neg h, dif_neg h, fun y hy => h ⟨y, hy⟩⟩
+      exact ⟨ite_eq_right h, dite_eq_right h, fun y hy => h ⟨y, hy⟩⟩
 
 theorem af_ext' {x y : Af F} (h : ∀ v, evalV F v x = evalV F v y) : x = y :=
   Subtype.ext (funext fun v => h v)
@@ -140,7 +140,7 @@ theorem sig_invol {σ : E →ₐ[F] E} (h : IsCMExt F E σ) (x : E) : σ (σ x) 
 
 theorem sig_ne {σ : E →ₐ[F] E} (h : IsCMExt F E σ) : ∃ x, σ x ≠ x := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   obtain ⟨w⟩ : Nonempty (InfinitePlace E) := inferInstance
   have hw : w.IsComplex := h.2.1.isComplex w
   rw [InfinitePlace.isComplex_iff, ComplexEmbedding.isReal_iff] at hw

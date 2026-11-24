@@ -104,7 +104,7 @@ theorem matrixGaussSum_singular_and_invertible :
   refine ⟨fun a ha => ?_, fun a => ?_⟩
   · obtain ⟨t, ht⟩ : ∃ t, ξ t ≠ 1 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hξ (MonoidHom.ext h)
     obtain ⟨g, hg, hag⟩ := exists_gl_det_eq_mul_eq_of_det_eq_zero k r a ha t
     have h := matrixGaussSum_mul_unit k R ψ ξ r a g

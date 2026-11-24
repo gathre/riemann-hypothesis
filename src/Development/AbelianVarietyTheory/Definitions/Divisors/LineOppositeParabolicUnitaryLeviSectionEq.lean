@@ -743,7 +743,7 @@ theorem sum_line {M : Type} [AddCommMonoid M] (f : Fin (n + 2) → M) :
 
 @[simp] theorem lineBlocks_mid (i : Fin n) : lineBlocks (n + 2) (midIdx i) = 0 := by
   have := i.2
-  rw [lineBlocks, midIdx_val, if_neg (by omega), if_neg (by omega), sub_zero]
+  rw [lineBlocks, midIdx_val, ite_eq_right (by omega), ite_eq_right (by omega), sub_zero]
 
 @[simp] theorem lineBlocks_last : lineBlocks (n + 2) (Fin.last (n + 1)) = 1 := by simp [lineBlocks]
 

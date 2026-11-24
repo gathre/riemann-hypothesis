@@ -460,7 +460,7 @@ theorem pointSum_eq_pointSide_of_commensurable : ∀ {Γ G₁ G₂ : Type} [Grou
     unfold pointSide
     rw [← hprod]
     rfl
-  · push_neg at hne
+  · push Not at hne
     have hF0 : ∀ x : G₁ × G₂, f₁ (x.1⁻¹ * γ * x.1) * φ (x.2⁻¹ * δ * θ x.2) = 0 := by
       intro x
       obtain ⟨h, hh, k, hk, he⟩ := DoubleCoset.mk_out_eq_mul (ι₁.prod ι₂).range (K₁.prod K₂) x
@@ -468,7 +468,7 @@ theorem pointSum_eq_pointSide_of_commensurable : ∀ {Γ G₁ G₂ : Type} [Grou
       exact hne _
     have hor : (∀ x₁ : G₁, f₁ (x₁⁻¹ * γ * x₁) = 0) ∨ (∀ x₂ : G₂, φ (x₂⁻¹ * δ * θ x₂) = 0) := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       obtain ⟨⟨a, ha⟩, ⟨b, hb⟩⟩ := hc
       exact mul_ne_zero ha hb (hF0 (a, b))
     rw [hPS]

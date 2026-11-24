@@ -311,7 +311,7 @@ theorem exists_mem_span_sub_one_eq_id_on :
     exact h'
   obtain ⟨ψ, hψ⟩ : ∃ ψ : Module.Dual K P, ψ (f₀ w₀) ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hfw ((Module.forall_dual_apply_eq_zero_iff K _).1 hc)
   let b := Module.finBasis K P
   have hid : (1 : Module.End K P) ∈ J' := by
@@ -487,13 +487,13 @@ theorem good_of_stable (S : Γ →* Matrix (Fin 3) (Fin 3) K) [IsAlgClosed K]
     · rw [hbot]; exact good_bot S
     · have hnt : ∃ g, ∃ v ∈ P, S g *ᵥ v ≠ v := by
         by_contra hc
-        push_neg at hc
+        push Not at hc
         apply hbot
         rw [Submodule.eq_bot_iff]
         intro v hv
         exact hfix v (fun g => hc g v hv)
       exact _root_.GlobalTheory.AugSpan.exists_mem_span_sub_one_eq_id_on S P hP hirr hnt
-  · push_neg at hirr
+  · push Not at hirr
     obtain ⟨Q, hQP, hQs, hQ0, hQne⟩ := hirr
     have hQo : Stable S (B.orthogonal Q) := stable_orthogonal S B hinv hQs
     set R := P ⊓ B.orthogonal Q with hR
@@ -569,7 +569,7 @@ theorem exists_nat_det_ne_zero_affine {K : Type} [Field K] [CharZero K] {m : ℕ
     rw [← det_affine_eval]
     simp [p, h0]
   by_contra hall
-  push_neg at hall
+  push Not at hall
   have hsub : Set.range (fun k : ℕ => (k : K)) ⊆ (p.roots.toFinset : Set K) := by
     rintro _ ⟨k, rfl⟩
     simp only [Finset.mem_coe, Multiset.mem_toFinset]
@@ -1260,7 +1260,7 @@ theorem GlobalTheory.lam_small_of_deep_congruence : ∀ (l : ℕ) [Fact l.Prime]
   have hl1 : ‖((l:ℕ) : Qbar l)‖ < 1 := by
     rw [hl]; exact inv_lt_one_of_one_lt₀ (by exact_mod_cast (Fact.out : l.Prime).one_lt)
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   set F : ℕ → Set Γ := fun N => {g | ∀ i j, ‖((r g : Matrix (Fin 2) (Fin 2) (Qbar l)) - 1) i j‖ ≤ ‖((l : ℕ) : Qbar l) ^ N‖} ∩ {g | ε ≤ ‖(lam g).toAdd‖} with hF
   have hcm : Continuous fun g => ((r g : Matrix (Fin 2) (Fin 2) (Qbar l)) - 1) := (Units.continuous_val.comp hr).sub continuous_const
   have hclosed : ∀ N, IsClosed (F N) := by
@@ -1554,7 +1554,7 @@ theorem hom_padicInt_trivial : ∀ (l : ℕ) [Fact l.Prime] (c : Coef l) (Γ : T
   have hρZ : ‖((l : ℕ) : ℤ_[l])‖ = ρ := by rw [PadicInt.norm_p, hρeq]
   by_contra hne
   obtain ⟨g, hg⟩ : ∃ g, lam g ≠ 1 := by
-    by_contra h; push_neg at h; exact hne (MonoidHom.ext fun x => by simpa using h x)
+    by_contra h; push Not at h; exact hne (MonoidHom.ext fun x => by simpa using h x)
   obtain ⟨k, hk0, hkdet, hksm⟩ := noab_congr_pow l c Γ r hr hint hdet g
   set h0 := g ^ k with hh0
   set v0 : ℤ_[l] := Multiplicative.toAdd (lam h0) with hv0def
@@ -1882,7 +1882,7 @@ theorem exists_ker_eps_ne_one : ∀ (l : ℕ) [Fact l.Prime] (Ω : Type) [Field 
     (S : Finset Pl) (A : ValuationSubring Ω) (W : R2 Ω l), Nf e S A W → ∃ z ∈ W.ker, eps l z ≠ 1 := by
   intro l _ Ω _ _ _ e S A W h
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨c, hc⟩ := h.int
   let lam : G ℚ Ω →* Multiplicative ℤ_[l] := logHom.comp (cycZ ℚ Ω l)
   have hlamc : Continuous lam := continuous_logHom.comp (continuous_cycZ ℚ Ω l)

@@ -152,7 +152,7 @@ theorem glm_blkDet (e : κ ≃+* k') {a t j s : ℕ} (ht : 0 < t) (hs : s < j) (
   ext c d
   have hc : a + s * t + (c : ℕ) < n := ((equalBlockPositionsEquiv ht hs hn) c).1.isLt
   have hd : a + s * t + (d : ℕ) < n := ((equalBlockPositionsEquiv ht hs hn) d).1.isLt
-  simp only [blkMat, entN, dif_pos (And.intro hc hd)]
+  simp only [blkMat, entN, dite_eq_left (And.intro hc hd)]
   rfl
 
 end Chr

@@ -932,7 +932,7 @@ theorem descent_joint_eigen : ∀ {K V W ι κ : Type} [Field K] [AddCommGroup V
           rw [Module.End.mem_eigenspace_iff]
           exact sub_eq_zero.mp this
         exact Submodule.mem_iSup_of_mem a (Submodule.mem_iSup_of_mem (hSs ha) (Submodule.mem_inf.mpr ⟨hvG, heig⟩))
-      · push_neg at hall
+      · push Not at hall
         obtain ⟨b, hb, k, hk, hne⟩ := hall
         have hcb := Finset.card_erase_of_mem hb
         have hca := Finset.card_erase_of_mem ha
@@ -1010,11 +1010,11 @@ theorem spanC_core (R : RealDat3 D A3 Ks) (F : Face3 D A3) {X0 : BaseLevelRowSid
   have hT : ∀ t ∈ I, ∀ u : Fin (R.nW (idxOf D j)) → D.what₂.LL,
       iotaR R (idxOf D j) (hL j t.1 t.2 u) = T' t (iotaR R (idxOf D j) u) := by
     intro t ht u
-    simp only [T', dif_pos ht, LinearMap.smul_apply, iotaR_apply]
+    simp only [T', dite_eq_left ht, LinearMap.smul_apply, iotaR_apply]
     exact hRd j t.1 t.2 (α ⟨t, ht⟩) (Rr ⟨t, ht⟩) hj1 hj2 (hD ⟨t, ht⟩) u
   have hPa : ∀ σ ∈ s, ∀ t ∈ I, ∀ z ∈ Part σ, T' t z = sg0 D A3.A ((eig j σ t.1 t.2 : ↥D.LL0) : D.what₂.LL) • z := by
     rintro σ hσ t ht _ ⟨y, hy, rfl⟩
-    simp only [T', dif_pos ht, LinearMap.smul_apply]
+    simp only [T', dite_eq_left ht, LinearMap.smul_apply]
     have h1 := hEig (idxOf D j) σ t.1 t.2 (α ⟨t, ht⟩) (Rr ⟨t, ht⟩) (hD ⟨t, ht⟩) hσ.2 y hy
     have h2 : eig ((idxOf D j : ℕ) + 1) σ t.1 t.2 = eig j σ t.1 t.2 := by rw [hjj]
     rw [h2, hsg] at h1

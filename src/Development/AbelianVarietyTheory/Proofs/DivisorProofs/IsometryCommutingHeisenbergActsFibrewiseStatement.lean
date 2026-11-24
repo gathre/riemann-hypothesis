@@ -943,7 +943,7 @@ theorem exists_localizing_weight : ∀ {F : Type} [Field F] [NumberField F] {κ 
   · intro x hx
     dsimp only at hx
     by_cases hxA : (fun i => (x i).2) ∈ A
-    · rw [if_pos hxA] at hx
+    · rw [ite_eq_left hxA] at hx
       have hβ0 : β (fun i => (x i).1) ≠ 0 := by
         intro h0
         rw [h0] at hx
@@ -957,7 +957,7 @@ theorem exists_localizing_weight : ∀ {F : Type} [Field F] [NumberField F] {κ 
         rw [h1]
         exact hβU _ hβ0
       · exact hAV x hxA
-    · rw [if_neg hxA] at hx
+    · rw [ite_eq_right hxA] at hx
       exact absurd rfl hx
   · refine ⟨{x | (fun i => (x i).2) ∈ A} ∩ {x | 1 / 2 < ‖((β (fun i => (x i).1) : ℝ) : ℂ)‖ₑ ^ 2},
       (hA.preimage hfinc).inter (isOpen_lt continuous_const hgc), ⟨hyA, ?_⟩, ?_⟩
@@ -966,7 +966,7 @@ theorem exists_localizing_weight : ∀ {F : Type} [Field F] [NumberField F] {κ 
       simpa using ENNReal.half_lt_self one_ne_zero ENNReal.one_ne_top
     · rintro x ⟨hxA, hx⟩ -
       show 1 / 2 ≤ (if (fun i => (x i).2) ∈ A then ‖((β (fun i => (x i).1) : ℝ) : ℂ)‖ₑ ^ 2 else 0)
-      rw [if_pos (show (fun i => (x i).2) ∈ A from hxA)]
+      rw [ite_eq_left (show (fun i => (x i).2) ∈ A from hxA)]
       exact le_of_lt hx
   · have hK : ∀ x : κ → AF F, (‖Ψ x‖ₑ ^ 2 ≠ 0 ∨ ‖Φ x‖ₑ ^ 2 ≠ 0) → (fun i => (x i).2) ∈ KΦ ∪ KΨ := by
       intro x hx
@@ -999,9 +999,9 @@ theorem exists_localizing_weight : ∀ {F : Type} [Field F] [NumberField F] {κ 
     · intro x hx
       simp only [hsc _ x, hfK x (hK x hx)]
       by_cases hxA : (fun i => (x i).2) ∈ A
-      · simp only [Set.indicator_of_mem hxA, one_mul, if_pos hxA]
+      · simp only [Set.indicator_of_mem hxA, one_mul, ite_eq_left hxA]
         exact ((ENNReal.continuous_pow 2).tendsto _).comp ((continuous_enorm.tendsto _).comp (hlim x))
-      · simp only [Set.indicator_of_notMem hxA, zero_mul, if_neg hxA, enorm_zero]
+      · simp only [Set.indicator_of_notMem hxA, zero_mul, ite_eq_right hxA, enorm_zero]
         simpa using tendsto_const_nhds
 
 end GlobalTheory.OffVLocalWeights

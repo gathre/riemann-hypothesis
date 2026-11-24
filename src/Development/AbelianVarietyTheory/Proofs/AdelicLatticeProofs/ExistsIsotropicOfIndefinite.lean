@@ -125,7 +125,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] in
 private lemma exists_re_pos_of_herm_diagonal_re_pos {r : ℕ} (τ : E →+* ℂ) (d y : Fin r → E)
     (hy : 0 < (τ (_root_.ReciprocityTheory.ChartRestriction.G.FD.herm (Matrix.diagonal d) y y)).re) : ∃ i, 0 < (τ (d i)).re := by
   by_contra h
-  push_neg at h
+  push Not at h
 
   rw [_root_.GlobalTheory.UTrans.herm_diagonal_self, map_sum, Complex.re_sum] at hy
   refine absurd hy (not_lt.2 (Finset.sum_nonpos fun i _ => ?_))
@@ -138,7 +138,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] in
 private lemma exists_re_neg_of_herm_diagonal_re_neg {r : ℕ} (τ : E →+* ℂ) (d y : Fin r → E)
     (hy : (τ (_root_.ReciprocityTheory.ChartRestriction.G.FD.herm (Matrix.diagonal d) y y)).re < 0) : ∃ i, (τ (d i)).re < 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
 
   rw [_root_.GlobalTheory.UTrans.herm_diagonal_self, map_sum, Complex.re_sum] at hy
   refine absurd hy (not_lt.2 (Finset.sum_nonneg fun i _ => ?_))
@@ -174,7 +174,7 @@ theorem _root_.GlobalTheory.UTrans.exists_isotropic_of_indefinite : ∀ (E : Typ
     · intro j _ hj
       simp [hj]
     · simp
-  · push_neg at hd0
+  · push Not at hd0
     refine _root_.GlobalTheory.UTrans.exists_isotropic_diagonal hn hd hd0 fun τ => ?_
     obtain ⟨⟨x, hx⟩, y, hy⟩ := hs τ
     rw [hf, ← hPinv x, hform] at hx

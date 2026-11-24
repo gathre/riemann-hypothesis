@@ -55,7 +55,7 @@ theorem depth_spec : ∀ {D : D7} (L : SizeData₂ D) (_ : ParameterChoice' D L)
   refine ⟨hmem, by omega, fun hlt => ?_⟩
   have hl' : (11 : ℝ) ≤ l := by exact_mod_cast hl
   by_contra hc
-  push_neg at hc
+  push Not at hc
   interval_cases h : depth L l
   · simp at hmem
     linarith

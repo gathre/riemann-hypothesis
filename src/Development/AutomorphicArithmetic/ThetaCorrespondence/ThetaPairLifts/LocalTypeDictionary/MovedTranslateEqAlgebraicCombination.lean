@@ -252,7 +252,7 @@ theorem moved_vacuum_jet_ne_zero : ∀ {D : D7} {T : Type} [Finite T] {L : LevCh
   have hBA : ∀ τ, X.rA.B τ = 1 := fun τ => by rw [(hX.std.2.2 τ).2]
   obtain ⟨k₀, hk₀⟩ := vac_jet_ne_zero hI hX
   by_contra hall
-  push_neg at hall
+  push Not at hall
   set γs := (ofSgn true A).symm γ with hγs
   have hγsQ : γs ∈ GQ (neg A) :=
     (GlobalTheory.SgnIdent.mem_GQ_sgn true A γs).2 (by rw [hγs, MulEquiv.apply_symm_apply]; exact hγ)
@@ -1352,11 +1352,11 @@ theorem algType_of_even {I : Type} [Fintype I] {φ : I → E →+* ℂ} {c : I �
   refine Finset.prod_congr rfl fun i _ => ?_
   rw [Finset.prod_mul_distrib, Finset.prod_inv_distrib]
   have e1 : ∏ ψ : E →+* ℂ, u ψ ^ (if φ i = ψ then c i else 0) = u (φ i) ^ c i := by
-    rw [Finset.prod_eq_single (φ i) (fun ψ _ hψ => by rw [if_neg (Ne.symm hψ), zpow_zero]) (by simp)]
+    rw [Finset.prod_eq_single (φ i) (fun ψ _ hψ => by rw [ite_eq_right (Ne.symm hψ), zpow_zero]) (by simp)]
     simp
   have e2 : ∏ ψ : E →+* ℂ, u ψ ^ (if (starRingEnd ℂ).comp (φ i) = ψ then c i else 0) =
       u ((starRingEnd ℂ).comp (φ i)) ^ c i := by
-    rw [Finset.prod_eq_single ((starRingEnd ℂ).comp (φ i)) (fun ψ _ hψ => by rw [if_neg (Ne.symm hψ), zpow_zero]) (by simp)]
+    rw [Finset.prod_eq_single ((starRingEnd ℂ).comp (φ i)) (fun ψ _ hψ => by rw [ite_eq_right (Ne.symm hψ), zpow_zero]) (by simp)]
     simp
   rw [e1, e2]
 

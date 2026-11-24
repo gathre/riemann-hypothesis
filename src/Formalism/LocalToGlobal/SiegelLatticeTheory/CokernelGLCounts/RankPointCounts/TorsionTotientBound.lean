@@ -69,14 +69,14 @@ theorem le_mul_totient_sq (n : ℕ) : n ≤ (if Even n then 2 else 1) * n.totien
     simp only [Nat.add_sub_cancel]
     rcases hp.eq_two_or_odd' with rfl | hodd
     · have he : Even (2 ^ (m + 1)) := Nat.even_pow.mpr ⟨even_two, by omega⟩
-      rw [if_pos he]
+      rw [ite_eq_left he]
       have h1 : 2 ^ m ≤ 2 ^ m * 2 ^ m := Nat.le_mul_of_pos_right _ (by positivity)
       rw [pow_succ]
       nlinarith
     · have hne : ¬ Even (p ^ (m + 1)) := by
         rw [Nat.not_even_iff_odd]
         exact hodd.pow
-      rw [if_neg hne, one_mul]
+      rw [ite_eq_right hne, one_mul]
       have h3 : 3 ≤ p := by
         have := hp.two_le
         rcases hodd with ⟨j, hj⟩

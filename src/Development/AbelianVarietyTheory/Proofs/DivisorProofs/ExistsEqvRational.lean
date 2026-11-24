@@ -177,7 +177,7 @@ theorem exists_scale [CharZero K] [IsAlgClosure K F] {a : V →ₛₗ[algebraMap
     rw [map_smulₛₗ, hk, extBasis_apply]
   by_cases h0 : ∀ i, T i = 0
   · exact ⟨1, fun i => ⟨0, by rw [map_zero, h0 i, smul_zero]⟩⟩
-  push_neg at h0
+  push Not at h0
   obtain ⟨i₀, hi₀⟩ := h0
   have : B.repr (T i₀) ≠ 0 := fun h => hi₀ (B.repr.injective (h.trans (map_zero _).symm))
   obtain ⟨j, hj⟩ := Finsupp.ne_iff.1 this

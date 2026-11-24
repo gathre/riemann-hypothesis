@@ -318,7 +318,7 @@ theorem lat_eq_iSup (Z : CptOver Y U) (hβ : Function.Injective β)
 theorem exists_ne_tauIn {F : Type} [Field F] (βF : c.F →+* F) (s t : E →+* ℂ) (h : s ≠ t) :
     ∃ a : 𝓞 E, βF (tauIn c s a) ≠ βF (tauIn c t a) := by
   by_contra hn
-  push_neg at hn
+  push Not at hn
   refine h (IsLocalization.ringHom_ext (nonZeroDivisors (𝓞 E)) ?_)
   ext a
   exact congrArg (fun z : c.F => (z : ℂ)) (βF.injective (hn a))
@@ -372,7 +372,7 @@ theorem valFam_eigFrame : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E]
     rw [Submodule.iSup_span, ← Set.image_iUnion] at h1
     have h2 := Submodule.span_le_restrictScalars (regAt ξ x) Z.Ω _ h1
     by_contra hn
-    push_neg at hn
+    push Not at hn
     refine hcli.notMem_span_image (s := ⋃ s, (S s : Set (Fin g))) (x := i) ?_ h2
     simpa using hn
   have hfin : Module.finrank F ER = g := by

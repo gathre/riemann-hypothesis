@@ -62,7 +62,7 @@ theorem measurable_smooth_comp_infGL {E : Type} [Field E] [NumberField E] [_root
       by_cases h : x ∈ invSet E a
       · simp [Set.piecewise, h]
       · have h' : ¬ IsUnit (Matrix.of x) := h
-        simp only [Set.piecewise, h, if_false]
+        simp only [Set.piecewise, h, ite_false]
         simp [chart, h']
     rw [e]
     exact ContinuousOn.measurable_piecewise (φ.2 g).continuousOn continuousOn_const isOpen_invSet.measurableSet

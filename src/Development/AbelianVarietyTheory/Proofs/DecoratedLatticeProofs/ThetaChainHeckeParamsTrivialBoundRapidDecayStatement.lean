@@ -63,7 +63,7 @@ theorem GlobalTheory.ChainOnto.parBound_of_rapidDecay : GlobalTheory.Published.C
   obtain ⟨hu0, hpar⟩ := hB
   have hex : ∃ v, PiLocalization₂.val u v ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hu0
     apply Subtype.ext
     apply LinearMap.ext

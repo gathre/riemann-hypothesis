@@ -415,7 +415,7 @@ theorem lap_nonneg_of_sub_mean (hg : ∀ x ∈ V, HasFDerivAt g (G x) x)
     (hsub : ∀ r ∈ Ioc (0:ℝ) R, g 0 ≤ Real.circleAverage g 0 r) :
     0 ≤ H 0 1 1 + H 0 Complex.I Complex.I := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   set c := H 0 1 1 + H 0 Complex.I Complex.I with hcdef
   have h0V : (0:ℂ) ∈ V := hR (mem_closedBall_self hR0.le)
   obtain ⟨δ, hδ, hball⟩ := Metric.continuousWithinAt_iff.mp (hHc 0 h0V) (-c/4) (by linarith)

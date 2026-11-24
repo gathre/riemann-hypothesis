@@ -128,9 +128,9 @@ theorem ascent_of_rungs : TowerEx → Rung0 → RungB → RungJ → Ascent := by
   refine ⟨ρ, Φ, ?_⟩
   let f : ∀ i, Fn G (.grid i 0) := fun i => if hi : i ≤ D.R.m then part W M ρ Φ u i hi else 0
   have hf : f D.R.m = thetaChi W M ρ Φ u := by
-    simp only [f, dif_pos le_rfl]; rfl
+    simp only [f, dite_eq_left le_rfl]; rfl
   have := hE.top (r - 1) hk hk' Ψ f (hΨ.1 _ le_rfl) (by rw [hf, ← part_m]; exact hu ρ Φ _ le_rfl) (by
-    simp only [f, dif_pos hk]; exact hne)
+    simp only [f, dite_eq_left hk]; exact hne)
   rwa [hf] at this
 
 end GlobalTheory.Asc
@@ -256,7 +256,7 @@ theorem rungJ : FockTot → PartFixed → RungJ := by
   obtain ⟨κ, P, hκP⟩ : ∃ κ P, (F.jac v (k + 1) h).per W.ψ (F.ζ (k + 1)) omz (star (Ψ (2 * k + 2 + 1)))
       (s.lift (star (part W M ρ Φ u (2 * k + 2) h')) (star (W.fock (.chi (2 * k + 2) 0) (W.cosVec (2 * k + 2) κ) P))) Φ₀ ≠ 0 := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     exact hΦ'ne (hFk hall Φ' (hRow Φ' hΦ'𝒮))
 
   have hpart : part W M (Function.update ρ ⟨2 * k + 2, hi⟩ P) (Function.update Φ ⟨2 * k + 2, hi⟩ κ) u (2 * k + 2) hi.le =
@@ -1343,7 +1343,7 @@ theorem rung0 (hF : FockTot) : Rung0 := by
       (F.ζ 0) a⁻¹⁻¹ L.eta omz homz (star (Ψ 1)) Φz hφ hΦz.1
   have hK : ∃ κ P, ℓ (star (W.fock (.chi 0 0) (W.cosVec 0 κ) P)) ≠ 0 := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     exact hne (hF D hq T L μ0 hL sc G W M hM ⟨0, hm⟩ ℓ hT hno Φ' hΦ')
   obtain ⟨κ, P, hκP⟩ := hK
   let ρ : G.RealVec := Function.update ρ₀ ⟨0, hm⟩ P

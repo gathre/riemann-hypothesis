@@ -386,9 +386,9 @@ theorem sum_orbit_eq [Module.Free ℤ X] [Module.Finite ℤ X] {m s : ℕ} {K : 
   obtain ⟨γ, g1, g2, g3, g4⟩ := ((hS μ).1 hμ).1
   obtain ⟨c, hc, hc'⟩ := hC3 (fun j => γ (a j)) ⟨γ, g1, g2, g3, fun j => cm_refl _⟩
   have hμc : ∀ j, CongMod N (μ j) (k (c j)) := fun j => cm_trans (g4 j) (cm_map k (cm_symm (hc' j)))
-  rw [Finset.sum_eq_single_of_mem c hc, if_pos hμc]
+  rw [Finset.sum_eq_single_of_mem c hc, ite_eq_left hμc]
   intro c' hc'' hne
-  rw [if_neg]
+  rw [ite_eq_right]
   intro h
   exact hne (hC2 _ hc'' _ hc fun j => hinj _ _ (cm_trans (cm_symm (h j)) (hμc j)))
 
@@ -447,7 +447,7 @@ theorem orbitSums_of_classSums : ∀ (O : Type) [CommRing O] (bar : O → O) (q 
   · rw [hSfin.mem_toFinset] at hμS
     obtain ⟨i, hi⟩ : ∃ i, (fun u => μ (i, u)) ∉ T := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hμS ⟨hμ, hcon⟩
     have h1 : R < ((qW W (Φ.β y) (fun u => μ (i, u)) : ℤ) : ℝ) := by
       by_contra hcon

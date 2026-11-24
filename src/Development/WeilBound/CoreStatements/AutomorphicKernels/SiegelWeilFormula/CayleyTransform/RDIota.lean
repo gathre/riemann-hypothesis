@@ -268,10 +268,10 @@ theorem iotaEx : IotaEx := by
   intro F E _ _ _ _ _ σ d ε ζ hε hζ
   refine ⟨iota d hε hζ, continuous_iota d hε hζ, fun w y => ?_, fun w w' y hw => ?_, fun w y => ?_⟩
   · rw [inFrame_iota, cw_atM]
-    simp only [fam, if_true, Zm]
+    simp only [fam, ite_true, Zm]
     rw [← Matrix.mul_assoc, ← Matrix.mul_assoc, dZ_mul_inv (zeta_ne hζ), Matrix.one_mul]
   · rw [inFrame_iota, cw_atM]
-    simp only [fam, if_neg hw]
+    simp only [fam, ite_eq_right hw]
   · rw [inFrame_iota, fin_atM]
 
 end Iota

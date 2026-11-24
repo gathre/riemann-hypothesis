@@ -634,11 +634,11 @@ theorem epsSH_both (D : D7) : ∃ a b : Fin (2 * D.R.rS + D.R.k + 1), epsSH D.R 
   have h1 : epsSH D.R ⟨0, by omega⟩ = true := by
     unfold epsSH epsS
     simp only [Fin.val_cast]
-    rw [if_pos (by omega)]
+    rw [ite_eq_left (by omega)]
   have h2 : epsSH D.R ⟨D.R.k, by omega⟩ = false := by
     unfold epsSH epsS
     simp only [Fin.val_cast]
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
     have : D.R.k - (D.R.k - 1) = 1 := by omega
     simp [this]
   rw [h1, h2]

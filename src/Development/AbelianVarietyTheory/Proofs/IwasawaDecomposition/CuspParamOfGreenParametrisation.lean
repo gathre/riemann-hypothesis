@@ -140,9 +140,9 @@ theorem nonempty_iso_of_character {G : Type} [Group G] [Fintype G] (V W : FDRep 
   haveI : Invertible (Fintype.card G : ℂ) := invertibleOfNonzero (by exact_mod_cast Fintype.card_pos.ne')
   have h1 := FDRep.char_orthonormal V W
   have h2 := FDRep.char_orthonormal V V
-  rw [← h, h2, if_pos ⟨Iso.refl V⟩] at h1
+  rw [← h, h2, ite_eq_left ⟨Iso.refl V⟩] at h1
   by_contra h3
-  rw [if_neg h3] at h1
+  rw [ite_eq_right h3] at h1
   exact one_ne_zero h1
 
 theorem cuspParam_of_green : GlobalTheory.Published.GreenCuspidal → ∀ (g : ℕ) [Fact g.Prime] (t : Formalism.CyclotomicNorms.Fbar g →* ℂ)

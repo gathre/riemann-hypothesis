@@ -72,7 +72,7 @@ theorem ideleModule_infId (d : (UpperTheory.V.TR.Rinf F)ˣ) :
   rw [h2, mul_one, infiniteModule]
   refine Finset.prod_congr rfl fun w _ => ?_
   have hm : w.mult = 1 := by
-    unfold InfinitePlace.mult; rw [if_pos (IsTotallyReal.isReal w)]
+    unfold InfinitePlace.mult; rw [ite_eq_left (IsTotallyReal.isReal w)]
   rw [hm, pow_one]
   change ‖(((1 : Ad F) - UpperTheory.V.TR.sInf F 1 + UpperTheory.V.TR.sInf F (d : UpperTheory.V.TR.Rinf F) : Ad F)).1 w‖ = _
   change ‖((1 : InfiniteAdeleRing F) - UpperTheory.V.TR.infEq F 1 + UpperTheory.V.TR.infEq F (d : UpperTheory.V.TR.Rinf F)) w‖ = _

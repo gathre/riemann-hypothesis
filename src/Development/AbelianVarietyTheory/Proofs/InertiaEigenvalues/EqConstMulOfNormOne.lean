@@ -64,7 +64,7 @@ theorem eq_const_mul_of_norm_one : ∀ {V : Type} [NormedAddCommGroup V] [Normed
   intro V _ _ ι U hU hc P₂ P g hP₂ hP hg1 hg
   by_cases h : ∃ i, ∃ x ∈ U, P i x ≠ 0
   swap
-  · push_neg at h
+  · push Not at h
     refine ⟨1, by simp, fun i x hx => ?_⟩
     rw [hg i x hx, h i x hx]
     simp
@@ -181,9 +181,9 @@ theorem cover_scalar_const : ∀ (D : D7) (T : CoreJ D), LawsJ T → ∀ j, Form
   classical
   let g : Frame (C.U₂.X k₂).Ψ D.R.r → ℂ := fun x => if h : x ∈ (C.U₂.X k₂).dom then (hg x h).choose else 1
   have hg1 : ∀ x ∈ (C.U₂.X k₂).dom, ‖g x‖ = 1 := fun x h => by
-    simp only [g, dif_pos h]; exact (hg x h).choose_spec.1
+    simp only [g, dite_eq_left h]; exact (hg x h).choose_spec.1
   have hgr : ∀ i, ∀ x ∈ (C.U₂.X k₂).dom, P₂ i x = g x * P i x := fun i x h => by
-    simp only [g, dif_pos h]; exact (hg x h).choose_spec.2 i
+    simp only [g, dite_eq_left h]; exact (hg x h).choose_spec.2 i
   obtain ⟨u, hu1, hu⟩ := eq_const_mul_of_norm_one (C.U₂.X k₂).dom (ReciprocityTheory.ChartRestriction.G.FD.FourierCoefficientDomain.isOpen_dom _)
     (ReciprocityTheory.ChartRestriction.G.TB.WickVanishing.flag_domain_frames_connected D.R.r (C.U₂.X k₂)).isPreconnected P₂ P g hP₂d hPd hg1 hgr
   refine ⟨u, hu1, fun x x' hxd hrel' => ⟨(hx x x' hxd hrel').1, ?_⟩⟩

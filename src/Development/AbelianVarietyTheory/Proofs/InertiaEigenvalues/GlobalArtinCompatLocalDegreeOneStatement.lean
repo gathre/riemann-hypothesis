@@ -472,7 +472,7 @@ theorem integral_of_sq_sub_integral (E E' : Type) [Field E] [NumberField E] [Fie
     rw [Algebra.smul_def, map_mul]
     exact mul_le_one' (hc _ (hε i)) (hb i)
   by_contra h
-  push_neg at h
+  push Not at h
   have h2 : w''.valuation E' (ε * ε) ≤ w''.valuation E' ε := by
     have : ε * ε = ε + (ε * ε - ε) := by ring
     rw [this]
@@ -870,7 +870,7 @@ theorem res_art_eq_art (E Ω : Type) [Field E] [NumberField E] [Field Ω] [Algeb
   obtain ⟨a, hap, hapos⟩ := _root_.GlobalTheory.FinPlaceApproxPos.approxpos_target E' TSK (fun u => if u = w' then (y : E') else 1) (P0 + m)
   have haW : w'.valuation E' (a - y) ≤ WithZero.exp (-((P0 : ℤ) + m)) := by
     have := hap w' hWT
-    rw [if_pos rfl] at this
+    rw [ite_eq_left rfl] at this
     exact val_le_of_le₁ w' this (by push_cast; omega)
   have hz : w'.valuation E' (a / y - 1) ≤ WithZero.exp (-(P0 : ℤ)) :=
     val_div_sub_one_le₁ w' y.ne_zero le_rfl haW
@@ -884,7 +884,7 @@ theorem res_art_eq_art (E Ω : Type) [Field E] [NumberField E] [Field Ω] [Algeb
   have hauy : au = y * zu := by simp [zu]
   have hoth : ∀ u ∈ TSK, u ≠ w' → u.valuation E' (a - 1) ≤ WithZero.exp (-(P0 : ℤ)) := fun u hu hne => by
     have := hap u hu
-    rw [if_neg hne] at this
+    rw [ite_eq_right hne] at this
     exact val_le_of_le₁ u this (by push_cast; omega)
 
   have F1 : ψ1 (locUnit E' w' au) = ψ1 (locUnit E' w' y) := by

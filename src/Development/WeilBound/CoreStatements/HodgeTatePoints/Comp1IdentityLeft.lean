@@ -280,7 +280,7 @@ theorem act_zero_eq (B : FB R d O) : B.A.act 0 = 0 := by
     intro e he
     obtain ⟨t, ht⟩ : ∃ t, e t ≠ 0 := by
       by_contra hne
-      push_neg at hne
+      push Not at hne
       have : e = 0 := Finsupp.ext hne
       simp [this] at he
     refine ⟨t, ?_⟩

@@ -148,7 +148,7 @@ theorem indep_of_red {ι : Type} [Fintype ι] {n : ℕ} (X : ι → Fin n → F)
   rw [Fintype.linearIndependent_iff]
   intro g hg
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨i0, hi0⟩ := hne
   obtain ⟨j, -, hj⟩ := Finset.exists_max_image Finset.univ (fun i => valuation F (g i))
     ⟨i0, Finset.mem_univ _⟩

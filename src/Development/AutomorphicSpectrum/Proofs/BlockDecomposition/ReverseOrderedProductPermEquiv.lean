@@ -126,7 +126,7 @@ theorem rel_comp_perm (r : (Fin h → α) → (Fin h → α) → Prop) (hrefl : 
     refine htrans _ _ _ h1 (hswap _ p q hpq ?_)
     have := hσ (σ q) (σ p) hlt (by simp only [Equiv.symm_apply_apply]; rw [Fin.lt_def]; omega)
     simpa [σ'] using this
-  · push_neg at hd
+  · push Not at hd
     have hm : StrictMono σ := strictMono_of_adj fun p q hpq => lt_of_le_of_ne (hd p q hpq)
       (fun e => by have := σ.injective e; rw [Fin.ext_iff] at this; omega)
     have he : σ = 1 := Equiv.ext fun x => congrFun (StrictMono.eq_id hm) x

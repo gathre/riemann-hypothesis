@@ -68,7 +68,7 @@ theorem mem_lev_whole {D : D7} {n : ℕ} (J : Matrix (Fin n) (Fin n) D.host.E) (
     x ∈ lev D.sp.cm J β L ↔ x ∈ UA D.sp.cm J ∧ x ∈ St β ∧ ∀ PP ∈ L.Pg, redFn β PP x = 1 := by
   have h0 : ∀ a : Fin n, blkOf L.r L.t a = 0 := fun a => by
     unfold blkOf
-    rw [if_pos (by rw [hr]; exact a.2)]
+    rw [ite_eq_left (by rw [hr]; exact a.2)]
   rw [mem_lev, mem_parLev, hP, Subgroup.mem_bot]
   constructor
   · rintro ⟨⟨h1, h2, -, -⟩, h3⟩

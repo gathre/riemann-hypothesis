@@ -121,7 +121,7 @@ theorem exists_lat_eq (P : Pair k n') : ∃ P' : Pair k n', P'.lat = P.ker := by
   obtain ⟨x, hx⟩ := Module.finrank_pos_iff_exists_ne_zero.1 h3
   obtain ⟨f, hf⟩ : ∃ f : Module.Dual 𝓀[k] (Red P.ker), f x ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hx ((Module.forall_dual_apply_eq_zero_iff 𝓀[k] x).1 h)
   exact ⟨ofDual P.ker ⟨f, fun h0 => hf (by rw [h0]; rfl)⟩, ofDual_lat _ _⟩
 

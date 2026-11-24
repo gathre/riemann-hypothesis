@@ -274,7 +274,7 @@ theorem chiLat_mul_exp (C : Ctx σ B JS JT ξ₀ θ ι) (hG : GoodLat Λ) (hR : 
     finRatF_mem_iff C hG hR hA z
   unfold chiLatF gaussQF
   by_cases hy : b * y * a - y ∈ Λ
-  · rw [if_pos ((hm _).2 hy), if_pos hy]
+  · rw [ite_eq_left ((hm _).2 hy), ite_eq_left hy]
     show B.ψ (symplOHF σ JS JT ξ₀ (intAF F w • (finRatF F (b * y * a - y) : WOF F E nS nT))
       (finRatF F (b * y * a - y))) = _
     have e : (finRatF F (b * y * a - y) : WOF F E nS nT) + finRatF F y = finRatF F (b * y * a) := by
@@ -287,7 +287,7 @@ theorem chiLat_mul_exp (C : Ctx σ B JS JT ξ₀ θ ι) (hG : GoodLat Λ) (hR : 
       rw [gamQF, gamFF, map_smul, cAF_intAF]
       rfl
     rw [h2, ← h1, e, AddChar.map_add_eq_mul, mul_assoc, beta_fin C, mul_one]
-  · rw [if_neg (fun h => hy ((hm _).1 h)), if_neg hy, zero_mul]
+  · rw [ite_eq_right (fun h => hy ((hm _).1 h)), ite_eq_right hy, zero_mul]
 
 theorem left_side (C : Ctx σ B JS JT ξ₀ θ ι) (hG : GoodLat Λ) (hR : RatSD σ JS JT ξ₀ Λ)
     (hA : SelfDual (gamFF σ JS JT ξ₀ B.ψ) (latF F E nS nT Λ)) (ha : IsRatF σ JS g a) (hb : IsRatF σ JT h⁻¹ b)
@@ -373,7 +373,7 @@ theorem summable_coefQF (C : Ctx σ B JS JT ξ₀ θ ι) (hG : GoodLat Λ) (hR :
       refine ((_root_.PositivityTheory.ThKW.AutLatA.finLat C.good hG R).image (fun y => ratWF (F := F) y)).subset ?_
       rintro _ ⟨⟨y, rfl⟩, h1, h2⟩
       exact ⟨y, ⟨(finRatF_mem_iff C hG hR hA y).1 h1, by rw [← _root_.PositivityTheory.ThKW.TauSpanIdentities.piWF_ratWF C]; exact h2⟩, rfl⟩)
-    (fun x hx => if_neg hx)
+    (fun x hx => ite_eq_right hx)
     (fun x => by
       unfold chiLatF
       split_ifs
@@ -394,7 +394,7 @@ theorem mem_of_coefQF_ne_zero {w : 𝓞 E} {u : XFF F E nS nT} {y : Matrix (Fin 
   have e : chiLatF σ JS JT ξ₀ B.ψ Λ w (ratWF y + (u : WOF F E nS nT)) = 0 := by
     unfold chiLatF
     rw [smul_add, _root_.PositivityTheory.ThKW.TauSpanIdentities.finIdem_smul_of_fin u.fin]
-    exact if_neg hn
+    exact ite_eq_right hn
   rw [coefQF, e, mul_zero, zero_mul, mul_zero]
 
 theorem coefQF_zero (w : 𝓞 E) {u : XFF F E nS nT} (hu : u ∈ latF F E nS nT Λ) :
@@ -402,7 +402,7 @@ theorem coefQF_zero (w : 𝓞 E) {u : XFF F E nS nT} (hu : u ∈ latF F E nS nT 
   have e : ratWF (F := F) (0 : Matrix (Fin nT) (Fin nS) E) = 0 := Matrix.map_zero _ (incAF F E).map_zero
   rw [coefQF, e, zero_add, map_zero, _root_.GlobalTheory.HeisThetaF.symplOHF_zero_left, AddChar.map_zero_eq_one, one_mul, map_zero,
     LinearMap.zero_apply, Complex.ofReal_zero, mul_zero, Complex.exp_zero, mul_one, chiLatF,
-    _root_.PositivityTheory.ThKW.TauSpanIdentities.finIdem_smul_of_fin u.fin, if_pos (mem_latF.1 hu), phaseF, ← AddChar.map_add_eq_mul, neg_add_cancel,
+    _root_.PositivityTheory.ThKW.TauSpanIdentities.finIdem_smul_of_fin u.fin, ite_eq_left (mem_latF.1 hu), phaseF, ← AddChar.map_add_eq_mul, neg_add_cancel,
     AddChar.map_zero_eq_one]
 
 def sandF (b : Matrix (Fin nT) (Fin nT) E) (a : Matrix (Fin nS) (Fin nS) E) :
@@ -441,8 +441,8 @@ theorem gauss_mul_integral_A (C : Ctx σ B JS JT ξ₀ θ ι) (hG : GoodLat Λ) 
     Λ.toAddSubgroup ⊓ Λ.toAddSubgroup.comap (sandF b a)
   have hC : ∀ x, x ∈ Cg ↔ x ∈ Λ ∧ b * x * a ∈ Λ := fun x => Iff.rfl
   have hQ : ∀ y, b * y * a - y ∈ Λ →
-      gaussQF σ JS JT ξ₀ B.ψ Λ w a b y = gamQF σ JS JT ξ₀ B.ψ (sgOF σ w • (b * y * a - y)) y := fun y hy => if_pos hy
-  have hQ0 : ∀ y, b * y * a - y ∉ Λ → gaussQF σ JS JT ξ₀ B.ψ Λ w a b y = 0 := fun y hy => if_neg hy
+      gaussQF σ JS JT ξ₀ B.ψ Λ w a b y = gamQF σ JS JT ξ₀ B.ψ (sgOF σ w • (b * y * a - y)) y := fun y hy => ite_eq_left hy
+  have hQ0 : ∀ y, b * y * a - y ∉ Λ → gaussQF σ JS JT ξ₀ B.ψ Λ w a b y = 0 := fun y hy => ite_eq_right hy
   have h0 : κ * ∑ i, coefQF σ JS JT ξ₀ B s Λ w (u i) 0 = κ := by
     obtain ⟨i, hi, hi'⟩ := huT 0 (zero_mem _)
     rw [Finset.sum_eq_single i, coefQF_zero w (by simpa using hi), mul_one]

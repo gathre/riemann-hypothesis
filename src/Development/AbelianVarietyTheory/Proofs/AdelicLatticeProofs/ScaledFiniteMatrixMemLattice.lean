@@ -113,7 +113,7 @@ theorem exists_nsmul_finRat_mem : ∀ (D : D7) (S T : HSp D) (ΛS : Submodule (�
   intro D S T ΛS ΛT hS hT γ
   obtain ⟨a, ha, ha0⟩ : ∃ a ∈ D.host.AA, a ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact AA_ne_zero D (FractionalIdeal.eq_zero_iff.2 hc)
   rw [Matrix.matrix_eq_sum_single γ]
   simp_rw [← Finset.sum_product']

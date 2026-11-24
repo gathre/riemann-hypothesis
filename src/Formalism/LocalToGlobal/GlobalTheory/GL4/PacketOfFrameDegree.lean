@@ -1520,17 +1520,17 @@ theorem cf_mem_twId (c : (D.mem u).C.cls 0) (y : Fin (D.R.N 0) → (D.sp.X 0).V)
   have hγ : ∀ c' τ, LocBasis D w' (CV.Q c' τ) (CV.eQ c' τ) (γ c' τ) := by
     intro c' τ
     by_cases h : c' = c
-    · simp only [γ, if_pos h]
+    · simp only [γ, ite_eq_left h]
       rw [h]
       exact hLB τ
-    · simp only [γ, if_neg h]
+    · simp only [γ, ite_eq_right h]
       exact Classical.choose_spec (exists_locBasis w' (CV.Q c' τ) (CV.Q_good c' τ) (CV.eQ c' τ))
   have hxL : x ∈ ((D.fm u).lat 0).L := by
     obtain ⟨x', hx', rfl⟩ := hx
     exact prjC_mem CV c hx'
   have hxW : x ∈ locW D.what₂.places w' ((D.fm u).lat 0).L := Submodule.subset_span hxL
   have hP := (CV.fin w' γ hγ x).1 hxW c
-  simp only [γ, if_pos rfl] at hP
+  simp only [γ, ite_eq_left rfl] at hP
   set F : Pol D.what₂.LL D.what₂.Tau (D.R.N 0) := ((coE CV (hTV0 D u) x c : VV D.what₂.LL ((D.fm u).lam 0)) :
     Pol D.what₂.LL D.what₂.Tau (D.R.N 0)) with hF
   have hFco : F = CV.co x c := coE_coe CV (hTV0 D u) x c

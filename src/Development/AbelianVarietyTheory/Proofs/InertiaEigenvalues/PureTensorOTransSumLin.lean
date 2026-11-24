@@ -106,9 +106,9 @@ theorem pureTensorO_transSum_lin : ∀ (D : D7) (H : Geo.Tor.Host D.host.E) (Dw 
   rw [key w]
   refine Finset.sum_congr rfl fun q _ => ?_
   rw [key, Finset.sum_eq_single q]
-  · rw [if_pos rfl, mul_one, mul_comm, ← smul_smul]
+  · rw [ite_eq_left rfl, mul_one, mul_comm, ← smul_smul]
   · intro b _ hb
-    rw [if_neg hb, mul_zero, zero_smul]
+    rw [ite_eq_right hb, mul_zero, zero_smul]
   · intro h
     exact absurd (Finset.mem_univ q) h
 

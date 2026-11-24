@@ -460,8 +460,8 @@ theorem orbit_open_scalar {E : Type} [Field E] [NumberField E] [IsCMField E] {r 
       apply τ₀.1.injective
       rw [hent a b, Matrix.scalar_apply, Matrix.diagonal_apply]
       by_cases hab : a = b
-      · rw [if_pos hab, if_pos hab, hent, if_pos rfl]
-      · rw [if_neg hab, if_neg hab, map_zero]
+      · rw [ite_eq_left hab, ite_eq_left hab, hent, ite_eq_left rfl]
+      · rw [ite_eq_right hab, ite_eq_right hab, map_zero]
 
 theorem eq_mul_scalar_of_moved {E : Type} [Field E] [NumberField E] [IsCMField E] {r : ℕ} (X₂ X : Data E r) (δ h : GL (Fin r) E) (hΨ : X₂.Ψ = X.Ψ)
     (H : ∀ x ∈ X₂.dom, ∀ x' : Frame X.Ψ r, GlobalTheory.LevModel.Moved X₂ X δ x x' → ∃ γ ∈ X.Γ, ∃ b ∈ Bor X.Ψ r, lact h x' = rmul (lact γ x') b) :

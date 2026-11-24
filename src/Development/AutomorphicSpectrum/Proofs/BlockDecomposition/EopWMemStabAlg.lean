@@ -107,13 +107,13 @@ def kInfAt (w : InfinitePlace E) (c : UU n) : Kinf E n :=
     rw [Matrix.mul_apply, Finset.sum_apply, one_apply_pi]
     simp only [Matrix.star_apply, Pi.mul_apply, Pi.star_apply, locInf_apply]
     by_cases hv : v = w
-    · simp only [hv, if_true]
+    · simp only [hv, ite_true]
       have := congrFun (congrFun hc i) j
       rw [Matrix.mul_apply] at this
       simp only [Matrix.star_apply] at this
       rw [← this]
       rfl
-    · simp only [hv, if_false]
+    · simp only [hv, ite_false]
       simp [Matrix.one_apply, eq_comm]⟩
 
 theorem infGL_kInfAt (w : InfinitePlace E) (c : UU n) :

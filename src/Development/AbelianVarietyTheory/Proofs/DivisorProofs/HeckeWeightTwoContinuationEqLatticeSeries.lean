@@ -1249,7 +1249,7 @@ theorem bound : ∀ (F : Type) [Field F] [NumberField F] (σ : ℂ), 0 < σ.re �
   set P := ∏ τ : F →+* ℝ, ((τ p.1) ^ 2 + (τ p.2) ^ 2) with hPdef
   have hP : 0 < P := Finset.prod_pos fun τ _ => by
     by_contra h
-    push_neg at h
+    push Not at h
     have h1 : τ p.1 = 0 := by nlinarith [sq_nonneg (τ p.1), sq_nonneg (τ p.2)]
     have h2 : τ p.2 = 0 := by nlinarith [sq_nonneg (τ p.1), sq_nonneg (τ p.2)]
     exact hp (Prod.ext ((map_eq_zero τ).1 h1) ((map_eq_zero τ).1 h2))
@@ -1350,7 +1350,7 @@ theorem summable_norm_rpow (𝔞 𝔟 : Frac F) {t : ℝ} (ht : 1 < t)
     intro c
     have hex : ∃ x, Ideal.span {y c} = Ideal.span {x} := ⟨y c, rfl⟩
     refine Ideal.span_singleton_eq_span_singleton.1 ?_
-    simp only [rep, dif_pos hex]
+    simp only [rep, dite_eq_left hex]
     exact hex.choose_spec.symm
   choose u hu using hrep
   let Q := (𝓞 (Ext F))ˣ ⧸ (Units.map (algebraMap (𝓞 F) (𝓞 (Ext F))).toMonoidHom).range
@@ -1611,7 +1611,7 @@ theorem split_zero (I : FractionalIdeal (𝓞 F)⁰ F) (g : F → ℂ) (h : Summ
   rw [← he.tsum_eq]
   · refine tsum_congr fun ν => ?_
     have : e ν ≠ ⟨0, h0⟩ := fun h' => ν.2.2 (congrArg Subtype.val h' : _)
-    simp only [this, if_false, e]
+    simp only [this, ite_false, e]
   · intro x hx
     have hx0 : x ≠ ⟨0, h0⟩ := by
       intro h'; apply hx; simp [h']
@@ -1674,7 +1674,7 @@ theorem gFun_eq_eisSum : ∀ (F : Type) [Field F] [NumberField F] [NumberField.I
     tsum_congr fun c => by simp [eisTerm, latPt]
   rw [hA]
   unfold gFun bZero bOne
-  rw [if_neg hσ0]
+  rw [ite_eq_right hσ0]
   ring
 
 end GlobalTheory.HeckeTwoEq

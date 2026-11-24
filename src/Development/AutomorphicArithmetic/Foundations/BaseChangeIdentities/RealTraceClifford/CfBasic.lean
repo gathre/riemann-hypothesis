@@ -197,17 +197,17 @@ private theorem cf_alt_mul (f : FR n) (x y : Wt n) :
 private theorem alt_supp (x y : Wt n) (h : cf (alt x) y ≠ 0) :
     ∃ w : Equiv.Perm (Fin n), y = x ∘ w := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   apply h
   rw [cf_alt]
   refine Finset.sum_eq_zero fun w _ => ?_
-  rw [if_neg fun e => hc w e.symm, mul_zero]
+  rw [ite_eq_right fun e => hc w e.symm, mul_zero]
 
 private theorem alt_top (x : Wt n) (hx : StrictAnti x) : cf (alt x) x = 1 := by
   rw [cf_alt, Finset.sum_eq_single 1]
   · simp [sg_one]
   · intro w _ hw
-    rw [if_neg, mul_zero]
+    rw [ite_eq_right, mul_zero]
     intro e
     apply hw
     ext a
@@ -270,7 +270,7 @@ theorem UpperTheory.RealTr.cfBasic :
     fun x hx => ⟨alt_top x hx, fun y hy hne => alt_other x y hx hy hne⟩, alt_zero⟩
   · intro f g x h
     by_contra hc
-    push_neg at hc
+    push Not at hc
     apply h
     rw [cf_mul]
     refine Finset.sum_eq_zero fun y _ => ?_

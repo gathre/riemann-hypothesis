@@ -75,14 +75,14 @@ theorem rowDiv_succ_rec (R : Type) [CommRing R] {r m : ℕ} (a b : Fin r) (f : M
         Polynomial.C (X (c, s)) + Polynomial.C y * Polynomial.X := by
       rw [rowGen, aeval_X, hy]
       by_cases h : b = c
-      · rw [if_pos h, if_pos h.symm, mul_comm]
-      · rw [if_neg h, if_neg (Ne.symm h), map_zero, zero_mul]
+      · rw [ite_eq_left h, ite_eq_left h.symm, mul_comm]
+      · rw [ite_eq_right h, ite_eq_right (Ne.symm h), map_zero, zero_mul]
     have hx : rowE R r m a b (X (c, s)) = y := rowE_X R r m a b c s
     have hy' : rowE R r m a b y = (if a = b then 1 else 0) * y := by
       rw [hy]
       split_ifs with h1 h2 h2
-      · rw [rowE_X, if_pos h2.symm, one_mul]
-      · rw [rowE_X, if_neg (Ne.symm h2), zero_mul]
+      · rw [rowE_X, ite_eq_left h2.symm, one_mul]
+      · rw [rowE_X, ite_eq_right (Ne.symm h2), zero_mul]
       · simp
       · simp
     have hs : ∀ j, (rowGen R a b (p * X (c, s))).coeff (j + 1) =

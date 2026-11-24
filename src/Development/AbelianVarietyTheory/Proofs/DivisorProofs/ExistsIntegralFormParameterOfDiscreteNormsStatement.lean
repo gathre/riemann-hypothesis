@@ -107,7 +107,7 @@ theorem exists_form_of_discrete_norms : ∀ (C : Type) [NormedField C] [IsAlgClo
   have hpos : ∀ y, y ≠ 0 → 0 < q y := by
     intro y hy
     by_contra hn
-    push_neg at hn
+    push Not at hn
     have hfin : {α | ¬ (0 < q α)}.Finite :=
       Filter.eventually_cofinite.1 (hI.pos.eventually (Filter.eventually_gt_atTop 0))
     have hinf : (Set.range fun c : ℤ => c • y).Infinite :=
@@ -159,7 +159,7 @@ theorem exists_form_of_discrete_norms : ∀ (C : Type) [NormedField C] [IsAlgClo
   have hπpos : 0 < ‖π‖ := norm_pos_iff.2 hπ0
   have hπ1 : ‖π‖ < 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have := one_le_pow₀ (n := 2 * m ^ 2) h
     rw [hπn] at this
     linarith

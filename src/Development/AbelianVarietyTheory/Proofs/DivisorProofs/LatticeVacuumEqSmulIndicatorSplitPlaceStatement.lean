@@ -138,7 +138,7 @@ theorem prod_mem_span {m n : ℕ} {X : Set (Fin m → k)} {Y : Set (Fin n → k)
 
 theorem exists_ne_zero_of_mem_nhds {U : Set k} (hU : U ∈ 𝓝 (0 : k)) : ∃ t ∈ U, t ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨t, ht, hto, h0t⟩ := mem_nhds_iff.1 hU
   have e : t = {0} := Set.Subset.antisymm (fun s hs => h s (ht hs)) (Set.singleton_subset_iff.2 h0t)
   haveI : DiscreteTopology k := discreteTopology_of_isOpen_singleton_zero (e ▸ hto)
@@ -262,8 +262,8 @@ theorem span_eq_top_left {m n : ℕ} (hn : 0 < n) {X : Set (Fin m → k)} {Y : S
     have hφ : Continuous φ := by
       refine continuous_pi fun i => continuous_pi fun j => ?_
       by_cases h : i = i₀ ∧ j = j₀
-      · simp only [φ, Matrix.of_apply, if_pos h]; exact continuous_id
-      · simp only [φ, Matrix.of_apply, if_neg h]; exact continuous_const
+      · simp only [φ, Matrix.of_apply, ite_eq_left h]; exact continuous_id
+      · simp only [φ, Matrix.of_apply, ite_eq_right h]; exact continuous_const
     have h0 : φ 0 ∈ closure (Submodule.span 𝒪[k] (prods X Y) : Set (Matrix (Fin m) (Fin n) k)) := by
       have : φ 0 = 0 := by ext i j; simp [φ]
       rw [this]; exact subset_closure (zero_mem _)
@@ -316,8 +316,8 @@ theorem span_eq_top_right {m n : ℕ} (hm : 0 < m) {X : Set (Fin m → k)} {Y : 
     have hφ : Continuous φ := by
       refine continuous_pi fun i => continuous_pi fun j => ?_
       by_cases h : i = i₀ ∧ j = j₀
-      · simp only [φ, Matrix.of_apply, if_pos h]; exact continuous_id
-      · simp only [φ, Matrix.of_apply, if_neg h]; exact continuous_const
+      · simp only [φ, Matrix.of_apply, ite_eq_left h]; exact continuous_id
+      · simp only [φ, Matrix.of_apply, ite_eq_right h]; exact continuous_const
     have h0 : φ 0 ∈ closure (Submodule.span 𝒪[k] (prods X Y) : Set (Matrix (Fin m) (Fin n) k)) := by
       have : φ 0 = 0 := by ext i j; simp [φ]
       rw [this]; exact subset_closure (zero_mem _)
@@ -360,7 +360,7 @@ theorem closure_eq {m n : ℕ} (X : Set (Fin m → k)) (Y : Set (Fin n → k))
   have hc0' : (c : k) ≠ 0 := fun h => hc0 (Subtype.ext h)
   obtain ⟨x₀, hx₀, i₀, hxi⟩ : ∃ x ∈ X, ∃ i, x i ≠ 0 := by
     by_contra hh
-    push_neg at hh
+    push Not at hh
     have hle : Submodule.span k X ≤ ⊥ := Submodule.span_le.2 fun x hx => by
       rw [SetLike.mem_coe, Submodule.mem_bot]; funext i; exact hh x hx i
     rw [h1] at hle
@@ -368,7 +368,7 @@ theorem closure_eq {m n : ℕ} (X : Set (Fin m → k)) (Y : Set (Fin n → k))
     exact one_ne_zero (congrFun e ⟨0, hm⟩)
   obtain ⟨y₀, hy₀, j₀, hyj⟩ : ∃ y ∈ Y, ∃ j, y j ≠ 0 := by
     by_contra hh
-    push_neg at hh
+    push Not at hh
     have hle : Submodule.span k Y ≤ ⊥ := Submodule.span_le.2 fun y hy => by
       rw [SetLike.mem_coe, Submodule.mem_bot]; funext j; exact hh y hy j
     rw [h2] at hle
@@ -1426,7 +1426,7 @@ theorem eq_smul_indicator_closure {X : Type} [AddCommGroup X] [TopologicalSpace 
   have hcont : Continuous f := hf.1.continuous
   obtain ⟨Y₀, hY₀⟩ : ∃ Y₀, f Y₀ ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hf0 (funext h)
   have hind : ∀ U : Set X, IsClopen U → ∀ φ ∈ GlobalTheory.WeilM.SB X, U.indicator φ ∈ GlobalTheory.WeilM.SB X := by
     intro U hU φ hφ

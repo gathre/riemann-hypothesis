@@ -271,11 +271,11 @@ theorem fourier_inv_sixtythree (ω : ℂ) (c : ℕ → ℤ) (hω : IsPrimitiveRo
         simp_rw [hsum]
     _ = 63 * (c m : ℂ) := by
         rw [Finset.sum_eq_single m]
-        · rw [if_pos (by omega)]
+        · rw [ite_eq_left (by omega)]
           ring
         · intro k hk hkm
           have hk' := Finset.mem_range.mp hk
-          rw [if_neg (by omega)]
+          rw [ite_eq_right (by omega)]
           simp
         · intro hm'
           exact absurd (Finset.mem_range.mpr hm) hm'
@@ -517,7 +517,7 @@ theorem parsevalSep_identity (N : ℕ) (ω : ℂ) (hN : 0 < N) (hω : IsPrimitiv
       exact Finset.sum_congr rfl fun j _ => by ring
     rw [e, this]
     split_ifs <;> simp
-  rw [Finset.sum_congr rfl this, Finset.sum_ite_eq, if_pos hk]
+  rw [Finset.sum_congr rfl this, Finset.sum_ite_eq, ite_eq_left hk]
   ring
 
 theorem parsevalSep_bound : ∀ (n N : ℕ) (ω : ℂ) (c : ℕ → ℤ) (S : Finset ℕ), 0 < n → 0 < N → IsPrimitiveRoot ω N → ∑ k ∈ Finset.range N, c k ^ 2 = 2 * n → |∑ k ∈ Finset.range N, c k| ≤ (n : ℤ) - 1 → (∀ j : ℕ, 0 < j → j < N → j ∉ S → ∑ k ∈ Finset.range N, (c k : ℂ) * ω ^ (j * k) = 0) → 2 * n * N ≤ (n - 1) ^ 2 + 4 * n ^ 2 * S.card := by
@@ -547,19 +547,19 @@ theorem parsevalSep_bound : ∀ (n N : ℕ) (ω : ℂ) (c : ℕ → ℤ) (S : Fi
     by_cases hj0 : j = 0
     · subst hj0
       have : ‖F 0‖ ^ 2 ≤ ((n : ℝ) - 1) ^ 2 := pow_le_pow_left₀ (norm_nonneg _) hz 2
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       split_ifs
       · have : (0 : ℝ) ≤ 4 * (n : ℝ) ^ 2 := by positivity
         linarith
       · linarith
-    · rw [if_neg hj0, zero_add]
+    · rw [ite_eq_right hj0, zero_add]
       split_ifs with hjS
       · have := pow_le_pow_left₀ (norm_nonneg _) (hb j) 2
         linarith [show (2 * (n : ℝ)) ^ 2 = 4 * (n : ℝ) ^ 2 by ring]
       · have : F j = 0 := hS j (Nat.pos_of_ne_zero hj0) (Finset.mem_range.1 hj) hjS
         simp [this]
   have hsum := Finset.sum_le_sum hle
-  rw [Finset.sum_add_distrib, Finset.sum_ite_eq', if_pos (Finset.mem_range.2 hN),
+  rw [Finset.sum_add_distrib, Finset.sum_ite_eq', ite_eq_left (Finset.mem_range.2 hN),
     Finset.sum_ite_mem, Finset.sum_const, nsmul_eq_mul] at hsum
   have hc : ((Finset.range N ∩ S).card : ℝ) ≤ S.card := by
     exact_mod_cast Finset.card_le_card Finset.inter_subset_right
@@ -1027,7 +1027,7 @@ theorem _root_.GlobalTheory.CuspGL.eq_of_isPrimitive_of_eq_on_elliptic (F : Type
   have hpos : 0 < (∑ k ∈ Finset.range (Nat.card F ^ d - 1), a k) *
       ∑ k ∈ Finset.range (Nat.card F ^ d - 1), b k := by
     by_contra hle
-    push_neg at hle
+    push Not at hle
     have h0 : (0 : ℤ) < ((d * n : ℕ) : ℤ) * ((d * n' : ℕ) : ℤ) := by positivity
     rw [hA, hB] at h0
     have : (∑ k ∈ Finset.range (Nat.card F ^ d - 1), a k) * P *

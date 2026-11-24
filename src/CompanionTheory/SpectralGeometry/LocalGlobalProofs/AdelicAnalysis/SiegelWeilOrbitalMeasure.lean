@@ -288,7 +288,7 @@ theorem invariant_measure_unique :
     rintro rfl
     have hK : ∃ K : Set V, IsCompact K ∧ ν K ≠ 0 := by
       by_contra hno
-      push_neg at hno
+      push Not at hno
       apply hν0
       rw [← Measure.measure_univ_eq_zero, ← iUnion_compactCovering V]
       exact measure_iUnion_null fun n => hno _ (isCompact_compactCovering V n)

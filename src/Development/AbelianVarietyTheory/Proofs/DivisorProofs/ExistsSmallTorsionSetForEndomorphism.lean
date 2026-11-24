@@ -268,7 +268,7 @@ theorem exists_sec_of_eff {X : Scheme.{0}} (N : LB X) (hN : N.IsLB) (h : Eff (cl
     intro h0
     exact hσ (e.injective (h0.trans (map_zero e).symm))
   by_contra hne
-  push_neg at hne
+  push Not at hne
   exact he (HighTwist.sec_eq_zero _ (hne (e σ)))
 
 end GlobalTheory.EffBound

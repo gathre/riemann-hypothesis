@@ -166,7 +166,7 @@ theorem slopesBdd_of (hG : GramDetLe.{u, 0, 0}) : SlopesBdd.{u} := by
   have hgK : 1 ≤ (K : ℝ) ^ (2 * Module.finrank ℤ N) * g := hd1.trans hdet
   have hgpos : 0 < g := by
     by_contra hneg
-    push_neg at hneg
+    push Not at hneg
     have : (K : ℝ) ^ (2 * Module.finrank ℤ N) * g ≤ 0 :=
       mul_nonpos_of_nonneg_of_nonpos (by positivity) hneg
     linarith

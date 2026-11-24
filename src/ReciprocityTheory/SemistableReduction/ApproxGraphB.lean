@@ -206,7 +206,7 @@ lemma exists_graph_pos {r p : ℕ} {μ ρ : ℝ} (X : Fin r → Fin r → ℂ) (
       · have hsq : 0 < √(r : ℝ) := Real.sqrt_pos.mpr (Nat.cast_pos.mpr hr)
         have hle : ‖euc (posPart p u)‖ ≤ 0 := by
           by_contra hc
-          push_neg at hc
+          push Not at hc
           have := mul_pos (by norm_num : (0 : ℝ) < 3) (mul_pos (mul_pos hsq hμ) hc)
           linarith
         exact euc_eq_zero (norm_le_zero_iff.mp hle)

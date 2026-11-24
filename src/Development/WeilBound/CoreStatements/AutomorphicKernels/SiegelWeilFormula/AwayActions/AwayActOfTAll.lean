@@ -113,8 +113,8 @@ theorem away_conj (hT : TAll) {x₁ x₂ x' : d.G} {A₁ A₂ : d.LF → d.LF} {
       rcases hz with hz | hz
       · simp [RD.tens, hz]
       · have hn : ¬ ∃ X₀, Ψ X₀ ≠ 0 ∧ B₁ (B₂ Ψ) X₀ ≠ 0 := fun ⟨X₀, h, _⟩ => h (hz X₀)
-        simp [RD.tens, dif_neg hn]
-    · push_neg at hz
+        simp [RD.tens, dite_eq_right hn]
+    · push Not at hz
       obtain ⟨⟨u₀, hu₀⟩, ⟨X₁, hX₁⟩⟩ := hz
       have hex : ∃ X₀, Ψ X₀ ≠ 0 ∧ B₁ (B₂ Ψ) X₀ ≠ 0 := by
         refine ⟨X₁, hX₁, fun h0' => ?_⟩
@@ -129,7 +129,7 @@ theorem away_conj (hT : TAll) {x₁ x₂ x' : d.G} {A₁ A₂ : d.LF → d.LF} {
         linear_combination -this
       rw [e]
       funext X
-      simp only [RD.tens, Function.comp_apply, id_eq, dif_pos hex, Pi.smul_apply, smul_eq_mul, hA]
+      simp only [RD.tens, Function.comp_apply, id_eq, dite_eq_left hex, Pi.smul_apply, smul_eq_mul, hA]
       ring
 
 end Step

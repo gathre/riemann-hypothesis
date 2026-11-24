@@ -320,7 +320,7 @@ theorem units_fixed_eq_mul_mul_conj : ∀ (L : Type) [Field L] [NumberField L] (
   have hP : P ρ := ⟨ε, h1, h2, hfix, w, hw⟩
   obtain ⟨_g1, _g2, gfix, w', hw'⟩ := Classical.choose_spec hP
   have hpick : pick ρ = {((Classical.choose hP : Lˣ) : L), -((Classical.choose hP : Lˣ) : L)} := by
-    simp only [pick, dif_pos hP]
+    simp only [pick, dite_eq_left hP]
   set e : Lˣ := Classical.choose hP with he
   let W : Lˣ := Units.map φ (w * w'⁻¹)
   have hint : ∀ v : (𝓞 L)ˣ, IsIntegral ℤ (φ (v : 𝓞 L)) := fun v => RingOfIntegers.isIntegral_coe _
@@ -681,7 +681,7 @@ theorem exists_finset_classes (L : Type) [Field L] [NumberField L] (c : L →ₐ
   let B : (HeightOneSpectrum (𝓞 L) → ℤ) → L := fun φ => if h : ∃ b, P φ b then h.choose else 1
   have hB : ∀ φ b, P φ b → P φ (B φ) := fun φ b hb => by
     have h : ∃ b, P φ b := ⟨b, hb⟩
-    simp only [B, dif_pos h]
+    simp only [B, dite_eq_left h]
     exact h.choose_spec
   refine ⟨(Φ ×ˢ S₆).image (fun p => B p.1 * p.2), fun a ha => ?_⟩
   obtain ⟨ha0, hca, hloc⟩ := hX a ha
@@ -704,7 +704,7 @@ theorem exists_finset_classes (L : Type) [Field L] [NumberField L] (c : L →ₐ
   have hk : ∀ᶠ v in Filter.cofinite, k v = 0 := by
     refine Filter.eventually_cofinite.2 ((T.finite_toSet).subset fun v hv => ?_)
     by_contra h
-    exact hv (if_neg (fun h' => h h'.1))
+    exact hv (ite_eq_right (fun h' => h h'.1))
   obtain ⟨Q, hQ0, hQ⟩ := exists_rat_of_divisor k hk
   let n : HeightOneSpectrum (𝓞 L) → ℤ := fun w =>
     if w.under ℤ ∈ S then ord w a / 2 else if w.under ℤ ∈ T then ord w (zv (w.under ℤ)) else 0
@@ -712,8 +712,8 @@ theorem exists_finset_classes (L : Type) [Field L] [NumberField L] (c : L →ₐ
     refine Filter.eventually_cofinite.2 ((finite_under L (S ∪ T)).subset fun w hw => ?_)
     simp only [Set.mem_setOf_eq, Finset.mem_union] at hw ⊢
     by_contra h
-    push_neg at h
-    exact hw (by simp only [n, if_neg h.1, if_neg h.2])
+    push Not at h
+    exact hw (by simp only [n, ite_eq_right h.1, ite_eq_right h.2])
   obtain ⟨f, hfF, z₁, hz₁, hnf⟩ := hF n hn
   let Δ : Finset (HeightOneSpectrum (𝓞 L)) := WS.filter (fun w => ord w a % 2 = 1)
   let φ : HeightOneSpectrum (𝓞 L) → ℤ := fun w => (if w ∈ Δ then 1 else 0) + f w + f (conjEquiv c hc • w)
@@ -725,12 +725,12 @@ theorem exists_finset_classes (L : Type) [Field L] [NumberField L] (c : L →ₐ
     have h := hQ (w.under ℤ)
     simp only [k] at h
     split_ifs with hc'
-    · rw [if_pos hc'] at h
+    · rw [ite_eq_left hc'] at h
       have hq0 := hqv _ hc'.2
       have e : (w.under ℤ).valuation ℚ Q = (w.under ℤ).valuation ℚ (qv (w.under ℤ)) :=
         log_injective ((Valuation.ne_zero_iff _).2 hQ0) ((Valuation.ne_zero_iff _).2 hq0) (by omega)
       simp only [ord, valuation_rat_eq L w e]
-    · rw [if_neg hc'] at h
+    · rw [ite_eq_right hc'] at h
       have e : (w.under ℤ).valuation ℚ Q = (w.under ℤ).valuation ℚ 1 := by
         rw [map_one]
         exact log_injective ((Valuation.ne_zero_iff _).2 hQ0) one_ne_zero (by rw [WithZero.log_one]; omega)
@@ -744,8 +744,8 @@ theorem exists_finset_classes (L : Type) [Field L] [NumberField L] (c : L →ₐ
     rw [hQw w]
     by_cases hS : w.under ℤ ∈ S
     · have hWS : w ∈ WS := (finite_under L S).mem_toFinset.2 hS
-      rw [if_neg (fun h => h.2 hS)]
-      simp only [n, hu, if_pos hS, hσa, Δ, Finset.mem_filter, hWS, true_and]
+      rw [ite_eq_right (fun h => h.2 hS)]
+      simp only [n, hu, ite_eq_left hS, hσa, Δ, Finset.mem_filter, hWS, true_and]
       split_ifs with h2 <;> omega
     · have hnWS : w ∉ Δ := fun h => hS ((finite_under L S).mem_toFinset.1 (Finset.mem_filter.1 h).1)
       by_cases hT' : w.under ℤ ∈ T
@@ -761,13 +761,13 @@ theorem exists_finset_classes (L : Type) [Field L] [NumberField L] (c : L →ₐ
             (mul_ne_zero ((Valuation.ne_zero_iff _).2 hz0) ((Valuation.ne_zero_iff _).2 hcz0)),
             WithZero.log_mul ((Valuation.ne_zero_iff _).2 hz0) ((Valuation.ne_zero_iff _).2 hcz0)]
           ring
-        rw [e, ord_conj L c hc, if_pos ⟨hT', hS⟩]
-        simp only [n, hu, if_neg hS, hnWS, if_false, hT', if_true]
+        rw [e, ord_conj L c hc, ite_eq_left ⟨hT', hS⟩]
+        simp only [n, hu, ite_eq_right hS, hnWS, ite_false, hT', ite_true]
         ring
       · have h1 := hT w hT'
         have e : ord w a = 0 := (ord_eq_zero_iff w ha0).2 h1
-        rw [if_neg (fun h => hT' h.1)]
-        simp only [n, hu, if_neg hS, if_neg hT', hnWS, if_false, e]
+        rw [ite_eq_right (fun h => hT' h.1)]
+        simp only [n, hu, ite_eq_right hS, ite_eq_right hT', hnWS, ite_false, e]
         ring
 
   have hcz₁ : c z₁ ≠ 0 := fun h => hz₁ (by rw [← hc z₁, h, map_zero])
@@ -1170,7 +1170,7 @@ theorem finite_of_compact (Ω : Set G.GAf) (hΩ : IsCompact Ω) (γ₀ : G.Cˣ)
   obtain ⟨b, hb, q, z, hq, hz, hab⟩ := hR a ⟨P, hP, hPa⟩
   have hex : ∃ P', good b (decide (0 < q) = true) P' := ⟨P, hP, a, q, z, hPa, decide_eq_true_iff.symm, hq, hz, hab⟩
   refine ⟨(b, decide (0 < q)), Finset.mem_coe.2 (Finset.mem_product.2 ⟨hb, Finset.mem_univ _⟩), ?_⟩
-  have hrep : rep (b, decide (0 < q)) = hex.choose := dif_pos hex
+  have hrep : rep (b, decide (0 < q)) = hex.choose := dite_eq_left hex
   obtain ⟨hP', a', q', z', hPa', hsgn, hq', hz', hab'⟩ := hex.choose_spec
   simp only [hrep]
   apply Quot.sound
@@ -1516,7 +1516,7 @@ theorem integral_of_term_ne_zero : ∀ (p : ℕ) [Fact p.Prime] (G : HTGroup p) 
   rw [DPair.termAt, pointSum] at hP
   have exists_nonzero {α : Type} (F : α → ℂ) (hF : finsum F ≠ 0) : ∃ q, F q ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hF (finsum_eq_zero_of_forall_eq_zero hc)
   obtain ⟨q, hq⟩ := exists_nonzero _ hP
   have hq2 := (mul_ne_zero_iff.1 hq).2
@@ -1610,7 +1610,7 @@ theorem roots_eig (G : HTGroup p) (P : DPair G) (v : InfinitePlace G.F) (w : ℂ
   have hroot : Q.IsRoot w := by
     rw [Polynomial.IsRoot, hQ, Polynomial.eval_map]; exact hw
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hdet : (Γ - algebraMap ℂ (Matrix (Fin G.n) (Fin G.n) ℂ) w).det ≠ 0 := by
     intro h0
     obtain ⟨x, hx0, hx⟩ := Matrix.exists_mulVec_eq_zero_iff.2 h0

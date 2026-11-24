@@ -512,7 +512,7 @@ theorem vsp_le (v : Fin P.nV) :
       dualWeyl ℂ (P.m + 1) (P.m + 1) (nuOf (lamAt (P.lam0 v) s)) else ⊥) → F ∈ Submodule.span ℂ (T s) := by
     intro s F hF
     have ha := lamAt_anti (P.lam0 v) (P.dom v) s
-    rw [if_pos ha, ← Formalism.L2.G.Model.sw_weyl_eq ℂ (P.m + 1) (P.m + 1) le_rfl _ (_root_.Formalism.L2.G.Model.TS.nuOf_antitone ha),
+    rw [ite_eq_left ha, ← Formalism.L2.G.Model.sw_weyl_eq ℂ (P.m + 1) (P.m + 1) le_rfl _ (_root_.Formalism.L2.G.Model.TS.nuOf_antitone ha),
       weyl_eq_span_int] at hF
     exact hF
   have hP := prodSpan (O := ℂ) (I := Fin (P.n' v)) (B := fun _ => MvPolynomial (Fin (P.m + 1) × Fin (P.m + 1)) ℂ)
@@ -1048,11 +1048,11 @@ theorem twUnit_of (S : StepIn M i hi G) (e : D.what₂.LL →+* G.Kf) (w : D.wha
     rw [hR0]
     by_cases hs : Even s.val
     · have h1 := H.pos_emb v s x
-      rw [if_pos hs] at h1
+      rw [ite_eq_left hs] at h1
       rw [h1]
       exact rho_int v s.val _ (hx v).1
     · have h1 := H.pos_emb v s (sigD D x)
-      rw [if_neg hs, hσσ] at h1
+      rw [ite_eq_right hs, hσσ] at h1
       rw [h1]
       exact rho_int v s.val _ (hx v).2
   have i1 : ∀ τ, tEL D τ ε ∈ intW D.what₂.places w := hint ε fun v => (hiw v).1

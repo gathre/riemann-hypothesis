@@ -73,7 +73,7 @@ theorem sum_small (T : Finset ℕ) (hT : ∀ l ∈ T, l.Prime ∧ l ≠ 2 ∧ l 
     obtain ⟨hlT, hcd⟩ := Finset.mem_filter.1 hl
     refine ⟨by have := h5 l hlT; omega, (hT l hlT).1.odd_of_ne_two (hT l hlT).2.1, ?_⟩
     by_contra ho
-    push_neg at ho
+    push Not at ho
     exact hcd.2.1 ⟨hcd.2.2, ho⟩)
   have hfl := sum_flat L hC P hPar hL T hT2
   have hpt : ∀ l ∈ T, Real.log l * (bbB L C + lenB L C l) ≤ Real.log l * bbB L C +
@@ -184,7 +184,7 @@ theorem S_le_U : L.Sc ≤ 4 * Ub L C := by
   have hSp := L.Sc_pos
   have hk : (0 : ℝ) < D.R.k := by linarith [k_ge_five D]
   have hDel : 0 < (D.s.Del : ℝ) := by
-    by_contra h; push_neg at h
+    by_contra h; push Not at h
     have : L.Sc ≤ 0 := by rw [hS]; nlinarith
     linarith
   have h := P.logDel
@@ -455,7 +455,7 @@ theorem exc_pt {l : ℕ} (hl : lStar L < l) :
   have hlen : lenB L C l ≤ (754 * C + 92 * C ^ 2) * U ^ 9 := by
     unfold lenB
     by_cases hs : SplitK D l
-    · rw [if_pos hs]
+    · rw [ite_eq_left hs]
       have : (2 * (D.R.f : ℝ) * D.R.m + D.R.f) ≤ 6 * U ^ 2 := by
         have : (D.R.f : ℝ) * D.R.m ≤ (2 * U) * U := mul_le_mul hf hm hm0 (by linarith)
         nlinarith
@@ -467,10 +467,10 @@ theorem exc_pt {l : ℕ} (hl : lStar L < l) :
             have h9 : 0 ≤ U ^ 9 := by positivity
             have : 138 * C ≤ 754 * C + 92 * C ^ 2 := by nlinarith only [hC]
             exact mul_le_mul_of_nonneg_right this h9
-    · rw [if_neg hs]
+    · rw [ite_eq_right hs]
       have hnb : ¬ ((l : ℝ) < lA L ∧ 4 * D.host.Lw < ordH D l) := by
         intro h; have := lA_lt_lStar L hC P hPar hL; linarith [h.1]
-      rw [if_neg hnb]
+      rw [ite_eq_right hnb]
       have hq : hB L / (l : ℝ) ^ 2 ≤ 20 * U ^ 7 := by
         have : hB L / (l : ℝ) ^ 2 ≤ hB L / l := by
           apply div_le_div_of_nonneg_left (by linarith only [hh1]) hl0
@@ -911,31 +911,31 @@ theorem point_bound (tb : Tab L) (hA : AdmT L tb C P) (S : Finset ℕ) (hS : ∀
       split_ifs; exact mul_nonneg (hlog0 l) (by linarith); exact le_rfl
     unfold lamG
     by_cases hg : l ∈ gset D
-    · rw [if_pos hg, if_pos hg]; linarith
-    rw [if_neg hg]
+    · rw [ite_eq_left hg, ite_eq_left hg]; linarith
+    rw [ite_eq_right hg]
     unfold lamB
     by_cases h23 : l ∈ D.host.small ∨ l = 3
-    · rw [if_pos h23, if_pos h23]; linarith
-    rw [if_neg h23]
+    · rw [ite_eq_left h23, ite_eq_left h23]; linarith
+    rw [ite_eq_right h23]
     by_cases hqd : l = D.host.q ∨ l = D.host.d
-    · rw [if_pos hqd, if_pos hqd]
+    · rw [ite_eq_left hqd, ite_eq_left hqd]
       have : Real.log l * (2 * C * D.R.f * D.R.m * L.sc.b) = Real.log l * (2 * C * ↑D.R.f * ↑D.R.m * L.sc.b) := rfl
       linarith
-    rw [if_neg hqd]
+    rw [ite_eq_right hqd]
     by_cases he : lStar L < l ∧ l ∉ tb.exc
-    · rw [if_pos he, mul_zero]; linarith
-    rw [if_neg he]
+    · rw [ite_eq_left he, mul_zero]; linarith
+    rw [ite_eq_right he]
     have h2 : l ≠ 2 := fun h => h23 (Or.inl (by rw [h]; exact two_mem_small D))
     have h3 : l ≠ 3 := fun h => h23 (Or.inr h)
     by_cases hs : (l : ℝ) ≤ lStar L
     · have e : (if l ≠ 2 ∧ l ≠ 3 ∧ (l : ℝ) ≤ lStar L then Real.log l * (bbB L C + lenB L C l) else 0) =
-          Real.log l * (bbB L C + lenB L C l) := if_pos ⟨h2, h3, hs⟩
+          Real.log l * (bbB L C + lenB L C l) := ite_eq_left ⟨h2, h3, hs⟩
       linarith
-    · push_neg at hs
+    · push Not at hs
       have hx : l ∈ tb.exc := by
         by_contra hx; exact he ⟨hs, hx⟩
       have e : (if l ∈ tb.exc ∧ lStar L < l then Real.log l * (bbB L C + lenB L C l) else 0) =
-          Real.log l * (bbB L C + lenB L C l) := if_pos ⟨hx, hs⟩
+          Real.log l * (bbB L C + lenB L C l) := ite_eq_left ⟨hx, hs⟩
       linarith
   have hsumle := Finset.sum_le_sum hpt
   simp only [Finset.sum_add_distrib] at hsumle

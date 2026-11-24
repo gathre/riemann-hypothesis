@@ -338,7 +338,7 @@ theorem card_le_of_double_annihilator (O : Type) [CommRing O] (X Y E : Type) [Ad
     apply h1
     intro y hy
     have := congrFun hx ⟨y, (h2 y hy).1⟩
-    rw [hL, if_pos hy] at this
+    rw [hL, ite_eq_left hy] at this
     exact this
   have hmem : ∀ x (y : F), L x y ∈ Es := by
     intro x y

@@ -103,7 +103,7 @@ theorem zeta_of_eps {d : SD σ} (R : RD d) :
 
 theorem exists_J_ne (d : SD σ) : ∃ i j, d.A.J i j ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hJ : d.A.J = 0 := Matrix.ext hcon
   obtain ⟨φ⟩ : Nonempty (E →+* ℂ) := inferInstance
   have hm := d.ok.hm

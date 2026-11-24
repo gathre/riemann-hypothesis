@@ -126,11 +126,11 @@ theorem intFact : IntFact := by
   have cw_sW : ∀ u, d.cw w (sW u) = U u := fun u => by
     ext i j
     show piInf (d.B.emb w) (s _) = U u i j
-    rw [hs1, if_pos rfl]
+    rw [hs1, ite_eq_left rfl]
   have cw_sW' : ∀ u w', w' ≠ w → d.cw w' (sW u) = 0 := fun u w' h => by
     ext i j
     show piInf (d.B.emb w') (s _) = 0
-    rw [hs1, if_neg h]
+    rw [hs1, ite_eq_right h]
   have fin_sW : ∀ u, finOne F • sW u = 0 := fun u => by
     ext i j
     show finOne F • s _ = 0
@@ -161,8 +161,8 @@ theorem intFact : IntFact := by
     funext w'
     show _ = (if w' = w then U u i j else 0) + (if w' = w then U v i j else 0)
     by_cases h : w' = w
-    · rw [if_pos h, if_pos h, if_pos h, U_add]; rfl
-    · rw [if_neg h, if_neg h, if_neg h, add_zero]
+    · rw [ite_eq_left h, ite_eq_left h, ite_eq_left h, U_add]; rfl
+    · rw [ite_eq_right h, ite_eq_right h, ite_eq_right h, add_zero]
   have hU : Continuous U := by
     simp only [U]
     exact continuous_const.matrix_mul (continuous_pi fun b => continuous_pi fun j =>

@@ -264,11 +264,11 @@ theorem datum_sum (B : Base S T) {ψ : Twist D Circle} (hQ : B.admitted ψ.Q) {�
     fun i => (hJ i).1]
   by_cases c1 : IsHalf (halfIdem B.G.Pg (B.de.Q ∪ ψ.Q)) x ∧ IsIntM (frMapAdj S T B.F.βS B.F.βT x)
   swap
-  · simp only [if_neg c1, zero_mul, mul_zero, Finset.sum_const_zero]
+  · simp only [ite_eq_right c1, zero_mul, mul_zero, Finset.sum_const_zero]
   by_cases c2 : IsHalf (halfIdem B.G.Pg (B.de.Q ∪ ψ.Q)) x ∧ IsIntM (frMapO S T B.F.βS B.F.βT x)
   swap
-  · simp only [if_neg c2, mul_zero, Finset.sum_const_zero]
-  simp only [if_pos c1, if_pos c2]
+  · simp only [ite_eq_right c2, mul_zero, Finset.sum_const_zero]
+  simp only [ite_eq_left c1, ite_eq_left c2]
   symm
   calc _ = ∑ i, (if (∀ PP ∈ B.G.Pg, LowZero T.rank (redM PP (frMapAdj S T B.F.βS B.F.βT x))) ∧
         ∀ PP : ↥B.G.Pg, (upperLeftBlock B.hr (redFn B.F.βS PP.1 (Lev.finE S (g i)))).val =
@@ -288,16 +288,16 @@ theorem datum_sum (B : Base S T) {ψ : Twist D Circle} (hQ : B.admitted ψ.Q) {�
       · obtain ⟨h0, g0, hg0, hH0⟩ := hy
         obtain ⟨i, rfl⟩ := surj g0 hH0
         rw [omegaG_levT_of B.G h0 _ hg0 hH0, Finset.sum_eq_single i]
-        · rw [if_pos ⟨h0, fun PP => hg0 PP⟩]
+        · rw [ite_eq_left ⟨h0, fun PP => hg0 PP⟩]
           rfl
         · intro j _ hj
-          rw [if_neg]
+          rw [ite_eq_right]
           intro hc
           exact hj (inj j i (funext fun PP => Units.ext ((hc.2 PP).trans (hg0 PP).symm)))
         · exact fun h => absurd (Finset.mem_univ _) h
       · rw [omegaG_levT_zero B.G hy]
         refine Finset.sum_eq_zero fun i _ => ?_
-        rw [if_neg]
+        rw [ite_eq_right]
         rintro ⟨h0, h1⟩
         exact hy ⟨h0, _, h1, (hk i).2⟩
 

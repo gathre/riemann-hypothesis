@@ -115,7 +115,7 @@ theorem jet_left_mem {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Hos
         rw [MvPolynomial.mem_ideal_span_X_image]
         intro m hm
         by_contra hc
-        push_neg at hc
+        push Not at hc
         have hm0 : m = 0 := by ext i; exact hc i (Set.mem_univ i)
         subst hm0
         rw [MvPolynomial.mem_support_iff, ← MvPolynomial.constantCoeff_eq] at hm

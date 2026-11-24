@@ -68,14 +68,14 @@ theorem coincide_null (hA : _root_.ReciprocityTheory.AnForm.Osgood.OsgoodStateme
     volume {y | y ∈ ball c r ∧ G y = G' y} = 0 := by
   obtain ⟨y0, hy0⟩ : ∃ y0, G y0 ≠ G' y0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hne (funext hcon)
   have hy0b : y0 ∈ ball c r := by
     by_contra hb
     exact hy0 (by rw [hG.1 y0 hb, hG'.1 y0 hb])
   obtain ⟨i, hi⟩ : ∃ i, G y0 i ≠ G' y0 i := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hy0 (funext hcon)
   set f : (Fin e → ℂ) → ℂ := fun y => G y i - G' y i with hf
   have hdiff : DifferentiableOn ℂ f (ball c r) := by

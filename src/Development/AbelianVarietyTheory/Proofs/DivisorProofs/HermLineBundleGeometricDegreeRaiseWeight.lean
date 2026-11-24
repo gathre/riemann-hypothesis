@@ -68,8 +68,8 @@ theorem coeff_eq_zero_of_const (N : ℕ) (γ : ℕ → ℝ) (K : ℝ)
     exact Finset.sum_congr rfl fun j _ => mul_comm _ _
   have e := congrArg (fun Q : Polynomial ℝ => Q.coeff m) hP
   simp only [P, Polynomial.finsetSum_coeff, Polynomial.coeff_C_mul_X_pow, Polynomial.coeff_C] at e
-  rw [Finset.sum_ite_eq (Finset.range (N + 1)) m, if_pos (Finset.mem_range.2 (by omega)),
-    if_neg (by omega)] at e
+  rw [Finset.sum_ite_eq (Finset.range (N + 1)) m, ite_eq_left (Finset.mem_range.2 (by omega)),
+    ite_eq_right (by omega)] at e
   exact e
 
 theorem map_mul_add_pow {ι : Type} (Φ : MvPolynomial ι ℝ →ₗ[ℝ] ℝ) (A x y : MvPolynomial ι ℝ) (c : ℝ) (n : ℕ) :

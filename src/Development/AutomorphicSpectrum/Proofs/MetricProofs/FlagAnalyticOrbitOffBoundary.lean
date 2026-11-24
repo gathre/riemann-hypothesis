@@ -122,11 +122,11 @@ theorem log_fsHerm_add_ph_eq_potAt : ∀ (K : Type) [Fintype K] (ι : K → Type
   unfold potAt upsLogAt upsVal
   by_cases hblk : M.blk p = none
   · have h1 := hind.2 hblk
-    rw [if_pos hblk, hval]
+    rw [ite_eq_left hblk, hval]
     linarith
   · obtain ⟨k, hk⟩ := Option.ne_none_iff_exists'.mp hblk
     have h1 := hind.1 k hk (hex.2 k hk)
-    rw [if_neg hblk, sub_zero]
+    rw [ite_eq_right hblk, sub_zero]
     linarith
 
 end GlobalTheory.CompanionTheory.Ar.PB.WSq.Fib

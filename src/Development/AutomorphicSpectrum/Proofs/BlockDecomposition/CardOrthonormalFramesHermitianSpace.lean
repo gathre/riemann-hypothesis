@@ -66,7 +66,7 @@ namespace GlobalTheory.CompanionTheory.UnrDens
 theorem exists_trace_ne_zero {E : Type} [CommRing E] {τ : E →+* E} {q : ℕ} {ε : ℤ}
     (hE : ResAlg E τ q ε) {a : E} (ha : a ≠ 0) : ∃ c : E, c * a + τ (c * a) ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨u, hu, -⟩ := hE.basis
   have h1 := hcon 1
   have h2 := hcon u
@@ -85,7 +85,7 @@ theorem exists_unit_norm (E : Type) [CommRing E] (τ : E →+* E) (q : ℕ) (ε 
   obtain ⟨v, hv⟩ := exists_ne (0 : V)
   have hex : ∃ w, B.h v w ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hv (B.nondeg v hcon)
   obtain ⟨w, hvw⟩ := hex
   obtain ⟨c, hc⟩ := exists_trace_ne_zero hE hvw

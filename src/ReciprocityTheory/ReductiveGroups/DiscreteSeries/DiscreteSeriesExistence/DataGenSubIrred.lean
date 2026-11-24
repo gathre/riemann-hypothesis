@@ -84,7 +84,7 @@ private theorem data_genSub_irred_of_highest_weight_mem (hσ : IsURepOn (UJset �
   have hfd : ∀ a, ∀ y ∈ N, (innerₛₗ ℂ w) (E a a y) = (lowK ε lam a : ℂ) * (innerₛₗ ℂ w) y := by
     intro a y _
     have h1 := hU a a w y
-    simp only [hw.1 a, inner_smul_left, adjSign, if_true, one_mul, Complex.conj_ofReal] at h1
+    simp only [hw.1 a, inner_smul_left, adjSign, ite_true, one_mul, Complex.conj_ofReal] at h1
     simp only [innerₛₗ_apply_apply]
     exact h1.symm
   have hfl : ∀ a b, a < b → ε a = ε b → ∀ y ∈ N, (innerₛₗ ℂ w) (E b a y) = 0 := by
@@ -179,7 +179,7 @@ theorem data_form_scalar (hgap : StdGap ε lam) (hσ : IsURepOn (UJset ε) σ) (
     intro a y hy
     have h1 := hbE a a w hwG y hy
     have h2 := hU a a w y
-    simp only [hw.1 a, adjSign, if_true, one_mul, map_smulₛₗ, LinearMap.smul_apply, smul_eq_mul,
+    simp only [hw.1 a, adjSign, ite_true, one_mul, map_smulₛₗ, LinearMap.smul_apply, smul_eq_mul,
       Complex.conj_ofReal, inner_smul_left] at h1 h2
     rw [hfapp, hfapp, ← h1, ← h2]
     ring

@@ -230,13 +230,13 @@ theorem root_log (Γ : ∀ s, Matrix (Fin (labelRk D s)) (Fin (labelRk D s)) ℂ
   let F : (Σ s, Fin (labelRk D s)) → ℝ := fun a => Real.log (Real.sqrt (leadMinor (Γ a.1) (a.2 + 1) / leadMinor (Γ a.1) a.2))
   show _ * F (HodgeCpt.rootIdx D (τ, i)) = _
   by_cases h : (i : ℕ) < D.p
-  · have e : HodgeCpt.rootIdx D (τ, i) = ⟨.inl τ, ⟨i, h⟩⟩ := dif_pos h
+  · have e : HodgeCpt.rootIdx D (τ, i) = ⟨.inl τ, ⟨i, h⟩⟩ := dite_eq_left h
     rw [e]
-    simp only [HodgeCpt.rootSgn, grLog, if_pos h, F, Int.cast_one, one_mul]
+    simp only [HodgeCpt.rootSgn, grLog, ite_eq_left h, F, Int.cast_one, one_mul]
     rfl
-  · have e : HodgeCpt.rootIdx D (τ, i) = ⟨.inr τ, ⟨D.p + D.q - 1 - i, by have := i.2; show _ < D.q; omega⟩⟩ := dif_neg h
+  · have e : HodgeCpt.rootIdx D (τ, i) = ⟨.inr τ, ⟨D.p + D.q - 1 - i, by have := i.2; show _ < D.q; omega⟩⟩ := dite_eq_right h
     rw [e]
-    simp only [HodgeCpt.rootSgn, grLog, if_neg h, F, Int.cast_neg, Int.cast_one, neg_mul, one_mul]
+    simp only [HodgeCpt.rootSgn, grLog, ite_eq_right h, F, Int.cast_neg, Int.cast_one, neg_mul, one_mul]
     rfl
 
 theorem locChart (hLP : LocPer) (hT : Transport) (hFV : FrameVals) (hPM : PerMat) (hG : Top.Given)
@@ -555,9 +555,9 @@ theorem tele (F : ℕ → ℤ) (k M : ℕ) (hk : k ≤ M) :
     rw [Finset.sum_eq_zero]
     · simp
     · intro n hn
-      rw [if_neg (by simpa using hn)]
+      rw [ite_eq_right (by simpa using hn)]
   | succ M hM ih =>
-    rw [Finset.sum_range_succ, ih, if_pos hM]
+    rw [Finset.sum_range_succ, ih, ite_eq_left hM]
     ring
 
 theorem abel (N : ℕ) (f x : Fin N → ℤ) :
@@ -745,7 +745,7 @@ theorem exists_eff : Top.Given → ∀ (E : Type) [Field E] [NumberField E] [IsC
         by_contra h
         exact ha ⟨τ, i, by have := i.2; omega, rfl⟩
       have := hν τ i ⟨i + 1, hi⟩ (by simp [Fin.lt_def])
-      simp only [gapN, dif_pos hi]
+      simp only [gapN, dite_eq_left hi]
       omega
   obtain ⟨-, h2⟩ := _root_.GlobalTheory.CompanionTheory.Ar.PB.nefPol hIn _ _ A.Sys Fl hFl G.K G.J G.Ω G.y A.Re A.J_top hb
     (fun V _ L => GroundTheory.Heights₂.Heights.NumbersDVR.intNum ℚ V L) (GroundTheory.Heights₂.Heights.NumbersDVR.IntNumIsFieldIntersection.full ℚ G.K G.J) (gapN ν) hn

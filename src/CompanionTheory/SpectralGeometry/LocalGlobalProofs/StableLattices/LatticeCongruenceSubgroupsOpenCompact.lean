@@ -112,7 +112,7 @@ theorem IsNear.inv {r : ℝ} {A B : Matrix (Fin m) (Fin m) L} (h0 : 0 ≤ r) (hr
     rw [e, Matrix.neg_apply, norm_neg]; exact norm_mul_entry hc h0 hB hA i j
   have hint : ∀ i j, ‖B i j‖ ≤ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨i₀, j₀, h1⟩ := hcon
     haveI : Nonempty (Fin m × Fin m) := ⟨(i₀, j₀)⟩
     obtain ⟨p, hp⟩ := Finite.exists_max fun p : Fin m × Fin m => ‖B p.1 p.2‖

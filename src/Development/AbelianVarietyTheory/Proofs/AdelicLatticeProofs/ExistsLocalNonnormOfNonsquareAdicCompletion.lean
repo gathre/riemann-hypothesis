@@ -159,7 +159,7 @@ private theorem exists_even_valuation_of_mul_sq_eq_norm {K : Type} [Field K]
     (h : y * s ^ 2 = p ^ 2 - Δ * q ^ 2) : ∃ n : ℤ, w y = WithZero.exp (2 * n) := by
   have hpq : p ≠ 0 ∨ q ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     rw [hc.1, hc.2] at h
     simp only [ne_eq, OfNat.ofNat_ne_zero, not_false_eq_true, zero_pow, mul_zero, sub_self,
       mul_eq_zero, pow_eq_zero_iff] at h
@@ -270,7 +270,7 @@ theorem _root_.GlobalTheory.QNorm.exists_local_nonnorm : ∀ (F : Type) [Field F
     rintro ⟨a, b, hab⟩
     have hab' : a ≠ 0 ∨ b ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       rw [h.1, h.2] at hab
       apply hx0
       rw [hab]

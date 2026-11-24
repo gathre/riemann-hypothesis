@@ -81,7 +81,7 @@ theorem isMultiHomog_C (r : ℤ) : IsMultiHomog (C r : Pol n) 0 := by
   intro e he k
   have h0 : e = 0 := by
     by_contra h
-    rw [MvPolynomial.mem_support_iff, coeff_C, if_neg (Ne.symm h)] at he
+    rw [MvPolynomial.mem_support_iff, coeff_C, ite_eq_right (Ne.symm h)] at he
     exact he rfl
   subst h0
   simp

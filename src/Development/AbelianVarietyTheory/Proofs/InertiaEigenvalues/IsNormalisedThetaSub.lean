@@ -68,9 +68,9 @@ theorem phi_mul_apply (M : Matrix (Fin a) (Fin a) R) (i j : Fin a) :
     (GlobalTheory.Tw.Phi a R * M * (GlobalTheory.Tw.Phi a R)ᵀ) i j = (-1) ^ ((i : ℕ) + j) * M i.rev j.rev := by
   have h : ∀ (k : Fin a) (f : Fin a → R), ∑ l, GlobalTheory.Tw.Phi a R k l * f l = (-1) ^ (k : ℕ) * f k.rev := fun k f => by
     rw [Finset.sum_eq_single k.rev]
-    · rw [GlobalTheory.Tw.Phi, Matrix.of_apply, if_pos (by rw [Fin.val_rev]; omega)]
+    · rw [GlobalTheory.Tw.Phi, Matrix.of_apply, ite_eq_left (by rw [Fin.val_rev]; omega)]
     · intro l _ hl
-      rw [GlobalTheory.Tw.Phi, Matrix.of_apply, if_neg (fun h => hl (Fin.ext (by rw [Fin.val_rev]; omega))), zero_mul]
+      rw [GlobalTheory.Tw.Phi, Matrix.of_apply, ite_eq_right (fun h => hl (Fin.ext (by rw [Fin.val_rev]; omega))), zero_mul]
     · simp
   rw [Matrix.mul_apply]
   simp only [Matrix.transpose_apply, mul_comm _ (GlobalTheory.Tw.Phi a R j _)]
@@ -409,14 +409,14 @@ theorem thetaGL_unip (h : r + s = a) (c : R →+* R) (x : BlockIx a r → R) :
   have hj := j.2
   simp only [Matrix.sub_apply, Matrix.add_apply, nilM, Matrix.of_apply, Matrix.one_apply, Fin.rev_inj]
   by_cases h1 : (i : ℕ) < s ∧ s ≤ (j : ℕ)
-  · rw [dite_eq_left h1, dite_eq_left (by simp only [Fin.val_rev]; omega), if_neg (fun e => by subst e; omega),
-      if_neg (fun e => by subst e; omega), zero_sub, zero_add]
+  · rw [dite_eq_left h1, dite_eq_left (by simp only [Fin.val_rev]; omega), ite_eq_right (fun e => by subst e; omega),
+      ite_eq_right (fun e => by subst e; omega), zero_sub, zero_add]
     rfl
   · rw [dite_eq_right h1, dite_eq_right (by simp only [Fin.val_rev]; omega), sub_zero, add_zero]
     by_cases h2 : i = j
     · subst h2
-      rw [if_pos rfl, map_one, mul_one, Even.neg_one_pow ⟨_, rfl⟩]
-    · rw [if_neg h2, if_neg (Ne.symm h2), map_zero, mul_zero]
+      rw [ite_eq_left rfl, map_one, mul_one, Even.neg_one_pow ⟨_, rfl⟩]
+    · rw [ite_eq_right h2, ite_eq_right (Ne.symm h2), map_zero, mul_zero]
 
 theorem blockMap_blockMap (h : r + s = a) (h' : s + r = a) (c : R →+* R) (hc : ∀ x, c (c x) = x) (x : BlockIx a r → R) :
     blockMap h' c (blockMap h c x) = x := by

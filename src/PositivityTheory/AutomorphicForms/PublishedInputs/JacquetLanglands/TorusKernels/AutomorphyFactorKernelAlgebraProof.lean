@@ -111,9 +111,9 @@ theorem p6 (k : ℕ) (z w : P) (hk : 1 ≤ k) : ‖q1 k z w‖ * |z.1.im| ^ ((k 
     linarith
   by_cases h : 0 < z.1.im * w.1.im
   · have hq : q1 k z w = ((k : ℂ) - 1) / (4 * Real.pi) * ((w.1 - conj w.1) / (z.1 - conj w.1)) ^ k := by
-      rw [q1, if_pos h]
+      rw [q1, ite_eq_left h]
     have hkap : kap z w = 4 * (z.1.im * w.1.im) / ‖z.1 - conj w.1‖ ^ 2 := by
-      rw [kap, if_pos h]
+      rw [kap, ite_eq_left h]
     have hd : z.1 - conj w.1 ≠ 0 := a_sub_conj_ne z w h
     have hdn : 0 < ‖z.1 - conj w.1‖ := norm_pos_iff.mpr hd
     have hww : ‖w.1 - conj w.1‖ = 2 * |w.1.im| := by
@@ -133,9 +133,9 @@ theorem p6 (k : ℕ) (z w : P) (hk : 1 ≤ k) : ‖q1 k z w‖ * |z.1.im| ^ ((k 
       div_pow, mul_pow, ← a_rpow_half_sq (abs_nonneg w.1.im) k]
     ring
   · have hq : q1 k z w = 0 := by
-      rw [q1, if_neg h]
+      rw [q1, ite_eq_right h]
     have hkap : kap z w = 0 := by
-      rw [kap, if_neg h]
+      rw [kap, ite_eq_right h]
     rw [hq, hkap, norm_zero, zero_mul, Real.zero_rpow hk0, mul_zero, zero_mul]
 
 end UpperTheory.Esk.AutomorphyFactorLemmas
@@ -196,13 +196,13 @@ theorem p8 (k : ℕ) : Continuous fun p : P × P => q1 k p.1 p.2 := by
       · exact b_ne _ _ hp
     apply hg.congr
     filter_upwards [hU] with q hq
-    simp only [q1, if_pos hq]
+    simp only [q1, ite_eq_left hq]
   · have hV : ∀ᶠ q in nhds p, q.1.1.im * q.2.1.im < 0 :=
       (hf.tendsto p).eventually (gt_mem_nhds (b_neg p.1 p.2 hp))
     have hg : ContinuousAt (fun _ : P × P => (0 : ℂ)) p := continuousAt_const
     apply hg.congr
     filter_upwards [hV] with q hq
-    simp only [q1, if_neg (not_lt.mpr hq.le)]
+    simp only [q1, ite_eq_right (not_lt.mpr hq.le)]
 
 theorem p9 (k : ℕ) (w : P) : Hol1 fun z => q1 k z w := by
   intro t ht
@@ -220,14 +220,14 @@ theorem p9 (k : ℕ) (w : P) : Hol1 fun z => q1 k z w := by
     apply hd.congr_of_eventuallyEq
     filter_upwards [hU] with s hs
     have hs' : s.im ≠ 0 := fun h0 => by rw [h0, zero_mul] at hs; exact lt_irrefl _ hs
-    simp only [ext1, dif_pos hs', q1, if_pos hs]
+    simp only [ext1, dite_eq_left hs', q1, ite_eq_left hs]
   · have hneg : t.im * w.1.im < 0 := lt_of_le_of_ne (not_lt.mp hp) (mul_ne_zero ht' w.2)
     have hV : ∀ᶠ s in nhds t, s.im * w.1.im < 0 := (hcont.tendsto t).eventually (gt_mem_nhds hneg)
     apply (differentiableAt_const (0 : ℂ)).congr_of_eventuallyEq
     filter_upwards [hV] with s hs
     by_cases hs' : s.im ≠ 0
-    · simp only [ext1, dif_pos hs', q1, if_neg (not_lt.mpr hs.le)]
-    · simp only [ext1, dif_neg hs']
+    · simp only [ext1, dite_eq_left hs', q1, ite_eq_right (not_lt.mpr hs.le)]
+    · simp only [ext1, dite_eq_right hs']
 
 end UpperTheory.Esk.AutomorphyFactorLemmas
 end -- clump:auto

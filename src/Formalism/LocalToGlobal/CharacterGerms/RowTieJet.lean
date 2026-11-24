@@ -341,7 +341,7 @@ theorem rtj_rename_mvExp (e : σ ↪ τ) (L : MvPowerSeries σ K) :
     rw [rtj_degree_embDomain]
     refine Finset.sum_congr rfl fun k _ => ?_
     rw [← map_pow, coeff_embDomain_rename_character_germs]
-  · push_neg at hx
+  · push Not at hx
     rw [coeff_rename_eq_zero_of_ne_embDomain e _ x hx]
     change (0 : K) = ∑ k ∈ Finset.range (Finsupp.degree x + 1),
         MvPowerSeries.coeff x ((MvPowerSeries.rename e L) ^ k) / (k.factorial : K)

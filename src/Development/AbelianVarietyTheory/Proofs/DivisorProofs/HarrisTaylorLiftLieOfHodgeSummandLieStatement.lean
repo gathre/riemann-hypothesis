@@ -312,7 +312,7 @@ theorem eigen_decomp_base_change :
       Finset.sum_ite_eq]
     have hg := congrArg g huinv
     simp only [map_mul, map_sub, map_intCast, map_one, map_ofNat] at hg ⊢
-    simp only [Finset.mem_univ, if_true]
+    simp only [Finset.mem_univ, ite_true]
     linear_combination (-(v k)) * hg
   refine ⟨fun i => ∑ j, v j • (g ∘ W j i), ?_, ?_⟩
   · intro i c

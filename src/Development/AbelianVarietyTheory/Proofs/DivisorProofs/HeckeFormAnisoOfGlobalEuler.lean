@@ -73,7 +73,7 @@ theorem siegelWeilFockAniso_of_siegelWeilAnisotropic (hSW : GlobalTheory.Publish
     _root_.GlobalTheory.Core.Rk.IP.hasIwasawa_KAd_selfDual D A (frameLat A) a (GlobalTheory.WeilAtPlace.isSelfDualC_frameLat A) hmaj
   have hB' : IsAniso B := wittIndex_eq_zero_iff_isAniso.1 hB
   obtain ⟨hint, hv⟩ := hSW D ψ A B ha (ha.trans hab.le) hB' χB omh homh a hmaj hI ν 𝓕 hcov mH hmH φ hF.1 hK
-  rw [if_pos hab, one_smul] at hv
+  rw [ite_eq_left hab, one_smul] at hv
   exact ⟨hint, hv⟩
 
 end GlobalTheory.BottomRallis

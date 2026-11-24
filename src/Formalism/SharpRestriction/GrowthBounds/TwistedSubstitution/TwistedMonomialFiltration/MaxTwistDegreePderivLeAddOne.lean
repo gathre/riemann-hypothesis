@@ -80,7 +80,7 @@ theorem flt_g_pascal (R : Type*) [CommRing R] {σ : Type*} (m be : σ →₀ ℕ
   unfold flt_g
   rw [X, monomial_mul, mul_one]
   by_cases ha : a ∈ be.support
-  · rw [if_pos ha]
+  · rw [ite_eq_left ha]
     have hba : be a ≠ 0 := Finsupp.mem_support_iff.1 ha
     have hsub : (be - Finsupp.single a 1).support ⊆ be.support := by
       intro k hk
@@ -93,11 +93,11 @@ theorem flt_g_pascal (R : Type*) [CommRing R] {σ : Type*} (m be : σ →₀ ℕ
     have hrest1 : ∏ k ∈ be.support.erase a, ((m + Finsupp.single a 1 : σ →₀ ℕ) k).choose (be k) =
         ∏ k ∈ be.support.erase a, (m k).choose (be k) :=
       Finset.prod_congr rfl fun k hk => by
-        rw [Finsupp.add_apply, Finsupp.single_apply, if_neg (Finset.ne_of_mem_erase hk).symm, add_zero]
+        rw [Finsupp.add_apply, Finsupp.single_apply, ite_eq_right (Finset.ne_of_mem_erase hk).symm, add_zero]
     have hrest2 : ∏ k ∈ be.support.erase a, (m k).choose ((be - Finsupp.single a 1 : σ →₀ ℕ) k) =
         ∏ k ∈ be.support.erase a, (m k).choose (be k) :=
       Finset.prod_congr rfl fun k hk => by
-        rw [Finsupp.tsub_apply, Finsupp.single_apply, if_neg (Finset.ne_of_mem_erase hk).symm, tsub_zero]
+        rw [Finsupp.tsub_apply, Finsupp.single_apply, ite_eq_right (Finset.ne_of_mem_erase hk).symm, tsub_zero]
     rw [hrest1, hrest2]
     obtain ⟨b, hb⟩ : ∃ b, be a = b + 1 := ⟨be a - 1, by omega⟩
     have hA : (m + Finsupp.single a 1 : σ →₀ ℕ) a = m a + 1 := by simp
@@ -112,7 +112,7 @@ theorem flt_g_pascal (R : Type*) [CommRing R] {σ : Type*} (m be : σ →₀ ℕ
         · subst hk
           simp only [Finsupp.tsub_apply, Finsupp.add_apply, Finsupp.single_eq_same, hb]
           omega
-        · simp only [Finsupp.tsub_apply, Finsupp.add_apply, Finsupp.single_apply, if_neg (Ne.symm hk)]
+        · simp only [Finsupp.tsub_apply, Finsupp.add_apply, Finsupp.single_apply, ite_eq_right (Ne.symm hk)]
           omega
       rcases Nat.lt_or_ge (m a) (b + 1) with hlt2 | hge2
       · rw [Nat.choose_eq_zero_of_lt hlt2, e3]
@@ -123,13 +123,13 @@ theorem flt_g_pascal (R : Type*) [CommRing R] {σ : Type*} (m be : σ →₀ ℕ
           · subst hk
             simp only [Finsupp.tsub_apply, Finsupp.add_apply, Finsupp.single_eq_same, hb]
             omega
-          · simp only [Finsupp.tsub_apply, Finsupp.add_apply, Finsupp.single_apply, if_neg (Ne.symm hk)]
+          · simp only [Finsupp.tsub_apply, Finsupp.add_apply, Finsupp.single_apply, ite_eq_right (Ne.symm hk)]
             omega
         rw [e2, e3, ← map_add (f := _)]
         congr 1
         push_cast
         ring
-  · rw [if_neg ha, add_zero]
+  · rw [ite_eq_right ha, add_zero]
     have hba : be a = 0 := by simpa [Finsupp.mem_support_iff] using ha
     have e2 : m - be + Finsupp.single a 1 = m + Finsupp.single a 1 - be := by
       ext k
@@ -137,13 +137,13 @@ theorem flt_g_pascal (R : Type*) [CommRing R] {σ : Type*} (m be : σ →₀ ℕ
       · subst hk
         simp only [Finsupp.tsub_apply, Finsupp.add_apply, Finsupp.single_eq_same, hba]
         omega
-      · simp only [Finsupp.tsub_apply, Finsupp.add_apply, Finsupp.single_apply, if_neg (Ne.symm hk)]
+      · simp only [Finsupp.tsub_apply, Finsupp.add_apply, Finsupp.single_apply, ite_eq_right (Ne.symm hk)]
         omega
     have hc : (be.prod fun k j => ((m + Finsupp.single a 1 : σ →₀ ℕ) k).choose j) = be.prod fun k j => (m k).choose j := by
       simp only [Finsupp.prod]
       refine Finset.prod_congr rfl fun k hk => ?_
       have hka : a ≠ k := fun h => ha (h ▸ hk)
-      rw [Finsupp.add_apply, Finsupp.single_apply, if_neg hka, add_zero]
+      rw [Finsupp.add_apply, Finsupp.single_apply, ite_eq_right hka, add_zero]
     rw [e2, hc]
 
 theorem flt_tay_monomial (R : Type*) [CommRing R] {σ : Type*} (m : σ →₀ ℕ) :
@@ -167,7 +167,7 @@ theorem flt_tay_monomial (R : Type*) [CommRing R] {σ : Type*} (m : σ →₀ �
       simp [flt_g]
     · obtain ⟨k, hk⟩ : ∃ k, be k ≠ 0 := by
         by_contra hc
-        push_neg at hc
+        push Not at hc
         exact hbe (Finsupp.ext hc)
       have hz : (be.prod fun k j => ((Nat.choose 0 j : ℕ) : R)) = 0 := by
         rw [Finsupp.prod]
@@ -198,7 +198,7 @@ theorem flt_tay_coeff (R : Type*) [CommRing R] {σ : Type*} (F : MvPolynomial σ
   · have hz : (be.prod fun k j => (m k).choose j) = 0 := by
       obtain ⟨k, hk⟩ : ∃ k, m k < be k := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         exact hle fun k => hcon k
       rw [Finsupp.prod]
       exact Finset.prod_eq_zero (Finsupp.mem_support_iff.2 (by omega)) (Nat.choose_eq_zero_of_lt hk)
@@ -367,7 +367,7 @@ theorem flt_op_valS {R : Type*} [CommRing R] {ι : Type} {n : ℕ} [NeZero n] (L
     (hN : covDeg LL S al + vecDeg LL S be ≤ N) :
     valS LL S F ≤ valS LL S (monomial al 1 * divDer be F) + ((N : ℤ) : WithTop ℤ) := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   cases hv : valS LL S (monomial al 1 * divDer be F) with
   | top =>
     rw [hv] at hcon
@@ -389,7 +389,7 @@ theorem flt_op_lam1S {R : Type*} [CommRing R] {ι : Type} {n : ℕ} [NeZero n] (
     (hN : vecDeg LL S al + covDeg LL S be ≤ N) :
     lam1S LL S (monomial al 1 * divDer be F) ≤ lam1S LL S F + ((N : ℤ) : WithBot ℤ) := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   cases hv : lam1S LL S (monomial al 1 * divDer be F) with
   | bot =>
     rw [hv] at hcon
@@ -439,15 +439,15 @@ theorem coeff_divDer (be μ : ι × Fin n →₀ ℕ) (F : MvPolynomial (ι × F
     · rw [notMem_support_iff.mp h, zero_mul]
   · intro m _
     by_cases h1 : be ≤ m
-    · rw [if_pos h1, coeff_monomial]
+    · rw [ite_eq_left h1, coeff_monomial]
       by_cases h2 : m = μ + be
       · subst h2
-        rw [if_pos (add_tsub_cancel_right μ be), if_pos rfl]
-      · rw [if_neg h2, if_neg]
+        rw [ite_eq_left (add_tsub_cancel_right μ be), ite_eq_left rfl]
+      · rw [ite_eq_right h2, ite_eq_right]
         intro h3
         apply h2
         rw [← h3, tsub_add_cancel_of_le h1]
-    · rw [if_neg h1, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply, if_neg]
+    · rw [ite_eq_right h1, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply, ite_eq_right]
       rintro rfl
       exact h1 le_add_self
 
@@ -465,9 +465,9 @@ theorem divDer_single_one (v : ι × Fin n) (F : MvPolynomial (ι × Fin n) R) :
     rw [coeff_divDer, pderiv_monomial, coeff_monomial, coeff_monomial]
     by_cases h : u = μ + Finsupp.single v 1
     · subst h
-      rw [if_pos rfl, if_pos (add_tsub_cancel_right μ _)]
+      rw [ite_eq_left rfl, ite_eq_left (add_tsub_cancel_right μ _)]
       simp [Finsupp.prod_single_index, Nat.choose_one_right]
-    · rw [if_neg h, zero_mul]
+    · rw [ite_eq_right h, zero_mul]
       split_ifs with h2
       · have hv : u v = 0 := by
           by_contra hv
@@ -501,7 +501,7 @@ theorem covDeg_single_le (S : Set ι) (v : ι × Fin n) : covDeg LL S (Finsupp.s
 theorem vecDeg_single_of (S : Set ι) (v : ι × Fin n) (h : v.1 ∈ S → LL.vec v.1 = false) :
     vecDeg LL S (Finsupp.single v 1) = 0 := by
   classical
-  rw [vecDeg, Finsupp.support_single_ne_zero _ one_ne_zero, Finset.sum_singleton, if_neg]
+  rw [vecDeg, Finsupp.support_single_ne_zero _ one_ne_zero, Finset.sum_singleton, ite_eq_right]
   rintro ⟨h1, h2⟩
   rw [h h1] at h2
   exact absurd h2 (by decide)
@@ -509,7 +509,7 @@ theorem vecDeg_single_of (S : Set ι) (v : ι × Fin n) (h : v.1 ∈ S → LL.ve
 theorem covDeg_single_of (S : Set ι) (v : ι × Fin n) (h : v.1 ∈ S → LL.vec v.1 = true) :
     covDeg LL S (Finsupp.single v 1) = 0 := by
   classical
-  rw [covDeg, Finsupp.support_single_ne_zero _ one_ne_zero, Finset.sum_singleton, if_neg]
+  rw [covDeg, Finsupp.support_single_ne_zero _ one_ne_zero, Finset.sum_singleton, ite_eq_right]
   rintro ⟨h1, h2⟩
   rw [h h1] at h2
   exact absurd h2 (by decide)

@@ -144,7 +144,7 @@ theorem minpoly_unramifiedSubfield_eq_cyclotomic (K : FinExt l) (j : ℕ) (hj : 
     (minpoly.dvd _ _ hroot)
   rw [natDegree_cyclotomic]
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   refine aeval_ne_zero_of_norm_eq K _ (ζ - 1) hnorm (taylor 1 (minpoly ↥(K0 K) ζ)) ?_ ?_ ?_
   · intro h
     exact minpoly.ne_zero hint (taylor_injective 1 (by rw [h, map_zero]))

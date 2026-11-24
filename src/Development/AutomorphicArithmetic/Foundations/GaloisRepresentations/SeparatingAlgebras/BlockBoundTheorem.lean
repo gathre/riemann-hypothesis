@@ -801,10 +801,10 @@ theorem UpperTheory.Gal.Gen.gammaInt_pf :
       simp
     by_cases h0 : l = 0
     · subst h0
-      rw [if_pos rfl, halfModulus_zero, one_mul, if_pos]
+      rw [ite_eq_left rfl, halfModulus_zero, one_mul, ite_eq_left]
       rw [hd0, mul_one]
       exact mul_mem hk₁ hk₂
-    · rw [if_neg h0, mul_zero, if_neg]
+    · rw [ite_eq_right h0, mul_zero, ite_eq_right]
       intro hg
       have hk : k₁⁻¹ * (k₁ * Cartan.diagPow F n l * k₂) * k₂⁻¹ ∈ GLnLocal.integralGL F n :=
         mul_mem (mul_mem (inv_mem hk₁) hg) (inv_mem hk₂)
@@ -1093,7 +1093,7 @@ theorem UpperTheory.Gal.Gen.neglAt_pf :
   · intro U hU hB φ hφ hfix
     have hB' : ¬ GenAt w Φ U := hB
     unfold GenAt at hB'
-    push_neg at hB'
+    push Not at hB'
     obtain ⟨z, hz, h0⟩ := hB'
     rw [hop U hU z hz φ hφ hfix, hp1 z h0, one_smul]
 end -- clump:auto
@@ -1794,7 +1794,7 @@ theorem UpperTheory.Gal.Gen.twistPart_pf :
     simp
   obtain ⟨v, hv⟩ : ∃ v, (G π).1 v ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact h0 (Subtype.ext (LinearMap.ext hcon))
   have hP : GlobalTheory.CongW.HasTypeVec w₀ K J θ χ π.V :=
     ⟨(G π).1 v, AutSub.mem_finPart.1 (h1 π hπ) v, hv, fun x hx => funext fun g => hfix x hx v g,

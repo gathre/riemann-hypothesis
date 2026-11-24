@@ -92,7 +92,7 @@ theorem exists_embLL_im_ne {B : Base} (hX : B.fields.Ok) : ∃ k : B.LL, (B.embL
   have hc : (InfinitePlace.mk (B.embLL : B.fields.K →+* ℂ)).IsComplex := hX.cplxK.isComplex _
   rw [← InfinitePlace.not_isReal_iff_isComplex, InfinitePlace.isReal_mk_iff] at hc
   by_contra hne
-  push_neg at hne
+  push Not at hne
   apply hc
   rw [ComplexEmbedding.isReal_iff]
   ext x

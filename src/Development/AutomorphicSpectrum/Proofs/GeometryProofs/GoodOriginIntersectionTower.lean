@@ -1168,7 +1168,7 @@ theorem term_zero (A : FinHolAtlas e X) (Θ : Fin e → LocPot X) (L : LocPot X)
       have hc j := chartMeasure_integrable_integral A hP.some _ hpot hu2 j hg1.measurable
         (mIntegrableCont A _ hpot _ hg1)
       rw [hμ, integral_finsetSum_measure fun j _ => (hc j).1]
-      simp only [mInt, dif_pos hP, integralWith]
+      simp only [mInt, dite_eq_left hP, integralWith]
       refine Finset.sum_congr rfl fun j _ => ?_
       rw [(hc j).2]
       exact integral_congr_ae (Filter.Eventually.of_forall fun y => by ring)
@@ -1581,7 +1581,7 @@ theorem replace_gen {II : IntersectionSystem} (hII : IsFullIntersectionSystem II
       by_cases h1 : i.succAbove k < i
       · simp [h1, hν]
       · by_cases h2 : q (i.succAbove k)
-        · simp only [h1, h2, not_false_eq_true, and_self, if_true, if_false]
+        · simp only [h1, h2, not_false_eq_true, and_self, ite_true, ite_false]
           exact _root_.RootFieldNumerics.Ii.combLine_single _ _
         · simp [h1, h2, hν]
     have hterm : ∀ u : Fin e → Option (Option σ), Tendsto (fun t => (∏ k, (μ k (u k) : ℝ)) *
@@ -1615,7 +1615,7 @@ theorem replace_gen {II : IntersectionSystem} (hII : IsFullIntersectionSystem II
         exacts [hc t h1 _, h2, hc t h1 _]
     have hiff : ∀ k : Fin e, i.succAbove k ≤ i ↔ i.succAbove k < i := fun k =>
       ⟨fun h => lt_of_le_of_ne h (Fin.succAbove_ne i k), le_of_lt⟩
-    simp only [lt_irrefl, le_refl, hi, if_true, if_false, hiff, hq i hi, ← hμ] at s₁ s₂
+    simp only [lt_irrefl, le_refl, hi, ite_true, ite_false, hiff, hq i hi, ← hμ] at s₁ s₂
     rw [s₁, s₂]
     have e₁ := ii_comb_snoc hII hP (l t) hl μ (some none)
     have e₂ := ii_comb_snoc hII hP (l t) hl μ none

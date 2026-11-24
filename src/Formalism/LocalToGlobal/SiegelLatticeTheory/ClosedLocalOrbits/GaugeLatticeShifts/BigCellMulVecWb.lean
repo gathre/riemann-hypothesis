@@ -100,7 +100,7 @@ theorem bigCell_mulVec_wb {k r : ℕ} (c : Fin r → ℂ) (μ : Matrix (Fin (k +
     by_cases hi : r ≤ i.val ∧ i.val ≤ r + k
     · rw [dite_eq_left hi, dite_eq_left ⟨hi, hj⟩]
     · rw [dite_eq_right hi, dite_eq_right (fun h => hi h.1),
-        if_neg (fun (h : i = j ∧ ¬(r ≤ i.val ∧ i.val ≤ r + k)) => hi (by rw [h.1]; exact hj))]
+        ite_eq_right (fun (h : i = j ∧ ¬(r ≤ i.val ∧ i.val ≤ r + k)) => hi (by rw [h.1]; exact hj))]
   · rw [hw j (by omega)]
     simp
 

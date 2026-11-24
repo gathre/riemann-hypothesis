@@ -217,7 +217,7 @@ theorem hunit_chi (c : Coeff l) (S : Type) [CommRing S] [Algebra c.F S] (σ τ :
   classical
   have hex : ∃ a : 𝓞 E, σ (a : E) ≠ τ (a : E) := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     apply h
     ext x
     obtain ⟨a, b, -, rfl⟩ := IsFractionRing.div_surjective (A := 𝓞 E) x

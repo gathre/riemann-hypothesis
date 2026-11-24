@@ -84,7 +84,7 @@ theorem nzOn_of_mass (hy : GlobalTheory.GapIn.Hyp) {k r : ℕ} {ε : Fin (2 * r 
     ∃ v ∈ R.sm, l v ≠ 0 := by
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hK : PI.KFinSmooth := hy.1.1.2.2.1
   have hRG : R.IsDG ε mu := ⟨hR.1, hR.2, ⟨h, hgap, hok⟩⟩
   obtain ⟨hmul, hone, hun, hsm, hTK, hTKs, hKT, -, hcont⟩ := GlobalTheory.rep_basic_of_isDS hK k r ε mu R hR

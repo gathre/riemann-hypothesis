@@ -84,7 +84,7 @@ theorem addValuation_nonneg_of_ringOfIntegers :
       rw [Int.cast_sub, Int.cast_one]
       exact AddValuation.map_le_sub v ih (by rw [AddValuation.map_one])
   by_contra hneg
-  push_neg at hneg
+  push Not at hneg
   obtain ⟨f, hm, hf⟩ := NumberField.RingOfIntegers.isIntegral_coe a
   set x : L := (a : L) with hx
   have hxtop : v x ≠ ⊤ := ne_top_of_lt hneg
@@ -188,7 +188,7 @@ theorem mem_span (R G : Type) [CommRing R] [Group G] [Finite G] (z : MonoidAlgeb
     ext x
     rw [coeff_sum, Finsupp.finsetSum_apply]
     simp only [coeff_smul, Finsupp.smul_apply, hmap, smul_eq_mul, mul_ite, mul_one, mul_zero,
-      Finset.sum_ite_eq, Finset.mem_univ, if_true]
+      Finset.sum_ite_eq, Finset.mem_univ, ite_true]
     refine coeff_conj_eq z hz ?_
     rw [← ConjClasses.mk_eq_mk_iff_isConj, hrep]
   rw [hz']

@@ -1183,7 +1183,7 @@ theorem unitVecRam : UnitVecRam := by
       stdH (cmL a b d ha hd lam hlam) m (s • xh) y = repKappa a b d ha hd lam hlam * ((n : ℂ) - c₂ * conj (cmTheta b d)) ∧
       ¬ (d : ℤ) ∣ 2 * n - c₂ * b := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hnot
     refine ⟨s, hs, ?_⟩
     rw [smul_comm, ← hΛ]

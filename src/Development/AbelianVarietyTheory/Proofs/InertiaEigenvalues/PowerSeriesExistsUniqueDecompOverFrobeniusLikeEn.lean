@@ -56,7 +56,7 @@ theorem coeff_term {O : Type} [CommRing O] (l : ℕ) (φ : O⟦X⟧ →ₐ[O] O�
       if j ≤ m ∧ l ∣ (m - j) then PowerSeries.coeff ((m - j) / l) g else 0 := by
   rw [PowerSeries.coeff_X_pow_mul']
   by_cases h : j ≤ m
-  · simp only [h, true_and, if_true]
+  · simp only [h, true_and, ite_true]
     exact hφ g (m - j)
   · simp [h]
 
@@ -78,10 +78,10 @@ theorem coeff_sum {O : Type} [CommRing O] (l : ℕ) (hl : 2 ≤ l) (φ : O⟦X�
       have := Nat.div_add_mod m l
       rw [show m - m % l = l * (m / l) by omega]
       exact Nat.mul_div_cancel_left _ hl0
-    simp only [h1, h2, and_self, if_true, h3]
+    simp only [h1, h2, and_self, ite_true, h3]
   · intro j _ hj
     rw [coeff_term l φ hφ]
-    rw [if_neg]
+    rw [ite_eq_right]
     rintro ⟨hjm, k, hk⟩
     apply hj
     ext

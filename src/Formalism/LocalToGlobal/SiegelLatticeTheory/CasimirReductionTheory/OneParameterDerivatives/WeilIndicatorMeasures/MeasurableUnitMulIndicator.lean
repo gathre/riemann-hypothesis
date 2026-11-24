@@ -97,7 +97,7 @@ lemma measure_coset_le (κ : Measure H) [κ.IsMulLeftInvariant] (y : G) (E : Set
           push_cast
           group
       _ = κ {h : H | (h : G) ∈ E⁻¹ * E} := measure_preimage_mul κ _ _
-  · push_neg at hne
+  · push Not at hne
     have h0 : κ {h : H | y * h ∈ E} = 0 :=
       measure_mono_null (fun h hh => (hne h hh).elim) measure_empty
     rw [h0]

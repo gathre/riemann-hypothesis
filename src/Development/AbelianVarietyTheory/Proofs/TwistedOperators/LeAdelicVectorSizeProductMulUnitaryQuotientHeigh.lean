@@ -293,7 +293,7 @@ theorem rat_size {n : ℕ} (ξ : Fin n → D.host.E) (hξ : ξ ≠ 0) :
     apply hv
     refine le_antisymm (not_lt.1 hc.1) ?_
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have := (ha v).trans_lt (pow_lt_one₀ zero_le hlt hd)
     rw [hc.2] at this
     exact lt_irrefl _ this
@@ -324,7 +324,7 @@ theorem rat_size {n : ℕ} (ξ : Fin n → D.host.E) (hξ : ξ ≠ 0) :
     exact hA w
   have h1 : (1 : ℝ≥0) ≤ (∏ w, vInf w (fun i => incA D (ξ i))) * ∏ᶠ v, vFin v (fun i => incA D (ξ i)) := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     exact absurd hle (not_le.2 (pow_lt_one₀ zero_le hlt hd))
   exact_mod_cast h1
 

@@ -889,7 +889,7 @@ theorem cover_unipRad : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Nu
   have hf : ∀ b z, cT (sigR (AF F) σ) z = -z → f (b, z) ∈ unipRad σ J C ∧
       Crd σ J C D Z J₀ (f (b, z)) b (z - (2⁻¹ : F) • (b * plus σ J₀ b)) := by
     intro b z hz
-    simp only [f, dif_pos hz]
+    simp only [f, dite_eq_left hz]
     exact Classical.choose_spec (crd2 b _ (hrel b z hz))
   refine ⟨(Y₁ ×ˢ Y₂).image f, ?_, ?_, fun u hu => ?_⟩
   · refine (Nat.cast_le.mpr Finset.card_image_le).trans ?_

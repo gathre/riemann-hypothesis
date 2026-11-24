@@ -462,11 +462,11 @@ theorem pullC_apply (τ : κ → ι) (φ : E →ₗ[k] E') (c : Finset ι → E)
 
 theorem pullC_inj (τ : κ → ι) (φ : E →ₗ[k] E') (c : Finset ι → E) {s : Finset κ}
     (h : Set.InjOn τ s) : pullC τ φ c s = sortSign τ s • φ (c (s.image τ)) := by
-  rw [pullC_apply, if_pos h]
+  rw [pullC_apply, ite_eq_left h]
 
 theorem pullC_ninj (τ : κ → ι) (φ : E →ₗ[k] E') (c : Finset ι → E) {s : Finset κ}
     (h : ¬ Set.InjOn τ s) : pullC τ φ c s = 0 := by
-  rw [pullC_apply, if_neg h]
+  rw [pullC_apply, ite_eq_right h]
 
 private theorem sortSign_eq_sortSign_erase_mul {α β : Type} [LinearOrder α] [LinearOrder β] (τ : β → α) {s : Finset β}
     {j : β} (hj : j ∈ s) :
@@ -538,7 +538,7 @@ private theorem cubeSign_mul_sortSign_erase_eq_neg_of_collide {α β : Type} [Li
       all_goals first
         | (exfalso; order)
         | simp [h1, h2, h3, hya, lt_asymm h1, lt_asymm h2, lt_asymm h3]
-    rw [Finset.prod_congr rfl pt, Finset.prod_mul_distrib, Finset.prod_ite_eq' s a, if_pos ha]
+    rw [Finset.prod_congr rfl pt, Finset.prod_mul_distrib, Finset.prod_ite_eq' s a, ite_eq_left ha]
     ring
   have eA := sortSign_eq_sortSign_erase_mul τ ha
   have eB := sortSign_eq_sortSign_erase_mul τ hb
@@ -615,7 +615,7 @@ theorem pullC_delta (τ : κ → ι) (φ : E →ₗ[k] E') (c : Finset ι → E)
       image_erase_eq_erase_image_of_injOn τ hj hinj]
   · have hcol : ∃ a ∈ s, ∃ b ∈ s, a < b ∧ τ a = τ b := by
       by_contra hno
-      push_neg at hno
+      push Not at hno
       apply hinj
       intro x hx y hy hxy
       rcases lt_trichotomy x y with h | h | h
@@ -975,7 +975,7 @@ theorem gq_pos (hc : c ≫ p = p') (hinst' : inst' = ffAlg p')
     letI := algΓ p; letI := algΓ p'
     gq p' hc hinst' hU' a s =
       formGermI p' a (pre_affine hU' h) (pre_generic hU' s) hinst' ∘ₗ
-        lift p' hc a (cechOpen ⊤ U s) := dif_pos h
+        lift p' hc a (cechOpen ⊤ U s) := dite_eq_left h
 
 theorem gq_range (hc : c ≫ p = p') (hinst' : inst' = ffAlg p')
     (hU' : IsAffCover p' (fun i => c ⁻¹ᵁ U i) B') (a : ℕ) (s : Finset ι) (h : s.Nonempty) :
@@ -1055,7 +1055,7 @@ private theorem isTrDR_trDR (K L : Type) [Field K] [Field L] [Algebra ℂ K] [Al
       rw [algTrace_eq_trace]
   have hex : ∃ T : DR ℂ L →ₗ[ℂ] DR ℂ K, IsTrDR ℂ K L T := ⟨T, hT⟩
   unfold trDR
-  rw [dif_pos hex]
+  rw [dite_eq_left hex]
   exact hex.choose_spec
 
 private theorem germSec_secTrace_eq_trace {Z Y : Scheme.{0}} [IsIntegral Z] [IsIntegral Y] (p : Z ⟶ Sp ℂ) (p' : Y ⟶ Sp ℂ)
@@ -1301,7 +1301,7 @@ private theorem pullC_mono {τ : κ → ι} (h : StrictMono τ) (φ : E →ₗ[�
   have hsign : sortSign τ s = 1 := by
     unfold sortSign
     refine Finset.prod_eq_one fun a _ => Finset.prod_eq_one fun b _ => ?_
-    rw [if_neg]
+    rw [ite_eq_right]
     rintro ⟨hab, hba⟩
     exact lt_asymm (h hab) hba
   simp [pullC, hinj, hsign]
@@ -1344,7 +1344,7 @@ private theorem lift_cocycle (A : Finset (ι ⊕ₗ κ) → Submodule ℂ E) (A'
         simpa using this
       have hne : s.Nonempty ↔ (rgt s).Nonempty := by
         rw [← Finset.card_pos, ← Finset.card_pos, hcard]
-      simp only [et, hl, if_true]
+      simp only [et, hl, ite_true]
       constructor
       · rintro ⟨hsn, hsc⟩
         have hrn := hne.1 hsn

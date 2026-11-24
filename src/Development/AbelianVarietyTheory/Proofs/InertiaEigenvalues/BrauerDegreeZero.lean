@@ -252,8 +252,8 @@ theorem ind_one_sub_index_mem_D0 {G : Type} [Group G] [Finite G] (K : Subgroup G
     have hs : ∀ x : G, (if h : x⁻¹ * g * x ∈ K then (1 : ℂ) else 0) = if g ∈ K then 1 else 0 := by
       intro x
       by_cases hg : g ∈ K
-      · rw [dite_eq_left ((hconj x).2 hg), if_pos hg]
-      · rw [dite_eq_right (fun h => hg ((hconj x).1 h)), if_neg hg]
+      · rw [dite_eq_left ((hconj x).2 hg), ite_eq_left hg]
+      · rw [dite_eq_right (fun h => hg ((hconj x).1 h)), ite_eq_right hg]
     rw [Finset.sum_congr rfl (fun x _ => hs x), Finset.sum_const, Finset.card_univ, nsmul_eq_mul,
       ← Nat.card_eq_fintype_card, ← K.card_mul_index]
     have : (Nat.card K : ℂ) ≠ 0 := by exact_mod_cast (Nat.card_pos (α := K)).ne'
@@ -271,8 +271,8 @@ theorem ind_one_sub_index_mem_D0 {G : Type} [Group G] [Finite G] (K : Subgroup G
     have he : (Additive.ofMul (QuotientGroup.mk g : G ⧸ K) = 0) ↔ g ∈ K := by
       rw [ofMul_eq_zero, QuotientGroup.eq_one_iff]
     by_cases hg : g ∈ K
-    · rw [if_pos (he.2 hg), if_pos hg, hc]
-    · rw [if_neg (fun h => hg (he.1 h)), if_neg hg]
+    · rw [ite_eq_left (he.2 hg), ite_eq_left hg, hc]
+    · rw [ite_eq_right (fun h => hg (he.1 h)), ite_eq_right hg]
   have hcard : (Fintype.card (AddChar Q ℂ) : ℂ) = (K.index : ℂ) := by
     rw [AddChar.card_eq, Subgroup.index, ← Nat.card_eq_fintype_card]; rfl
   have heq : ind K (fun _ => (1 : ℂ)) - (fun _ => (K.index : ℂ))

@@ -72,7 +72,7 @@ theorem kapW_supp (m : ℕ) {ι : Type} (s : ι → Bool) (ξa ξb : ι → (Fin
     (h : kapW m s ξa ξb l l' ≠ 0) : s l = true ∧ s l' = false := by
   unfold kapW at h
   by_contra hc
-  exact h (if_neg hc)
+  exact h (ite_eq_right hc)
 
 theorem ordNabla_wick (hN2 : ConnectionCommutator) (hN3 : ConnectionKillsSeries) (B : FB R d O) (h : PS k 2 d) (m : ℕ) {ι : Type}
     [Fintype ι] (s : ι → Bool) (ξa ξb : ι → (Fin d → k) × (Fin d → k)) (hb0 : ∀ l, (ξb l).1 = 0)
@@ -116,7 +116,7 @@ theorem ordNabla_wick (hN2 : ConnectionCommutator) (hN3 : ConnectionKillsSeries)
     (fun i j => by
       rw [nablaL_bracket hN2 B h m]
       unfold kapE kapW
-      rw [if_pos ⟨side_inl s i, side_inr s j⟩])
+      rw [ite_eq_left ⟨side_inl s i, side_inr s j⟩])
     (fun i => by
       rw [Module.End.smul_def, opL, hb0]
       exact hN3 R d O k B h m _ f)

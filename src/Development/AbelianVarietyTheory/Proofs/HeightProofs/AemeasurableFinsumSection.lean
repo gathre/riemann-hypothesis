@@ -167,7 +167,7 @@ theorem sImg_rel {Ω : Type} [Field Ω] {D N : ℕ} (j₀ : Fin (N + 1)) (x : Fi
       algebraMap Ω (OmS Ω D N) a := fun a => by
     rw [← MvPolynomial.algebraMap_eq, ← IsScalarTower.algebraMap_apply]
 
-  simp only [sImg, sac_self, sac_succAbove, Fin.succ_ne_zero, if_false,
+  simp only [sImg, sac_self, sac_succAbove, Fin.succ_ne_zero, ite_false,
   ↓reduceIte, map_neg, map_sum, map_mul, hC]
   exact neg_add_cancel _
 

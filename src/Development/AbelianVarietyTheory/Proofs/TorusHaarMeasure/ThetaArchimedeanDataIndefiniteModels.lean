@@ -550,7 +550,7 @@ theorem growth_decay : TStatement → ∀ (E : Type) [Field E] [NumberField E] [
       (by positivity) hS hla0 hth (by positivity) (by positivity) hB0 hfR ht
       (fun h => by
         have eph : P.ph = c / X.la1 x ^ 2 := by
-          simp only [Par.ph, PT.ph, hq, hR, hla, if_pos h, hc]
+          simp only [Par.ph, PT.ph, hq, hR, hla, ite_eq_left h, hc]
           field_simp
         have hK' : K = (25 : ℝ) ^ (2 * (Module.finrank ℚ E * A.T.r) * A.T.r) := by rw [hAr]
         rw [hK']
@@ -568,7 +568,7 @@ theorem growth_decay : TStatement → ∀ (E : Type) [Field E] [NumberField E] [
         rwa [h5, Nat.cast_ofNat] at this)
       (fun h => by
         have eph : P.ph = 0 := by
-          simp only [Par.ph, PT.ph, hq, hR, hla, if_neg (not_lt.2 h)]
+          simp only [Par.ph, PT.ph, hq, hR, hla, ite_eq_right (not_lt.2 h)]
         have hK' : K = (25 : ℝ) ^ (2 * (Module.finrank ℚ E * A.T.r) * A.T.r) := by rw [hAr]
         rw [hK']
         refine finsum_le A.T {a | (∀ j, a j ∈ ZSpan.fundamentalDomain A.T.b) ∧

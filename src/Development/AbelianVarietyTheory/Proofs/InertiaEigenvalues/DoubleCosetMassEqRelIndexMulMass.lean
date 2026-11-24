@@ -203,7 +203,7 @@ theorem mass_eq_relIndex_mul {G : Type} [Group G] (Γ W K : Subgroup G) (hWK : W
           · rw [h, zero_mul] at h1; omega
           · exact h
         exact (Nat.card_pos_iff.1 h3).2
-    · push_neg at hne
+    · push Not at hne
       exact Finite.of_injective (β := Empty) (fun x => (hne x.1 x.2).elim) (fun x => (hne x.1 x.2).elim)
   haveI : Finite (K ⧸ W.subgroupOf K) :=
     Finite.of_equiv _ (Equiv.sigmaFiberEquiv (dcOfCoset Γ W K 1))

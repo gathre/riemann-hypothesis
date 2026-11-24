@@ -328,7 +328,7 @@ theorem exists_smul_eq_sum (D : Datum H) {I : Type} [Fintype I] (e : I → D.La)
   classical
   haveI := D.fin
   by_contra hno
-  push_neg at hno
+  push Not at hno
   set n := Fintype.card I with hn
   let eq := Fintype.equivFin I
   have hv : LinearIndependent (𝓞 E) (e ∘ eq.symm) := he.comp _ eq.symm.injective

@@ -162,7 +162,7 @@ theorem cellRes_locMul (hW : W ≤ Module.annihilator (MRingOver S ι) M) {J I :
       GenTwistGenerated.cellRes_mk h, locMul_mk]
     rfl
   · unfold KH.cellRes
-    rw [dif_neg h]
+    rw [dite_eq_right h]
     simp only [LinearMap.zero_apply, map_zero]
 
 theorem act_mem (hW : W ≤ Module.annihilator (MRingOver S ι) M) {𝓜 : (K → ℤ) → Submodule S M}
@@ -269,7 +269,7 @@ theorem cechD_zero_apply_uniform (I : KH.Cell K ι 1) :
     have : i = x ∨ i = y := by rw [hI] at hi; simpa using hi
     tauto
   · intro l _ hl
-    refine Finset.sum_eq_zero fun i hi => dif_neg fun h => ?_
+    refine Finset.sum_eq_zero fun i hi => dite_eq_right fun h => ?_
     have := (h.1 l)
     rw [Function.update_self, ← Finset.card_pos, Finset.card_erase_of_mem hi, hother l hl] at this
     omega

@@ -96,7 +96,7 @@ theorem finite_free_of_definite_form_of_rank_le :
   have hspan : ∀ h : H, ∃ k : ℕ, 0 < k ∧ ∃ m : Fin n → ℤ, k • h = ∑ i, m i • u i := by
     intro h
     by_contra hne
-    push_neg at hne
+    push Not at hne
     apply hmax
     refine ⟨Fin.cons h u, LinearIndependent.finCons' h u hu fun c y hy hcy => ?_⟩
     by_contra hc

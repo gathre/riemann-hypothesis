@@ -129,9 +129,9 @@ theorem killCompl_logPl_emb (D : D7) (p : ℕ) [Fact p.Prime] {β : Type} (z : P
   simp only [logPl, jetLogG, JetTdeg_embDomain]
   refine Finset.sum_congr rfl (fun e _ => ?_)
   by_cases hm : m = Finsupp.single (w.1 - 2 * (e : ZMod (nP D p)), w.2) ((p ^ 2) ^ e)
-  · rw [if_pos hm, if_pos]
+  · rw [ite_eq_left hm, ite_eq_left]
     rw [key e, hm, Finsupp.embDomain_single]
-  · rw [if_neg hm, if_neg]
+  · rw [ite_eq_right hm, ite_eq_right]
     intro h'
     apply hm
     rw [key e, ← Finsupp.embDomain_single] at h'
@@ -145,7 +145,7 @@ theorem killCompl_logPl_off (D : D7) (p : ℕ) [Fact p.Prime] {β : Type} (z : P
   show logPl D p v (embDomain (orbEmb D p z β) m) = 0
   simp only [logPl]
   refine Finset.sum_eq_zero (fun e _ => ?_)
-  rw [if_neg]
+  rw [ite_eq_right]
   intro h'
   apply hv
   have hk : (p ^ 2) ^ e ≠ 0 := pow_ne_zero _ (pow_ne_zero _ (Fact.out : p.Prime).ne_zero)

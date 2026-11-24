@@ -68,7 +68,7 @@ private theorem meanInf_avg_le (K M : Type) [Field K] [NumberField K] [Field M] 
   have hcard : ∀ σ : K →+* ℂ, (Nat.card {ρ : M →ₐ[ℚ] ℂ | ∀ x, ρ (i x) = σ x} : ℝ) = Module.finrank K M := by
     intro σ
     have h1 := GlobalTheory.ArchMean.sum_comp_algHom K M (fun φ => if φ = σ.toRatAlgHom then 1 else 0)
-    rw [Finset.sum_ite_eq' Finset.univ σ.toRatAlgHom, if_pos (Finset.mem_univ _), mul_one, Finset.sum_boole] at h1
+    rw [Finset.sum_ite_eq' Finset.univ σ.toRatAlgHom, ite_eq_left (Finset.mem_univ _), mul_one, Finset.sum_boole] at h1
     rw [← h1, Nat.card_eq_fintype_card, Fintype.card_subtype]
     congr 2
     refine Finset.filter_congr fun ρ _ => ?_

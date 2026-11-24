@@ -212,7 +212,7 @@ theorem rp_eq_blockW (m : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ
       have e1 : rp_ι k r ⟨i.val - r, by omega⟩ = i := Fin.ext (by simp only [rp_ι]; omega)
       have e2 : rp_ι k r ⟨j.val - r, by omega⟩ = j := Fin.ext (by simp only [rp_ι]; omega)
       simp only [rp_blk, e1, e2]
-    · rw [dite_eq_right hj, (h j hj).2 i, if_neg]
+    · rw [dite_eq_right hj, (h j hj).2 i, ite_eq_right]
       rintro rfl
       exact hj hi
   · rw [dite_eq_right hi, (h i hi).1 j]
@@ -231,7 +231,7 @@ theorem rp_blk_mul (a b : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ
   ext i j
   simp only [rp_blk, Matrix.mul_apply]
   refine rp_sum _ fun l hl => ?_
-  rw [(ha l hl).2 (rp_ι k r i), if_neg, zero_mul]
+  rw [(ha l hl).2 (rp_ι k r i), ite_eq_right, zero_mul]
   rintro rfl
   exact hl (rp_mid_ι i)
 
@@ -239,8 +239,8 @@ theorem rp_blk_one : rp_blk k r 1 = 1 := by
   ext i j
   simp only [rp_blk, Matrix.one_apply]
   by_cases h : i = j
-  · rw [if_pos h, if_pos (by rw [h])]
-  · rw [if_neg h, if_neg (fun e => h (rp_ι_inj e))]
+  · rw [ite_eq_left h, ite_eq_left (by rw [h])]
+  · rw [ite_eq_right h, ite_eq_right (fun e => h (rp_ι_inj e))]
 
 theorem rp_mulVec_bvec {n : ℕ} (M : Matrix (Fin n) (Fin n) ℂ) (c : Fin n) : M *ᵥ bvec c = fun i => M i c := by
   ext i
@@ -264,8 +264,8 @@ theorem rp_rowOf {n : ℕ} (m H : Matrix (Fin n) (Fin n) ℂ) (hm : mᴴ * H * m
   rw [star_star] at h4
   rw [h4]
   by_cases hij : i = j
-  · rw [if_pos hij, if_pos hij.symm, star_one]
-  · rw [if_neg hij, if_neg (fun e => hij e.symm), star_zero]
+  · rw [ite_eq_left hij, ite_eq_left hij.symm, star_one]
+  · rw [ite_eq_right hij, ite_eq_right (fun e => hij e.symm), star_zero]
 
 theorem rp_H_e (a : Fin r) : Hpk k r *ᵥ bvec (eI k r a) = (1 : ℂ) • bvec (esI k r a) := by
   rw [rp_mulVec_bvec]
@@ -325,21 +325,21 @@ theorem rp_blk_unitary (m : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) �
   have e2 : ∑ l, mᴴ (rp_ι k r i) l * (Hpk k r * m) l (rp_ι k r j) =
       ∑ a, mᴴ (rp_ι k r i) (rp_ι k r a) * (Hpk k r * m) (rp_ι k r a) (rp_ι k r j) :=
     rp_sum _ fun l hl => by
-      rw [Matrix.conjTranspose_apply, (hs l hl).1 (rp_ι k r i), if_neg, star_zero, zero_mul]
+      rw [Matrix.conjTranspose_apply, (hs l hl).1 (rp_ι k r i), ite_eq_right, star_zero, zero_mul]
       rintro rfl
       exact hl (rp_mid_ι i)
   have e3 : ∀ a, (Hpk k r * m) (rp_ι k r a) (rp_ι k r j) = m (rp_ι k r a) (rp_ι k r j) := by
     intro a
     rw [Matrix.mul_apply]
-    simp only [rp_H_mid _ (rp_mid_ι a), ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    simp only [rp_H_mid _ (rp_mid_ι a), ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
   rw [e2] at e
   simp only [e3] at e
   simp only [Matrix.mul_apply, Matrix.conjTranspose_apply, rp_blk, Matrix.one_apply]
   simp only [Matrix.conjTranspose_apply] at e
   rw [e]
   by_cases h : i = j
-  · rw [if_pos h, if_pos (by rw [h])]
-  · rw [if_neg h, if_neg (fun e => h (rp_ι_inj e))]
+  · rw [ite_eq_left h, ite_eq_left (by rw [h])]
+  · rw [ite_eq_right h, ite_eq_right (fun e => h (rp_ι_inj e))]
 
 theorem rp_blk_mem (m : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ) (hU : m ∈ UH (Hpk k r))
     (hs : rp_Std k r m) : rp_blk k r m ∈ UJset (allPos k) := by

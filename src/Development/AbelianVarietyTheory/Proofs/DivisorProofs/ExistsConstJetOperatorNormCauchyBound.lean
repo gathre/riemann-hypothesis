@@ -492,8 +492,8 @@ theorem GlobalTheory.FockJetBound.jetOp_norm_le : ∃ K : ℝ, 0 ≤ K ∧ ∀ (
       rw [hs] at key
       have happ : GL3Theta.applyAt0 D (MvPolynomial.monomial m 1) H =
           (m.prod fun _ n => (n.factorial : ℂ)) * taylor D H m := by
-        rw [Formalism.MainNotions.GL3Theta.applyAt0, MvPolynomial.support_monomial, if_neg one_ne_zero, Finset.sum_singleton,
-          MvPolynomial.coeff_monomial, if_pos rfl, one_mul]
+        rw [Formalism.MainNotions.GL3Theta.applyAt0, MvPolynomial.support_monomial, ite_eq_right one_ne_zero, Finset.sum_singleton,
+          MvPolynomial.coeff_monomial, ite_eq_left rfl, one_mul]
       rw [happ]; exact key
     have hT1 : (1 : ℝ) ≤ 1 + (dn : ℝ) + dn' + a + b := by linarith
     have hTY : (1 : ℝ) + (dn : ℝ) + dn' + a + b ≤ Y := by rw [hY]; linarith

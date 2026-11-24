@@ -272,7 +272,7 @@ theorem strict_joint_lower_eq_span [Nonempty κ] (lam : ∀ i, Λ i) :
     rintro _ ⟨y, ⟨hy1, hy2⟩, rfl⟩
     obtain ⟨j, hj⟩ : ∃ j, J.P y j ≠ lam j := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hy2 (funext hcon)
     refine Submodule.mem_iSup_of_mem j ?_
     simp only [strictLowerPart, Submodule.mem_inf]

@@ -93,12 +93,12 @@ theorem goodOf_conj (σ : c.F →+* ℂ) : goodOf c ((starRingEnd ℂ).comp σ) 
   unfold goodOf
   by_cases h1 : GoodEmb c σ
   · have h2 := not_good_conj c h1
-    rw [if_neg h2, if_pos h1]
+    rw [ite_eq_right h2, ite_eq_left h1]
     ext x
     simp
   · rcases key σ with h | h
     · exact absurd h h1
-    · rw [if_pos h, if_neg h1]
+    · rw [ite_eq_left h, ite_eq_right h1]
 
 end
 

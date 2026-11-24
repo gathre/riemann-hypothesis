@@ -833,7 +833,7 @@ theorem exists_idealSheaf_comap_orders : ∀ (g n : ℕ), 1 ≤ g → 3 ≤ n �
       · right
         refine ⟨X₁.M.stalkHom z₀ h, ⟨(X₁.M.stalkEquiv z₀ h).2, ?_⟩, ?_⟩
         · by_contra hne
-          push_neg at hne
+          push Not at hne
           apply (IsLocalRing.mem_maximalIdeal _).1 hh
           have hu : IsUnit (X₁.M.stalkEquiv z₀ h) :=
             (RatModel.isUnit_O_iff _).2 ⟨hne.1, hne.2⟩

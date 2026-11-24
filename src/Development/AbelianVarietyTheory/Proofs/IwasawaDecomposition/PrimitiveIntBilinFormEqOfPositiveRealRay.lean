@@ -93,7 +93,7 @@ theorem eq_of_toReal_eq_smul : ∀ {X : Type} [AddCommGroup X] (x y : LinearMap.
   subst hxy
   obtain ⟨p, q, hpq⟩ : ∃ p q, x p q ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hx0 (LinearMap.ext₂ hc)
   have := LinearMap.congr_fun₂ h p q
   simp only [toReal_apply, LinearMap.smul_apply, smul_eq_mul] at this

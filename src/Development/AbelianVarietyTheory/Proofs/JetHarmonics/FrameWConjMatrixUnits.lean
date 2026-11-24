@@ -97,7 +97,7 @@ lemma Hpk_apply' (i j : Fin (2 * r + k + 1)) :
   rw [Hpk_apply]
   by_cases h : j = dualIx k r i
   · subst h; simp [dualIx_dualIx, sgnIx_dualIx]
-  · rw [if_neg h, if_neg]
+  · rw [ite_eq_right h, ite_eq_right]
     rintro rfl
     exact h (dualIx_dualIx j).symm
 
@@ -262,7 +262,7 @@ lemma frame_inv_col (hg : PI.UpqRep.IsFrameW k r z g) (i) {j : Fin (2 * r + k + 
 lemma dualIx_out {i : Fin (2 * r + k + 1)} (hi : i.val < r ∨ r + k < i.val) :
     (dualIx k r i).val < r ∨ r + k < (dualIx k r i).val := by
   have := i.isLt
-  rw [dualIx_val, if_pos hi]; omega
+  rw [dualIx_val, ite_eq_left hi]; omega
 
 lemma dualIx_inj {i j : Fin (2 * r + k + 1)} : dualIx k r i = dualIx k r j ↔ i = j :=
   ⟨fun h => by rw [← dualIx_dualIx i, h, dualIx_dualIx], fun h => by rw [h]⟩
@@ -287,8 +287,8 @@ lemma frame_ne_zero (hg : PI.UpqRep.IsFrameW k r z g) {i j : Fin (2 * r + k + 1)
   apply h
   have hne : i ≠ j := fun e => hc (Or.inl (by rw [e]))
   by_cases hi : i.val < r ∨ r + k < i.val
-  · rw [frame_row hg hi, if_neg hne]
-  · rw [frame_col hg i (by omega), if_neg hne]
+  · rw [frame_row hg hi, ite_eq_right hne]
+  · rw [frame_col hg i (by omega), ite_eq_right hne]
 
 lemma frame_inv_ne_zero (hg : PI.UpqRep.IsFrameW k r z g) {i j : Fin (2 * r + k + 1)} (h : g⁻¹ i j ≠ 0) :
     i.val = j.val ∨ ((r ≤ i.val ∧ i.val ≤ r + k) ∧ (r ≤ j.val ∧ j.val ≤ r + k)) := by
@@ -296,8 +296,8 @@ lemma frame_inv_ne_zero (hg : PI.UpqRep.IsFrameW k r z g) {i j : Fin (2 * r + k 
   apply h
   have hne : i ≠ j := fun e => hc (Or.inl (by rw [e]))
   by_cases hi : i.val < r ∨ r + k < i.val
-  · rw [frame_inv_row hg hi, if_neg hne]
-  · rw [frame_inv_col hg i (by omega), if_neg hne]
+  · rw [frame_inv_row hg hi, ite_eq_right hne]
+  · rw [frame_inv_col hg i (by omega), ite_eq_right hne]
 
 lemma frame_support (hg : PI.UpqRep.IsFrameW k r z g) (a b : Fin (2 * r + k + 1)) (hab : a < b)
     (h : ¬ (r ≤ a.val ∧ b.val ≤ r + k)) (i j : Fin (2 * r + k + 1))
@@ -345,12 +345,12 @@ lemma ell_conj_single (hg : PI.UpqRep.IsFrameW k r z g) (a b : Fin (2 * r + k + 
   · rw [Finset.sum_eq_single (⟨a.val, ha⟩ : Fin r)]
     · simp
     · intro c _ hc
-      rw [if_neg fun e => hc (Fin.ext e)]
+      rw [ite_eq_right fun e => hc (Fin.ext e)]
     · simp
-  · rw [Finset.sum_eq_zero, if_neg (by omega), if_neg (by omega)]
+  · rw [Finset.sum_eq_zero, ite_eq_right (by omega), ite_eq_right (by omega)]
     intro c _
     have := c.isLt
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
 
 lemma norm_ell_sub (hg : PI.UpqRep.IsFrameW k r z g) (a b : Fin (2 * r + k + 1)) :
     ‖ell k r z (g * Matrix.single a b 1 * g⁻¹) -
@@ -385,7 +385,7 @@ theorem frame_matrix_units : ∀ (k r : ℕ) (z : Fin (2 * r + k + 1) → ℂ) (
   · intro a i hi
     have := a.isLt
     have : g i ⟨r + a.val, by omega⟩ = 0 := by
-      rw [frame_row hg hi, if_neg]
+      rw [frame_row hg hi, ite_eq_right]
       simp only [Fin.ext_iff]; omega
     simpa using this
   · intro a b
@@ -398,7 +398,7 @@ theorem frame_matrix_units : ∀ (k r : ℕ) (z : Fin (2 * r + k + 1) → ℂ) (
   · intro a v hv
     have := a.isLt
     rw [List.mem_singleton.mp hv, herm_U'' hU, frame_inv_mulVec_negativeVector hg, herm_smul_right, herm_single,
-      Pi.single_apply, if_neg, mul_zero, mul_zero]
+      Pi.single_apply, ite_eq_right, mul_zero, mul_zero]
     simp only [Fin.ext_iff, dualIx_val]
     split_ifs <;> omega
   · intro i j
@@ -409,18 +409,18 @@ theorem frame_matrix_units : ∀ (k r : ℕ) (z : Fin (2 * r + k + 1) → ℂ) (
     unfold Formalism.FourierDecayAlt.Q.unitB
     rw [Matrix.of_apply, herm_U' hU, herm_single]
     have e1 : dualIx k r ⟨r + j.val, by omega⟩ = ⟨r + j.val, by omega⟩ := by
-      unfold dualIx; rw [if_neg]; simp only; omega
+      unfold dualIx; rw [ite_eq_right]; simp only; omega
     have e2 : sgnIx k r ⟨r + j.val, by omega⟩ = 1 := by
-      unfold sgnIx; rw [if_neg]; simp only; omega
+      unfold sgnIx; rw [ite_eq_right]; simp only; omega
     rw [e1, e2]
     simp [bvec]
   · unfold fvec
     by_cases h : r = 0
-    · rw [if_pos h, dite_eq_right (by simp [h]), frame_inv_mulVec_negativeVector hg]
+    · rw [ite_eq_left h, dite_eq_right (by simp [h]), frame_inv_mulVec_negativeVector hg]
       subst h
       congr 2
     · have h0 : (0 : Fin (r + 1)).val < r := by simp; omega
-      rw [if_neg h, dite_eq_left h0]
+      rw [ite_eq_right h, dite_eq_left h0]
       exact frame_inv_fix hg (j := 0) (Or.inl (by simp; omega))
   · funext d
     have hd := d.isLt
@@ -433,12 +433,12 @@ theorem frame_matrix_units : ∀ (k r : ℕ) (z : Fin (2 * r + k + 1) → ℂ) (
     rw [e, herm_U'' hU]
     unfold fvec
     by_cases h : r = 0
-    · rw [if_pos h, dite_eq_right (by simp [h]), frame_inv_mulVec_negativeVector hg, herm_smul_right, herm_single]
+    · rw [ite_eq_left h, dite_eq_right (by simp [h]), frame_inv_mulVec_negativeVector hg, herm_smul_right, herm_single]
       unfold sgnIx
       simp only [Pi.smul_apply, Pi.single_apply, Fin.ext_iff, dualIx_val, Fin.val_last]
       split_ifs <;> first | omega | simp
     · have h0 : (0 : Fin (r + 1)).val < r := by simp; omega
-      rw [if_neg h, dite_eq_left h0]
+      rw [ite_eq_right h, dite_eq_left h0]
       have := frame_inv_fix hg (j := 0) (Or.inl (by simp; omega))
       have e0 : bvec (eI k r ⟨(0 : Fin (r + 1)).val, h0⟩) = Pi.single (0 : Fin (2 * r + k + 1)) (1 : ℂ) := rfl
       rw [e0, this, herm_single]

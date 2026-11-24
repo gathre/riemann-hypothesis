@@ -536,7 +536,7 @@ theorem kodaira_spencer_direct_sum : _root_.GlobalTheory.CovTop.Hypotheses'' →
       (by rw [← Category.assoc, sq, Category.assoc, eφ, hiπ]) hpol hu hl τ a hf hd
     obtain ⟨v', hv', -⟩ := hL.1 (gs k)
     have fl := hgs (Pi.single k 1) B χ _ hj hχ sq
-    simp only [Pi.single_apply, ite_smul, one_smul, zero_smul, Finset.sum_ite_eq', Finset.mem_univ, if_true] at fl
+    simp only [Pi.single_apply, ite_smul, one_smul, zero_smul, Finset.sum_ite_eq', Finset.mem_univ, ite_true] at fl
     obtain rfl := IsKSValue.unique P (PolPull.isAbelianScheme_of_isGrpPullback aC hχ)
       ((smoothOfRelativeDimension_isStableUnderBaseChange _).of_isPullback hχ.1 gC) hv ⟨_, fl, hv'⟩
     exact ⟨_, hc, hv'⟩

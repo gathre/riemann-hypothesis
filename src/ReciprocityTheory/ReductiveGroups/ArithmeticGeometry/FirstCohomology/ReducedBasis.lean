@@ -99,7 +99,7 @@ lemma greedy [FiniteDimensional ℝ E] (X : Submodule ℤ E) [DiscreteTopology X
     intro u n hn
     have hex : ∃ i, v i ∉ V u n := by
       by_contra h
-      push_neg at h
+      push Not at h
       have hle : span ℝ (Set.range v) ≤ V u n :=
         span_le.mpr (by rintro _ ⟨i, rfl⟩; exact h i)
       have h1 : finrank ℝ (span ℝ (Set.range v)) = d := by
@@ -186,7 +186,7 @@ lemma exists_b [FiniteDimensional ℝ E] {d : ℕ} (u : Fin d → E) (hu : Linea
         rw [mul_pow, Real.sq_sqrt (Nat.cast_nonneg d)]
         exact hy
       by_contra hc
-      push_neg at hc
+      push Not at hc
       nlinarith [norm_nonneg y])
   have hBne : ({y : E | y ∈ X ∧ y ∈ V u (k.val + 1) ∧ 0 < phi u k y ∧ phi u k y ≤ 1 ∧
       ‖y‖ ^ 2 ≤ d * ‖u k‖ ^ 2}).Nonempty :=
@@ -211,10 +211,10 @@ lemma exists_b [FiniteDimensional ℝ E] {d : ℕ} (u : Fin d → E) (hu : Linea
     · have hx0 : 0 < phi u k x := by rw [hx]; exact hb0
       have hx1 : phi u k x ≤ 1 := by rw [hx]; exact hb1
       exact hbmin x ⟨⟨hxX, hxV, hx0, hx1, hxd⟩, hx.trans hbphi⟩
-    · push_neg at hxd
+    · push Not at hxd
       have hlt : ‖b‖ ^ 2 < ‖x‖ ^ 2 := lt_of_le_of_lt hbd hxd
       by_contra hc
-      push_neg at hc
+      push Not at hc
       nlinarith [norm_nonneg b, norm_nonneg x]
 
 lemma span_flag {d : ℕ} (u : Fin d → E) (hu : LinearIndependent ℝ u) (X : Submodule ℤ E)

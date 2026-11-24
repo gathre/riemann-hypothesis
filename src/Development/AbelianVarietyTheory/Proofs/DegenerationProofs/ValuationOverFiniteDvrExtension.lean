@@ -121,7 +121,7 @@ def nonnegSubring {F K : Type} [Field F] [Field K] (v : AddValuation F (WithTop 
     by_cases hx : x = 0
     · left; simp [hx]
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 : v (e x) + v (e x⁻¹) = 0 := by
       rw [← AddValuation.map_mul, ← map_mul, mul_inv_cancel₀ hx, map_one, AddValuation.map_one]
     have h2 : v (e x) + v (e x⁻¹) < 0 := by

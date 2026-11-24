@@ -138,7 +138,7 @@ theorem io_dsig (hK : PI.KFinSmooth) {ε : Fin (2 * r + k + 1) → Bool} {mu : F
   rw [hL.unique hR']
   simp only [Complex.ofReal_zero, zero_smul, NormedSpace.exp_zero, inv_one, h1, one_apply_eq_self,
     Finset.sum_add_distrib, Matrix.one_apply, ite_smul, one_smul, zero_smul, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true, neg_smul, Finset.sum_neg_distrib, sub_eq_add_neg]
+    Finset.mem_univ, ite_true, neg_smul, Finset.sum_neg_distrib, sub_eq_add_neg]
 
 end GlobalTheory.DualEmb
 

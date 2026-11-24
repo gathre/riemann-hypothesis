@@ -138,7 +138,7 @@ theorem _root_.GlobalTheory.Per.Val.vf_eq_iff (x : _root_.Formalism.BasicNotions
   have hl : (0 : ℝ) < l := by exact_mod_cast (Fact.out : l.Prime).pos
   by_cases hx : x = 0
   · subst hx
-    simp only [_root_.GlobalTheory.Per.Val.vf, dif_pos, norm_zero, WithTop.top_ne_coe, false_iff]
+    simp only [_root_.GlobalTheory.Per.Val.vf, dite_eq_left, norm_zero, WithTop.top_ne_coe, false_iff]
     exact (Real.rpow_pos_of_pos hl _).ne
   · obtain ⟨a, ha, hn⟩ := exists_rat_vf_eq_norm_eq_rpow_of_ne_zero hx
     rw [ha, hn, WithTop.coe_eq_coe, prime_rpow_neg_inj]

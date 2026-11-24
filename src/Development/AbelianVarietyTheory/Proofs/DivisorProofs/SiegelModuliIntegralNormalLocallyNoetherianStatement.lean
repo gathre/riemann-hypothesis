@@ -968,7 +968,7 @@ theorem preconnected_of_complex (g n : ℕ) (hg : 1 ≤ g) (hn : 3 ≤ n) (hodd 
   rw [preconnectedSpace_iff_clopen]
   intro W hW
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨p, hp, hpW⟩ := exists_complexPoint_mem F.X F.s ⟨W, hW.isOpen⟩ hne.1
   obtain ⟨q, hq, hqW⟩ := exists_complexPoint_mem F.X F.s ⟨Wᶜ, hW.compl.isOpen⟩
     (by simpa [Set.nonempty_compl] using hne.2)

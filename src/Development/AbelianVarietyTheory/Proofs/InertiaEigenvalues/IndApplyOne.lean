@@ -79,7 +79,7 @@ theorem ind_apply_one {G : Type} [Group G] [Finite G] (T : Subgroup G) (ψ : T �
   haveI := Fintype.ofFinite G
   have h1 : ∀ x : G, ext0 T ψ (x⁻¹ * 1 * x) = ψ 1 := fun x => by
     have e : x⁻¹ * 1 * x = 1 := by group
-    simp only [ext0, e, dif_pos T.one_mem]
+    simp only [ext0, e, dite_eq_left T.one_mem]
     rfl
   simp only [ind, finsum_eq_sum_of_fintype]
   rw [Finset.sum_congr rfl (fun x _ => h1 x), Finset.sum_const, Finset.card_univ, nsmul_eq_mul,

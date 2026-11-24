@@ -130,7 +130,7 @@ theorem eq_zero_right (g : ℕ → ℝ → E) (C ρ : ℝ) (hρ : 0 < ρ)
       have : t = 0 := by
         have : t ≤ 0 := by
           by_contra hc
-          push_neg at hc
+          push Not at hc
           have := mul_pos hρ hc
           simp at h
           nlinarith
@@ -140,7 +140,7 @@ theorem eq_zero_right (g : ℕ → ℝ → E) (C ρ : ℝ) (hρ : 0 < ρ)
       intro k t ht h
       by_cases hm : 2 * ρ * t ≤ m
       · exact ih k t ht hm
-      · push_neg at hm
+      · push Not at hm
         have e : 2 * ρ * ((m : ℝ) / (2 * ρ)) = m := by field_simp
         have h1 : (m : ℝ) / (2 * ρ) ≤ t := by
           rw [div_le_iff₀ (by positivity)]; linarith

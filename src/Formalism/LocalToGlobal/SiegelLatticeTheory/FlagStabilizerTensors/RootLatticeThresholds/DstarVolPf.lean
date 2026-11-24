@@ -707,7 +707,7 @@ theorem covol_gen (hVM : VolMeasOf D) (hVol : VolTie D) (I : Formalism.MainNotio
   have hL0 : cdProdI D * (c⁻¹ * (IV D).muA μf fund) ≠ 0 := mul_ne_zero hcd0 (mul_ne_zero hci0 hA0)
   have hvpos : 0 < D.vol (VS D) := by
     by_contra hle
-    push_neg at hle
+    push Not at hle
     rw [ENNReal.ofReal_of_nonpos hle] at key
     exact hL0 key
   have hR := congrArg ENNReal.toReal key

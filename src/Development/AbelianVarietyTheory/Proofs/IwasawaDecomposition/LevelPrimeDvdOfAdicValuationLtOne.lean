@@ -107,7 +107,7 @@ theorem dvd_of_val_lt_one : ∀ (D : Formalism.BasicNotions.D7) (u : D.what₂.W
     · have h := (v.intValuation_le_pow_iff_mem _ 1).2 (by simpa using hv)
       simpa using h
     · by_contra h
-      push_neg at h
+      push Not at h
       have h2 := le_exp_sub_one h
       norm_num at h2
       exact hT2 ((v.intValuation_le_pow_iff_mem _ 2).1 (by simpa using h2))

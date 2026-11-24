@@ -298,7 +298,7 @@ theorem hom_eq_of_ker {O k ι : Type} [CommRing O] [CommRing k] [IsDomain k] [Fi
     (ψ : O →+* k) (hψ : ∀ x, e i0 x = 0 → ψ x = 0) : ∃ i, ψ = e i := by
   classical
   by_contra hne
-  push_neg at hne
+  push Not at hne
   haveI : Nonempty ι := ⟨i0⟩
   let f : Option ι → O →+* k := fun o => o.elim ψ e
   have hf : Function.Injective f := by

@@ -96,7 +96,7 @@ theorem isPair_addChar_form : ∀ (F : Type) [Field F] [CharZero F] [ValuativeRe
   haveI := IsModuleTopology.toContinuousAdd F V
   obtain ⟨t, ht⟩ : ∃ t, ψ t ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact h1 (DFunLike.ext _ _ fun x => by rw [h x, AddChar.one_apply])
   have ht0 : t ≠ 0 := by
     rintro rfl

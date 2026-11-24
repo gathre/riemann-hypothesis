@@ -192,7 +192,7 @@ private lemma norm_root_le_two_pow_mul_of_coeff_le {p : ℂ[X]} {n : ℕ} (hp : 
     ‖a‖ ≤ 2 ^ n * ρ := by
   by_cases hle : ‖a‖ ≤ ρ
   · exact hle.trans (le_mul_of_one_le_left hρ (one_le_pow₀ (by norm_num)))
-  push_neg at hle
+  push Not at hle
   have hpos : 0 < ‖a‖ := hρ.trans_lt hle
   obtain ⟨m, rfl⟩ : ∃ m, n = m + 1 := by
     rcases n with _ | m
@@ -390,7 +390,7 @@ theorem _root_.GlobalTheory.maxPrinciple_line_eval₂ : ∀ (d : ℕ) (B : Type)
     · norm_num
     · exact natDegree_minpoly_pow_le hg N
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   rcases hR0.eq_or_lt with hR00 | hRpos
   · have h1 := key 1
     rw [← hR00] at h1 hlt
@@ -588,7 +588,7 @@ private lemma exists_small_direction_eval_circle_ne_zero {d : ℕ} {P : MvPolyno
   classical
   obtain ⟨u, hu⟩ : ∃ u, MvPolynomial.eval u P ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hP (MvPolynomial.funext fun u => by simpa using h u)
   set q : Polynomial ℂ := MvPolynomial.eval₂ Polynomial.C
     (fun i => Polynomial.C (z i) + Polynomial.X * Polynomial.C (u i - z i)) P with hq
@@ -658,7 +658,7 @@ theorem _root_.GlobalTheory.local_maximum_principle_weight_finite_mvPolynomial_a
   have hsep : ∀ j, ∃ b : B, e j b ≠ x₀ b := by
     intro j
     by_contra h
-    push_neg at h
+    push Not at h
     have hj : e j ∈ Set.range e := ⟨j, rfl⟩
     rw [he] at hj
     exact hj.2 (RingHom.ext h)
@@ -790,7 +790,7 @@ theorem _root_.GlobalTheory.local_maximum_principle_weight_finite_mvPolynomial_a
       rw [hΦy, one_pow, mul_one] at key
       have hR : 0 ≤ R := by
         by_contra h
-        push_neg at h
+        push Not at h
         have := mul_neg_of_neg_of_pos h (Real.exp_pos (N * (ψ x₀ + 2 * δ / 3)))
         linarith [norm_nonneg (y f)]
       calc ‖y f‖ * Real.exp (-(N * ψ y)) ≤ R' * Real.exp (-(N * ψ y)) :=

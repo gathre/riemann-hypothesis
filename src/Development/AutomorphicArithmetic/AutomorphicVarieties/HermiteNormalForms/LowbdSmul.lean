@@ -77,7 +77,7 @@ private theorem lowbd_pos {L : Type} [Field L] [NumberField L] {N : ℕ} {h : HS
     (hh : h ∈ Pos L N) {z : VR L N} (hz : z ≠ 0) : 0 < qR h z := by
   have hne : ∃ w, z w ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hz (funext hc)
   obtain ⟨w0, hw0⟩ := hne
   have hp : ∀ w, (mat h w).PosDef := hh

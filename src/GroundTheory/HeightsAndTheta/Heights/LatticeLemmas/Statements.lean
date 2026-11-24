@@ -371,15 +371,15 @@ theorem swapAt_finite (v₀ : HeightOneSpectrum (𝓞 K)) : {v | swapAt v₀ v �
   refine (Set.finite_singleton v₀).subset fun v hv ↦ ?_
   by_contra h
   rw [Set.mem_singleton_iff] at h
-  exact hv (by simp only [swapAt, if_neg h])
+  exact hv (by simp only [swapAt, ite_eq_right h])
 
 theorem localLattice_swapAt (v₀ v : HeightOneSpectrum (𝓞 K)) :
     (localLattice v (FullLattice.standard K 2).carrier : Set _) =
       swapAt v₀ v '' localLattice v (FullLattice.standard K 2).carrier := by
   by_cases h : v = v₀
-  · simp only [swapAt, if_pos h]
+  · simp only [swapAt, ite_eq_left h]
     exact localLattice_baseChange v swapCoord _ swapCoord_standard
-  · simp only [swapAt, if_neg h, LinearEquiv.coe_one, Set.image_id]
+  · simp only [swapAt, ite_eq_right h, LinearEquiv.coe_one, Set.image_id]
 
 end
 

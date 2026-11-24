@@ -136,7 +136,7 @@ theorem val_det_le_one {K Γ : Type*} [Field K] [LinearOrderedCommGroupWithZero 
       intro j
       by_cases hj : j = j0
       · simp [a, hj]
-      · simp only [a, hj, if_false, map_div₀]
+      · simp only [a, hj, ite_false, map_div₀]
         exact div_le_one_of_le₀ (hj0 j (Finset.mem_univ _)) zero_le'
     let B' : Matrix (Fin (m + 1)) (Fin (m + 1)) K := fun i j => B i j - a j * B i j0
     have hB'0 : ∀ i, B' i j0 = B i j0 := fun i => by simp [B', a]
@@ -147,7 +147,7 @@ theorem val_det_le_one {K Γ : Type*} [Field K] [LinearOrderedCommGroupWithZero 
     have hrow : ∀ l, B' 0 (j0.succAbove l) = 0 := by
       intro l
       have hne : j0.succAbove l ≠ j0 := Fin.succAbove_ne j0 l
-      simp only [B', a, hne, if_false]
+      simp only [B', a, hne, ite_false]
       field_simp
       ring
     have hrow' : ∀ j, j ≠ j0 → B' 0 j = 0 := by
@@ -262,7 +262,7 @@ theorem norm_det_le {m : ℕ} (C : Matrix (Fin m) (Fin m) ℂ) (a : Fin m → �
     rw [hfj] at hdef
     rw [hdef, Matrix.mul_apply]
     simp only [T, Wm, add_mul, Finset.sum_add_distrib, ite_mul, zero_mul, one_mul,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     congr 1
     rw [← Finset.sum_filter]
     apply Finset.sum_congr
@@ -1344,7 +1344,7 @@ theorem exists_pair {θ : (Fin g → ℂ) → ℂ} (hθ : a.IsTheta 1 θ) (h0 : 
   set s₀ := tri θ p q with hs₀def
   obtain ⟨p', q', hpq⟩ : ∃ p' q', (-(fderiv ℂ s₀ 0 v) / s₀ 0) * tri θ p' q' 0 + fderiv ℂ (tri θ p' q') 0 v ≠ 0 := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     exact hv (separates a hθ h0 _ v hall)
   have hs := isTheta_tri a hθ p' q'
   refine ⟨s₀, fun w => s₀ 0 * tri θ p' q' w - tri θ p' q' 0 * s₀ w, hs₀, IsTheta.lin a hs hs₀ _ _, hne, by ring, ?_⟩

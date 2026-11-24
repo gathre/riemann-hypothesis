@@ -68,7 +68,7 @@ theorem wS_mul_le_add {s : ℕ} (hl : 2 ≤ l) (hs : s ≤ e) (q : ℕ) :
     wS K e (l * q) ≤ wS K e (q + s) := by
   by_cases h : q + s ≤ l * q
   · exact wS_anti e h
-  · push_neg at h
+  · push Not at h
     have he : 0 < e := by
       rcases Nat.eq_zero_or_pos e with h0 | h0
       · subst h0
@@ -115,7 +115,7 @@ theorem exists_frob_eq_X_pow_mul {F : K⟦X⟧} (hF : F ∈ S O K e) {s : ℕ} (
     · rw [coeff_frob]
       split_ifs with h'
       · obtain ⟨G, rfl⟩ := hd
-        rw [coeff_X_pow_mul', if_neg]
+        rw [coeff_X_pow_mul', ite_eq_right]
         intro h''
         have : s * l ≤ n / l * l := Nat.mul_le_mul_right l h''
         have := Nat.div_mul_le_self n l
@@ -232,7 +232,7 @@ theorem exists_mem_uPow_of_inertia (r : ℕ) (hr : ∀ τ, ∀ c ∈ Δ.chars τ
         simp only [Nat.cast_add, ZMod.natCast_self, zero_add, Nat.cast_one, Nat.cast_pow] at h
         exact h.symm
       exact ⟨j, hje, le_mul_pow_of_frobPeriod_le (NeZero.pos a) hla (by omega) (hr τ _ hτ), hwj⟩
-    · push_neg at h
+    · push Not at h
       exact ih (j + 1) (by omega) (by omega) (by omega) (Δ.mem_uPow_succ_of_inertia hwj hinv h)
 
 end Descent
@@ -383,7 +383,7 @@ theorem l_pow_smul_zeta_phi_mem_MM : ∀ (O K : Type) [CommRing O] [NormedField 
           ← pow_add, ← pow_add]
         congr 2
         ring
-    · push_neg at hn
+    · push Not at hn
       obtain ⟨t, rfl⟩ : ∃ t, n = r + t := ⟨n - r, by omega⟩
       have hle : e * l ^ (t + 1) ≤ s * l ^ (r + t + 1) :=
         calc e * l ^ (t + 1) ≤ s * l ^ r * l ^ (t + 1) := Nat.mul_le_mul_right _ hes

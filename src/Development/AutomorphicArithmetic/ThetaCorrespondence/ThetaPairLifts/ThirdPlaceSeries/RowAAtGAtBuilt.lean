@@ -1391,7 +1391,7 @@ theorem key_ineq (A N Y : ℝ) (hA : 10 ≤ A) (hN : 2 ≤ N) (h1 : A ^ 8 ≤ Y)
     have e2 : A ^ 8 = A * A ^ 7 := by ring
     have e3 : 10 * A ^ 7 ≤ A * A ^ 7 := mul_le_mul_of_nonneg_right hA (by positivity)
     linarith
-  · push_neg at h
+  · push Not at h
     have hA25 : A ^ 2 ≤ A ^ 5 := pow_le_pow_right₀ hA1 (by norm_num)
     have hAN : A ^ 2 < N := lt_of_le_of_lt hA25 h
     have e1 : 6 * A ^ 2 * N < 6 * N * N := by nlinarith

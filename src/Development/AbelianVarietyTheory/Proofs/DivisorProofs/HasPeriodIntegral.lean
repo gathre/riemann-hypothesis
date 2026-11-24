@@ -247,7 +247,7 @@ theorem coeff_subst_elim_zero {R : Type} [CommRing R] {d : ℕ}
       rfl
   rw [← coeff_embDomain_rename (Function.Embedding.inl : Fin d ↪ Fin d ⊕ Fin d), hr,
     OnePair.coeff_subst_kill]
-  rw [if_pos]
+  rw [ite_eq_left]
   rintro (i | i) hi
   · simp at hi
   · simp
@@ -354,7 +354,7 @@ theorem in_expand {σ : Type} (p : ℕ) (hp : p ≠ 0) {N : Ideal B} {f : MvPowe
       by ext i; simp [Nat.mul_div_cancel' (h i)]⟩
     rw [← hm, coeff_expand_smul]
     exact hf m
-  · push_neg at h
+  · push Not at h
     obtain ⟨i, hi⟩ := h
     exact ⟨0, N.zero_mem, by rw [coeff_expand_of_not_dvd p hp f hi, map_zero]⟩
 
@@ -1204,7 +1204,7 @@ private lemma subst_zero_fin_eq_C_constantCoeff {Q : Type} [CommRing Q] {d : ℕ
   · intro n hn
     obtain ⟨s, hs⟩ : ∃ s, n s ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hn (Finsupp.ext h)
     rw [Finsupp.prod, Finset.prod_eq_zero (i := s) (by simpa using hs) (by simp [hs])]
     simp
@@ -1229,8 +1229,8 @@ private lemma subst_inr_zero_pderiv_coboundary_eq {Q : Type} [CommRing Q] {d : �
     hasSubst_of_constantCoeff_zero (by simp)
   rw [map_sub, map_sub, _root_.GlobalTheory.PSChain.pderiv_subst_chain _ hν0, _root_.GlobalTheory.PSChain.pderiv_subst_chain _ (by simp),
     _root_.GlobalTheory.PSChain.pderiv_subst_chain _ (by simp)]
-  simp only [pderiv_X, Pi.single_apply, Sum.inr.injEq, reduceCtorEq, if_false, mul_zero,
-    Finset.sum_const_zero, sub_zero, mul_ite, mul_one, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [pderiv_X, Pi.single_apply, Sum.inr.injEq, reduceCtorEq, ite_false, mul_zero,
+    Finset.sum_const_zero, sub_zero, mul_ite, mul_one, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   rw [← coe_substAlgHom he0]
 
   simp only [map_sub, map_sum, map_mul]

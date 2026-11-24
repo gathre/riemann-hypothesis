@@ -161,7 +161,7 @@ theorem bigEnt (p : PtAt ex Csz) (P : ParameterChoice' D L) (i : Fin D.R.m) (t :
   unfold ext0
   rw [dite_eq_left hj, (p.fw.kap i t).1 ⟨j, hj⟩, sig_Wc]
   unfold aPl
-  rw [if_pos hj]
+  rw [ite_eq_left hj]
   exact Int.toNat_of_nonneg hnn
 
 theorem smallEnt (p : PtAt ex Csz) (P : ParameterChoice' D L) (i : Fin D.R.m) (t : D.what₂.Tau) (s : ℕ)
@@ -198,7 +198,7 @@ theorem smallEnt (p : PtAt ex Csz) (P : ParameterChoice' D L) (i : Fin D.R.m) (t
   unfold ext0
   rw [dite_eq_left (by omega), (p.fw.kap i t).2.1 ⟨_, by omega⟩, sig_Wc]
   unfold aMi
-  rw [if_pos (by omega)]
+  rw [ite_eq_left (by omega)]
   have e1 : (D.R.sigW ((i : ℕ) + 1)).2 - ((D.R.sigW ((i : ℕ) + 1)).2 - 1 - s) = s + 1 := by omega
   have e2 : (D.R.sigW ((i : ℕ) + 1)).1 + (s + 1) - 1 = (D.R.sigW ((i : ℕ) + 1)).1 + s := by omega
   simp only [e1, e2]
@@ -256,7 +256,7 @@ theorem gaps : ∀ {D : D7} {L : SizeData₂ D} {hT : GatTies D} {Gi : Formalism
       have : (0 : ℝ) < (D.R.k : ℝ) := by exact_mod_cast (show 0 < D.R.k by omega)
       positivity
     rcases lt_trichotomy (k + 1) (D.R.sigW ((i : ℕ) + 1)).1 with hA | hB | hC
-    · rw [if_pos (by omega), if_pos hA]
+    · rw [ite_eq_left (by omega), ite_eq_left hA]
       obtain ⟨e1, -⟩ := bigEnt p P i t k (by omega)
       obtain ⟨e2, -⟩ := bigEnt p P i t (k + 1) hA
       rw [e1, e2]
@@ -272,7 +272,7 @@ theorem gaps : ∀ {D : D7} {L : SizeData₂ D} {hT : GatTies D} {Gi : Formalism
       push_cast at hg ⊢
       have := min_le_left (LevelStarExponents.gapS D P.Cgap) (LevelStarExponents.h0 L)
       linarith
-    · rw [if_pos (by omega), if_neg (by omega), show k + 1 - (D.R.sigW ((i : ℕ) + 1)).1 = 0 by omega]
+    · rw [ite_eq_left (by omega), ite_eq_right (by omega), show k + 1 - (D.R.sigW ((i : ℕ) + 1)).1 = 0 by omega]
       obtain ⟨e1, -⟩ := bigEnt p P i t k (by omega)
       obtain ⟨e2, -⟩ := smallEnt p P i t 0 (by omega)
       rw [e1, e2]
@@ -303,7 +303,7 @@ theorem gaps : ∀ {D : D7} {L : SizeData₂ D} {hT : GatTies D} {Gi : Formalism
       rw [← this] at hng
       linarith
     · obtain ⟨s, rfl⟩ : ∃ s, k = (D.R.sigW ((i : ℕ) + 1)).1 + s := ⟨k - (D.R.sigW ((i : ℕ) + 1)).1, by omega⟩
-      rw [if_neg (by omega), if_neg (by omega), show (D.R.sigW ((i : ℕ) + 1)).1 + s - (D.R.sigW ((i : ℕ) + 1)).1 = s by omega,
+      rw [ite_eq_right (by omega), ite_eq_right (by omega), show (D.R.sigW ((i : ℕ) + 1)).1 + s - (D.R.sigW ((i : ℕ) + 1)).1 = s by omega,
         show (D.R.sigW ((i : ℕ) + 1)).1 + s + 1 - (D.R.sigW ((i : ℕ) + 1)).1 = s + 1 by omega]
       obtain ⟨e1, -⟩ := smallEnt p P i t s (by omega)
       obtain ⟨e2, -⟩ := smallEnt p P i t (s + 1) (by omega)

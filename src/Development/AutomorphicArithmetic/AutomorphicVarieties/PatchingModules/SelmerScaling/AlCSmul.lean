@@ -640,7 +640,7 @@ private theorem finrank_quotient_le_of_forall_dependent_mod {F V : Type} [Field 
     (h : ∀ z : Fin (g + 1) → V, ∃ c : Fin (g + 1) → F, c ≠ 0 ∧ ∑ i, c i • z i ∈ U) :
     Module.finrank F (V ⧸ U) ≤ g := by
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   let b := Module.finBasis F (V ⧸ U)
   let y : Fin (g + 1) → V ⧸ U := fun i => b (Fin.castLE hlt i)
   have hli : LinearIndependent F y := b.linearIndependent.comp _ (Fin.castLE_injective hlt)
@@ -758,7 +758,7 @@ theorem UpperTheory.V.Pa.linAlg :
     rw [← hrow a ha i]
     refine Finset.sum_congr rfl fun j _ => ?_
     simp only [Pi.basisFun_apply, Pi.single_apply, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq',
-      Finset.mem_univ, if_true, hXκ]
+      Finset.mem_univ, ite_true, hXκ]
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.SelmerScaling.LinAlg =====

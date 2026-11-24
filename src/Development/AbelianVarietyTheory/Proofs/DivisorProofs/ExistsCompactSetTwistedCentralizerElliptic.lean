@@ -157,7 +157,7 @@ theorem exists_bound (y : Matrix (Fin n) (Fin n) L) (hs : y.charpoly.Separable) 
     intro i
     obtain ⟨a0, ha0⟩ : ∃ a0, v i a0 ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact (hv i).2 (funext h)
     have hk : ∀ k : ℕ, ‖p.eval (l i)‖ ^ k ≤ (B * ∑ j, ‖v i j‖) / ‖v i a0‖ := by
       intro k
@@ -169,7 +169,7 @@ theorem exists_bound (y : Matrix (Fin n) (Fin n) L) (hs : y.charpoly.Separable) 
       rw [norm_mul]
       exact mul_le_mul_of_nonneg_right (hB k a0 j) (norm_nonneg _)
     by_contra h1
-    push_neg at h1
+    push Not at h1
     obtain ⟨k, hk'⟩ := ((tendsto_pow_atTop_atTop_of_one_lt h1).eventually_gt_atTop
       ((B * ∑ j, ‖v i j‖) / ‖v i a0‖)).exists
     exact absurd (hk k) (not_le.2 hk')

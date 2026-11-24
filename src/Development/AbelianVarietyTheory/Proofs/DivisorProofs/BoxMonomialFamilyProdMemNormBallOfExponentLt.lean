@@ -90,7 +90,7 @@ theorem prod_mem_of_le (P : Pair p) (D : ℕ) (J : Type) (e : J → X.functionFi
       refine Finset.prod_congr rfl fun i _ => ?_
       rcases Nat.eq_zero_or_pos (n i) with h0 | h0
       · simp [h0]
-      · rw [if_pos h0, ← pow_succ', Nat.sub_add_cancel (by omega : 1 ≤ n i)]
+      · rw [ite_eq_left h0, ← pow_succ', Nat.sub_add_cancel (by omega : 1 ≤ n i)]
     have key : (∏ l, e (u l)) * ∏ i, x i ^ n i =
         boxFam e x (u 0, Finset.univ.filter (fun i => 0 < n i)) *
           ((∏ l : Fin m, e (u l.succ)) * ∏ i, x i ^ (n i - 1)) := by

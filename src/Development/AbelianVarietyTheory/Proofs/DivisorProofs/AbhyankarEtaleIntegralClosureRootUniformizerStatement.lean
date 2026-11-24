@@ -1065,11 +1065,11 @@ theorem adjoinRoot_X_pow_sub_C_uniformizer_isDomain :
       exact fun h => hP.ne_top ((Ideal.eq_top_iff_one _).2 h)
     · intro n hn
       rw [hdeg] at hn
-      rw [coeff_sub, coeff_X_pow, if_neg hn.ne, zero_sub, coeff_C]
+      rw [coeff_sub, coeff_X_pow, ite_eq_right hn.ne, zero_sub, coeff_C]
       split_ifs
       · exact neg_mem (Ideal.mem_span_singleton_self _)
       · rw [neg_zero]; exact zero_mem _
-    · rw [coeff_sub, coeff_X_pow, if_neg he.ne, zero_sub, coeff_C_zero, Ideal.span_singleton_pow,
+    · rw [coeff_sub, coeff_X_pow, ite_eq_right he.ne, zero_sub, coeff_C_zero, Ideal.span_singleton_pow,
         Ideal.mem_span_singleton]
       rintro ⟨c, hc⟩
       have h1 : π * (1 + π * c) = 0 := by linear_combination -hc

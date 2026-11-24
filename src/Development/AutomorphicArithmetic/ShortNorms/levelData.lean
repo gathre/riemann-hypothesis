@@ -497,7 +497,7 @@ private theorem exists_pair_disjoint {Y : ℝ} {r : ℕ} (hY : 2 ≤ Y) (hr : 1 
     (hc : Y ^ ((9 : ℝ) / 10) ≤ G.card) :
     ∃ a ∈ G, ∃ b ∈ G, a ≠ b ∧ Disjoint (Formalism.CyclotomicNorms.BB r a) (Formalism.CyclotomicNorms.BB r b) := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hYpos : (0:ℝ) < Y := by linarith
   have hpos : (0:ℝ) < G.card := lt_of_lt_of_le (Real.rpow_pos_of_pos hYpos _) hc
   have hGne : G.Nonempty := by

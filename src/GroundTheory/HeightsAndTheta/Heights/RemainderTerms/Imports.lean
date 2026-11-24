@@ -567,16 +567,16 @@ theorem FlagDiffNotDvd.proof : FlagDiffNotDvd.Statement := by
     simp only [ψ, aeval_X]
   obtain ⟨q, hq⟩ := hdvd
   have h := congrArg ψ hq
-  rw [map_mul, map_sub, map_sub, hψ, hψ, hψ, hψ, if_pos rfl, if_neg (Ne.symm hab), sub_self,
+  rw [map_mul, map_sub, map_sub, hψ, hψ, hψ, hψ, ite_eq_left rfl, ite_eq_right (Ne.symm hab), sub_self,
     zero_mul, sub_eq_zero] at h
   have hcd' := X_injective h
   by_cases hc : c = a <;> by_cases hd : d = a
   · exact hcd (hc.trans hd.symm)
-  · rw [if_pos hc, if_neg hd] at hcd'
+  · rw [ite_eq_left hc, ite_eq_right hd] at hcd'
     exact h1 ⟨hc.symm, hcd'⟩
-  · rw [if_neg hc, if_pos hd] at hcd'
+  · rw [ite_eq_right hc, ite_eq_left hd] at hcd'
     exact h2 ⟨hd.symm, hcd'.symm⟩
-  · rw [if_neg hc, if_neg hd] at hcd'
+  · rw [ite_eq_right hc, ite_eq_right hd] at hcd'
     exact hcd hcd'
 
 end RestTerms
@@ -661,7 +661,7 @@ theorem FlagIntegralTopComponent.proof (h1 : FlagVandermondeHomogeneous.Statemen
   have hdeg : α.degree = topDegree f N := by
     rw [Finsupp.degree_eq_weight_one]
     exact h1 f N (mem_support_iff.mp hα)
-  rw [coeff_homogeneousComponent, if_pos hdeg]
+  rw [coeff_homogeneousComponent, ite_eq_left hdeg]
 
 end RestTerms
 
@@ -728,7 +728,7 @@ theorem FlagIntegralVandermondeMul.proof (h1 : FlagIntegralTopComponent.Statemen
   intro f N R
   rw [h1 f N (blockVandermonde f N * R),
     h2 _ (blockVandermonde f N) R (topDegree f N) (topDegree f N) (h3 f N),
-    if_pos le_rfl, Nat.sub_self, homogeneousComponent_zero, mul_comm,
+    ite_eq_left le_rfl, Nat.sub_self, homogeneousComponent_zero, mul_comm,
     Flag.flagIntegral_C_mul, constantCoeff_eq]
 
 end
@@ -850,10 +850,10 @@ theorem FlagQuotientHomogeneous.proof : FlagQuotientHomogeneous.Statement := by
   have hzero : ∀ j, j ≠ k → homogeneousComponent j R = 0 := by
     intro j hj
     have h1 := HomogeneousComponentMul.proof σ ℚ A R m (m + j) hA
-    rw [if_pos (Nat.le_add_right m j), Nat.add_sub_cancel_left] at h1
+    rw [ite_eq_left (Nat.le_add_right m j), Nat.add_sub_cancel_left] at h1
     have h2 : homogeneousComponent (m + j) (A * R) = 0 := by
       rw [homogeneousComponent_of_mem ((mem_homogeneousSubmodule _ _).mpr hAR),
-        if_neg (by omega)]
+        ite_eq_right (by omega)]
     rw [h2] at h1
     exact (mul_eq_zero.mp h1.symm).resolve_left hA0
   have hR : R = homogeneousComponent k R := by
@@ -926,7 +926,7 @@ theorem FlagRestrictDecomposition.proof (h1 : FlagRestrictPowerSum.Statement) :
 
   rw [map_sum]
   simp only [map_mul, h1 f N l τ _ hl1, ite_mul, zero_mul]
-  rw [Finset.sum_ite_eq' Finset.univ τ, if_pos (Finset.mem_univ τ)]
+  rw [Finset.sum_ite_eq' Finset.univ τ, ite_eq_left (Finset.mem_univ τ)]
 
 end RestTerms
 

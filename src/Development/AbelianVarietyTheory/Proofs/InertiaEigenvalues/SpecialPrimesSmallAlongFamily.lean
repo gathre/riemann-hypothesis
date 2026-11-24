@@ -98,9 +98,9 @@ theorem not_inert_three {D : D7} (h : 3 ≤ D.host.splitBound) : ¬ TwistedPlace
   unfold TwistedPlaces.InertK
   simp only [Host.cls, primeClass]
   by_cases h3 : 3 ∈ D.host.small
-  · rw [if_pos h3]
+  · rw [ite_eq_left h3]
     simp
-  · rw [if_neg h3, if_neg hq, if_neg hd, if_pos hj]
+  · rw [ite_eq_right h3, ite_eq_right hq, ite_eq_right hd, ite_eq_left hj]
     simp
 
 

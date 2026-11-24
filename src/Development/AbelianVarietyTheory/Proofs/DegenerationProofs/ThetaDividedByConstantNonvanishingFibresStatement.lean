@@ -608,7 +608,7 @@ theorem exists_glue : ∀ (o Ω : Type) [CommRing o] [Field Ω] [Algebra o Ω] [
     refine ⟨g, j, hg, ?_⟩
     have hU : ⊤ ≤ g ⁻¹ᵁ (Q.G.hom ⁻¹ᵁ N z ⊓ Q.LOne.U j) := by
       by_contra hU
-      exact hv (dif_neg hU)
+      exact hv (dite_eq_right hU)
     rwa [← hval K g z j hU]
 
 end GlobalTheory.ZH.GlueTheta
@@ -794,7 +794,7 @@ theorem le_nonzeroLocus_iff (L : LB X) {V : X.Opens} (σ : ∀ j, Γ(X, V ⊓ (o
     obtain ⟨a, rfl⟩ : ∃ a, j = fun _ => a := ⟨j 0, funext fun i => congrArg j (Subsingleton.elim _ _)⟩
     have h₁ : ⊤ ≤ (x ≫ F) ⁻¹ᵁ (V ⊓ (one L).U fun _ => a) := by
       by_contra hc
-      exact hj (dif_neg hc)
+      exact hj (dite_eq_right hc)
     have h₂ : ⊤ ≤ x ⁻¹ᵁ (L.pull F).U (fun _ => a) := fun z hz =>
       Set.mem_iInter.2 fun _ => Set.mem_iInter.1 (h₁ hz).2 0
     rw [Points.valF_eq_valR, ← Points.valR_appLE x F (chart_le L F h fun _ => a) h₂] at hj
@@ -1366,7 +1366,7 @@ theorem ZHPre.exists_scale_section : ∀ (o Ω : Type) [CommRing o] [Field Ω] [
     obtain ⟨g, j, hg, hne⟩ := hF K x (hx.trans hN)
     have h1 : ⊤ ≤ g ⁻¹ᵁ (Q.G.hom ⁻¹ᵁ N ⊓ Q.LOne.U j) := by
       by_contra hc
-      exact hne (dif_neg hc)
+      exact hne (dite_eq_right hc)
     have hx' : ⊤ ≤ x ⁻¹ᵁ N' := (top_le_preimage_iff x N').2 hx
     have h2 : ⊤ ≤ g ⁻¹ᵁ (Q.G.hom ⁻¹ᵁ N' ⊓ Q.LOne.U j) := fun w hw =>
       ⟨(show ⊤ ≤ (g ≫ Q.G.hom) ⁻¹ᵁ N' from hg ▸ hx') hw, (h1 hw).2⟩
@@ -1768,7 +1768,7 @@ theorem exists_theta_div : (∀ (T K : Type) [CommRing T] [IsDomain T] [IsDiscre
     (M.isOpen_setOf_mem_O _).inter (M.isOpen_setOf_mem_O _)
   have hall : ∀ z' : M.Z, z' ∈ N₀ → z' ∈ W → c₀ * S.th x₀ ∈ M.O z' ∧ (c₀ * S.th x₀)⁻¹ ∈ M.O z' := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨z₂, hz₂N, hz₂W, hbad⟩ := hcon
     have hZ : (((N₀ : Set M.Z) ∩ (W : Set M.Z)) ∩
         {z' : M.Z | c₀ * S.th x₀ ∈ M.O z' ∧ (c₀ * S.th x₀)⁻¹ ∈ M.O z'}ᶜ).Nonempty :=

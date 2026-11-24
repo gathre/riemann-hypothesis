@@ -64,7 +64,7 @@ theorem maxBound_holds : MaxBoundStatement (E := E) := by
   classical
   intro r X la P M w hP hM hw hw0 htr z0 hz0 hhalf hpos v hv hv0
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hf : (1 : ℝ) ≤ (fdeg E : ℝ) := one_le_field_half_degree (E := E)
   have hk0 : 0 < X.k0 := X.minWeight_pos
   have hlog2 : 0 < Real.log 2 := Real.log_pos one_lt_two
@@ -185,10 +185,10 @@ theorem maxBound_holds : MaxBoundStatement (E := E) := by
     have h2 := h1.differentiableAt (hU.mem_nhds hz)
     refine h2.congr_of_eventuallyEq ?_
     filter_upwards [hU.mem_nhds hz] with ζ hζ
-    rw [hG, if_pos (hcondT ζ hζ)]
+    rw [hG, ite_eq_left (hcondT ζ hζ)]
   have hzero : Tendsto G (comap im atTop) (𝓝 0) :=
     flowTermNormDecay.tendsto_zero X la P hP hz0 hv hvv hv0 hdom0 G (fun ζ hζ => by
-      rw [hG, if_pos (hcondT ζ (by linarith))])
+      rw [hG, ite_eq_left (hcondT ζ (by linarith))])
 
   have hpn : ∀ x, X.pnorm la P x = ‖P x‖ * X.nfac la x := fun _ => rfl
   have hnf_nonneg : ∀ x, 0 ≤ X.nfac la x := by
@@ -207,7 +207,7 @@ theorem maxBound_holds : MaxBoundStatement (E := E) := by
     intro z hz
     have hcz := hcondT z (by rw [hz]; linarith)
     have hy := (hdomiff z).2 hcz
-    rw [hG, if_pos hcz]
+    rw [hG, ite_eq_left hcz]
     have hN := m3bNorm_holds (E := E) r X.toData (fun τ : X.Ψ => Data.emb τ.1 v) hIsoV la z0 hz0
       (fun _ => z) hy
     dsimp only at hN
@@ -267,7 +267,7 @@ theorem maxBound_holds : MaxBoundStatement (E := E) := by
 
   have hS := PeriodicSchwarzLemma.periodic_schwarz hM htpos htT hGper hdiff hzero hK
   have hG0 : G 0 = P z0 := by
-    rw [hG, if_pos (fun τ => by simp)]
+    rw [hG, ite_eq_left (fun τ => by simp)]
     congr 1
     funext τ
     show X.flowMat v τ 0 * mat z0 τ = z0 τ
@@ -282,7 +282,7 @@ theorem maxBound_holds : MaxBoundStatement (E := E) := by
       _ = _ := by rw [mul_assoc, div_mul_cancel₀ _ hN0.ne']
   have h2 : 1 ≤ Real.exp (-2 * π * t / M) * (2 * (2 : ℝ) ^ (w / 2)) := by
     by_contra hh
-    push_neg at hh
+    push Not at hh
     nlinarith [mul_lt_mul_of_pos_left hh hpos]
 
   have hkey : ((fdeg E : ℝ) * w + 2) * Real.log 2 ≤ 2 * π * t / M := by

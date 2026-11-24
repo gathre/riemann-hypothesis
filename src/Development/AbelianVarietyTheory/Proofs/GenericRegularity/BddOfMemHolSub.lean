@@ -105,7 +105,7 @@ theorem _root_.GlobalTheory.IntegralCusp.exists_root_bound (N k m : ℕ) (cf : �
   have hx0 : 0 < x := norm_pos_iff.mpr hg0
   have ht0 : 0 ≤ t := by positivity
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have htx : t ≤ x / B := by rw [le_div_iff₀ hB0]; linarith
   have hterm : ∀ i ∈ Finset.range m,
       ‖MvPolynomial.eval w (cf i) * g ^ i‖ ≤ A i * (x ^ m / B) := by

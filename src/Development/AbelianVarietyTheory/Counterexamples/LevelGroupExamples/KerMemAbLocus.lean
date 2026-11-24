@@ -97,7 +97,7 @@ theorem vPsiAt_eq (A : DatAt Y P) (χ : A.Ylat) : (∃ r, PsiCoord A.U.D.toPre �
   have h2 := norm_le A u
   have h3 := norm_le A (↑u⁻¹ : A.R)
   have h4 : ‖fC A u‖ = 1 := by nlinarith [norm_nonneg (fC A u), norm_nonneg (fC A (↑u⁻¹ : A.R))]
-  simp only [vPsiAt, dif_pos hex]
+  simp only [vPsiAt, dite_eq_left hex]
   rw [hu, map_mul, norm_mul, h4, one_mul]
 
 theorem betaAdd (Y : Model Xo c β) (p : ℕ) : BetaAdd Y p := fun _ _ A =>

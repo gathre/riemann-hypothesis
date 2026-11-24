@@ -144,11 +144,11 @@ theorem exists_eq_sum_ballFn {r R : k} (hr : r ≠ 0) (hle : valuation k r ≤ v
     | coe x =>
       by_cases hx : valuation k x ≤ valuation k R
       · simp only [Pi.smul_apply, ballFn_coe, key _ ⟨x, hx⟩, smul_eq_mul, mul_ite, mul_one, mul_zero,
-          Finset.sum_ite_eq', Finset.mem_univ, if_true]
+          Finset.sum_ite_eq', Finset.mem_univ, ite_true]
         exact (congrArg F (by simp)).trans (h2 _ _ ((key _ ⟨x, hx⟩).2 rfl))
       · rw [h1 x (not_le.1 hx), Finset.sum_eq_zero]
         intro q _
-        rw [Pi.smul_apply, ballFn_coe, if_neg, smul_zero]
+        rw [Pi.smul_apply, ballFn_coe, ite_eq_right, smul_zero]
         intro h
         have h3 : x - o q + o q ∈ A := A.add_mem (h.trans hle) q.out.2
         rw [sub_add_cancel] at h3

@@ -66,7 +66,7 @@ theorem exists_fixed_of_stable {F ι : Type} [Field F] [Fintype ι] [DecidableEq
     ⟨_, v₀, hv₀, h0, rfl⟩
   obtain ⟨w, hwN, hw0, hwk⟩ := Nat.find_spec hex
   obtain ⟨j₀, hj₀⟩ : ∃ j, w j ≠ 0 := by
-    by_contra h; push_neg at h; exact hw0 (funext h)
+    by_contra h; push Not at h; exact hw0 (funext h)
   set v := (w j₀)⁻¹ • w with hv
   have hvN : v ∈ N := N.smul_mem _ hwN
   have hvj : v j₀ = 1 := by simp [hv, hj₀]
@@ -74,7 +74,7 @@ theorem exists_fixed_of_stable {F ι : Type} [Field F] [Fintype ι] [DecidableEq
     intro j; simp [hv, hj₀]
   refine ⟨v, hvN, fun h => by simp [h] at hvj, fun σ hσ => ?_⟩
   by_contra hne
-  push_neg at hne
+  push Not at hne
   set u : ι → F := (fun j => σ (v j)) - v with hu
   have huN : u ∈ N := N.sub_mem (hN σ hσ v hvN) hvN
   have hu0 : u ≠ 0 := by

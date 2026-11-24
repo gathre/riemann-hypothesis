@@ -396,7 +396,7 @@ theorem invsupp : ∀ (D : D7) (c : Comm D) (t : Tup c), t.Is → ∀ j σ (h : 
     funext h₂
     simp only [Tup.integrand, key]
   · by_contra hno
-    push_neg at hno
+    push Not at hno
     apply hne
     funext h₂
     simp only [Tup.integrand, Pi.zero_apply]
@@ -461,7 +461,7 @@ theorem vanMany : ∀ (D : D7) (c : Comm D) (𝒯 : Type) (t : 𝒯 → Tup c), 
   · intro h₁ hne
     have : ∃ i, (t (s i)).integrand j σ h P₁ P₂ (φ i) (f i) h₁ ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply hne
       funext h₂
       simp [hcon]

@@ -1552,7 +1552,7 @@ theorem sup_rat [TopologicalSpace R] {ε : ℤˣ} (A : Ad E R) (ν : 𝔸[F] →
     rfl
   obtain ⟨m, n, hmn⟩ : ∃ m n, (n₀ : Matrix (ι ⊕ ι) (ι ⊕ ι) E) m n ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     apply hdn
     rw [det_two i hi]
     simp [hc]

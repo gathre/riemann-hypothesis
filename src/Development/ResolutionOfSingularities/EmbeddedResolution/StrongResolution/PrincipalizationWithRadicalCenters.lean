@@ -539,7 +539,7 @@ theorem orderReductionSeq_isomorphic_of_boundary_nil (hG : PrincipalizationGeome
     have hAlg : orderReductionSeq hinv T (principalizationOfDimLe T A)
         = (orderReductionData hinv T (principalizationOfDimLe T A)).toMarkedSequenceOfBlowups := by
       unfold orderReductionSeq
-      rw [if_neg hcs]
+      rw [ite_eq_right hcs]
     rw [hAlg]
     have e1 : ((orderReductionData hinv T (principalizationOfDimLe T A)).toMarkedSequenceOfBlowups).toSequenceOfBlowups.Isomorphic
         ((companionIdealReduction hinv T (principalizationOfDimLe T A)).toMarkedSequenceOfBlowups).toSequenceOfBlowups := by

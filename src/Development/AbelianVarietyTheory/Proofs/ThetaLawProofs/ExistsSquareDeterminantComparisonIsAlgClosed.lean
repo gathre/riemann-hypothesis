@@ -254,7 +254,7 @@ theorem exists_enum_ker_transpose : Out.Laws → ∀ (K : Type) [Field K] [IsAlg
   obtain ⟨e⟩ := Finite.card_eq.mp hc
   refine ⟨fun I => (e I).1, fun I I' hI p => ?_, fun I c => ?_⟩
   · by_contra hne
-    push_neg at hne
+    push Not at hne
     refine hI (e.injective (Subtype.ext (funext fun r => ?_)))
     have hp : p = IsLocalRing.closedPoint K := Subsingleton.elim _ _
     subst hp

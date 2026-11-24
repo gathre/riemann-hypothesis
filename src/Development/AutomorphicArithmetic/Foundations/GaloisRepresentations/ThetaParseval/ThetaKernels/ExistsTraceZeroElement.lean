@@ -60,7 +60,7 @@ theorem exists_ne_zero_conj_neg_k : ∀ (F E : Type) [Field F] [NumberField F] [
   have hinv : ∀ x, σ (σ x) = x := fun x => τ.injective (by rw [hτ, hτ, star_star])
   have hne : ∃ x, σ x ≠ x := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     obtain ⟨w⟩ : Nonempty (InfinitePlace E) := inferInstance
     have hw := hc.isComplex w
     rw [InfinitePlace.isComplex_iff] at hw

@@ -296,7 +296,7 @@ theorem _root_.GlobalTheory.FinWeil.sumOp_comp_of_adj_of_inf_eq : ∀ {R X M : T
     exact (mul_inv_eq_one₀ (hχne t)).1 h1
   have hχnt : ∃ t, χ t ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have haB : a ∈ B := by
       rw [hB']
       intro b hb

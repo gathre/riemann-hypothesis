@@ -126,7 +126,7 @@ theorem imA_span_g_max (p : TypX X) :
     simpa using this
   have hgt2 : WithZero.exp (-2 : ℤ) < p.1.intValuation ((gOf p : ℕ) : 𝓞 X.B.I.F) := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hnot ((IsDedekindDomain.HeightOneSpectrum.intValuation_le_pow_iff_mem p.1
       ((gOf p : ℕ) : 𝓞 X.B.I.F) 2).1 (by simpa using hc))
   have hge1 : WithZero.exp (-1 : ℤ) ≤ p.1.intValuation ((gOf p : ℕ) : 𝓞 X.B.I.F) := by

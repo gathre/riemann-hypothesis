@@ -915,7 +915,7 @@ theorem main (hσ : ∀ a, σ (σ a) = a) (hJ : cT σ J = J) (hdet : J.det ≠ 0
       omega
     obtain ⟨z, hz⟩ : ∃ z, z ∉ Submodule.span K (Set.range e) := by
       by_contra hall
-      push_neg at hall
+      push Not at hall
       exact hspan (eq_top_iff.mpr (fun z _ => hall z))
     obtain ⟨v, hvW, hzv⟩ := proj e he ho z
     have hv0 : v ≠ 0 := by
@@ -924,7 +924,7 @@ theorem main (hσ : ∀ a, σ (σ a) = a) (hJ : cT σ J = J) (hdet : J.det ≠ 0
       exact hz hzv
     obtain ⟨z2, hz2⟩ : ∃ z2, H σ J v z2 ≠ 0 := by
       by_contra hall
-      push_neg at hall
+      push Not at hall
       exact hv0 (eq_zero_of_H σ J hdet v hall)
     obtain ⟨v2, hv2W, hzv2⟩ := proj e he ho z2
     have hvspan : ∀ x ∈ Submodule.span K (Set.range e), H σ J v x = 0 := by

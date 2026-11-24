@@ -285,12 +285,12 @@ theorem exists_away (S : Finset (HeightOneSpectrum (𝓞 F))) (N : ℕ) (hS : �
   obtain ⟨u, hu⟩ : ∃ u : Af F, ∀ v, evalV F v u = if v ∈ S then 0 else (N : v.adicCompletion F)⁻¹ :=
     ⟨⟨fun v => if v ∈ S then 0 else (N : v.adicCompletion F)⁻¹, Filter.Eventually.of_forall hi⟩, fun _ => rfl⟩
   have e : ∀ v ∉ S, evalV F v (u * N) = 1 := fun v hv => by
-    rw [map_mul, hu, if_neg hv, map_natCast, inv_mul_cancel₀ (inv_nat_mem v fun h => hv (hS v h)).1]
+    rw [map_mul, hu, ite_eq_right hv, map_natCast, inv_mul_cancel₀ (inv_nat_mem v fun h => hv (hS v h)).1]
   refine ⟨u * N, u, fun v => by rw [hu]; exact hi v, rfl, FiniteAdeleRing.ext _ fun v => ?_, e⟩
   show evalV F v (u * N * (u * N)) = evalV F v (u * N)
   rw [map_mul]
   by_cases hv : v ∈ S
-  · rw [map_mul, hu, if_pos hv, zero_mul, zero_mul]
+  · rw [map_mul, hu, ite_eq_left hv, zero_mul, zero_mul]
   · rw [e v hv, one_mul]
 
 theorem tens_ext (z : Af F ⊗[F] E) (h : ∀ v, Algebra.TensorProduct.map (evalV F v) (AlgHom.id F E) z = 0) : z = 0 := by

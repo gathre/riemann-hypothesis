@@ -104,7 +104,7 @@ theorem vanish_above (w u : Module.Basis (Fin N) Ω V) (hup : ∀ i j, i < j →
     ∀ j, i < j → u.repr v j = 0 := by
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hne : (Finset.univ.filter (fun j => i < j ∧ u.repr v j ≠ 0)).Nonempty := by
     obtain ⟨j, hj, hj'⟩ := hcon
     exact ⟨j, Finset.mem_filter.mpr ⟨Finset.mem_univ _, hj, hj'⟩⟩
@@ -130,7 +130,7 @@ theorem exists_basis (w : Module.Basis (Fin N) Ω V) (f : Fin N → V)
       rw [Fintype.linearIndependent_iff]
       intro g hg
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hne : (Finset.univ.filter (fun j => g j ≠ 0)).Nonempty := by
         obtain ⟨j, hj⟩ := hcon
         exact ⟨j, Finset.mem_filter.mpr ⟨Finset.mem_univ _, hj⟩⟩
@@ -185,10 +185,10 @@ theorem coords_mem {O : Type*} [CommRing O] [Algebra O Ω] (R : Subalgebra O Ω)
           · have hne : (⟨k, hk⟩ : Fin N) ≠ j := fun e => by
               rw [← e] at h
               exact lt_irrefl _ h
-            rw [hv j h, if_neg hne, mul_zero, sub_zero]
+            rw [hv j h, ite_eq_right hne, mul_zero, sub_zero]
           · have he : (⟨k, hk⟩ : Fin N) = j := Fin.ext h
             subst he
-            rw [if_pos rfl, mul_one, sub_self]
+            rw [ite_eq_left rfl, mul_one, sub_self]
         intro i
         have hi := ih _ hv'L hv' i
         rw [hrep i] at hi

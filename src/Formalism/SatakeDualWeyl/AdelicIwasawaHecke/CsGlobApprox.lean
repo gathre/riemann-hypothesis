@@ -114,7 +114,7 @@ end
 private theorem exists_not_mem_asIdeal_pow_of_ne_zero {F : Type} [Field F] [NumberField F] (w : HeightOneSpectrum (𝓞 F)) (z : 𝓞 F) (hz : z ≠ 0) :
     ∃ n : ℕ, z ∉ w.asIdeal ^ n := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hmem : z ∈ ⨅ i : ℕ, w.asIdeal ^ i := Submodule.mem_iInf _ |>.2 h
   rw [Ideal.iInf_pow_eq_bot_of_isDomain] at hmem
   · exact hz ((Submodule.mem_bot _).1 hmem)

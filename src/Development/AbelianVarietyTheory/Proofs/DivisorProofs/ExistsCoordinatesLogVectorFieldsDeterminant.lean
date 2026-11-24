@@ -358,11 +358,11 @@ theorem logDet_local_eq_unit_mul_prod :
         refine derivation_prod_eq_zero_of_forall _ _ _ fun j hj => ?_
         have hne : e j ≠ e j0 := fun h => (Finset.ne_of_mem_erase hj) (e.injective h)
         show dd (e j0) (φ (x (e j))) = 0
-        rw [hδ, if_neg hne]
+        rw [hδ, ite_eq_right hne]
       have hone : dd (e j0) (r j0) = 1 := by
         show dd (e j0) (φ (x (e j0))) = 1
-        rw [hδ, if_pos rfl]
-      have hmv : hm (e j0) = r j0 := if_pos hi
+        rw [hδ, ite_eq_left rfl]
+      have hmv : hm (e j0) = r j0 := ite_eq_left hi
       have : hm (e j0) * dd (e j0) g = g := by
         conv_lhs => rw [hsplit]
         rw [Derivation.leibniz, hrest, hone, hmv, smul_zero, zero_add, smul_eq_mul, mul_one, ← hsplit]
@@ -372,7 +372,7 @@ theorem logDet_local_eq_unit_mul_prod :
         refine derivation_prod_eq_zero_of_forall _ _ _ fun j hj => ?_
         have hne : e j ≠ i := fun h => hi (Finset.mem_map.mpr ⟨j, hj, h⟩)
         show dd i (φ (x (e j))) = 0
-        rw [hδ, if_neg hne]
+        rw [hδ, ite_eq_right hne]
       rw [this, mul_zero]
       exact Ideal.zero_mem _
   have hE : ∀ i, ∀ f ∈ I.map φ, E i f ∈ I.map φ := by
@@ -408,11 +408,11 @@ theorem logDet_local_eq_unit_mul_prod :
       have := _root_.GlobalTheory.dvd_derivation_of_mem_span_prod_params R m r hrsp J (D' k) hgk j hj
       obtain ⟨c, hc⟩ := this
       refine ⟨c, ?_⟩
-      have hmv : hm (e j) = r j := if_pos hl
+      have hmv : hm (e j) = r j := ite_eq_left hl
       rw [hmv, ← hc]
       exact (hD'a k (x (e j))).symm
     · refine ⟨φ (b k (x l)), ?_⟩
-      have hmv : hm l = 1 := if_neg hl
+      have hmv : hm l = 1 := ite_eq_right hl
       rw [hmv, one_mul]
   choose M hM using hdiv
 

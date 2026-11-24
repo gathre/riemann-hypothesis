@@ -429,7 +429,7 @@ theorem exists_decay_boundC_tensor (w : InfinitePlace k) (φ : 𝓢(ι → mixed
     have hnorm : (t : ℝ) * κ ≤ (1 + ‖z‖) ^ n := by
       obtain ⟨j, hj⟩ : ∃ j, ξ j ≠ 0 := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         exact hξ0 (funext hcon)
       have h1 : (t : ℝ) * κ₀ ≤ mixedEmbedding.norm (e * mixedEmbedding k (ξ j)) := by
         rw [map_mul, norm_infC_moduleSection]
@@ -453,12 +453,12 @@ theorem exists_decay_boundC_tensor (w : InfinitePlace k) (φ : 𝓢(ι → mixed
     have hu : ∏ i, u₁ (ξ i) = ∏ i, ((1 + ‖mixedEmbedding k (ξ i)‖) ^ m)⁻¹ :=
       Finset.prod_congr rfl fun i _ ↦ by
         simp only [u₁]
-        rw [if_pos (hξJ i)]
+        rw [ite_eq_left (hξJ i)]
     beta_reduce
     rw [hu]
     exact (hφ z).trans (decay_real_bound hA hB'0 (X := fun j ↦ 1 + ‖mixedEmbedding k (ξ j)‖)
       (fun j ↦ by positivity) ht0 hκ (by positivity) hemb hnorm)
-  · push_neg at hm
+  · push Not at hm
     obtain ⟨i, hi'⟩ := hm
     have hprod : ∏ i, cosetIndicator I (b i) (finPartPi y i) = 0 :=
       Finset.prod_eq_zero (Finset.mem_univ i) (by

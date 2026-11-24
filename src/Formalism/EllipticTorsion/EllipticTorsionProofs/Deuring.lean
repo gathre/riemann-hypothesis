@@ -95,7 +95,7 @@ theorem deuring_model : ModelDeuring := by
     rw [e, norm_pow, h3, one_pow]
   have ha1 : ‖a‖ ≤ 1 := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hA3 : ‖a ^ 3‖ = ‖a‖ ^ 3 := norm_pow a 3
     have hbig : 1 < ‖a‖ ^ 3 := one_lt_pow₀ hlt (by norm_num)
     have h24 : ‖(24 : K)‖ ≤ 1 := by exact_mod_cast norm_nat_le_one (K := K) 24

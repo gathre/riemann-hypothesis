@@ -655,7 +655,7 @@ theorem heckeEig_ne_bot (B : LocBase0 H what₂) (hs : HeckeStd0 B) (hd : FinDim
     fun a => if h : a ∈ hAlg B i then NCov.pt x.1 ⟨a, h⟩ else 0
   have hSc : ∀ a ∈ S, ∀ b ∈ S, Commute a b := std_comm (j := jOf B i) (w := wOf B i) hs i.2.2.2.1 i.2.2.2.2.1
   have hmem : ∀ a ∈ S, a ∈ hAlg B i := fun a ha => Algebra.subset_adjoin ha
-  have hχ : ∀ a (ha : a ∈ S), χ a = NCov.pt x.1 ⟨a, hmem a ha⟩ := fun a ha => dif_pos (hmem a ha)
+  have hχ : ∀ a (ha : a ∈ S), χ a = NCov.pt x.1 ⟨a, hmem a ha⟩ := fun a ha => dite_eq_left (hmem a ha)
   obtain ⟨u, huW, hu0, hu⟩ := exists_common_eigvec S hSc χ (NCov.W (hAlg B i) (NCov.pt x.1)) x.2.2
     (fun a ha => by
       rw [hχ a ha]
@@ -672,7 +672,7 @@ theorem heckeEig_ne_bot (B : LocBase0 H what₂) (hs : HeckeStd0 B) (hd : FinDim
       ((actC B (partCompl_of hs hd) hAct i f).baseChange (FractionRing (OOf B i))) z =
         algebraMap (OOf B i) (FractionRing (OOf B i)) ((f : XOf B i → OOf B i) x) • z := by
     rintro f ⟨v, k, hvk, hf⟩
-    have e1 : f = hTOf B i v k := Subtype.ext (by rw [hf]; simp [hTOf, dif_pos hvk])
+    have e1 : f = hTOf B i v k := Subtype.ext (by rw [hf]; simp [hTOf, dite_eq_left hvk])
     subst e1
     apply PsiC_inj B (partCompl_of hs hd) hL i
     rw [hH i v k hvk z, hz, map_smul, hz, hu _ ⟨v, k, hvk, rfl⟩, hχ _ ⟨v, k, hvk, rfl⟩]
@@ -753,8 +753,8 @@ theorem not_mem_bad (D : D7) (cf : CharFrame D) (C : NChoice D) (tp : TupTied D 
         fun h => hp (GlobalTheory.LocLevel.mem_placesOver_of_overPl' hov hov' h)
       unfold CharFrame.delAt
       split_ifs with h
-      · exact cf.isDel'.unr w' fun h' => hnp (by rw [if_pos h]; exact h')
-      · exact cf.isDel.unr w' fun h' => hnp (by rw [if_neg h]; exact h')
+      · exact cf.isDel'.unr w' fun h' => hnp (by rw [ite_eq_left h]; exact h')
+      · exact cf.isDel.unr w' fun h' => hnp (by rw [ite_eq_right h]; exact h')
 
 theorem genHyp : ∀ (D : D7) (cf : CharFrame D) (M : MtFam D) (C : NChoice D) (tp : TupTied D cf C),
     MtInput D M tp.tup C.Q → QOver C → GenHyp M C.Q := by
@@ -1296,7 +1296,7 @@ theorem main : ∀ {R : Ranks} {H : Host R} {what₂ : Rows.Data R} (B : LocBase
   | mem f hf =>
     obtain ⟨v, k, hvk, rfl⟩ := hf
     refine Ideal.Quotient.eq.2 ?_
-    simp only [hTfun, dif_pos hvk]
+    simp only [hTfun, dite_eq_left hvk]
     exact sub_mem_of_ker_eq x.1 y.1 (x.2.1.trans y.2.1.symm) _
   | algebraMap r => rfl
   | add f g _ _ hf hg => simp only [Pi.add_apply, map_add (f := _), hf, hg]
@@ -1695,7 +1695,7 @@ theorem twist_ram_and_trivial_at_l : ∀ (D : D7) (cf : CharFrame D) (C : NChoic
   refine ⟨fun v hv A hA => ?_, fun v hv A hA σ hσ => ?_⟩
   · have hnu : ¬ (tp.psi w).UnrAt v := fun h => (hP.ram v).1 h hv
     rw [← hL.unr_iff ha (Or.inr rfl) hA] at hnu
-    push_neg at hnu
+    push Not at hnu
     obtain ⟨σ, hσ, hne⟩ := hnu
     exact ⟨σ, hσ, fun h => hne ((key σ).2 h)⟩
   · have hloc : (tp.psi w).loc v = 1 := MonoidHom.ext (hP.atl v hv)

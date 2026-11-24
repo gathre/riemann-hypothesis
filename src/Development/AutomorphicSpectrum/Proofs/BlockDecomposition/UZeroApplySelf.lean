@@ -266,7 +266,7 @@ theorem T_add (a : Q p d) (k : Fin d) : T t (a + u p k 0) = T t a * t k := by
     intro j
     by_cases hj : j = k
     · subst hj
-      simp only [Pi.add_apply, AddSubmonoid.coe_add, u_zero_apply_self, if_true]
+      simp only [Pi.add_apply, AddSubmonoid.coe_add, u_zero_apply_self, ite_true]
       rw [Nat.floor_add_one (a j).2.1, pow_succ]
     · simp [u_zero_apply_ne hj, hj]
   simp only [T, h, Finset.prod_mul_distrib]
@@ -441,7 +441,7 @@ theorem exists_not_dvd (a : I p d) (ha : a ≠ ⟨0, fun k => by simp⟩) {m : �
     (h : ∀ k, (p : ℚ) ^ m * (a.1 k : ℚ) = c k) : ∃ k, ¬ p ^ m ∣ c k := by
   have : ∃ k, (a.1 k : ℚ) ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact ha (Subtype.ext (funext fun k => Subtype.ext (hc k)))
   obtain ⟨k, hk⟩ := this
   refine ⟨k, ?_⟩

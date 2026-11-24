@@ -98,7 +98,7 @@ variable {I X : Type} [Zero X]
 noncomputable def ofFinset (S : Finset I) (y : S → X) : I →₀ X := by
   classical
   exact Finsupp.onFinset S (fun i => if h : i ∈ S then y ⟨i, h⟩ else 0) (by
-    intro i hi; by_contra h; exact hi (dif_neg h))
+    intro i hi; by_contra h; exact hi (dite_eq_right h))
 
 theorem ofFinset_apply (S : Finset I) (y : S → X) (i : S) : ofFinset S y i = y i := by
   classical

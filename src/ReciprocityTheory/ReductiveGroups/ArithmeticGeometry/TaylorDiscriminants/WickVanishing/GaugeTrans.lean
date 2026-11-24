@@ -101,17 +101,17 @@ theorem gt_coeff_sum_pow (n : ℕ) (e : Fin 2 →₀ ℕ) :
   simp_rw [hterm]
   rw [Finset.sum_eq_single (e 0)]
   · by_cases h : e 0 + e 1 = n
-    · rw [if_pos h, if_pos]
+    · rw [ite_eq_left h, ite_eq_left]
       rw [show n - e 0 = e 1 by omega]
       exact gt_single_add e
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       split_ifs with he
       · have h1 : e 1 = n - e 0 := by simpa using DFunLike.congr_fun he 1
         have hlt : n < e 0 := by omega
         rw [Nat.choose_eq_zero_of_lt hlt, Nat.cast_zero]
       · rfl
   · intro b _ hb
-    rw [if_neg]
+    rw [ite_eq_right]
     intro he
     apply hb
     have h0 : e 0 = b := by simpa using DFunLike.congr_fun he 0
@@ -134,9 +134,9 @@ theorem exp_subst_add_two_vars :
   rw [PowerSeries.coeff_subst ha, MvPowerSeries.coeff_mul]
   simp_rw [gt_coeff_sum_pow A, gt_coeff_expX A, PowerSeries.coeff_exp]
   rw [finsum_eq_single _ (e 0 + e 1)]
-  · rw [if_pos rfl]
+  · rw [ite_eq_left rfl]
     rw [Finset.sum_eq_single (single 0 (e 0), single 1 (e 1))]
-    · simp only [Finsupp.single_eq_same, if_true]
+    · simp only [Finsupp.single_eq_same, ite_true]
       rw [smul_eq_mul, ← map_natCast (algebraMap ℚ A), ← map_mul, ← map_mul]
       congr 1
       have f0 : ((e 0 + e 1).factorial : ℚ) ≠ 0 := by positivity
@@ -168,14 +168,14 @@ theorem exp_subst_add_two_vars :
             rw [h2]
             congr 1
             omega
-        · rw [if_neg h2, mul_zero]
-      · rw [if_neg h1, zero_mul]
+        · rw [ite_eq_right h2, mul_zero]
+      · rw [ite_eq_right h1, zero_mul]
     · intro hnot
       exfalso
       apply hnot
       simpa using (gt_single_add e).symm
   · intro d hd
-    rw [if_neg (fun h => hd h.symm), smul_zero]
+    rw [ite_eq_right (fun h => hd h.symm), smul_zero]
 
 end Exp2
 
@@ -232,7 +232,7 @@ private theorem gt_cc_lemma {σ τ : Type} [Finite σ] (a : σ → MvPowerSeries
   · intro e he
     obtain ⟨s, hs⟩ : ∃ s, e s ≠ 0 := by
       by_contra hne
-      push_neg at hne
+      push Not at hne
       exact he (Finsupp.ext hne)
     have h0 : constantCoeff (e.prod fun s n => a s ^ n) = 0 := by
       rw [Finsupp.prod, map_prod]

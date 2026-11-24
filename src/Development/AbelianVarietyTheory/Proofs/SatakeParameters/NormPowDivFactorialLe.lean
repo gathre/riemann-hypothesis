@@ -68,14 +68,14 @@ theorem _root_.GlobalTheory.BiextInhab.laK_idMod2 (hl : l.Prime) :
   refine ⟨fun j => ?_, fun j i => ?_⟩
   · show _root_.GlobalTheory.BiextInhab.laK K l d j 0 = 0
     unfold _root_.GlobalTheory.BiextInhab.laK
-    refine Finset.sum_eq_zero fun e _ => if_neg fun h => ?_
+    refine Finset.sum_eq_zero fun e _ => ite_eq_right fun h => ?_
     exact pow_ne_zero _ hl.ne_zero (Finsupp.single_eq_zero.mp h.symm)
   · show _root_.GlobalTheory.BiextInhab.laK K l d j (Finsupp.single i 1) = _
     unfold _root_.GlobalTheory.BiextInhab.laK
     rw [Finset.sum_eq_single 0]
     · simp [Finsupp.single_left_inj one_ne_zero]
     · intro e _ he
-      refine if_neg fun h => he ?_
+      refine ite_eq_right fun h => he ?_
       have h1 := congrArg (fun f : ZMod d →₀ ℕ => f.sum fun _ k => k) h
       simp only [Finsupp.sum_single_index] at h1
       rcases Nat.pow_eq_one.mp h1.symm with h2 | h2
@@ -176,7 +176,7 @@ theorem _root_.GlobalTheory.BiextInhab.bridge (l : ℕ) [Fact l.Prime] (d : ℕ)
     unfold _root_.Formalism.BasicNotions.jetLogG
     dsimp only
     symm
-    refine Finset.sum_eq_zero fun e _ => if_neg ?_
+    refine Finset.sum_eq_zero fun e _ => ite_eq_right ?_
     rintro rfl
     exact hm ⟨_, (hsingle e).symm⟩
 

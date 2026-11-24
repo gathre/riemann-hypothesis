@@ -747,7 +747,7 @@ theorem st4 : St4 := by
   have hE : ExtendsCentral ω τ := hω.extendsCentral hω₀
   obtain ⟨w₀, hw₀⟩ : ∃ w₀ : W, w₀ ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     haveI := hτ
     exact (bot_ne_top : (⊥ : Subrepresentation τ) ≠ ⊤) (Subrepresentation.ext (Submodule.ext fun w => by
       rw [hcon w]; exact ⟨fun _ => Submodule.zero_mem _, fun _ => Submodule.zero_mem _⟩))
@@ -953,7 +953,7 @@ theorem st8a : St4 → St5 → St6 → St7 → St8a := by
     if hP : P ∈ Lab 𝓀[k] n then ⟨n, Quotient.mk _ (π P hP)⟩ else ⟨n, Quotient.mk _ d⟩
   have hF : ∀ P (hP : P ∈ Lab 𝓀[k] n), F P = ⟨n, Quotient.mk _ (π P hP)⟩ := by
     intro P hP
-    simp only [F, dif_pos hP]
+    simp only [F, dite_eq_left hP]
   have hfix : ∀ P (hP : P ∈ Lab 𝓀[k] n),
       fixed (π P hP).ρ (KOne k (Fin n)) = LinearMap.range (j P hP) := by
     intro P hP
@@ -1072,7 +1072,7 @@ theorem exists_eq_pow_of_aeval {K F : Type*} [Field K] [Fintype K] [Field F] [Al
     · exact h
     · exact absurd H.symm (hlt j i h hi)
   by_contra hno
-  push_neg at hno
+  push Not at hno
   set S := (Finset.range n).image (fun i : ℕ => w ^ (Nat.card K) ^ i) with hS
   have hcardS : S.card = n := by
     rw [hS, Finset.card_image_of_injOn hinj, Finset.card_range]
@@ -1136,7 +1136,7 @@ theorem st3a : St3a := by
     have hex : ∃ j : ℕ, ζ ^ j = z := by
       obtain ⟨i, -, hi⟩ := hζ.eq_pow_of_pow_eq_one hzN
       exact ⟨i, hi⟩
-    simp only [jOf, dif_pos hex]
+    simp only [jOf, dite_eq_left hex]
     exact hex.choose_spec
   have hint : ∀ x : AlgebraicClosure K, IsIntegral K x := fun x => Algebra.IsIntegral.isIntegral x
   have hper : ∀ (j m : ℕ), (ζ ^ j) ^ (Nat.card K) ^ m = ζ ^ j ↔

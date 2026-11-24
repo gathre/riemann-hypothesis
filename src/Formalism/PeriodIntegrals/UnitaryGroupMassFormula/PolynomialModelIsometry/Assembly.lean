@@ -109,7 +109,7 @@ theorem modelIso_of_steps (hA : PolyExt) (hI : LamInt) (hT : TorusEig) (hL : Low
   have hanti : Antitone ν := by
     intro l j hlj
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     rcases eq_or_lt_of_le hlj with h | h
     · subst h; exact lt_irrefl _ hlt
     · have hbot := dualWeylNonDom ℂ N N ν ⟨l, j, h, hlt⟩
@@ -132,7 +132,7 @@ theorem modelIso_of_steps (hA : PolyExt) (hI : LamInt) (hT : TorusEig) (hL : Low
     have h2 := hν ⟨N - 1, by omega⟩
     have h3 : ν ⟨N - 1, by omega⟩ ≤ ν a := hanti (by rw [Fin.le_def]; simp; omega)
     have h3' : (ν ⟨N - 1, by omega⟩ : ℤ) ≤ ν a := by exact_mod_cast h3
-    simp only [DomWeight.natW, DomWeight.detShift, c, dif_pos hN, lam]
+    simp only [DomWeight.natW, DomWeight.detShift, c, dite_eq_left hN, lam]
     omega
   have hlast : ∀ h : 0 < N, lam.natW ⟨N - 1, by omega⟩ = 0 := by
     intro h; simp [DomWeight.natW, DomWeight.detShift, h, lam]

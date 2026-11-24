@@ -840,7 +840,7 @@ theorem card_infinitePlace_QI : Fintype.card (InfinitePlace QI) = 1 := by
 
 theorem a_ex_one : (ex 1 one_ne_zero).a = 1 := by
   show Fintype.card {v : InfinitePlace QI // sigPos (herm_Hc 1) v.embedding = 1} = 1
-  simp only [sigPos_Hc, zero_lt_one, if_true]
+  simp only [sigPos_Hc, zero_lt_one, ite_true]
   rw [Fintype.card_subtype_true, card_infinitePlace_QI]
 
 end Example

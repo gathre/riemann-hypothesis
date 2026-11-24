@@ -475,14 +475,14 @@ theorem blockRow_eq_sum {ι R : Type} [CommRing R] {m : ι → ℕ} {n n' : ℕ}
     rw [Finset.sum_eq_single k]
     · simp
     · intro j _ hj
-      rw [if_neg, mul_zero]
+      rw [ite_eq_right, mul_zero]
       intro h
       exact hj (eq_of_heq (Sigma.mk.inj (e'.injective h)).2).symm
     · simp
   · rw [hB _ _ _ _ h]
     symm
     refine Finset.sum_eq_zero fun j _ => ?_
-    rw [if_neg, mul_zero]
+    rw [ite_eq_right, mul_zero]
     intro h'
     exact h (Sigma.mk.inj (e'.injective h')).1.symm
 
@@ -492,7 +492,7 @@ theorem transpose_mul_symm_mul_apply {R : Type} [CommRing R] {n n' : ℕ} (B : M
       ((if x = a ∧ y = b then 1 else 0) + (if x = b ∧ y = a then 1 else 0) : R)) * B) c d =
       B a c * B b d + B b c * B a d := by
   simp only [Matrix.mul_apply, Matrix.transpose_apply, Matrix.of_apply, mul_add, Finset.sum_add_distrib, add_mul,
-    ite_and, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true, ite_mul, zero_mul]
+    ite_and, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true, ite_mul, zero_mul]
 
 theorem transpose_mul_symPair_mul_mem_span :
     ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (Dw : Datum H) (R : Type) [CommRing R] (n n' : ℕ) (e : (Σ τ : E →+* ℂ, Fin (Dw.mult τ)) ≃ Fin n) (e' : (Σ τ : E →+* ℂ, Fin (Dw.mult τ)) ≃ Fin n') (ε' : Fin Dw.dim ≃ GlobalTheory.LogKSDiv.PairIx H Dw) (B : Matrix (Fin n) (Fin n') R), (∀ (τ σ : E →+* ℂ) (i : Fin (Dw.mult τ)) (k : Fin (Dw.mult σ)), τ ≠ σ → B (e ⟨τ, i⟩) (e' ⟨σ, k⟩) = 0) → ∀ P : GlobalTheory.LogKSDiv.PairIx H Dw, ∃ cf : Fin Dw.dim → R, _root_.Matrix.transpose B * GlobalTheory.LogKSDiv.symPair (R := R) e P * B = ∑ k, cf k • GlobalTheory.LogKSDiv.symPair (R := R) e' (ε' k) := by

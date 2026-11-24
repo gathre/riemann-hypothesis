@@ -593,7 +593,7 @@ theorem iterate (T : LocTied l P AI) (K : FinExt l) {s : ℕ} (hs : Lev l s) {e 
 theorem logChi_coe (LT : LocTheory) (g : GQ l) :
     ((logChi LT g : ℤ_[l]) : ℚ_[l]) = logZl l ((LT l).χQ g : ℚ_[l]) := by
   have h := (GlobalTheory.PadicLogUnits.logZl_hom l).2.2.1 _ ((cyc_basic l _ (LT l).χQ_cyc).1 g)
-  exact congrArg Subtype.val (dif_pos h : logChi LT g = ⟨_, h⟩)
+  exact congrArg Subtype.val (dite_eq_left h : logChi LT g = ⟨_, h⟩)
 
 theorem norm_zeta : ‖P.ζQ 1 - 1‖ = (l : ℝ) ^ (-(1 : ℝ) / ((l : ℝ) - 1)) := by
   have h2 : P.ζQ 1 ^ l = 1 := by rw [← P.ζQ_zero]; exact P.ζQ_succ 0
@@ -731,7 +731,7 @@ theorem exponent_le (s e : ℕ) :
   · have h3 : padicValNat l (e + 1).factorial = padicValNat l (e + 1) + padicValNat l e.factorial := by
       rw [Nat.factorial_succ, (show ∀ {p a b : ℕ} [_root_.Fact (_root_.Nat.Prime p)], a ≠ 0 → b ≠ 0 → _root_.padicValNat p (a * b) = _root_.padicValNat p a + _root_.padicValNat p b from by simpa only [← _root_.Nat.padicValNat_def] using @_root_.Nat.multiplicity_mul) (by omega) (Nat.factorial_ne_zero _)]
     rw [h3]
-    simp only [betaE, Nat.add_sub_cancel, Nat.succ_ne_zero, if_false]
+    simp only [betaE, Nat.add_sub_cancel, Nat.succ_ne_zero, ite_false]
     generalize padicValNat l (e + 1) = u
     generalize padicValNat l e.factorial = v
     push_cast at h1 ⊢
@@ -1621,7 +1621,7 @@ theorem scalar_of_isCob (D : Formalism.BasicNotions.D7) (h2 : adm2 D) (h4 : Arch
           (s + padicValNat l (e + 1))) * ψ (f g)‖ ≤ 1 := by
   classical
   obtain ⟨c, hc⟩ : ∃ c : GQ l → ℚ_[l], ∀ (σ : GQ l) (h : σ ∈ GK K), c σ = ψ (f ⟨σ, h⟩) :=
-    ⟨fun σ => if h : σ ∈ GK K then ψ (f ⟨σ, h⟩) else 0, fun σ h => dif_pos h⟩
+    ⟨fun σ => if h : σ ∈ GK K then ψ (f ⟨σ, h⟩) else 0, fun σ h => dite_eq_left h⟩
   have H1 : ∀ σ ∈ Gj K s, ‖c σ‖ ≤ (l : ℝ) ^ r := fun σ hσ => by
     rw [hc σ (hle hσ)]; exact hψr _
   have H2 : ∀ σ ∈ Gj K s, ∀ τ ∈ Gj K s, ‖c (σ * τ) - c σ -

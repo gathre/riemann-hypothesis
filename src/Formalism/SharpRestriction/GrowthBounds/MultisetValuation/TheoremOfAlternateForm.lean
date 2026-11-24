@@ -235,7 +235,7 @@ theorem vGeK_iff_of_rep (hfr : IsFractionRing X.G.O X.G.Kf) {x : X.G.Kf} {N : �
     obtain ⟨a, ha⟩ := (vGeK_iff X).1 h
     rw [vsc_def] at ha
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hc : N < ⌈g * (X.eO : ℝ)⌉ := Int.lt_ceil.mpr hlt
     obtain ⟨k, hk⟩ := Int.eq_ofNat_of_zero_le (sub_nonneg.mpr hc.le)
     have e : ⌈g * (X.eO : ℝ)⌉ = N + k := by omega
@@ -269,7 +269,7 @@ theorem vEqK_iff_of_rep (hfr : IsFractionRing X.G.O X.G.Kf) {x : X.G.Kf} {N : �
     refine ⟨he, le_antisymm h1 ?_⟩
     have hepos : (0 : ℝ) < X.eO := by exact_mod_cast he
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h5 : (N : ℝ) / X.eO * X.eO = N := by field_simp
     linarith [h2 ((N : ℝ) / X.eO) (by rw [lt_div_iff₀ hepos]; exact hlt)]
   · rintro ⟨he, h⟩
@@ -485,7 +485,7 @@ theorem clExp_ge_al (h : Std p n' k1 t m c r TT a b lam0 w) (j : ℕ) :
       exact ⟨mem_univ _, hs.2⟩
     · rw [mem_filter] at hs hs'
       unfold al
-      rw [if_neg fun hT => hs' ⟨hT, hs.2⟩]
+      rw [ite_eq_right fun hT => hs' ⟨hT, hs.2⟩]
   rw [e1]
   have e2 := tail_nonneg h j r
   have e3 : ∑ s ∈ univ.filter (fun s : Fin n' => ¬ IsOddPos s), al TT lam0 s ≤
@@ -616,7 +616,7 @@ theorem CiiiGen (v : X.Pl) (u mh : ℕ → X.G.Kf) (j : ℕ) (hu : ∀ l ∈ Icc
   rcases eq_or_lt_of_le hl' with rfl | hlt
   · have h0 : X.Tt v (X.G.P.r - X.G.P.r) (j + 1) (X.Kz j G) = X.Kz j G := by
       unfold Sys.Tt
-      rw [if_pos (Nat.sub_self _)]
+      rw [ite_eq_left (Nat.sub_self _)]
     rw [h0]
     have h := vGe_smul X hfr (vGeK_mul X hfr (vGeK_negOnePow X X.G.P.r) hcr)
       (vGe_smul X hfr (hU (X.G.P.r - X.G.P.r)) (hA G hG))

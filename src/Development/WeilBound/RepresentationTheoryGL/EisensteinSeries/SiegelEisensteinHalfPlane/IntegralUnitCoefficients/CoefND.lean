@@ -372,7 +372,7 @@ theorem isPureFin_box (b : Module.Basis (Fin d) F E) {n M : ℕ}
     · rw [Set.indicator_of_notMem hX]
       obtain ⟨v₀, hv₀⟩ : ∃ v, HeckeCharacterZeroLocus.SiegelWeilU.projV v X ∉ A v := by
         by_contra h
-        push_neg at h
+        push Not at h
         exact hX h
       refine (finprod_eq_zero _ v₀ (Set.indicator_of_notMem hv₀ _) ?_).symm
       have hfin := Filter.eventually_cofinite.1 (GlobalTheory.CompanionTheory.SW.MeasProj.eventually_mem_latV b X)

@@ -145,7 +145,7 @@ theorem phiP_independent : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E
   have hne : (FA true).eigLat (X.A true).t.act τ ≠ ⊥ := by
     intro h0
     have h1 := hrank (Sum.inl a, τ)
-    rw [if_pos (by simpa using hτ)] at h1
+    rw [ite_eq_left (by simpa using hτ)] at h1
     change latRank K (((FA true).eigLat (X.A true).t.act τ).map ((M (Sum.inl a)).restrictScalars (𝓞 K))) = 1 at h1
     rw [h0] at h1
     have hb : Submodule.span K (((⊥ : Submodule (𝓞 K) (Fin (FA true).P₀.g → K)).map

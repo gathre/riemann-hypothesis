@@ -349,13 +349,13 @@ theorem sup_dual_eq (σ : E →+* E) {n : ℕ} (t pb : 𝓞 E) (ht : (t : E) ≠
       · obtain ⟨r, hr, hd⟩ := (hΛ x0).1 hx0 i
         obtain ⟨s, rfl⟩ := hd hi
         obtain ⟨a, ha⟩ := hx' i
-        simp only [z, hi, if_true, hr]
+        simp only [z, hi, ite_true, hr]
         have e : σ ((t * s : 𝓞 E) : E) * (x i / (pb : E)) = σ (s : E) * x i := by
           rw [hpb]; push_cast; rw [map_mul]; field_simp
         rw [e, ← ha]
         obtain ⟨b, hb⟩ := sig_int σ s
         exact ⟨b * a, by rw [map_mul, hb]⟩
-      · simp only [z, hi, if_false, mul_zero]
+      · simp only [z, hi, ite_false, mul_zero]
         exact Subring.zero_mem _
 
 end GlobalTheory.Mem.Col2.TC.ChartBase
@@ -1327,9 +1327,9 @@ theorem _root_.GlobalTheory.Mem.LevDual.unitary_carry_dual : ∀ (F E : Type) [F
     have hd : ∀ i, d i ∈ _root_.Formalism.BasicNotions.dualSet (σ : E →+* E) 1 L := by
       intro i
       by_cases h : i = Fin.last m
-      · simp only [d, h, if_true]
+      · simp only [d, h, ite_true]
         exact he0
-      · simp only [d, h, if_false]
+      · simp only [d, h, ite_false]
         exact hd_single i
     let c : Fin (m + 1) → _root_.Formalism.BasicNotions.intV (F := F) E w := fun i =>
       if h : i = Fin.last m then ⟨_, hcoef_last⟩ else ⟨_, hcoef_low i h⟩
@@ -1340,7 +1340,7 @@ theorem _root_.GlobalTheory.Mem.LevDual.unitary_carry_dual : ∀ (F E : Type) [F
       rw [Finset.sum_apply, Finset.sum_eq_single k]
       · by_cases hk : k = Fin.last m
         · subst hk
-          simp only [c, d, dif_pos, if_pos, Pi.smul_apply, Subring.smul_def, smul_eq_mul, he0_def,
+          simp only [c, d, dite_eq_left, ite_eq_left, Pi.smul_apply, Subring.smul_def, smul_eq_mul, he0_def,
             Pi.single_eq_same]
           rw [mul_comm, ← mul_assoc, ← map_mul, inv_mul_cancel₀ hq, map_one, one_mul]
         · simp [c, d, hk, Subring.smul_def]

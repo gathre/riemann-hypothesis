@@ -471,7 +471,7 @@ private lemma not_le_span_image {k P : Type*} [Field k] [AddCommGroup P] [Module
   intro hle
   obtain ⟨ℓ, hℓ⟩ : ∃ ℓ : Module.Dual k P, ℓ v ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hv0 ((Module.forall_dual_apply_eq_zero_iff k v).1 h)
   let K : Submodule k P := G ⊓ LinearMap.ker ℓ
   have hKG : K < G := by
@@ -664,7 +664,7 @@ private lemma exists_not_mem {k C P : Type*} [Field k] [IsAlgClosed k] [CommRing
     refine (Submodule.mem_iInf _).2 fun c => (Module.End.mem_maxGenEigenspace _ _ _).2 ⟨1, ?_⟩
     simp [hv]
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hS : Submodule.span k (Set.range A) ≤ Wd ⊔ H := by
     refine Submodule.span_le.2 ?_
     rintro _ ⟨z, rfl⟩

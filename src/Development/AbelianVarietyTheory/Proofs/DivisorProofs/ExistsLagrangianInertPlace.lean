@@ -185,7 +185,7 @@ theorem exists_isLagr_tensor : ∀ (F E : Type) [Field F] [NumberField F] [Field
   have hσσ : ∀ y, σ (σ y) = y := fun y => τ.injective (by rw [hcm.2.2.2, hcm.2.2.2, star_star])
   obtain ⟨t, ht⟩ : ∃ t, σ t ≠ t := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hw := hcm.2.1.isComplex (NumberField.InfinitePlace.mk τ)
     rw [NumberField.InfinitePlace.isComplex_mk_iff, NumberField.ComplexEmbedding.isReal_iff] at hw
     apply hw

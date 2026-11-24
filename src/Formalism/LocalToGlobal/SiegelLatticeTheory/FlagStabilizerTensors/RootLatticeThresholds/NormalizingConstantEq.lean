@@ -321,11 +321,11 @@ theorem tens_mem_span (u : D.what₂.Word) (x : ∀ v, X.Vloc u v) :
     simp only [e, X.tensU_inner]
     by_cases hij : i = j
     · subst hij
-      rw [if_pos rfl]
-      exact Finset.prod_eq_one fun v _ => by rw [orthonormal_iff_ite.1 (b v).orthonormal, if_pos rfl]
-    · rw [if_neg hij]
+      rw [ite_eq_left rfl]
+      exact Finset.prod_eq_one fun v _ => by rw [orthonormal_iff_ite.1 (b v).orthonormal, ite_eq_left rfl]
+    · rw [ite_eq_right hij]
       obtain ⟨v, hv⟩ := Function.ne_iff.1 hij
-      exact Finset.prod_eq_zero (Finset.mem_univ v) (by rw [orthonormal_iff_ite.1 (b v).orthonormal, if_neg hv])
+      exact Finset.prod_eq_zero (Finset.mem_univ v) (by rw [orthonormal_iff_ite.1 (b v).orthonormal, ite_eq_right hv])
   have hc : ∀ i, ‖⟪e i, X.tensU u x⟫_ℂ‖ ^ 2 = ∏ v, ‖⟪b v (i v), x v⟫_ℂ‖ ^ 2 := by
     intro i
     rw [he_def]
@@ -375,11 +375,11 @@ theorem finrank_Vpi (u : D.what₂.Word) :
     simp only [e, X.tensU_inner]
     by_cases hij : i = j
     · subst hij
-      rw [if_pos rfl]
-      exact Finset.prod_eq_one fun v _ => by rw [orthonormal_iff_ite.1 (b v).orthonormal, if_pos rfl]
-    · rw [if_neg hij]
+      rw [ite_eq_left rfl]
+      exact Finset.prod_eq_one fun v _ => by rw [orthonormal_iff_ite.1 (b v).orthonormal, ite_eq_left rfl]
+    · rw [ite_eq_right hij]
       obtain ⟨v, hv⟩ := Function.ne_iff.1 hij
-      exact Finset.prod_eq_zero (Finset.mem_univ v) (by rw [orthonormal_iff_ite.1 (b v).orthonormal, if_neg hv])
+      exact Finset.prod_eq_zero (Finset.mem_univ v) (by rw [orthonormal_iff_ite.1 (b v).orthonormal, ite_eq_right hv])
   have htop : ⊤ ≤ Submodule.span ℂ (Set.range e) := by
     rw [← X.tensU_span u, Submodule.span_le]
     rintro _ ⟨x, rfl⟩

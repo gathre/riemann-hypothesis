@@ -437,10 +437,10 @@ theorem rowProjection_mem_lattice {M : Submodule (𝓞 D.host.E) (Fin N → D.ho
     refine mem_stdL.2 fun i => ?_
     by_cases hi : i.val < N' / 2
     · have e : (rowPM N N' A *ᵥ x) i = (A *ᵥ x) i := by
-        simp only [rowPM, LinearMap.coe_mk, AddHom.coe_mk, mulVec, dotProduct, of_apply, if_pos hi]
+        simp only [rowPM, LinearMap.coe_mk, AddHom.coe_mk, mulVec, dotProduct, of_apply, ite_eq_left hi]
       rw [e]; exact h i
     · have e : (rowPM N N' A *ᵥ x) i = 0 := by
-        simp only [rowPM, LinearMap.coe_mk, AddHom.coe_mk, mulVec, dotProduct, of_apply, if_neg hi, zero_mul,
+        simp only [rowPM, LinearMap.coe_mk, AddHom.coe_mk, mulVec, dotProduct, of_apply, ite_eq_right hi, zero_mul,
           Finset.sum_const_zero]
       rw [e]; exact Submodule.zero_mem _
 

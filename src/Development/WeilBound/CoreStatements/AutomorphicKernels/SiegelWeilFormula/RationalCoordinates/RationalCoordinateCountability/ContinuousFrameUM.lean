@@ -146,7 +146,7 @@ theorem ellA_self (hδ : δ ≠ 0) : ellA (F := F) δ (inclR (F := F) (AF F) δ)
   have hex : ∃ ℓ : E →ₗ[F] F, δ ≠ 0 → ℓ δ = 1 := by
     obtain ⟨φ, hφ⟩ : ∃ φ : Module.Dual F E, φ δ ≠ 0 := by
       by_contra hne
-      push_neg at hne
+      push Not at hne
       exact hδ ((Module.forall_dual_apply_eq_zero_iff F δ).1 hne)
     exact ⟨(φ δ)⁻¹ • φ, fun _ => by simp [hφ]⟩
   have hℓ := Classical.epsilon_spec hex hδ
@@ -188,9 +188,9 @@ theorem move (h : Hyp L nb uM nb' w₁ cM δ) (u : Fin L.n → AE F E) (β'' : n
     · simp
   refine Prod.ext (funext fun k => ?_) ?_
   · show inFrame d.b (kom L uM nb' (u, β'')) (Sum.inl L.i₀) (Sum.inr (L.em k)) = B k
-    rw [hf, Matrix.fromBlocks_apply₁₂, Matrix.add_apply, hrow, if_neg (ComplexParameterFamilyContinuity.em_ne L k), zero_add, sB_i0em]
+    rw [hf, Matrix.fromBlocks_apply₁₂, Matrix.add_apply, hrow, ite_eq_right (ComplexParameterFamilyContinuity.em_ne L k), zero_add, sB_i0em]
   · show ellA δ (inFrame d.b (kom L uM nb' (u, β'')) (Sum.inl L.i₀) (Sum.inr L.i₀)) = A
-    rw [hf, Matrix.fromBlocks_apply₁₂, Matrix.add_apply, hrow, if_pos rfl, sB_i0i0, add_zero, map_smul, ellA_self h.δ0,
+    rw [hf, Matrix.fromBlocks_apply₁₂, Matrix.add_apply, hrow, ite_eq_left rfl, sB_i0i0, add_zero, map_smul, ellA_self h.δ0,
       smul_eq_mul, mul_one]
 
 end PositivityTheory.SiegelWeilFormula.Act.C5.CoordK

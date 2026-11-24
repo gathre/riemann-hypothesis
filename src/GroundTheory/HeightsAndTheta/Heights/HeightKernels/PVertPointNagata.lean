@@ -110,8 +110,8 @@ theorem coeff_aeval {S : Type*} [CommRing S] [Algebra ℤ S] [Algebra ℤ (Polyn
     rw [aeval_C_mul_X' r _ _ hu, Polynomial.coeff_C_mul_X_pow]
     have hw := Inter.LocRingPow.isMultiHomog_iff.mp hu
     by_cases h : n = ∑ i, u ⟨(), i⟩
-    · rw [if_pos h, comp, h, hw.weightedHomogeneousComponent_same]
-    · rw [if_neg h, comp, hw.weightedHomogeneousComponent_ne _ (fun e => h (congrFun e ())), map_zero]
+    · rw [ite_eq_left h, comp, h, hw.weightedHomogeneousComponent_same]
+    · rw [ite_eq_right h, comp, hw.weightedHomogeneousComponent_ne _ (fun e => h (congrFun e ())), map_zero]
   | add p q hp hq => rw [map_add (f := _), Polynomial.coeff_add, hp, hq, comp, comp, comp, map_add (f := _), map_add (f := _)]
 
 end VerticalPointNagata

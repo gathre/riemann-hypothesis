@@ -732,7 +732,7 @@ theorem sum_pushforward_eval (σ : ℂ) (F : ℕ × ℕ × ℕ → ℂ) (g : ℕ
   rw [Finset.sum_comm]
   refine Finset.sum_congr rfl fun p hp => ?_
   simp_rw [apply_ite (Polynomial.eval σ), Polynomial.eval_zero, ite_mul, zero_mul]
-  rw [Finset.sum_ite_eq, if_pos (hU p hp)]
+  rw [Finset.sum_ite_eq, ite_eq_left (hU p hp)]
 
 theorem iteratedDeriv_hTrans_repr : ∀ j : ℕ, ∃ (S : Finset (ℕ × ℕ × ℕ)) (P : ℕ × ℕ × ℕ → Polynomial ℂ),
     (∀ p ∈ S, 2 ≤ p.1 + 2 * p.2.1 ∧ p.1 + 2 * p.2.1 = p.2.2 + 2 + j) ∧

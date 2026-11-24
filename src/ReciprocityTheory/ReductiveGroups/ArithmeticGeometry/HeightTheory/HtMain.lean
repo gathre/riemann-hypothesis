@@ -1195,7 +1195,7 @@ theorem HtGenericPt {K : Type} [Field K] [NumberField K] {ι : Type} [Fintype ι
   have hφ : ∀ c, ∃ φ : Module.Dual K (A c), φ (d.w (d.jc c) c) ≠ 0 := by
     intro c
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hd.w_base c ((Module.forall_dual_apply_eq_zero_iff K _).mp hcon)
   choose φ hφ using hφ
   let P : ι → MvPolynomial (Fin (d.N + 1)) K := fun c =>
@@ -1215,7 +1215,7 @@ theorem HtGenericPt {K : Type} [Field K] [NumberField K] {ι : Type} [Fintype ι
   have hprod : (∏ c, P c) ≠ 0 := Finset.prod_ne_zero_iff.mpr (fun c _ => hP c)
   haveI : Infinite K := Infinite.of_injective (Nat.cast : ℕ → K) Nat.cast_injective
   by_contra hne
-  push_neg at hne
+  push Not at hne
   apply hprod
   apply MvPolynomial.funext
   intro x

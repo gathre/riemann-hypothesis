@@ -223,7 +223,7 @@ theorem core (h : V →ₗ⋆[E] V →ₗ[E] E) (hs : h.IsSymm) (hnd : h.Nondege
       rw [hwX a _ (he' b)]
       simp only [φ, hδ' a b]
     simp only [h1, sub_smul, Finset.sum_sub_distrib, ite_smul, one_smul, zero_smul,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     rw [← hc _ (he' b)]
 
   let G : Fin r → Fin r → E := fun a b => h (w a) (w b)
@@ -242,14 +242,14 @@ theorem core (h : V →ₗ⋆[E] V →ₗ[E] E) (hs : h.IsSymm) (hnd : h.Nondege
     rcases lt_trichotomy a b with hab | rfl | hab
     · have h1 : ¬ b < a := not_lt.2 hab.le
       have h2 : b ≠ a := hab.ne'
-      simp only [s, k, if_pos hab, if_neg h1, if_neg h2, zero_mul, star_zero]
+      simp only [s, k, ite_eq_left hab, ite_eq_right h1, ite_eq_right h2, zero_mul, star_zero]
       ring
     · have hGs : star (G a a) = G a a := hG
-      simp only [s, k, lt_irrefl, if_false, if_true, star_mul', star_neg, hGs]
+      simp only [s, k, lt_irrefl, ite_false, ite_true, star_mul', star_neg, hGs]
       linear_combination (-(G a a)) * hθ
     · have h1 : ¬ a < b := not_lt.2 hab.le
       have h2 : a ≠ b := hab.ne'
-      simp only [s, k, if_pos hab, if_neg h1, if_neg h2, zero_mul, star_mul', star_neg, star_one, hG]
+      simp only [s, k, ite_eq_left hab, ite_eq_right h1, ite_eq_right h2, zero_mul, star_mul', star_neg, star_one, hG]
       ring
 
   let cc : Fin r → (V →ₗ[E] E) := fun a => -(h (w a)) + ∑ b, s a b • h (e b)
@@ -385,7 +385,7 @@ theorem core (h : V →ₗ⋆[E] V →ₗ[E] E) (hs : h.IsSymm) (hnd : h.Nondege
       simp only [h0, mul_zero, Finset.sum_const_zero, add_zero, φ, hδ b a]
       ring
     simp only [h0, zero_smul, Finset.sum_const_zero, add_zero, h1, sub_smul, ite_smul, one_smul,
-      Finset.sum_sub_distrib, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      Finset.sum_sub_distrib, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     rw [← hc' _ (he a)]
     abel
   · intro v hv
@@ -419,7 +419,7 @@ variable {E : Type} [Field E] [NumberField E] [StarRing E] {S : HSpace E} {r : �
 
 theorem coef_expand (G : FlagG S r T) (x : S.V) (hx : x ∈ G.X) : x = ∑ a, G.coefX x a • G.e a := by
   have hx' : x ∈ Submodule.span E (Set.range G.e) := hx
-  simp only [FlagG.coefX, dif_pos hx']
+  simp only [FlagG.coefX, dite_eq_left hx']
   have := G.e_indep.linearCombination_repr ⟨x, hx'⟩
   rw [Finsupp.linearCombination_apply, Finsupp.sum_fintype _ _ (by simp)] at this
   exact this.symm
@@ -429,7 +429,7 @@ theorem coef_add (G : FlagG S r T) (a : Fin r) (x : S.V) (hx : x ∈ G.X) (y : S
   have hx' : x ∈ Submodule.span E (Set.range G.e) := hx
   have hy' : y ∈ Submodule.span E (Set.range G.e) := hy
   have hxy : x + y ∈ Submodule.span E (Set.range G.e) := Submodule.add_mem _ hx' hy'
-  simp only [FlagG.coefX, dif_pos hx', dif_pos hy', dif_pos hxy]
+  simp only [FlagG.coefX, dite_eq_left hx', dite_eq_left hy', dite_eq_left hxy]
   have e : (⟨x + y, hxy⟩ : Submodule.span E (Set.range G.e)) = ⟨x, hx'⟩ + ⟨y, hy'⟩ := rfl
   rw [e, map_add (f := _), Finsupp.add_apply]
 
@@ -437,13 +437,13 @@ theorem coef_smul (G : FlagG S r T) (a : Fin r) (t : E) (x : S.V) (hx : x ∈ G.
     G.coefX (t • x) a = t * G.coefX x a := by
   have hx' : x ∈ Submodule.span E (Set.range G.e) := hx
   have htx : t • x ∈ Submodule.span E (Set.range G.e) := Submodule.smul_mem _ t hx'
-  simp only [FlagG.coefX, dif_pos hx', dif_pos htx]
+  simp only [FlagG.coefX, dite_eq_left hx', dite_eq_left htx]
   have e : (⟨t • x, htx⟩ : Submodule.span E (Set.range G.e)) = t • ⟨x, hx'⟩ := rfl
   rw [e, map_smul, Finsupp.smul_apply, smul_eq_mul]
 
 theorem coef_e (G : FlagG S r T) (a b : Fin r) : G.coefX (G.e b) a = if a = b then 1 else 0 := by
   have hb : G.e b ∈ Submodule.span E (Set.range G.e) := Submodule.subset_span ⟨b, rfl⟩
-  simp only [FlagG.coefX, dif_pos hb]
+  simp only [FlagG.coefX, dite_eq_left hb]
   rw [G.e_indep.repr_eq_single b ⟨G.e b, hb⟩ rfl, Finsupp.single_apply]
   by_cases h : a = b
   · subst h; simp
@@ -489,9 +489,9 @@ theorem XS_coef {D : D7} {T : D.host.E} (G : FlagG (VS D) D.R.rS T) (y : (VS D).
     rw [coef_smul G a t _ (e_mem_X G b), coef_e]
     by_cases hab : a = b
     · subst hab
-      simp only [if_true, mul_one]
+      simp only [ite_true, mul_one]
       exact (FractionalIdeal.mem_coe).2 ht
-    · simp only [hab, if_false, mul_zero]
+    · simp only [hab, ite_false, mul_zero]
       exact Submodule.zero_mem _
   | zero =>
     refine ⟨G.X.zero_mem, fun a => ?_⟩

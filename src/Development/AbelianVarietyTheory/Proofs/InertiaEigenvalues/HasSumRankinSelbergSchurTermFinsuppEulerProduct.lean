@@ -76,7 +76,7 @@ theorem mem_range_partVec {n : ℕ} {v : Fin n → ℤ} (hv : (∀ i, 0 ≤ v i)
 theorem rsTerm_partVec (q : ℕ) {n : ℕ} (α β : Fin n → ℂ) (x : ℝ) (l : {l : Fin n → ℕ // Antitone l}) :
     rsTerm q α β x (partVec l) =
       schurAt l.1 α * conj (schurAt l.1 β) * ((q : ℂ) ^ (-(x : ℂ))) ^ (∑ i, l.1 i) := by
-  rw [rsTerm, if_pos (partVec_valid l)]
+  rw [rsTerm, ite_eq_left (partVec_valid l)]
   simp [partVec]
 
 
@@ -94,12 +94,12 @@ theorem sqTerm_nonneg (q : ℕ) {n : ℕ} (α : Fin n → ℂ) (x : ℝ) (v : Fi
 
 theorem sqTerm_zero (q : ℕ) {n : ℕ} (α : Fin n → ℂ) (x : ℝ) : sqTerm q α x 0 = 1 := by
   have hs : schurAt (fun _ : Fin n => 0) α = 1 := by rw [schurAt, schur_zero]; simp
-  rw [sqTerm, if_pos ⟨fun i => le_rfl, antitone_const⟩]
+  rw [sqTerm, ite_eq_left ⟨fun i => le_rfl, antitone_const⟩]
   simp [hs]
 
 theorem sqTerm_partVec (q : ℕ) {n : ℕ} (α : Fin n → ℂ) (x : ℝ) (l : {l : Fin n → ℕ // Antitone l}) :
     sqTerm q α x (partVec l) = ‖schurAt l.1 α‖ ^ 2 * (q : ℝ) ^ (-(((∑ i, l.1 i : ℕ) : ℝ) * x)) := by
-  rw [sqTerm, if_pos (partVec_valid l)]
+  rw [sqTerm, ite_eq_left (partVec_valid l)]
   simp [partVec]
 
 theorem norm_cpow_pow (q : ℕ) (hq : 0 < q) (x : ℝ) (k : ℕ) :
@@ -112,11 +112,11 @@ theorem norm_cpow_pow (q : ℕ) (hq : 0 < q) (x : ℝ) (k : ℕ) :
 theorem norm_rsTerm_le (q : ℕ) (hq : 0 < q) {n : ℕ} (α β : Fin n → ℂ) (x : ℝ) (v : Fin n → ℤ) :
     ‖rsTerm q α β x v‖ ≤ (sqTerm q α x v + sqTerm q β x v) / 2 := by
   by_cases hv : (∀ i, 0 ≤ v i) ∧ Antitone v
-  · rw [rsTerm, if_pos hv, sqTerm, if_pos hv, sqTerm, if_pos hv, norm_mul, norm_mul, Complex.norm_conj,
+  · rw [rsTerm, ite_eq_left hv, sqTerm, ite_eq_left hv, sqTerm, ite_eq_left hv, norm_mul, norm_mul, Complex.norm_conj,
       norm_cpow_pow q hq]
     have hw : 0 ≤ (q : ℝ) ^ (-(((∑ i, (v i).toNat : ℕ) : ℝ) * x)) := Real.rpow_nonneg (Nat.cast_nonneg _) _
     nlinarith [mul_nonneg (sq_nonneg (‖schurAt (fun i => (v i).toNat) α‖ - ‖schurAt (fun i => (v i).toNat) β‖)) hw]
-  · rw [rsTerm, if_neg hv, sqTerm, if_neg hv, sqTerm, if_neg hv]; simp
+  · rw [rsTerm, ite_eq_right hv, sqTerm, ite_eq_right hv, sqTerm, ite_eq_right hv]; simp
 
 end GlobalTheory.ZEul
 
@@ -138,7 +138,7 @@ theorem summable_sqTerm {I : Type} (q : I → ℕ) {n : ℕ} (α : I → Fin n �
     · intro v hv
       by_cases hval : (∀ j, 0 ≤ v j) ∧ Antitone v
       · exact mem_range_partVec hval
-      · exact absurd (by simp [hf, sqTerm, if_neg hval]) hv
+      · exact absurd (by simp [hf, sqTerm, ite_eq_right hval]) hv
   have hE : ∑' l : I →₀ (Fin n → ℤ), l.prod f = GlobalTheory.RSPole.eulD q α x := by
     rw [(GlobalTheory.EulerSum.euler_product_intVec_ennreal n f hf0).2, GlobalTheory.RSPole.eulD]
     exact tprod_congr hloc
@@ -185,7 +185,7 @@ theorem hasSum_rsTerm_local (q : ℕ) {n : ℕ} (α β : Fin n → ℂˣ) (x : �
   · intro v hv
     by_cases hval : (∀ j, 0 ≤ v j) ∧ Antitone v
     · exact absurd (mem_range_partVec hval) hv
-    · rw [rsTerm, if_neg hval]
+    · rw [rsTerm, ite_eq_right hval]
 
 theorem hasSum_rsTerm_finsupp : ∀ {I : Type} (q : I → ℕ) {n : ℕ} (α β : I → Fin n → ℂˣ) (x : ℝ), 1 < x → (∀ i, 2 ≤ q i) →
     GlobalTheory.RSPole.eulD q (fun i j => (α i j : ℂ)) x ≠ ⊤ → GlobalTheory.RSPole.eulD q (fun i j => (β i j : ℂ)) x ≠ ⊤ →

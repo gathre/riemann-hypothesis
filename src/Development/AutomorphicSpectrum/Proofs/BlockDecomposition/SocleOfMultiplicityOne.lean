@@ -117,7 +117,7 @@ theorem one_le_jhMult_jac (e : (Σ a, m a) ≃ n) {ρ : Representation ℂ (Levi
   obtain ⟨v, hv⟩ := hf
   obtain ⟨x, hx⟩ : ∃ x, (f v).1.1 x ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hv (Subtype.ext (Subtype.ext (funext h)))
   let φ := GlobalTheory.SmGL.Model.evalOne e f
   have h1 : φ (Submodule.Quotient.mk (τ x v)) ≠ 0 := by
@@ -209,7 +209,7 @@ theorem one_le_jhMult_jac_atom (e : (Σ a, m a) ≃ n) {ρ : Representation ℂ 
   let ιT : T.toRepresentation.IntertwiningMap (parInd e ρ) := ⟨T.toSubmodule.subtype, fun _ => rfl⟩
   refine one_le_jhMult_jac e hρ ιT ?_
   by_contra hc
-  push_neg at hc
+  push Not at hc
   exact hT.1 (Subrepresentation.toSubmodule_injective (eq_bot_iff.2 fun v hv =>
     (Submodule.mem_bot ℂ).2 (hc ⟨v, hv⟩)))
 

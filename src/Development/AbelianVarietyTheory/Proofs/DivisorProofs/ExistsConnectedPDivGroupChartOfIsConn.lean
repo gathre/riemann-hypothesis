@@ -143,7 +143,7 @@ theorem GlobalTheory.coeff_eq_zero_of_evA_eq_zero_of_le_finrank :
           rw [← map_smul, smul_eq_mul, mul_one]
         rw [this, map_smul]
         exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨a, rfl⟩)
-      · push_neg at hb
+      · push Not at hb
         obtain ⟨i, hi⟩ := hb
         rw [hmono β i hi c]
         exact Submodule.zero_mem _
@@ -178,7 +178,7 @@ theorem GlobalTheory.coeff_eq_zero_of_evA_eq_zero_of_le_finrank :
     intro i
     rw [X_pow_dvd_iff]
     intro m hm
-    rw [hic, if_neg]
+    rw [hic, ite_eq_right]
     omega
   have hsum : h = ∑ i, hi i := by
     ext β
@@ -192,20 +192,20 @@ theorem GlobalTheory.coeff_eq_zero_of_evA_eq_zero_of_le_finrank :
       symm
       apply Finset.sum_eq_zero
       intro i _
-      rw [if_neg]
+      rw [ite_eq_right]
       have := hb i
       omega
-    · push_neg at hb
+    · push Not at hb
       obtain ⟨i0, hi0mem, hmin⟩ := (Finset.univ.filter (fun i => q ≤ β i)).exists_min_image id
         (by obtain ⟨i, hi⟩ := hb; exact ⟨i, by simp [hi]⟩)
       simp only [Finset.mem_filter, Finset.mem_univ, true_and, id] at hi0mem hmin
       rw [Finset.sum_eq_single i0]
-      · rw [if_pos]
+      · rw [ite_eq_left]
         refine ⟨hi0mem, fun j hj => ?_⟩
         by_contra hc
         exact absurd (hmin j (by omega)) (not_le.2 hj)
       · intro j _ hj
-        rw [if_neg]
+        rw [ite_eq_right]
         rintro ⟨hjq, hjlt⟩
         rcases lt_or_gt_of_ne hj with hlt | hlt
         · exact absurd (hmin j hjq) (not_le.2 hlt)
@@ -597,7 +597,7 @@ theorem finrank_quot_frobKerIdeal_le : ∀ (q : ℕ) (K H : Type) [Field K] [Com
         refine Submodule.smul_mem _ _ ?_
         by_cases h : ∀ i, u i < q
         · exact Submodule.subset_span ⟨fun i => ⟨u i, h i⟩, rfl⟩
-        · push_neg at h
+        · push Not at h
           obtain ⟨i, hi⟩ := h
           have h0 : y i ^ u i = 0 := pow_eq_zero_of_le hi (hyq i)
           rw [Finset.prod_eq_zero (i := i) (Finset.mem_univ i) h0]

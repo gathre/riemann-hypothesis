@@ -519,7 +519,7 @@ theorem exists_mul_integral {x : Ω} (hx : A.valuation x ≤ 1) :
         intro h0
         have h1 : g = C (g.coeff 0) := eq_C_of_natDegree_le_zero (le_of_eq h0)
         have h2 : g.coeff j = 0 := by
-          rw [h1, coeff_C, if_neg (by rw [h0] at hjd; exact hjd)]
+          rw [h1, coeff_C, ite_eq_right (by rw [h0] at hjd; exact hjd)]
         rw [h2] at hj
         simp at hj
       let y : integralClosure R Ω := ⟨(c : Ω) * x, hint⟩

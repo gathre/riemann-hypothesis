@@ -153,7 +153,7 @@ private theorem diagS_unit (a : PowerSeries R) :
   have he : e = Finsupp.single () (e ()) := Finsupp.ext fun u => by
     cases u
     rw [Finsupp.single_eq_same]
-  rw [coeff_diagS, if_pos he]
+  rw [coeff_diagS, ite_eq_left he]
   conv_rhs => rw [he]
   rfl
 
@@ -257,11 +257,11 @@ private theorem coeff_X_zero_add_X_one_pow (n : Fin 2 →₀ ℕ) (k : ℕ) :
   rw [Finset.sum_congr rfl hterm]
   split_ifs with hk
   · rw [Finset.sum_eq_single (n 0)]
-    · rw [if_pos]
+    · rw [ite_eq_left]
       ext i
       fin_cases i <;> simp [hk]
     · intro m _ hm
-      rw [if_neg]
+      rw [ite_eq_right]
       intro h
       apply hm
       have h0 := congrArg (fun e => e 0) h
@@ -274,7 +274,7 @@ private theorem coeff_X_zero_add_X_one_pow (n : Fin 2 →₀ ℕ) (k : ℕ) :
       omega
   · apply Finset.sum_eq_zero
     intro m hm
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h
     apply hk
     have h0 := congrArg (fun e => e 0) h
@@ -315,8 +315,8 @@ theorem Ex_biv : Ex (X 0 + X 1 : MvPowerSeries (Fin 2) K) = Ex (X 0) * Ex (X 1) 
           simp at e0 e1
           exact Prod.ext (h1.trans (congrArg (Finsupp.single 0) e0))
             (h2.trans (congrArg (Finsupp.single 1) e1))
-        · rw [if_neg h2, mul_zero]
-      · rw [if_neg h1, zero_mul]
+        · rw [ite_eq_right h2, mul_zero]
+      · rw [ite_eq_right h1, zero_mul]
     · intro h
       exfalso
       apply h

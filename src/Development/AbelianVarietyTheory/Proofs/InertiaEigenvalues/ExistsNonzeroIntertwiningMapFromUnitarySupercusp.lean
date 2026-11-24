@@ -129,7 +129,7 @@ theorem exists_back : ∀ (G W V : Type) [Group G] [TopologicalSpace G] [IsTopol
   obtain ⟨hρs, hρc⟩ := hρ
   obtain ⟨w, hw⟩ : ∃ w, p w ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hp (Representation.IntertwiningMap.ext (LinearMap.ext fun x => h x))
 
   let K : Subgroup G :=

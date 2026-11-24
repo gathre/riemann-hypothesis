@@ -189,7 +189,7 @@ theorem schwartz_vacuum_eq_smul : ∀ {V : Type} [NormedAddCommGroup V] [NormedS
     have hy2 : y.2 = 0 := by
       apply hB
       by_contra hne
-      push_neg at hne
+      push Not at hne
       obtain ⟨x₀, hx₀⟩ := hne
       apply hg0
       ext x
@@ -259,7 +259,7 @@ theorem schwartz_vacuum_eq_smul : ∀ {V : Type} [NormedAddCommGroup V] [NormedS
     ext x
     rw [SchwartzMap.smul_apply, smul_eq_mul, hf_ray x, hg_ray x]
     field_simp
-  · push_neg at hz
+  · push Not at hz
     obtain ⟨v, hv⟩ := hz
     set y₀ := e' v with hy₀def
     have hy₀ : e' y₀ = y₀ := he'2 v

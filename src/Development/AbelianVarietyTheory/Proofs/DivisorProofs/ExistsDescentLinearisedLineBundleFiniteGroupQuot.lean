@@ -468,7 +468,7 @@ theorem GlobalTheory.CharIndepAt.main : ∀ (X : Scheme.{0}) [IsIntegral X] (U :
     ext a
     exact RingHom.congr_fun this (g a)
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hsum : ∀ a : Γ(X, U), ∑ i, res (t i) * χ i a = 0 := by
     intro a
     by_contra hz

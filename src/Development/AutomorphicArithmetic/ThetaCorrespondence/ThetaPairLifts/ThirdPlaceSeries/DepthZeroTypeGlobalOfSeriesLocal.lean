@@ -438,7 +438,7 @@ theorem act_inc {e : ℚ_[g] ≃+* F} (he : Continuous e) {ξ : Fˣ →* ℂˣ} 
     ext i j
     have hi : r + (i : ℕ) < r + t := by omega
     have hj : r + (j : ℕ) < r + t := by omega
-    simp only [br, Formalism.MainNotions.ArithmeticCylinders.entN, dif_pos (And.intro hi hj), hred]
+    simp only [br, Formalism.MainNotions.ArithmeticCylinders.entN, dite_eq_left (And.intro hi hj), hred]
     rfl
   have hdc : PadicInt.toZMod d = c := by rw [hc, hbr, hd, RingHom.map_det]
   have hdu : IsUnit d := by
@@ -459,7 +459,7 @@ theorem act_inc {e : ℚ_[g] ≃+* F} (he : Continuous e) {ξ : Fˣ →* ℂˣ} 
       rw [← h1]
       have hi : (i : ℕ) < r + t := by omega
       have hj : (j : ℕ) < r + t := by omega
-      simp only [tl, Formalism.MainNotions.ArithmeticCylinders.entN, dif_pos (And.intro hi hj)]
+      simp only [tl, Formalism.MainNotions.ArithmeticCylinders.entN, dite_eq_left (And.intro hi hj)]
       rfl
     have h2 : PadicInt.toZMod ((k : Matrix (Fin (r + t)) (Fin (r + t)) ℤ_[g]) (Fin.castAdd t i) (Fin.castAdd t j) -
         if i = j then 1 else 0) = 0 := by
@@ -483,16 +483,16 @@ theorem tl_one {r t : ℕ} : tl r (1 : Mt g (r + t)) = 1 := by
   ext i j
   have hi : (i : ℕ) < r + t := by omega
   have hj : (j : ℕ) < r + t := by omega
-  simp only [tl, Formalism.MainNotions.ArithmeticCylinders.entN, dif_pos (And.intro hi hj), Matrix.one_apply, Fin.ext_iff]
+  simp only [tl, Formalism.MainNotions.ArithmeticCylinders.entN, dite_eq_left (And.intro hi hj), Matrix.one_apply, Fin.ext_iff]
 
 theorem br_one {r t : ℕ} : br r t (1 : Mt g (r + t)) = 1 := by
   ext i j
   have hi : r + (i : ℕ) < r + t := by omega
   have hj : r + (j : ℕ) < r + t := by omega
-  simp only [br, Formalism.MainNotions.ArithmeticCylinders.entN, dif_pos (And.intro hi hj), Matrix.one_apply, Fin.ext_iff]
+  simp only [br, Formalism.MainNotions.ArithmeticCylinders.entN, dite_eq_left (And.intro hi hj), Matrix.one_apply, Fin.ext_iff]
   by_cases h : (i : ℕ) = j
   · simp [h]
-  · rw [if_neg (by omega), if_neg h]
+  · rw [ite_eq_right (by omega), ite_eq_right h]
 
 theorem blk_parts {r t : ℕ} (y : Gn g t) :
     InPar r (blk r t (r + t) 1 y : Mt g (r + t)) ∧ tl r (blk r t (r + t) 1 y : Mt g (r + t)) = 1 ∧
@@ -500,7 +500,7 @@ theorem blk_parts {r t : ℕ} (y : Gn g t) :
   set M : Mt g (r + t) := fun i j : Fin (r + t) =>
     if (i : ℕ) < r ∧ (j : ℕ) < r then Formalism.MainNotions.ArithmeticCylinders.entN ((1 : Gn g r) : Mt g r) i j
     else if r ≤ (i : ℕ) ∧ r ≤ (j : ℕ) then Formalism.MainNotions.ArithmeticCylinders.entN (y : Mt g t) (i - r) (j - r) else 0 with hM
-  have h0 : InPar r M := fun i j hj hi => by rw [hM]; dsimp only; rw [if_neg (by omega), if_neg (by omega)]
+  have h0 : InPar r M := fun i j hj hi => by rw [hM]; dsimp only; rw [ite_eq_right (by omega), ite_eq_right (by omega)]
   have h1 : tl r M = 1 := by
     ext i j
     have hi : (i : ℕ) < r + t := by omega
@@ -514,7 +514,7 @@ theorem blk_parts {r t : ℕ} (y : Gn g t) :
     exact (Matrix.isUnit_iff_isUnit_det _).1 y.isUnit
   have hb : (blk r t (r + t) 1 y : Mt g (r + t)) = M := by
     show ((toG M : Gn g (r + t)) : Mt g (r + t)) = M
-    rw [toG, dif_pos hu]; rfl
+    rw [toG, dite_eq_left hu]; rfl
   rw [hb]; exact ⟨h0, h1, h2⟩
 
 theorem isParVec_of_isBlockVec : ∀ (g : ℕ) [Fact g.Prime] (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F]
@@ -634,7 +634,7 @@ theorem exists_intertwining_functional {K : Type u_1} {F : Type u_2} {V : Type u
   let s : Set (V →ₗ[ℂ] F) := {T | P T}
   let SA : Submodule A F := ⨆ T ∈ s, p T
   have hpT : ∀ T (hT : T ∈ s), p T = LinearMap.range (mkA T (hP T hT)) :=
-    fun T hT => dif_pos (hP T hT)
+    fun T hT => dite_eq_left (hP T hT)
   have hpSA : ∀ T (hT : T ∈ s), p T ≤ SA := fun T hT =>
     le_iSup₂ (f := fun T (_ : T ∈ s) => p T) T hT
   have memSA : ∀ x : F, x ∈ S ↔ x ∈ SA := by

@@ -226,7 +226,7 @@ theorem FlagBundleDim.proof (hspan : TwistedDualGensSpan.Statement)
       rw [hsum]
       · refine Finset.sum_congr rfl fun j _ => ?_
         have hj : ((ι' j : Fin N) : ℕ) < i := by rw [hval]; exact j.isLt
-        simp only [truncCoord, hj, if_true, hG, Function.comp_apply, Pi.basisFun_apply]
+        simp only [truncCoord, hj, ite_true, hG, Function.comp_apply, Pi.basisFun_apply]
         rw [LinearMap.comp_apply, Matrix.mulVecLin_apply, Matrix.mulVec_single_one]
         rfl
       · intro j hj

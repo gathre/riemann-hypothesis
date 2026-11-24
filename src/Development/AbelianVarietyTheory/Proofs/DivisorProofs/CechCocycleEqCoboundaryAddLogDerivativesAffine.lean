@@ -1015,11 +1015,11 @@ theorem GlobalTheory.CechFin.cocycle_of_finite_affine_subcover : ∀ (R : Type) 
     rw [map_sub, map_neg, map_neg]; ring
   have e0 : resG Z hBP (c i i') = sfCr W c (cov D hD b.unop).1 i i' hBP := rfl
   have t1 : resG Z hBP (resG Z inf_le_left (hfun i)) = -resG Z hab (g a) := by
-    simp only [hfun, @dif_pos _ (Classical.propDecidable _) hi]
+    simp only [hfun, @dite_eq_left _ (Classical.propDecidable _) hi]
     rw [map_neg, map_neg]
     exact congrArg Neg.neg ((_root_.GlobalTheory.Cartier.resG_resG _ _ _).trans (_root_.GlobalTheory.Cartier.resG_resG _ _ _))
   have t2 : resG Z hBP (resG Z inf_le_right (hfun i')) = -resG Z ha'b (g a') := by
-    simp only [hfun, @dif_pos _ (Classical.propDecidable _) hi']
+    simp only [hfun, @dite_eq_left _ (Classical.propDecidable _) hi']
     rw [map_neg, map_neg]
     exact congrArg Neg.neg ((_root_.GlobalTheory.Cartier.resG_resG _ _ _).trans (_root_.GlobalTheory.Cartier.resG_resG _ _ _))
   rw [r1, r2] at erho

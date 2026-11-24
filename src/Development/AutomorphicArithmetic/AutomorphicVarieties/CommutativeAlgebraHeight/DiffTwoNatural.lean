@@ -151,11 +151,11 @@ private theorem scale_coeff {A G : Type} [CommRing A] (P : MvPolynomial G A) (k 
     by_cases hmd : m = d
     · subst hmd
       by_cases hk : k = m.degree
-      · rw [if_pos hk, if_pos hk.symm]
-      · rw [if_neg hk, if_neg fun h => hk h.symm, MvPolynomial.coeff_zero, Finsupp.zero_apply]
+      · rw [ite_eq_left hk, ite_eq_left hk.symm]
+      · rw [ite_eq_right hk, ite_eq_right fun h => hk h.symm, MvPolynomial.coeff_zero, Finsupp.zero_apply]
     · classical
       have hz : AddMonoidAlgebra.coeff (MvPolynomial.monomial m c) d = 0 := by
-        rw [MvPolynomial.coeff_monomial, if_neg hmd]
+        rw [MvPolynomial.coeff_monomial, ite_eq_right hmd]
       split_ifs <;> simp only [hz, MvPolynomial.coeff_zero, Finsupp.zero_apply]
   | add p q hp hq =>
     rw [map_add (f := _), Polynomial.coeff_add, MvPolynomial.coeff_add, hp, hq, MvPolynomial.coeff_add]
@@ -167,9 +167,9 @@ private theorem homog_of_scale {A G : Type} [CommRing A] (P : MvPolynomial G A) 
   intro d hd
   have key : d.degree = n := by
     have e := scale_coeff P d.degree d
-    rw [h, mul_comm, Polynomial.coeff_C_mul_X_pow, if_pos (rfl : d.degree = d.degree)] at e
+    rw [h, mul_comm, Polynomial.coeff_C_mul_X_pow, ite_eq_left (rfl : d.degree = d.degree)] at e
     by_contra hne
-    rw [if_neg hne, MvPolynomial.coeff_zero] at e
+    rw [ite_eq_right hne, MvPolynomial.coeff_zero] at e
     exact hd e.symm
   show (Finsupp.weight (fun _ => 1)) d = n
   rw [← Finsupp.degree_eq_weight_one]
@@ -302,7 +302,7 @@ private theorem PRep.d2 {D : GDet n A G} {P : MvPolynomial G A} (h : PRep D P) :
     rw [Finset.sum_eq_single (a⁻¹ * g)]
     · simp
     · intro b _ hb
-      rw [if_neg]
+      rw [ite_eq_right]
       intro hab
       exact hb (eq_inv_mul_of_mul_eq hab)
     · intro hn
@@ -343,7 +343,7 @@ private theorem pol_coeff (a : Mn G n → A) (s : Mn G n) : AddMonoidAlgebra.coe
   rw [MvPolynomial.coeff_sum, Finset.sum_eq_single s]
   · simp
   · intro t _ hts
-    rw [MvPolynomial.coeff_monomial, if_neg]
+    rw [MvPolynomial.coeff_monomial, ite_eq_right]
     intro h
     exact hts (Subtype.ext h)
   · intro hs

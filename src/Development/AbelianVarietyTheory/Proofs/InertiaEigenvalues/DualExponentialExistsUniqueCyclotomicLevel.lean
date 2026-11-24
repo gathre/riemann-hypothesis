@@ -559,7 +559,7 @@ end Main
 
 theorem logChi_eq (LT : LocTheory) (σ : GQ l) :
     ((logChi LT σ : ℤ_[l]) : ℚ_[l]) = logZl l ((LT l).χQ σ) := by
-  exact congrArg Subtype.val (dif_pos ((GlobalTheory.PadicLogUnits.logZl_hom l).2.2.1 _
+  exact congrArg Subtype.val (dite_eq_left ((GlobalTheory.PadicLogUnits.logZl_hom l).2.2.1 _
     ((GlobalTheory.Cyc.cyc_basic l _ (LT l).χQ_cyc).1 σ)))
 
 theorem expStar_existsUnique : ∀ (D : Formalism.BasicNotions.D7) (l : ℕ) [Fact l.Prime] (K : FinExt l) (s : ℕ), Lev l s → ∀ e : ℕ, (∀ z : GQ l → ℚ_[l], CocOn (Gj K s) (fun σ y => (((D.loc l).χQ σ ^ (-(e : ℤ)) : ℚ_[l]ˣ) : ℚ_[l]) * y) Set.univ z → ∃ α ∈ Ks K s, ExpStar D.loc (Gj K s) e z α) ∧ ∀ (z : GQ l → ℚ_[l]) (α α' : Om l), α ∈ Ks K s → α' ∈ Ks K s → ExpStar D.loc (Gj K s) e z α → ExpStar D.loc (Gj K s) e z α' → α = α' := by

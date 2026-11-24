@@ -94,7 +94,7 @@ theorem prod_rule_two (χ : HChar L) (S : Finset (HeightOneSpectrum (𝓞 L))) (
     · have h1 : v ≠ w := fun e => hv (e ▸ hw)
       have h2 : v' ≠ w := fun e => hv' (e ▸ hw)
       simp [h1, h2]
-    · rw [finprod_eq_if, if_pos hw, zpow_add]
+    · rw [finprod_eq_if, ite_eq_left hw, zpow_add]
       congr 1
       · split_ifs with h1
         · simp [h1]
@@ -109,10 +109,10 @@ theorem prod_rule_two (χ : HChar L) (S : Finset (HeightOneSpectrum (𝓞 L))) (
   · intro x hx; simp [Ne.symm hx]
   · refine (Set.finite_singleton v).subset fun x hx => ?_
     by_contra h1
-    exact hx (if_neg fun e => h1 e.symm)
+    exact hx (ite_eq_right fun e => h1 e.symm)
   · refine (Set.finite_singleton v').subset fun x hx => ?_
     by_contra h1
-    exact hx (if_neg fun e => h1 e.symm)
+    exact hx (ite_eq_right fun e => h1 e.symm)
 
 theorem locK_pow (χ : HChar L) (w : HeightOneSpectrum (𝓞 L)) :
     ∃ N : ℕ, 0 < N ∧ ∀ (a : 𝓞 L) (ha : a ≠ 0), a ∉ w.asIdeal → χ.locK w (uOf a ha) ^ N = 1 := by

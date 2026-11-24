@@ -103,13 +103,13 @@ theorem perL_injective (X : Data E r) {x : Frame X.Ψ r} (hx : x ∈ X.dom) : Fu
   have h2 : ∀ a : Fin r, ¬ (a : ℕ) < X.p0 → c a = 0 := fun a ha => by
     have := congrFun hu (τ, a)
     change perC X x u (τ, a) = 0 at this
-    simpa only [perC, if_neg ha] using this
+    simpa only [perC, ite_eq_right ha] using this
   have h1 : X.gramPos x τ *ᵥ (fun b => conj (c (Fin.castLE X.p0_le b))) = 0 := by
     funext a
     have ha : ((Fin.castLE X.p0_le a : Fin r) : ℕ) < X.p0 := a.2
     have := congrFun hu (τ, Fin.castLE X.p0_le a)
     change perC X x u (τ, Fin.castLE X.p0_le a) = 0 at this
-    simp only [perC, if_pos ha] at this
+    simp only [perC, ite_eq_left ha] at this
     rw [hu', hermC_col_mulVec] at this
     rw [Pi.zero_apply, ← this]
     simp only [Matrix.mulVec, dotProduct, Data.gramPos, Matrix.submatrix_apply]

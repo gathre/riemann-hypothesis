@@ -138,7 +138,7 @@ theorem linearIndependent_resolvent (T : Module.End ℂ V)
 theorem exists_not_isUnit_sub : ∀ {V : Type} [inst : AddCommGroup V] [inst_1 : Module ℂ V] [Nontrivial V], Module.rank ℂ V ≤ Cardinal.aleph0 → ∀ (T : Module.End ℂ V), ∃ (c : ℂ), ¬IsUnit (T - (Algebra.algebraMap ℂ (Module.End ℂ V) : ℂ → Module.End ℂ V) c) := by
   intro V _ _ _ hrank T
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨v, hv⟩ := exists_ne (0 : V)
   let w : ℂ → V := fun c => (((hcon c).unit⁻¹ : (Module.End ℂ V)ˣ) : Module.End ℂ V) v
   have hw : ∀ c, (T - algebraMap ℂ (Module.End ℂ V) c) (w c) = v := fun c => by

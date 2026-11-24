@@ -207,7 +207,7 @@ theorem poly_eq_zero_of_toLaurent_eq {R : Type} [CommRing R] (φ ψ : Polynomial
     | monomial k a =>
       rw [← Polynomial.C_mul_X_pow_eq_monomial, Polynomial.toLaurent_C_mul_X_pow,
         map_mul (LaurentPolynomial.invert (R := R)), LaurentPolynomial.invert_C, LaurentPolynomial.invert_T,
-        mul_left_comm, ← LaurentPolynomial.T_add, LaurentPolynomial.trunc_C_mul_T, if_neg (by omega)]
+        mul_left_comm, ← LaurentPolynomial.T_add, LaurentPolynomial.trunc_C_mul_T, ite_eq_right (by omega)]
   rw [← Polynomial.trunc_toLaurent φ, h, key]
 
 theorem eq_zero_of_field {e : Ix Dw → ℤ} {g : Rul Xo c} (hg : g ∈ secZ Xo c e)
@@ -363,7 +363,7 @@ theorem eq_zero_of_lt {e : Ix Dw → ℤ} {f : Rul Xo c} (hf : f ∈ secZ Xo c e
     rw [Finset.prod_eq_mul (some ⟨τ₀, a⟩) (some ⟨τ₀, b⟩) hsa ?_ (by simp) (by simp)]
     · have hb' : (⟨τ₀, b⟩ : Σ τ : E →+* ℂ, Fin (Dw.mult τ)) ≠ ⟨τ₀, a⟩ := by
         intro h; simp only [Sigma.mk.injEq, heq_eq_eq, true_and] at h; exact hne h.symm
-      simp only [t, Option.elim, if_true, hb', if_false, inv_zpow', Units.val_mul, hTu]
+      simp only [t, Option.elim, ite_true, hb', ite_false, inv_zpow', Units.val_mul, hTu]
       rw [← LaurentPolynomial.T_add]; ring_nf
     · intro k _ hk
       rcases k with _ | q

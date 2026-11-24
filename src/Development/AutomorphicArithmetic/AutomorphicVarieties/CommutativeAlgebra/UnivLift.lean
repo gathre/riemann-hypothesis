@@ -911,7 +911,7 @@ theorem UpperTheory.V.Alg.univ_lift :
       p.1 ≠ p.2}, ∃ g, p.1.1.hom g ≠ p.1.2.hom g := by
     intro p
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact p.2 (Lift.ext (MonoidHom.ext hcon))
   have hs : Seps rbar (fun p => (hne p).choose) := by
     intro r r' h

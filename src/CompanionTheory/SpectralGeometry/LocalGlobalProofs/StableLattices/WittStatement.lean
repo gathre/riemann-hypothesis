@@ -227,14 +227,14 @@ theorem frame_core [CharZero L] [FiniteDimensional L V] (hs : ∀ x, s (s x) = x
       refine mem_of_perp hh hd F _ (fun i => ?_) (fun i => ?_)
       · rw [hmove, ge]
         exact F'.1 _ _
-      · rw [hmove, gf, hh.2.2.1 (e' j), F'.2.2.1, if_neg (hj i), map_zero]
+      · rw [hmove, gf, hh.2.2.1 (e' j), F'.2.2.1, ite_eq_right (hj i), map_zero]
     have h0 : g.symm (e' j) = 0 := by
       refine F.2.2.2.2.1 _ hx ?_
       rw [hmove]
       simpa using F'.1 j j
     have he0 : e' j = 0 := by simpa using h0
     have := F'.2.2.1 j j
-    rw [he0, h_zero_left hh, if_pos rfl] at this
+    rw [he0, h_zero_left hh, ite_eq_left rfl] at this
     exact hd this.symm
   subst heq
   refine ⟨Equiv.refl _, g, hg, fun i => ge i, fun i => gf i, fun w => ⟨fun hw => ?_, fun hw => ?_⟩⟩

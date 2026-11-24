@@ -73,7 +73,7 @@ def htF {k : ℕ} (x : Fin k → ℝ) : ℝ := ∑ a : Fin k, -((a : ℕ) : ℝ)
 theorem htF_root {k : ℕ} (a b : Fin k) : htF (Formalism.REAL.root a b) = ((b : ℕ) : ℝ) - ((a : ℕ) : ℝ) := by
   unfold htF Formalism.REAL.root
   simp only [Pi.sub_apply, mul_sub, Finset.sum_sub_distrib, Pi.single_apply, mul_ite, mul_one, mul_zero,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   ring
 
 theorem htF_sum {k : ℕ} (c : Fin k → Fin k → ℕ) :
@@ -249,7 +249,7 @@ theorem gram_det_eq (P : FPair H r) (hs : M.split = none) :
         by_cases ha : a = Fin.last r
         · subst ha; simp [P.A.h_zz]
         · simp [ha, P.A.h_iso a a (Or.inl ha)]
-      · rw [if_neg hab]
+      · rw [ite_eq_right hab]
         by_cases ha : a = Fin.last r
         · exact P.A.h_iso b a (Or.inl (fun h => hab (by rw [ha, h])))
         · exact P.A.h_iso b a (Or.inr ha)
@@ -263,7 +263,7 @@ theorem gram_det_eq (P : FPair H r) (hs : M.split = none) :
         by_cases ha : a = Fin.last r
         · subst ha; simp [P.B.h_zz]
         · simp [ha, P.B.h_iso a a (Or.inl ha)]
-      · rw [if_neg hab]
+      · rw [ite_eq_right hab]
         by_cases ha : a = Fin.last r
         · exact P.B.h_iso b a (Or.inl (fun h => hab (by rw [ha, h])))
         · exact P.B.h_iso b a (Or.inr ha)
@@ -493,12 +493,12 @@ theorem prF_e (a : Fin r) : Fr.prF (Fr.e a) = 0 := by
   have h1 : ∑ c, H.h (Fr.e a) (Fr.es c) • Fr.e c = Fr.e a := by
     rw [Finset.sum_eq_single a]
     · have := Fr.h_es a a
-      simp only [if_true] at this
+      simp only [ite_true] at this
       show H.h (Fr.f a.castSucc) (Fr.es a) • Fr.e a = _
       rw [this, one_smul]
     · intro c _ hc
       have := Fr.h_es a c
-      rw [if_neg (Ne.symm hc)] at this
+      rw [ite_eq_right (Ne.symm hc)] at this
       show H.h (Fr.f a.castSucc) (Fr.es c) • Fr.e c = _
       rw [this, zero_smul]
     · intro h; exact absurd (Finset.mem_univ a) h
@@ -601,11 +601,11 @@ theorem N_row {g : V ≃ₗ[E] V} (hg : g ∈ Fr.NSet) (a : Fin (r + 1)) :
     · rcases Fin.eq_castSucc_or_eq_last b with ⟨b', rfl⟩ | rfl
       · have hlt : a' < b' := by simpa using hb
         beta_reduce
-        rw [Fin.lastCases_castSucc, hc0 b' (le_of_lt hlt), if_neg (ne_of_gt hlt), add_zero]
+        rw [Fin.lastCases_castSucc, hc0 b' (le_of_lt hlt), ite_eq_right (ne_of_gt hlt), add_zero]
       · beta_reduce
         rw [Fin.lastCases_last]
     · beta_reduce
-      rw [Fin.lastCases_castSucc, hc0 a' le_rfl, if_pos rfl, zero_add]
+      rw [Fin.lastCases_castSucc, hc0 a' le_rfl, ite_eq_left rfl, zero_add]
     · rw [Fin.sum_univ_castSucc]
       simp only [Fin.lastCases_castSucc, Fin.lastCases_last, zero_smul, add_zero, add_smul, Finset.sum_add_distrib]
       have e1 : ∑ x : Fin r, (if x = a' then (1 : E) else 0) • Fr.f x.castSucc = Fr.f a'.castSucc := by

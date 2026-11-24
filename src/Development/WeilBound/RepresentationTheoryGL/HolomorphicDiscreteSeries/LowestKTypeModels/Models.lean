@@ -186,7 +186,7 @@ theorem lowestKTypeModel : Seed := by
                                  linarith) (hG.gap a b hab)) v0 hv0).1
   obtain ⟨g1, hg1⟩ : ∃ g : UJ ε, Lc (π (um g) v0) ≠ 0 := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     set D := Submodule.span ℂ (Set.range fun g : UJ ε => π (um g) v0) with hDd
     have hD : ∀ g : UJ ε, ∀ y ∈ D, π (um g) y ∈ D := fun g y hy => by
       refine Submodule.span_induction (p := fun y _ => π (um g) y ∈ D) ?_ ?_ ?_ ?_ hy

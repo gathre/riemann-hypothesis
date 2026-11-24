@@ -88,7 +88,7 @@ theorem comp_comp (h : IsCMExt F E σ) {K : Type} [Ring K] [Algebra F K] (t : E 
 
 theorem exists_anti (h : IsCMExt F E σ) : ∃ ξ : E, ξ ≠ 0 ∧ σ ξ = -ξ := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have hfix : ∀ x, σ x = x := fun x => by
     by_contra hne
     exact hc (x - σ x) (sub_ne_zero.mpr (Ne.symm hne)) (by rw [map_sub, conj_conj h]; ring)

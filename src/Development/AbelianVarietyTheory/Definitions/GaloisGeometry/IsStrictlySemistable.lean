@@ -247,38 +247,38 @@ def logFun : LogFun k (κ ϖ) where
   in_map := @fun _ _ _ φ y h => le_preimage_map φ y.1.2 h
   f α i B z := if h : ⊤ ≤ z.1.2 ⁻¹ᵁ C.U α then GlobalTheory.Cris.evalAt (B := B) z.1.2 (C.U α) h (C.F α i) else 0
   f_map {α} i B B' φ y h := by
-    rw [dif_pos h, dif_pos (show ⊤ ≤ ((ptFun X q κ).map φ y).1.2 ⁻¹ᵁ C.U α from le_preimage_map φ y.1.2 h)]
+    rw [dite_eq_left h, dite_eq_left (show ⊤ ≤ ((ptFun X q κ).map φ y).1.2 ⁻¹ᵁ C.U α from le_preimage_map φ y.1.2 h)]
     exact evalAt_map φ y.1.2 h _ _
   g α β i B z := if h : ⊤ ≤ z.1.2 ⁻¹ᵁ (C.U α ⊓ C.U β) then
       Units.map (GlobalTheory.Cris.evalAt (B := B) z.1.2 (C.U α ⊓ C.U β) h : Γ(X, C.U α ⊓ C.U β) →* B) (C.G α β i) else 1
   g_map {α β} i B B' φ y hα hβ := by
     have h := le_preimage_inf y.1.2 hα hβ
-    rw [dif_pos h, dif_pos (show ⊤ ≤ ((ptFun X q κ).map φ y).1.2 ⁻¹ᵁ (C.U α ⊓ C.U β) from le_preimage_map φ y.1.2 h)]
+    rw [dite_eq_left h, dite_eq_left (show ⊤ ≤ ((ptFun X q κ).map φ y).1.2 ⁻¹ᵁ (C.U α ⊓ C.U β) from le_preimage_map φ y.1.2 h)]
     ext
     exact evalAt_map φ y.1.2 h _ _
   f_eq {α β} i B y hα hβ := by
     have h := le_preimage_inf y.1.2 hα hβ
-    rw [dif_pos hα, dif_pos hβ, dif_pos h, Units.coe_map, MonoidHom.coe_coe,
+    rw [dite_eq_left hα, dite_eq_left hβ, dite_eq_left h, Units.coe_map, MonoidHom.coe_coe,
       ← evalAt_res y.1.2 inf_le_left hα h, ← evalAt_res y.1.2 inf_le_right hβ h, ← map_mul, C.F_eq]
   g_self {α} i B y hα := by
-    rw [dif_pos (le_preimage_inf y.1.2 hα hα), C.G_self, map_one]
+    rw [dite_eq_left (le_preimage_inf y.1.2 hα hα), C.G_self, map_one]
   g_comp {α β γ} i B y hα hβ hγ := by
     have h12 := le_preimage_inf y.1.2 hα hβ
     have h23 := le_preimage_inf y.1.2 hβ hγ
     have h13 := le_preimage_inf y.1.2 hα hγ
     have h123 := le_preimage_inf y.1.2 h12 hγ
-    rw [dif_pos h12, dif_pos h23, dif_pos h13]
+    rw [dite_eq_left h12, dite_eq_left h23, dite_eq_left h13]
     ext
     simp only [Units.val_mul, Units.coe_map, MonoidHom.coe_coe]
     rw [← evalAt_res y.1.2 inf_le_left h12 h123, ← evalAt_res y.1.2 (le_inf (inf_le_left.trans inf_le_right) inf_le_right) h23 h123,
       ← evalAt_res y.1.2 (le_inf (inf_le_left.trans inf_le_left) inf_le_right) h13 h123,
       ← map_mul, C.G_comp]
   prod_f {α} B y hα := by
-    simp only [dif_pos hα]
+    simp only [dite_eq_left hα]
     rw [← map_prod, C.prod_F]
     exact evalAt_base q κ y.1.1 y.1.2 y.2 hα ϖ
   prod_g {α β} B y hα hβ := by
-    simp only [dif_pos (le_preimage_inf y.1.2 hα hβ)]
+    simp only [dite_eq_left (le_preimage_inf y.1.2 hα hβ)]
     rw [← map_prod, C.prod_G, map_one]
 
 end SSAtlas
@@ -298,11 +298,11 @@ theorem isStrictlySemistable (C : SSAtlas ϖ X q ι A) : GlobalTheory.Et.IsStric
 open Classical in
 theorem isSSFun_logFun (C : SSAtlas ϖ X q ι A) : IsSSFun ϖ X q κ (C.logFun κ) := by
   refine ⟨C.isStrictlySemistable, fun B => Equiv.refl _, C.U, C.F, C.G, C.affine, C.cover, C.prod_F, C.F_eq, C.nzd,
-    C.chart, fun φ y => rfl, fun {B} y => ⟨rfl, fun α => ⟨Iff.rfl, fun h => ⟨fun i => dif_pos h, fun β h' i => ?_⟩⟩⟩⟩
+    C.chart, fun φ y => rfl, fun {B} y => ⟨rfl, fun α => ⟨Iff.rfl, fun h => ⟨fun i => dite_eq_left h, fun β h' i => ?_⟩⟩⟩⟩
   change ((if h : ⊤ ≤ y.1.2 ⁻¹ᵁ (C.U α ⊓ C.U β) then
       Units.map (GlobalTheory.Cris.evalAt (B := B) y.1.2 (C.U α ⊓ C.U β) h : Γ(X, C.U α ⊓ C.U β) →* B) (C.G α β i)
       else 1 : Bˣ) : B) = _
-  rw [dif_pos (show ⊤ ≤ y.1.2 ⁻¹ᵁ (C.U α ⊓ C.U β) from h')]
+  rw [dite_eq_left (show ⊤ ≤ y.1.2 ⁻¹ᵁ (C.U α ⊓ C.U β) from h')]
   rfl
 
 end SSAtlas

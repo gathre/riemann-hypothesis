@@ -74,7 +74,7 @@ theorem limJ_mk_eq_iff {σ : Type} (k : ℕ) (P Q : MvPolynomial σ T) :
     omega
   · intro h x hx
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     rw [MvPolynomial.mem_support_iff, MvPolynomial.coeff_sub, h x hlt, sub_self] at hx
     exact hx rfl
 

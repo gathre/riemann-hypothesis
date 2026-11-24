@@ -465,7 +465,7 @@ theorem bound_main : Bound k := by
     exact hu (hf1.symm.trans h1)
   have hni : ¬ Function.Injective S := fun hi => hns (LinearMap.injective_iff_surjective.1 hi)
   rw [injective_iff_map_eq_zero] at hni
-  push_neg at hni
+  push Not at hni
   obtain ⟨y, hSy, hy0⟩ := hni
   have hAy : A y = μ • (y : IndSp (blk2 d) τ) := by
     have := congrArg Subtype.val hSy
@@ -913,7 +913,7 @@ def stabG (ρ : Representation ℂ G V) (v : V) : Subgroup G where
 theorem nondeg {ρ : Representation ℂ G V} (hi : ρ.IsIrreducible) (C : V →ₗ[ℂ] V →ₛₗ[starRingEnd ℂ] ℂ) (hC0 : C ≠ 0)
     (hCi : ∀ g v w, C (ρ g v) (ρ g w) = C v w) (v : V) (hv : v ≠ 0) : ∃ x, C v x ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   let R : Submodule ℂ V :=
     { carrier := {v | ∀ x, C v x = 0}
       add_mem' := fun {a b} ha hb x => by simp [ha x, hb x]
@@ -1540,7 +1540,7 @@ theorem someRed_of (h1 : Complementary) (h2 : Compact k) (h3 : Bound k) (h4 : He
     SomeRed k := by
   intro x hx hu
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   set d := x.1 with hdd
   have hd2 : ∀ s : ℝ, ∑ a, (![x.nu (-(s : ℂ)), x.nu (s : ℂ)] a).1 = x.1 + x.1 := fun s => by
     simp [Fin.sum_univ_two, IrrGL.nu, IrrGL.tw]

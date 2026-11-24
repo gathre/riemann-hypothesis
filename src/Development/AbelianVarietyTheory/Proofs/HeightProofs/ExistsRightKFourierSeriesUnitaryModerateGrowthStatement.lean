@@ -603,7 +603,7 @@ theorem polyAlg_separatesPoints (ε : Fin n → Bool) : (polyAlg ε).SeparatesPo
   have hne : toMK x ≠ toMK y := fun h => hxy (toMK_injective ε h)
   obtain ⟨i, j, hij⟩ : ∃ i j, toMK x i j ≠ toMK y i j := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hne (Matrix.ext hc)
   refine ⟨_, ⟨⟨coord ε (i, j, true), continuous_coord ε _⟩, ⟨1, show coord ε (i, j, true) ∈ polyV ε 1 from coord_mem ε _⟩, rfl⟩, ?_⟩
   simpa [coord] using hij

@@ -108,7 +108,7 @@ theorem deg (H : Hyps) {d : SD σ} (R : RD d) (L : LD d) (R' : RD L.sd) (hmn : d
       cOne d L (d.sec0 Φ) s z nb' lam' 𝓖' T' x + c2 z x) ∧
       ∀ x, c2 z (R.ι w y * x) = Complex.exp (((1 : ℝ) : ℂ) * (d.n - 2 * z)) * c2 z x := by
     intro z hz
-    simp only [c2, dif_pos hz]
+    simp only [c2, dite_eq_left hz]
     exact Classical.choose_spec (hspl z hz)
 
   have havg_smul : ∀ (c : ℂ) (φ : d.G → ℂ) x', avg d L uM ν 𝓤 nb lam 𝓖 (fun g => c * φ g) T x' =

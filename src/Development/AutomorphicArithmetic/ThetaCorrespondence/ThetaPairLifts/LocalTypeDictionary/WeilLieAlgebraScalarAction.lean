@@ -486,7 +486,7 @@ theorem adelic_schur_lemma : _root_.GlobalTheory.FunPr.ThetaLocalInputs → ∀ 
     rw [add_sub_cancel] at h2
     rw [Pi.smul_apply, smul_eq_mul, div_mul_eq_mul_div, eq_div_iff hs]
     exact (mul_comm _ _).trans h2
-  · push_neg at h0
+  · push Not at h0
     refine ⟨0, fun φ hφ => ?_⟩
     have : φ = 0 := funext fun x => h0 φ hφ x
     rw [this, map_zero, smul_zero]
@@ -555,7 +555,7 @@ theorem metaplectic_splittings_differ_by_character : _root_.GlobalTheory.FunPr.T
   choose z hz using key
   by_cases h0 : ∃ φ₀ ∈ schA F κ, φ₀ ≠ 0
   swap
-  · push_neg at h0
+  · push Not at h0
     refine ⟨fun _ => 1, fun g _ φ hφ => ?_, fun _ _ _ _ => by simp, continuousOn_const, fun _ _ => one_ne_zero⟩
     rw [h0 φ hφ, map_zero, map_zero, smul_zero]
   obtain ⟨φ₀, hφ₀, hne⟩ := h0

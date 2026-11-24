@@ -60,8 +60,8 @@ theorem diagonal_eq_sum_Eab {r s : ℕ} (D : Ix r s → ℂ) :
     Matrix.diagonal_apply]
   by_cases h : i = j
   · subst h; simp
-  · rw [if_neg h]; symm
-    exact Finset.sum_eq_zero fun c _ => if_neg fun hc => h (hc.1.symm.trans hc.2)
+  · rw [ite_eq_right h]; symm
+    exact Finset.sum_eq_zero fun c _ => ite_eq_right fun hc => h (hc.1.symm.trans hc.2)
 
 theorem sum_lineSign {p q r s : ℕ} (c : Ix r s) :
     ∑ a : Ix p q, lineSign a c = ((p : ℂ) - q) * Sum.elim (fun _ => (1 : ℂ)) (fun _ => -1) c := by

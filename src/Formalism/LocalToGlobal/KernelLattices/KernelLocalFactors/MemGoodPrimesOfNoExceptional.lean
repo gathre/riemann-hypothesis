@@ -139,9 +139,9 @@ theorem ftY_move2 (hcst : cst.Ok) (w : rowSG Pr sel mu) (hw : w.1 ∈ Pr.vGs) {n
       have hs : κ.1 (Pi.single i 1) ∈ stdAt X.E n w.1 := (hκ _).2 (hsg i)
       simpa using intAt_linear_form_on_std w.1 η h hs
   unfold ftY
-  rw [if_pos hw, if_pos hw]
+  rw [ite_eq_left hw, ite_eq_left hw]
   by_cases hη : ∀ i : Fin n, IntAt w.1 (η (Pi.single i 1))
-  · rw [if_pos (hcond.2 hη), if_pos hη]
+  · rw [ite_eq_left (hcond.2 hη), ite_eq_left hη]
     have hd : IntAt w.1 (η (κ.1 y₁ - y)) := intAt_linear_form_on_std w.1 η hη hδ
     have e0 : (η ∘ₗ κ.1.toLinearMap) y₁ = η y + η (κ.1 y₁ - y) := by
       rw [map_sub]
@@ -167,7 +167,7 @@ theorem ftY_move2 (hcst : cst.Ok) (w : rowSG Pr sel mu) (hw : w.1 ∈ Pr.vGs) {n
     have hB : IntAt w.1 ((Col.qOf w.1 : X.E) ^ cst.D w * ((epsSg : X.E) * η (κ.1 y₁ - y))) :=
       hqD _ (IntAt.mul (intAt_natCast_kernel_local_factors _ _) hζe)
     rw [e0, mul_add, hcst.psi_add w _ _ hA hB, hcst.psi_int w _ hζe, mul_one]
-  · rw [if_neg (fun h => hη (hcond.1 h)), if_neg hη]
+  · rw [ite_eq_right (fun h => hη (hcond.1 h)), ite_eq_right hη]
 
 
 open Classical in
@@ -184,11 +184,11 @@ theorem ybSet_props2 {n : ℕ} {N : Submodule (𝓞 X.E) (Sp X.E n)} {Y : Set (S
       a - y ∈ localization₂ w.1.asIdeal N := by
     intro a ha
     have h1 := key _ _ ha
-    simp only [if_pos hw, zpow_zero, inv_one, one_smul] at h1
+    simp only [ite_eq_left hw, zpow_zero, inv_one, one_smul] at h1
     exact h1
   have hyw : ((Col.qOf w.1 : ℕ) : X.E) • y ∈ localization₂ w.1.asIdeal N := by
     have h1 := key _ _ hy
-    simp only [if_pos hw, zpow_neg, zpow_one, inv_inv] at h1
+    simp only [ite_eq_left hw, zpow_neg, zpow_one, inv_inv] at h1
     exact h1
   refine ⟨⟨y, ?_⟩, ?_, ?_⟩
   · show y - y ∈ locLat (rowSG Pr sel mu) N (fun P => if P.1 ∈ Pr.vGs then 0 else (cst.M : ℤ))
@@ -229,9 +229,9 @@ theorem fourierTwist_add_integral {X : Fields} {Pr : Primes X} (sel : HeightOneS
       rw [LinearMap.add_apply]
       exact IntAt.add (h i) (hζ i)
   unfold ftY
-  rw [if_pos hw, if_pos hw]
+  rw [ite_eq_left hw, ite_eq_left hw]
   by_cases hη : ∀ i : Fin n, IntAt w.1 (η (Pi.single i 1))
-  · rw [if_pos (hcond.2 hη), if_pos hη]
+  · rw [ite_eq_left (hcond.2 hη), ite_eq_left hη]
     have hqη : IntAt w.1 ((Col.qOf w.1 : X.E) * η y) := by
       have h' := intAt_linear_form_on_std w.1 η hη hq
       rwa [map_smul, smul_eq_mul] at h'
@@ -253,7 +253,7 @@ theorem fourierTwist_add_integral {X : Fields} {Pr : Primes X} (sel : HeightOneS
     have hB : IntAt w.1 ((Col.qOf w.1 : X.E) ^ cst.D w * ((epsSg : X.E) * ζ y)) :=
       hqD _ (IntAt.mul (intAt_natCast_kernel_local_factors _ _) hζe)
     rw [LinearMap.add_apply, mul_add, hcst.psi_add w _ _ hA hB, hcst.psi_int w _ hζe, mul_one]
-  · rw [if_neg (fun h => hη (hcond.1 h)), if_neg hη]
+  · rw [ite_eq_right (fun h => hη (hcond.1 h)), ite_eq_right hη]
 
 end Inv2
 

@@ -831,7 +831,7 @@ theorem exists_ratForm : ∀ (l : ℕ) [Fact l.Prime] (n : Type) [Fintype n] [De
     rw [Matrix.mul_apply, Matrix.mul_apply, Fintype.sum_prod_type, Fintype.sum_prod_type]
     simp only [hp, B, T, Matrix.map_apply, Matrix.blockDiagonal_apply, ite_mul, zero_mul, mul_ite, mul_zero]
     rw [Fintype.sum_eq_single i (fun x hx => by simp [Ne.symm hx])]
-    simp only [if_true]
+    simp only [ite_true]
     refine (show _ = ∑ x, (W : Matrix (Fin r) (Fin r) ↥(MaximalUnramifiedExtension l)) m x * algebraMap ℚ_[l] ↥(MaximalUnramifiedExtension l) (A i j k g x)
       from rfl).trans ?_
     rw [← hA i j k g m, map_mul]
@@ -862,7 +862,7 @@ theorem exists_ratForm : ∀ (l : ℕ) [Fact l.Prime] (n : Type) [Fintype n] [De
     rw [Matrix.mulVec, dotProduct, Fintype.sum_prod_type]
     simp only [hp, ite_mul, zero_mul]
     rw [Fintype.sum_eq_single i (fun x hx => by simp [Ne.symm hx])]
-    simp only [if_true]
+    simp only [ite_true]
     rw [ha i g m]
 
 end GlobalTheory.PMon

@@ -130,7 +130,7 @@ theorem eq_smul_base : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (θ : InfFa
       rw [map_neg]
       exact Λ.neg_mem (AddSubgroup.mem_comap.1 hv)
     have hcv : c v = ψ (-symplOH S T (ratW T S v) (finRat S T (-v))) * (key _ hv').choose := by
-      simp only [c, dif_pos hv']
+      simp only [c, dite_eq_left hv']
     obtain ⟨-, h1, h2⟩ := (key _ hv').choose_spec
     have e1 := GlobalTheory.VacUnique.apply_add_infRat hσ hψ hf v h1 z
     have e2 := GlobalTheory.VacUnique.apply_add_infRat hσ hψ ht₀ v h2 z
@@ -140,7 +140,7 @@ theorem eq_smul_base : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (θ : InfFa
     · exact e2
     · exact e1
   rw [LinearIndependent.pair_iff] at hli
-  push_neg at hli
+  push Not at hli
   obtain ⟨s, t, hst, hne0⟩ := hli
   have hpt : ∀ z, s * f₀ (iotaW σ T S z) + t * f (iotaW σ T S z) = 0 := fun z => by
     have := congrFun hst z

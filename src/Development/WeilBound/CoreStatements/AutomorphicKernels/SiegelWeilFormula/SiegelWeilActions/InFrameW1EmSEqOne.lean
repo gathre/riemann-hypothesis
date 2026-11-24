@@ -177,9 +177,9 @@ theorem row_eq {P Wm C C' : Matrix (Fin d.n ⊕ Fin d.n) (Fin d.n ⊕ Fin d.n) (
       (Wm * X) (Sum.inr L.i₀) k = b * X (Sum.inl L.i₀) k := by
     intro X
     rw [Matrix.mul_apply, Finset.sum_eq_single (Sum.inl L.i₀)]
-    · rw [hWy, if_pos rfl]
+    · rw [hWy, ite_eq_left rfl]
     · intro l _ hl
-      rw [hWy, if_neg hl, zero_mul]
+      rw [hWy, ite_eq_right hl, zero_mul]
     · simp
   have hem : ∀ j, (Wm * C) (Sum.inr (L.em j)) k = C (Sum.inr (L.em j)) k := by
     intro j

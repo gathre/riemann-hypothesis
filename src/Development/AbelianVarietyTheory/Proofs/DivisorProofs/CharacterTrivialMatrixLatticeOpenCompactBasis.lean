@@ -91,7 +91,7 @@ theorem ker_int_mem_nhds (ψ0 : AddChar k ℂ) (hc : Continuous ψ0) :
 theorem ker_int_lt {ψ0 : AddChar k ℂ} {t : k} (ht : ψ0 t ≠ 1) {u : k}
     (hu : ∀ o : k, valuation k o ≤ 1 → ψ0 (o * u) = 1) : valuation k u < valuation k t := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hu0 : u ≠ 0 := by
     rintro rfl
     apply ht
@@ -145,7 +145,7 @@ theorem latt_open_compact_basis : ∀ {k : Type} [Field k] [ValuativeRel k] [Top
   intro k _ _ _ _ n d ψ0 hc hne
   obtain ⟨t, ht⟩ : ∃ t, ψ0 t ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (AddChar.ext _ _ fun x => by rw [h x, AddChar.one_apply])
   have ht0 : t ≠ 0 := by
     rintro rfl

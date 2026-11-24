@@ -700,7 +700,7 @@ theorem GlobalTheory.LiftSpaces.exists_lift_spaces : ∀ (D : D7) (G : Type) [Gr
     ⟨fun j => if hj : 1 ≤ j ∧ j ≤ D.R.m then Module.finrank ℂ
       ((R.toRealDat.Wat ⟨j - 1, Nat.lt_of_lt_of_le (Nat.sub_lt hj.1 Nat.one_pos) hj.2⟩ (sg0 D A3.A) (R.toRealDat.levL F.lv2 false (sg0 D A3.A))).comap
         (R.toRealDat.HW ⟨j - 1, Nat.lt_of_lt_of_le (Nat.sub_lt hj.1 Nat.one_pos) hj.2⟩ (sg0 D A3.A)).e) else 0,
-      fun j hj => dif_pos hj, fun j hj => dif_neg hj⟩
+      fun j hj => dite_eq_left hj, fun j hj => dite_eq_right hj⟩
 
   have hE : ∀ j (hj : 1 ≤ j ∧ j ≤ D.R.m), ∃ E : EuclideanSpace ℂ (Fin (d j)) →ₗ[ℂ]
       (R.toRealDat.HW ⟨j - 1, Nat.lt_of_lt_of_le (Nat.sub_lt hj.1 Nat.one_pos) hj.2⟩ (sg0 D A3.A)).H, Function.Injective E ∧
@@ -825,11 +825,11 @@ theorem GlobalTheory.LiftSpaces.exists_lift_spaces : ∀ (D : D7) (G : Type) [Gr
     read := fun i t _ x => (hJM (y.tup t) ((i : ℕ) + 1) (hji i)).2 t rfl x }⟩⟩
   · intro μ hμ i x h w hw e hg
     show jMJ ((i : ℕ) + 1) (hji i) ((if hj : (1 ≤ (i : ℕ) + 1 ∧ (i : ℕ) + 1 ≤ D.R.m) ∧ y.Us μ then TH μ ((i : ℕ) + 1) hj.1 else 0) x) = _
-    rw [dif_pos ⟨hji i, hμ⟩]
+    rw [dite_eq_left ⟨hji i, hμ⟩]
     exact hTH μ ((i : ℕ) + 1) (hji i) hμ x h w hw e hg
   · intro μ hμ j
     show (if hj : (1 ≤ j ∧ j ≤ D.R.m) ∧ y.Us μ then TH μ j hj.1 else 0) = 0
-    rw [dif_neg (fun h => hμ h.2)]
+    rw [dite_eq_right (fun h => hμ h.2)]
   · intro j hj
     show Subsingleton (EuclideanSpace ℂ (Fin (d j)))
     rw [hd0 j (by omega)]
@@ -837,7 +837,7 @@ theorem GlobalTheory.LiftSpaces.exists_lift_spaces : ∀ (D : D7) (G : Type) [Gr
   · intro i π v
     show v ∈ (if hj : 1 ≤ (i : ℕ) + 1 ∧ (i : ℕ) + 1 ≤ D.R.m then
       (y.prtW F.lv2 ⟨(i : ℕ) + 1 - 1, by omega⟩ (rep π)).comap (jMJ ((i : ℕ) + 1) hj) else ⊥) ↔ _
-    rw [dif_pos (hji i)]
+    rw [dite_eq_left (hji i)]
     exact Iff.rfl
 end -- clump:auto
 end -- clump:auto

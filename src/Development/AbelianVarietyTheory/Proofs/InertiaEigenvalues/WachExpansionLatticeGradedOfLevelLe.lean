@@ -293,9 +293,9 @@ theorem graded_of_full (u : L) (D : Submodule L M) (Λ : Submodule L (ℤ → M)
       have := Λ.sub_mem hx (tail x a hD ha)
       simpa using this
     have h2 := GlobalTheory.Per.single_mem_of_support_subset u Λ hu hr hγ (Finset.Ico a m) _ h1
-      (fun k hk => by rw [hval, if_neg hk]) k
+      (fun k hk => by rw [hval, ite_eq_right hk]) k
     by_cases hk : k ∈ Finset.Ico a (m : ℤ)
-    · rwa [hval, if_pos hk] at h2
+    · rwa [hval, ite_eq_left hk] at h2
     · by_cases hk' : k < a
       · rw [ha k hk']; simp
       · apply hm

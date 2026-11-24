@@ -125,7 +125,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {a b : ℕ}
 private theorem position_sph (Z T : Finset (Pl E)) (L : Lv a b Z) (e : Pl E → Ex (Fin (a + 1) × Fin (b + 1)))
     (w : Pl E) (hw : w ∉ Z) : IsHecke (K2 a b w) (intersection_update_fsHerm_neg_one Z T L.ln e w) := by
   unfold intersection_update_fsHerm_neg_one
-  rw [if_neg hw]
+  rw [ite_eq_right hw]
   split_ifs
   · exact UpperTheory.V.Z.Tf.GlobalTraceComparison.Asm.exHecke2 E a b w (e w)
   · exact UpperTheory.V.Z.Tf.GlobalTraceComparison.Asm.exHecke2 E a b w .one
@@ -133,7 +133,7 @@ private theorem position_sph (Z T : Finset (Pl E)) (L : Lv a b Z) (e : Pl E → 
 private theorem position_Z (Z T : Finset (Pl E)) (L : Lv a b Z) (e : Pl E → Ex (Fin (a + 1) × Fin (b + 1)))
     (w : Pl E) (hw : w ∈ Z) : intersection_update_fsHerm_neg_one Z T L.ln e w = L.ln w := by
   unfold intersection_update_fsHerm_neg_one
-  rw [if_pos hw]
+  rw [ite_eq_left hw]
 
 private theorem position_comm (Z T T' : Finset (Pl E)) (L : Lv a b Z) (e e' : Pl E → Ex (Fin (a + 1) × Fin (b + 1))) (w : Pl E) :
     PositivityTheory.Rg.BcN.F2.mconv (intersection_update_fsHerm_neg_one Z T L.ln e w) (intersection_update_fsHerm_neg_one Z T' L.ln e' w) =
@@ -523,7 +523,7 @@ private theorem core (a₀ : A) (x : B) {ρ : ℝ} (ha : p a₀ = 1) (hρ : 0 < 
     (isClosed_le continuous_const (continuous_norm.comp (map_continuous _))).isCompact
   obtain ⟨c, hc, δ, hδ, hcK⟩ := exists_sep Φ A p hKc (fun χ hχ => by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     exact absurd (hg χ hne) (not_lt.2 hχ))
   obtain ⟨b, hbdef⟩ : ∃ b : A, b = a₀ - 1 := ⟨_, rfl⟩
   have hb : p b = 0 := by rw [hbdef, map_sub, map_one, ha, sub_self]
@@ -601,18 +601,18 @@ private theorem core (a₀ : A) (x : B) {ρ : ℝ} (ha : p a₀ = 1) (hρ : 0 < 
           rw [hLdef]
           nlinarith
       _ < ρ := hn'
-  · push_neg at hcase
+  · push Not at hcase
     have hc0 := (hc.2 χ).2
     have hdt := hdχ χ
     have hxl : ‖Φ x χ‖ < ρ' := by
       by_contra hx
-      push_neg at hx
+      push Not at hx
       have := hcK χ hx
       have := sq_nonneg ‖Φ (b : B) χ‖
       linarith
     have hbl : ‖Φ (b : B) χ‖ ≤ ε := by
       by_contra hbe
-      push_neg at hbe
+      push Not at hbe
       have : ε ^ 2 < ‖Φ (b : B) χ‖ ^ 2 := by
         have := hε.le
         gcongr
@@ -1206,7 +1206,7 @@ theorem cmbPi : PiTerm → TwTrSum → CmbPi := by
     intro w hw
     have h := ((locAlg E n 0 Z L w).2.2.2.1 (φ w) (hφ w hw)).1
     funext g
-    simp only [seen, if_pos (hZ w hw).2]
+    simp only [seen, ite_eq_left (hZ w hw).2]
     exact congrFun h (g, 1)
   have hX : (∏ w ∈ Z, trc (τ w).ρ (KGL w (n := n)) fun g => seen φ L.ln w (g, 1)) =
       ∏ w ∈ Z, trc (τ w).ρ (KGL w (n := n)) fun g => φ w (g, 1) :=

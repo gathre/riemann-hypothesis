@@ -717,7 +717,7 @@ theorem measure_inter_translate_eq_zero : ∀ (X : Type) [Mul X] [MeasurableSpac
     have hne := hfree x (hDU hx)
     obtain ⟨n, hn⟩ : ∃ n, ¬ (γ * x ∈ V n ↔ x ∈ V n) := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hne (hV _ (Set.mem_univ _) _ (Set.mem_univ _) h)
     have hm' : x ∈ ⋃ m, spanningSets μ m := by rw [iUnion_spanningSets]; exact Set.mem_univ _
     obtain ⟨m, hm'⟩ := Set.mem_iUnion.1 hm'

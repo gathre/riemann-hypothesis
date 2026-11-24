@@ -103,11 +103,11 @@ theorem divCycle_eq_of_local {P : Ideal (MRing κ)} {f g : MRing κ}
   by_cases hf : W ∈ divSupp P f
   · obtain ⟨u, v, hu, hv, huv⟩ := h W hf.1.1.1 (le_sup_left.trans hf.1.1.2) hf.2
     obtain ⟨hg, e⟩ := mem_divSupp_and_multAt_eq hf hu hv huv
-    rw [if_pos hf, if_pos hg, e]
+    rw [ite_eq_left hf, ite_eq_left hg, e]
   · by_cases hg : W ∈ divSupp P g
     · obtain ⟨u, v, hu, hv, huv⟩ := h W hg.1.1.1 (le_sup_left.trans hg.1.1.2) hg.2
       exact absurd (mem_divSupp_and_multAt_eq hg hv hu (by rw [← neg_sub]; exact P.neg_mem huv)).1 hf
-    · rw [if_neg hf, if_neg hg]
+    · rw [ite_eq_right hf, ite_eq_right hg]
 
 end Divisor
 

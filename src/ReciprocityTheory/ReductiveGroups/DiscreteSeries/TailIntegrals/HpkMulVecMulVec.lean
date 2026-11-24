@@ -112,7 +112,7 @@ theorem hpk_mulVec (v : Fin (2 * r + k + 1) → ℂ) (i : Fin (2 * r + k + 1)) :
     (Hpk k r *ᵥ v) i = if i.val < r ∨ r + k < i.val then v ⟨2 * r + k - i.val, by omega⟩
       else if i.val = r + k then -v i else v i := by
   by_cases h : i.val < r ∨ r + k < i.val
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     simp only [Matrix.mulVec, dotProduct, hpk_out k r h]
     rw [Finset.sum_eq_single ⟨2 * r + k - i.val, by omega⟩]
     · simp
@@ -120,7 +120,7 @@ theorem hpk_mulVec (v : Fin (2 * r + k + 1) → ℂ) (i : Fin (2 * r + k + 1)) :
       have hj' : j.val ≠ 2 * r + k - i.val := fun hc => hj (Fin.ext hc)
       simp [hj']
     · simp
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     simp only [Matrix.mulVec, dotProduct, hpk_mid k r h]
     rw [Finset.sum_eq_single i]
     · by_cases h2 : i.val = r + k <;> simp [h2]
@@ -134,15 +134,15 @@ theorem hpk_mulVec_mulVec (v : Fin (2 * r + k + 1) → ℂ) : Hpk k r *ᵥ (Hpk 
   have hi := i.isLt
   rw [hpk_mulVec]
   by_cases h : i.val < r ∨ r + k < i.val
-  · rw [if_pos h, hpk_mulVec, if_pos (by dsimp only; omega)]
+  · rw [ite_eq_left h, hpk_mulVec, ite_eq_left (by dsimp only; omega)]
     congr 1
     ext
     dsimp only
     omega
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     split_ifs with h2
-    · rw [hpk_mulVec, if_neg h, if_pos h2, neg_neg]
-    · rw [hpk_mulVec, if_neg h, if_neg h2]
+    · rw [hpk_mulVec, ite_eq_right h, ite_eq_left h2, neg_neg]
+    · rw [hpk_mulVec, ite_eq_right h, ite_eq_right h2]
 
 theorem hpk_sq : Hpk k r * Hpk k r = 1 :=
   mat_eq_of_mulVec' fun v => by rw [← Matrix.mulVec_mulVec, hpk_mulVec_mulVec, Matrix.one_mulVec]
@@ -182,7 +182,7 @@ theorem sub_mul_tri {n m : ℕ} (h : m ≤ n) (A B : Matrix (Fin n) (Fin n) ℂ)
   intro l _ hl
   have hlm : m ≤ l.val := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hl (Finset.mem_map.mpr ⟨⟨l.val, hc⟩, Finset.mem_univ _, Fin.ext rfl⟩)
   have hjl : id (Fin.castLE h j) < id l := by
     show (Fin.castLE h j).val < l.val
@@ -206,7 +206,7 @@ theorem sub_tri_mul {n m : ℕ} (h : m ≤ n) (A B : Matrix (Fin n) (Fin n) ℂ)
   intro l _ hl
   have hlm : m ≤ l.val := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hl (Finset.mem_map.mpr ⟨⟨l.val, hc⟩, Finset.mem_univ _, Fin.ext rfl⟩)
   have hil : id (Fin.castLE h i) < id l := by
     show (Fin.castLE h i).val < l.val

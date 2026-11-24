@@ -618,7 +618,7 @@ theorem EB_tensor_std : ∀ (V : Type) [NormedAddCommGroup V] [InnerProductSpace
     by_cases hd : d = b
     · subst hd
       have e : herm (Hpk k r) ((1 : ℂ) • B a) (B c) = herm (Hpk k r) (B a) (B c) := by rw [one_smul]
-      rw [if_pos rfl, if_pos rfl, e, this]
+      rw [ite_eq_left rfl, ite_eq_left rfl, e, this]
       simp only [eq_comm]
     · simp [hd, herm]
   show dOp πt _ y c + Complex.I • dOp πt _ y c = (dOp π _ (y c) + Complex.I • dOp π _ (y c)) + _
@@ -675,7 +675,7 @@ theorem tenOp_norm (C : Fin k → Fin k → ℂ) (A : V →L[ℂ] V)
       refine Finset.sum_congr rfl fun c _ => ?_
       simp only [Complex.star_def]
       ring
-    simp only [hterm, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    simp only [hterm, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
   rw [norm_eq_sqrt_re_inner (𝕜 := ℂ), norm_eq_sqrt_re_inner (𝕜 := ℂ), key]
 
 end GlobalTheory.TensorStd
@@ -965,7 +965,7 @@ theorem splitCasimir_eigenspace_irreducible_standard : ∀ (V : Type) [NormedAdd
     have hν := hwtV _ _ hc0 hcw
     have hcl : c = l := by
       have h1 := hν c
-      simp only [if_true] at h1
+      simp only [ite_true] at h1
       have h2 : (L c : ℂ) = L l := by linear_combination -h1 - hlam
       exact hyp.anti.injective (by exact_mod_cast h2)
     subst hcl
@@ -998,7 +998,7 @@ theorem splitCasimir_eigenspace_irreducible_standard : ∀ (V : Type) [NormedAdd
       S' = ⊥ ∨ S' = S := by
     intro S' hle hst
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨hb, hne⟩ := hcon
     have hst2 : Stab Et (S'ᗮ ⊓ S) := by
       intro a b v hv

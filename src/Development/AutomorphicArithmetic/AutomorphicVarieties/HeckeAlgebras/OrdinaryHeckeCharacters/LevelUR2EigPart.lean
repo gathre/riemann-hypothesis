@@ -95,7 +95,7 @@ theorem UpperTheory.V.Hi.levelUR2EigPart :
     · exact ⟨a, hμ⟩
     obtain ⟨i, hi⟩ : ∃ i, μ a i ≠ ν i := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hμ (funext h)
     have e : (μ a i - ν i) • H = ν i • G' - op i G' := by
       have h1 := hGν i

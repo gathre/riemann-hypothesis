@@ -248,7 +248,7 @@ theorem exists_ellT_ne_zero : ∀ (D : D7) (V : HSp D) (S : D.what₂.Tau → SP
   let B := Basis.piTensorProduct (fun τ => (ob τ).toBasis)
   obtain ⟨k, hk⟩ : ∃ k, B.repr y k ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hy
     apply B.repr.injective (show B.repr y = B.repr 0 from ?_)
     ext k
@@ -1790,9 +1790,9 @@ theorem GlobalTheory.Mem.OneTuple.rows_theta : GlobalTheory.Published.CuspRapidD
   choose κT hκT sT hsT rowT hrowT hisoT using htop'
   let row : ∀ j, D.what₂.Mult μ j →ₗ[ℂ] CuspS R.θ (D.sp.Y j) := fun j =>
     if hj : j < D.R.m then rowL j hj else if hj' : j = D.R.m then rowT j hj' else 0
-  have row_low : ∀ j (hj : j < D.R.m), row j = rowL j hj := fun j hj => dif_pos hj
+  have row_low : ∀ j (hj : j < D.R.m), row j = rowL j hj := fun j hj => dite_eq_left hj
   have row_top : ∀ j (hj : j = D.R.m), row j = rowT j hj := fun j hj => by
-    simp only [row, dif_neg (show ¬ j < D.R.m by omega), dif_pos hj]
+    simp only [row, dite_eq_right (show ¬ j < D.R.m by omega), dite_eq_left hj]
 
   have hstep : ∀ j, j < D.R.m → ∃ Φ : ThS R.ψ (D.sp.Y (j + 1)) (D.sp.Y j), Φ ≠ 0 ∧
       ∀ y : D.what₂.Mult μ (j + 1), ∃ L : GA D (D.sp.Y j) → ℂ,
@@ -1842,14 +1842,14 @@ theorem GlobalTheory.Mem.OneTuple.rows_theta : GlobalTheory.Published.CuspRapidD
   choose PhiC hPhiC hL2 using hstep
   let Phi : ∀ j, ThS R.ψ (D.sp.Y (j + 1)) (D.sp.Y j) := fun j => if hj : j < D.R.m then PhiC j hj else 0
   refine ⟨row, Phi, fun j hj => ?_, fun j hj x y => ?_, fun j hj y => ?_⟩
-  · simp only [Phi, dif_pos hj]
+  · simp only [Phi, dite_eq_left hj]
     exact hPhiC j hj
   · rcases hj.lt_or_eq with hj | hj
     · rw [row_low j hj]
       exact hisoL j hj x y
     · rw [row_top j hj]
       exact hisoT j hj x y
-  · simp only [Phi, dif_pos hj]
+  · simp only [Phi, dite_eq_left hj]
     exact hL2 j hj y
 end -- clump:auto
 end -- clump:auto

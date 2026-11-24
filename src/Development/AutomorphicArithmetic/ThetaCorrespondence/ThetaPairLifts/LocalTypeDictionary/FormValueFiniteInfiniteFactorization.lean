@@ -327,7 +327,7 @@ private theorem herm_eq_csumAt (hb : S.HasRatBasis) (z : Fin S.dim → K) :
     star (fun i => σ (z i)) ⬝ᵥ (S.H.map σ).mulVec (fun i => σ (z i)) =
       csumAt S σ (S.basis.equivFun.symm z : S.Forms) (S.basis.equivFun.symm z : S.Forms) := by
   have hr : ∀ i, S.IsRat (S.basis i : S.Cl → S.V) := by
-    have : S.basis = hb.choose := by unfold CSD.basis; exact dif_pos hb
+    have : S.basis = hb.choose := by unfold CSD.basis; exact dite_eq_left hb
     rw [this]
     exact hb.choose_spec
   rw [Module.Basis.equivFun_symm_apply, Submodule.coe_sum]

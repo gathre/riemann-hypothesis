@@ -297,17 +297,17 @@ private lemma weylDim_const_sub_rev (m : ℕ) (μ : Fin m → ℤ) (c : ℤ) :
   rw [hr i, hr j]
   by_cases h : i < j
   · have h' : j.rev < i.rev := Fin.rev_lt_rev.mpr h
-    rw [if_pos h, if_pos h']
+    rw [ite_eq_left h, ite_eq_left h']
     push_cast
     congr 1 <;> ring
   · have h' : ¬ j.rev < i.rev := fun h2 => h (Fin.rev_lt_rev.mp h2)
-    rw [if_neg h, if_neg h']
+    rw [ite_eq_right h, ite_eq_right h']
 
 theorem cntTop : CntTop := by
   intro m _ lo hlo _ vec
   cases vec with
   | true =>
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     have hν : ∀ t : Fin m, nuOf lo t.succ ≤ nuOf lo 0 := fun t => by
       have h1 := nuOf_cast lo hlo t.succ
       have h2 := nuOf_cast lo hlo 0
@@ -322,7 +322,7 @@ theorem cntTop : CntTop := by
     simp only [nuOf_cast lo hlo]
     exact _root_.Formalism.MainNotions.Pf14.weylDim_shift m (fun i => lo i.succ) _
   | false =>
-    rw [if_neg Bool.false_ne_true]
+    rw [ite_eq_right Bool.false_ne_true]
     have hL : Antitone (fun i : Fin (m + 1) => -lo i.rev) := by
       intro a b hab
       have := hlo (Fin.rev_le_rev.mpr hab)

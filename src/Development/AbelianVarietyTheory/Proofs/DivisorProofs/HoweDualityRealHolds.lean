@@ -133,7 +133,7 @@ theorem herm_cplxD_pos [Fintype ι] (c : ∀ w : ι, Matrix (Ix (P w) (Q w)) (Ix
   simp only [Complex.im_sum, h, Finset.sum_neg_distrib]
   obtain ⟨w, a, b, hw⟩ : ∃ w a b, c w a b ≠ 0 := by
     by_contra h0
-    push_neg at h0
+    push Not at h0
     exact hc (by ext w a b; exact h0 w a b)
   have : 0 < ∑ w, ∑ a, ∑ b, Complex.normSq (c w a b) :=
     Finset.sum_pos' (fun _ _ => Finset.sum_nonneg fun _ _ => Finset.sum_nonneg fun _ _ => Complex.normSq_nonneg _)
@@ -380,7 +380,7 @@ theorem ccrM_comm [Fintype W] (H : (∀ w : W, Matrix (Ix (P w) (Q w)) (Ix (R w)
   rw [sum_unitAtS] at h11 h1i hi1 hii
   by_cases hjk : j = k
   · rw [hjk]
-  · simp only [if_neg hjk, Complex.zero_im, Complex.ofReal_zero, mul_zero, zero_smul, sub_eq_zero] at h11 h1i hi1 hii
+  · simp only [ite_eq_right hjk, Complex.zero_im, Complex.ofReal_zero, mul_zero, zero_smul, sub_eq_zero] at h11 h1i hi1 hii
     unfold ccrM
     have c : Commute (H (unitAtS j 1) - (lineSign j.2.1 j.2.2 * Complex.I) • H (unitAtS j Complex.I))
         (H (unitAtS k 1) - (lineSign k.2.1 k.2.2 * Complex.I) • H (unitAtS k Complex.I)) :=
@@ -399,7 +399,7 @@ theorem ccrD_ccrM_comm [Fintype W] (H : (∀ w : W, Matrix (Ix (P w) (Q w)) (Ix 
   have hpi : (Real.pi : ℂ) ≠ 0 := by exact_mod_cast Real.pi_ne_zero
   by_cases h : j = k
   · subst h
-    simp only [if_true, smul_smul, ← sub_smul, ← add_smul, ← neg_smul]
+    simp only [ite_true, smul_smul, ← sub_smul, ← add_smul, ← neg_smul]
     conv_rhs => rw [← one_smul ℂ (1 : Module.End ℂ V)]
     congr 1
     rcases lineSign_cases j.2.1 j.2.2 with h | h
@@ -1093,9 +1093,9 @@ theorem exists_bridgeD : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [N
       congr 2
       generalize Ψl y w = X
       rcases Int.units_eq_one_or (ε w) with h1 | h1
-      · rw [h1, if_neg (by decide)]
+      · rw [h1, ite_eq_right (by decide)]
         simp
-      · rw [h1, if_pos rfl, one_smul, two_smul, sub_add_cancel_left]
+      · rw [h1, ite_eq_left rfl, one_smul, two_smul, sub_add_cancel_left]
         simp [Matrix.mul_neg, Matrix.neg_mul]
     · rw [← hΨl, hΨJ]
       rfl

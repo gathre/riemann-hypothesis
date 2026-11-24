@@ -100,7 +100,7 @@ theorem local_exists [Nonempty I] (G : Matrix I I R) (hG : Gᴴ = -G) (hdet : Is
     (hm : ∃ a : R, a - star a ∉ m) : ∃ x : I → R, hf G x x ∉ m := by
   obtain ⟨a, ha⟩ := hm
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨k⟩ := ‹Nonempty I›
   set e : I → R := Pi.single k 1 with he
   set v : I → R := e ᵥ* G⁻¹ with hv
@@ -282,7 +282,7 @@ theorem unimod {I : Type} [Fintype I] [DecidableEq I] (G : Matrix I I R) (x : I 
     ∀ M : Ideal R, M.IsMaximal → ∃ i, x i ∉ M := by
   intro M hM
   by_contra h
-  push_neg at h
+  push Not at h
   have hmem : hf G x x ∈ M := by
     rw [hf_expand]
     exact Ideal.sum_mem _ fun i _ => Ideal.sum_mem _ fun j _ => M.mul_mem_right _ (M.mul_mem_right _ (h i))
@@ -329,13 +329,13 @@ theorem unitCoord [Finite (MaximalSpectrum R)] {n : ℕ} (x : Fin (n + 1) → R)
       by_cases hi : i = 0
       · subst hi
         by_cases h0 : (0 : Fin (n + 1)) = k P
-        · rw [if_pos h0]
+        · rw [ite_eq_left h0]
           simp [c']
-        · rw [if_neg h0]
+        · rw [ite_eq_right h0]
           simpa [c'] using hk0 P (Ne.symm h0)
       · have h : x i * (c i - if i = k P then 1 else 0) ∈ M := Ideal.mul_mem_left _ (x i) (hc i P)
         have he : x i * c' i - (if i = k P then x i else 0) = x i * (c i - if i = k P then 1 else 0) := by
-          simp only [c', if_neg hi]
+          simp only [c', ite_eq_right hi]
           split_ifs <;> ring
         rw [he]
         exact h
@@ -507,7 +507,7 @@ theorem PositivityTheory.Xgf.skew_hermitian_diagonalizable : ∀ (R : Type) [Com
 theorem PositivityTheory.Xgf.exists_not_mem_sub_conj : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (bar : 𝓞 E ≃+* 𝓞 E), (∀ a : 𝓞 E, ((bar a : 𝓞 E) : E) = IsCMField.complexConj E (a : E)) → Algebra.Unramified (𝓞 (maximalRealSubfield E)) (𝓞 E) → ∀ m : Ideal (𝓞 E), m.IsMaximal → ∃ a : 𝓞 E, a - bar a ∉ m := by
   intro E _ _ _ bar hbar hunr m hm
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hfix : ∀ r : 𝓞 (maximalRealSubfield E),
       bar (algebraMap _ (𝓞 E) r) = algebraMap _ (𝓞 E) r := by
     intro r
@@ -565,7 +565,7 @@ end PositivityTheory.Xgf.LocGen
 private theorem norm_le_one_lemma (p : Nat.Primes) (y : ℂ_[(p : ℕ)]) (f : Polynomial ℤ) (hmon : f.Monic)
     (hf : f.eval₂ (Int.castRingHom ℂ_[(p : ℕ)]) y = 0) : ‖y‖ ≤ 1 := by
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   rw [hmon.as_sum] at hf
   simp only [Polynomial.eval₂_add, Polynomial.eval₂_pow, Polynomial.eval₂_X, Polynomial.eval₂_finsetSum,
     Polynomial.eval₂_mul, Polynomial.eval₂_C, Int.coe_castRingHom] at hf

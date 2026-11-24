@@ -160,7 +160,7 @@ private theorem span_fixed_eq_whole_of_semilinear_injective {K E : Type} [Field 
     with hW
   have hex : ∃ r, w r ∈ W r := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hmono : ∀ i, i ≤ Module.finrank K (W i) := by
       intro i
       induction i with
@@ -215,7 +215,7 @@ private theorem span_fixed_eq_whole_of_semilinear_injective {K E : Type} [Field 
     rw [← hsum, ← Fin.sum_univ_eq_sum_range (fun i => a' i • w i) (s + 1)]
     congr 1
     refine Finset.sum_congr rfl (fun i _ => ?_)
-    simp only [ha', dif_pos i.2, Fin.eta]
+    simp only [ha', dite_eq_left i.2, Fin.eta]
   let Xs : ℕ → Polynomial K := fun n => Nat.rec (Polynomial.C (a' 0) * Polynomial.X ^ p)
     (fun i P => P ^ p + Polynomial.C (a' (i + 1)) * Polynomial.X ^ p) n
   have hXs0 : Xs 0 = Polynomial.C (a' 0) * Polynomial.X ^ p := rfl

@@ -364,7 +364,7 @@ theorem exists_cols (hinj : Function.Injective bk.iA) {d : ℕ} {ι : Type}
 
   simp only [← map_mul, ← map_sum] at h4
   have h5 := hinj (h4.trans (map_zero _).symm)
-  simp only [mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true] at h5
+  simp only [mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true] at h5
   exact (mul_eq_zero.1 h5).resolve_right hc
 
 theorem mem_lattice (hev : Function.Injective bk.ev) {d : ℕ} (Y1 : Matrix (Fin d) (Fin d) (Ainf l)) (m : ℕ)

@@ -137,9 +137,9 @@ theorem closedN : ClosedN := by
       simp
     · intro l _ hlc
       by_cases hl : min c.val r ≤ l.val
-      · rw [hz c hc l hl, if_neg hlc, mul_zero]
+      · rw [hz c hc l hl, ite_eq_right hlc, mul_zero]
       · have hjl : j ≠ l := fun h => by rw [h] at hj; exact hl hj
-        rw [hy l (by omega) j (by omega), if_neg hjl, zero_mul]
+        rw [hy l (by omega) j (by omega), ite_eq_right hjl, zero_mul]
     · intro h
       exact absurd (Finset.mem_univ c) h
   have invQ : ∀ y : Mat k r, IsUnit y.det → (∀ c : Fin (2 * r + k + 1), c.val ≤ r + k → ∀ j : Fin (2 * r + k + 1), min c.val r ≤ j.val →
@@ -158,9 +158,9 @@ theorem closedN : ClosedN := by
         simpa using h1
       · intro l _ hlc
         by_cases hl : min c.val r ≤ l.val
-        · rw [hy c hc l hl, if_neg hlc, mul_zero]
+        · rw [hy c hc l hl, ite_eq_right hlc, mul_zero]
         · have hjl : j ≠ l := fun h => by rw [h] at hj; exact hl hj
-          rw [ih l.val (by omega) l rfl (by omega) j (by omega), if_neg hjl, zero_mul]
+          rw [ih l.val (by omega) l rfl (by omega) j (by omega), ite_eq_right hjl, zero_mul]
       · intro h
         exact absurd (Finset.mem_univ c) h
     intro c hc j hj
@@ -223,7 +223,7 @@ theorem shellInt : ShellInt := by
         linarith
       · obtain ⟨n, hn⟩ : ∃ n, m0 = n + 1 := ⟨m0 - 1, by omega⟩
         have hmin := Nat.find_min hex (show n < m0 by omega)
-        push_neg at hmin
+        push Not at hmin
         rw [hn, pow_succ]
         linarith
     calc ENNReal.ofReal (N x ^ (-A)) ≤ ENNReal.ofReal (((2:ℝ) ^ m0 / 2) ^ (-A)) :=
@@ -334,7 +334,7 @@ theorem lev_one (k r' : ℕ) : ιLev k 1 r' 1 = 1 := by
       obtain ⟨t, rfl⟩ := (mid_iff k r' q).1 hq
       rw [lev_mm, Matrix.one_apply, Matrix.one_apply]
       simp only [(levPos_inj k r').eq_iff]
-    · rw [lev_mn k r' _ p q hp hq, Matrix.one_apply, if_neg]
+    · rw [lev_mn k r' _ p q hp hq, Matrix.one_apply, ite_eq_right]
       rintro rfl; exact hq hp
   · rw [lev_n k r' _ p q hp, Matrix.one_apply]
 
@@ -358,7 +358,7 @@ theorem lev_mul (k r' : ℕ) (g h : Mat k r') : ιLev k 1 r' (g * h) = ιLev k 1
       simp only [hz, mul_zero, Finset.sum_const_zero]
   · rw [lev_n k r' _ p q hp]
     simp only [lev_n k r' g p _ hp, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ,
-      if_true, lev_n k r' h p q hp]
+      ite_true, lev_n k r' h p q hp]
 
 def blk (k r' : ℕ) (x : Mat k (1 + r')) : Mat k r' := Matrix.of fun s t => x (levPos k 1 r' s) (levPos k 1 r' t)
 

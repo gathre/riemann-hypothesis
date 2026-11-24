@@ -106,8 +106,8 @@ theorem hm_eq_smul_one : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] 
   obtain ⟨hp0, hty⟩ := hU.2.1 k
   obtain ⟨f, hf⟩ := GlobalTheory.FrameUnif.exists_letter_equiv (U.X k).Ψ (U.X k).cmType Dw.p Dw.q r hU.1 (relab c σ) hbij
     Dw.mult
-    (fun τ h => by unfold Datum.mult; rw [if_pos ((hrt τ).1 ((hty _).1 h))])
-    (fun τ h => by unfold Datum.mult; rw [if_neg (fun h' => h ((hty _).2 ((hrt τ).2 h')))])
+    (fun τ h => by unfold Datum.mult; rw [ite_eq_left ((hrt τ).1 ((hty _).1 h))])
+    (fun τ h => by unfold Datum.mult; rw [ite_eq_right (fun h' => h ((hty _).2 ((hrt τ).2 h')))])
   have hper : ∀ (v : Fin r → E) j, perFr (U.X k) x.1 v (relab c σ (W.e j).1) (W.e j).2 =
       if (((W.e.trans f) j).2 : ℕ) < (U.X k).p0 then
         FD.hermC ((W.e.trans f) j).1.1 (U.X k).Gm
@@ -123,10 +123,10 @@ theorem hm_eq_smul_one : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] 
     dsimp only at h ⊢
     rw [← hp0] at h
     rcases h with ⟨a, rfl, rfl⟩ | ⟨a, rfl, rfl, d⟩
-    · rw [if_neg (by omega)]
+    · rw [ite_eq_right (by omega)]
       unfold perFr
       rw [dite_eq_left a, dite_eq_left hn]
-    · rw [if_pos (by omega)]
+    · rw [ite_eq_left (by omega)]
       unfold perFr
       rw [dite_eq_right a, dite_eq_left (show conjEmb (relab c σ (W.e j).1) ∈ (U.X k).Ψ from hτ), dite_eq_left hn]
       rfl

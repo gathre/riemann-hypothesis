@@ -292,11 +292,11 @@ theorem stepDatum_eq_mul : ∀ (D : D7) (S T : HSp D) (βS : GL (Fin S.rank) (Le
   have hhQ : IsHalf eQ (eQ • x) := isHalf_smul hQ x
   by_cases hx : IsHalf (eG + eQ) x
   swap
-  · rw [if_neg hx, if_neg (fun h => hx h.1), mul_zero]
+  · rw [ite_eq_right hx, ite_eq_right (fun h => hx h.1), mul_zero]
   have hxx : (eG + eQ) • x = x := funext fun a => funext fun b => hx a b
   have hNs := hsm (eG + eQ)
   rw [hxx, RingHom.map_add (f := _), add_smul] at hNs
-  rw [if_pos hx, hsm, hsm]
+  rw [ite_eq_left hx, hsm, hsm]
   generalize frMapO S T βS βT x = N at hNs ⊢
   by_cases hI : IsIntM N
   · have iGN : IsIntM (toEAf D eG • N) := fun a b => mul_mem iG (hI a b)
@@ -306,17 +306,17 @@ theorem stepDatum_eq_mul : ∀ (D : D7) (S T : HSp D) (βS : GL (Fin S.rank) (Le
       (fun PP hPP => GlobalTheory.LocSuppTw.redM_smul_of_res iG PP (rG PP hPP) hI)
     have e2 := GlobalTheory.PlaceDatum.omegaQ_congr Q r ξ 1 (fun PP => redM PP (toEAf D eQ • N)) (fun PP => redM PP N)
       (fun PP hPP => GlobalTheory.LocSuppTw.redM_smul_of_res iQ PP (rQ PP hPP) hI)
-    rw [if_pos (And.intro hx hI), if_pos (And.intro hhG iGN), if_pos (And.intro hhQ iQN), omegaQ_empty,
+    rw [ite_eq_left (And.intro hx hI), ite_eq_left (And.intro hhG iGN), ite_eq_left (And.intro hhQ iQN), omegaQ_empty,
       omegaG_of_empty (datY S.rank r t j hr ∅ Q (LevelP.triv ∅ r ℂ) χ ξ Frm.B) rfl, e1, mul_one, mul_one, one_mul,
       omegaG_datY r t j hr Pg Q ∅ P χ ξ (fun _ => 1)]
     exact congrArg _ e2.symm
-  · rw [if_neg (fun h : IsHalf (eG + eQ) x ∧ IsIntM N => hI h.2)]
+  · rw [ite_eq_right (fun h : IsHalf (eG + eQ) x ∧ IsIntM N => hI h.2)]
     by_cases h1 : IsIntM (toEAf D eG • N)
     · have h2 : ¬ IsIntM (toEAf D eQ • N) := fun h2 => hI fun a b => by
         have e : N a b = (toEAf D eG • N) a b + (toEAf D eQ • N) a b := congrFun (congrFun hNs a) b
         exact e.symm ▸ Subring.add_mem _ (h1 a b) (h2 a b)
-      rw [if_neg (fun k : IsHalf eQ (eQ • x) ∧ IsIntM (toEAf D eQ • N) => h2 k.2), mul_zero, zero_mul]
-    · rw [if_neg (fun k : IsHalf eG (eG • x) ∧ IsIntM (toEAf D eG • N) => h1 k.2), zero_mul, zero_mul]
+      rw [ite_eq_right (fun k : IsHalf eQ (eQ • x) ∧ IsIntM (toEAf D eQ • N) => h2 k.2), mul_zero, zero_mul]
+    · rw [ite_eq_right (fun k : IsHalf eG (eG • x) ∧ IsIntM (toEAf D eG • N) => h1 k.2), zero_mul, zero_mul]
 
 end GlobalTheory.DatumHalves
 end -- clump:auto

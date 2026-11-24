@@ -132,7 +132,7 @@ theorem isTest_fourB {F : Type} [NontriviallyNormedField F] [IsUltrametricDist F
     · simp [image_eq_zero_of_notMem_tsupport hx]
   · refine HasCompactSupport.intro hNc fun y hy => ?_
     have : ¬ ∀ x ∈ M, ψ (β x y) = 1 := fun h => hy ((hN y).2 h)
-    push_neg at this
+    push Not at this
     obtain ⟨m, hm, hne⟩ := this
     refine AbsInv.integral_eq_zero_of_translate μ _ m _ hne fun x => ?_
     simp only [map_add (f := _), LinearMap.add_apply, AddChar.map_add_eq_mul, hUinv M hMU x m hm]

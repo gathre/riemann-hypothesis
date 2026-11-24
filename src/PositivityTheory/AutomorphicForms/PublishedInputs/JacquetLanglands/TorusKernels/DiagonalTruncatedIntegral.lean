@@ -170,7 +170,7 @@ theorem UpperTheory.Esk.diagonal_truncated_integral_zero : UpperTheory.Esk.B1a �
         Finset.prod_eq_zero (Finset.mem_univ v) (by rw [hfac, hv]; rfl)
       simp [hkk, hp]
     simp [h0]
-  push_neg at hz
+  push Not at hz
   have hφn' : ∀ v x, φ v x ≠ 0 := fun v => (hφn v).resolve_left (hz v)
 
   have h1pos : 0 < D.hf ![0, 1] (D.rep ω) := hH.ax.pos _ (by simp) _
@@ -338,11 +338,11 @@ theorem UpperTheory.Esk.diagonal_truncated_integral_zero : UpperTheory.Esk.B1a �
     show _ * Set.indicator _ _ ((ω, fun v => pt (x v) (y v) (hy v)) : D.Y) = _
     rw [Set.indicator_apply]
     by_cases hm : ((ω, fun v => pt (x v) (y v) (hy v)) : D.Y) ∈ D.LamF T (γ : PG F)
-    · rw [if_pos hm, if_pos (hcond.1 hm)]
+    · rw [ite_eq_left hm, ite_eq_left (hcond.1 hm)]
       erw [hkk]
       rw [inv_mul_cancel_left₀ hc]
       exact Finset.prod_congr rfl fun v _ => hφe v _ _ _
-    · rw [if_neg hm, if_neg (mt hcond.2 hm), mul_zero]
+    · rw [ite_eq_right hm, ite_eq_right (mt hcond.2 hm), mul_zero]
   have hA : 0 < D.hf ![1, 0] (D.rep ω) / T := div_pos h2pos (by linarith)
   have hAB : D.hf ![1, 0] (D.rep ω) / T < T / D.hf ![0, 1] (D.rep ω) := by
     rw [div_lt_div_iff₀ (by linarith) h1pos]; nlinarith

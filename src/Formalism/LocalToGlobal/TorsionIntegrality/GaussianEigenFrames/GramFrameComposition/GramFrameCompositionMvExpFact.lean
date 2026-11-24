@@ -231,7 +231,7 @@ theorem pair_row {H : Type} [Fintype H] [DecidableEq H] {N0 N1 : ℕ} (u : H →
     simp
   · rintro ⟨a', ⟨⟨b', h'⟩, p'⟩⟩ _ hne
     obtain ⟨a, ⟨⟨b, h⟩, p⟩⟩ := x
-    rw [if_neg]
+    rw [ite_eq_right]
     · simp
     rintro ⟨rfl, rfl, rfl, hb⟩
     apply hne
@@ -370,7 +370,7 @@ theorem ShapeLin_proof : ShapeLin := by
       rw [hmem] at hc ⊢
       rw [norm_pow] at hc
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       have : 1 < ‖c‖ ^ 4 := one_lt_pow₀ hlt (by norm_num)
       linarith
     · rw [← jetsInNorm, tensor_four_mul, htens, gramFrameComposition_mvExp_fact (hccs _ _ hccβ), hsm]

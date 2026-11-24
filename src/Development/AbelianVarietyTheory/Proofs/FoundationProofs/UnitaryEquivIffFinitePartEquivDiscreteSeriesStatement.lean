@@ -121,11 +121,11 @@ theorem isUnitEquiv_iff_nonempty_equiv_of_isCopyFinDS : ∀ (D : D7) (V : HSp D)
       simp
     obtain ⟨y', hy'⟩ : ∃ y', T'' w' y' ≠ 0 := by
       by_contra hn
-      push_neg at hn
+      push Not at hn
       exact h1 (ContinuousMultilinearMap.ext hn)
     obtain ⟨w, y, hwy⟩ : ∃ w y, ⟪T'' w' y', T w y⟫_ℂ ≠ 0 := by
       by_contra hn
-      push_neg at hn
+      push Not at hn
       apply hy'
       have hsub : Submodule.span ℂ {v | ∃ w y, v = T w y} ≤ (ℂ ∙ T'' w' y')ᗮ := Submodule.span_le.2 (by
         rintro _ ⟨w, y, rfl⟩
@@ -155,7 +155,7 @@ theorem isUnitEquiv_iff_nonempty_equiv_of_isCopyFinDS : ∀ (D : D7) (V : HSp D)
     have h1 : T' (e w) ≠ 0 := fun h => hw (e.injective (hTi' (h.trans (map_zero T').symm) |>.trans (map_zero e).symm))
     obtain ⟨y, hy⟩ : ∃ y, T' (e w) y ≠ 0 := by
       by_contra hn
-      push_neg at hn
+      push Not at hn
       exact h1 (ContinuousMultilinearMap.ext hn)
     have hB0 : B ≠ 0 := fun h => hy (by rw [← show B (T w y) = T' (e w) y from hBv w y, h]; rfl)
     have hm : multIn π π' ⊤ ≠ 0 := by

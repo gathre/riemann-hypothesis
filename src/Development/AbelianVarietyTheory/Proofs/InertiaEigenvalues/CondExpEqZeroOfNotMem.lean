@@ -125,7 +125,7 @@ theorem condOne_one_of_notMem {w : HeightOneSpectrum (𝓞 E)} (hw : w ∉ badSe
 theorem condExp_eq_zero_of_notMem (ϖ : ∀ w : HeightOneSpectrum (𝓞 E), (w.adicCompletion E)ˣ)
     {w : HeightOneSpectrum (𝓞 E)} (hw : w ∉ badSet E) : condExp ϖ w = 0 := by
   classical
-  rw [condExp, if_pos (condOne_one_of_notMem hw)]
+  rw [condExp, ite_eq_left (condOne_one_of_notMem hw)]
 
 
 open Classical in
@@ -150,7 +150,7 @@ open Classical in
 def shift (m : ℕ) (T : Finset (HeightOneSpectrum (𝓞 E))) (ϖ : ∀ w : HeightOneSpectrum (𝓞 E), (w.adicCompletion E)ˣ) :
     GlobalTheory.CellDec.abelian₂ E (m + 1) T :=
   ⟨Finsupp.onFinset (badSet E) (shiftFn m T ϖ) (shiftFn_mem_badSet m T ϖ), fun w hw => by
-    rw [Finsupp.onFinset_apply, shiftFn, if_pos hw]⟩
+    rw [Finsupp.onFinset_apply, shiftFn, ite_eq_left hw]⟩
 
 theorem shift_apply (m : ℕ) (T : Finset (HeightOneSpectrum (𝓞 E)))
     (ϖ : ∀ w : HeightOneSpectrum (𝓞 E), (w.adicCompletion E)ˣ) (w : HeightOneSpectrum (𝓞 E)) :
@@ -162,7 +162,7 @@ theorem shift_apply_of_notMem (m : ℕ) {T : Finset (HeightOneSpectrum (𝓞 E))
     (ϖ : ∀ w : HeightOneSpectrum (𝓞 E), (w.adicCompletion E)ˣ) {w : HeightOneSpectrum (𝓞 E)} (hw : w ∉ T) :
     (shift m T ϖ).1 w = fun i : Fin (m + 1) => condExp ϖ w * ((m : ℤ) - ((i : ℕ) : ℤ)) := by
   classical
-  rw [shift_apply, shiftFn, if_neg hw]
+  rw [shift_apply, shiftFn, ite_eq_right hw]
 
 theorem shift_last (m : ℕ) (T : Finset (HeightOneSpectrum (𝓞 E)))
     (ϖ : ∀ w : HeightOneSpectrum (𝓞 E), (w.adicCompletion E)ˣ) (w : HeightOneSpectrum (𝓞 E)) :

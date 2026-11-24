@@ -320,7 +320,7 @@ theorem eEp3_eq (R : RealDat3 D A3 Ks)
 theorem exists_carries (R : RealDat3 D A3 Ks) {p : A3.fam3.base3.Ix} (h : R.EEp3 p ≠ ⊥) :
     ∃ c, R.Carries p c := by
   by_contra hn
-  push_neg at hn
+  push Not at hn
   apply h
   unfold RealDat3.EEp3
   exact iSup₂_eq_bot.2 fun c hc => absurd hc (hn c)
@@ -393,7 +393,7 @@ theorem pThmB {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 I0 T : Type} {A3 : 
       exact (Finset.prod_pos fun i _ => hlpos i t _).ne'
     intro t' p' x hx
     exact (hK t' p' x hx).trans (by rw [hk])
-  · push_neg at hex
+  · push Not at hex
     intro t p x hx
     rw [hex t p, Submodule.mem_bot] at hx
     subst hx

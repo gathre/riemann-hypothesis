@@ -278,7 +278,7 @@ theorem ew_eq_weight (p : KB.Pl P Wp Wq) (F : B.Mat P.k P.r → (Wq →L[ℂ] Wp
   have hRR : p.RR F (P.r + 1) [] (TBB.bigPt P.r c) (TBB.bigPt P.r c) =
       B.hsInner (p.V F (TBB.bigPt P.r c)) (p.V F (TBB.bigPt P.r c)) := by
     unfold KB.Pl.RR D.RRplace
-    rw [dite_eq_left ⟨hloc, hloc⟩, dite_eq_right (by omega), if_pos rfl, if_pos rfl]
+    rw [dite_eq_left ⟨hloc, hloc⟩, dite_eq_right (by omega), ite_eq_left rfl, ite_eq_left rfl]
     rfl
   have hEw : TBB.Ew p (fun _ => 1) F (P.r + 1) [] (TBB.bigPt P.r c) =
       Real.sqrt (TBB.nPt P.k P.r (TBB.TTp p) (TBB.bigPt P.r c)) *

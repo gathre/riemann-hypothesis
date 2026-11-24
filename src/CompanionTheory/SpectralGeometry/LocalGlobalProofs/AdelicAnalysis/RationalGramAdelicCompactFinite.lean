@@ -74,7 +74,7 @@ theorem sigma_sigma (σ : E →ₐ[F] E) (h : IsCMExt F E σ) (x : E) : σ (σ x
 
 theorem exists_moved (σ : E →ₐ[F] E) (h : IsCMExt F E σ) : ∃ x : E, σ x ≠ x := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   obtain ⟨-, htc, -, hτ⟩ := h
   let w : InfinitePlace E := Classical.arbitrary _
   have hcx : w.IsComplex := htc.isComplex w

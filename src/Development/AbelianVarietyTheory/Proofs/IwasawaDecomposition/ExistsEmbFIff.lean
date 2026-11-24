@@ -206,7 +206,7 @@ theorem rowPar_eq (B : Base) (u : B.Word) (τ : Tau B.R) : RowPar.of (B.hcW u τ
 theorem natW_shW {N : ℕ} (l : DomWeight N) (c : ℤ) : (GlobalTheory.Mem.Col2.shW l c).natW = l.natW := by
   funext i
   have hN : 0 < N := lt_of_le_of_lt (Nat.zero_le _) i.2
-  simp only [DomWeight.natW, DomWeight.detShift, dif_pos hN, GlobalTheory.Mem.Col2.shW]
+  simp only [DomWeight.natW, DomWeight.detShift, dite_eq_left hN, GlobalTheory.Mem.Col2.shW]
   congr 1
   ring
 
@@ -231,7 +231,7 @@ theorem sgHC_eq {R : Ranks} (P : HCParam R) (i : Fin (R.N R.m - 1)) :
   unfold Formalism.L2.Forms.sgHC RowPar.sgHC
   congr 1
   by_cases h1 : (i : ℕ) < R.k - 1
-  · rw [dif_pos h1, dif_pos h1]
+  · rw [dite_eq_left h1, dite_eq_left h1]
     rfl
   · rw [dite_eq_right h1, dite_eq_right h1]
     have h2 : ((i : ℕ) - (R.k - 1)) / (R.t + 1) < R.m := by
@@ -240,7 +240,7 @@ theorem sgHC_eq {R : Ranks} (P : HCParam R) (i : Fin (R.N R.m - 1)) :
       have e : R.m * (R.t + 1) = R.m + R.m * R.t := by ring
       have e' : R.m * R.t.succ = R.m * (R.t + 1) := rfl
       omega
-    rw [dif_pos h2]
+    rw [dite_eq_left h2]
     split_ifs with h3
     · simp [RowPar.bAt, h2]
       rfl

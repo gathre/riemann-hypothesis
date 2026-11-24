@@ -246,12 +246,12 @@ theorem hpk_mulVec_mulVec (v : Fin (2 * r + k + 1) → ℂ) : Hpk k r *ᵥ (Hpk 
   have hi := i.isLt
   by_cases h : i.val < r ∨ r + k < i.val
   · have h' : (2 * r + k - i.val < r ∨ r + k < 2 * r + k - i.val) := by omega
-    rw [hpk_mulVec, if_pos h, hpk_mulVec, if_pos h']
+    rw [hpk_mulVec, ite_eq_left h, hpk_mulVec, ite_eq_left h']
     congr 1
     ext
     simp only
     omega
-  · rw [hpk_mulVec, if_neg h, hpk_mulVec, if_neg h]
+  · rw [hpk_mulVec, ite_eq_right h, hpk_mulVec, ite_eq_right h]
     split_ifs <;> simp
 
 theorem hpk_sq : Hpk k r * Hpk k r = 1 := by

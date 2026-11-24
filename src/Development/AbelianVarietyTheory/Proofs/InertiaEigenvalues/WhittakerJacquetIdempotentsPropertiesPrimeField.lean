@@ -178,12 +178,12 @@ theorem card_uni {N : ℕ} (Q : Fin N × Fin N → Prop) (P : Mt g N → Prop)
     constructor
     · intro hba
       have hab : a ≠ b := ne_of_gt hba
-      simp only [mk, if_neg hab]
+      simp only [mk, ite_eq_right hab]
       rw [dite_eq_right]
       intro h
       exact absurd (lt_trans h.1 hba) (lt_irrefl _)
     · intro hab
-      simp only [mk, if_pos hab]
+      simp only [mk, ite_eq_left hab]
   have hmk_unit : ∀ f, IsUnit (mk f) := by
     intro f
     rw [Matrix.isUnit_iff_isUnit_det, Matrix.det_of_isUpperTriangular]
@@ -196,7 +196,7 @@ theorem card_uni {N : ℕ} (Q : Fin N × Fin N → Prop) (P : Mt g N → Prop)
     rw [hP]
     refine ⟨hmk_up f, fun p hp hq => ?_⟩
     have hne : p.1 ≠ p.2 := ne_of_lt hp
-    simp only [mk, if_neg hne]
+    simp only [mk, ite_eq_right hne]
     rw [dite_eq_right]
     exact fun h => h.2 hq
   let e : {u : Gn g N // P (u : Mt g N)} ≃ (S → ZMod g) :=
@@ -211,9 +211,9 @@ theorem card_uni {N : ℕ} (Q : Fin N × Fin N → Prop) (P : Mt g N → Prop)
         have hu := (hP _).1 u.2
         simp only [mk]
         by_cases hij : i = j
-        · rw [if_pos hij, ← hij]
+        · rw [ite_eq_left hij, ← hij]
           exact ((hu.1 i i).2 rfl).symm
-        · rw [if_neg hij]
+        · rw [ite_eq_right hij]
           by_cases h : i < j ∧ ¬ Q (i, j)
           · rw [dite_eq_left h]
           · rw [dite_eq_right h]
@@ -225,7 +225,7 @@ theorem card_uni {N : ℕ} (Q : Fin N × Fin N → Prop) (P : Mt g N → Prop)
         funext p
         show mk f p.1.1 p.1.2 = f p
         simp only [mk]
-        rw [if_neg (ne_of_lt p.2.1), dite_eq_left (show p.1.1 < p.1.2 ∧ ¬ Q (p.1.1, p.1.2) from p.2)] }
+        rw [ite_eq_right (ne_of_lt p.2.1), dite_eq_left (show p.1.1 < p.1.2 ∧ ¬ Q (p.1.1, p.1.2) from p.2)] }
   have hL : (Finset.univ.filter fun u : Gn g N => P (u : Mt g N)).card =
       Fintype.card {u : Gn g N // P (u : Mt g N)} := (Fintype.card_subtype _).symm
   have hS : Fintype.card S = (Finset.univ.filter fun p : Fin N × Fin N => p.1 < p.2 ∧ ¬ Q p).card :=

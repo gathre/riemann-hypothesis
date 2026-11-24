@@ -157,7 +157,7 @@ theorem inner_psi_psi (u v : P) (y z : ι → ℂ) :
   rw [PiLp.inner_apply]
   by_cases h : u = v
   · subst h
-    rw [if_pos rfl, PiLp.inner_apply, Complex.re_sum, Fintype.sum_prod_type, Finset.sum_eq_single u]
+    rw [ite_eq_left rfl, PiLp.inner_apply, Complex.re_sum, Fintype.sum_prod_type, Finset.sum_eq_single u]
     · rw [Fintype.sum_prod_type]
       refine Finset.sum_congr rfl (fun i _ => ?_)
       simp [PlaceDecomposition.psi, Fin.sum_univ_two, Complex.mul_re]
@@ -167,7 +167,7 @@ theorem inner_psi_psi (u v : P) (y z : ι → ℂ) :
       simp [PlaceDecomposition.psi, hw]
     · intro hu
       exact absurd (Finset.mem_univ u) hu
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     apply Finset.sum_eq_zero
     rintro ⟨w, i, k⟩ -
     by_cases hw : w = u

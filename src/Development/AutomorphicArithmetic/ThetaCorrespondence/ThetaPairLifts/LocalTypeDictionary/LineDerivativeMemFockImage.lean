@@ -745,7 +745,7 @@ theorem line_derivative_mem_fock_image : _root_.GlobalTheory.FunPr.ThetaLocalInp
   have hQN : Q ∈ N := Submodule.sum_mem _ fun t _ => hN ⟨(t, Y t), hY t⟩ P hPN
   have hne : ∃ x, GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.tens (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.evI D.host.F) (Φ 1) r x ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have h0 : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.tens (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.evI D.host.F) (Φ 1) r = 0 := funext hc
     have h1 := (hΦ 1).2
     rw [h0, thO_zero', ptF_one'] at h1

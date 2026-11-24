@@ -307,7 +307,7 @@ private theorem length_quotient_pow_eq_mul_inertiaDeg {A B : Type} [CommRing A] 
   | succ n ih =>
     obtain ⟨a, ha, hna⟩ : ∃ a ∈ P ^ n, a ∉ P ^ (n + 1) := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact (Ideal.pow_succ_lt_pow hP n).not_ge h
     let φ : (B ⧸ P) →ₗ[B] (B ⧸ P ^ (n + 1)) :=
       Submodule.mapQ P (P ^ (n + 1)) (LinearMap.mulLeft B a) (by

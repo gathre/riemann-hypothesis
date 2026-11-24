@@ -200,14 +200,14 @@ theorem exists_level_vector : ∀ {K G W : Type} [Field K] [CharZero K] [Group G
     rw [← Finset.sum_smul, ← map_sum, e]
   obtain ⟨χ, hχ, hw⟩ : ∃ χ ∈ X, ∑ g, σ ((chiIdem χ).coeff g) • ρ g u₀ ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hu₀ne (by rw [← hsplit]; exact Finset.sum_eq_zero hcon)
   set w₀ := ∑ g, σ ((chiIdem χ).coeff g) • ρ g u₀ with hw₀
   have hw₀U : w₀ ∈ U := Submodule.sum_mem _ fun g _ => Submodule.smul_mem _ _ (hmem g _ hu₀)
 
   obtain ⟨t, ht⟩ : ∃ t, (chiIdem χ * lvlIdem P ψ).coeff t ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hne χ hχ (by
       apply MonoidAlgebra.ext
       ext t
@@ -233,7 +233,7 @@ theorem exists_level_vector : ∀ {K G W : Type} [Field K] [CharZero K] [Group G
       simp
     rw [e1, e2, map_mul, mul_smul]
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hL0 : ∀ w ∈ U, L w = 0 := by
     intro w hw
     by_contra hLw

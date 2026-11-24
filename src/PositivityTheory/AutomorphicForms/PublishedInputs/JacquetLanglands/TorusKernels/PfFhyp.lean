@@ -136,8 +136,8 @@ theorem fhyp (hC4 : C4) (hE0a : E0a) (hE0c : KernelTermsInvariantBounded) (hE0d 
   have hum : ∀ T γ, Measurable (uT D k a T γ) := by
     intro T γ
     by_cases h : IsEll γ
-    · unfold uT; simp only [h, if_true]; exact measurable_const
-    · unfold uT; simp only [h, if_false]; exact (hkkm γ).indicator (hLamF T γ).1
+    · unfold uT; simp only [h, ite_true]; exact measurable_const
+    · unfold uT; simp only [h, ite_false]; exact (hkkm γ).indicator (hLamF T γ).1
 
   have hsumle : ∀ T : ℝ, 1 < T → ∀ y, y ∉ D.abelian₂ T → ∑' γ, ‖uT D k a T γ y‖ₑ ≤ C := by
     intro T hT y hy
@@ -210,7 +210,7 @@ theorem fhyp (hC4 : C4) (hE0a : E0a) (hE0c : KernelTermsInvariantBounded) (hE0d 
       by_cases he : IsEll (D.el r.1.1)
       · simp [uT, he]
       · have hI' := hI r.1 r.2
-        simp only [uT, he, if_false] at hI' ⊢
+        simp only [uT, he, ite_false] at hI' ⊢
         exact hF6' T hT (D.el r.1.1) r.1.2 he (β r.1) (hβ r.1) hI'
     have hS' := hS
     simp only [hz] at hS'

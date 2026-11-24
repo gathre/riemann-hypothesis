@@ -296,10 +296,10 @@ open Classical in
 theorem glAdeleReplaceComponentByOne_component (v w : HeightOneSpectrum (𝓞 F)) (x : GL n (E ⊗[F] FiniteAdeleRing (𝓞 F) F)) :
     bc (prV (E := E) w) (cut1 v x) = if w = v then 1 else bc (prV (E := E) w) x := by
   by_cases h : w = v
-  · subst h; rw [if_pos rfl]
+  · subst h; rw [ite_eq_left rfl]
     change bc (prV (E := E) w) (afsplitU w 1 x) = 1
     exact afsplit_right1 w 1 x
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     apply Units.ext
     rw [afsplit_coe_bc_prV, afsplit_coe_bc_prV]
     exact afsplitC_prV_ne v w h _ _
@@ -489,7 +489,7 @@ theorem twLevJ_chi_off_of_lb : ∀ {B : Base} {X : PreX B.toPre} (I : TC B X), I
       rw [hchi β k1 ⟨k1.1, m2'⟩ rfl ?_]
       · exact (F u).levJ_chi h1 (g β) ⟨k1.1, m2'⟩ (ψ κ) (by rw [hψv, hk1, hκ1v])
       · intro v hv
-        rw [hk1, hloc, if_pos hv]
+        rw [hk1, hloc, ite_eq_left hv]
     exact ChiOffQ.clause1_alg (reGL (rankN (I.rec7 l Z) (B.R.m - 1) (Nat.sub_le _ _)) _) ρ ((F u).levJ.chi.comp ψ)
       J.chiJ (K β).lev.chi κ κ' k1 hκ' hk1 e3 (J.chiJ_eq β)
   · intro κ κ' hκ' hQκ

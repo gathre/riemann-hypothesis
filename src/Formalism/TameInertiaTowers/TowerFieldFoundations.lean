@@ -681,9 +681,9 @@ lemma ord5 (m : ℕ) : orderOf (u5 (m + 2)) = 2 ^ m := by
   rw [pv24] at h
   rw [← orderOf_units, five_unit_coe_int, h]
   rcases m with _ | k
-  · rw [if_pos ((intCast_five_zmod_two_pow_eq_one_iff (0 + 2)).2 ⟨1, by norm_num⟩)]
+  · rw [ite_eq_left ((intCast_five_zmod_two_pow_eq_one_iff (0 + 2)).2 ⟨1, by norm_num⟩)]
     rfl
-  · rw [if_neg]
+  · rw [ite_eq_right]
     · congr 1
     · intro h1
       have h2 := (intCast_five_zmod_two_pow_eq_one_iff (k + 1 + 2)).1 h1

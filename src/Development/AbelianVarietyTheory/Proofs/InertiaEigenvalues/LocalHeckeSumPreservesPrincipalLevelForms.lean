@@ -71,7 +71,7 @@ theorem sum_mul_left_eq {Gp M : Type} [Group Gp] [AddCommMonoid M] (K : Subgroup
   have hs : ∀ k ∈ K, ∀ δ ∈ C, s k δ ∈ C ∧ (s k δ)⁻¹ * (k * δ) ∈ K := by
     intro k hk δ hδ
     have h := hmem k hk δ hδ
-    have e : s k δ = (h2 _ h).exists.choose := dif_pos h
+    have e : s k δ = (h2 _ h).exists.choose := dite_eq_left h
     rw [e]
     exact (h2 _ h).exists.choose_spec
   have huniq : ∀ k ∈ K, ∀ δ ∈ C, ∀ γ ∈ C, γ⁻¹ * (k * δ) ∈ K → s k δ = γ := by

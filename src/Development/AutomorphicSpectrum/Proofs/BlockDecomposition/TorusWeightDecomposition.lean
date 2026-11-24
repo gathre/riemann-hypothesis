@@ -110,11 +110,11 @@ private theorem diagonal_mul_I_eq_sum_single (θ : Fin n → ℝ) :
   by_cases hij : i = j
   · subst hij
     simp
-  · rw [if_neg hij]
+  · rw [ite_eq_right hij]
     symm
     apply Finset.sum_eq_zero
     intro c _
-    rw [if_neg]
+    rw [ite_eq_right]
     rintro ⟨rfl, rfl⟩
     exact hij rfl
 

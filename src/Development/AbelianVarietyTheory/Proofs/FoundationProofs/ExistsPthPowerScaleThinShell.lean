@@ -90,7 +90,7 @@ theorem exists_scale_shell (L : Type) [Field L] (v : Valuation L ℝ≥0) (p : �
   set t := s ^ p with ht
   have hrt : r < t := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h1 : t ^ (p ^ n) ≤ r ^ (p ^ n) := pow_le_pow_left₀ (by positivity) h _
     have h2 : r ^ (p ^ n) ≤ r ^ n :=
       pow_le_pow_of_le_one (by positivity) hr.le (Nat.lt_pow_self hp.one_lt).le
@@ -98,7 +98,7 @@ theorem exists_scale_shell (L : Type) [Field L] (v : Valuation L ℝ≥0) (p : �
     exact absurd (lt_of_le_of_lt (h3 ▸ h1.trans h2) hn) (lt_irrefl _)
   have hs1 : s < 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have := one_le_pow₀ (n := p ^ n) h
     rw [hv] at this
     exact absurd hp1 (not_lt.mpr this)

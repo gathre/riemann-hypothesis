@@ -755,7 +755,7 @@ theorem covers_unique {k : GQ l} {γ γ' : TameGal ↥LL.1 l e a}
     by_contra hne
     have h := congrFun (key fun σ => if σ = 0 then 1 else 0) γ.shift
     simp only [ringAct_apply, sub_self] at h
-    rw [if_neg (sub_ne_zero.2 hne)] at h
+    rw [ite_eq_right (sub_ne_zero.2 hne)] at h
     simp at h
   have hl : ((γ.left : (↥LL.1)ˣ) : ↥LL.1) = ((γ'.left : (↥LL.1)ˣ) : ↥LL.1) := by
     have h := congrArg (fun F => coeff 1 (F 0)) (key fun _ => uIn _)

@@ -251,7 +251,7 @@ theorem globalArtin_unique : ∀ (E Ω : Type) [Field E] [NumberField E] [Field 
       _root_.GlobalTheory.FinPlaceApproxPos.exists_approx_totally_positive E S (fun u => if u = v then (c : E) else 1) (M + 1 + m)
     have haW : v.valuation E (a - c) ≤ WithZero.exp (-(((M + 1 : ℕ) : ℤ) + m)) := by
       have := hap v hv
-      rw [if_pos rfl] at this
+      rw [ite_eq_left rfl] at this
       exact val_le_of_le v this (by push_cast; omega)
     have hz : v.valuation E (a / c - 1) ≤ WithZero.exp (-((M + 1 : ℕ) : ℤ)) :=
       val_div_sub_one_le v c.ne_zero le_rfl haW
@@ -268,7 +268,7 @@ theorem globalArtin_unique : ∀ (E Ω : Type) [Field E] [NumberField E] [Field 
       (fun u hu => by rw [locUnit_apply]; exact hgood u hu _)
     rw [Finset.prod_eq_single_of_mem v hv (fun u hu hne => hDV _ (hSc u hu au (by
       have := hap u hu
-      rw [if_neg hne] at this
+      rw [ite_eq_right hne] at this
       exact val_le_of_le u this (by push_cast; omega))))] at hprod
     have e : au = c * q := by simp [q]
     rw [e, map_mul, map_mul, hDV _ hqV, mul_one] at hprod

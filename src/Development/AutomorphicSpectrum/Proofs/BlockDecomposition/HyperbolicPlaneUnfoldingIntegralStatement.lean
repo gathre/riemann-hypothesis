@@ -441,7 +441,7 @@ theorem exists_partner [CharZero E] (σ : E →ₐ[F] E) (hσ : ∀ e, σ (σ e)
   have hherm := hE_herm σ hσ K hK.1
   have hex : ∃ y₀, hE σ K x y₀ ≠ 0 := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     have hv : Matrix.vecMul (fun i => σ (x i)) K = 0 := by
       funext j
       have := hall (Pi.single j 1)

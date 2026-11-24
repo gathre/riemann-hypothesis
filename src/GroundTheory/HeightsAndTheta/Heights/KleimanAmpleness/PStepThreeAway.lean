@@ -78,7 +78,7 @@ theorem homogeneousComponent_homog_mul {σ R : Type*} [CommRing R] {P : MvPolyno
     homogeneousComponent_of_mem ((hP.mul (homogeneousComponent_isHomogeneous i G)))
   simp_rw [hterm]
   by_cases h : l ≤ d
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have h2 : ∀ i, (if d = l + i then P * homogeneousComponent i G else 0) =
         if d - l = i then P * homogeneousComponent i G else 0 := fun i => by
       split_ifs <;> first | rfl | (exfalso; omega)
@@ -89,8 +89,8 @@ theorem homogeneousComponent_homog_mul {σ R : Type*} [CommRing R] {P : MvPolyno
     · rw [homogeneousComponent_eq_zero, mul_zero]
       simp only [Finset.mem_range] at hm
       omega
-  · rw [if_neg h]
-    exact Finset.sum_eq_zero fun i _ => if_neg (by omega)
+  · rw [ite_eq_right h]
+    exact Finset.sum_eq_zero fun i _ => ite_eq_right (by omega)
 
 theorem span_singleton_pow_eq {R A : Type*} [CommSemiring R] [CommSemiring A] [Algebra R A] (a : A)
     (n : ℕ) : Submodule.span R {a} ^ n = Submodule.span R {a ^ n} := by
@@ -195,7 +195,7 @@ theorem idealMod_zeroIdeal_mul_le (D : SubSystem S x Ω) (σ : Ω) (I : Chart x)
   | mem a ha =>
     obtain ⟨f, s, e, hf, hs, hfe, hse, rfl⟩ := ha
     have h := homogeneousComponent_mul_mem D σ I hi hf e δ hδ
-    rw [homogeneousComponent_of_mem hfe, if_pos rfl] at h
+    rw [homogeneousComponent_of_mem hfe, ite_eq_left rfl] at h
     obtain ⟨t, ht⟩ := Submodule.mem_span_singleton.mp h
     have hs0 := eval_ne_zero_of_mem_monos I hs
     rw [Submodule.mem_span_singleton]

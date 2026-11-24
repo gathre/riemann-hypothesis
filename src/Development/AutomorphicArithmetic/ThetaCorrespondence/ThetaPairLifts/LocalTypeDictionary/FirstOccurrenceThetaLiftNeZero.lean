@@ -100,7 +100,7 @@ theorem squareBottomHalfRankSum_le_halfRank (D : D7) (i j : ℕ) : h0 D i j ≤ 
 theorem exists_ne_zero_of_integral {Y : Type} [MeasurableSpace Y] {ν : Measure Y} {S : Set Y} {f : Y → ℂ}
     (h : (∫ y in S, ‖f y‖ ^ 2 ∂ν) ≠ 0) : ∃ y, f y ≠ 0 := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   exact h (by simp [hc])
 
 theorem exists_ne_zero_of_norm_formula {Y : Type} [MeasurableSpace Y] {ν : Measure Y} {S : Set Y} {f : Y → ℂ} {c : ℂ}
@@ -562,7 +562,7 @@ theorem bottom_theta_lift_ne_zero : _root_.GlobalTheory.FunPr.ThetaLocalInputs �
     rw [hlam P, h0]
     simp
   by_contra hc'
-  push_neg at hc'
+  push Not at hc'
   apply hP'
   apply hinj
   rw [← hI' t P', map_zero]

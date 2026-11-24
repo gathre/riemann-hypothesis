@@ -78,7 +78,7 @@ theorem homog_X [DecidableEq K] (k₀ : K) (i₀ : ι k₀) :
   classical
   intro m hm k
   have hm' : m = Finsupp.single ⟨k₀, i₀⟩ 1 := by
-    rw [MvPolynomial.X, MvPolynomial.support_monomial, if_neg one_ne_zero] at hm
+    rw [MvPolynomial.X, MvPolynomial.support_monomial, ite_eq_right one_ne_zero] at hm
     exact Finset.mem_singleton.mp hm
   subst hm'
   simp only [Finsupp.single_apply, Sigma.mk.inj_iff, Pi.single_apply]

@@ -299,7 +299,7 @@ theorem pie_B_sw {n : ℕ} {lam mu : Fin n → ℕ} {j : Fin n} (hj : j ∈ pie_
   · apply Finset.max'_le
     intro k hk
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hkj : k ≠ j := hlt.ne'
     have hkp : k ≠ pie_pr j := by
       intro e
@@ -396,7 +396,7 @@ theorem pie_good_iff {n : ℕ} (lam mu : Fin n → ℕ) :
   constructor
   · intro hn i j hij
     by_contra hc
-    push_neg at hc
+    push Not at hc
     apply hn
     have hpr : pie_pr j = i := Fin.ext (by show j.val - 1 = i.val; omega)
     exact ⟨j, pie_mem_B.2 ⟨by omega, by rw [hpr]; exact hc⟩⟩

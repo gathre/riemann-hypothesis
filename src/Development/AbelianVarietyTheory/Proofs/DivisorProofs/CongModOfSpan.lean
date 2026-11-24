@@ -359,7 +359,7 @@ theorem GlobalTheory.Poinc.approx_of_fpre : ∀ (O : Type) [CommRing O] [Module.
         ⟨g, hg, hsum, -⟩ | hbig
       · rw [hsum, hT]
         by_contra hle
-        push_neg at hle
+        push Not at hle
         have hle' : ((∑ i, Φ.β y₀ (g (a₀ i)) (g (a₀ i)) : ℤ) : ℝ) ≤ ((∑ i, Φ.β y₀ (a₀ i) (a₀ i) : ℤ) : ℝ) :=
           le_of_mul_le_mul_left hle (by exact_mod_cast hW00)
         have hge := hsup.le (pull g.toLinearMap (Φ.β y₀)) (pull_mem _ (Φ.bal y₀)) (fun x => hnn y₀ _)

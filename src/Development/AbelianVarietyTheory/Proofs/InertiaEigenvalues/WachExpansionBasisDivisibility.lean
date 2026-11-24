@@ -66,7 +66,7 @@ theorem conv_C (s : L) (f : ℤ → M) : conv (PowerSeries.C s) f = s • f := b
   rw [finsum_eq_single _ 0]
   · simp
   · intro j hj
-    rw [PowerSeries.coeff_C, if_neg hj, zero_smul]
+    rw [PowerSeries.coeff_C, ite_eq_right hj, zero_smul]
 
 theorem conv_X_pow (n : ℕ) (f : ℤ → M) (k : ℤ) :
     conv ((PowerSeries.X : PowerSeries L) ^ n) f k = f (k - n) := by
@@ -74,7 +74,7 @@ theorem conv_X_pow (n : ℕ) (f : ℤ → M) (k : ℤ) :
   rw [finsum_eq_single _ n]
   · simp
   · intro j hj
-    rw [PowerSeries.coeff_X_pow, if_neg hj, zero_smul]
+    rw [PowerSeries.coeff_X_pow, ite_eq_right hj, zero_smul]
 
 theorem conv_single (e : PowerSeries L) (m : ℤ) (d : M) (n : ℕ) :
     conv e (Pi.single m d) (m + n) = PowerSeries.coeff n e • d := by
@@ -97,7 +97,7 @@ theorem coeff_smul_hahn (e : PowerSeries L) (y : HahnModule ℤ L M) :
     intro a ha
     by_contra hc
     apply ha
-    rw [PowerSeries.coeff_coe, if_pos]
+    rw [PowerSeries.coeff_coe, ite_eq_left]
     by_contra h
     exact hc ⟨a.toNat, by omega⟩
   have hco : ∀ n : ℕ, (HahnSeries.ofPowerSeries ℤ L e).coeff (n : ℤ) = PowerSeries.coeff n e :=

@@ -70,7 +70,7 @@ theorem measurable_chart_prod {φ : GA E a → ℂ} (hφ : Continuous φ) :
     · rw [Set.piecewise_eq_of_mem _ _ _ hp]
     · rw [Set.piecewise_eq_of_notMem _ _ _ hp]
       have hp' : ¬ IsUnit (Matrix.of p.2) := fun h => hp ⟨trivial, h⟩
-      exact dif_neg hp'
+      exact dite_eq_right hp'
   rw [e]
   exact (GlobalTheory.ConstTermSmooth.continuousOn_chart hφ).measurable_piecewise continuousOn_const
     (isOpen_univ.prod isOpen_invSet).measurableSet

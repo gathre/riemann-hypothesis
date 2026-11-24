@@ -283,7 +283,7 @@ theorem pick : ∀ (X : Scheme.{0}) (Ω : Type) [Field Ω] (ξ : Sp Ω ⟶ X) (K
   obtain ⟨s, ⟨e, he, ve, hve, hsv⟩, hs0⟩ : ∃ s, (∃ e ∈ flagStep Ω b₀ (i + 1), ∃ v : epsAt zL ⟶ G,
       M.ValAt zL e v ∧ (v.left ≫ (𝟙 G.left) = ReciprocityTheory.ChartRestriction.G.Geo.Tor.spMap (GlobalTheory.CompanionTheory.Ar.dualMap (algebraMap (𝓞 L) L)) ≫ (MB.pt s).left)) ∧ s ∉ F.F i.castSucc := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hle : F.F i.succ ≤ F.F i.castSucc := by
       intro x hx
       obtain ⟨c, hc₁, hcx⟩ := (hsub₁ x).1 hx

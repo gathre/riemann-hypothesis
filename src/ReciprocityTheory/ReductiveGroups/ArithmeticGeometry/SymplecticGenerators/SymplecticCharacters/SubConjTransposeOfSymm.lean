@@ -87,7 +87,7 @@ theorem re_pos_of_posDef {g : ℕ} {Y : Matrix (Fin g) (Fin g) ℝ} (hY : Y.PosD
       exact this.le
   have hxy : x ≠ 0 ∨ y ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     apply hv
     funext i
     apply Complex.ext

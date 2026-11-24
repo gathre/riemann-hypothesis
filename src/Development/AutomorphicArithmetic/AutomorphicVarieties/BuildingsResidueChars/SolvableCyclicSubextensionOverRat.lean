@@ -85,7 +85,7 @@ theorem UpperTheory.solvable_cyclic_subextension_over_rat :
     obtain ⟨w0, hw0⟩ : ∃ w : InfinitePlace (IntermediateField.fixedField (Subgroup.zpowers (g ^ p))),
         w.IsReal := by
       by_contra hne
-      push_neg at hne
+      push Not at hne
       have : IsEmpty {w : InfinitePlace (IntermediateField.fixedField (Subgroup.zpowers (g ^ p))) //
           w.IsReal} := ⟨fun w => hne w.1 w.2⟩
       simp [InfinitePlace.nrRealPlaces] at hodd

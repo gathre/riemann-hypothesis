@@ -125,7 +125,7 @@ theorem exists_theta (hne : ∃ z : E, cj z ≠ z) :
   obtain ⟨z, hz⟩ := hne
   have hex : ∃ c : 𝓞 E, cj (c : E) ≠ c := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     apply hz
     let f : E →ₗ[ℚ] E :=
       { toFun := cj, map_add' := cj_add hcj, map_smul' := fun q a => cj_smul hcj q a }

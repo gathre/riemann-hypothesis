@@ -267,7 +267,7 @@ theorem haarOn_conj (N : Subgroup G) (hN : IsClosed (N : Set G)) {μ : Measure G
 
 theorem le_one_of_pow_le {x B : ℝ≥0∞} (hB : B ≠ ⊤) (h : ∀ p : ℕ, x ^ p ≤ B) : x ≤ 1 := by
   by_contra hx
-  push_neg at hx
+  push Not at hx
   have hxt : x ≠ ⊤ := by
     rintro rfl
     have h1 := h 1

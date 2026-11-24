@@ -317,7 +317,7 @@ private theorem sDegs_rename_subset_sDegs_preimage {R : Type} [CommRing R] {ι �
   simp only [Finset.mem_biUnion, MvPolynomial.mem_support_iff, Finsupp.mem_support_iff] at hk ⊢
   obtain ⟨m, -, hk⟩ := hk
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hk
 
   rw [B.as_sum, map_sum, coeff_sum]
@@ -536,7 +536,7 @@ theorem valBd_of (hM : MFH p Fr TT L₁ L₂ N₁ G' deg d Y (r + K) cP)
         have hmg := hM.margin _ _ hx.1 hx.2
         have hpos : (tlPos Fr Dt.nL (⟨j, Sum.inr ⟨r - 1 - (u - Dt.nL j), hm⟩⟩ : TL J Dt.nL r)) =
             (j, posU Fr (Dt.nL j) (segZ j) u) := by
-          simp only [tlPos, posTL, posU, if_neg (show ¬ u < Dt.nL j by omega)]
+          simp only [tlPos, posTL, posU, ite_eq_right (show ¬ u < Dt.nL j by omega)]
           congr 2
           omega
         rw [hpos] at hmg

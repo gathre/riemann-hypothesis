@@ -334,7 +334,7 @@ theorem isHW_of_isKTypeOf (h : BlockOrd e ε) (hσ : Factors R.U e σ) (μ : Ix 
   have h2 := hS.2.2.2.2 _ _ hm (fun h0 => hu (R.ι_inj (by rw [h0, map_zero]))) h1
   have h3 : CDom ε (fun i => (μ (e.symm i) : ℝ)) ((fun i => (μ (e.symm i) : ℝ)) + Formalism.REAL.root (e a) (e b)) := by
     refine ⟨fun i j => if i = e a ∧ j = e b then 1 else 0, fun i j hij => ?_, ?_⟩
-    · have : i = e a ∧ j = e b := by by_contra hn; exact hij (if_neg hn)
+    · have : i = e a ∧ j = e b := by by_contra hn; exact hij (ite_eq_right hn)
       rw [this.1, this.2]; exact hab'
     · simp [ite_and]
   have h4 := congrFun (cdom_antisymm h2 h3) (e a)
@@ -456,7 +456,7 @@ theorem weight_int {H : Type} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
     simpa using this.symm
   obtain ⟨m, hm⟩ := Complex.exp_eq_one_iff.1 e2
   refine ⟨m, ?_⟩
-  simp only [Pi.single_apply, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true] at hm
+  simp only [Pi.single_apply, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true] at hm
   have h3 : ((μ i : ℝ) : ℂ) = m := by
     refine mul_right_cancel₀ Complex.two_pi_I_ne_zero ?_
     rw [← hm]; push_cast; ring

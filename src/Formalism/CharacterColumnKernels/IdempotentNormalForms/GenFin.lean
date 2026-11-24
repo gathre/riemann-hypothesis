@@ -169,7 +169,7 @@ lemma gen_key {M G : Type} [Fintype M] [DecidableEq M] [Fintype G] [DecidableEq 
         ((Matrix.of fun i l => ∑ p, if e p = i then W (snf.f p) l else 0) * U) (e p) (snf.f q)) = 1 := by
       ext p q
       simp only [Matrix.of_apply, Matrix.mul_apply, e.injective.eq_iff, Finset.sum_ite_eq',
-        Finset.mem_univ, if_true]
+        Finset.mem_univ, ite_true]
       rw [← Matrix.mul_apply, hWU]
       simp [Matrix.one_apply, snf.f.injective.eq_iff]
     rw [hZ, Matrix.det_one]
@@ -303,7 +303,7 @@ theorem genericFin : StatGenericFin := by
       simp only [c, r, Matrix.single_apply]
       split_ifs with h1
       · obtain ⟨rfl, rfl⟩ := h1
-        rw [Function.surjInv_eq (hρ w), Matrix.single_apply, if_neg, smul_zero]
+        rw [Function.surjInv_eq (hρ w), Matrix.single_apply, ite_eq_right, smul_zero]
         rintro ⟨rfl, rfl⟩
         exact hy rfl
       · simp

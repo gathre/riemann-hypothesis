@@ -135,7 +135,7 @@ private theorem submatrix_castLE_transpose_mul_mul_map_conj_of_upper {i : ℕ} (
   have hout : ∀ d : Fin r, d ∉ Set.range (Fin.castLE h) → i ≤ (d : ℕ) := by
     intro d hd
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     exact hd (Set.mem_range.2 ⟨⟨d, hlt⟩, Fin.ext rfl⟩)
   ext a c
   simp only [Matrix.submatrix_apply, Matrix.mul_apply, Matrix.transpose_apply, Matrix.map_apply]

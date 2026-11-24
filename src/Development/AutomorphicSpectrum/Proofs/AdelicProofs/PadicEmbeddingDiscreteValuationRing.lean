@@ -110,7 +110,7 @@ instance primeBelow_isPrime : (primeBelow j).IsPrime := by
   · have : (1 : 𝓞 K) ∈ primeBelow j := h ▸ Submodule.mem_top
     simp [mem_primeBelow] at this
   · by_contra hc
-    push_neg at hc
+    push Not at hc
     obtain ⟨ha, hb⟩ := hc
     have ha1 : ‖j (a : K)‖ = 1 := le_antisymm (norm_integer_le_one j a) (not_lt.1 ha)
     have hb1 : ‖j (b : K)‖ = 1 := le_antisymm (norm_integer_le_one j b) (not_lt.1 hb)

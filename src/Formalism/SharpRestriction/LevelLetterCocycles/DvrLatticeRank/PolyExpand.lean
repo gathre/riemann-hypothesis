@@ -98,12 +98,12 @@ theorem Gd.step (hF : Antitone F) {y u : PowerSeries LL} (hy : y = X * u) (hu : 
   subst hy
   have hc : ∀ j i, coeff (i + 1) (A j) = coeff i (u * A' j) := by
     intro j i
-    rw [hA j, map_add (f := _), coeff_C, if_neg (by omega : i + 1 ≠ 0), zero_add, mul_assoc, coeff_succ_X_mul]
+    rw [hA j, map_add (f := _), coeff_C, ite_eq_right (by omega : i + 1 ≠ 0), zero_add, mul_assoc, coeff_succ_X_mul]
   refine ⟨?_, ?_⟩
   · have h0 := H 0
     have e : ∀ j, coeff 0 (A j) = o j := by
       intro j
-      rw [hA j, map_add (f := _), coeff_C, if_pos rfl, mul_assoc, coeff_zero_X_mul, add_zero]
+      rw [hA j, map_add (f := _), coeff_C, ite_eq_left rfl, mul_assoc, coeff_zero_X_mul, add_zero]
     simp only [e, Nat.cast_zero, sub_zero] at h0
     exact h0
   · apply Formalism.MainNotions.N.Ln34.LevelExpansions.Gd.unit hF hu
@@ -181,13 +181,13 @@ theorem Gd_Fv {N : ℕ} (H : ∀ i < N, ∑ j, coeff i (A j) • v j = 0) : Gd (
     exact Submodule.zero_mem _
   · have hn : ¬ (0 : ℤ) < (N : ℤ) - (i : ℤ) := by omega
     unfold Fv
-    rw [if_neg hn]
+    rw [ite_eq_right hn]
     exact Submodule.mem_top
 
 theorem Fv_zero {N k : ℕ} (hk : k < N) {z : V} (hz : z ∈ Fv LL V ((N : ℤ) - k)) : z = 0 := by
   have hp : (0 : ℤ) < (N : ℤ) - (k : ℤ) := by omega
   unfold Fv at hz
-  rw [if_pos hp, Submodule.mem_bot] at hz
+  rw [ite_eq_left hp, Submodule.mem_bot] at hz
   exact hz
 
 theorem peel1 {y u : PowerSeries LL} (hy : y = X * u) (hu : IsUnit u) {N : ℕ} {A G : PowerSeries LL}
@@ -310,9 +310,9 @@ theorem Dv.expand {y : Z → PowerSeries LL} (H : Dv ev O y) (N : ℕ) : ∀ a :
       rw [Finset.sum_range_succ', Finset.mul_sum, add_comm]
       congr 1
       · first
-        | rw [if_pos rfl, pow_zero, mul_one]
+        | rw [ite_eq_left rfl, pow_zero, mul_one]
       · refine Finset.sum_congr rfl fun k _ => ?_
-        rw [if_neg (show k + 1 ≠ 0 by omega), Nat.add_sub_cancel]
+        rw [ite_eq_right (show k + 1 ≠ 0 by omega), Nat.add_sub_cancel]
         ring
     rw [key, ha z, hp z]
     ring

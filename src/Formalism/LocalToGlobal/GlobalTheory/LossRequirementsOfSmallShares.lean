@@ -1093,14 +1093,14 @@ theorem out_discriminant_bound : OutD := by
     rw [Finset.mem_filter] at hp
     have hb := hBad p hp.1 hp.2
     by_cases hps : p ∈ PR
-    · rw [if_pos hps]
+    · rw [ite_eq_left hps]
       refine mul_le_mul_of_nonneg_left ?_ (hco p)
       have hsub : TT \ TTp p ⊆ TT.filter fun t => BAD p t := by
         intro t ht
         rw [Finset.mem_filter]
         exact ⟨(Finset.mem_sdiff.1 ht).1, (hb t ht).2⟩
       exact_mod_cast Finset.card_le_card hsub
-    · rw [if_neg hps]
+    · rw [ite_eq_right hps]
       have hemp : TT \ TTp p = ∅ := by
         rw [Finset.eq_empty_iff_forall_notMem]
         intro t ht

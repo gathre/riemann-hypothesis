@@ -1108,7 +1108,7 @@ theorem quotC_bij (d : ℕ) (R : Type) [CommRing R] :
     intro r hr
     rw [RingHom.comp_apply, Ideal.Quotient.eq_zero_iff_mem, hJ, MvPolynomial.mem_ideal_span_X_image] at hr
     by_contra h
-    obtain ⟨i, -, hi⟩ := hr 0 (by rw [MvPolynomial.mem_support_iff, MvPolynomial.coeff_C, if_pos rfl]; exact h)
+    obtain ⟨i, -, hi⟩ := hr 0 (by rw [MvPolynomial.mem_support_iff, MvPolynomial.coeff_C, ite_eq_left rfl]; exact h)
     exact hi rfl
   · intro y
     obtain ⟨p, rfl⟩ := Ideal.Quotient.mk_surjective y
@@ -1116,10 +1116,10 @@ theorem quotC_bij (d : ℕ) (R : Type) [CommRing R] :
     rw [RingHom.comp_apply, Ideal.Quotient.eq, hJ, MvPolynomial.mem_ideal_span_X_image]
     intro m hm
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have : m = 0 := Finsupp.ext fun i => hcon i (Set.mem_univ i)
     subst this
-    rw [MvPolynomial.mem_support_iff, MvPolynomial.coeff_sub, MvPolynomial.coeff_C, if_pos rfl,
+    rw [MvPolynomial.mem_support_iff, MvPolynomial.coeff_sub, MvPolynomial.coeff_C, ite_eq_left rfl,
       ← MvPolynomial.constantCoeff_eq, sub_self] at hm
     exact hm rfl
 

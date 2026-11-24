@@ -64,19 +64,19 @@ theorem divided_gaps : ∀ (ι : Type) [Fintype ι] (N : ℕ) (W : Wts ι N), W.
   have hT : 4 * ((W.T : ℤ) + W.Dd + 1) ≤ 5 * (W.T : ℤ) := by omega
   have hh : 0 ≤ W.h0 := by omega
   refine ⟨fun hb => ?_, fun hb => ?_, fun hb ha => ?_⟩
-  · rw [hq, if_neg hb]
+  · rw [hq, ite_eq_right hb]
     refine Int.le_ediv_of_mul_le hm ?_
     have := g1 hb
     have h0 : (0 : ℤ) ≤ (W.T : ℤ) + W.Dd + 2 + 2 * N := by positivity
     nlinarith
   · have := g3 hb
     have key : W.h0 ≤ 2 * W.T * (W.u1 τ a - W.u1 τ b) := by
-      rw [hq, if_pos hb]
+      rw [hq, ite_eq_left hb]
       exact le_two_mul_ediv hm hT hh (by omega)
     exact ⟨key, by nlinarith⟩
   · have := g2 ha
     have key : W.h0 ≤ 2 * W.T * (W.u1 τ a - W.u1 τ b) := by
-      rw [hq, if_neg hb]
+      rw [hq, ite_eq_right hb]
       exact le_two_mul_ediv hm hT hh (by omega)
     nlinarith
 

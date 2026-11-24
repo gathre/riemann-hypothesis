@@ -70,10 +70,10 @@ theorem sum_addChar_trace_rectMatrix_mul {k : Type} [Field k] [Fintype k] {R : T
     rw [show Fintype.card (Matrix (Fin r) (Fin t) k) = Fintype.card (Fin r → Fin t → k) from rfl]
     simp [← pow_mul, mul_comm]
   · obtain ⟨i, j, hij⟩ : ∃ i j, m i j ≠ 0 := by
-      by_contra h; push_neg at h; exact hm (Matrix.ext h)
+      by_contra h; push Not at h; exact hm (Matrix.ext h)
     have h1 := hψ hij
     obtain ⟨c, hc⟩ : ∃ c, ψ (m i j * c) ≠ 1 := by
-      by_contra h; push_neg at h; apply h1; ext c; simp [AddChar.mulShift_apply, h]
+      by_contra h; push Not at h; apply h1; ext c; simp [AddChar.mulShift_apply, h]
     set a₀ : Matrix (Fin r) (Fin t) k := Matrix.single j i c
     have ha₀ : trace (a₀ * m) = m i j * c := by
       simp [a₀, Matrix.trace_single_mul, mul_comm]
@@ -204,8 +204,8 @@ theorem fourier_flatDatum_finite : ∀ (k : Type) [Field k] [Fintype k] (ψ : Ad
   rw [sum_GL_character_neg_det_addChar_trace, sum_addChar_trace_rectMatrix_mul ψ hψ u₂]
   by_cases hu2 : u₂ = 0
   swap
-  · rw [if_neg hu2, mul_zero, dite_eq_right (fun h => hu2 ((lowZero_iff_submatrix_natAdd_eq_zero u).mp h.1)), mul_zero]
-  rw [if_pos hu2]
+  · rw [ite_eq_right hu2, mul_zero, dite_eq_right (fun h => hu2 ((lowZero_iff_submatrix_natAdd_eq_zero u).mp h.1)), mul_zero]
+  rw [ite_eq_left hu2]
   by_cases hdet : IsUnit u₁.det
   swap
   · have h0 : u₁.det = 0 := by

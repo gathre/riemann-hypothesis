@@ -73,7 +73,7 @@ theorem summable_one_add_norm_inv_pow {E : Type} [NormedAddCommGroup E] [NormedS
     simp only [norm_zero, add_zero, inv_one, one_pow]
     exact le_add_of_nonneg_left (by positivity)
   · have h0 : 0 < ‖z‖ := norm_pos_iff.2 hz
-    simp only [hz, if_false, add_zero]
+    simp only [hz, ite_false, add_zero]
     gcongr
     linarith
 

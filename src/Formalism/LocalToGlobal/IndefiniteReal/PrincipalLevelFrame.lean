@@ -161,7 +161,7 @@ theorem exists_sep (U : Submodule ℂ (Formalism.AUTREP.GAf L n → ℂ)) (f : F
     rwa [Ne, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
   obtain ⟨φ, hφ⟩ : ∃ φ : Module.Dual ℂ ((Formalism.AUTREP.GAf L n → ℂ) ⧸ U), φ (U.mkQ f) ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hq ((Module.forall_dual_apply_eq_zero_iff ℂ (U.mkQ f)).mp hcon)
   refine ⟨φ.comp U.mkQ, fun u hu => ?_, hφ⟩
   rw [LinearMap.comp_apply, Submodule.mkQ_apply, (Submodule.Quotient.mk_eq_zero U).mpr hu, map_zero]
@@ -379,7 +379,7 @@ theorem exists_wit (c : Mult.IxFull θ M J χ Sb e) :
   obtain ⟨T, hT, hT0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot c.2.2
   refine ⟨T, hT, ?_⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   exact hT0 (MultilinearMap.ext fun v => funext fun g => hcon v g)
 
 def witT (c : Mult.IxFull θ M J χ Sb e) : Mult.MMap M := (exists_wit c).choose

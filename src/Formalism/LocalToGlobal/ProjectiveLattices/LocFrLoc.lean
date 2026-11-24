@@ -342,7 +342,7 @@ theorem exists_eig_basis [IsLocalRing L] [Algebra c.F L] (hx0 : x ≫ Xo.s = sOf
           by_cases h : τ' = τ
           · subst h; rwa [Pi.single_eq_same]
           · rw [Pi.single_eq_of_ne h]; intro a; simp) τ
-        rwa [Finset.sum_pi_single', if_pos (Finset.mem_univ _), Pi.single_eq_same] at this
+        rwa [Finset.sum_pi_single', ite_eq_left (Finset.mem_univ _), Pi.single_eq_same] at this
       refine ⟨LinearMap.ext fun m => e₂ _ (e₁ m), Submodule.ext fun m => ?_⟩
       rw [ReciprocityTheory.ChartRestriction.G.Chart.mem_eigLat_iff]
       exact ⟨fun ⟨m', h⟩ => h ▸ e₁ m', fun h => ⟨m, e₂ m h⟩⟩

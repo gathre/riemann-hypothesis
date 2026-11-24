@@ -119,7 +119,7 @@ theorem chi_add_lat (C : Ctx σ B JS JT ξ₀ θ ι) (hA : SelfDual (gamFF σ JS
   have hy := finIdem_smul_fin (F := F) (E := E) x
   generalize finIdem F E • x = y at hy ⊢
   by_cases h : y ∈ latOF F E nS nT Λ
-  · rw [if_pos h, if_pos (add_mem h hu)]
+  · rw [ite_eq_left h, ite_eq_left (add_mem h hu)]
     have h0 : B.ψ (symplOF σ JS JT ξ₀ (intAF F w • y) u) = 1 :=
       (hA _).1 ((latF F E nS nT Λ).smul_mem w (show XFF.mk y hy ∈ latF F E nS nT Λ from h)) u hu
     rw [phaseF, ← AddChar.map_add_eq_mul, ← AddChar.map_add_eq_mul, quad hσ C.hS C.hT C.hξ hw,
@@ -127,7 +127,7 @@ theorem chi_add_lat (C : Ctx σ B JS JT ξ₀ θ ι) (hA : SelfDual (gamFF σ JS
   · have h2 : y + (u : WOF F E nS nT) ∉ latOF F E nS nT Λ := fun h' => h (by
       have h3 := sub_mem h' (mem_latF.1 hu)
       rwa [add_sub_cancel_right] at h3)
-    rw [if_neg h, if_neg h2, mul_zero, mul_zero]
+    rw [ite_eq_right h, ite_eq_right h2, mul_zero, mul_zero]
 
 theorem main (C : Ctx σ B JS JT ξ₀ θ ι) (hG : GoodLat Λ) (hR : RatSD σ JS JT ξ₀ Λ)
     (hO : IsLatRepF σ JS JT ξ₀ B.ψ hc Λ w lam Om) (hs : CartF σ JS JT ξ₀ B θ s) (a : IxF F nS nT → ℂ) :
@@ -184,7 +184,7 @@ theorem main (C : Ctx σ B JS JT ξ₀ θ ι) (hG : GoodLat Λ) (hR : RatSD σ J
       have e : piWF θ (ratWF (F := F) y) = infRatF (tauB B) y := _root_.PositivityTheory.ThKW.TauSpanIdentities.piWF_ratWF C y
       rw [← e]
       exact h2)
-    (fun x hx => by unfold chiLatF; exact if_neg hx)
+    (fun x hx => by unfold chiLatF; exact ite_eq_right hx)
     (fun x => by
       unfold chiLatF
       split_ifs

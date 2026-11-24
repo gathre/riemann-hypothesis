@@ -265,7 +265,7 @@ def idxTop : Idx sel mu L R.m := ⟨none, by simp⟩
 
 
 variable (R) in
-theorem ysAt_m : ysAt R sel mu cst R.m = Ys.triv X _ := if_neg (Nat.succ_ne_self _)
+theorem ysAt_m : ysAt R sel mu cst R.m = Ys.triv X _ := ite_eq_right (Nat.succ_ne_self _)
 
 def topPt (u : Pr.Word) (p : ChPt (R := R) sel mu u R.m) :
     PtY (Pr.vT u) Pr.vGs (QE sel (mu : Chr X.F X.E X.K)) (ysAt R sel mu cst R.m) :=

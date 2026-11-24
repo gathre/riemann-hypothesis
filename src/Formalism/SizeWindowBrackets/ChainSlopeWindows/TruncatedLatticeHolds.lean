@@ -280,8 +280,8 @@ theorem card_pLen : ∀ (n : ℕ) (A B : Submodule R W), B ≤ A →
         rw [pLen_add w.1 hBC hCA, hk1 w, Finsupp.add_apply, Finsupp.single_apply]
         by_cases hw : (⟨m0, hm0⟩ : {p : Ideal R // p.IsMaximal}) = w
         · subst hw
-          rw [if_pos rfl, pLen_simple_self m0 e]; simp
-        · rw [if_neg hw, pLen_simple_ne w.1 m0 (fun h => hw (Subtype.ext h.symm))
+          rw [ite_eq_left rfl, pLen_simple_self m0 e]; simp
+        · rw [ite_eq_right hw, pLen_simple_ne w.1 m0 (fun h => hw (Subtype.ext h.symm))
             (kill_of_equiv m0 e)]; simp
       · have hz : ∀ w : {p : Ideal R // p.IsMaximal}, Nat.card (R ⧸ w.1) ^ 0 = 1 :=
           fun _ => pow_zero _

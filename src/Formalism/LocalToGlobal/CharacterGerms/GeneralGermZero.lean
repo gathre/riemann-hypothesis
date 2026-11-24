@@ -210,7 +210,7 @@ theorem sysK_P {g : Fin 2} (hg : X.CartHyp V g) (S : Sys (RawChart.cart hg)) :
     rw [Finset.sum_comm]
     refine Finset.sum_congr rfl fun c' _ => ?_
     rw [Finset.sum_ite_eq']
-    simp only [Finset.mem_univ, if_true]
+    simp only [Finset.mem_univ, ite_true]
     congr 1
     exact congrFun (S.curve c).2.1 (Sum.inl c')
   · intro t ht j

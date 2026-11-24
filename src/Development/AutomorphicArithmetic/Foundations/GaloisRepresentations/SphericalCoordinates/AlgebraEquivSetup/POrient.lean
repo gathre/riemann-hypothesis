@@ -416,7 +416,7 @@ private theorem orient_core (hT : TraceType) (hS : HdSign) (A : Arith E) (n : �
         hJτ, Matrix.mulVec_diagonal]
     have hz : ∃ k, Th (fun τ : Phi A => (τ : E →+* ℂ)) (β : ℚ ⊗[ℤ] (Fin n → 𝓞 E) →ₗ[ℚ] Fin n → E) x k ≠ 0 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       apply hx
       apply cmType_trace_embedding_injective_of_linearEquiv hT A n β
       rw [map_zero]
@@ -440,7 +440,7 @@ private theorem orient_core (hT : TraceType) (hS : HdSign) (A : Arith E) (n : �
     subst hτv
     have hω := (hT E A).2.2.2
     rcases InfinitePlace.embedding_mk_eq (τ : E →+* ℂ) with he | he
-    · rw [he, if_pos τ.2, gram_diag, hJτ, Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_smul]
+    · rw [he, ite_eq_left τ.2, gram_diag, hJτ, Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_smul]
       have hf : (-Complex.I • fun i => τ.1 (A.hd n i : E) * dv A n τ.1 i) =
           fun i => (((|(τ.1 (A.hd n i : E)).re| : ℝ)) : ℂ) := by
         funext i
@@ -452,7 +452,7 @@ private theorem orient_core (hT : TraceType) (hS : HdSign) (A : Arith E) (n : �
         intro h
         rw [ComplexEmbedding.conjugate_coe_eq, τ.2] at h
         exact hω (Complex.conj_eq_iff_im.mp h)
-      rw [he, if_neg hc, gram_diag, evM_conj, hJτ, Matrix.diagonal_map (map_zero _),
+      rw [he, ite_eq_right hc, gram_diag, evM_conj, hJτ, Matrix.diagonal_map (map_zero _),
         Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_smul]
       have hf : (Complex.I • fun i => (ComplexEmbedding.conjugate (τ : E →+* ℂ)) (A.hd n i : E) *
           (starRingEnd ℂ) (dv A n τ.1 i)) = fun i => (((|(τ.1 (A.hd n i : E)).re| : ℝ)) : ℂ) := by

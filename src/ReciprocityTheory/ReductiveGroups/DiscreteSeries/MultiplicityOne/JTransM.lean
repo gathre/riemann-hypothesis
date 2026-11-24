@@ -263,11 +263,11 @@ private theorem unitary_exists_diagonalization (m : Matrix S S ℂ) (hm : mᴴ *
       split_ifs with hij
       · subst hij
         have h10 := hent i i
-        rw [if_pos rfl] at h10
+        rw [ite_eq_left rfl] at h10
         rw [eq_div_iff (mul_ne_zero hζ0 (hc i))]
         linear_combination h10
       · have h10 := hent i j
-        rw [if_neg hij] at h10
+        rw [ite_eq_right hij] at h10
         simpa [hζ0, hc j] using h10
     calc m = W * Wᴴ * m * (W * Wᴴ) := by rw [hW2, Matrix.one_mul, Matrix.mul_one]
       _ = W * (Wᴴ * m * W) * Wᴴ := by simp only [Matrix.mul_assoc]
@@ -411,18 +411,18 @@ theorem Hpk_left (i j : Fin (2 * r + k + 1)) (hi : pK k r i) : Hpk k r i j = if 
   unfold Hpk
   by_cases hij : i = j
   · subst hij
-    rw [if_neg (by omega), if_neg (by omega), if_pos ⟨h1, by omega, rfl⟩, if_neg (by omega), if_pos rfl]
-  · rw [if_neg (by omega), if_neg (fun h => by have : i.val ≠ j.val := fun e => hij (Fin.ext e); omega),
-      if_neg (fun h => hij h.2.2), if_neg hij]
+    rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left ⟨h1, by omega, rfl⟩, ite_eq_right (by omega), ite_eq_left rfl]
+  · rw [ite_eq_right (by omega), ite_eq_right (fun h => by have : i.val ≠ j.val := fun e => hij (Fin.ext e); omega),
+      ite_eq_right (fun h => hij h.2.2), ite_eq_right hij]
 
 theorem Hpk_right (i j : Fin (2 * r + k + 1)) (hj : pK k r j) : Hpk k r i j = if i = j then 1 else 0 := by
   obtain ⟨h1, h2⟩ := hj
   unfold Hpk
   by_cases hij : i = j
   · subst hij
-    rw [if_neg (by omega), if_neg (by omega), if_pos ⟨h1, by omega, rfl⟩, if_neg (by omega), if_pos rfl]
-  · rw [if_neg (fun h => by have : i.val ≠ j.val := fun e => hij (Fin.ext e); omega), if_neg (by omega),
-      if_neg (fun h => hij h.2.2), if_neg hij]
+    rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left ⟨h1, by omega, rfl⟩, ite_eq_right (by omega), ite_eq_left rfl]
+  · rw [ite_eq_right (fun h => by have : i.val ≠ j.val := fun e => hij (Fin.ext e); omega), ite_eq_right (by omega),
+      ite_eq_right (fun h => hij h.2.2), ite_eq_right hij]
 
 theorem Hpk_eq_Qm : Hpk k r = Qm 1 ((Hpk k r).submatrix Subtype.val Subtype.val) := by
   ext i j
@@ -434,12 +434,12 @@ theorem Hpk_eq_Qm : Hpk k r = Qm 1 ((Hpk k r).submatrix Subtype.val Subtype.val)
       by_cases h : i = j
       · subst h; simp
       · simp [h]
-    · rw [dite_eq_right hj, if_neg]
+    · rw [dite_eq_right hj, ite_eq_right]
       rintro rfl
       exact hj hi
   · rw [dite_eq_right hi]
     by_cases hj : pK k r j
-    · rw [dite_eq_left hj, Hpk_right i j hj, if_neg]
+    · rw [dite_eq_left hj, Hpk_right i j hj, ite_eq_right]
       rintro rfl
       exact hi hj
     · rw [dite_eq_right hj]
@@ -463,19 +463,19 @@ theorem row_fix (x : Mat k r) (hx : x ∈ UH (Hpk k r)) (i j : Fin (2 * r + k + 
     · simp
   have key : (xᴴ * Hpk k r * x) j l = s * x i l := by
     rw [Matrix.mul_apply, Finset.sum_eq_single i]
-    · rw [hrow, hH, if_pos rfl]
+    · rw [hrow, hH, ite_eq_left rfl]
     · intro n _ hn
-      rw [hrow, hH, if_neg hn, zero_mul]
+      rw [hrow, hH, ite_eq_right hn, zero_mul]
     · simp
   have hx2 : xᴴ * Hpk k r * x = Hpk k r := hx
   rw [hx2, hH] at key
   by_cases hil : i = l
   · subst hil
-    rw [if_pos rfl] at key
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl] at key
+    rw [ite_eq_left rfl]
     exact mul_left_cancel₀ hs (key.symm.trans (mul_one s).symm)
-  · rw [if_neg (Ne.symm hil)] at key
-    rw [if_neg hil]
+  · rw [ite_eq_right (Ne.symm hil)] at key
+    rw [ite_eq_right hil]
     exact (mul_eq_zero.mp key.symm).resolve_left hs
 
 theorem Hpk_esI (a : Fin r) (l : Fin (2 * r + k + 1)) : Hpk k r (esI k r a) l = if l = eI k r a then 1 else 0 := by
@@ -485,9 +485,9 @@ theorem Hpk_esI (a : Fin r) (l : Fin (2 * r + k + 1)) : Hpk k r (esI k r a) l = 
   unfold Hpk
   by_cases hl : l = eI k r a
   · have hv : l.val = a.val := by rw [hl, he2]
-    rw [if_neg (by omega), if_pos (by omega), if_pos hl]
+    rw [ite_eq_right (by omega), ite_eq_left (by omega), ite_eq_left hl]
   · have hv : l.val ≠ a.val := fun h => hl (Fin.ext (h.trans he2.symm))
-    rw [if_neg (by omega), if_neg (by omega), if_neg (fun h => by obtain ⟨_, h2, _⟩ := h; omega), if_neg hl]
+    rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (fun h => by obtain ⟨_, h2, _⟩ := h; omega), ite_eq_right hl]
 
 theorem Hpk_eI (a : Fin r) (l : Fin (2 * r + k + 1)) : Hpk k r (eI k r a) l = if l = esI k r a then 1 else 0 := by
   have he : (esI k r a).val = 2 * r + k - a.val := rfl
@@ -497,9 +497,9 @@ theorem Hpk_eI (a : Fin r) (l : Fin (2 * r + k + 1)) : Hpk k r (eI k r a) l = if
   unfold Hpk
   by_cases hl : l = esI k r a
   · have hv : l.val = 2 * r + k - a.val := by rw [hl, he]
-    rw [if_pos (by omega), if_pos hl]
+    rw [ite_eq_left (by omega), ite_eq_left hl]
   · have hv : l.val ≠ 2 * r + k - a.val := fun h => hl (Fin.ext (h.trans he.symm))
-    rw [if_neg (by omega), if_neg (by omega), if_neg (fun h => by obtain ⟨h1, _, _⟩ := h; omega), if_neg hl]
+    rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (fun h => by obtain ⟨h1, _, _⟩ := h; omega), ite_eq_right hl]
 
 theorem Hpk_wlast (l : Fin (2 * r + k + 1)) :
     Hpk k r (wI k r (Fin.last k)) l = if l = wI k r (Fin.last k) then -1 else 0 := by
@@ -507,8 +507,8 @@ theorem Hpk_wlast (l : Fin (2 * r + k + 1)) :
   unfold Hpk
   by_cases hl : l = wI k r (Fin.last k)
   · subst hl
-    rw [if_neg (by omega), if_neg (by omega), if_pos ⟨by omega, by omega, rfl⟩, if_pos hw, if_pos rfl]
-  · rw [if_neg (by omega), if_neg (by omega), if_neg (fun h => hl h.2.2.symm), if_neg hl]
+    rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left ⟨by omega, by omega, rfl⟩, ite_eq_left hw, ite_eq_left rfl]
+  · rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (fun h => hl h.2.2.symm), ite_eq_right hl]
 
 theorem not_pK_cases (j : Fin (2 * r + k + 1)) (hj : ¬ pK k r j) :
     (∃ a : Fin r, j = eI k r a) ∨ (∃ a : Fin r, j = esI k r a) ∨ j = wI k r (Fin.last k) := by
@@ -552,12 +552,12 @@ theorem eq_Qm (x : Mat k r) (hx : x ∈ UH (Hpk k r))
     by_cases hj : pK k r j
     · rw [dite_eq_left hj]
       rfl
-    · rw [dite_eq_right hj, col_fix x j (mulVec_bvec_eq_of_fix_e_es_last_not_pK x he hl j hj) i, if_neg]
+    · rw [dite_eq_right hj, col_fix x j (mulVec_bvec_eq_of_fix_e_es_last_not_pK x he hl j hj) i, ite_eq_right]
       rintro rfl
       exact hj hi
   · rw [dite_eq_right hi, apply_eq_ite_of_fix_e_es_last_not_pK x hx he hl i hi j]
     by_cases hj : pK k r j
-    · rw [dite_eq_left hj, if_neg]
+    · rw [dite_eq_left hj, ite_eq_right]
       rintro rfl
       exact hi hj
     · rw [dite_eq_right hj, Matrix.one_apply]
@@ -582,7 +582,7 @@ theorem Qm_fix_off (U : Matrix {i // pK k r i} {i // pK k r i} ℂ) (j : Fin (2 
   rw [InvGrp.col_apply, Qm_apply]
   simp only [bvec, Pi.single_apply]
   by_cases hi : pK k r i
-  · rw [dite_eq_left hi, dite_eq_right hj, if_neg]
+  · rw [dite_eq_left hi, dite_eq_right hj, ite_eq_right]
     rintro rfl
     exact hj hi
   · rw [dite_eq_right hi, dite_eq_right hj, Matrix.one_apply]
@@ -606,7 +606,7 @@ theorem Qm_fix_vec (U : Matrix {i // pK k r i} {i // pK k r i} ℂ) (j : Fin (2 
       simp [bvec, Pi.single_apply, this]
     · rw [dite_eq_right hi, dite_eq_left hj]
       simp only [bvec, Pi.single_apply]
-      rw [if_neg]
+      rw [ite_eq_right]
       rintro rfl
       exact hi hj
   · exact Qm_fix_off U j hj

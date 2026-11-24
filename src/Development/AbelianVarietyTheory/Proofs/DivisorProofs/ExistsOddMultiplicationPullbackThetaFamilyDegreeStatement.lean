@@ -1137,7 +1137,7 @@ namespace GlobalTheory.Mum
 theorem mulFam_exists_ne_zero : ∀ (R : Type) [CommRing R] [IsDomain R] [IsLocalRing R], Base R → ∀ (D : DegData R (maximalIdeal R)) (m : ℕ), Odd m → ∀ (F₁ : IntFam (maximalIdeal R) D.toPre 1) (G : IntFam (maximalIdeal R) D.toPre (m ^ 2)), MulFam m F₁ G → (∃ α j, (F₁.f α).f j ≠ 0) → ∃ α j, (G.f α).f j ≠ 0 := by
   intro R _ _ _ _ D m hm F₁ G hG ⟨α, j, hj⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hj
   have hfinite : IsFinite (mulA D.toPre.P.A m).left := GlobalTheory.MulFinite.isFinite_mulA
     (GlobalTheory.MulPull.mulPull_of_cube_of_symm GlobalTheory.AbLaw.CubeAssembly.cube_gen

@@ -115,7 +115,7 @@ theorem exists_vec_of_ne {M : DSModel V S} {T : MMap M} (hT : T ≠ 0) :
 
   obtain ⟨v, hv⟩ : ∃ v : M.Vec, T v ≠ 0 := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     exact hT (MultilinearMap.ext fun x => by simp [hno x])
   refine ⟨v, Finset.prod_ne_zero_iff.mpr fun τ _ => ?_⟩
   have hvt : v τ ≠ 0 := fun h0 => hv (T.map_coord_zero τ h0)

@@ -140,7 +140,7 @@ theorem heckePol_map (D : D7) (L : LocAll (lay0 D)) (i : (withLoc L).nd.Loc) (x 
   Polynomial.map_mul, Polynomial.map_C]
   congr 1
   refine Finset.sum_congr rfl fun k hk => ?_
-  simp only [GlobalTheory.CoefDuty.ptSys, if_pos (hgen k hk), map_mul, map_pow, map_neg, map_one, map_natCast]
+  simp only [GlobalTheory.CoefDuty.ptSys, ite_eq_left (hgen k hk), map_mul, map_pow, map_neg, map_one, map_natCast]
   rfl
 
 end GlobalTheory.OSplitBig
@@ -207,7 +207,7 @@ theorem continuous_adic (l : ℕ) [Fact l.Prime] (O : Type) [CommRing O] [IsDoma
         _ = _ := one_mul _
     have hlinv : (l : ℝ)⁻¹ < 1 := inv_lt_one_of_one_lt₀ hl1
     by_contra hge
-    push_neg at hge
+    push Not at hge
     have : 1 ≤ ‖f ϖ‖ ^ e := one_le_pow₀ hge
     linarith
   have hcont : ContinuousAt f 0 := by
@@ -278,7 +278,7 @@ theorem exists_constituent_image : ∀ {Γ L : Type} [Group Γ] [Field L] {a n :
 
   have hex : ∃ j, Submodule.map M.mulVecLin (Vs j) ≠ ⊥ := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     obtain ⟨x, hxV, hx0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hV.1
     have hsup : Submodule.map M.mulVecLin ⊤ = ⊥ := by
       rw [← hVs, Submodule.map_iSup]; simp [hne]
@@ -582,11 +582,11 @@ theorem matrix_system_nonzero_solution_descends {k L Γ : Type} [Field k] [Field
   letI := f.toAlgebra
   obtain ⟨i₀, j₀, hij⟩ : ∃ i j, C i j ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hC (Matrix.ext h)
   obtain ⟨φ, hφ⟩ : ∃ φ : Module.Dual k L, φ (C i₀ j₀) ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hij ((Module.forall_dual_apply_eq_zero_iff k (C i₀ j₀)).mp h)
   have key : ∀ (x : k) (y : L), φ (f x * y) = x * φ y := by
     intro x y
@@ -1012,8 +1012,8 @@ theorem eigSet_restrict {μ : D.what₂.Tup} {j : ℕ} (X : MtReal D μ j) (l : 
     {c : PlE D.host → ℕ → ℂ} (hc : c ∈ EigSet X l Q) :
     (fun v k => if GenAt D l Q' v k then c v k else 0) ∈ EigSet X l Q' := by
   obtain ⟨-, y, hy, hy'⟩ := hc
-  refine ⟨fun v k hg => if_neg hg, y, hy, fun v k s ϖ hg hcj hu => ?_⟩
-  simp only [if_pos hg]
+  refine ⟨fun v k hg => ite_eq_right hg, y, hy, fun v k s ϖ hg hcj hu => ?_⟩
+  simp only [ite_eq_left hg]
   exact hy' v k s ϖ (genAt_mono hQ hg) hcj hu
 
 theorem eigSet_transport (M : MtFam D) {μ μ' : D.what₂.Tup} {j j' : ℕ} (hμ : μ = μ') (hj : j = j')
@@ -1117,7 +1117,7 @@ theorem ptSys_finite_alt : ∀ (D : D7) (cf : CharFrame D) (jE : D.host.E →+* 
     split_ifs with hg
     · rfl
     · unfold ptSys
-      rw [if_neg]
+      rw [ite_eq_right]
       intro hg'
       apply hg
       have hg2 : GenAt D l (C.Q w) v k := by rw [← hl, ← hQ]; exact hg'
@@ -1211,7 +1211,7 @@ theorem exists_big_oSplit_alt : ∀ (D : D7) (cf : CharFrame D) (jE : D.host.E �
       rfl
     refine (congrArg (fun f => (heckePol (withLoc L).nd i x hex.choose).map f) hio).trans ?_
     rw [heckePol_map D L i x _ hSO]
-    simp only [pw, dif_pos hex, sysPol]
+    simp only [pw, dite_eq_left hex, sysPol]
     congr 1
     refine Finset.sum_congr rfl fun k _ => ?_
     rw [hc _ hvA k]

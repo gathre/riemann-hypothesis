@@ -250,7 +250,7 @@ theorem side_bound {n : ℕ} (hn : 0 < n) (m m₁ : (E →+* ℂ) → Multiset �
     have hA := abs_nonneg C
     have hB : |C| ≤ ((Fintype.card (E →+* ℂ) * n : ℕ) : ℝ) * |C| := le_mul_of_one_le_left hA hTn
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have := mul_lt_mul_of_pos_left hcon (lt_of_lt_of_le one_pos hTn)
     nlinarith
   refine ⟨hwb, fun τ x hx => ?_⟩

@@ -77,7 +77,7 @@ theorem aG_frame_nonneg (hd : d.AxH 𝒜) (h : d.S1) : 0 ≤ d.aG h d.wF hd.a4.c
   have hec : hd.a4.choose c ∈ 𝒜 c d.wF ∧ hd.a4.choose c ≠ 0 := hespec.1 c
   have hk : ∃ k, d.thp (hd.sel k) c ≠ 0 := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     obtain ⟨q, hq, p, hp⟩ := hespec.2.2 (fun _ => 1)
     have e1 := hp c
     simp only [mul_one] at e1

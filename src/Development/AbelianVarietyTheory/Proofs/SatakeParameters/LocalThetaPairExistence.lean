@@ -339,7 +339,7 @@ theorem locVac_rel_indep : ∀ (L : Type) [Field L] [CharZero L] [Valued L (With
       (by
         intro y _ y' _ hyy
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         apply hyy
         have hm := hdist y.out y'.out (fun u hu => hcon ⟨u, hu⟩)
         rw [← QuotientAddGroup.out_eq' y, ← QuotientAddGroup.out_eq' y', QuotientAddGroup.eq_iff_sub_mem]

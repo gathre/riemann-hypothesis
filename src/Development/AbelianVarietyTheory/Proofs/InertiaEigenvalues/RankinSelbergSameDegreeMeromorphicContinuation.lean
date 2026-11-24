@@ -169,7 +169,7 @@ theorem measurable_chart_prod {F : GA E a → ℂ} (hF : Continuous F) :
     by_cases hp : p ∈ (Set.univ ×ˢ invSet E a : Set (GA E a × Lie E a))
     · rw [Set.piecewise_eq_of_mem _ _ _ hp]
     · rw [Set.piecewise_eq_of_notMem _ _ _ hp]
-      exact dif_neg fun h => hp ⟨Set.mem_univ _, h⟩
+      exact dite_eq_right fun h => hp ⟨Set.mem_univ _, h⟩
   rw [e]
   exact h1.measurable_piecewise continuousOn_const (isOpen_univ.prod isOpen_invSet).measurableSet
 
@@ -1139,7 +1139,7 @@ theorem theta_integral_continuation : ∀ (E : Type) [Field E] [NumberField E] [
     · have hχ1' : χ = 1 := by simpa using congrArg (starRingEnd ℂ) hχ1
       obtain ⟨z, hz⟩ : ∃ z, ω.1 z ≠ ω'.1 z := by
         by_contra hall
-        push_neg at hall
+        push Not at hall
         exact hne (Subtype.ext (MonoidHom.ext hall))
       have hν : ((ω.1 z : ℂˣ) : ℂ) * starRingEnd ℂ ((ω'.1 z : ℂˣ) : ℂ) ≠ 1 := by
         intro hν1
@@ -1328,11 +1328,11 @@ theorem zint_eq_mul_partialL_smooth : ∀ (E : Type) [Field E] [NumberField E] [
   classical
   let αe : HeightOneSpectrum (𝓞 E) → Fin (m + 1) → ℂˣ := fun w => if h : w ∉ T then α ⟨w, h⟩ else fun _ => 1
   let αe' : HeightOneSpectrum (𝓞 E) → Fin (m + 1) → ℂˣ := fun w => if h : w ∉ T then α' ⟨w, h⟩ else fun _ => 1
-  have hαe : ∀ w : {w : HeightOneSpectrum (𝓞 E) // w ∉ T}, αe w.1 = α w := fun w => dif_pos w.2
-  have hαe' : ∀ w : {w : HeightOneSpectrum (𝓞 E) // w ∉ T}, αe' w.1 = α' w := fun w => dif_pos w.2
+  have hαe : ∀ w : {w : HeightOneSpectrum (𝓞 E) // w ∉ T}, αe w.1 = α w := fun w => dite_eq_left w.2
+  have hαe' : ∀ w : {w : HeightOneSpectrum (𝓞 E) // w ∉ T}, αe' w.1 = α' w := fun w => dite_eq_left w.2
   have hsatσ : ∀ (ρ : CuspSub E (m + 1)) (w : HeightOneSpectrum (𝓞 E)), (∃ B, (CG.mk ρ).HasSat w B) →
       HasSatGL w (ρ.locRep w) (sat (CG.mk ρ) w) := fun ρ w h => by
-    rw [← CG.hasSat_mk, sat, dif_pos h]
+    rw [← CG.hasSat_mk, sat, dite_eq_left h]
     exact h.choose_spec
   have hs : ∀ w : {w : HeightOneSpectrum (𝓞 E) // w ∉ T}, Finset.univ.val.map (αe w.1) = sat (CG.mk π) w.1 := fun w => by
     rw [hαe w]; exact hα w
@@ -1439,7 +1439,7 @@ theorem secInv_eq {E : Type} [Field E] [NumberField E] [_root_.NumberField.IsTot
       · intro h; subst h; exact hℓ
     by_cases h : i = ℓ
     · simp [h, hℓ]
-    · rw [if_neg (fun h' => h (this.1 h')), if_neg h]
+    · rw [ite_eq_right (fun h' => h (this.1 h')), ite_eq_right h]
   unfold GlobalTheory.RSJ.secInv
   by_cases hu : IsUnit (u ℓ)
   · have hd : IsUnit (GlobalTheory.RSJ.secRow u).det := by rw [hrow, GlobalTheory.RSTheta.det_rowMat]; exact hu
@@ -1467,8 +1467,8 @@ theorem indN_eq {E : Type} [Field E] [NumberField E] {a : ℕ} (N : ℕ) (hN : 0
     rw [e, natLat_iff E N hN J hJ]
   unfold GlobalTheory.RSJ.indN
   by_cases h : ∀ i : Fin a, v i - (if (i : ℕ) + 1 = a then 1 else 0) ∈ GlobalTheory.RSJ.natLat E N
-  · rw [if_pos h, Set.indicator_of_mem (key.1 h)]; rfl
-  · rw [if_neg h, Set.indicator_of_notMem (fun h' => h (key.2 h'))]
+  · rw [ite_eq_left h, Set.indicator_of_mem (key.1 h)]; rfl
+  · rw [ite_eq_right h, Set.indicator_of_notMem (fun h' => h (key.2 h'))]
 
 theorem zint_eq_thetaZ {E : Type} [Field E] [NumberField E] [_root_.NumberField.IsTotallyComplex E] {a : ℕ} (μ : Measure (GA E a))
     (𝓕 : Set (GA E a)) (φ φ' : GA E a → ℂ) (Φ : (Fin a → Cinf E) → ℂ) (N : ℕ) (hN : 0 < N) (ℓ : Fin a)

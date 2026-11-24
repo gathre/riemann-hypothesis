@@ -508,7 +508,7 @@ theorem finite_of_finite_ker {R A B : Type*} [Ring R] [AddCommGroup A] [Module R
   let s : B → A := fun b => if h : ∃ a, f a = b then h.choose else 0
   have hs : ∀ a, f (s (f a)) = f a := fun a => by
     have h : ∃ a', f a' = f a := ⟨a, rfl⟩
-    simp only [s, dif_pos h]
+    simp only [s, dite_eq_left h]
     exact h.choose_spec
   let φ : A → B × LinearMap.ker f := fun a =>
     (f a, ⟨a - s (f a), by simp [LinearMap.mem_ker, hs]⟩)

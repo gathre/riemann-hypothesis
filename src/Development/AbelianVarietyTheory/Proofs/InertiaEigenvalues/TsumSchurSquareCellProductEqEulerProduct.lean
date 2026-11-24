@@ -76,7 +76,7 @@ theorem schurDir_eq_tsum_locFac (q : ℕ) {n : ℕ} (α : Fin n → ℂ) (x : �
   refine tsum_congr fun l => ?_
   have hA : Antitone (g l) ∧ ∀ i, 0 ≤ g l i :=
     ⟨fun i j hij => by simpa [g] using l.2 hij, fun i => by simp [g]⟩
-  rw [GlobalTheory.RSCell.locFac, if_pos hA]
+  rw [GlobalTheory.RSCell.locFac, ite_eq_left hA]
   simp [g]
 
 theorem tsum_cellProd_sub_eq_eulD (E : Type) [Field E] [NumberField E] (n : ℕ)
@@ -109,7 +109,7 @@ theorem tsum_cellProd_sub_eq_eulD (E : Type) [Field E] [NumberField E] (n : ℕ)
     intro l
     have : (e l).prod f = (l.1.subtypeDomain (fun w => w ∉ T)).prod (fun a b => h a.1 b) := by
       refine Finset.prod_congr rfl fun a _ => ?_
-      simp only [h, dif_neg a.2, f]
+      simp only [h, dite_eq_right a.2, f]
       rfl
     rw [this, Finsupp.prod_subtypeDomain_index (hsupp l)]
     rfl

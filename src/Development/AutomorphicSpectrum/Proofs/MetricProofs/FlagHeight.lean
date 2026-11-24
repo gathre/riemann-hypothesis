@@ -100,7 +100,7 @@ theorem hom_one : ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (1 : Rec
   intro m hm k
   have : m = 0 := by
     by_contra h
-    rw [mem_support_iff, coeff_one, if_neg (Ne.symm h)] at hm
+    rw [mem_support_iff, coeff_one, ite_eq_right (Ne.symm h)] at hm
     exact hm rfl
   subst this
   simp
@@ -391,8 +391,8 @@ theorem flHeight_nonneg_dominant : Inputs → ∀ (II : IntersectionSystem), IsF
     refine Finset.sum_congr rfl fun w _ => ?_
     by_cases hw : ∀ j, ((w j).2 : ℕ) + 1 < N
     · congr 1
-      exact Finset.prod_congr rfl fun j _ => (if_pos (hw j)).symm
-    · push_neg at hw
+      exact Finset.prod_congr rfl fun j _ => (ite_eq_left (hw j)).symm
+    · push Not at hw
       obtain ⟨j, hj⟩ := hw
       rw [hzero w j (not_lt.2 hj), zero_mul, zero_mul]
   rw [e]
@@ -668,7 +668,7 @@ theorem flZero_main : Inputs → ∀ (II : IntersectionSystem), IsFullIntersecti
   · obtain ⟨j, hj⟩ := hw
     apply mul_eq_zero_of_right
     exact Finset.prod_eq_zero (Finset.mem_univ j) (by rw [hj]; exact hgap)
-  · push_neg at hw
+  · push Not at hw
     apply mul_eq_zero_of_left
     exact II_fsHerm_yDeg_eq_zero_of_ne II hII Ψ N hN p hp w hw
 

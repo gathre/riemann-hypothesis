@@ -232,7 +232,7 @@ theorem exists_im_ne_zero [_root_.NumberField.IsTotallyComplex K] (v : InfiniteP
   have hc : v.IsComplex := IsTotallyComplex.isComplex v
   rw [InfinitePlace.isComplex_iff] at hc
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hc
   rw [ComplexEmbedding.isReal_iff]
   ext a

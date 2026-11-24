@@ -76,7 +76,7 @@ theorem rrs_cover (μ : Measure G) [SigmaFinite μ] [μ.IsOpenPosMeasure] {V : S
     exact Set.countable_coe_iff.1 (Set.countable_univ_iff.1 hc)
   · intro y
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hyS : y ∉ S := fun hy => hcon y hy ⟨1 * 1⁻¹, Set.mul_mem_mul h1 (Set.inv_mem_inv.2 (by simpa using h1)),
       by simp⟩
     have hins : (insert y S).PairwiseDisjoint (fun x => x • V) := by

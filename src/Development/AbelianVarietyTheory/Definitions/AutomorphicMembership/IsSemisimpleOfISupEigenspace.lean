@@ -250,17 +250,17 @@ theorem shiftEnd_pow_apply {n : ℕ} (k : ℕ) (v : Fin n → ℂ) (i : Fin n) :
   | succ k ih =>
     rw [pow_succ', End.mul_apply, shiftEnd_apply]
     by_cases h1 : 1 ≤ (i : ℕ)
-    · rw [if_pos h1, ih]
+    · rw [ite_eq_left h1, ih]
       by_cases h2 : k + 1 ≤ (i : ℕ)
-      · rw [if_pos h2, if_pos (by simp only; omega)]
+      · rw [ite_eq_left h2, ite_eq_left (by simp only; omega)]
         congr 2
         simp only; omega
-      · rw [if_neg h2, if_neg (by simp only; omega)]
-    · rw [if_neg h1, if_neg (by omega)]
+      · rw [ite_eq_right h2, ite_eq_right (by simp only; omega)]
+    · rw [ite_eq_right h1, ite_eq_right (by omega)]
 
 theorem isNilpotent_shiftEnd (n : ℕ) : IsNilpotent (shiftEnd n) :=
   ⟨n, LinearMap.ext fun v => funext fun i => by
-    rw [shiftEnd_pow_apply, if_neg (by omega)]; rfl⟩
+    rw [shiftEnd_pow_apply, ite_eq_right (by omega)]; rfl⟩
 
 theorem shiftEnd_ne_zero {n : ℕ} (hn : 2 ≤ n) : shiftEnd n ≠ 0 := by
   intro h0
@@ -300,7 +300,7 @@ theorem isPurePair_diagEnd_shiftEnd {q : ℝ} (hq : 1 < q) {n : ℕ} (c : Fin n 
       ext i
       by_cases hi : 2 * ((i : ℕ) : ℤ) + 1 - n = -(k : ℤ)
       · have := congrFun hvv ⟨i + k, by omega⟩
-        rw [shiftEnd_pow_apply, shiftEnd_pow_apply, if_pos (by simp), if_pos (by simp)] at this
+        rw [shiftEnd_pow_apply, shiftEnd_pow_apply, ite_eq_left (by simp), ite_eq_left (by simp)] at this
         simpa using this
       · rw [hv i hi, hv' i hi]
     · rw [SetLike.mem_coe, hmem] at hv

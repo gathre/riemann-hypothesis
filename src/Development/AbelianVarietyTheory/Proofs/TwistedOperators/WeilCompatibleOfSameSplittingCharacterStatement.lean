@@ -293,14 +293,14 @@ theorem avgForm_ne_zero : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ), IsStdCh
       IsThetaFunO ψ V' W f → ℓ' (heisO ψ V' W u f) = ℓ' f) ∧
       ∃ s, IsHalf e s ∧ ℓ' (heisO ψ V' W s (res V V' W C B μ 𝓨 f₁)) ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hres₁ (GlobalTheory.ThetaStalk.eq_zero_of_invariant_forms D ψ hψ V' W e he _ (hR.1 f₁ hf₁).2.1 h)
   have hf₂ : IsThetaFunO ψ V W (heisO ψ V W (midPart V V' W B s) f₁) := hth hf₁ _
   have h0 : ℓ' (res V V' W C B μ 𝓨 (heisO ψ V W (midPart V V' W B s) f₁)) ≠ 0 := by
     rw [(hR.1 f₁ hf₁).2.2.1 s]; exact hℓs
   refine ⟨ℓ', fun u hu f hf => hℓ' u hu f hf, ?_⟩
   by_contra hall
-  push_neg at hall
+  push Not at hall
   obtain ⟨L, Kc, hL, hKc, hz, hloc⟩ := GlobalTheory.T.thetaRestriction_complement_translates_locallyConstant D ψ hψ V V' W r C B hs μ 𝓨 hμ K hKC hKB e he _ hf₂
   obtain ⟨L', hL', hL'L, hsep⟩ := GlobalTheory.T.exists_open_subgroup_half_characters_separate D ψ hψ W r e he L hL
   have hφ := _root_.GlobalTheory.fourier_uniqueness_of_openSubgroup (haarHalf (cA D e) W.rank r)

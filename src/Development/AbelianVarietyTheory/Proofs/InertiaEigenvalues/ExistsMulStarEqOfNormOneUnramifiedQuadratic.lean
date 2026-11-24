@@ -252,7 +252,7 @@ theorem norm_eq_of_norm_sub_lt {K : Type} [NormedField K] [IsUltrametricDist K] 
       _ ≤ max ‖x - y‖ ‖y‖ := IsUltrametricDist.norm_add_le_max _ _
       _ = ‖y‖ := max_eq_right h.le
   · by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have : ‖y‖ ≤ max ‖x‖ ‖x - y‖ := by
       calc ‖y‖ = ‖x - (x - y)‖ := by rw [sub_sub_cancel]
         _ ≤ max ‖x‖ ‖x - y‖ := norm_sub_le_max' _ _
@@ -274,12 +274,12 @@ theorem exists_far_unit (F E : Type) [NontriviallyNormedField F] [NontriviallyNo
     intro b
     by_cases hb : ‖b‖ ≤ ‖y‖
     · exact hmin (mem_closedBall_zero_iff.2 hb)
-    · push_neg at hb
+    · push Not at hb
       have h0 : g b₀ ≤ g 0 := hmin (by simp)
       refine h0.trans ?_
       simp only [g, map_zero, sub_zero]
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       have : ‖algebraMap F E b‖ ≤ max ‖y‖ ‖y - algebraMap F E b‖ := by
         calc ‖algebraMap F E b‖ = ‖y - (y - algebraMap F E b)‖ := by rw [sub_sub_cancel]
           _ ≤ _ := norm_sub_le_max' _ _

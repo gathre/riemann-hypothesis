@@ -448,7 +448,7 @@ theorem div_uniformiser_mem : ∀ (R K L : Type) [CommRing R] [IsDomain R] [IsDi
     rcases (ValuationSubring.mem_nonunits_iff_or W).1 hyW with h | h
     · rw [h, map_zero]; exact zero_lt_one
     · by_contra hge
-      push_neg at hge
+      push Not at hge
       apply h
       rw [hWv, map_inv₀]
       have h1 : P.valuation L y ≤ 1 := (hWv y).1 ((W.valuation_le_one_iff y).1 (le_of_lt (W.mem_nonunits_iff.1 hyW)))

@@ -138,7 +138,7 @@ theorem exists_coordAt (P : HeightOneSpectrum (𝓞 E)) {N : Submodule (𝓞 E) 
   obtain ⟨β, hβ, hint⟩ := exists_locBasis P hN
   let co : Sp E n → (Fin n → 𝓞 E ⧸ P.asIdeal) := fun y =>
     if y ∈ localization₂ P.asIdeal N then fun i => redP P (β.repr y i) else 0
-  have hpos : ∀ y, y ∈ localization₂ P.asIdeal N → co y = fun i => redP P (β.repr y i) := fun y hy => if_pos hy
+  have hpos : ∀ y, y ∈ localization₂ P.asIdeal N → co y = fun i => redP P (β.repr y i) := fun y hy => ite_eq_left hy
   have hsm : ∀ (a : 𝓞 E), ∀ x ∈ localization₂ P.asIdeal N, co (a • x) = Ideal.Quotient.mk P.asIdeal a • co x := by
     intro a x hx
     rw [hpos _ (Submodule.smul_mem _ a hx), hpos _ hx]
@@ -146,7 +146,7 @@ theorem exists_coordAt (P : HeightOneSpectrum (𝓞 E)) {N : Submodule (𝓞 E) 
     rw [← algebraMap_smul E a x, map_smul, Finsupp.smul_apply, smul_eq_mul, ← Algebra.smul_def,
       redP_osmul a (hint x hx i)]
     rfl
-  refine ⟨co, ⟨?_, hsm, fun x hx => if_neg hx, ?_, ?_⟩⟩
+  refine ⟨co, ⟨?_, hsm, fun x hx => ite_eq_right hx, ?_, ?_⟩⟩
   · intro x hx y hy
     rw [hpos _ (Submodule.add_mem _ hx hy), hpos _ hx, hpos _ hy]
     funext i

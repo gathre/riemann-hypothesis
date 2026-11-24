@@ -102,7 +102,7 @@ theorem uc_pi {ι : Type} (K : ι → Type) [∀ v, Field (K v)] : UnitChoice (�
   have hex : ∀ v, ∃ i, f i v ≠ 0 := by
     intro v
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have h := congrFun ha v
     simp [Finset.sum_apply, hne] at h
   choose c hc using hex
@@ -131,7 +131,7 @@ theorem uc_pi {ι : Type} (K : ι → Type) [∀ v, Field (K v)] : UnitChoice (�
 theorem local_sum {A : Type} [CommRing A] [IsLocalRing A] {k : ℕ} (a f : Fin k → A)
     (h : ∑ i, a i * f i = 1) : ∃ i, IsUnit (f i) := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hmem : ∀ i, a i * f i ∈ IsLocalRing.maximalIdeal A := fun i =>
     Ideal.mul_mem_left _ _ ((IsLocalRing.mem_maximalIdeal _).mpr (hne i))
   have h1 : (1 : A) ∈ IsLocalRing.maximalIdeal A := by
@@ -172,7 +172,7 @@ theorem uc_rp {ι : Type} (K : ι → Type) [∀ v, Field (K v)] {S : ι → Typ
         exact b.2
     · obtain ⟨i, hi⟩ : ∃ i, f i v ≠ 0 := by
         by_contra hne
-        push_neg at hne
+        push Not at hne
         have h := hcomp v
         simp [hne] at h
       exact ⟨i, hi, fun h => absurd h hg⟩
@@ -213,9 +213,9 @@ theorem uc_rp {ι : Type} (K : ι → Type) [∀ v, Field (K v)] {S : ι → Typ
     rw [RestrictedProduct.mul_apply, hev]
     have hs : ∑ i, (e i * f i) v = f (c v) v := by
       rw [Finset.sum_eq_single (c v)]
-      · rw [RestrictedProduct.mul_apply, he, if_pos rfl, one_mul]
+      · rw [RestrictedProduct.mul_apply, he, ite_eq_left rfl, one_mul]
       · intro b _ hb
-        rw [RestrictedProduct.mul_apply, he, if_neg (Ne.symm hb), zero_mul]
+        rw [RestrictedProduct.mul_apply, he, ite_eq_right (Ne.symm hb), zero_mul]
       · intro h
         exact absurd (Finset.mem_univ _) h
     rw [hs]

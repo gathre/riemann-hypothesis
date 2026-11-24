@@ -230,7 +230,7 @@ theorem isDual_dualWt (a : NG.AlgWt L n) : a.IsDual (dualWt a) := by
     obtain ⟨x, hx⟩ := exists_ne (0 : a.W)
     obtain ⟨f, hf⟩ : ∃ f : Module.Dual ℂ a.W, f x ≠ 0 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact hx ((Module.forall_dual_apply_eq_zero_iff ℂ x).mp hc)
     have h1 := LinearMap.congr_fun (LinearMap.congr_fun h0 x) f
     simp only [Module.Dual.eval_apply] at h1

@@ -121,7 +121,7 @@ theorem LateralTheory.EtaleFoundations.etaleSimplicialScheme_cocycle_vanishing_a
         = (∑ i : Fin (p + 1 + 2), (-1 : ℤ) ^ (i : ℕ)) • ev α.1 (p + 1) t ht U
           (show Sx (sch.obj X) (p + 1) U from (x : U ⟶ X)) := by
       rw [Finset.sum_smul]; rfl
-    rw [hsum, cob_altsum, if_neg (by omega), one_smul, Int.negOnePow_succ, Units.smul_def] at e
+    rw [hsum, cob_altsum, ite_eq_right (by omega), one_smul, Int.negOnePow_succ, Units.smul_def] at e
     rw [eq_comm, add_eq_zero_iff_eq_neg] at e
     rw [e]; simp
   apply (hb R).2.2.1
@@ -152,4 +152,4 @@ theorem LateralTheory.EtaleFoundations.etaleSimplicialScheme_cocycle_vanishing_a
       have h2 : (2 * j + 1 + 2) % 2 = 1 := by omega
       have h3 : (2 * j + 1) % 2 = 1 := by omega
       simp only [cobB, h1, h2, h3, ↓reduceIte, one_ne_zero, smul_smul]
-      rw [if_neg (by omega), cob_map_zero, zero_add, one_mul, hεε, one_smul]
+      rw [ite_eq_right (by omega), cob_map_zero, zero_add, one_mul, hεε, one_smul]

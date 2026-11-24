@@ -131,13 +131,13 @@ theorem homog_X [DecidableEq K] (p : Σ k, ι k) : IsMultiHomog (X p : MRing ι)
     rw [Pi.single_eq_same, Finset.sum_eq_single i]
     · simp
     · intro b _ hb
-      rw [Finsupp.single_apply, if_neg]
+      rw [Finsupp.single_apply, ite_eq_right]
       intro e
       exact hb (eq_of_heq (Sigma.mk.inj_iff.mp e).2).symm
     · simp
   · rw [Pi.single_eq_of_ne h]
     refine Finset.sum_eq_zero fun j _ => ?_
-    rw [Finsupp.single_apply, if_neg]
+    rw [Finsupp.single_apply, ite_eq_right]
     intro e
     exact h (congrArg Sigma.fst e).symm
 
@@ -429,7 +429,7 @@ theorem comp_mem {y : (Σ k, ι k) → Ω} {g : MRing ι} (hg : g ∈ mCoordIdea
     rw [MvPolynomial.coeff_sum, MvPolynomial.coeff_zero] at h2
     simp only [MvPolynomial.coeff_C_mul, MvPolynomial.coeff_monomial, mul_ite, mul_one, mul_zero,
       EmbeddingLike.apply_eq_iff_eq] at h2
-    rw [Finset.sum_ite_eq' _ _ _, if_pos hδ] at h2
+    rw [Finset.sum_ite_eq' _ _ _, ite_eq_left hδ] at h2
     exact h2
   · rw [comp_eq_zero hδ, map_zero]
 

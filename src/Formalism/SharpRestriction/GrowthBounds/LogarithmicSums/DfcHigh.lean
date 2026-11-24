@@ -183,27 +183,27 @@ theorem sdiff_le (X : Inst D L) (K : Consts) {a b : HH D → ℤ}
   have hall' := mul_le_mul_of_nonneg_left hall hlp
   by_cases hX : (p : ℝ) < L.sc.X'
   · by_cases ho : (addOrderOf (hP D p) : ℝ) < L.sc.x ^ (L.sc.eps / 4)
-    · rw [if_pos (hA3 p hp hc0 hX ho)] at t3 ⊢
+    · rw [ite_eq_left (hA3 p hp hc0 hX ho)] at t3 ⊢
       linarith
     · by_cases hb : L.sc.p0 D.R.k ≤ (p : ℝ) ∧ InBand D K L.sc p
-      · rw [if_pos (hA4 p hp hX hb.2)] at t4 ⊢
+      · rw [ite_eq_left (hA4 p hp hX hb.2)] at t4 ⊢
         linarith
       · have hC : Cand D L K p := ⟨hp, hX, hc0, not_lt.1 ho, fun h1 h2 => hb ⟨h1, h2⟩⟩
         have hs := hSig p hC
         by_cases hd : Sig X K a b p ≤ L.sc.x ^ (-L.sc.eps)
-        · have hVV : VV X K a b p = goodReps X p := by unfold VV; rw [if_pos ⟨hC, hd⟩]
+        · have hVV : VV X K a b p = goodReps X p := by unfold VV; rw [ite_eq_left ⟨hC, hd⟩]
           have hT : TTP X K a b p = D.host.TT.filter (fun t => X.bs (stepP D p) t ∈ goodReps X p) := by
             unfold TTP
-            rw [if_neg (by
+            rw [ite_eq_right (by
               intro h
               rcases h with h | h
               · exact not_singular_of_central hc0 h
               · linarith), hVV]
-          rw [hT, if_pos (hPS p hC)] at *
+          rw [hT, ite_eq_left (hPS p hC)] at *
           have := mul_le_mul_of_nonneg_left (hbad p hC) hlp
           linarith
-        · have hdI : dropI X K a b p = 1 := by unfold dropI; rw [if_pos (not_le.1 hd)]
-          rw [if_pos (mem_candF hC), hdI] at t8 ⊢
+        · have hdI : dropI X K a b p = 1 := by unfold dropI; rw [ite_eq_left (not_le.1 hd)]
+          rw [ite_eq_left (mem_candF hC), hdI] at t8 ⊢
           have : Real.log p / p * (D.host.TT.card : ℝ) ≤
               Real.log p / p * (2 * 1 + 4 * Sig X K a b p) * (D.host.TT.card : ℝ) := by
             have h1 : Real.log p / p ≤ Real.log p / p * (2 * 1 + 4 * Sig X K a b p) := by nlinarith
@@ -211,7 +211,7 @@ theorem sdiff_le (X : Inst D L) (K : Consts) {a b : HH D → ℤ}
           linarith
   · have hT : TTP X K a b p = D.host.TT := by
       unfold TTP
-      rw [if_pos (Or.inr (not_lt.1 hX))]
+      rw [ite_eq_left (Or.inr (not_lt.1 hX))]
     rw [hT, Finset.sdiff_self, Finset.card_empty, Nat.cast_zero, mul_zero]
     linarith
 
@@ -254,8 +254,8 @@ theorem dfc_high (P : ParameterChoice' D L) (X : Inst D L) (K : Consts) {a b : H
     have := hC.2.1
     linarith
   have hg : ∀ j, gainP X K a b p j = 0 := by
-    intro j; unfold gainP; rw [if_pos (Or.inr hpX)]
-  have ht : tauP X K a b p = 0 := by unfold tauP; rw [if_pos hVV]
+    intro j; unfold gainP; rw [ite_eq_left (Or.inr hpX)]
+  have ht : tauP X K a b p = 0 := by unfold tauP; rw [ite_eq_left hVV]
   have hi : ioP X K a b p = 0 := by
     unfold ioP; rw [dite_eq_right (by rw [hVV]; simp)]
   unfold Dfc

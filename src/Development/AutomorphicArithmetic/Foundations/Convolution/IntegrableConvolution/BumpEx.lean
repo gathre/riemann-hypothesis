@@ -267,7 +267,7 @@ private theorem exists_good_near {C : Set (archGroup K n)} (hC : IsCompact C) (f
     intro x y hxy
     obtain ⟨i, hi⟩ : ∃ i, b.coord i (archVal (x : archGroup K n)) ≠ b.coord i (archVal (y : archGroup K n)) := by
       by_contra hall
-      push_neg at hall
+      push Not at hall
       refine hxy (Subtype.ext (Subtype.ext (Units.ext (b.ext_elem fun i => ?_))))
       exact hall i
     have hG := good_coord b i

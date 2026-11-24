@@ -136,12 +136,12 @@ theorem twoAdicVal : TwoAdicVal := by
   by_cases hev : Even e
   · have h := val_even a ha ha2 e he hev
     have hl : padicValNat 2 e ≤ Nat.log 2 e := by simpa only [Nat.padicValNat_def] using (multiplicity_le_nat_log (p := 2) e)
-    rw [if_pos hev]
+    rw [ite_eq_left hev]
     constructor <;> omega
   · have hod : Odd e := Nat.not_even_iff_odd.mp hev
     have h := val_odd a ha ha2 e hod
     have hs := sq_split a ha2
-    rw [if_neg hev]
+    rw [ite_eq_right hev]
     constructor <;> omega
 
 open TwoAdicValuation in

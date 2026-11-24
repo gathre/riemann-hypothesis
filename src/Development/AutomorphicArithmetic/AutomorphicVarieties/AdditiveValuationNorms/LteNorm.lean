@@ -71,7 +71,7 @@ private theorem binom_prime {R : Type*} [CommRing R] {l : ℕ} (hl : l.Prime) (y
   have e : ((l : Polynomial ℤ) * 1 * Polynomial.X * r) = Polynomial.C (l : ℤ) * (Polynomial.X * r) := by
     simp [mul_assoc]
   simp only [Polynomial.coeff_one_add_X_pow, Nat.choose_one_right, one_pow, Polynomial.coeff_add,
-    Polynomial.coeff_X_pow, if_neg hl1, e, Polynomial.coeff_C_mul, Polynomial.coeff_one] at h1
+    Polynomial.coeff_X_pow, ite_eq_right hl1, e, Polynomial.coeff_C_mul, Polynomial.coeff_one] at h1
   have h2 : (Polynomial.X * r).coeff 1 = r.coeff 0 := Polynomial.coeff_X_mul r 0
   rw [h2] at h1
   have hl0 : (l : ℤ) ≠ 0 := by exact_mod_cast hl.ne_zero

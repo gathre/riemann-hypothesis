@@ -58,13 +58,13 @@ theorem stepCols_ne_empty {N j : ℕ} (hj : j ≤ N) {i : Fin N} : stepCols N j 
   by_cases hi : (i : ℕ) + 1 ≤ j
   · have h0 : N - j < N := by omega
     have : (⟨N - j, h0⟩ : Fin N) ∈ stepCols N j i := by
-      simp only [stepCols, Finset.mem_filter, Finset.mem_univ, true_and, if_pos hi]
+      simp only [stepCols, Finset.mem_filter, Finset.mem_univ, true_and, ite_eq_left hi]
       omega
     rw [e] at this
     simp at this
   · have h0 : 0 < N := by have := i.2; omega
     have : (⟨0, h0⟩ : Fin N) ∈ stepCols N j i := by
-      simp only [stepCols, Finset.mem_filter, Finset.mem_univ, true_and, if_neg hi]
+      simp only [stepCols, Finset.mem_filter, Finset.mem_univ, true_and, ite_eq_right hi]
       omega
     rw [e] at this
     simp at this
@@ -103,10 +103,10 @@ theorem img_form : ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k, Fintype 
     rw [e1]
     congr 1
     rw [Finset.sum_eq_single I']
-    · rw [hdelta I' I' hI hI, if_pos rfl, one_mul]
+    · rw [hdelta I' I' hI hI, ite_eq_left rfl, one_mul]
     · intro J _ hne
       by_cases hJ : IsStepRows N j p.2 J
-      · rw [hdelta I' J hI hJ, if_neg hne.symm, zero_mul]
+      · rw [hdelta I' J hI hJ, ite_eq_right hne.symm, zero_mul]
       · rw [hoff J hJ, mul_zero]
     · simp
   refine ⟨a, ha, fun m => ?_⟩
@@ -119,7 +119,7 @@ theorem img_form : ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k, Fintype 
   rw [Finset.mul_sum]
   refine Finset.sum_congr rfl fun I' _ => ?_
   by_cases hI : IsStepRows N j p.2 I'
-  · rw [if_pos hI, hread I' hI]; ring
-  · rw [if_neg hI, hoff I' hI, mul_zero, mul_zero]
+  · rw [ite_eq_left hI, hread I' hI]; ring
+  · rw [ite_eq_right hI, hoff I' hI, mul_zero, mul_zero]
 
 end GlobalTheory.CompanionTheory.Ar.PB.CovMap.LocImg

@@ -140,7 +140,7 @@ theorem prod_parity {M : Type*} [CommMonoid M] (a b : M) (n : ℕ) (hn : Even n)
     rw [show 2 * (m + 1) = 2 * m + 1 + 1 by ring, Finset.prod_range_succ, Finset.prod_range_succ, ih, pow_succ]
     have h1 : (2 * m + 1) % 2 = 1 := by omega
     have h0 : ¬ (2 * m) % 2 = 1 := by omega
-    simp only [h1, h0, if_true, if_false]
+    simp only [h1, h0, ite_true, ite_false]
     rw [mul_assoc]
 
 theorem prod_parity_pos {M : Type*} [CommMonoid M] (a b : M) (n : ℕ) (hn : Even n) :
@@ -148,8 +148,8 @@ theorem prod_parity_pos {M : Type*} [CommMonoid M] (a b : M) (n : ℕ) (hn : Eve
   rw [← prod_parity a b n hn]
   refine Finset.prod_congr rfl fun s _ => ?_
   by_cases h : s.val % 2 = 1
-  · rw [if_pos h, if_pos (show IsOddPos s from h)]
-  · rw [if_neg h, if_neg (show ¬ IsOddPos s from h)]
+  · rw [ite_eq_left h, ite_eq_left (show IsOddPos s from h)]
+  · rw [ite_eq_right h, ite_eq_right (show ¬ IsOddPos s from h)]
 
 end GlobalTheory.TwU.NormOne
 

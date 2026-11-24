@@ -77,7 +77,7 @@ theorem exists_ne_zero_mul_conj_eq_of_unitary (D : D7) (z : unitary D.host.E) :
     linear_combination a * hz
   obtain ⟨x, hx⟩ : ∃ x : D.host.E, star x ≠ x := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply NumberField.IsCMField.complexConj_ne_one D.host.E
     refine AlgEquiv.ext fun x => ?_
     rw [← Formalism.BasicNotions.Examples₂.cmStar_apply]

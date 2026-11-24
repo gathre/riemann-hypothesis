@@ -86,7 +86,7 @@ private theorem fix_root {Ω : Type} [Field Ω] [Algebra ℚ Ω] (A : ValuationS
     exact lt_of_le_of_lt (mul_le_of_le_one_right' hc1) hl
   have key : A.valuation u < 1 ∨ A.valuation (1 - u) < 1 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have h1 : 1 ≤ A.valuation (u * (1 - u)) := by
       rw [Valuation.map_mul]
       exact one_le_mul hne.1 hne.2
@@ -260,7 +260,7 @@ theorem thirdSplit (K K' Ω : Type) [Field K] [NumberField K] [IsCMField K] [Fie
       (Finset.univ.filter fun i => RepIso (r.comp (resG ℚ K' Ω))
       (tw (r.comp (resG ℚ K' Ω)) ((δf i).comp (resG ℚ K' Ω)))) := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     have h1 : (Finset.univ : Finset (Fin (4 * n ^ 2 + 1))) ⊆ _ := fun i _ => hall i
     have h2 := (Finset.card_le_card h1).trans ((Finset.card_union_le _ _).trans (add_le_add hbadK hbadK'))
     simp at h2

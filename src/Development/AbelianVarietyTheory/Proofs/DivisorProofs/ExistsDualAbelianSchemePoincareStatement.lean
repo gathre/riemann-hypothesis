@@ -942,7 +942,7 @@ theorem exists_mem_others_not_mem {R : Type} [CommRing R] {ι : Type} [Fintype �
     (p : ι → Ideal R) (hp : ∀ i, (p i).IsPrime) (hmin : ∀ i j, p i ≤ p j → i = j) (i : ι) :
     ∃ a : R, a ∉ p i ∧ ∀ j, j ≠ i → a ∈ p j := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hle : (Finset.univ.erase i).inf p ≤ p i := by
     intro a ha
     by_contra hai
@@ -1692,7 +1692,7 @@ theorem dimLe_of_local : ∀ (S : Scheme.{0}) (A B : Over S), Surjective A.hom �
       ⟨x, by rw [Scheme.Hom.mem_preimage, hx]; exact hy⟩
     rw [e]
     exact smoothDim_restrict_pullback B.hom t (V i) (hB i)
-  · push_neg at hne
+  · push Not at hne
     exact ⟨fun x => (hne _ x.2).elim⟩
 
 end GlobalTheory.DualCon

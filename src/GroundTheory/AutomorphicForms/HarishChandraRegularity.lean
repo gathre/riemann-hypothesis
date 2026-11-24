@@ -573,7 +573,7 @@ theorem exists_smooth_density_expCoord {d : ℕ} (b : Module.Basis (Fin d) ℝ �
           simp [K, htS, this]
         · simp [K, htS]]
     refine setIntegral_congr_fun hs.measurableSet fun t ht => ?_
-    simp only [K, if_pos ht.1, F, Complex.real_smul, hPΦ t ht.1]
+    simp only [K, ite_eq_left ht.1, F, Complex.real_smul, hPΦ t ht.1]
     ring
 
 end IsExpLieAlgebra

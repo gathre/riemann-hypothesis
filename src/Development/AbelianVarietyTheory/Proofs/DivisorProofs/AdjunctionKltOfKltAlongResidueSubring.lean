@@ -1456,7 +1456,7 @@ theorem ring_eq_and_ord_eq_zero : ∀ {L : Type} [Field L] (cL : ℂ →+* L) (Q
   · have e := (hB P hP hPt).trans (hB P' hP' hP't).symm
     exact le_antisymm (ring_le hP hP'.1 e.ge) (ring_le hP' hP.1 e.le)
   · by_contra h
-    push_neg at h
+    push Not at h
     have hpos : ∀ x : Q, P.ord (x : L) ≠ 0 → x ∈ primeOf P Q hP.1 := by
       intro x hx
       have hx0 : (x : L) ≠ 0 := fun e => hx (by rw [e, ord_zero])

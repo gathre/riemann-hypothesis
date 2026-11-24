@@ -114,10 +114,10 @@ theorem wdiv_ps (W : LocWach PD LL O v n) (hR : ToolsR.RingP W) (hT : Formalism.
     ext k
     rw [Polynomial.coeff_map, Polynomial.coeff_X_pow]
     rcases lt_trichotomy k (PD.p ^ s) with hk | rfl | hk
-    · rw [if_neg hk.ne, Ideal.Quotient.eq_zero_iff_mem]
+    · rw [ite_eq_right hk.ne, Ideal.Quotient.eq_zero_iff_mem]
       exact Ideal.mem_span_singleton.2 (hPc k hk)
-    · rw [if_pos rfl, ← hPd, hPm.coeff_natDegree, map_one]
-    · rw [if_neg hk.ne', Polynomial.coeff_eq_zero_of_natDegree_lt (by omega), map_zero]
+    · rw [ite_eq_left rfl, ← hPd, hPm.coeff_natDegree, map_one]
+    · rw [ite_eq_right hk.ne', Polynomial.coeff_eq_zero_of_natDegree_lt (by omega), map_zero]
   set V : PowerSeries (O ⧸ I) := PowerSeries.map (Ideal.Quotient.mk I) (u a) *
     PowerSeries.map (Ideal.Quotient.mk I) w ^ (PD.p ^ s) with hV
   have hmapD : PowerSeries.map (Ideal.Quotient.mk I) D = V * PowerSeries.X ^ N := by
@@ -132,11 +132,11 @@ theorem wdiv_ps (W : LocWach PD LL O v n) (hR : ToolsR.RingP W) (hT : Formalism.
       simpa using this
     · exact (hw.map (PowerSeries.map (Ideal.Quotient.mk I))).map PowerSeries.constantCoeff
   have hcN : PowerSeries.coeff N (PowerSeries.map (Ideal.Quotient.mk I) D) = PowerSeries.constantCoeff V := by
-    rw [hmapD, PowerSeries.coeff_mul_X_pow', if_pos le_rfl, Nat.sub_self, PowerSeries.coeff_zero_eq_constantCoeff]
+    rw [hmapD, PowerSeries.coeff_mul_X_pow', ite_eq_left le_rfl, Nat.sub_self, PowerSeries.coeff_zero_eq_constantCoeff]
   have hord : (PowerSeries.map (Ideal.Quotient.mk I) D).order.toNat = N := by
     have : (PowerSeries.map (Ideal.Quotient.mk I) D).order = N := by
       refine PowerSeries.order_eq_nat.2 ⟨by rw [hcN]; exact huV.ne_zero, fun i hi => ?_⟩
-      rw [hmapD, PowerSeries.coeff_mul_X_pow', if_neg (by omega)]
+      rw [hmapD, PowerSeries.coeff_mul_X_pow', ite_eq_right (by omega)]
     rw [this, ENat.toNat_natCast]
   have hdiv : D.IsWeierstrassDivisorAt I := by
     unfold PowerSeries.IsWeierstrassDivisorAt

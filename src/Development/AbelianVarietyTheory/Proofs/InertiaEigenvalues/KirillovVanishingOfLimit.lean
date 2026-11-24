@@ -656,15 +656,15 @@ theorem height_sq_lintegral_lt_top : ∀ (F E : Type) [NontriviallyNormedField F
       calc f j * (σ * q) = (f j * σ) * q := by ring
         _ = _ := by rw [hfσ]; ring
     have hfs0 : ∀ j, n j = 0 → f j * ((σU * q : A.Kˣ) : A.K) = f j := fun j hj => by
-      rw [hfs, ha, if_pos hj, hj]; simp
+      rw [hfs, ha, ite_eq_left hj, hj]; simp
     have hfsz : ∀ j, f j * (((σU * q : A.Kˣ) : A.K) * z) = if n j = 0 then f j * z else f j := by
       intro j
       rw [← mul_assoc, hfs]
       split_ifs with hj
-      · rw [ha, if_pos hj, hj]; simp
+      · rw [ha, ite_eq_left hj, hj]; simp
       · have h1 := hwf j hj
         rw [hsmul] at h1
-        rw [ha, if_neg hj]; linear_combination h1
+        rw [ha, ite_eq_right hj]; linear_combination h1
     refine ⟨σU * q, ⟨?_, ?_, ?_⟩, ?_⟩
     · rw [hOR, hsval]; exact R.mul_mem hσR hqR
     · rw [hOR, hrep (((σU * q : A.Kˣ) : A.K) * z)]
@@ -687,7 +687,7 @@ theorem height_sq_lintegral_lt_top : ∀ (F E : Type) [NontriviallyNormedField F
         rw [e1, mul_sum_eq hid hor, mul_sum_eq hid hor]
         split_ifs with hj
         · rw [mul_one, mul_zero, zero_mul, add_zero, hfs0 j hj]
-        · rw [mul_zero, zero_mul, zero_add, mul_one, hfsz, if_neg hj]
+        · rw [mul_zero, zero_mul, zero_add, mul_one, hfsz, ite_eq_right hj]
     · rw [map_mul, map_prod]; simp only [map_pow]
       exact mul_le_of_le_one_left zero_le (hle1 σU hσR)
 
@@ -836,7 +836,7 @@ theorem bdd_of_loc_const (K : Type) [CommRing K] [TopologicalSpace K] [IsTopolog
       have := hkM i j
       exact this)
     simpa using this
-  have hg : g M = ‖Ψ k₀‖ := by simp only [g, dif_pos hdet]; rfl
+  have hg : g M = ‖Ψ k₀‖ := by simp only [g, dite_eq_left hdet]; rfl
   rw [he, ← hg]
   exact Finset.single_le_sum (f := g) (fun M _ => by simp only [g]; split_ifs <;> positivity) hMt
 

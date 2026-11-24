@@ -94,7 +94,7 @@ theorem exists_ext_pairing [FiniteDimensional LL V] (m : V →ₗ[LL] V' →ₗ[
       conv_lhs => rw [← w.sum_repr y]
 
       simp only [map_sum, map_smul, hvw, smul_eq_mul, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq,
-      Finset.mem_univ, if_true]
+      Finset.mem_univ, ite_true]
     rw [h2, map_smul, h3]
     simp only [e, LinearEquiv.coe_coe, Basis.equiv_apply, Equiv.refl_apply, LinearMap.smul_apply,
       Basis.dualBasis_apply, w', Algebra.TensorProduct.basis_repr_tmul]

@@ -388,7 +388,7 @@ def toRS (S : Finset (HeightOneSpectrum (𝓞 F))) : AF F →ₐ[F] RS F S :=
 theorem toRS_eps (S : Finset (HeightOneSpectrum (𝓞 F))) : toRS S (eps S) = 1 := by
   refine Prod.ext rfl (funext fun v => ?_)
   change evalV F v.1 (ind S) = 1
-  rw [ev_ind, if_pos v.2]
+  rw [ev_ind, ite_eq_left v.2]
 
 theorem eps_mul_of (S : Finset (HeightOneSpectrum (𝓞 F))) {a : AF F} (h : toRS S a = 0) : eps S * a = 0 := by
   have h1 : a.1 = 0 := congrArg Prod.fst h
@@ -414,7 +414,7 @@ theorem toRS_surj (S : Finset (HeightOneSpectrum (𝓞 F))) : Function.Surjectiv
     rw [dite_eq_right hvS']
     exact zero_mem (v.adicCompletionIntegers F)⟩
   refine ⟨pairA F r.1 y, Prod.ext rfl (funext fun v => ?_)⟩
-  exact dif_pos v.2
+  exact dite_eq_left v.2
 
 def splitS (S : Finset (HeightOneSpectrum (𝓞 F))) : AF F ≃ₐ[F] RS F S × (AF F ⧸ Ideal.span {eps S}) :=
   AlgEquiv.ofBijective ((toRS S).prod (Ideal.Quotient.mkₐ F _)) ⟨by

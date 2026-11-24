@@ -88,7 +88,7 @@ theorem exists_isNorm : ∀ (F F' : Type) [Field F] [Field F'] [Algebra F F'] [F
     intro δ
     by_cases h : ∃ γ, IsNorm s δ γ
     · obtain ⟨γ₀, h₀⟩ := h
-      rw [if_pos ⟨γ₀, h₀⟩]
+      rw [ite_eq_left ⟨γ₀, h₀⟩]
       have hiff : ∀ γ, IsNorm s δ γ ↔ IsConj γ₀ γ := by
         intro γ
         constructor
@@ -110,11 +110,11 @@ theorem exists_isNorm : ∀ (F F' : Type) [Field F] [Field F'] [Algebra F F'] [F
       simp only [this]
       rw [Finset.sum_ite, Finset.sum_const_zero, add_zero, Finset.sum_const, nsmul_eq_mul, ← hcl_eq]
       exact mul_inv_cancel₀ (by exact_mod_cast (hcl_pos γ₀).ne')
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       apply Finset.sum_eq_zero
       intro γ _
       simp only [f]
-      rw [if_neg (fun hh => h ⟨γ, hh⟩)]
+      rw [ite_eq_right (fun hh => h ⟨γ, hh⟩)]
   have h2 : ∀ γ, ∑ δ, f δ γ = (Nat.card (GL (Fin n) F') : ℚ) / Nat.card (GL (Fin n) F) := by
     intro γ
     simp only [f]
@@ -139,7 +139,7 @@ theorem exists_isNorm : ∀ (F F' : Type) [Field F] [Field F'] [Algebra F F'] [F
     split_ifs <;> norm_num
   have := (Finset.sum_eq_sum_iff_of_le hle).1 hsum δ₀ (Finset.mem_univ _)
   by_contra hno
-  rw [if_neg hno] at this
+  rw [ite_eq_right hno] at this
   norm_num at this
 
 end GlobalTheory.Shin

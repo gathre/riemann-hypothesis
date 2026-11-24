@@ -167,7 +167,7 @@ lemma order_le (e : ℕ) (x : HGrp e) (j : ℕ) : orderOf x ≤ 2 ^ j ↔ x ^ (2
     rw [hi] at h
     have hij : i ≤ j := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       have hlt : 2 ^ j < 2 ^ i := by
         first
           | exact Nat.pow_lt_pow_right (by norm_num) hc

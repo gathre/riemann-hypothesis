@@ -297,7 +297,7 @@ theorem exists_skew (D : D7) : ∃ ξ : D.host.E,
     (D.sp.cm.sig : D.host.E →+* D.host.E) ξ = -ξ ∧ ξ ≠ 0 := by
   obtain ⟨e, he⟩ : ∃ e : D.host.E, e ∉ (algebraMap D.host.F D.host.E).range := by
     by_contra h
-    push_neg at h
+    push Not at h
     have htop : (⊥ : Subalgebra D.host.F D.host.E) = ⊤ := by
       ext x
       simp only [Algebra.mem_bot, Algebra.mem_top, iff_true]
@@ -855,7 +855,7 @@ theorem psiE_triv {ψ : AddChar (AF D.host.F) ℂ} (hψ : IsStdChar D ψ (-1)) (
 theorem psiE_ne {ψ : AddChar (AF D.host.F) ℂ} (hψ : IsStdChar D ψ (-1)) (p : SplitPt D k) (hU : p.UnitAA)
     (q : GlobalTheory.LatPair.Unif k) : ∃ s, psiE ψ s ≠ 1 := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have h := (psiE_triv hψ p hU (GlobalTheory.FinPl.FrameLat.sec_mem_idAt p q.inv)).1 fun o _ => hc _
   have h1 := GluedLine.pr_mem_of_intAt p h.2
   rw [p.pr_sec] at h1

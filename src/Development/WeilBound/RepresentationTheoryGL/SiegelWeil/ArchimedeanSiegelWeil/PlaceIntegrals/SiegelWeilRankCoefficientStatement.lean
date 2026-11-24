@@ -1235,7 +1235,7 @@ theorem gramTest_eq {F E : Type} [Field F] [NumberField F] [Field E] [NumberFiel
   have h : (c : Matrix (Fin n) (Fin n) (R ⊗[F] E)) - gramR R σ J X ∈ HermR R σ n :=
     (c - GlobalTheory.CompanionTheory.SiegelND.Coef.gramH hCM hJ R X).2
   unfold gramTest
-  exact dif_pos h
+  exact dite_eq_left h
 
 theorem hermMap_sub_gramH {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E} (hCM : IsCMExt F E σ) {M : ℕ} {J : Matrix (Fin M) (Fin M) E} (hJ : IsHermND σ J) {R R' : Type} [CommRing R] [Algebra F R] [CommRing R'] [Algebra F R'] (f : R →ₐ[F] R') {n : ℕ} (c : HermR R σ n) (X : Fin n → Fin M → R ⊗[F] E) :
     GlobalTheory.CompanionTheory.SiegelND.Coef.hermMap f σ (c - GlobalTheory.CompanionTheory.SiegelND.Coef.gramH hCM hJ R X) =
@@ -1386,8 +1386,8 @@ theorem coefS_pure : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Numbe
     let A' : ∀ v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F), Set (Fin n → Fin M → Fv F v ⊗[F] E) := fun v =>
       if v ∈ S then A v ∩ gramNear (Fv F v) σ J (hermOf (Fv F v) σ T hT) (U k v) else A v
     have hA'S : ∀ v ∈ S, A' v = A v ∩ gramNear (Fv F v) σ J (hermOf (Fv F v) σ T hT) (U k v) :=
-      fun v hv => if_pos hv
-    have hA'n : ∀ v, v ∉ S → A' v = latV b v := fun v hv => (if_neg hv).trans (hAl v hv)
+      fun v hv => ite_eq_left hv
+    have hA'n : ∀ v, v ∉ S → A' v = latV b v := fun v hv => (ite_eq_right hv).trans (hAl v hv)
     have h3 : ∀ (x : Fin n → Fin M → AF F ⊗[F] E) v,
         GlobalTheory.CompanionTheory.SiegelND.Coef.hermV σ v (GlobalTheory.CompanionTheory.SiegelND.Coef.hermFin σ (hermOf (AF F) σ T hT - GlobalTheory.CompanionTheory.SiegelND.Coef.gramH hCM hJ (AF F) x)) =
           hermOf (Fv F v) σ T hT - GlobalTheory.CompanionTheory.SiegelND.Coef.gramH hCM hJ (Fv F v) (HeckeCharacterZeroLocus.SiegelWeilU.projV v (HeckeCharacterZeroLocus.SiegelWeilU.projFin x)) := by
@@ -1409,7 +1409,7 @@ theorem coefS_pure : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Numbe
           refine ⟨h v, ?_⟩
           rw [mem_gramNear_iff hCM hJ, ← h3 x v]
           exact h'.1 v hv
-        · rw [show A' v = A v from if_neg hv]
+        · rw [show A' v = A v from ite_eq_right hv]
           exact h v
       · intro h
         refine ⟨fun v => ?_, fun v hv => ?_, fun v hv => ?_⟩
@@ -1418,7 +1418,7 @@ theorem coefS_pure : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Numbe
             rw [hA'S v hv] at this
             exact this.1
           · have := h v
-            rwa [show A' v = A v from if_neg hv] at this
+            rwa [show A' v = A v from ite_eq_right hv] at this
         · have := h v
           rw [hA'S v hv] at this
           rw [h3 x v, ← mem_gramNear_iff hCM hJ]
@@ -1454,7 +1454,7 @@ theorem coefS_pure : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Numbe
       intro v
       by_cases hv : v ∈ S
       · rw [hA'S v hv]; exact ((hV v).1 k).1
-      · rw [show A' v = A v from if_neg hv]; exact (hV0 v).1
+      · rw [show A' v = A v from ite_eq_right hv]; exact (hV0 v).1
     have hfinA' : ∀ v, GlobalTheory.CompanionTheory.SW.coordW (Fv F v) b (lam v) n M (A' v) ≠ ⊤ := by
       intro v
       by_cases hv : v ∈ S

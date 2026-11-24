@@ -106,9 +106,9 @@ theorem fixed_eq_smul (w : (G ⧸ K) →₀ ℂ) (hw : ∀ k ∈ K, lam K k w = 
     have h1 : (lam K (k : G) w) ((k : G) • (u : G ⧸ K)) = w (u : G ⧸ K) :=
       Finsupp.mapDomain_apply_of_injective (MulAction.injective (k : G)) _ _
     rw [hw k k.2] at h1
-    rw [if_pos hy, smul_eq_mul, mul_one]
+    rw [ite_eq_left hy, smul_eq_mul, mul_one]
     exact h1
-  · rw [if_neg hy, hsupp y hy]; simp
+  · rw [ite_eq_right hy, hsupp y hy]; simp
 
 section Main
 
@@ -181,7 +181,7 @@ theorem mul_of {g h u : G} (H : ∀ k ∈ K, ∃ a ∈ K, ∃ b ∈ K, h * k * g
 
     rw [T_dd T hp h1 g, map_sum, Finsupp.finsetSum_apply]
     refine Finset.sum_eq_zero fun z hz => ?_
-    rw [lam_single, Finsupp.single_apply, if_neg]
+    rw [lam_single, Finsupp.single_apply, ite_eq_right]
     intro e
     exact hy (e ▸ key x hx z hz)
   have hfix := fixed_eq_smul ((T g * T h).1 (dd K)) (fun k hk => hk_fixed (T g * T h) hk) u

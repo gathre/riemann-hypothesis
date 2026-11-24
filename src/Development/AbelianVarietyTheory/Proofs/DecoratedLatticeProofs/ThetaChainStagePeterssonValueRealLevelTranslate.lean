@@ -77,7 +77,7 @@ theorem _root_.GlobalTheory.T.multiplicitySpace_equivariant_real_points : ∀ (D
     refine hR.2.2.1 _ (GlobalTheory.RealLift.prodAt_mem θ V _ g) _ b.2 fun τ => ?_
     have h := GlobalTheory.RealLift.infMat_prodAt hθ V (u := g) hg τ _
       (Finset.nodup_toList Finset.univ)
-    rw [if_pos (Finset.mem_toList.2 (Finset.mem_univ _))] at h
+    rw [ite_eq_left (Finset.mem_toList.2 (Finset.mem_univ _))] at h
     exact h
   refine ⟨w, fun τ => rfl, fun U hU => ?_⟩
   rw [← hb]
@@ -93,7 +93,7 @@ theorem _root_.GlobalTheory.T.multiplicitySpace_equivariant_real_points : ∀ (D
       | cons τ l ih =>
         rw [List.nodup_cons] at hl
         have h := hU.equiv τ (g τ) (hg τ) (fun ρ => if ρ ∈ l then w ρ else v ρ) (w τ) (by
-          simp only [if_neg hl.1]
+          simp only [ite_eq_right hl.1]
           rfl)
         rw [ih hl.2] at h
         have hprod : rTr V ((τ :: l).map fun ρ => atTau θ V ρ (g ρ)).prod (U v) =

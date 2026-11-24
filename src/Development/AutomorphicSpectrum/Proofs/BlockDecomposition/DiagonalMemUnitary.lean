@@ -307,8 +307,8 @@ theorem single_conjT (a b : Fin n) (c : ℂ) :
   ext i j
   simp only [conjTranspose_apply, Matrix.single_apply]
   by_cases h : a = j ∧ b = i
-  · rw [if_pos h, if_pos ⟨h.2, h.1⟩]
-  · rw [if_neg h, if_neg (fun hh => h ⟨hh.2, hh.1⟩)]
+  · rw [ite_eq_left h, ite_eq_left ⟨h.2, h.1⟩]
+  · rw [ite_eq_right h, ite_eq_right (fun hh => h ⟨hh.2, hh.1⟩)]
     simp
 
 theorem single_neg' (a b : Fin n) (c : ℂ) :
@@ -453,11 +453,11 @@ theorem sum_single_dual (w : E.V →L[ℂ] ℂ) (a b : Fin n) (c : ℂ) :
   rw [Finset.sum_eq_single a, Finset.sum_eq_single b]
   · simp
   · intro y _ hy
-    rw [Matrix.single_apply, if_neg (fun hh => hy hh.2.symm), zero_smul]
+    rw [Matrix.single_apply, ite_eq_right (fun hh => hy hh.2.symm), zero_smul]
   · simp
   · intro x _ hx
     refine Finset.sum_eq_zero fun y _ => ?_
-    rw [Matrix.single_apply, if_neg (fun hh => hx hh.1.symm), zero_smul]
+    rw [Matrix.single_apply, ite_eq_right (fun hh => hx hh.1.symm), zero_smul]
   · simp
 
 theorem dual_entry_mem (hG : IsDualFam E G) (R : Submodule ℂ (E.V →L[ℂ] ℂ))
@@ -505,7 +505,7 @@ theorem dual_weight (hG : IsDualFam E G) (μ : Fin n → ℤ) {v : E.V →L[ℂ]
           simp
         · simp [hc, Ne.symm hc]
       · rw [Matrix.diagonal_apply_ne _ hij, Matrix.smul_apply, Matrix.single_apply,
-          if_neg (fun hh => hij (hh.1.symm.trans hh.2)), smul_zero]
+          ite_eq_right (fun hh => hij (hh.1.symm.trans hh.2)), smul_zero]
     show NormedSpace.exp _ = _
     rw [e, Matrix.exp_diagonal]
     congr 1
@@ -515,7 +515,7 @@ theorem dual_weight (hG : IsDualFam E G) (μ : Fin n → ℤ) {v : E.V →L[ℂ]
       fun s : ℝ => Complex.exp ((s : ℂ) * (Complex.I * ((μ a : ℝ) : ℂ))) • v := by
     funext s
     rw [hv _ _ (hk s), Finset.prod_eq_single a]
-    · simp only [if_true]
+    · simp only [ite_true]
       rw [← Complex.exp_int_mul]
       congr 2
       push_cast
@@ -746,9 +746,9 @@ theorem pair_sum (v : Fin n → ℤ) (T : Finset (Fin n × Fin n)) (hT : T ⊆ p
       = ∑ p ∈ prs n \ T, (if p ∈ T then v p.1 else v p.2)
         + ∑ p ∈ T, (if p ∈ T then v p.1 else v p.2) := (Finset.sum_sdiff hT).symm
   have h3 : ∑ p ∈ prs n \ T, (if p ∈ T then v p.1 else v p.2) = ∑ p ∈ prs n \ T, v p.2 :=
-    Finset.sum_congr rfl fun p hp => if_neg (Finset.mem_sdiff.1 hp).2
+    Finset.sum_congr rfl fun p hp => ite_eq_right (Finset.mem_sdiff.1 hp).2
   have h4 : ∑ p ∈ T, (if p ∈ T then v p.1 else v p.2) = ∑ p ∈ T, v p.1 :=
-    Finset.sum_congr rfl fun p hp => if_pos hp
+    Finset.sum_congr rfl fun p hp => ite_eq_left hp
   rw [h1, h2, h3, h4, add_comm]
 
 theorem pair_le (v : Fin n → ℤ) (T : Finset (Fin n × Fin n)) (hT : T ⊆ prs n) :
@@ -768,10 +768,10 @@ theorem tZero_term (lev : Fin n → ℕ) (hlev : Monotone lev) (v : Fin n → �
   have hlt : p.1 < p.2 := (Finset.mem_filter.1 hp).2
   by_cases h : lev p.1 < lev p.2
   · have hm : p ∈ tZero lev := Finset.mem_filter.2 ⟨hp, h⟩
-    rw [if_pos hm, max_eq_left (h1 _ _ h)]
+    rw [ite_eq_left hm, max_eq_left (h1 _ _ h)]
   · have he : lev p.1 = lev p.2 := le_antisymm (hlev hlt.le) (not_lt.1 h)
     have hm : p ∉ tZero lev := fun hm => h (Finset.mem_filter.1 hm).2
-    rw [if_neg hm, max_eq_right (h2 _ _ hlt he)]
+    rw [ite_eq_right hm, max_eq_right (h2 _ _ hlt he)]
 
 theorem tZero_eq (lev : Fin n → ℕ) (hlev : Monotone lev) (v : Fin n → ℤ)
     (h1 : ∀ a b, lev a < lev b → v b ≤ v a) (h2 : ∀ a b, a < b → lev a = lev b → v a ≤ v b) :
@@ -1012,7 +1012,7 @@ theorem tournament_unique : ∀ {n : ℕ} (lev : Fin n → ℕ), Monotone lev �
     have hpp := hT hp
     have hlt : p.1 < p.2 := (Finset.mem_filter.1 hpp).2
     have h := hterm p hpp
-    rw [if_pos hp] at h
+    rw [ite_eq_left hp] at h
     refine Finset.mem_filter.2 ⟨hpp, ?_⟩
     by_contra hc
     have he : lev p.1 = lev p.2 := le_antisymm (hlev hlt.le) (not_lt.1 hc)
@@ -1023,7 +1023,7 @@ theorem tournament_unique : ∀ {n : ℕ} (lev : Fin n → ℕ), Monotone lev �
     obtain ⟨hpp, hlt⟩ := Finset.mem_filter.1 hp
     by_contra hc
     have h := hterm p hpp
-    rw [if_neg hc] at h
+    rw [ite_eq_right hc] at h
     have h1 := rk_lt_of_lev hlt
     have h2 := le_max_left (rk lev p.1) (rk lev p.2)
     omega
@@ -1479,10 +1479,10 @@ theorem main_coef {n : ℕ} (lam : Fin n → ℤ) (hl : Antitone lam) (F : Finse
     split_ifs with h <;> simp [h]
   rw [hLf, hRf] at key
   by_cases hmem : μ ∈ F
-  · rw [if_pos hmem, Finset.sum_singleton, Finset.sum_singleton] at key
+  · rw [ite_eq_left hmem, Finset.sum_singleton, Finset.sum_singleton] at key
     simp only [Equiv.Perm.sign_one, Units.val_one, Int.cast_one, mul_one] at key
     exact ⟨hmem, key⟩
-  · rw [if_neg hmem, Finset.sum_empty, Finset.sum_singleton] at key
+  · rw [ite_eq_right hmem, Finset.sum_empty, Finset.sum_singleton] at key
     exact absurd key.symm (by simpa using pow_ne_zero n (two_ne_zero (α := ℂ)))
 
 end GlobalTheory.CompanionTheory.CoefId
@@ -1518,7 +1518,7 @@ theorem finiteDimensional_of_hom (W H : Type) [AddCommGroup W] [Module ℂ W]
   obtain ⟨w, hw⟩ := exists_ne (0 : W)
   have hex : ∃ φ : Module.Dual ℂ W, φ w ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hw ((Module.forall_dual_apply_eq_zero_iff ℂ w).1 hcon)
   obtain ⟨φ, hφ⟩ := hex
   let j : H →ₗ[ℂ] (W →ₗ[ℂ] H) :=
@@ -1881,7 +1881,7 @@ theorem countG : CountG := by
     obtain ⟨ν, hν, rfl⟩ := hμ
     exact ⟨hA _, hfd ⟨ν, hν⟩⟩
   · by_contra hno
-    push_neg at hno
+    push Not at hno
     apply hne
     refine (Submodule.eq_bot_iff _).2 fun t ht => hinj t ht fun μ hμ ξ hξ => ?_
     have h1 := hmaps t ht _ ξ hξ

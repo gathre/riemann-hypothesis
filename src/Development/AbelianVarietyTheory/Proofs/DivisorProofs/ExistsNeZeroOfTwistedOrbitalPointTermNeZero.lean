@@ -51,7 +51,7 @@ theorem exists_ne_zero_of_twTerm_ne_zero {G : Type} [Group G] [TopologicalSpace 
     (δ : G) (f : G → ℂ) (y : G) (h : GlobalTheory.EulerAbs.twTerm θ K δ f y ≠ 0) :
     ∃ k ∈ K, f ((y * k)⁻¹ * δ * θ (y * k)) ≠ 0 := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   apply h
   have hu : (fun k : K => f ((y * k)⁻¹ * δ * θ (y * k))) = fun _ => 0 := by
     funext k

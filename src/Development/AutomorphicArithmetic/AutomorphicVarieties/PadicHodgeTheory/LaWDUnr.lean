@@ -503,7 +503,7 @@ private theorem period {l : ℕ} [Fact l.Prime] (P : LocPrime l) (AI : LocAinf l
     have h2 := congrArg (fun y => TensorProduct.lid ℚ_[l] _ (LinearMap.rTensor (Bst P) (e.coord i0) y)) h1
 
     simp only [x, map_sum, LinearMap.rTensor_tmul, lid_tmul, Module.Basis.coord_apply, Module.Basis.repr_self,
-    Finsupp.single_apply, ite_smul, one_smul, zero_smul, Finset.sum_ite_eq', Finset.mem_univ, if_true, map_zero,
+    Finsupp.single_apply, ite_smul, one_smul, zero_smul, Finset.sum_ite_eq', Finset.mem_univ, ite_true, map_zero,
     Polynomial.C_eq_zero] at h2
     exact AI.ιA_inj (h2.trans (map_zero _).symm)
   · rw [coe_actD, Submodule.coe_smul, coe_phiD_pow, coe_phiD_pow]

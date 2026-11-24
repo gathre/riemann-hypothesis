@@ -400,7 +400,7 @@ theorem exists_eighthPower_evenUnimodular_charZero : ∃ d : ℕ, 1 ≤ d ∧ �
       erw [CechPic.pull_lam, CechPic.pull_lam]
       erw [lift_fst, lift_snd]
       dsimp only
-      have hi1 : ∀ u : Fin 8, u ≠ 0 → inc ≫ pr u = 1 := fun u h => (hinc u).trans (if_neg h)
+      have hi1 : ∀ u : Fin 8, u ≠ 0 → inc ≫ pr u = 1 := fun u h => (hinc u).trans (ite_eq_right h)
       by_cases hu0 : u = 0
       · subst hu0
         have hv0 : v ≠ 0 := fun h => huv (by rw [h])
@@ -686,7 +686,7 @@ theorem eq_zero_of_sum_eq_zero_of_unit_mul_pow {R : Type*} [CommRing R] [IsDomai
     (hsum : ∑ i, c i = 0) : ∀ i, c i = 0 := by
   classical
   by_contra hne
-  push_neg at hne
+  push Not at hne
   choose! n w hw hcw using hc
   set S := Finset.univ.filter (fun i => c i ≠ 0) with hS
   have hSne : S.Nonempty := by

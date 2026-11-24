@@ -725,7 +725,7 @@ include hpq hl in
 theorem val_ruleDown {a : (E →+* ℂ) × ℕ → ℕ} {n : ℕ} {g : Rul d.Xo₂ d.c₂} (hg : g ∈ sec d.Xo₂ d.c₂ a n)
     (hF : GlobalTheory.LevPull.FibConst d g) (p : TRing c.F) (y : FrPt Xo c p.R) : Val d g p y (ruleDown d g p y) := by
   have h := val_exists d hpq hl hg hF p y
-  have e : ruleDown d g p y = h.choose := dif_pos h
+  have e : ruleDown d g p y = h.choose := dite_eq_left h
   rw [e]
   exact h.choose_spec
 

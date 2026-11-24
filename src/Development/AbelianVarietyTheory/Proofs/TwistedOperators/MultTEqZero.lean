@@ -415,7 +415,7 @@ theorem multT_eq_zero {u : (⨂[ℂ] τ, M.sm τ) →ₗ[ℂ] (GA D V → ℂ)} 
     simpa only [map_smul, huT] using h
   obtain ⟨w', hw'⟩ : ∃ w' : M.Vec, tprodInnerFun w' x ≠ 0 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     exact hx (eq_zero_of_tprodInnerFun x hne)
   apply PiTensorProduct.ext
   apply MultilinearMap.ext

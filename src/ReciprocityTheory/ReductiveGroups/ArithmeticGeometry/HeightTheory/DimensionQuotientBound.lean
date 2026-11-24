@@ -111,7 +111,7 @@ theorem av_key {S : Type*} [CommRing S] [IsDomain S] [IsNoetherianRing S] [IsLoc
 
   obtain ⟨x, hxm, hxP⟩ : ∃ x ∈ m, ∀ P ∈ (Ideal.span {g}).minimalPrimes, x ∉ P := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsub : (m : Set S) ⊆ ⋃ P ∈ (hfin.toFinset : Set (Ideal S)), ((id P : Ideal S) : Set S) := by
       intro y hy
       obtain ⟨P, hP, hyP⟩ := hcon y hy

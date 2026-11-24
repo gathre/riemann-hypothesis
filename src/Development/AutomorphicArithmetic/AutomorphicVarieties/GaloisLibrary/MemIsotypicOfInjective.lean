@@ -242,7 +242,7 @@ theorem exists_proj {R G V : Type} {J : Type 1} [AddCommGroup V] [Module ℂ V] 
   obtain ⟨μ, hμ⟩ := (Submodule.mem_iSup_finset_iff_exists_sum _ _).mp hs
   obtain ⟨j1, -, hu⟩ : ∃ j1 ∈ s, ∑ i ∈ s.filter (fun i => χ i = χ j1), (μ i : V) ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hne
     rw [← hμ, ← Finset.sum_fiberwise_of_maps_to (g := χ) (t := s.image χ)
       (fun i hi => Finset.mem_image_of_mem χ hi)]

@@ -76,7 +76,7 @@ theorem exists_lift_sys : ∀ (p : ℕ) [Fact p.Prime] (D : Datum p) (h₀ : Mod
   refine ⟨h, fun n hn hnp x => ?_⟩
   have hx : x ∈ Submodule.span ℤ (Set.range b) := by rw [b.span_eq]; trivial
   have hh' : h n = (b.constr ℤ (fun i => (key n hn hnp i).choose)).toAddMonoidHom := by
-    simp only [h, dif_pos (And.intro hn hnp)]
+    simp only [h, dite_eq_left (And.intro hn hnp)]
   induction hx using Submodule.span_induction with
   | mem y hy =>
     obtain ⟨i, rfl⟩ := hy

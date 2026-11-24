@@ -404,7 +404,7 @@ theorem exists_sph_whit_ne_zero : ∀ (E : Type) [Field E] [NumberField E] [_roo
   obtain ⟨φ₀, hφ₀V, hφ₀0, hφ₀K⟩ := _root_.GlobalTheory.JSW.SphVec.exists_sphVec_of_hasSat E (m + 1) π S (fun w => Finset.univ.val.map (α w)) hα
   obtain ⟨g, hg⟩ : ∃ g, whit φ₀.1 g ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hφ₀0 (_root_.GlobalTheory.JSW.eq_zero_of_whit_eq_zero E (m + 1) φ₀ (π.cusp φ₀ hφ₀V) h)
   have hfin := finite_bad E (m + 1) (GeneralLinearGroup.map (pFin E) g)
   refine exists_whittaker_ne_zero_induction_bad_places S hψ π α hα hfin.toFinset φ₀ hφ₀V hφ₀K g (fun w _ hwT => ?_) hg

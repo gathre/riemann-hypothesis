@@ -146,9 +146,9 @@ theorem tupleChar_flipParam (S : Set (Sq H)) (s : ∀ v : Sq H, SSParam (H.g v.1
   funext x
   refine Finset.prod_congr rfl fun v _ => ?_
   by_cases hv : v ∈ S
-  · simp only [flipParam, flipAt, if_pos hv]
+  · simp only [flipParam, flipAt, ite_eq_left hv]
     exact (GlobalTheory.TypeCharacterConjugateInverse.typeChar_conj_inv _ K _ (s v)).2 (x v)
-  · simp only [flipParam, flipAt, if_neg hv]
+  · simp only [flipParam, flipAt, ite_eq_right hv]
 
 theorem tupleChar_congr (s : ∀ v : Sq H, SSParam (H.g v.1) K R.r) {x y : LevelGroup H}
     (h : ∀ v, IsConj (x v) (y v)) : tupleChar s x = tupleChar s y :=
@@ -159,8 +159,8 @@ theorem comp_flipAt_mem (om : ∀ i : Fin 2, (ZMod (H.g i))ˣ →* Kˣ) (S : Set
   obtain ⟨s, hs, rfl⟩ := hτ
   refine ⟨flipParam S s, fun i => goodAt_flip _ _ _ (fun w => ?_) (hs i), tupleChar_flipParam S s⟩
   by_cases hv : (⟨i, w⟩ : Sq H) ∈ S
-  · exact Or.inr (if_pos hv)
-  · exact Or.inl (if_neg hv)
+  · exact Or.inr (ite_eq_left hv)
+  · exact Or.inl (ite_eq_right hv)
 
 end Global
 
@@ -180,9 +180,9 @@ theorem coeff_goodIdem_flip (R : Ranks) (H : Host R) (om : ∀ i : Fin 2, (ZMod 
     have key : tupleChar s y⁻¹ = tupleChar s (flipAt S x⁻¹) := by
       refine tupleChar_congr s fun v => ?_
       by_cases hv : v ∈ S
-      · simp only [flipAt, if_pos hv, Pi.inv_apply]
+      · simp only [flipAt, ite_eq_left hv, Pi.inv_apply]
         exact isConj_inv_inv (h1 v hv).symm
-      · simp only [flipAt, if_neg hv, Pi.inv_apply]
+      · simp only [flipAt, ite_eq_right hv, Pi.inv_apply]
         exact isConj_inv_inv (h2 v hv).symm
     rw [Function.comp_apply, Function.comp_apply, flipAt_one, key]
 

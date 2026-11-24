@@ -92,7 +92,7 @@ theorem exists_lieElement_middleBlockPart (c : Coeff l) (la : HeightOneSpectrum 
       exact lt_irrefl _ h4
     exact hnon _ hxm
   · by_contra hv
-    push_neg at hv
+    push Not at hv
     have hx0 : x ≠ 0 := by rintro rfl; simp at hv
     have hiV : x⁻¹ ∈ V := by
       rw [hVdef, Valuation.mem_valuationSubring_iff, map_inv₀]

@@ -70,7 +70,7 @@ theorem omE_diag_monomial {p q r s : ℕ} (l : Ln p q r s) (α : Ln p q r s →�
     omE l l (MvPolynomial.monomial α (1 : ℂ)) =
       ((lw l α : ℚ) : ℂ) • MvPolynomial.monomial α (1 : ℂ) := by
   unfold FockH1Action.omE
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
   unfold FockH1Action.raiB FockH1Action.lowB lw
   cases hl : FockH1Action.linePos l
   · simp only [Bool.false_eq_true, ↓reduceIte, LinearMap.add_apply, Module.End.mul_apply, LinearMap.neg_apply,
@@ -114,7 +114,7 @@ theorem sum_diag_of {p q r s : ℕ} (M : Matrix (Ln p q r s) (Ln p q r s) ℂ)
   · rw [hM]
     by_cases h : g l <;> simp [h]
   · intro l' _ hne
-    rw [hM, if_neg (fun h => hne h.1.symm), zero_smul]
+    rw [hM, ite_eq_right (fun h => hne h.1.symm), zero_smul]
   · intro h
     exact absurd (Finset.mem_univ l) h
 
@@ -158,9 +158,9 @@ theorem coeff_of_diag {σ : Type*} (T : Module.End ℂ (MvPolynomial σ ℂ)) (f
       MvPolynomial.coeff_monomial]
     by_cases h : u = α
     · subst h
-      simp only [if_true, smul_eq_mul, mul_one]
+      simp only [ite_true, smul_eq_mul, mul_one]
       ring
-    · simp only [h, if_false, smul_eq_mul, mul_zero]
+    · simp only [h, ite_false, smul_eq_mul, mul_zero]
   | add p₁ p₂ h₁ h₂ =>
     rw [map_add (f := _), MvPolynomial.coeff_add, MvPolynomial.coeff_add, h₁, h₂, mul_add]
 

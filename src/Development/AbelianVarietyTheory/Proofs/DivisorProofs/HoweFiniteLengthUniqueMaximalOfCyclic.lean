@@ -229,7 +229,7 @@ theorem cas_mul_off (s : ι → Bool) (F : ι → ι → Module.End ℂ M) (hF :
   have sw : ∀ a, F a k * F j a = F j a * F a k - F j k := by
     intro a
     have h := hF a k j a
-    rw [if_neg (Ne.symm hjk), if_pos rfl] at h
+    rw [ite_eq_right (Ne.symm hjk), ite_eq_left rfl] at h
     calc F a k * F j a = (F a k * F j a - F j a * F a k) + F j a * F a k := by abel
       _ = _ := by rw [h]; abel
   have cnt : ∀ c : Bool, (∑ a, if s a = c then F a k * F j a else 0)
@@ -239,7 +239,7 @@ theorem cas_mul_off (s : ι → Bool) (F : ι → ι → Module.End ℂ M) (hF :
         = ∑ a, ((if s a = c then F j a * F a k else 0) - (if s a = c then F j k else 0)) := by
       refine Finset.sum_congr rfl fun a _ => ?_
       by_cases h : s a = c
-      · simp only [if_pos h, sw]
+      · simp only [ite_eq_left h, sw]
       · simp [h]
     rw [this, Finset.sum_sub_distrib]
     congr 1
@@ -280,7 +280,7 @@ theorem cas_mul_off (s : ι → Bool) (F : ι → ι → Module.End ℂ M) (hF :
           - (if s a = s b then (if k = a then F j b else 0) * F b a else 0)) := by
     intro a b
     by_cases h : s a = s b
-    · simp only [if_pos h]; exact casDrop_term F hF a b j k
+    · simp only [ite_eq_left h]; exact casDrop_term F hF a b j k
     · simp [h]
   unfold cas
   simp only [Finset.sum_mul, expand, Finset.sum_add_distrib, Finset.sum_sub_distrib]
@@ -307,7 +307,7 @@ theorem cas_drop : ∀ (ι M : Type) [Fintype ι] [DecidableEq ι] [AddCommGroup
     intro b hb
     have hjb : j ≠ b := by intro h; rw [h, hb] at hj; exact Bool.noConfusion hj
     have h := hq j b
-    simp only [qop, if_neg hjb, sub_zero] at h
+    simp only [qop, ite_eq_right hjb, sub_zero] at h
     have split : (∑ c, F j c * F c b) = (∑ c, if s c = false then F j c * F c b else 0) + T b := by
       rw [hT, ← Finset.sum_add_distrib]
       refine Finset.sum_congr rfl fun c _ => ?_
@@ -338,7 +338,7 @@ theorem cas_drop : ∀ (ι M : Type) [Fintype ι] [DecidableEq ι] [AddCommGroup
     refine Finset.sum_congr rfl fun c _ => ?_
     cases hc : s c
     · simp [hy0 c hc]
-    · simp only [if_true]
+    · simp only [ite_true]
 
       rw [← map_sum, hyA c hc, map_smul]
 
@@ -417,7 +417,7 @@ theorem real_root_quad_le {x : ℝ} {α β : ℂ} (h : (x : ℂ) ^ 2 - α * x - 
   have ha := norm_nonneg α
   have hb := norm_nonneg β
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have ht : ‖α‖ + ‖β‖ + 1 < |x| := lt_of_lt_of_le hc (le_abs_self x)
   nlinarith [mul_nonneg hb (by linarith : (0:ℝ) ≤ |x| - 1),
     mul_pos (by linarith : (0:ℝ) < |x| - (‖α‖ + ‖β‖ + 1)) (by linarith : (0:ℝ) < |x|)]
@@ -430,13 +430,13 @@ theorem diag_eig_le_of_cas_min : ∀ (ι : Type) [Fintype ι] [DecidableEq ι] (
   · have hbc := _root_.GlobalTheory.HoweR.qop_quadratic_on_eigenvector ι M s F α β x y hq hfalse htrue hz
     obtain ⟨a, ha⟩ : ∃ a, y a ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hy (funext h)
     have h0 : (x : ℂ) ^ 2 - α * x - β = 0 := by
       by_contra hne
       exact ha ((smul_eq_zero.mp (hbc a)).resolve_left hne)
     exact le_max_of_le_left (real_root_quad_le h0)
-  · push_neg at hz
+  · push Not at hz
     obtain ⟨j, hj, hzj⟩ := hz
     have hd := _root_.GlobalTheory.HoweR.cas_drop ι M s F α β x ω y hGl hq hfalse htrue hcas j hj
     obtain ⟨U, hU, hUU⟩ := hLoc {∑ b, F j b (y b)}
@@ -491,8 +491,8 @@ theorem cas_mul_comm_of_block : ∀ (ι M : Type) [Fintype ι] [DecidableEq ι] 
     simp only [cas, Finset.sum_mul, Finset.mul_sum, ← Finset.sum_sub_distrib]
     refine Finset.sum_congr rfl fun c _ => Finset.sum_congr rfl fun d _ => ?_
     by_cases h : s c = s d
-    · simp only [h, if_true]; exact key c d
-    · simp only [h, if_false, zero_mul, mul_zero, sub_self]
+    · simp only [h, ite_true]; exact key c d
+    · simp only [h, ite_false, zero_mul, mul_zero, sub_self]
   have h1 : (∑ c, ∑ d, if s c = s d then (if c = a then F c d * F d b else 0) else 0) =
       ∑ d, if s a = s d then F a d * F d b else 0 := by
     rw [Finset.sum_eq_single a]
@@ -661,11 +661,11 @@ theorem re_diag_le_of_eigen_bound : ∀ (ι M : Type) [Fintype ι] [DecidableEq 
     intro y z c b
     by_cases hc : s c = true
     · by_cases hb : s b = true
-      · rw [if_pos hc, if_pos hb]
+      · rw [ite_eq_left hc, ite_eq_left hb]
         exact hadj c b (hc.trans hb.symm) _ (y.2 b).1 _ (z.2 c).1
-      · rw [if_pos hc, if_neg hb, (y.2 b).2 (by simpa using hb)]
+      · rw [ite_eq_left hc, ite_eq_right hb, (y.2 b).2 (by simpa using hb)]
         simp
-    · rw [if_neg hc, (z.2 c).2 (by simpa using hc)]
+    · rw [ite_eq_right hc, (z.2 c).2 (by simpa using hc)]
       simp
   have hT : (blockOp s F U hst).IsSymmetric := by
     intro y z
@@ -683,7 +683,7 @@ theorem re_diag_le_of_eigen_bound : ∀ (ι M : Type) [Fintype ι] [DecidableEq 
     intro x v hv hTv
     refine hR x v.1 (fun h => hv (Subtype.ext h)) (fun c => (v.2 c).1) (fun c => (v.2 c).2) fun c hc => ?_
     have := congrFun (congrArg Subtype.val hTv) c
-    rw [blockOp_apply, if_pos hc] at this
+    rw [blockOp_apply, ite_eq_left hc] at this
     exact this
   have hmem : Pi.single a u ∈ blockSub s U := by
     intro c
@@ -693,7 +693,7 @@ theorem re_diag_le_of_eigen_bound : ∀ (ι M : Type) [Fintype ι] [DecidableEq 
   set y0 : blockSub s U := ⟨Pi.single a u, hmem⟩
   have hy0 : (y0 : ι → M) = Pi.single a u := rfl
   have hTa : (blockOp s F U hst y0 : ι → M) a = m • u := by
-    rw [blockOp_apply, if_pos ha, hy0, Finset.sum_eq_single a, Pi.single_eq_same, hm]
+    rw [blockOp_apply, ite_eq_left ha, hy0, Finset.sum_eq_single a, Pi.single_eq_same, hm]
     · intro b _ hb; rw [Pi.single_eq_of_ne hb, map_zero]
     · intro h; exact absurd (Finset.mem_univ a) h
   have i1 : inner ℂ y0 (blockOp s F U hst y0) = m * ip u u := by

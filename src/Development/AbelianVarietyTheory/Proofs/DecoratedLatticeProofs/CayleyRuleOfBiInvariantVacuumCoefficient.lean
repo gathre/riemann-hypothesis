@@ -79,7 +79,7 @@ theorem heisInv_forms_proportional : ∀ (L : Type) [Field L] [Valued L (WithZer
     · rw [h.fixes x hx]
     · have : ∃ i j, x i j ∉ Formalism.UG.intL L := by
         by_contra hc
-        push_neg at hc
+        push Not at hc
         exact hx hc
       obtain ⟨i, j, hij⟩ := this
       obtain ⟨u, hu, hne⟩ := GlobalTheory.SphTheta.exists_pairing_single_ne h.1.unr h.v_two h.1.delta.1 h.1.psi_ne x hij

@@ -400,7 +400,7 @@ theorem isInteger_of_maximalIdeal_smul_isInteger (S : Type) [CommRing S] [IsRegu
       rw [hy', Algebra.smul_def, mul_comm]
     exact (IsIntegrallyClosed.isIntegral_iff).1 hint
   · exfalso
-    push_neg at hA
+    push Not at hA
     obtain ⟨a, ha, hy⟩ := hA
     obtain ⟨y, hy'⟩ := hc a ha
     have hyu : y ∉ maximalIdeal S := fun h => hy y h hy'
@@ -584,7 +584,7 @@ theorem modDepthGE_two_of_isSMulRegular_of_quotSMulTop :
   intro S _ _ _ M _ _ _ _ x hxm hreg hsoc
   obtain ⟨y, hym, hyreg⟩ : ∃ y ∈ maximalIdeal S, IsSMulRegular (QuotSMulTop x M) y := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hfin := associatedPrimes.finite S (QuotSMulTop x M)
     have hsub : (maximalIdeal S : Set S) ⊆
         ⋃ p ∈ associatedPrimes S (QuotSMulTop x M), (p : Set S) := by

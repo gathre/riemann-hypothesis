@@ -302,7 +302,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {r : ℕ} {X : Data 
 theorem exists_s_ne {Xa : ArchInM X} (Fl : FlatM X Xa) (x0 : Frame X.Ψ r) (hx0 : IsOrth X x0) :
     ∃ k0 : Fin (nd X), ∃ z ∈ OmF X x0, Fl.s k0 (cpt X x0 z) ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hall : ∀ k, ∀ x ∈ X.dom, Fl.s k x = 0 := fun k =>
     bigCell_of lu_holds r X x0 hx0 Xa.L (Fl.s k) ⟨(Fl.s_van k).1.1.1.1, (Fl.s_van k).1.1.1.2.1⟩ (hcon k)
   have hx0d := IW.orth_mem_dom X x0 hx0
@@ -412,7 +412,7 @@ theorem Gf_le_off (Xa : ArchInM X) (Fl : FlatM X Xa) (g : Frame X.Ψ r → ℂ) 
       ENNReal.ofReal (X.pnorm (Xa.Fp + Xa.T • Xa.L) g x ^ 2 *
         (∑ k, X.pnorm Xa.L (Xa.w k) x ^ 2) ^ (-(Xa.T : ℝ))) := by
   unfold Gf WSk
-  rw [if_pos hx]
+  rw [ite_eq_left hx]
   have hnn : 0 < X.nfac (Xa.Fp + Xa.T • Xa.L) x := nfac_pos_of_mem_dom hx _
   have hexp : Real.exp (-phla X (Xa.Fp + Xa.T • Xa.L) x) = X.nfac (Xa.Fp + Xa.T • Xa.L) x ^ 2 := by
     unfold phla
@@ -482,7 +482,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {r : ℕ} {X : Data 
 theorem s_not_ev_zero {Xa : ArchInM X} (Fl : FlatM X Xa) (j : Fin Fl.δ) :
     ∃ k, ¬ (fun z => Fl.s k (cpt X (Fl.xs j) z)) =ᶠ[𝓝 (0 : V (nd X))] 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hc := Fl.coord j
   have hev : (fun z : V (nd X) => (WithLp.toLp 2 fun k =>
       Fl.s k (cpt X (Fl.xs j) z) / Fl.w0 (cpt X (Fl.xs j) z) : V (nd X))) =ᶠ[𝓝 0] fun _ => 0 := by
@@ -786,7 +786,7 @@ theorem pow_step {p : ℕ} (g : Fin p → ℂ) (α : Fin p → ℕ) (k : Fin p) 
   congr 1
   have h : ∀ i, g i ^ (if i = k then 1 else 0) = if i = k then g i else 1 := by
     intro i; split_ifs <;> simp
-  simp only [h, Finset.prod_ite_eq', Finset.mem_univ, if_true]
+  simp only [h, Finset.prod_ite_eq', Finset.mem_univ, ite_true]
 
 theorem iter_div (hU : IsOpen U) (S : EtaleStein n U) (hz : S.z = Subtype.val) {p : ℕ}
     (g : Fin p → V n → ℂ) (ph0 : V n → ℝ) (hp : 2 ≤ p)
@@ -849,8 +849,8 @@ theorem iter_div (hU : IsOpen U) (S : EtaleStein n U) (hz : S.z = Subtype.val) {
           DifferentiableOn ℂ (fun y => if stp α k = β then hh α k y else 0) U := by
         intro α hα k _
         by_cases hk : stp α k = β
-        · simp only [hk, if_true]; exact hhd α hα k
-        · simp only [hk, if_false]; exact differentiableOn_const (c := (0 : ℂ))
+        · simp only [hk, ite_true]; exact hhd α hα k
+        · simp only [hk, ite_false]; exact differentiableOn_const (c := (0 : ℂ))
       have hα : ∀ α ∈ A, DifferentiableOn ℂ
           (fun y => ∑ k, if stp α k = β then hh α k y else 0) U := fun α hα =>
         (DifferentiableOn.sum (u := Finset.univ) (A := fun k y => if stp α k = β then hh α k y else 0)
@@ -918,7 +918,7 @@ theorem iter_div (hU : IsOpen U) (S : EtaleStein n U) (hz : S.z = Subtype.val) {
       rw [Finset.sum_comm]
       refine Finset.sum_congr rfl fun k _ => ?_
       simp only [mul_ite, mul_zero]
-      rw [Finset.sum_ite_eq, if_pos (mem_step hα k)]
+      rw [Finset.sum_ite_eq, ite_eq_left (mem_step hα k)]
 
 end UpDivB
 
@@ -1289,9 +1289,9 @@ private theorem volume_ball_inter_zeroSet_eq_zero_of_ne_zero {U : Set (V n)} {g 
       volume (Prod.mk t ⁻¹' A) := by
     intro t
     by_cases ht : t ∈ Ioo (R' / R) 1
-    · rw [Set.indicator_apply, if_pos ht]
+    · rw [Set.indicator_apply, ite_eq_left ht]
       exact hlow t ht
-    · rw [Set.indicator_apply, if_neg ht]
+    · rw [Set.indicator_apply, ite_eq_right ht]
       positivity
   have hle : ∫⁻ t, (Ioo (R' / R) 1).indicator (fun _ => volume (ball z0 R' ∩ {z | g z = 0})) t ≤
       ∫⁻ t, volume (Prod.mk t ⁻¹' A) := lintegral_mono hind
@@ -1312,7 +1312,7 @@ theorem zero_null {U : Set (V n)} (hU : IsOpen U) (hUc : IsPreconnected U) {g : 
     by_contra hne
     have hex : ∃ z0 ∈ ball z (r / 4), g z0 ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hne (Metric.eventually_nhds_iff_ball.mpr ⟨r / 4, by linarith, h⟩)
     obtain ⟨z0, hz0, hgz0⟩ := hex
     rw [Metric.mem_ball] at hz0
@@ -1352,7 +1352,7 @@ theorem zero_null {U : Set (V n)} (hU : IsOpen U) (hUc : IsPreconnected U) {g : 
   obtain ⟨r, hr, hrU⟩ := Metric.isOpen_iff.mp hU z hzU
   have hex : ∃ z0 ∈ ball z (r / 4), g z0 ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hWempty z hzU (Metric.eventually_nhds_iff_ball.mpr ⟨r / 4, by linarith, h⟩)
   obtain ⟨z0, hz0, hgz0⟩ := hex
   rw [Metric.mem_ball] at hz0
@@ -1495,7 +1495,7 @@ theorem upDiv_holds : UpDivStatement (E := E) := by
       have hwp : 0 < ∑ k, X.pnorm Xa.L (Xa.w k) (cpt X x0 z) ^ 2 := by
         rw [sumL_eq X Xa x0 hz]; exact mul_pos (Real.exp_pos _) (Sw_pos X Xa x0 hz)
       unfold WSk
-      rw [if_pos hp, hs0, zero_div, ENNReal.ofReal_zero, ENNReal.zero_rpow_of_neg (by
+      rw [ite_eq_left hp, hs0, zero_div, ENNReal.ofReal_zero, ENNReal.zero_rpow_of_neg (by
         have : (1 : ℝ) ≤ Xa.T := by exact_mod_cast (show 1 ≤ Xa.T by omega)
         linarith)]
       refine ENNReal.mul_top ?_

@@ -1503,9 +1503,9 @@ theorem macof_main (n : ℕ) : MACofStatement n := by
       intro i l
       by_cases hij : i = j
       · subst hij
-        simp only [Matrix.updateRow_self, if_true]
+        simp only [Matrix.updateRow_self, ite_true]
         exact hasFDerivAt_const _ _
-      · simp only [Matrix.updateRow_ne hij, if_neg hij]
+      · simp only [Matrix.updateRow_ne hij, ite_eq_right hij]
         exact (hd i l).hasFDerivAt
     have hdet := macof_hasFDerivAt_det
       (fun w => (cHess n (fun w' => (f w' : ℂ)) w).updateRow j (Pi.single k 1)) y _ hB
@@ -1514,10 +1514,10 @@ theorem macof_main (n : ℕ) : MACofStatement n := by
     refine Finset.sum_congr rfl fun i _ => ?_
     rw [hZ]
     by_cases hij : i = j
-    · simp only [if_pos hij, ContinuousLinearMap.zero_apply]
+    · simp only [ite_eq_left hij, ContinuousLinearMap.zero_apply]
       simp only [← Pi.zero_def, hdz]
       first | ring
-    · simp only [if_neg hij]
+    · simp only [ite_eq_right hij]
       rw [← macofRow_apply, ← macofRow_apply, ← macofRow_apply]
       have hρ : (fun l => wd n j (fun w => cHess n (fun w' => (f w' : ℂ)) w i l) y) =
           (2 : ℂ)⁻¹ • ((fun l => fderiv ℝ (fun w => cHess n (fun w' => (f w' : ℂ)) w i l) y (bas n j)) -
@@ -1533,7 +1533,7 @@ theorem macof_main (n : ℕ) : MACofStatement n := by
     rw [hZ, hZ]
     by_cases hij : i = j
     · simp [hij]
-    · rw [if_neg hij, if_neg (Ne.symm hij)]
+    · rw [ite_eq_right hij, ite_eq_right (Ne.symm hij)]
       have hc : (fun l => wd n i (fun w => cHess n (fun w' => (f w' : ℂ)) w j l) y) =
           fun l => wd n j (fun w => cHess n (fun w' => (f w' : ℂ)) w i l) y := by
         funext l

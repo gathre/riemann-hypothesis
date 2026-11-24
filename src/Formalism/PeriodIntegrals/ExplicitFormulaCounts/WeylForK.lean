@@ -627,7 +627,7 @@ theorem main (hρ : Good ρ) (hρ' : Good ρ') (hcomm : ∀ i j v, ρ i (ρ' j v
   have hUi : Irr ρ' U := by
     intro U' hU'U hU's
     by_contra hne
-    push_neg at hne
+    push Not at hne
     obtain ⟨hU'0, hU'ne⟩ := hne
     have hU''le : U'ᗮ ⊓ U ≤ U := inf_le_right
     have hU''0 : U'ᗮ ⊓ U ≠ ⊥ := by

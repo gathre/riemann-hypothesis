@@ -137,7 +137,7 @@ private theorem cycZ_eq_one_of_mem_ine_of_not_valuation_lt {Ω : Type} [Field Ω
   haveI : NeZero (l ^ n) := ⟨pow_ne_zero _ hpr.ne_zero⟩
   have hAn : ¬ A.valuation ((l ^ n : ℕ) : Ω) < 1 := by
     rw [Nat.cast_pow, map_pow]
-    push_neg at hA ⊢
+    push Not at hA ⊢
     exact one_le_pow₀ hA
   have hk : Chr.cls F Ω (l ^ n) g = 1 := ((Chr.clsFacts F Ω (l ^ n)).2.2.2.2 A hAn) hg
   obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot Ω (l ^ n)

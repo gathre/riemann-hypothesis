@@ -97,12 +97,12 @@ theorem col_mul {g h : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ}
     (hg : col k r g) (hh : col k r h) : col k r (g * h) := by
   intro i j hj hij
   rw [Matrix.mul_apply, Fintype.sum_eq_single j]
-  · rw [hg i j hj hij, hh j j hj (Or.inl le_rfl), if_pos rfl, mul_one]
+  · rw [hg i j hj hij, hh j j hj (Or.inl le_rfl), ite_eq_left rfl, mul_one]
   · intro p hp
     by_cases hpj : j.val ≤ p.val ∨ r ≤ p.val
-    · rw [hh p j hj hpj, if_neg hp, mul_zero]
+    · rw [hh p j hj hpj, ite_eq_right hp, mul_zero]
     · have hz : g i p = 0 := by
-        rw [hg i p (by omega) (by omega), if_neg]
+        rw [hg i p (by omega) (by omega), ite_eq_right]
         intro hip
         subst hip
         omega
@@ -120,13 +120,13 @@ theorem col_of_left_inv {g g' : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1
   have h1 : (g' * g) i j = (1 : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ) i j := by
     rw [hm]
   rw [Matrix.mul_apply, Fintype.sum_eq_single j] at h1
-  · rw [hg j j hj (Or.inl le_rfl), if_pos rfl, mul_one, Matrix.one_apply] at h1
+  · rw [hg j j hj (Or.inl le_rfl), ite_eq_left rfl, mul_one, Matrix.one_apply] at h1
     exact h1
   · intro p hp
     by_cases hpj : j.val ≤ p.val ∨ r ≤ p.val
-    · rw [hg p j hj hpj, if_neg hp, mul_zero]
+    · rw [hg p j hj hpj, ite_eq_right hp, mul_zero]
     · have hz : g' i p = 0 := by
-        rw [ih p.val (by omega) i p rfl (by omega) (by omega), if_neg]
+        rw [ih p.val (by omega) i p rfl (by omega) (by omega), ite_eq_right]
         intro hip
         subst hip
         omega
@@ -148,9 +148,9 @@ theorem hpk_row (i m : Fin (2 * r + k + 1)) :
 theorem hpk_mul_apply (A : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ)
     (i j : Fin (2 * r + k + 1)) : (Hpk k r * A) i j = sgn k r i * A (tau k r i) j := by
   rw [Matrix.mul_apply, Fintype.sum_eq_single (tau k r i)]
-  · rw [hpk_row, if_pos rfl]
+  · rw [hpk_row, ite_eq_left rfl]
   · intro p hp
-    rw [hpk_row, if_neg hp, zero_mul]
+    rw [hpk_row, ite_eq_right hp, zero_mul]
 
 theorem tau_tau (i : Fin (2 * r + k + 1)) : tau k r (tau k r i) = i := by
   have hi := i.isLt
@@ -172,8 +172,8 @@ theorem hpk_sq : Hpk k r * Hpk k r = 1 := by
   rw [hpk_mul_apply, hpk_row, tau_tau, sgn_tau, Matrix.one_apply]
   by_cases h : i = j
   · subst h
-    rw [if_pos rfl, if_pos rfl, sgn_mul_self]
-  · rw [if_neg (Ne.symm h), if_neg h, mul_zero]
+    rw [ite_eq_left rfl, ite_eq_left rfl, sgn_mul_self]
+  · rw [ite_eq_right (Ne.symm h), ite_eq_right h, mul_zero]
 
 theorem isUnit_of_uh {g : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ}
     (hg : g ∈ UH (Hpk k r)) : IsUnit g.det := by
@@ -244,13 +244,13 @@ theorem mul_apply_add {g h : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) 
   have hij' : j ≠ i := fun e => by subst e; omega
   rw [Matrix.mul_apply]
   rw [Fintype.sum_eq_add j i hij']
-  · rw [hh j j hj (Or.inl le_rfl), if_pos rfl, mul_one, hg i i (by omega) (Or.inl le_rfl), if_pos rfl,
+  · rw [hh j j hj (Or.inl le_rfl), ite_eq_left rfl, mul_one, hg i i (by omega) (Or.inl le_rfl), ite_eq_left rfl,
       one_mul]
   · rintro p ⟨hpj, hpi⟩
     by_cases h1 : j.val ≤ p.val ∨ r ≤ p.val
-    · rw [hh p j hj h1, if_neg hpj, mul_zero]
+    · rw [hh p j hj h1, ite_eq_right hpj, mul_zero]
     · by_cases h2 : p.val ≤ i.val
-      · rw [hg i p (by omega) (Or.inl h2), if_neg (Ne.symm hpi), zero_mul]
+      · rw [hg i p (by omega) (Or.inl h2), ite_eq_right (Ne.symm hpi), zero_mul]
       · exfalso
         omega
 
@@ -262,11 +262,11 @@ theorem ell_mul (z : Fin (2 * r + k + 1) → ℂ) (hz : inWb k r z)
   refine Finset.sum_congr rfl (fun a _ => ?_)
   have ha := a.isLt
   by_cases h1 : a.val + 1 < r
-  · simp only [dif_pos h1]
+  · simp only [dite_eq_left h1]
     exact mul_apply_add hg hh _ _ (by show a.val < r; exact a.isLt)
       (by show a.val + 1 ≤ r + k; omega) (by show a.val < a.val + 1; omega)
       (by show a.val + 1 ≤ a.val + 1 ∨ r ≤ a.val + 1; omega)
-  · simp only [dif_neg h1]
+  · simp only [dite_eq_right h1]
     first
       | simp only [Matrix.mulVec, dotProduct]
     rw [← Finset.sum_add_distrib]
@@ -311,7 +311,7 @@ theorem col_of_fix {h : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ}
   have h1 := congrFun hc p
   first
     | (simp only [Matrix.mulVec, dotProduct, hb, mul_ite, mul_one, mul_zero,
-        Finset.sum_ite_eq', Finset.mem_univ, if_true] at h1; exact h1)
+        Finset.sum_ite_eq', Finset.mem_univ, ite_true] at h1; exact h1)
 
 theorem row_of_fixed_col {h : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ}
     (hU : h ∈ UH (Hpk k r)) (c : Fin (2 * r + k + 1))
@@ -322,23 +322,23 @@ theorem row_of_fixed_col {h : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1))
   have h3 : ∀ q, (hᴴ * Hpk k r) c q = Hpk k r c q := by
     intro q
     rw [Matrix.mul_apply, Fintype.sum_eq_single c]
-    · rw [Matrix.conjTranspose_apply, hc c, if_pos rfl, star_one, one_mul]
+    · rw [Matrix.conjTranspose_apply, hc c, ite_eq_left rfl, star_one, one_mul]
     · intro p hp
-      rw [Matrix.conjTranspose_apply, hc p, if_neg hp, star_zero, zero_mul]
+      rw [Matrix.conjTranspose_apply, hc p, ite_eq_right hp, star_zero, zero_mul]
   rw [Matrix.mul_apply] at h2
   simp only [h3] at h2
   rw [Fintype.sum_eq_single (tau k r c)] at h2
-  · rw [hpk_row, if_pos rfl, hpk_row] at h2
+  · rw [hpk_row, ite_eq_left rfl, hpk_row] at h2
     have hs : sgn k r c * sgn k r c = 1 := sgn_mul_self c
     calc h (tau k r c) j = (sgn k r c * sgn k r c) * h (tau k r c) j := by rw [hs, one_mul]
       _ = sgn k r c * (sgn k r c * h (tau k r c) j) := by ring
       _ = sgn k r c * (if j = tau k r c then sgn k r c else 0) := by rw [h2]
       _ = if tau k r c = j then 1 else 0 := by
           by_cases hj : j = tau k r c
-          · rw [if_pos hj, if_pos hj.symm, hs]
-          · rw [if_neg hj, if_neg (Ne.symm hj), mul_zero]
+          · rw [ite_eq_left hj, ite_eq_left hj.symm, hs]
+          · rw [ite_eq_right hj, ite_eq_right (Ne.symm hj), mul_zero]
   · intro q hq
-    rw [hpk_row, if_neg hq, zero_mul]
+    rw [hpk_row, ite_eq_right hq, zero_mul]
 
 theorem uw_fixed_col {z : Fin (2 * r + k + 1) → ℂ}
     {h : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ} (hh : h ∈ UWset k r z)
@@ -395,12 +395,12 @@ theorem block_mul_col {h g : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) 
     (hi : q.val ≤ i.val ∨ r ≤ i.val) : (h * g) i q = h i q := by
   unfold block at hh
   rw [Matrix.mul_apply, Fintype.sum_eq_single q]
-  · rw [hg q q hq (Or.inl le_rfl), if_pos rfl, mul_one]
+  · rw [hg q q hq (Or.inl le_rfl), ite_eq_left rfl, mul_one]
   · intro p hp
     by_cases h1 : q.val ≤ p.val ∨ r ≤ p.val
-    · rw [hg p q hq h1, if_neg hp, mul_zero]
+    · rw [hg p q hq h1, ite_eq_right hp, mul_zero]
     · have hz : h i p = 0 := by
-        rw [hh.1 i p (Or.inl (by omega)), if_neg]
+        rw [hh.1 i p (Or.inl (by omega)), ite_eq_right]
         intro hip
         subst hip
         omega
@@ -416,9 +416,9 @@ theorem conj_col {h h' g : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) �
     by_cases hpj : p = j
     · rw [hpj, block_mul_col (by unfold block; exact hh) hg i j hj hij]
     · by_cases hjm : j.val < r
-      · rw [hh'.1 p j (Or.inl hjm), if_neg hpj, mul_zero, mul_zero]
+      · rw [hh'.1 p j (Or.inl hjm), ite_eq_right hpj, mul_zero, mul_zero]
       · by_cases hpm : p.val < r ∨ r + k < p.val
-        · rw [hh'.2 p j hpm, if_neg hpj, mul_zero, mul_zero]
+        · rw [hh'.2 p j hpm, ite_eq_right hpj, mul_zero, mul_zero]
         · rw [block_mul_col (by unfold block; exact hh) hg i p (by omega) (Or.inr (by omega))]
   have e : (h * g * h') i j = (h * h') i j := by
     rw [Matrix.mul_apply, Matrix.mul_apply]
@@ -429,17 +429,17 @@ theorem mul_apply_of_row {h : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1))
     (M : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ) (i j : Fin (2 * r + k + 1))
     (hrow : ∀ p, h i p = if i = p then 1 else 0) : (h * M) i j = M i j := by
   rw [Matrix.mul_apply, Fintype.sum_eq_single i]
-  · rw [hrow i, if_pos rfl, one_mul]
+  · rw [hrow i, ite_eq_left rfl, one_mul]
   · intro p hp
-    rw [hrow p, if_neg (Ne.symm hp), zero_mul]
+    rw [hrow p, ite_eq_right (Ne.symm hp), zero_mul]
 
 theorem mul_apply_of_col {h : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ}
     (M : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ) (i j : Fin (2 * r + k + 1))
     (hcol : ∀ q, h q j = if q = j then 1 else 0) : (M * h) i j = M i j := by
   rw [Matrix.mul_apply, Fintype.sum_eq_single j]
-  · rw [hcol j, if_pos rfl, mul_one]
+  · rw [hcol j, ite_eq_left rfl, mul_one]
   · intro q hq
-    rw [hcol q, if_neg hq, mul_zero]
+    rw [hcol q, ite_eq_right hq, mul_zero]
 
 theorem mulVec_apply_of_row {h : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ}
     (v : Fin (2 * r + k + 1) → ℂ) (i : Fin (2 * r + k + 1))
@@ -447,9 +447,9 @@ theorem mulVec_apply_of_row {h : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 
   first
     | simp only [Matrix.mulVec, dotProduct]
   rw [Fintype.sum_eq_single i]
-  · rw [hrow i, if_pos rfl, one_mul]
+  · rw [hrow i, ite_eq_left rfl, one_mul]
   · intro p hp
-    rw [hrow p, if_neg (Ne.symm hp), zero_mul]
+    rw [hrow p, ite_eq_right (Ne.symm hp), zero_mul]
 
 theorem ell_conj (z : Fin (2 * r + k + 1) → ℂ)
     {h h' g : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ}
@@ -461,10 +461,10 @@ theorem ell_conj (z : Fin (2 * r + k + 1) → ℂ)
   have hrow : ∀ p, h (eI k r a) p = if eI k r a = p then 1 else 0 :=
     fun p => hh.2 (eI k r a) p (Or.inl a.isLt)
   by_cases h1 : a.val + 1 < r
-  · simp only [dif_pos h1]
+  · simp only [dite_eq_left h1]
     rw [mul_assoc, mul_apply_of_row _ _ _ hrow]
     exact mul_apply_of_col _ _ _ (fun q => hh'.1 q _ (Or.inl h1))
-  · simp only [dif_neg h1]
+  · simp only [dite_eq_right h1]
     rw [mul_assoc, ← Matrix.mulVec_mulVec, mulVec_apply_of_row _ _ hrow, ← Matrix.mulVec_mulVec, hz]
 
 end WeylGroupFacts

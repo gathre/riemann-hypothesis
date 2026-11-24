@@ -58,7 +58,7 @@ lemma coeff_prod_one_sub_eq_zero {R ι : Type*} [CommRing R] (a : ι → R) (s :
   induction s using Finset.induction_on with
   | empty =>
     intro r hr
-    rw [prod_empty, PowerSeries.coeff_one, if_neg (by simp at hr; omega)]
+    rw [prod_empty, PowerSeries.coeff_one, ite_eq_right (by simp at hr; omega)]
   | insert k s hk ih =>
     intro r hr
     rw [card_insert_of_notMem hk] at hr
@@ -102,10 +102,10 @@ lemma sum_ec_hsymm' {n : ℕ} (i : Fin n) (a : ℕ) :
       ∑ r ∈ range (n + a + 1), ec n i r *
         (if a < r then 0 else MvPolynomial.hsymm (Fin n) ℤ (a - r)) := by
     refine sum_subset (range_subset_range.2 (by omega)) fun r _ hr => ?_
-    rw [if_pos (by simp at hr; omega), mul_zero]
+    rw [ite_eq_left (by simp at hr; omega), mul_zero]
   rw [h1, ← h2]
   refine sum_congr rfl fun r hr => ?_
-  rw [if_neg (by simp at hr; omega)]
+  rw [ite_eq_right (by simp at hr; omega)]
 
 lemma pow_matrix_eq (n : ℕ) (α : Fin n → ℕ) :
     (Matrix.of fun i j : Fin n => (MvPolynomial.X i : MvPolynomial (Fin n) ℤ) ^ (α j)) =
@@ -130,8 +130,8 @@ lemma det_pow_matrix (n : ℕ) (l : Fin n → ℕ) :
   have hm := m.2
   have hj := j.2
   by_cases h : ((l j : ℤ) - j + m) < 0
-  · rw [if_pos h, if_pos (by omega)]
-  · rw [if_neg h, if_neg (by omega)]
+  · rw [ite_eq_left h, ite_eq_left (by omega)]
+  · rw [ite_eq_right h, ite_eq_right (by omega)]
     congr 1
     omega
 

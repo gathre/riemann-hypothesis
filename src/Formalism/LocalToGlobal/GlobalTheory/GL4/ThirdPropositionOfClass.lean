@@ -318,9 +318,9 @@ theorem NC_orth (c c' : (D.mem u).C.cls 0) (hcc : c ≠ c') :
   refine Finset.sum_eq_zero fun c'' _ => ?_
   by_cases h : c'' = c
   · subst h
-    have : tcAt CV v c'' (prjC CV c' y) = 0 := tcAt_eq_zero CV (by rw [co_prjC, if_neg hcc])
+    have : tcAt CV v c'' (prjC CV c' y) = 0 := tcAt_eq_zero CV (by rw [co_prjC, ite_eq_right hcc])
     rw [this, nfAll_zero_left]
-  · have : tcAt CV v c'' (prjC CV c x) = 0 := tcAt_eq_zero CV (by rw [co_prjC, if_neg h])
+  · have : tcAt CV v c'' (prjC CV c x) = 0 := tcAt_eq_zero CV (by rw [co_prjC, ite_eq_right h])
     rw [this, nfAll_zero_right]
 
 theorem injOn_NC (c : (D.mem u).C.cls 0) {W : Type} [AddCommGroup W] [Module D.what₂.LL W]

@@ -646,7 +646,7 @@ private theorem exists_idempotent_approx_at_maximal (V : Type) [CommRing V] [IsD
     have hhm' : h ∉ m' := fun hh' => he (m'.mul_mem_left v hh')
     have hex : ∃ α ∈ s, f α ∈ m' := by
       by_contra hne
-      push_neg at hne
+      push Not at hne
       have hn := prod_notMem (hP := hm'.isPrime) m' s f hne
       rw [hprod] at hn
       exact hn m'.zero_mem
@@ -913,8 +913,8 @@ theorem wtVal : FibExt → SecGen → ClopenAt → WtVal := by
     convert h using 1
     funext x
     by_cases hx : x ∈ U
-    · exact (if_pos hx).trans ((LocallyConstant.charFn_eq_one (Y := ℤ) x hU).2 hx).symm
-    · exact (if_neg hx).trans ((LocallyConstant.charFn_eq_zero (Y := ℤ) x hU).2 hx).symm
+    · exact (ite_eq_left hx).trans ((LocallyConstant.charFn_eq_one (Y := ℤ) x hU).2 hx).symm
+    · exact (ite_eq_right hx).trans ((LocallyConstant.charFn_eq_zero (Y := ℤ) x hU).2 hx).symm
   obtain ⟨ψ, hψ, hsum⟩ : ∃ ψ : Spec (CommRingCat.of V) → ℤ, IsLocallyConstant ψ ∧
       ∀ (Ω : Type) [Field Ω] [IsAlgClosed Ω] (x : gp Ω ⟶ Spec (CommRingCat.of V)),
         ψ (pt x) = ∑ᶠ z ∈ fib r x, w Ω (z ≫ v) * φ (pt z) := hw.1 (TranscendenceTraces.Sq.of T.p y) φ hφ

@@ -139,9 +139,9 @@ theorem continuous_toL_nu : Continuous fun t : Vp E n => toL (nu t) := by
   refine continuous_pi fun i => continuous_pi fun j => ?_
   change Continuous fun t : Vp E n => nu t i j
   by_cases hij : i < j
-  · simp only [nu, Matrix.of_apply, dif_pos hij]
+  · simp only [nu, Matrix.of_apply, dite_eq_left hij]
     exact continuous_apply _
-  · simp only [nu, Matrix.of_apply, dif_neg hij]
+  · simp only [nu, Matrix.of_apply, dite_eq_right hij]
     exact continuous_const
 
 theorem nu_zero : nu (0 : Vp E n) = 1 := by
@@ -776,7 +776,7 @@ theorem GlobalTheory.WhitBump.exists_bump : ∀ (E : Type) [Field E] [NumberFiel
         intro h; apply hp; simp only [h, mul_zero]
       obtain ⟨t, ht⟩ : ∃ t, f (toL (nu t * Matrix.of (toL (pI p : Matrix (Fin (m + 1)) (Fin (m + 1)) (Cinf E))))) ≠ 0 := by
         by_contra hall
-        push_neg at hall
+        push Not at hall
         have hall' : ∀ t, f (toL (nu t * (pI p : Matrix (Fin (m + 1)) (Fin (m + 1)) (Cinf E)))) = 0 := hall
         apply hI
         unfold bumpInf

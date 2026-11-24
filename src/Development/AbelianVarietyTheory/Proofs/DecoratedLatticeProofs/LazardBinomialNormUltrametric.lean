@@ -72,7 +72,7 @@ theorem norm_natCast_eq_one_of_not_dvd {K : Type} [NormedField K] [IsUltrametric
   have hmle : ‖(m : K)‖ ≤ 1 := IsUltrametricDist.norm_natCast_le_one K m
   refine le_antisymm hmle ?_
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have h2 : ‖(1 : K)‖ ≤ max ‖(u : K) * l‖ ‖(v : K) * m‖ := by
     rw [← h1]; exact IsUltrametricDist.norm_add_le_max _ _
   rw [norm_one, norm_mul, norm_mul] at h2

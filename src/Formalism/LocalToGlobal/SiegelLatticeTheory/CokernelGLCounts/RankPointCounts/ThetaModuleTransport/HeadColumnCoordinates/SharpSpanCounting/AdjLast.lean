@@ -64,7 +64,7 @@ theorem h_frame (f : Fin (r + 1) → V) (T : F) (hF : Formalism.MainNotions.Thin
     exact hF.2
   · apply hF.1 b a
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hab ⟨hc.2, hc.1⟩
 
 theorem adj_last (f f' : Fin (r + 1) → V) :
@@ -103,8 +103,8 @@ theorem mem_X_of (f f' : Fin (r + 1) → V) (T T' : F) (hF : Formalism.MainNotio
   have hl : c (Sum.inl (Fin.last r)) = 0 := by
     rw [h_add_right, h_sum_right, h_sum_right] at h2
     simp only [h_om'_f' H f f' T' hF' hD0, mul_zero, Finset.sum_const_zero, add_zero, h_om'_f] at h2
-    rw [Finset.sum_eq_single (Fin.last r) (fun b _ hb => by rw [if_neg hb, mul_zero])
-      (by simp), if_pos rfl, ← dl_full] at h2
+    rw [Finset.sum_eq_single (Fin.last r) (fun b _ hb => by rw [ite_eq_right hb, mul_zero])
+      (by simp), ite_eq_left rfl, ← dl_full] at h2
     have h3 : M.L.cj (c (Sum.inl (Fin.last r))) = 0 := (hD.mul_left_eq_zero).1 h2
     have := congrArg M.L.cj h3
     rwa [M.L.cj_cj, map_zero] at this

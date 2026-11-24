@@ -191,7 +191,7 @@ open Formalism.L2.Th1.H
 def Sm (x : ℂ) : Prop := x ∈ TaylorLogMetric.Qbar ∧ ∀ ρ : TaylorLogMetric.Qbar →ₐ[ℚ] ℂ, ‖StandardLatticesGL3.cj TaylorLogMetric.Qbar ρ x‖ ≤ 1
 
 theorem cj_coe (ρ : TaylorLogMetric.Qbar →ₐ[ℚ] ℂ) (x : ℂ) (hx : x ∈ TaylorLogMetric.Qbar) : StandardLatticesGL3.cj TaylorLogMetric.Qbar ρ x = ρ ⟨x, hx⟩ := by
-  simp only [StandardLatticesGL3.cj, TaylorLogMetric.liftM, dif_pos hx]
+  simp only [StandardLatticesGL3.cj, TaylorLogMetric.liftM, dite_eq_left hx]
 
 theorem sm_iff (x : ℂ) : Sm x ↔ ∃ y : TaylorLogMetric.Qbar, (y : ℂ) = x ∧ ∀ ρ : TaylorLogMetric.Qbar →ₐ[ℚ] ℂ, ‖ρ y‖ ≤ 1 := by
   constructor

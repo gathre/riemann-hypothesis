@@ -74,7 +74,7 @@ theorem exists_indep_span {Q : Type} [AddCommGroup Q] [Module k⸨X⸩ Q] [Modul
   haveI : NoZeroSMulDivisors k⟦X⟧ Q := by
     refine ⟨fun {c x} h => ?_⟩
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have hc : algebraMap k⟦X⟧ k⸨X⸩ c ≠ 0 := by
       intro h0
       exact hne.1 ((IsFractionRing.injective k⟦X⟧ k⸨X⸩) (by rw [h0, map_zero]))

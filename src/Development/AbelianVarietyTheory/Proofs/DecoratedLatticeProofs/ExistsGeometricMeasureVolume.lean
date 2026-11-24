@@ -301,20 +301,20 @@ theorem measures_common : ∀ {D : D7} {L : SizeData₂ D} {hT : GatTies D} {Gi 
   let vS : ∀ j, Vol (Yc D (j + 1)) := fun j => if h : j + 2 * 0 + 2 = D.R.m then volOf _ (hLH j h)
     else volOf (ν₀ (j + 1)) (hν₀H (j + 1))
   have hvS1 : ∀ j (h : j + 2 * 0 + 2 = D.R.m), (vS j).μ = Measure.map (y.jac j 0 h).d.emb0 (a.x (j + 1)).vol.μ := by
-    intro j h; simp only [vS, dif_pos h, volOf_μ]
+    intro j h; simp only [vS, dite_eq_left h, volOf_μ]
   have hvS2 : ∀ j, ¬ (j + 2 * 0 + 2 = D.R.m) → (vS j).μ = ν₀ (j + 1) := by
-    intro j h; simp only [vS, dif_neg h, volOf_μ]
+    intro j h; simp only [vS, dite_eq_right h, volOf_μ]
   let vol : ∀ k, Vol (Yc D k) := fun k => Nat.casesOn (motive := fun k => Vol (Yc D k)) k (volOf (ν₀ 0) (hν₀H 0)) vS
   let κ : ℕ → ℝ := fun k => Nat.casesOn (motive := fun _ => ℝ) k 1 fun j => if h : j + 2 * 0 + 2 = D.R.m then
     ((Measure.map (y.jac j 0 h).d.emb0 (a.x (j + 1)).vol.μ).haarScalarFactor (ν₀ (j + 1)) : ℝ) else 1
   have hκ1 : ∀ j (h : j + 2 * 0 + 2 = D.R.m), κ (j + 1) =
       ((Measure.map (y.jac j 0 h).d.emb0 (a.x (j + 1)).vol.μ).haarScalarFactor (ν₀ (j + 1)) : ℝ) := by
-    intro j h; simp only [κ, dif_pos h]
+    intro j h; simp only [κ, dite_eq_left h]
   have hκ2 : ∀ k, k + 1 ≠ D.R.m → κ k = 1 := by
     intro k hk
     cases k with
     | zero => rfl
-    | succ j => simp only [κ, dif_neg (show ¬ (j + 2 * 0 + 2 = D.R.m) by omega)]
+    | succ j => simp only [κ, dite_eq_right (show ¬ (j + 2 * 0 + 2 = D.R.m) by omega)]
   have hκpos : ∀ k, 0 < κ k := by
     intro k
     by_cases hk : k + 1 = D.R.m
@@ -333,7 +333,7 @@ theorem measures_common : ∀ {D : D7} {L : SizeData₂ D} {hT : GatTies D} {Gi 
   · intro t j hj
     have hX := hν₀ (j + 1) hj t
     show (vS j).μ = _
-    rw [GlobalTheory.Fam.volLev, if_pos hj]
+    rw [GlobalTheory.Fam.volLev, ite_eq_left hj]
     change (vS j).μ = ENNReal.ofReal (κ (j + 1) * (μf (j + 1) {g | g.1 ∈ levS _ ((pk W).βY (j + 1))
       ((pk W).datYt t (j + 1) (pk W).triv)}).toReal) • (pk W).νY t (j + 1)
     rw [hset]
@@ -353,7 +353,7 @@ theorem measures_common : ∀ {D : D7} {L : SizeData₂ D} {hT : GatTies D} {Gi 
   · intro t
     obtain ⟨hX0, hXT, hXe⟩ := hν₀T t
     show ν₀T = _
-    rw [GlobalTheory.Fam.volLev, if_neg (by omega)]
+    rw [GlobalTheory.Fam.volLev, ite_eq_right (by omega)]
     change ν₀T = ENNReal.ofReal (κ D.R.m * (μT {k | k.1 ∈ levS _ (pk W).βX ((pk W).datXt t)}).toReal) • (pk W).νX t
     rw [hκ2 D.R.m (by omega), one_mul]
     have hs : {g : GfC D.sp.X' | g.1 ∈ levS _ (pk W).βX ((pk W).datXt t)} =

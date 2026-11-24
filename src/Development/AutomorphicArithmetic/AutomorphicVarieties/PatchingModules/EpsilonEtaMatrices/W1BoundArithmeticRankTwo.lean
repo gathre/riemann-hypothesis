@@ -107,7 +107,7 @@ private theorem commuting_matrix_offdiag_zero {l : ℕ} [Fact l.Prime] {F : GFra
     show ∀ i' j' : Fin n, _
     intro i' j'
     refine ⟨fun _ => Submodule.mem_top, fun h => ?_⟩
-    rw [Submodule.mem_bot, Matrix.single_apply, if_neg]
+    rw [Submodule.mem_bot, Matrix.single_apply, ite_eq_right]
     rintro ⟨rfl, rfl⟩
     exact h Iff.rfl
   obtain ⟨s, hs⟩ := x.span _ hmem
@@ -625,7 +625,7 @@ private theorem pair_count {l : ℕ} [Fact l.Prime] {F : GFrame l} {n : ℕ} (x 
   have hne : ∃ g, ((χ g : x.Aˣ) : x.A) ≠
       algebraMap ℤ_[l] x.A ((F.ε.comp (F.η.ker.subtype.comp (F.φ v)) g : ℤ_[l]ˣ) : ℤ_[l]) := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     apply (x.N1 v).2 i j hij
     refine MonoidHom.ext fun g => Units.ext ?_
     have h1 := hall g

@@ -87,13 +87,13 @@ private lemma centralBinom_le_pow_mul_four_pow_mul_prod_large_primes (m : ℕ) (
     have hBC : 1 ≤ (if p.Prime ∧ p ≤ 2 * m / 3 then p else 1) *
         (if p.Prime ∧ m < p then p else 1) := le_trans (by norm_num) (Nat.mul_le_mul hB hC)
     by_cases h1 : p ≤ s
-    · rw [if_pos h1]
+    · rw [ite_eq_left h1]
       have h2 : p ^ m.centralBinom.factorization p ≤ 2 * m := by
         rw [Nat.centralBinom_eq_two_mul_choose]
         exact Nat.pow_factorization_choose_le (by omega)
       calc p ^ m.centralBinom.factorization p ≤ 2 * m * 1 * 1 := by simpa using h2
         _ ≤ _ := Nat.mul_le_mul (Nat.mul_le_mul le_rfl hB) hC
-    · rw [if_neg h1, one_mul]
+    · rw [ite_eq_right h1, one_mul]
       have hsq : 2 * m < p ^ 2 :=
         calc 2 * m < (s + 1) ^ 2 := Nat.lt_succ_sqrt' (2 * m)
           _ ≤ p ^ 2 := Nat.pow_le_pow_left (by omega) 2
@@ -103,11 +103,11 @@ private lemma centralBinom_le_pow_mul_four_pow_mul_prod_large_primes (m : ℕ) (
       by_cases hp : p.Prime
       · by_cases h3 : p ≤ 2 * m / 3
         · have h4 : ¬ m < p := by omega
-          rw [if_pos ⟨hp, h3⟩, if_neg (fun h => h4 h.2), mul_one]
+          rw [ite_eq_left ⟨hp, h3⟩, ite_eq_right (fun h => h4 h.2), mul_one]
           calc p ^ m.centralBinom.factorization p ≤ p ^ 1 := Nat.pow_le_pow_right hp.pos hv
             _ = p := pow_one p
         · by_cases h5 : m < p
-          · rw [if_neg (fun h => h3 h.2), if_pos ⟨hp, h5⟩, one_mul]
+          · rw [ite_eq_right (fun h => h3 h.2), ite_eq_left ⟨hp, h5⟩, one_mul]
             calc p ^ m.centralBinom.factorization p ≤ p ^ 1 := Nat.pow_le_pow_right hp.pos hv
               _ = p := pow_one p
           · have h0 : m.centralBinom.factorization p = 0 :=

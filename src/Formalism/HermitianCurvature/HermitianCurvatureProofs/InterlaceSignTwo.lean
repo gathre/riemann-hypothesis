@@ -59,7 +59,7 @@ namespace Formalism.FourierDecayAlt.P.Mx3
 
 theorem rho_eq (P : Par) (π : Ty P) (i : ℕ) (h : 1 ≤ i ∧ i ≤ P.k - 1) :
     rho P π i = P.lo i + (((π ⟨i - 1, by omega⟩ : Fin _) : ℕ) : ℝ) := by
-  simp only [rho, dif_pos h]
+  simp only [rho, dite_eq_left h]
 
 theorem tyInterlaces : TyInterlaces := by
   intro P hP π i hi
@@ -184,7 +184,7 @@ theorem nrm_pos (P : Par) (hP : P.OK) (l : ℕ) (hl : l ∈ Icc 1 (P.k - 1)) (π
   have hI := tyInterlaces P hP π
   have hI' := tyInterlaces P hP π'
   have hr := rhoUp P l π π' hU l hl
-  rw [if_pos rfl] at hr
+  rw [ite_eq_left rfl] at hr
   have b' := hI' l hl
   rw [hr] at b'
   have b := hI l hl
@@ -215,19 +215,19 @@ theorem nrm_down (P : Par) (l : ℕ) (hl : l ∈ Icc 1 (P.k - 1)) (π π' : Ty P
     NrmDown P l π' = Nrm P l π := by
   have hr := rhoUp P l π π' hU
   have hrl := hr l hl
-  rw [if_pos rfl] at hrl
+  rw [ite_eq_left rfl] at hrl
   unfold NrmDown Nrm
   rw [hrl]
   have e1 : ∏ j ∈ (Icc 1 (P.k - 1)).erase l, (rho P π' j - (rho P π l + 1) + 1) =
       ∏ j ∈ (Icc 1 (P.k - 1)).erase l, (rho P π j - rho P π l) := by
     refine Finset.prod_congr rfl ?_
     intro j hj
-    rw [hr j (Finset.mem_of_mem_erase hj), if_neg (Finset.ne_of_mem_erase hj)]; ring
+    rw [hr j (Finset.mem_of_mem_erase hj), ite_eq_right (Finset.ne_of_mem_erase hj)]; ring
   have e2 : ∏ j ∈ (Icc 1 (P.k - 1)).erase l, (rho P π' j - (rho P π l + 1)) =
       ∏ j ∈ (Icc 1 (P.k - 1)).erase l, (rho P π j - rho P π l - 1) := by
     refine Finset.prod_congr rfl ?_
     intro j hj
-    rw [hr j (Finset.mem_of_mem_erase hj), if_neg (Finset.ne_of_mem_erase hj)]; ring
+    rw [hr j (Finset.mem_of_mem_erase hj), ite_eq_right (Finset.ne_of_mem_erase hj)]; ring
   rw [e1, e2]
   congr 3
   ring

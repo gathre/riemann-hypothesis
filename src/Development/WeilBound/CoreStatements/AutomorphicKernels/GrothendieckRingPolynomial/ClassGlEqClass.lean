@@ -267,7 +267,7 @@ theorem vars_lt (hA : GlobalTheory.Published.IrreducibleAdmissibleGL) {Δ : Segm
   have hde : d ≠ Finsupp.single Δ 1 := by
     rintro rfl
     simp at hcd
-  rw [if_neg (Ne.symm hde), sub_zero] at hcd
+  rw [ite_eq_right (Ne.symm hde), sub_zero] at hcd
   have hne : Finsupp.toMultiset d ≠ {Δ} := fun h => hde ((toMultiset_eq_single_iff d Δ).1 h)
   exact len_lt_of_msupp hA (hp d (MvPolynomial.mem_support_iff.2 hcd)) hne t ((Finsupp.mem_toMultiset d t).2 htd)
 

@@ -445,11 +445,11 @@ theorem fixed_eq_zero {V : Type} [AddCommGroup V] [Module ℂ V] (ρ : Represent
   have hmem : ∀ u ∈ GlobalTheory.FiniteGL.unipRadical k c, w * u * w⁻¹ ∈ Formalism.IrreducibleCountingLemmas.TYPES.unip k b := by
     intro u hu
     refine ⟨⟨fun i j hij => ?_, fun i j hij => ?_⟩, fun i j hij => ?_⟩
-    · rw [key u hu i j (Nat.le_of_lt hij), if_neg]
+    · rw [key u hu i j (Nat.le_of_lt hij), ite_eq_right]
       rintro rfl
       exact lt_irrefl _ hij
     · have e : (w * u * w⁻¹ : GL (Fin N) k)⁻¹ = w * u⁻¹ * w⁻¹ := by group
-      rw [e, key u⁻¹ (inv_mem hu) i j (Nat.le_of_lt hij), if_neg]
+      rw [e, key u⁻¹ (inv_mem hu) i j (Nat.le_of_lt hij), ite_eq_right]
       rintro rfl
       exact lt_irrefl _ hij
     · exact key u hu i j (by rw [hij])
@@ -657,13 +657,13 @@ theorem sdSum_eq_supd (M : Matrix (Fin (n + 1)) (Fin (n + 1)) k) : sdSum M = sup
   unfold sdSum superdiag supd
   rw [Fin.sum_univ_castSucc]
   have hl : (∑ j : Fin (n + 1), if (j : ℕ) = ((Fin.last n : Fin (n + 1)) : ℕ) + 1 then M (Fin.last n) j else 0) = 0 :=
-    Finset.sum_eq_zero fun j _ => if_neg (by have := j.2; simp; omega)
+    Finset.sum_eq_zero fun j _ => ite_eq_right (by have := j.2; simp; omega)
   rw [hl, add_zero]
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [Finset.sum_eq_single i.succ]
   · simp
   · intro j _ hj
-    exact if_neg fun e => hj (Fin.ext (by simpa using e))
+    exact ite_eq_right fun e => hj (Fin.ext (by simpa using e))
   · simp
 
 def whitMap (ψ₀ : AddChar k ℂ) (ρ : Representation ℂ (GL (Fin (n + 1)) k) V) (L : Module.Dual ℂ V)

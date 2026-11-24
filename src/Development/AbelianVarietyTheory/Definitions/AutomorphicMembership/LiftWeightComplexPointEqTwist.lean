@@ -177,13 +177,13 @@ theorem edgeSum_glCast (hr : r = n + 1) (h : GL (Fin (n + 1)) k) :
   rw [Fin.sum_univ_castSucc]
   have h0 : (∑ j : Fin (n + 1), if j.val = (Fin.last n).val + 1 then
       (h : Matrix (Fin (n + 1)) (Fin (n + 1)) k) (Fin.last n) j else 0) = 0 :=
-    Finset.sum_eq_zero fun j _ => if_neg (by have := j.2; simp; omega)
+    Finset.sum_eq_zero fun j _ => ite_eq_right (by have := j.2; simp; omega)
   rw [h0, add_zero]
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [Finset.sum_eq_single i.succ]
   · simp
   · intro j _ hj
-    exact if_neg fun h => hj (Fin.ext (by simpa using h))
+    exact ite_eq_right fun h => hj (Fin.ext (by simpa using h))
   · intro h
     exact absurd (Finset.mem_univ _) h
 

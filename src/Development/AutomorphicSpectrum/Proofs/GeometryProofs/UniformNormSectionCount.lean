@@ -463,7 +463,7 @@ theorem one_le_of_bounds {P Q C' r B : ℝ} (hQ : 0 < Q) (hP : 0 ≤ P) (h1 : Q 
   have h3 : P ≤ B * Q := (div_le_iff₀ hQ).1 h2
   have h4 : P ≤ B * (C' * r * P) := h3.trans (mul_le_mul_of_nonneg_left h1 hB.le)
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have h5 : B * C' * r * P < 1 * P := mul_lt_mul_of_pos_right hlt hPpos
   have e : B * (C' * r * P) = B * C' * r * P := by ring
   linarith
@@ -648,14 +648,14 @@ theorem mem_chartLatNm_of_disc : (∀ (Ω : Type) [Field Ω] [Algebra ℚ Ω] (A
   have hN' : ∀ c, 0 < N' c := by
     intro c
     by_cases h : ∀ k, y ⟨k, c k⟩ ≠ 0
-    · simp only [N', dif_pos h]
+    · simp only [N', dite_eq_left h]
       exact hN0 c h
-    · simp only [N', dif_neg h]
+    · simp only [N', dite_eq_right h]
       exact one_pos
   refine ⟨∏ c, N' c, Finset.prod_pos fun c _ => hN' c, ?_⟩
   intro c hc
   obtain ⟨m, hm⟩ : N' c ∣ ∏ c, N' c := Finset.dvd_prod_of_mem _ (Finset.mem_univ c)
-  have hNc : N' c = N c hc := by simp only [N', dif_pos hc]
+  have hNc : N' c = N c hc := by simp only [N', dite_eq_left hc]
   have hmem : ((∏ c, N' c : ℕ) : Ω) * s * ∏ k, y ⟨k, c k⟩ ^ (-(((1 : ℕ) : ℤ) * a k)) ∈ chartRingZ y c := by
     have e : ((∏ c, N' c : ℕ) : Ω) * s * ∏ k, y ⟨k, c k⟩ ^ (-(((1 : ℕ) : ℤ) * a k)) =
         (m : Ω) * ((N c hc : Ω) * (s * ∏ k, y ⟨k, c k⟩ ^ (-a k))) := by
@@ -1086,7 +1086,7 @@ theorem UpperTheory.Reformulated.B.DYhc4.main :
   have hj : p.jacobson = p := IsJacobsonRing.out' p hp.isRadical
   have hex : ∃ m : Ideal A, p ≤ m ∧ m.IsMaximal ∧ b ∉ m := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hb
     rw [← hj]
     refine Ideal.mem_sInf.2 ?_

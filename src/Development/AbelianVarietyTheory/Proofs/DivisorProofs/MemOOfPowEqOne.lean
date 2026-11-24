@@ -1173,7 +1173,7 @@ theorem main : ∀ (g n : ℕ) (F : SFam g n (zetaAway n)) (W : Matrix (Fin 8) (
     rw [mul_div_assoc]
     exact mul_mem (Subalgebra.algebraMap_mem _ _) (GlobalTheory.T.weightParts_over_dividing_thetaConstant_integral g n F W Z i X₁ hg hn ho himm he8 hth hproj ε₁ hε D z₁ _ j z' hz')
   · intro c yy₁ hl
-    simp only [dif_pos hl]
+    simp only [dite_eq_left hl]
     exact (hB c yy₁ hl).choose_spec
 
 end GlobalTheory.Poinc.GSum

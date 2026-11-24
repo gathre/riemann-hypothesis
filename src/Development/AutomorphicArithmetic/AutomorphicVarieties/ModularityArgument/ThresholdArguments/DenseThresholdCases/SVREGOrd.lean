@@ -144,8 +144,8 @@ theorem exists_ordinary_form_trace_near_one_add_cyc (P : _root_.UpperTheory.V.Af
     have h4 := hg _ (normV_prime w)
     rw [map_sub, map_add (f := _), map_one, ← h1, ← h2] at h4
     exact ⟨h4, by rw [Set.mem_setOf_eq, h3, h1, (hval w hqN).2]⟩
-  have hlev : ∀ w : Pl ℚ, ((l : ℕ) : 𝓞 ℚ) ∉ w.asIdeal → levL l c w = c w := fun w hw => if_neg hw
-  have hlev1 : ∀ w : Pl ℚ, ((l : ℕ) : 𝓞 ℚ) ∈ w.asIdeal → levL l c w = 1 := fun w hw => if_pos hw
+  have hlev : ∀ w : Pl ℚ, ((l : ℕ) : 𝓞 ℚ) ∉ w.asIdeal → levL l c w = c w := fun w hw => ite_eq_right hw
+  have hlev1 : ∀ w : Pl ℚ, ((l : ℕ) : 𝓞 ℚ) ∈ w.asIdeal → levL l c w = 1 := fun w hw => ite_eq_left hw
   have hker : ψ⁻¹.ker = ψ.ker := by ext s; simp
   refine ⟨levL l c, π, r, ⟨hreg, ⟨χ', hpol⟩, hG.cont, hatt, MonoidHom.ext fun s => ?_, ?_, ?_, fun w A hA => ?_, fun w hw => ?_,
     fun w hw hwl => ?_, fun w hw => ?_⟩, fun s => (hall s).1⟩

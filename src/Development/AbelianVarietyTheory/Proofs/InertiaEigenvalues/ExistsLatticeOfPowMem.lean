@@ -335,7 +335,7 @@ theorem powerSeries_cases {O : Type} [CommRing O] [IsDomain O] [IsDiscreteValuat
   by_cases h : ∀ k, ϖ ∣ PowerSeries.coeff k g
   · exact Or.inl (key g h)
   right
-  push_neg at h
+  push Not at h
   have hk : IsUnit (PowerSeries.coeff (Nat.find h) g) := by
     by_contra hn
     apply Nat.find_spec h
@@ -421,7 +421,7 @@ theorem letter_cases {O E : Type} [CommRing O] [IsDomain O] [IsDiscreteValuation
     rw [SModEq.zero, smul_eq_mul, Ideal.mul_top, Ideal.span_singleton_pow, Ideal.mem_span_singleton]
     exact (pow_dvd_pow_of_dvd hpw k).trans (by rw [← pow_mul]; exact h _)
   · right
-    push_neg at h
+    push Not at h
     obtain ⟨k, hk⟩ : ∃ k, Nat.find h = k + 1 := Nat.exists_eq_succ_of_ne_zero fun h0 => by
       have := Nat.find_spec h
       rw [h0] at this

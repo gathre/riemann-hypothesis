@@ -1048,7 +1048,7 @@ theorem main : ∀ (V : Type) [CommRing V] [IsDomain V] (D : DegPre V) (C : Type
         (U : X.Opens) (z : Sp A) (ht : ⊤ ≤ x ⁻¹ᵁ U) (a : Γ(X, U)ˣ) :
         toStkA z (valR x U a.val) = (Geo.Tor.gm x z U a).val := by
       have hz : x z ∈ U := ht (show z ∈ (⊤ : (Sp A).Opens) from trivial)
-      rw [valR, dif_pos ht, Geo.Tor.gm, dif_pos hz]
+      rw [valR, dite_eq_left ht, Geo.Tor.gm, dite_eq_left hz]
       show ((Sp A).presheaf.germ ⊤ z trivial).hom ((Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom
         ((Scheme.ΓSpecIso (CommRingCat.of A)).hom.hom ((x.appLE U ⊤ ht).hom a.val))) = _
       rw [Iso.hom_inv_id_apply]

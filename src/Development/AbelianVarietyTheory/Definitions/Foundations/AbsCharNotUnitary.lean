@@ -284,7 +284,7 @@ def cut (a : FiniteAdeleRing (𝓞 F) F) (T : Finset (HeightOneSpectrum (𝓞 F)
     by_contra h
     apply hw
     have h' : w ∉ T := h
-    simp only [h', if_false]
+    simp only [h', ite_false]
     exact one_mem _⟩
 
 theorem tendsto_cut (a : FiniteAdeleRing (𝓞 F) F) : Filter.Tendsto (cut a) Filter.atTop (nhds a) := by
@@ -298,8 +298,8 @@ theorem tendsto_cut (a : FiniteAdeleRing (𝓞 F) F) : Filter.Tendsto (cut a) Fi
     rw [Filter.eventually_principal]
     intro w hw
     by_cases h : w ∈ T
-    · simp only [h, if_true]; exact hw
-    · simp only [h, if_false]; exact one_mem _⟩
+    · simp only [h, ite_true]; exact hw
+    · simp only [h, ite_false]; exact one_mem _⟩
   let a' : P := ⟨fun v => a v, by rw [Filter.eventually_principal]; exact fun w hw => hw⟩
   have hf : Filter.Tendsto f Filter.atTop (nhds a') := by
     rw [RestrictedProduct.isEmbedding_coe_of_principal.tendsto_nhds_iff, tendsto_pi_nhds]
@@ -308,7 +308,7 @@ theorem tendsto_cut (a : FiniteAdeleRing (𝓞 F) F) : Filter.Tendsto (cut a) Fi
     filter_upwards [Filter.eventually_ge_atTop ({v} : Finset _)] with T hT
     have : v ∈ T := hT (Finset.mem_singleton_self v)
     change a v = if v ∈ T then a v else 1
-    rw [if_pos this]
+    rw [ite_eq_left this]
   exact ((RestrictedProduct.continuous_inclusion hle).tendsto a').comp hf
 
 theorem prod_local (k : Fˣ) (T : Finset (HeightOneSpectrum (𝓞 F))) :
@@ -331,7 +331,7 @@ theorem prod_local (k : Fˣ) (T : Finset (HeightOneSpectrum (𝓞 F))) :
         if v ∈ insert u T then _ else 1
       by_cases h : v = u
       · subst h
-        rw [Model.localIdele_snd_self, if_neg hu, if_pos (Finset.mem_insert_self _ _), mul_one]; rfl
+        rw [Model.localIdele_snd_self, ite_eq_right hu, ite_eq_left (Finset.mem_insert_self _ _), mul_one]; rfl
       · rw [Model.localIdele_snd_ne F u v h, one_mul]; simp [h]
 
 theorem tendsto_prod_local (k : Fˣ) :

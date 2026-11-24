@@ -219,11 +219,11 @@ theorem stdSnd_actO (ν : (Formalism.L2.Theta.AE D)ˣ →* Circle) {e : Formalis
   unfold stdSnd
   rw [dualCoord_actO]
   by_cases hc : IsHalf (cA D e) y ∧ IsIntM (dualCoord S T βS βT y) ∧ ∀ i j, j.1 < a → InId I (dualCoord S T βS βT y i j)
-  · rw [if_pos hc, if_pos ⟨(GlobalTheory.SchrMove.isHalf_actO_iff g 1 y).2 hc.1,
+  · rw [ite_eq_left hc, ite_eq_left ⟨(GlobalTheory.SchrMove.isHalf_actO_iff g 1 y).2 hc.1,
       Formalism.IndefR.Fin.LevelGroupLemmas.Lat.isIntM_mul (isIntM_frG hg) hc.2.1,
       fun i j hj => inId_mul (isIntM_frG hg) (fun l => hc.2.2 l j hj) i⟩, rightBlock_mul]
     exact unitChar_mul ν hee hK (isUnitDet_frG he hg) (isUnitDet_frG he hg') _
-  · rw [if_neg hc, if_neg, mul_zero]
+  · rw [ite_eq_right hc, ite_eq_right, mul_zero]
     rintro ⟨h1, h2, h3⟩
     refine hc ⟨(GlobalTheory.SchrMove.isHalf_actO_iff g 1 y).1 h1, ?_, fun i j hj => ?_⟩
     · rw [hback]; exact Formalism.IndefR.Fin.LevelGroupLemmas.Lat.isIntM_mul (isIntM_frG hg') h2

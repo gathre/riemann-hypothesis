@@ -614,7 +614,7 @@ theorem sign_cone_iff (x y w : ℝ) (hx : x ≠ 0) (hw : 0 < w) :
     · intro hy; exact mul_pos_of_neg_of_neg hy h
     · intro hyx
       by_contra hc
-      push_neg at hc
+      push Not at hc
       have := mul_nonpos_of_nonneg_of_nonpos hc h.le
       linarith
   · rw [sign_pos h]
@@ -927,7 +927,7 @@ theorem norm_eisTerm_zero_le_of_near {F : Type} [Field F] [NumberField F] {z z�
   have h2 : (0 : ℝ) < 2 ^ Fintype.card (Emb F) := by positivity
   have hB : 0 < ∏ τ, ‖latPt z p τ‖ := by
     by_contra h
-    push_neg at h
+    push Not at h
     nlinarith
   rw [inv_le_comm₀ hB (by positivity), mul_inv, inv_inv]
   calc (2 ^ Fintype.card (Emb F))⁻¹ * ∏ τ, ‖latPt z₀ p τ‖ ≤ (2 ^ Fintype.card (Emb F))⁻¹ * (2 ^ Fintype.card (Emb F) * ∏ τ, ‖latPt z p τ‖) :=

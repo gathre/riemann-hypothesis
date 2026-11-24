@@ -226,7 +226,7 @@ theorem capDet_dual {M : Type} [AddCommGroup M] [Module K M] (E : Fin n → Fin 
   have key := fun α : Equiv.Perm (Fin n) => dual_tri ψ (fun k => bmF E u k (α k) k)
     (fun j => ((u + ((j : ℕ) : ℤ) - μ j : ℤ) : K)) (fun k => α k = k)
     (fun k hk x => by
-      simp only [bmF, hk, if_true, LinearMap.sub_apply, Module.End.intCast_apply, map_sub, map_zsmul, hw, zsmul_eq_mul]
+      simp only [bmF, hk, ite_true, LinearMap.sub_apply, Module.End.intCast_apply, map_sub, map_zsmul, hw, zsmul_eq_mul]
       push_cast; ring)
     (fun k hk hj x => by
       have hlt : k < α k := by
@@ -284,7 +284,7 @@ theorem xi_raise (lam sg : Fin n → ℕ) (l j : Fin n) (h : l < j) : rE K n n l
       · have := congrArg Fin.val e'
         simp at this; omega
       · simp only [rowsB]
-        rw [if_pos (by omega)]; rfl
+        rw [ite_eq_left (by omega)]; rfl
     · intro p q e
       simpa [rowsA, Fin.ext_iff] using e
     · intro p e
@@ -293,7 +293,7 @@ theorem xi_raise (lam sg : Fin n → ℕ) (l j : Fin n) (h : l < j) : rE K n n l
       refine ⟨⟨l.val, by omega⟩, fun e' => ?_, rfl⟩
       have := congrArg Fin.val e'
       simp at this; omega
-  rw [rE, (rowE_eq_rowDiv K _ _ _ _ _).1, rowDiv, key, Polynomial.coeff_C, if_neg one_ne_zero]
+  rw [rE, (rowE_eq_rowDiv K _ _ _ _ _).1, rowDiv, key, Polynomial.coeff_C, ite_eq_right one_ne_zero]
 
 theorem zcomp_lift {lam b : Fin n → ℕ} {f : MvPolynomial (Fin n × Fin n) K} {G : BP K n} (h : bmLift K n lam b f G) :
     zcomp K n (fun s => (b s : ℤ)) G = zmon K n b * emb K n f := by
@@ -313,7 +313,7 @@ theorem fockB_zcomp (β : Fin n → ℤ) (G A : BP K n) (hA : IsWeightedHomogene
   rw [← sub_eq_zero, ← fockBL_apply, ← fockBL_apply, ← LinearMap.sub_apply, ← map_sub]
   refine fockB_eq_zero _ _ fun μ hμ => ?_
   by_contra h0
-  rw [MvPolynomial.coeff_sub, coeff_zcomp, if_pos (hA h0), sub_self] at hμ
+  rw [MvPolynomial.coeff_sub, coeff_zcomp, ite_eq_left (hA h0), sub_self] at hμ
   exact hμ rfl
 
 theorem lead_inj (b : Fin n → ℕ) {f g : MvPolynomial (Fin n × Fin n) K}
@@ -360,7 +360,7 @@ theorem psi_eq_zero {lam sg : Fin n → ℕ} (hI : Interlace (lamZ lam) (fun i =
     · rw [h0, map_zero]
     obtain ⟨μ, hμ⟩ := ne_zero_iff.1 h0
     have hne : (S.filter fun β => zcomp K n β y ≠ 0).Nonempty := by
-      have : zcomp K n (Finsupp.weight (zW n) μ) y ≠ 0 := ne_zero_iff.2 ⟨μ, by rw [coeff_zcomp, if_pos rfl]; exact hμ⟩
+      have : zcomp K n (Finsupp.weight (zW n) μ) y ≠ 0 := ne_zero_iff.2 ⟨μ, by rw [coeff_zcomp, ite_eq_left rfl]; exact hμ⟩
       exact ⟨_, Finset.mem_filter.2 ⟨hsub _ this, this⟩⟩
     obtain ⟨β, hβ, hmax⟩ := Finset.exists_max_image _ omg hne
     obtain ⟨hβS, hβ⟩ := Finset.mem_filter.1 hβ

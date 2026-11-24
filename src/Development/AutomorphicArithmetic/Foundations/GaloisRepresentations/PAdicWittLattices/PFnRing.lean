@@ -150,7 +150,7 @@ private theorem tower_isFn_conv {B : Scheme} {G : Type} [Group G] (X : Tower B G
       ∃ y : G ⧸ X.K j, f y.out ≠ 0 ∧ f' (y.out⁻¹ * x) ≠ 0 := by
     intro x hx
     by_contra hn
-    push_neg at hn
+    push Not at hn
     apply hx
     have h0 : ∀ y : G ⧸ X.K j, f y.out * f' (y.out⁻¹ * x) = 0 := by
       intro y

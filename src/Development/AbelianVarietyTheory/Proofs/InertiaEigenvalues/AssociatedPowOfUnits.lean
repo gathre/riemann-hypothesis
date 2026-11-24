@@ -74,7 +74,7 @@ theorem associated_pow_of_units {x : R} (hu : ∀ y : R, ¬ x ∣ y → IsUnit y
   classical
   have hex : ∃ n : ℕ, ¬ x ^ n ∣ y := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hy
     refine IsHausdorff.haus (I := Ideal.span {x}) inferInstance y fun n => ?_
     rw [SModEq.zero, smul_eq_mul, Ideal.mul_top, Ideal.span_singleton_pow, Ideal.mem_span_singleton]

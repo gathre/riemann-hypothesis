@@ -225,12 +225,12 @@ theorem twistedRep_no_invariants_purity (D : D7) (L : SizeData₂ D) (ep : Bool)
   constructor
   · refine _root_.GlobalTheory.InvJump.h0V_eq_bot_of_multV_zero _ _ _ (D.locT _) _ _ _ _ τ₀ hdrW ?_
     refine hW0.trans ?_
-    rw [if_neg]
+    rw [ite_eq_right]
     push_cast
     exact zero_not_mem_JW hJc _ hjr.1 hjr.2 ρ' _
   · refine _root_.GlobalTheory.InvJump.h0V_eq_bot_of_multV_zero _ _ _ (D.locT _) _ _ _ _ τ₀ hdrT ?_
     refine hT0.trans ?_
-    rw [if_neg]
+    rw [ite_eq_right]
     rw [GlobalTheory.JumpSets.dualS_int]
     push_cast
     exact neg_one_not_mem_JW hJc _ hjr.1 hjr.2 ρ' _

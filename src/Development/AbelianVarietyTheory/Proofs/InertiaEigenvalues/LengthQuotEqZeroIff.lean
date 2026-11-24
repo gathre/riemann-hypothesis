@@ -189,13 +189,13 @@ theorem length_cocChi_le (hA : GlobalTheory.Published.GlobalArtinReciprocity) (e
   refine hlen.trans (add_le_add le_rfl (add_le_add ?_ le_rfl))
   have hZ := hC.trans ((_root_.GlobalTheory.Cut.Coc.main D i r ρ π Xs S hr hS hπ).2 c)
   by_cases hc : (c : ℕ) = 0
-  · rw [if_pos hc]
+  · rw [ite_eq_left hc]
     rw [hc, zero_add] at hZ hfin
     refine (GlobalTheory.UnramHom.length_le_classNumber hA D i C hZ fun v => ?_).trans le_add_self
     by_cases hv : v ∈ placesOver D.host.E (D.nd.l i)
     · exact GlobalTheory.CutTrivIne.main D i C v hv fun f hf => (hH v hv).2 (hfin f hf v hv)
     · exact hunr v hv
-  · rw [if_neg hc]
+  · rw [ite_eq_right hc]
     have h2 : 2 ≤ (c : ℕ) + 1 := by omega
     have ht : (c : ℕ) + 1 ≤ D.R.t := c.2
     have h := _root_.GlobalTheory.Cut.ShaBound.main D i ((c : ℕ) + 1) C hZ h2 ht
@@ -211,9 +211,9 @@ theorem sum_fin_ite {t : ℕ} (ht : 0 < t) (h : ℕ) (g : ℕ → ℕ) :
     ext x
     simp only [Finset.mem_range, Finset.mem_insert, Finset.mem_Ioo]
     omega
-  rw [this, Finset.sum_insert (by simp), if_pos rfl]
+  rw [this, Finset.sum_insert (by simp), ite_eq_left rfl]
   congr 1
-  exact Finset.sum_congr rfl fun e he => if_neg (Finset.mem_Ioo.mp he).1.ne'
+  exact Finset.sum_congr rfl fun e he => ite_eq_right (Finset.mem_Ioo.mp he).1.ne'
 
 
 
@@ -247,10 +247,10 @@ theorem main : GlobalTheory.Published.GlobalArtinReciprocity → GlobalCore := b
         (Finset.mem_Icc.mpr ⟨Nat.le_add_left _ _, c.2⟩)).trans (le_of_eq ?_)
     rw [Finset.sum_congr rfl hz, lenQ, lenQ, hL, hd]
     by_cases hc : (c : ℕ) = 0
-    · rw [if_pos hc, if_pos hc]
+    · rw [ite_eq_left hc, ite_eq_left hc]
       push_cast
       rfl
-    · rw [if_neg hc, if_neg hc, hg' c (Finset.mem_Ioo.mpr ⟨Nat.pos_of_ne_zero hc, c.2⟩)]
+    · rw [ite_eq_right hc, ite_eq_right hc, hg' c (Finset.mem_Ioo.mpr ⟨Nat.pos_of_ne_zero hc, c.2⟩)]
       push_cast
       rfl
   rw [lenQ, lenQ, hL, hd, ← hs] at hρ

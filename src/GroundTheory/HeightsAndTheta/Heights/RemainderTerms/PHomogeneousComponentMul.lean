@@ -72,7 +72,7 @@ theorem HomogeneousComponentMul.proof : HomogeneousComponentMul.Statement := by
     · rfl
     · rw [Finset.mem_range, not_lt] at hmem
       rw [homogeneousComponent_eq_zero (d - m) a (by omega), mul_zero]
-  · exact Finset.sum_eq_zero fun i _ => if_neg (by omega)
+  · exact Finset.sum_eq_zero fun i _ => ite_eq_right (by omega)
 
 end
 

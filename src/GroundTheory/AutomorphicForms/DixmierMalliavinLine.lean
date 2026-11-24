@@ -666,7 +666,7 @@ theorem norm_iteratedDeriv_ρ_succ_le_half_pow (n k : ℕ) (hk : k ≤ n + 1) (t
   have h1 : ∀ p ∈ Finset.range (n + 2), coef a (n + 1) p * B (p + k) ≤ δ := by
     intro p hp
     have hp' := Finset.mem_range.1 hp
-    have hB' : B (p + k) = δ := by simp only [hB]; rw [if_pos (by omega)]
+    have hB' : B (p + k) = δ := by simp only [hB]; rw [ite_eq_left (by omega)]
     rw [hB']
     have hδ0 : 0 ≤ δ := by positivity
     calc coef a (n + 1) p * δ ≤ 1 * δ :=
@@ -696,7 +696,7 @@ def majorant (k j : ℕ) : ℝ :=
 theorem summable_majorant (k : ℕ) : Summable (majorant hε hg k) := by
   refine (summable_geometric_two).add (summable_of_ne_finset_zero (s := Finset.range (k + 1))
     fun j hj => ?_)
-  rw [if_neg]; rw [Finset.mem_range] at hj; omega
+  rw [ite_eq_right]; rw [Finset.mem_range] at hj; omega
 
 theorem norm_iteratedDeriv_ρ_le_majorant (k j : ℕ) (t : ℝ) :
     ‖iteratedDeriv k (ρ a (radii ε) j) t‖ ≤ majorant hε hg k j := by

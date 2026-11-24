@@ -227,7 +227,7 @@ theorem norm_eq_one_of_quad_root {l : ℕ} [Fact l.Prime] (x : ℂ_[l]) (N : ℕ
   have hle : ∀ y : ℂ_[l], y ^ 2 - y + (N : ℂ_[l]) = 0 → ‖y‖ ≤ 1 := by
     intro y hy
     by_contra h
-    push_neg at h
+    push Not at h
     have h1 : y ^ 2 = y - N := by linear_combination hy
     have h2 : ‖y - (N : ℂ_[l])‖ ≤ max ‖y‖ ‖(N : ℂ_[l])‖ := by
       rw [sub_eq_add_neg, ← norm_neg (N : ℂ_[l])]
@@ -403,7 +403,7 @@ theorem htSmallTo_inv {B : K⟦X⟧} (hB : CoefLe 1 B) (h0 : constantCoeff B = 1
 theorem htform_coeff_vpow_eq_zero {v : K⟦X⟧} (h0 : constantCoeff v = 0) {n d : ℕ} (h : n < d) :
     coeff n (v ^ d) = 0 := by
   obtain ⟨w, rfl⟩ := X_dvd_iff.mpr h0
-  rw [mul_pow, coeff_X_pow_mul', if_neg (by omega)]
+  rw [mul_pow, coeff_X_pow_mul', ite_eq_right (by omega)]
 
 theorem htform_coeff_subst (A v : K⟦X⟧) (h0 : constantCoeff v = 0) (n : ℕ) :
     coeff n (A.subst v) = ∑ d ∈ Finset.range (n + 1), coeff d A * coeff n (v ^ d) := by
@@ -434,7 +434,7 @@ theorem htform_constantCoeff_subst (A v : K⟦X⟧) (h0 : constantCoeff v = 0) :
 theorem htform_unit_coeff_le : ∀ (K : Type) [NormedField K] [IsUltrametricDist K] [CharZero K] (A v : K⟦X⟧) (e e' : K) (M : ℕ) (Dp Np : Polynomial K), CoefLe 1 A → constantCoeff A = 1 → CoefLe 1 v → constantCoeff v = 0 → ‖e‖ ≤ 1 → ‖e'‖ ≤ 1 → Np.Monic → Np.natDegree = M + 1 → (∀ i, ‖Np.coeff i‖ ≤ 1) → Dp.natDegree ≤ M → ‖Dp.eval e'‖ = 1 → (A.subst v - C e * v ^ 2) * (∑ i ∈ Finset.range (M + 1), C (Dp.coeff i) * A ^ i * X ^ (2 * (M - i))) * X ^ 2 = v ^ 2 * ∑ i ∈ Finset.range (M + 2), C (Np.coeff i) * A ^ i * X ^ (2 * (M + 1 - i)) → ∃ n, n ≤ M + 1 ∧ ‖coeff n v‖ = 1 := by
   intro K _ _ _ A v e e' M Dp Np hA hA0 hv hv0 he he' _ _ hNc hDdeg hDe heq
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hvs : HtSmallTo (M + 2) v := ⟨hv, fun n hn => lt_of_le_of_ne (hv n) (hcon n (by omega))⟩
   have hA' : HtSmallTo 0 A := (htSmallTo_zero_iff A).2 hA
   have hB : HtSmallTo 0 (A.subst v - C e * v ^ 2) :=
@@ -476,7 +476,7 @@ theorem htform_unit_coeff_le : ∀ (K : Type) [NormedField K] [IsUltrametricDist
     rw [← Finset.add_sum_erase _ _ hmem] at hc
     have hself : Dp.coeff (M - k) * (if 2 * (M - (M - k)) ≤ 2 * k then coeff (2 * k - 2 * (M - (M - k))) (A ^ (M - k)) else 0)
         = Dp.coeff (M - k) := by
-      rw [if_pos (by omega), show 2 * k - 2 * (M - (M - k)) = 0 by omega, coeff_zero_eq_constantCoeff_apply,
+      rw [ite_eq_left (by omega), show 2 * k - 2 * (M - (M - k)) = 0 by omega, coeff_zero_eq_constantCoeff_apply,
         map_pow, hA0, one_pow, mul_one]
     rw [hself] at hc
     have hrest : ‖∑ i ∈ (Finset.range (M + 1)).erase (M - k),
@@ -816,7 +816,7 @@ theorem chord_norm_le_one {K : Type*} [NormedField K] [IsUltrametricDist K] {a b
     · exact (mul_le_of (mul_le_of h2.le hB1) ((norm_neg A).le.trans hA1)).trans (by linarith)
   rw [← hN, norm_mul, norm_mul, norm_mul, norm_mul, h2, hab] at hn
   by_contra hc
-  push_neg at hc
+  push Not at hc
   nlinarith
 
 theorem norm_two_of_ne {p : ℕ} [Fact p.Prime] (hp : p ≠ 2) : ‖(2 : ℂ_[p])‖ = 1 := by
@@ -1706,7 +1706,7 @@ theorem unr_of_unrOK (l : ℕ) (σ : K →+* K) (h : Formalism.InvariantFactorPa
     rw [hnl, hk]
     have hkneg : k ≤ -1 := by
       by_contra hk1
-      push_neg at hk1
+      push Not at hk1
       have : (1 : ℝ) ≤ (l : ℝ) ^ k := one_le_zpow₀ hl1.le (by omega)
       rw [← hk] at this
       linarith
@@ -1793,7 +1793,7 @@ theorem norm_natCast_eq_one {K : Type} [NormedField K] [IsUltrametricDist K] (l 
   have hle : ‖(n : K)‖ ≤ 1 := IsUltrametricDist.norm_natCast_le_one K n
   refine le_antisymm hle ?_
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have ha : ‖(n.gcdA l : K)‖ ≤ 1 := IsUltrametricDist.norm_intCast_le_one K _
   have hb' : ‖(n.gcdB l : K)‖ ≤ 1 := IsUltrametricDist.norm_intCast_le_one K _
   have e1 : ‖(n : K) * (n.gcdA l : K)‖ < 1 := by

@@ -77,7 +77,7 @@ theorem integral_mul_star_ne_zero (F : Type) [Field F] [NumberField F] (κ : Typ
     exact (continuous_norm.comp f.continuous).pow 2 |>.isOpen_support
   obtain ⟨x, hx⟩ : ∃ x, f x ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hf (SchwartzMap.ext h)
   exact IsOpen.measure_pos (MeasureTheory.volume : MeasureTheory.Measure (κ → mixedEmbedding.mixedSpace F)) hopen
     ⟨x, by simpa using hx⟩

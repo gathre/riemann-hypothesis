@@ -572,7 +572,7 @@ theorem henselianLocalRing_of_isSepClosed {Ω : Type} [Field Ω] [IsSepClosed Ω
 
   obtain ⟨r, hr, hrv⟩ : ∃ r ∈ F.roots, W.valuation (ιW (ψ a₀) - r) < 1 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have hprod : F.eval (ιW (ψ a₀)) = (F.roots.map fun r => ιW (ψ a₀) - r).prod := by
       conv_lhs => rw [← prod_multiset_X_sub_C_of_monic_of_roots_card_eq hFm
         IsAlgClosed.card_roots_eq_natDegree]
@@ -997,7 +997,7 @@ theorem residueField_inertiaFixed_isAlgClosed : ∀ (R K Ω : Type) [CommRing R]
     rw [← hq, hs, hred] at hirr ⊢
     obtain ⟨b, hb⟩ : ∃ b, b ∈ s := by
       by_contra h0
-      push_neg at h0
+      push Not at h0
       rw [Multiset.eq_zero_of_forall_notMem h0] at hirr
       simp at hirr
     refine ⟨residue V b, ?_⟩
@@ -1179,7 +1179,7 @@ theorem inertiaFixed_strictlyHenselian : ∀ (R K Ω : Type) [CommRing R] [IsDom
       rw [inv_eq_of_mul_eq_one_right hb']
       exact (memV' b).1 b.2
     · by_contra hne
-      push_neg at hne
+      push Not at hne
       have ha : ((a : K') : Ω) ∈ V.nonunits := by_contra fun h => hne.1 (unitV' a h)
       have hb : ((b : K') : Ω) ∈ V.nonunits := by_contra fun h => hne.2 (unitV' b h)
       have h1 := GlobalTheory.T.inertiaFixedField_maximalIdeal_dvd_uniformizer R K Ω V hV π hπ _ (a : K').2 ha

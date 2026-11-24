@@ -74,13 +74,13 @@ theorem zzplus_det_unit (hs : M.split = some g) (Zh : Matrix (Fin (r + 1)) (Fin 
       ((g.q : F)⁻¹) • (Zh.submatrix Fin.castSucc Fin.castSucc).map (ph1 g) := by
     ext i j
     simp only [Matrix.map_apply, Matrix.submatrix_apply, Matrix.smul_apply, smul_eq_mul, firstProj_apply, zz_comp hs,
-      hne, false_and, if_false, sub_zero]
+      hne, false_and, ite_false, sub_zero]
     rw [div_eq_inv_mul]
   have h2 : ((HermSp.ZZplusOf M Zh T T').submatrix Fin.castSucc Fin.castSucc).map (ph2 g) =
       (-(g.q : F)⁻¹) • ((Zh.submatrix Fin.castSucc Fin.castSucc).map (ph2 g)).transpose := by
     ext i j
     simp only [Matrix.map_apply, Matrix.submatrix_apply, Matrix.smul_apply, Matrix.transpose_apply, smul_eq_mul,
-      secondProj_apply, zz_comp hs, hne, false_and, if_false, sub_zero]
+      secondProj_apply, zz_comp hs, hne, false_and, ite_false, sub_zero]
     rw [div_eq_inv_mul, neg_mul]
   have hS1 : ph1 g ((HermSp.ZZplusOf M Zh T T').submatrix Fin.castSucc Fin.castSucc).det = 0 := by
     rw [det_ph, h1, Matrix.det_smul, ← det_ph, h0, map_zero, mul_zero]
@@ -97,7 +97,7 @@ theorem zzplus_det_unit (hs : M.split = some g) (Zh : Matrix (Fin (r + 1)) (Fin 
   have hm : (ZZm g Zh T T').submatrix Fin.castSucc Fin.castSucc =
       (HermSp.ZZplusOf M Zh T T').submatrix Fin.castSucc Fin.castSucc := by
     ext i j
-    simp only [ZZm, Matrix.submatrix_apply, Matrix.add_apply, Matrix.of_apply, cor, hne, false_and, if_false,
+    simp only [ZZm, Matrix.submatrix_apply, Matrix.add_apply, Matrix.of_apply, cor, hne, false_and, ite_false,
       add_zero]
   have key : HermSp.ZZplusOf M Zh T T' = ZZm g Zh T T' +
       Matrix.of fun a b => cor r a b (-(g.e.symm (-T / (g.q : F), T' / (g.q : F)))) := by
@@ -156,10 +156,10 @@ theorem zsig_mem (hs : M.split = some g) (T T' : F) (c : 𝒪[F]) (hc : T - T' =
   dsimp only at u1 u2 hd
   have hT : T = T' + (g.q : F) ^ 2 * c := by linear_combination hc
   by_cases hab : a = Fin.last r ∧ b = Fin.last r
-  · simp only [if_pos hab.symm] at u1 u2 hd
+  · simp only [ite_eq_left hab.symm] at u1 u2 hd
     refine mem_R_of_split_coords_integral_congr hs _ ?_ ?_ ⟨d, ?_⟩
     all_goals rw [zz_comp hs]
-    all_goals simp only [Matrix.map_apply, g.e_cj, Prod.fst_swap, Prod.snd_swap, if_pos hab]
+    all_goals simp only [Matrix.map_apply, g.e_cj, Prod.fst_swap, Prod.snd_swap, ite_eq_left hab]
     · rw [show (g.e (Zh a b)).2 / (g.q : F) - -T / g.q =
           -(-((g.e (Zh a b)).2 / g.q) - T' / g.q) + g.q * c by rw [hT]; field_simp; ring]
       exact add_mem (neg_mem u2) (mul_mem g.q.2 c.2)
@@ -169,10 +169,10 @@ theorem zsig_mem (hs : M.split = some g) (T T' : F) (c : 𝒪[F]) (hc : T - T' =
     · rw [← hd]
       ring
   · have hba : ¬(b = Fin.last r ∧ a = Fin.last r) := fun h => hab (And.symm h)
-    simp only [if_neg hba] at u1 u2 hd
+    simp only [ite_eq_right hba] at u1 u2 hd
     refine mem_R_of_split_coords_integral_congr hs _ ?_ ?_ ⟨d, ?_⟩
     all_goals rw [zz_comp hs]
-    all_goals simp only [Matrix.map_apply, g.e_cj, Prod.fst_swap, Prod.snd_swap, if_neg hab]
+    all_goals simp only [Matrix.map_apply, g.e_cj, Prod.fst_swap, Prod.snd_swap, ite_eq_right hab]
     · rw [show (g.e (Zh a b)).2 / (g.q : F) - 0 = -(-((g.e (Zh a b)).2 / g.q) - 0) by ring]
       exact neg_mem u2
     · rw [show -((g.e (Zh b a)).1 / (g.q : F)) - 0 = -((g.e (Zh b a)).1 / g.q - 0) by ring]

@@ -287,7 +287,7 @@ theorem iterated_gain_rapid_decay : ∀ (G ι : Type) (B : Finset ι) (q : G →
   have hc0 : ∀ l ∈ words B (m * (A + N)), 0 ≤ c l := by
     intro l hl
     by_contra h
-    push_neg at h
+    push Not at h
     have h1 := hc l hl g
     have h2 : c l * q g ^ A < 0 := mul_neg_of_neg_of_pos h hqA
     linarith [norm_nonneg (List.foldr Dr ψ l g)]
@@ -456,7 +456,7 @@ theorem cuspDecayBound : GlobalTheory.Published.CuspDecayBound := by
     by_cases hδ : δ₀ ≤ δ
     · exact Or.inl hδ
     right
-    push_neg at hδ
+    push Not at hδ
     have hδn' : ¬ δn ≤ δ := fun h => absurd (hδ.trans_le (min_le_left _ _)) (not_lt.2 h)
     obtain ⟨r, C₀, hC₀, hN⟩ := hcase.resolve_left hδn'
     have hsmall : Cn' * δ ≤ δ₁ := by

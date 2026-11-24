@@ -194,7 +194,7 @@ theorem IsLoc.even_of_norm (L : IsLoc O Δ) (ε : Oˣ) (hε : ¬ IsSquare (algeb
   rw [heq] at h ⊢
   have hnz : x1 * z2 ≠ 0 ∨ y1 * z1 ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     apply h
     rw [hc.1, hc.2]
     simp

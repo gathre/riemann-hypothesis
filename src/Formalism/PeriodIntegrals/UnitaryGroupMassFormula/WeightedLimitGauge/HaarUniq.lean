@@ -71,9 +71,9 @@ theorem hpk_row (i m : Fin (2 * r + k + 1)) :
 theorem hpk_mul_apply (A : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ)
     (i j : Fin (2 * r + k + 1)) : (Hpk k r * A) i j = sgn k r i * A (tau k r i) j := by
   rw [Matrix.mul_apply, Finset.sum_eq_single (tau k r i)]
-  · rw [hpk_row, if_pos rfl]
+  · rw [hpk_row, ite_eq_left rfl]
   · intro m _ hm
-    rw [hpk_row, if_neg hm, zero_mul]
+    rw [hpk_row, ite_eq_right hm, zero_mul]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -96,8 +96,8 @@ theorem hpk_sq : Hpk k r * Hpk k r = 1 := by
   ext i j
   rw [hpk_mul_apply, hpk_row, tau_tau, sgn_tau, Matrix.one_apply]
   by_cases h : j = i
-  · rw [if_pos h, if_pos h.symm, sgn_mul_self]
-  · rw [if_neg h, if_neg (Ne.symm h), mul_zero]
+  · rw [ite_eq_left h, ite_eq_left h.symm, sgn_mul_self]
+  · rw [ite_eq_right h, ite_eq_right (Ne.symm h), mul_zero]
 
 theorem isUnit_of_uh {g : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ}
     (hg : g ∈ UH (Hpk k r)) : IsUnit g.det := by

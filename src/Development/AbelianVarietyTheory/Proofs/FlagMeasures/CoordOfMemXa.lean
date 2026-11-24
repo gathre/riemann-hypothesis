@@ -64,9 +64,9 @@ variable {K V : Type} [Field K] [NumberField K] [StarRing K] [AddCommGroup V] [M
 theorem herm_eI (u : Fin (2 * r + k + 1) → ℂ) (a : Fin r) : herm (Hpk k r) u (bvec (eI k r a)) = u (esI k r a) := by
   have ha := a.2
   have ht : WeylGroupFacts.tau k r (eI k r a) = esI k r a := by
-    apply Fin.ext; exact if_pos (Or.inl ha)
+    apply Fin.ext; exact ite_eq_left (Or.inl ha)
   have hs : WeylGroupFacts.sgn k r (eI k r a) = 1 := by
-    exact if_neg (by show ¬ a.val = r + k; omega)
+    exact ite_eq_right (by show ¬ a.val = r + k; omega)
   unfold herm bvec
   rw [← Pi.single_star, star_one, single_one_dotProduct]
   simp only [mulVec, dotProduct, WeylGroupFacts.hpk_row, ht, hs]
@@ -327,11 +327,11 @@ theorem inN_of_nset (h : IsReal H k r σ Φ) (ht : ∀ a, t a ≠ 0)
       exact this
     rw [phi_sub h, LinearEquiv.coe_coe, ← hm, Pi.sub_apply, sub_eq_zero, mulVec, dotProduct, Finset.sum_eq_single i]
     · by_cases hi2 : i.val ≤ r + k
-      · rw [hc i i hi2 (Or.inr hi), if_pos rfl, one_mul]
+      · rw [hc i i hi2 (Or.inr hi), ite_eq_left rfl, one_mul]
       · rw [hz i (by omega), mul_zero]
     · intro j _ hj
       by_cases hj2 : j.val ≤ r + k
-      · rw [hc i j hj2 (Or.inr hi), if_neg hj.symm, zero_mul]
+      · rw [hc i j hj2 (Or.inr hi), ite_eq_right hj.symm, zero_mul]
       · rw [hz j (by omega), mul_zero]
     · simp
 

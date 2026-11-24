@@ -75,7 +75,7 @@ theorem lastRow_uGL_mul (X : GroundTheory.Automorphic.FourierWhittaker.Pos (m + 
   rw [Finset.sum_eq_single (Fin.last m)]
   · simp
   · intro c _ hc
-    rw [if_neg (Ne.symm hc), dite_eq_right (not_lt.2 (Fin.le_last c)), zero_mul]
+    rw [ite_eq_right (Ne.symm hc), dite_eq_right (not_lt.2 (Fin.le_last c)), zero_mul]
   · simp
 
 theorem jswWhit_fT (φ : GA E (m + 1) → ℂ) (Φ : (Fin (m + 1) → Cinf E) → ℂ) (g : GA E (m + 1)) :

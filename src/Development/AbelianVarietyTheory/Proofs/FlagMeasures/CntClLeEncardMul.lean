@@ -141,7 +141,7 @@ private lemma le_rpow_abs_div_eight_of_mul_pow_le (k b Cg g : ℝ) (hk : 0 ≤ k
       _ ≤ b ^ Cg := h1.trans h2
       _ ≤ b ^ |Cg| := Real.rpow_le_rpow_of_exponent_le hb (le_abs_self _)
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hpos : 0 ≤ b ^ (|Cg| / 8) := Real.rpow_nonneg (by linarith) _
   have := pow_lt_pow_left₀ hlt hpos (by norm_num : (8 : ℕ) ≠ 0)
   rw [← Real.rpow_natCast, ← Real.rpow_mul (by linarith)] at this
@@ -444,7 +444,7 @@ theorem pow_card_le {R Q : Type} [CommRing R] [AddCommGroup Q] [Module R Q] [Fin
     choose c hc using fun b => Ideal.Quotient.mk_surjective (I := I) (t b)
     have hx : ∃ c' : Fin n → R, ∑ b, c' b • q b = ∑ b, c b • q b := ⟨c, rfl⟩
     refine ⟨∑ b, c b • q b, ?_⟩
-    simp only [f, dif_pos hx]
+    simp only [f, dite_eq_left hx]
     funext b
     rw [key _ c hx.choose_spec b, hc]
   have hle := Nat.card_le_card_of_surjective f hf
@@ -472,11 +472,11 @@ theorem frame_indep (F : FlagG S r T) (F' : FlagG S r T') (hG : Gflag F F' ≠ 0
     rw [hlast, Matrix.mulVec_zero, Pi.single_zero]
   have hd1 : Dl F F' (r + 1) = (Zhat F F').det := by
     unfold Dl leadMinorE
-    rw [dif_pos le_rfl]
+    rw [dite_eq_left le_rfl]
     congr 1
   have hd0 : Dl F F' r = ((Zhat F F').submatrix Fin.castSucc Fin.castSucc).det := by
     unfold Dl leadMinorE
-    rw [dif_pos (Nat.le_succ r)]
+    rw [dite_eq_left (Nat.le_succ r)]
     congr 1
   have hG' := hG
   unfold Gflag at hG'

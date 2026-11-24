@@ -750,7 +750,7 @@ theorem sum_eq_of_counts {k ι : Type} [Field k] [DecidableEq k] {l : ℕ} [Char
     · intro y hy hne
       rw [Finset.mem_Icc] at hy
       have := hc i hi'
-      rw [if_neg, mul_zero]
+      rw [ite_eq_right, mul_zero]
       intro h'
       exact hne (eq_of_cast_eq (l := l) h' (by rw [abs_lt]; omega)).symm
     · intro h'
@@ -840,14 +840,14 @@ theorem model_chr_eq : ∀ {k G : Type} [Field k] [Group G] {l n : ℕ} [Fact l.
           refine Finset.sum_congr rfl fun a _ => ?_
           cases hc : c a with
           | none =>
-            simp only [ne_eq, not_true_eq_false, if_false]
+            simp only [ne_eq, not_true_eq_false, ite_false]
             by_contra hne
             obtain ⟨A', j', p', q1, q2, q3, q4⟩ := hnone a hc
             obtain ⟨u, hu, hux⟩ := _root_.GlobalTheory.Models.ModTh.sen_model_subquot_mem_U F M h1 h2 h3 A' (C a) j' p' (L a) q1 q2 q3 q4 (hmod a) i y
               (Ne.symm hne)
             exact hU u hu hux
           | some e' =>
-            rw [(hκ a e' hc i).2.2.2, resCount_single, if_pos (by simp)]
+            rw [(hκ a e' hc i).2.2.2, resCount_single, ite_eq_left (by simp)]
             simp [cc, hc]
         have e2 : resCount (Dt.Ut i) (Dt.w i) (y : k) = resCount (block (Dt.w i) Dt.t) (Dt.w i) (y : k) := by
           unfold resCount
@@ -901,7 +901,7 @@ theorem model_chr_eq : ∀ {k G : Type} [Field k] [Group G] {l n : ℕ} [Fact l.
     sen ((F.D P.1).γ i) (P.2 i) ((e : ℤ) : k)) ha₀
   simp only at hsen0
   rw [(hκ a₀ e' he' i).2.2.2, (hκ₀ i).2.2.2.2, hzero i a₀ haS, resCount_single, resCount_single, ← hee,
-    if_pos (by simp)] at hsen0
+    ite_eq_left (by simp)] at hsen0
   have h0 : κ₀ i = 0 := by
     split_ifs at hsen0 with h
     have hT := h1 i

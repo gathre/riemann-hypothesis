@@ -310,7 +310,7 @@ theorem UpperTheory.V.Sd.ribetLat :
     have := hres s 1
     rw [hprod, Matrix.charpoly_fin_two] at this
     simp only [coeff_add, coeff_sub, coeff_C_mul_X, coeff_X_pow, coeff_C] at this
-    norm_num only [if_true, if_false, reduceIte] at this
+    norm_num only [ite_true, ite_false, reduceIte] at this
     rw [← norm_neg]
     refine lt_of_eq_of_lt (congrArg _ ?_) this
     ring

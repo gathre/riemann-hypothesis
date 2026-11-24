@@ -121,7 +121,7 @@ theorem card_le_card_mul_card_support :
     simp only [hf, Finset.sum_mul, mul_assoc]
     rw [Finset.sum_comm]
     simp only [← Finset.mul_sum, sum_unitsChar_mul_inv, mul_ite, mul_zero]
-    rw [Finset.sum_ite_eq' S η, if_pos hη, mul_comm]
+    rw [Finset.sum_ite_eq' S η, ite_eq_left hη, mul_comm]
   have hc : ∀ η ∈ S, (Fintype.card C : ℝ) * ‖c η‖ ≤ T.card * ‖f z₀‖ := by
     intro η hη
     have h1 : ‖(Fintype.card C : ℂ) * c η‖ = (Fintype.card C : ℝ) * ‖c η‖ := by
@@ -221,7 +221,7 @@ theorem exists_eq_of_sum_eq {m d : ℕ} [NeZero m] (hm : 1 < m) (ζ ζ' : ℕ �
     omega
   have hzero : ∀ z, ∑ φ ∈ S, c φ * (φ z : ℂ) = 0 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have key := GlobalTheory.GLm.card_le_card_mul_card_support (Multiplicative (ZMod m)) S c hne
     have hcard : Fintype.card (Multiplicative (ZMod m)) = m := by
       simp [ZMod.card]

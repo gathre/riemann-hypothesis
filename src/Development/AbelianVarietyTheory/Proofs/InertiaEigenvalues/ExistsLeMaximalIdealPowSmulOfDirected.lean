@@ -178,7 +178,7 @@ theorem _root_.GlobalTheory.Chevalley.exists_le_maximalIdeal_pow_smul_of_directe
     rwa [sup_comm (K j), sup_comm (K i)]
   choose j hj using hmin
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hE_step : ∀ n, ∀ x ∈ K (j n) ⊔ maximalIdeal B ^ (n + 1) • (⊤ : Submodule B M),
       ∃ x' ∈ K (j (n + 1)) ⊔ maximalIdeal B ^ (n + 1 + 1) • (⊤ : Submodule B M),
         x - x' ∈ maximalIdeal B ^ (n + 1) • (⊤ : Submodule B M) := by

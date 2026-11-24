@@ -89,7 +89,7 @@ theorem nrmL_twist (hU : Unr E) (n : ℕ) (w : Pl E) (g y : GLw n w) :
   unfold thL at h2 ⊢
   split_ifs with hs
   · simp [hs] at *
-  · simp only [hs, if_false] at h2 ⊢
+  · simp only [hs, ite_false] at h2 ⊢
     rw [map_mul, map_mul, map_inv, h2]
     group
 

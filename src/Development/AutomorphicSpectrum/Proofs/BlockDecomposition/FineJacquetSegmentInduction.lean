@@ -194,7 +194,7 @@ theorem shufcomb (l : ℕ) (hl : 3 ≤ l) (w : Fin l → ℕ) (hw : ∀ a, w a <
           exact hab
         obtain ⟨c, hci, hcj⟩ : ∃ c : Fin l, c ≠ i ∧ c ≠ j := by
           by_contra hc
-          push_neg at hc
+          push Not at hc
           have key : ∀ k : ℕ, ∀ hk : k < l, k = i.val ∨ k = j.val := by
             intro k hk
             by_cases h : (⟨k, hk⟩ : Fin l) = i

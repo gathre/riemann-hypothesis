@@ -65,7 +65,7 @@ theorem hahn_pow_neg_one_lead {R : Type} [CommRing R] (x : HahnSeries ℚ R)
   have hxo : x.order = -1 := by
     refine le_antisymm (HahnSeries.order_le_of_coeff_ne_zero (by rw [h1]; exact one_ne_zero)) ?_
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hx0 (HahnSeries.coeff_order_eq_zero.mp (hlt _ hc))
   have hxl : x.leadingCoeff = 1 := by
     rw [HahnSeries.leadingCoeff_eq, hxo, h1]

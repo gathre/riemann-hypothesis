@@ -192,7 +192,7 @@ theorem classSum_regroup : ∀ {G : Type} [Group G] (g : G → ℂ), (Function.s
     obtain ⟨δ, hδ⟩ := δ
     simp [g', hall δ hδ]
   · have hall' : ¬ ∀ δ ∈ ({δ | IsConj γ δ} : Set G), P δ := hall
-    push_neg at hall'
+    push Not at hall'
     obtain ⟨δ0, hδ0, hnP⟩ := hall'
     symm
     have : ∀ δ : ({δ | IsConj γ δ} : Set G), g' δ = 0 := by
@@ -752,7 +752,7 @@ theorem boundT : BoundT := by
   intro τ hτ hbd j
   have col : ∃ i, J i j ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have : J.det = 0 := Matrix.det_eq_zero_of_column_eq_zero j hc
     rw [this] at hdet
     exact not_isUnit_zero hdet
@@ -762,7 +762,7 @@ theorem boundT : BoundT := by
   rcases lt_trichotomy ‖l j‖ 1 with hlt | heq | hgt
   · have hli : 1 < ‖l i‖ := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       have h0 : 0 ≤ ‖l j‖ := norm_nonneg _
       nlinarith
     have ha' := (hbd i hli).1
@@ -1419,17 +1419,17 @@ lemma key (S : ℂ → ℝ) (hS : ∀ z, 0 < S z) (z w : ℂ) (h : star z * w = 
     have hs : (((Real.sqrt (S z)) : ℝ) : ℂ) ≠ 0 :=
       Complex.ofReal_ne_zero.mpr (Real.sqrt_pos.mpr (hS z)).ne'
     simp only [rho, hn, hcc]
-    rw [if_pos h1, if_neg (by linarith), if_pos h2, Complex.star_def, Complex.conj_ofReal]
+    rw [ite_eq_left h1, ite_eq_right (by linarith), ite_eq_left h2, Complex.star_def, Complex.conj_ofReal]
     exact mul_inv_cancel₀ hs
   · have h2 : ‖z‖⁻¹ = 1 := by rw [← h1, inv_one]
     simp only [rho, hn, hcc]
-    rw [if_neg (by linarith), if_neg (by linarith), if_neg (by linarith), if_neg (by linarith)]
+    rw [ite_eq_right (by linarith), ite_eq_right (by linarith), ite_eq_right (by linarith), ite_eq_right (by linarith)]
     simp
   · have h2 : 1 < ‖z‖⁻¹ := by nlinarith
     have hs : (((Real.sqrt (S (star z)⁻¹)) : ℝ) : ℂ) ≠ 0 :=
       Complex.ofReal_ne_zero.mpr (Real.sqrt_pos.mpr (hS _)).ne'
     simp only [rho, hn, hcc]
-    rw [if_neg (by linarith), if_pos h1, if_pos h2, star_inv₀, Complex.star_def, Complex.conj_ofReal]
+    rw [ite_eq_right (by linarith), ite_eq_left h1, ite_eq_left h2, star_inv₀, Complex.star_def, Complex.conj_ofReal]
     exact inv_mul_cancel₀ hs
 
 end MainStatements.WeightKernel.PShiftT
@@ -1450,7 +1450,7 @@ theorem shiftT : ShiftT := by
   have hSl : ∀ i, S (l i) = σ i := by
     intro i
     have h : ∃ j, l j = l i := ⟨i, rfl⟩
-    simp only [S, dif_pos h]
+    simp only [S, dite_eq_left h]
     rw [hl (Classical.choose_spec h)]
   refine ⟨fun i => rho S (l i), ?_, ?_⟩
   · ext i j
@@ -1467,7 +1467,7 @@ theorem shiftT : ShiftT := by
       _ = J i j := by rw [e2, one_mul]
   · intro i hi
     show ‖rho S (l i)‖ ^ 2 = σ i
-    rw [rho, if_pos hi, hSl, Complex.norm_real, Real.norm_of_nonneg (Real.sqrt_nonneg _),
+    rw [rho, ite_eq_left hi, hSl, Complex.norm_real, Real.norm_of_nonneg (Real.sqrt_nonneg _),
       Real.sq_sqrt (hσ i).le]
 
 end MainStatements.WeightKernel

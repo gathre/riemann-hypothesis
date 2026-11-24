@@ -203,7 +203,7 @@ lemma polyAlg_sep : (polyAlg ε).SeparatesPoints := by
   have hne : toMK x ≠ toMK y := fun h => hxy (toMK_injective h)
   obtain ⟨a, b, hab⟩ : ∃ a b, toMK x a b ≠ toMK y a b := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hne (Matrix.ext hc)
   exact ⟨_, ⟨coordC (a, b), StarAlgebra.subset_adjoin ℂ _ ⟨(a, b), rfl⟩, rfl⟩, hab⟩
 
@@ -280,7 +280,7 @@ lemma mem_avgSpan {T : Mat n → (W →L[ℂ] W)} (hT : Formalism.MainNotions.S.
   haveI := FiniteDimensional.complete ℂ W
   by_contra hv
   rw [← Submodule.orthogonal_orthogonal (avgSpan ε T v), Submodule.mem_orthogonal] at hv
-  push_neg at hv
+  push Not at hv
   obtain ⟨u, hu, huv⟩ := hv
   have hg : Continuous (fun h : KG ε => ⟪u, T (toMK h) v⟫_ℂ) := continuous_const.inner (cont_orbit hT v)
   have h0 : ∀ P : Poly n, ∫ h, ev (toMK h) P * ⟪u, T (toMK h) v⟫_ℂ ∂(muK ε) = 0 := by

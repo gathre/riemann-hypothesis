@@ -526,9 +526,9 @@ theorem labFacts_conc (t : GTu Y u) :
     · exact minorInt_conc t l (le_trans hl (Nat.sub_le _ _))
     · exact isIntegral_zero
   · unfold labT
-    rw [if_neg (not_le.mpr (by unfold jT at hl; exact hl))]
+    rw [ite_eq_right (not_le.mpr (by unfold jT at hl; exact hl))]
   · unfold labT
-    rw [if_pos (Nat.zero_le _)]
+    rw [ite_eq_left (Nat.zero_le _)]
     unfold Dl leadMinorE
     first
       | exact Matrix.det_isEmpty

@@ -235,7 +235,7 @@ theorem hasIrreducibleDecomposition_of_finrank_eq : ∀ (n : ℕ) (V : Type) [Ad
     exact bot_ne_top h2
   obtain ⟨W, hW0, hWT⟩ : ∃ W : Subrepresentation σ, W ≠ ⊥ ∧ W ≠ ⊤ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hirr (show IsSimpleOrder (Subrepresentation σ) from
       { toNontrivial := ⟨⟨⊥, ⊤, hbt⟩⟩
         eq_bot_or_eq_top := fun W => by

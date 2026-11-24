@@ -557,9 +557,9 @@ private theorem dgCut_iff {A X : Type} [CommRing A] [CommRing X] [Algebra A X] {
   rw [← Matrix.ext_iff]
   refine forall₂_congr fun i j => ?_
   by_cases h : ((i : ℕ) < a ↔ (j : ℕ) < a)
-  · simp only [dgCut, Matrix.of_apply, if_pos h]
+  · simp only [dgCut, Matrix.of_apply, ite_eq_left h]
     simp [h, ddPart, DD.ext_iff, funext_iff]
-  · simp only [dgCut, Matrix.of_apply, if_neg h]
+  · simp only [dgCut, Matrix.of_apply, ite_eq_right h]
     simp [h, ddPart, DD.ext_iff, funext_iff]
 
 variable (X : Type) [CommRing X] [Algebra x.A X] {q : ℕ} (sg : Fin q → F.G₀)

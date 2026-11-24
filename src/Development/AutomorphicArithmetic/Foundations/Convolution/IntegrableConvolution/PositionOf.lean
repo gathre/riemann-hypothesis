@@ -94,7 +94,7 @@ private theorem along_zero (τ : K →+* ℂ) : along τ 0 = 0 := by
 
 private theorem ne_zero_co {a : mixedSpace K} (ha : a ≠ 0) : ∃ τ : K →+* ℂ, co τ a ≠ 0 := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   apply ha
   refine Prod.ext ?_ ?_
   · funext ⟨w, hw⟩
@@ -132,9 +132,9 @@ private theorem cc_alg (τ : K →+* ℂ) (w : InfinitePlace K) (h : mk τ = w) 
     rw [Completion.algebraMap_apply]
     exact Completion.extensionEmbedding_coe _ _
   by_cases h1 : (mk τ).embedding = τ
-  · rw [cc, if_pos h1, e, h1]
+  · rw [cc, ite_eq_left h1, e, h1]
   · have h := (embedding_mk_eq τ).resolve_left h1
-    rw [cc, if_neg h1, RingHom.comp_apply, e, h]
+    rw [cc, ite_eq_right h1, RingHom.comp_apply, e, h]
     simp [ComplexEmbedding.conjugate_coe_eq]
 
 private theorem co_psi (τ : K →+* ℂ) (y : InfiniteAdeleRing K) :

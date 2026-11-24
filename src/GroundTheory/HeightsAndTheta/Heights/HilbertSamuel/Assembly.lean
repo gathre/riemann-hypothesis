@@ -162,7 +162,7 @@ theorem fst_eq_of_mem_support {f : MRing ι} {k₀ : K} {n : ℕ} (hf : IsMultiH
     {c : (Σ k, ι k) →₀ ℕ} (hc : AddMonoidAlgebra.coeff f c ≠ 0) {p : Σ k, ι k} (hp : p ∈ c.support) : p.1 = k₀ := by
   by_contra hne
   have h := hf c (mem_support_iff.mpr hc) p.1
-  rw [blockDeg, if_neg hne, Finset.sum_eq_zero_iff] at h
+  rw [blockDeg, ite_eq_right hne, Finset.sum_eq_zero_iff] at h
   exact (Finsupp.mem_support_iff.mp hp) (h p.2 (Finset.mem_univ _))
 
 theorem isHomogeneous_of_blockDeg {f : MRing ι} {k₀ : K} {n : ℕ} (hf : IsMultiHomog f (blockDeg k₀ n)) :
@@ -170,7 +170,7 @@ theorem isHomogeneous_of_blockDeg {f : MRing ι} {k₀ : K} {n : ℕ} (hf : IsMu
   intro c hc
   have h := hf c (mem_support_iff.mpr hc)
   rw [Finsupp.weight_apply, Finsupp.sum_fintype _ _ (by simp), Fintype.sum_sigma]
-  simp only [Pi.one_apply, smul_eq_mul, mul_one, h, blockDeg, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [Pi.one_apply, smul_eq_mul, mul_one, h, blockDeg, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 theorem isHomogeneous_fwd (k₀ : K) (N : Matrix (ι k₀) (Ix (Fin r)) ℤ) {f : MRing ι} {n : ℕ}
     (hf : IsMultiHomog f (blockDeg k₀ n)) : (fwd k₀ N f).IsHomogeneous n := by
@@ -711,8 +711,8 @@ theorem pr_ne_zero (hBP : ProjFrameBasePtFree.Statement) (hfr : IsProjFrame x e)
     simp only [SetLike.mem_coe, RingHom.mem_ker, hψ, RingHom.comp_apply, ReciprocityTheory.ChartRestriction.G.AI.I4.linForm, map_sum, map_mul,
     map_C, map_X, eval_C, eval_X, projMat]
     simp only [eq_intCast, Int.cast_ite, Int.cast_one, Int.cast_zero, ite_mul, one_mul, zero_mul]
-    rw [Finset.sum_eq_single (e k).2 (fun i _ hi => if_neg (Ne.symm hi))
-      (fun h => absurd (Finset.mem_univ _) h), if_pos rfl, he]
+    rw [Finset.sum_eq_single (e k).2 (fun i _ hi => ite_eq_right (Ne.symm hi))
+      (fun h => absurd (Finset.mem_univ _) h), ite_eq_left rfl, he]
     exact hk
   have h1 := hle hN
   rw [RingHom.mem_ker] at h1
@@ -906,10 +906,10 @@ theorem abs_sub_le (hR : ResolutionSupBound.Statement) (d : HSMDatum D Ω κ) :
   have hL : 0 ≤ Real.log 2 + Real.log K + D * Real.log n := by positivity
   by_cases h : ∃ p : (Σ r : ℕ, Fin r → MvPolynomial (Ix κ) ℚ), IsSecBasis d.x n p.2
   swap
-  · simp only [resChi, resCChi, dif_neg h, sub_zero, abs_zero]
+  · simp only [resChi, resCChi, dite_eq_right h, sub_zero, abs_zero]
     exact mul_nonneg (Nat.cast_nonneg _) hL
   rw [ResSym.resChi_eq d n h]
-  simp only [resCChi, dif_pos h]
+  simp only [resCChi, dite_eq_left h]
   have hp := h.choose_spec
   generalize h.choose = p at hp ⊢
   obtain ⟨r, b⟩ := p
@@ -1636,8 +1636,8 @@ theorem linearIndependent_mono (D N : ℕ) :
   have hp0 := VeroneseGenDeg.aeval_t_injective D hpa
   have hc := congrArg (AddMonoidAlgebra.coeff · (Finsupp.equivFunOnFinite.symm (adtEnum D N l))) hp0
   rw [hp, coeff_sum, MvPolynomial.coeff_zero, Finset.sum_eq_single l (fun k _ hkl => ?_) (by simp)] at hc
-  · rwa [MvPolynomial.coeff_smul, monoZ, coeff_monomial, if_pos rfl, smul_eq_mul, mul_one] at hc
-  · rw [MvPolynomial.coeff_smul, monoZ, coeff_monomial, if_neg, smul_zero]
+  · rwa [MvPolynomial.coeff_smul, monoZ, coeff_monomial, ite_eq_left rfl, smul_eq_mul, mul_one] at hc
+  · rw [MvPolynomial.coeff_smul, monoZ, coeff_monomial, ite_eq_right, smul_zero]
     intro hE
     exact hkl (adtEnum_injective D N (by simpa using hE))
 

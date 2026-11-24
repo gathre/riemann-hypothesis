@@ -88,7 +88,7 @@ theorem Lm_lowU {n : ℕ} (M : Matrix (Fin n) (Fin n) ℂ) : LowU (Lm M) := by
   refine ⟨fun i k hik => ?_, fun i => by simp [Lm]⟩
   have h1 : ¬ ((k : ℕ) < i) := by rw [Fin.lt_iff_val_lt_val] at hik; omega
   simp only [Lm, Matrix.of_apply]
-  rw [dite_eq_right h1, if_neg (ne_of_gt hik)]
+  rw [dite_eq_right h1, ite_eq_right (ne_of_gt hik)]
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {r : ℕ} (X : Data E r) (x0 : Frame X.Ψ r)
 
@@ -123,7 +123,7 @@ theorem nmat_lowU (z : V (nd X)) (τ : X.Ψ) : LowU (mat (nmat X z) τ) := by
   unfold nmat
   refine ⟨fun i k hik => ?_, fun i => ?_⟩
   · simp only [mat, Matrix.of_apply]
-    rw [dite_eq_right (not_lt.mpr hik.le), if_neg (ne_of_lt hik)]
+    rw [dite_eq_right (not_lt.mpr hik.le), ite_eq_right (ne_of_lt hik)]
   · simp [mat]
 
 theorem nmat_eq_of (z : V (nd X)) (n : Frame X.Ψ r) (hn : ∀ τ, LowU (mat n τ))
@@ -171,13 +171,13 @@ private lemma Lm_mul_apply_eq_zero_of_lt {n : ℕ} (M : Matrix (Fin n) (Fin n) �
     simp only [Lm, Matrix.of_apply]
     by_cases h : (j : ℕ) < i
     · have hne : j ≠ i := fun e => by rw [e] at h; exact lt_irrefl _ h
-      rw [dif_pos h, dif_pos h, if_neg hne]
+      rw [dite_eq_left h, dite_eq_left h, ite_eq_right hne]
       ring
     · rw [dite_eq_right h, dite_eq_right h]
       by_cases e : j = i
-      · rw [if_pos e, if_pos e]
+      · rw [ite_eq_left e, ite_eq_left e]
         ring
-      · rw [if_neg e, if_neg e]
+      · rw [ite_eq_right e, ite_eq_right e]
         ring
   have hg : ∑ j : Fin n, (if h : (j : ℕ) < i then -wv M i ⟨j, h⟩ * M j k else 0) =
       ∑ j : Fin i, -wv M i j * M (Fin.castLE i.isLt.le j) k := by
@@ -195,7 +195,7 @@ private lemma Lm_mul_apply_eq_zero_of_lt {n : ℕ} (M : Matrix (Fin n) (Fin n) �
       · rfl
       · exact absurd j.isLt h
   rw [Matrix.mul_apply, Finset.sum_congr rfl fun j _ => hf j, Finset.sum_add_distrib, hg,
-    Finset.sum_ite_eq' Finset.univ i, if_pos (Finset.mem_univ _), ← hkey]
+    Finset.sum_ite_eq' Finset.univ i, ite_eq_left (Finset.mem_univ _), ← hkey]
   simp only [neg_mul, Finset.sum_neg_distrib, neg_add_cancel]
 
 theorem bF_mem {x : Frame X.Ψ r} (_hx : x ∈ X.dom) (hΔ : DeltaF X x0 x ≠ 0) : bF X x0 x ∈ Bor X.Ψ r := by
@@ -281,7 +281,7 @@ theorem uniq_all (hx0 : IsOrth X x0) {z : V (nd X)} {b : Frame X.Ψ r} (hb : b �
         (Fintype.equivFin (Ent X)).symm k := rfl
     have h3 := congrFun (congrFun (congrFun h2 ((Fintype.equivFin (Ent X)).symm k).1)
       ((Fintype.equivFin (Ent X)).symm k).2.1.1) ((Fintype.equivFin (Ent X)).symm k).2.1.2
-    simp only [nmat, dif_pos ((Fintype.equivFin (Ent X)).symm k).2.2, heta] at h3
+    simp only [nmat, dite_eq_left ((Fintype.equivFin (Ent X)).symm k).2.2, heta] at h3
     have h4 : (Fintype.equivFin (Ent X)) ((Fintype.equivFin (Ent X)).symm k) = k :=
       Equiv.apply_symm_apply _ _
     rwa [h4] at h3

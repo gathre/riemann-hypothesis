@@ -554,7 +554,7 @@ private theorem perm_of_aut {B : Type} [CommRing B] {d : ℕ} (a b : (Fin d → 
   · intro σ τ hστ
     obtain ⟨i, hi⟩ : ∃ i, σ i ≠ τ i := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hστ (Equiv.ext h)
     rw [← Finset.prod_mul_distrib]
     exact Finset.prod_eq_zero (Finset.mem_univ i) (Erow i _ _ hi)

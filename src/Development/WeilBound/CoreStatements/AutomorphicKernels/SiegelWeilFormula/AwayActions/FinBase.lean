@@ -279,7 +279,7 @@ theorem step_conj (hT : TAll) {x₁ x₂ x' : d.G} {A₁ A₂ B₁ B₂ B' : (Mx
       rcases hz with hz | hz
       · simp [hz]
       · have hn : ¬ ∃ X₀, G X₀ ≠ 0 ∧ B₁ (B₂ G) X₀ ≠ 0 := fun ⟨X₀, h, _⟩ => h (hz X₀)
-        simp [dif_neg hn]
+        simp [dite_eq_right hn]
     · push Not at hz
       obtain ⟨⟨u₀, hu₀⟩, ⟨X₁, hX₁⟩⟩ := hz
       have hex : ∃ X₀, G X₀ ≠ 0 ∧ B₁ (B₂ G) X₀ ≠ 0 := by
@@ -297,7 +297,7 @@ theorem step_conj (hT : TAll) {x₁ x₂ x' : d.G} {A₁ A₂ B₁ B₂ B' : (Mx
         linear_combination -this
       rw [e]
       funext X
-      simp only [Function.comp_apply, id_eq, dif_pos hex, Pi.smul_apply, smul_eq_mul, hA]
+      simp only [Function.comp_apply, id_eq, dite_eq_left hex, Pi.smul_apply, smul_eq_mul, hA]
       ring
 
 end SDf

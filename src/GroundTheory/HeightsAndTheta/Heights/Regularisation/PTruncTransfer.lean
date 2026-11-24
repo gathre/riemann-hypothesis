@@ -201,7 +201,7 @@ theorem pair (j k : Fin R.N) : ∃ δ₀ > 0, ∃ c₀ > 0, ∃ L₀ B₀ : ℝ,
       rw [hΔy, hτy, (R.chart k).left_inv hx'k]
       ring
     have htr : R.trunc K k (τ y') = max (R.u k (τ y')) (-K) := by
-      rw [RegChartData.trunc, limsupExt, if_neg hτS]
+      rw [RegChartData.trunc, limsupExt, ite_eq_right hτS]
     have hmem : τ y' ∈ closedBall (R.chart k x) (L * t) := by
       rw [mem_closedBall, dist_eq_norm, ← hτz]
       calc ‖τ y' - τ (R.chart j x)‖ ≤ C₁ * ‖y' - R.chart j x‖ := hτd y' hy'1

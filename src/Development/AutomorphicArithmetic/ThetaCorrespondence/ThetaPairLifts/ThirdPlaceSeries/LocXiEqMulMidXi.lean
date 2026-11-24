@@ -96,21 +96,21 @@ theorem exists_sameData_atType (hW : _root_.GlobalTheory.Fam.AllFamilyConditions
   obtain rfl : PP = (a.pl n).1 := hP
   have ok := hW.tr.ok
   have hok := ok.idx_ok b
-  have f1 : Formalism.L2.Col.psi0P I.Ch (a.pl n).1 = I.Ch.psi0 ⟨_, hPm⟩ := dif_pos hPm
-  have f2 : Formalism.L2.Col.chiP I.Ch (a.pl n).1 = Formalism.L2.Col.chiAt I.Ch ⟨_, hPm⟩ := dif_pos hPm
+  have f1 : Formalism.L2.Col.psi0P I.Ch (a.pl n).1 = I.Ch.psi0 ⟨_, hPm⟩ := dite_eq_left hPm
+  have f2 : Formalism.L2.Col.chiP I.Ch (a.pl n).1 = Formalism.L2.Col.chiAt I.Ch ⟨_, hPm⟩ := dite_eq_left hPm
   refine ⟨hPm, hs.symm, hok.cst_ok, ok.sharp _, by rw [hW.tr.tw.cst_eq]; exact Nat.le_succ _,
     fun x hx => hok.psi0 ⟨_, hPP⟩ x hPm hx, ⟨hi, hd, rfl, e1 ▸ hϖq⟩, fun x hx => ?_, fun j x v h1 h2 h3 => ?_⟩
   · rw [e2]
     exact psi_tie (a.G n).q hv hi hd (g1 ▸ g2) (g1 ▸ g4) (hok.xiUnitAtPrime ⟨_, hPP⟩).1 (_root_.GlobalTheory.Fam.pk_z W).ψ W.Q.stdChar B.embLL _
       (fun z c h => f1 ▸ ok.weil ⟨_, hPm⟩ z c h) _ (a.G n).char x hx
-  · rw [Formalism.L2.Col.LocE.unitV, dif_pos h2]
+  · rw [Formalism.L2.Col.LocE.unitV, dite_eq_left h2]
     by_cases hj : j < B.R.m
     · rw [e3 _ (by omega)]
       have key := chi_tie (a.G n).q hid hi hd (_root_.GlobalTheory.Fam.pk_z W).mu0 (_root_.GlobalTheory.Fam.pk_z W).eta (j + 1)
         (c := (Units.map (B.embLL : B.fields.K →* ℂ)).comp (Formalism.L2.Col.chiP I.Ch (a.pl n).1 j)) (hW.tr.chr ⟨j, hj⟩)
         (fun y x c hx hy => Units.ext (by
           have h := hok.mu0G ⟨j, hj⟩ ⟨_, hPm⟩ x y c hx hy
-          have e3 : Formalism.L2.Col.chiP I.Ch (a.pl n).1 j = I.Ch.chi ⟨j, hj⟩ ⟨_, hPm⟩ := (congrFun f2 j).trans (dif_pos hj)
+          have e3 : Formalism.L2.Col.chiP I.Ch (a.pl n).1 j = I.Ch.chi ⟨j, hj⟩ ⟨_, hPm⟩ := (congrFun f2 j).trans (dite_eq_left hj)
           rw [e3]
           exact h.symm))
         W.Q.charW.base.lev.eta
@@ -124,7 +124,7 @@ theorem exists_sameData_atType (hW : _root_.GlobalTheory.Fam.AllFamilyConditions
         _ (hR.mu n (j + 1) (by omega) hj) x v h2.unit h1 rfl h3
       rw [key]
       rfl
-    · rw [e4 _ (by omega), ((congrFun f2 j).trans (dif_neg hj) : Formalism.L2.Col.chiP I.Ch (a.pl n).1 j = 1)]
+    · rw [e4 _ (by omega), ((congrFun f2 j).trans (dite_eq_right hj) : Formalism.L2.Col.chiP I.Ch (a.pl n).1 j = 1)]
       simp
 end World
 section Main
@@ -182,7 +182,7 @@ theorem locXi_eq_mul_midXi_alt (hW : _root_.GlobalTheory.Fam.AllFamilyConditions
   rw [hS.1, hW.tr.tw.cst_eq, xiAt_tw_eq _ _ _ _ _ P₀ P (hP₀.trans hP.symm) (hA _ P₀ hP₀).mem] at key
   replace key := (entry_mul_KOne (a.G n).S (Fin B.R.t) (a.G n).ν j c H hg hg' _).symm.trans key
   unfold locXi
-  rw [dif_pos (by omega), hh, hh, eq_inv_mul_iff_mul_eq₀ hC0]
+  rw [dite_eq_left (by omega), hh, hh, eq_inv_mul_iff_mul_eq₀ hC0]
   exact (congrArg (fun y => C * B.embLL (Formalism.L2.Col.XiAt I.Ch I.sel (I.tup (W.P.I.tup t)) y j P 1 1 _))
     (hW.tr.tw.cst_eq (W.P.I.tup t))).trans key.symm
 end Main

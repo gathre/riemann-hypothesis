@@ -127,7 +127,7 @@ theorem exists_frame_evalFr_ne_zero {K : Type} [Field K] [Infinite K] {B : Type}
   obtain ⟨v, hv⟩ : ∃ v : FrVar m → K,
       MvPolynomial.eval v (P * ∏ b, GlobalTheory.LamT.FieldPoly.blockDetPoly K m b) ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hQ (MvPolynomial.funext fun x => by simp only [h x, map_zero])
   let Y : ∀ b, Matrix (Fin (m b)) (Fin (m b)) K := fun b => Matrix.of fun i j => v ⟨b, (j, i)⟩
   have hY : ∀ R : MvPolynomial (FrVar m) K, evalFr R Y = MvPolynomial.eval v R := fun R => rfl

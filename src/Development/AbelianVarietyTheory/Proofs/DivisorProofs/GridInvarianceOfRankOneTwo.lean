@@ -144,7 +144,7 @@ variable {N : ℕ} {D : ℕ → ℕ → Module.End ℚ W}
 lemma comm_off (hD : GlRel N D) {a b c d : ℕ} (ha : a < N) (hb : b < N) (hc : c < N) (hd : d < N)
     (hbc : b ≠ c) (hda : d ≠ a) : Commute (D a b) (D c d) := by
   have := hD a b c d ha hb hc hd
-  rw [if_neg hbc, if_neg hda, sub_zero] at this
+  rw [ite_eq_right hbc, ite_eq_right hda, sub_zero] at this
   exact sub_eq_zero.mp this
 
 lemma diag_comm (hD : GlRel N D) {c i j : ℕ} (hc : c < N) (hi : i < N) (hj : j < N) :
@@ -312,9 +312,9 @@ lemma fill (hD : GlRel N D) (x : W) (hZ : ∀ c < N, D c c x = 0) (hup : ∀ k, 
       have e : c + (n + 1) + 1 = c + n + 1 + 1 := by omega
       rw [e] at hc ⊢
       have e1 := hD c (c + n + 1) (c + n + 1) (c + n + 1 + 1) (by omega) (by omega) (by omega) hc
-      rw [if_pos rfl, if_neg (by omega), sub_zero] at e1
+      rw [ite_eq_left rfl, ite_eq_right (by omega), sub_zero] at e1
       have e2 := hD (c + n + 1 + 1) (c + n + 1) (c + n + 1) c hc (by omega) (by omega) (by omega)
-      rw [if_pos rfl, if_neg (by omega), sub_zero] at e2
+      rw [ite_eq_left rfl, ite_eq_right (by omega), sub_zero] at e2
       constructor
       · rw [← e1, LinearMap.sub_apply, Module.End.mul_apply, Module.End.mul_apply, hup _ hc, ih1, map_zero,
           map_zero, sub_zero]

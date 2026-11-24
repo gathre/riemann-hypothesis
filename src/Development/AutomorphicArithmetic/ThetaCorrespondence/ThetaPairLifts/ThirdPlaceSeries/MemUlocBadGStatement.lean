@@ -249,20 +249,20 @@ theorem inJ_red_alt : ∀ {B : GlobalTheory.Mem.Base} {X : GlobalTheory.Mem.PreX
     obtain ⟨hh, e⟩ := hres _ _ hR
     rw [GlobalTheory.Mem.Col2.TC.GLev0.mat_one]
     unfold Formalism.L2.Forms.redM
-    refine (dif_pos hh).trans (e.trans ?_)
+    refine (dite_eq_left hh).trans (e.trans ?_)
     by_cases hrc : r' = c'
     · subst hrc
-      rw [if_pos rfl, if_pos rfl, map_one]
+      rw [ite_eq_left rfl, ite_eq_left rfl, map_one]
       exact map_one ρ
-    · rw [if_neg hrc, if_neg (fun e => hrc (hinj.1 e)), map_zero]
+    · rw [ite_eq_right hrc, ite_eq_right (fun e => hrc (hinj.1 e)), map_zero]
       exact map_zero ρ
   have hlt : ∀ x : Fin ((I.rec7 l Z).R.N 0), (x : ℕ) < (I.rec7 l Z).R.k := fun x => hn ▸ x.2
   have hb : ∀ x : Fin ((I.rec7 l Z).R.N 0), Formalism.L2.Forms.blkOf (I.rec7 l Z).R.k (I.rec7 l Z).R.t x = x :=
-    fun x => if_pos (hlt x)
+    fun x => ite_eq_left (hlt x)
   refine ⟨fun x z hxz => ?_, fun x _ => ?_, fun x z hz => absurd hz (ne_of_lt z.2), fun h' => absurd h' (by simp)⟩
   · rw [hb, hb] at hxz
-    rw [key x z (le_of_lt (show z < x from hxz)), if_neg (fun e => by subst e; exact lt_irrefl _ hxz)]
-  · rw [key x x le_rfl, if_pos rfl]
+    rw [key x z (le_of_lt (show z < x from hxz)), ite_eq_right (fun e => by subst e; exact lt_irrefl _ hxz)]
+  · rw [key x x le_rfl, ite_eq_left rfl]
 end GlobalTheory.FamTrace.RedAt
 end
 end -- clump:auto

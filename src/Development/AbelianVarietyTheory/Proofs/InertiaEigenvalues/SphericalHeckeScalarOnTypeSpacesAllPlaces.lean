@@ -95,12 +95,12 @@ theorem finsum_cosets_eq {G W : Type} [Group G] [AddCommGroup W] (J U : Subgroup
   refine finsum_mem_eq_of_bijOn e ⟨?_, ?_, ?_⟩ ?_
   · rintro c ⟨x, hx, rfl⟩
     have hc : ∃ y ∈ Dset, (y : G ⧸ J) = (x : G ⧸ J) := ⟨x, hx, rfl⟩
-    simp only [e, dif_pos hc]
+    simp only [e, dite_eq_left hc]
     exact ⟨_, hc.choose_spec.1, rfl⟩
   · rintro c ⟨x, hx, rfl⟩ c' ⟨x', hx', rfl⟩ h
     have hc : ∃ y ∈ Dset, (y : G ⧸ J) = (x : G ⧸ J) := ⟨x, hx, rfl⟩
     have hc' : ∃ y ∈ Dset, (y : G ⧸ J) = (x' : G ⧸ J) := ⟨x', hx', rfl⟩
-    simp only [e, dif_pos hc, dif_pos hc'] at h
+    simp only [e, dite_eq_left hc, dite_eq_left hc'] at h
     rw [QuotientGroup.eq] at h
     show (x : G ⧸ J) = (x' : G ⧸ J)
     rw [← hc.choose_spec.2, ← hc'.choose_spec.2, QuotientGroup.eq]
@@ -108,16 +108,16 @@ theorem finsum_cosets_eq {G W : Type} [Group G] [AddCommGroup W] (J U : Subgroup
   · rintro d ⟨x, hx, rfl⟩
     have hc : ∃ y ∈ Dset, (y : G ⧸ J) = (x : G ⧸ J) := ⟨x, hx, rfl⟩
     refine ⟨(x : G ⧸ J), ⟨x, hx, rfl⟩, ?_⟩
-    simp only [e, dif_pos hc]
+    simp only [e, dite_eq_left hc]
     rw [QuotientGroup.eq]
     have h1 := hc.choose_spec.2
     rw [QuotientGroup.eq] at h1
     exact (hJU _ hc.choose_spec.1 _ hx).1 h1
   · rintro c ⟨x, hx, rfl⟩
     have hc : ∃ y ∈ Dset, (y : G ⧸ J) = (x : G ⧸ J) := ⟨x, hx, rfl⟩
-    have he : e x = (hc.choose : G ⧸ U) := by simp only [e, dif_pos hc]
+    have he : e x = (hc.choose : G ⧸ U) := by simp only [e, dite_eq_left hc]
     have hd : ∃ y ∈ Dset, (y : G ⧸ U) = e x := ⟨_, hc.choose_spec.1, he.symm⟩
-    simp only [φ, ψ, dif_pos hc, dif_pos hd]
+    simp only [φ, ψ, dite_eq_left hc, dite_eq_left hd]
     apply hF _ hc.choose_spec.1 _ hd.choose_spec.1
     rw [← QuotientGroup.eq, hd.choose_spec.2, he]
 

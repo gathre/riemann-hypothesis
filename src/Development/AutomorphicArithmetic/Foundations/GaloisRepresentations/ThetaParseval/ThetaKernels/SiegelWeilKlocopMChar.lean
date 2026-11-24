@@ -157,7 +157,7 @@ theorem _root_.PositivityTheory.SiegelWeilFormula.SD_k.chiW_pos_pf (w : Infinite
       show algebraMap (AF F) (AE F E) (Algebra.norm (AF F) (d.uW w t)) = d.uW w (r : ℂ)
       rw [hn, huw])
   have hres := d.ok.res a
-  rw [if_pos (Subgroup.mem_sup_right (MonoidHom.mem_range.mpr ⟨u, rfl⟩))] at hres
+  rw [ite_eq_left (Subgroup.mem_sup_right (MonoidHom.mem_range.mpr ⟨u, rfl⟩))] at hres
   unfold _root_.PositivityTheory.SiegelWeilFormula.SD_k.chiW
   rw [dite_eq_left (_root_.PositivityTheory.SiegelWeilFormula.KC.uW_isUnit_k d w hr0), ← ha]
   exact hres

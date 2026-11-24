@@ -190,7 +190,7 @@ theorem Phi_injective : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E], 
     refine Finsupp.ext fun j => Subtype.ext (funext fun x₀ => LinearMap.ext fun w => ?_)
     have h := hall x₀ ((b.coord j).smulRight w)
     simp [Finsupp.single_apply] at h
-    rwa [Finset.sum_eq_single j (fun i _ hi => by simp [hi]) (by simp), if_pos rfl] at h
+    rwa [Finset.sum_eq_single j (fun i _ hi => by simp [hi]) (by simp), ite_eq_left rfl] at h
   exact e.injective (hc.trans e.map_zero.symm)
 
 end GlobalTheory.BCT.TrKer

@@ -721,7 +721,7 @@ theorem coeff_mem {F : Type} [Field F] (A : Subring F) (hfrac : ∀ a : F, ∃ d
     · intro l _ hl
       simp [hl]
     · simp
-  rw [if_pos trivial, hs, add_zero] at e
+  rw [ite_eq_left trivial, hs, add_zero] at e
   have : d * ((g x : A) : F) = d * (n * C) := by rw [e]; ring
   exact (mul_left_cancel₀ hd0 this).symm
 

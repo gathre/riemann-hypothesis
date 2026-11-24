@@ -141,7 +141,7 @@ theorem UpperTheory.V.CF.ineMap :
   rw [Subgroup.index_ker, hrange, cG, ← hmul] at key
   rw [cK]
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hQpos : 0 < Q.ramificationIdxIn (𝓞 H) := by
     rw [← cH]
     exact Nat.card_pos

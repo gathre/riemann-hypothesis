@@ -211,13 +211,13 @@ theorem auxiliaryCoordinate_mem_staircaseIdeal {A B : HSp D} {c : ℕ} {ε : D.h
   · have : antiDiagonalSignGramMatrix c ε r r.rev = 1 := by
       have := r.2
       simp only [antiDiagonalSignGramMatrix, Fin.val_rev]
-      rw [if_pos (by omega), if_neg (fun h => hr (by rw [Fin.ext_iff, Fin.val_rev] at h; omega))]
+      rw [ite_eq_left (by omega), ite_eq_right (fun h => hr (by rw [Fin.ext_iff, Fin.val_rev] at h; omega))]
     rw [this, one_mul]; exact hv _
   · intro q _ hq
     have : antiDiagonalSignGramMatrix c ε r q = 0 := by
       have := r.2; have := q.2
       simp only [antiDiagonalSignGramMatrix]
-      rw [if_neg (fun h => hq (by rw [Fin.ext_iff, Fin.val_rev]; omega))]
+      rw [ite_eq_right (fun h => hq (by rw [Fin.ext_iff, Fin.val_rev]; omega))]
     rw [this, zero_mul]
   · intro h; exact absurd (Finset.mem_univ _) h
 
@@ -308,7 +308,7 @@ theorem diag_mem_complId : ∀ {D : D7} {T : Type} {L : LevCh D T} {sc : Consts}
         (Fin.castLE (by omega) p) = 1 := by
       rw [show aB.aᴴ * (G.V (.grid (2 * ρ + 2) 0)).gram * aB.a = antiDiagonalSignGramMatrix (2 * ρ + 2 - 1) (-1) from aB.gram]
       simp only [antiDiagonalSignGramMatrix, Fin.val_rev, Fin.val_castLE]
-      rw [if_pos (by omega), if_neg (fun e => by rw [Fin.ext_iff, Fin.val_rev, Fin.val_castLE] at e; omega)]
+      rw [ite_eq_left (by omega), ite_eq_right (fun e => by rw [Fin.ext_iff, Fin.val_rev, Fin.val_castLE] at e; omega)]
     rw [h2, mul_one] at h1
     have h3 := congrArg star h1
     rw [star_mul', star_star, star_one] at h3
@@ -742,7 +742,7 @@ theorem ideal_smul_auxiliary_vector_mem_lattice (a : HermitianOrthogonalExtensio
   · by_cases hp : p = j
     · subst hp
       simpa using hb
-    · simp only [Pi.single_apply, hp, if_false]
+    · simp only [Pi.single_apply, hp, ite_false]
       exact (𝔟 p).zero_mem
   · funext k
     rw [Matrix.mulVec_zero, zero_add, mulVec_single_apply, mul_comm]
@@ -1485,7 +1485,7 @@ theorem wittHyperbolic_projX_auxiliary_vectors (hd : IsAuxiliaryVectorWittDec a 
   rw [Matrix.mul_diagonal]
   by_cases hq : q.1 < ρ
   · obtain ⟨p, κ, h⟩ := (auxiliary_vector_multiple_of_witt_basis_vector a d hd hc q).1 hq
-    rw [mul_col _ _ _ q p κ h, Matrix.mul_assoc, _root_.GlobalTheory.MixPer.qX_e, Matrix.mul_one, if_pos hq, mul_one, h]
+    rw [mul_col _ _ _ q p κ h, Matrix.mul_assoc, _root_.GlobalTheory.MixPer.qX_e, Matrix.mul_one, ite_eq_left hq, mul_one, h]
   · obtain ⟨p, κ, h⟩ := (auxiliary_vector_multiple_of_witt_basis_vector a d hd hc q).2 hq
     rw [mul_col _ _ _ q p κ h]
     simp [Matrix.mul_assoc, _root_.GlobalTheory.SeeSaw.SplitLat.qX_e', hq]
@@ -1499,7 +1499,7 @@ theorem wittHyperbolic_projY_auxiliary_vectors (hd : IsAuxiliaryVectorWittDec a 
     rw [mul_col _ _ _ q p κ h]
     simp [Matrix.mul_assoc, _root_.GlobalTheory.SeeSaw.SplitLat.qY_e, hq]
   · obtain ⟨p, κ, h⟩ := (auxiliary_vector_multiple_of_witt_basis_vector a d hd hc q).2 hq
-    rw [mul_col _ _ _ q p κ h, Matrix.mul_assoc, _root_.GlobalTheory.SeeSaw.SplitLat.qY_e', Matrix.mul_one, if_neg hq, mul_one, h]
+    rw [mul_col _ _ _ q p κ h, Matrix.mul_assoc, _root_.GlobalTheory.SeeSaw.SplitLat.qY_e', Matrix.mul_one, ite_eq_right hq, mul_one, h]
 
 theorem proj_lat (hd : IsAuxiliaryVectorWittDec a d) (hc : c = 2 * ρ) (hi : d.i₀ = frameMat B A a.ι)
     (Λ : Submodule (𝓞 D.host.E) (Fin A.rank → D.host.E)) (𝔟 : Fin c → FractionalIdeal (𝓞 D.host.E)⁰ D.host.E) :

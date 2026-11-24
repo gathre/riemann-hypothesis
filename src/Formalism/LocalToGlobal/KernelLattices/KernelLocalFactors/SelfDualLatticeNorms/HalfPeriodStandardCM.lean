@@ -440,7 +440,7 @@ theorem exists_cmOK (d : ℕ) (hd : 0 < d) (hd8 : d % 8 = 7) (hp : d.Prime) (L :
   have ha' : (0 : ℤ) < a := by exact_mod_cast ha
   have hc : 0 < c := by
     by_contra hcn
-    push_neg at hcn
+    push Not at hcn
     have h0 : 0 < 4 * (a : ℤ) * c := by rw [h]; linarith [sq_nonneg b]
     nlinarith
   rcases Nat.even_or_odd a with hae | hao
@@ -459,7 +459,7 @@ theorem exists_cmOK (d : ℕ) (hd : 0 < d) (hd8 : d % 8 = 7) (hp : d.Prime) (L :
           rw [show 4 * (((a : ℤ) + b + c) * c) = (b + 2 * c) ^ 2 + d by linear_combination h]
           linarith [sq_nonneg (b + 2 * c)]
         by_contra hn
-        push_neg at hn
+        push Not at hn
         nlinarith
       obtain ⟨lam', hlam', hL'⟩ := cmL_shift a b c d ha hd lam hlam hs h
       obtain ⟨m, hm⟩ := hae

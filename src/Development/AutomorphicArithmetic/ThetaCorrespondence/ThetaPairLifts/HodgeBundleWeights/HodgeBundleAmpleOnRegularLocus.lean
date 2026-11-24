@@ -210,12 +210,12 @@ theorem exists_weight_isAmple_lineBundle_comp : _root_.GlobalTheory.CovTop.Hypot
     · have hm := GlobalTheory.FlagMod.mult_of_mem (Dw := Dw) τ
       have h2 := i.2
       simp only [hρ, e, Pi.neg_apply, Option.elim]
-      rw [if_pos (by omega)]
+      rw [ite_eq_left (by omega)]
       omega
     · have hm := GlobalTheory.FlagMod.mult_conj (Dw := Dw) τ
       have h2 := i.2
       simp only [hρ, e, Pi.neg_apply, Option.elim]
-      rw [if_neg (by omega)]
+      rw [ite_eq_right (by omega)]
       push_cast
       omega
   have : IsProper TF.Y.s := projProper _ _ _ TF.Y.proj

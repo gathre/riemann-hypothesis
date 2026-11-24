@@ -223,7 +223,7 @@ lemma vNormSq_lt (p : ℕ) (ε : Fin n → Bool) (hε : ∀ a, ε a = decide ((a
         simp only [decide_eq_false_iff_not] at this
         rw [Fin.lt_def] at hij
         omega
-      simp only [root, Pi.sub_apply, Pi.single_apply, if_neg hi, if_neg hj]
+      simp only [root, Pi.sub_apply, Pi.single_apply, ite_eq_right hi, ite_eq_right hj]
       split_ifs <;> norm_num)
     simp only [mul_comm _ (root c0 a0 _)] at this
     rw [sum_root_mul] at this
@@ -534,12 +534,12 @@ theorem lowK_killed : ∀ (n p : ℕ) (ε : Fin n → Bool) (lam : Fin n → ℝ
         · have := congrFun (congrFun hZ1 i) j
           simp only [hJ, Formalism.REAL.Jm, Matrix.mul_diagonal] at this
           by_contra hj
-          rw [if_neg hj] at this
+          rw [ite_eq_right hj] at this
           exact hij (by linear_combination (-1 / 2 : ℂ) * this)
         · have := congrFun (congrFun hZ2 i) j
           simp only [hJ, Formalism.REAL.Jm, Matrix.diagonal_mul, Matrix.neg_apply] at this
           by_contra hi
-          rw [if_pos (by simpa using hi)] at this
+          rw [ite_eq_left (by simpa using hi)] at this
           exact hij (by linear_combination (1 / 2 : ℂ) * this)
     exact hu0 (inner_self_eq_zero.1 (Submodule.mem_orthogonal_singleton_iff_inner_left.1 (h huS)))
   obtain ⟨a', c', ha', hc', w, hw, hwu⟩ := hex

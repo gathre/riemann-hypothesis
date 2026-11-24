@@ -724,7 +724,7 @@ private theorem proj_of_sum {G V : Type} [Group G] [AddCommGroup V] [Module ℂ 
     exact hNC (le_sup_right.trans (hC.le_of_ge hm le_sup_left))
   obtain ⟨U, hUS, hUC⟩ : ∃ U ∈ S, ¬ U ≤ C := by
     by_contra hn
-    push_neg at hn
+    push Not at hn
     exact hψC (sSup_le hn (hAS hψA))
   have hUs := hSs U hUS
   have hdisj : C ⊓ U = ⊥ := by

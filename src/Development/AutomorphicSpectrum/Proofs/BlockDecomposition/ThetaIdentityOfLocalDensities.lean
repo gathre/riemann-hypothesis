@@ -236,7 +236,7 @@ theorem rv_unit (v : HeightOneSpectrum (𝓞 F)) (e : ℝ) {s : Fv F v} (hs : Va
   rw [tsum_eq_single 0]
   · simp [h0, hs]
   · intro i hi
-    rw [if_neg]
+    rw [ite_eq_right]
     rintro ⟨-, h⟩
     rw [hs] at h
     have h3 : (1 : WithZero (Multiplicative ℤ)) = ((Multiplicative.ofAdd (0 : ℤ) : Multiplicative ℤ) : WithZero (Multiplicative ℤ)) := rfl
@@ -277,7 +277,7 @@ theorem exists_of_fib_ne {R : Type} [CommRing R] [Algebra F R] [TopologicalSpace
     {U : Set (Fin 1 → Fin 1 → R ⊗[F] E)} (hU : m s U ≠ 0) :
     ∃ X ∈ U, gramR R σ J X = (s : Matrix (Fin 1) (Fin 1) (R ⊗[F] E)) := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   refine hU (measure_mono_null (fun X hX => ?_) (h.1 s))
   intro h2
   exact hc X hX h2.1

@@ -246,7 +246,7 @@ theorem GlobalTheory.HolDS.pMinus_kills_lowest : ∀ (n : ℕ) (ε : Fin n → B
   obtain ⟨μ, w, hwN, hw0, hwh⟩ := _root_.GlobalTheory.exists_kHighest_real_of_finiteDimensional n ε V E hkrel hkunit N hNfd hNs hN0
   have hex : ∃ p : {p : Fin n × Fin n // ε p.1 = true ∧ ε p.2 = false}, ∃ y ∈ L, ⟪E p.1.2 p.1.1 y, w⟫_ℂ ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have horth : ∀ v ∈ N, ⟪v, w⟫_ℂ = 0 := fun v hv =>
       Submodule.iSup_induction _ (motive := fun v => ⟪v, w⟫_ℂ = 0) hv
         (fun p v hv => by obtain ⟨y, hy, rfl⟩ := Submodule.mem_map.1 hv; exact hcon p y hy)

@@ -183,7 +183,7 @@ theorem prod_pairs (f : (E →+* ℂ) → K) :
   rw [← Fintype.prod_subtype_mul_prod_subtype (fun τ : E →+* ℂ => τ (H.rt : E) = H.rt0), Finset.prod_mul_distrib]
   congr 1
   · refine Finset.prod_congr (by convert rfl) fun τ _ => ?_
-    rw [if_pos τ.2, Datum.mult, if_neg (conj_off H τ.1 τ.2)]
+    rw [ite_eq_left τ.2, Datum.mult, ite_eq_right (conj_off H τ.1 τ.2)]
   · symm
     refine Fintype.prod_equiv
       { toFun := fun τ => ⟨(starRingEnd ℂ).comp τ.1, conj_off H τ.1 τ.2⟩
@@ -191,7 +191,7 @@ theorem prod_pairs (f : (E →+* ℂ) → K) :
         left_inv := fun τ => Subtype.ext (conj_conj_emb τ.1)
         right_inv := fun σ => Subtype.ext (conj_conj_emb σ.1) } _ _ (fun τ => ?_)
     simp only [Equiv.coe_fn_mk]
-    rw [if_neg (conj_off H τ.1 τ.2), Datum.mult, if_pos τ.2]
+    rw [ite_eq_right (conj_off H τ.1 τ.2), Datum.mult, ite_eq_left τ.2]
 
 end GlobalTheory.LogKSDiv.DetChange
 

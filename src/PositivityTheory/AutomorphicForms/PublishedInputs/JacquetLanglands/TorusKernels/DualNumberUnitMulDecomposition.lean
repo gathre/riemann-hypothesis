@@ -127,7 +127,7 @@ theorem cayley_val (k : ℕ) (m : GL (Fin 2) ℝ) (a b : ℝ) (h00 : m 0 0 = a) 
   have hzP1 : zP.1 = z := rfl
   have hzpos' : 0 < zP.1.im := hzpos
   have hext : ext1 (U k m) z = F k m zP := by
-    unfold ext1; rw [dite_eq_left hz]; exact if_pos hzpos'
+    unfold ext1; rw [dite_eq_left hz]; exact ite_eq_left hzpos'
   have hab : 0 < a ^ 2 + b ^ 2 := by
     have := lt_of_le_of_ne (sq_nonneg b) (Ne.symm (pow_ne_zero 2 hb)); nlinarith [sq_nonneg a]
   obtain ⟨s, hs_def⟩ : ∃ s, s = Real.sqrt (a ^ 2 + b ^ 2) := ⟨_, rfl⟩
@@ -182,7 +182,7 @@ theorem cayley_val (k : ℕ) (m : GL (Fin 2) ℝ) (a b : ℝ) (h00 : m 0 0 = a) 
     linear_combination (-((a : ℂ) - b * Complex.I) * (b : ℂ) ^ 2) * Complex.I_sq
   rw [hext]
   unfold F q1 j1
-  rw [if_pos (mul_pos hzpos' hwim), hrp]
+  rw [ite_eq_left (mul_pos hzpos' hwim), hrp]
   push_cast
   refine pow_combine _ _ _ _ _ k ?_
   rw [hw, hwb, hzP1, hden, key_id _ _ _ _ hα0 hu1 h1 h2 hA, ← huu, eta, ← hs_def, hηsq]
@@ -236,11 +236,11 @@ theorem kap_rot (m : GL (Fin 2) ℝ) (a b : ℝ) (h00 : m 0 0 = a) (h01 : m 0 1 
     simp [iP, ← hx, ← hy]
     ring
   have hk1 : kap z (m • z) = 4 * (a ^ 2 + b ^ 2) * y ^ 2 / (b ^ 2 * (x ^ 2 + y ^ 2 + 1) ^ 2 + 4 * a ^ 2 * y ^ 2) := by
-    rw [kap, if_pos (mul_pos hz hwpos), hN, hwim]
+    rw [kap, ite_eq_left (mul_pos hz hwpos), hN, hwim]
     simp only [← hy]
     field_simp
   have hk2 : kap iP z = 4 * y / (x ^ 2 + (1 + y) ^ 2) := by
-    rw [kap, if_pos (by simpa [iP] using hz), hI]
+    rw [kap, ite_eq_left (by simpa [iP] using hz), hI]
     simp [iP, ← hy]
   rw [hk1, hk2]
   have hQ : 0 < b ^ 2 * (x ^ 2 + y ^ 2 + 1) ^ 2 + 4 * a ^ 2 * y ^ 2 := by positivity
@@ -530,7 +530,7 @@ theorem U_integral (h1 : B1a) (h2 : B1b) (h3 : B1c) (h22 : B2) (h6 : B6) (k : �
     Integrable (U k m) ∧ ∫ z, U k m z = eta a b ^ k / (1 - eta a b ^ 2) := by
   have hI := U_int h1 h2 h3 h6 k hk m a b h00 h01 h10 h11 hb
   refine ⟨hI, ?_⟩
-  have hv : ∀ z : P, z.1.im < 0 → U k m z = 0 := fun z hz => if_neg (not_lt.2 hz.le)
+  have hv : ∀ z : P, z.1.im < 0 → U k m z = 0 := fun z hz => ite_eq_right (not_lt.2 hz.le)
   rw [(h22 (U k m) hv hI).2]
   have hs : MeasurableSet (Set.Ioo (0 : ℝ) 1 ×ˢ Set.Ioo (-Real.pi) Real.pi) :=
     measurableSet_Ioo.prod measurableSet_Ioo
@@ -586,9 +586,9 @@ theorem F_rot (h1 : B1a) (h2 : B1b) (h3 : B1c) (h22 : B2) (h6 : B6) (k : ℕ) (h
     simp only [U]
     rcases lt_or_gt_of_ne z.2 with hz | hz
     · have : 0 < (dr • z).1.im := by rw [hd, Complex.neg_im]; linarith
-      rw [if_neg (not_lt.2 hz.le), if_pos this, hF, zero_add]
+      rw [ite_eq_right (not_lt.2 hz.le), ite_eq_left this, hF, zero_add]
     · have : ¬ 0 < (dr • z).1.im := by rw [hd, Complex.neg_im]; linarith
-      rw [if_pos hz, if_neg this, add_zero]
+      rw [ite_eq_left hz, ite_eq_right this, add_zero]
   obtain ⟨hc1, hc2⟩ := comp_smul h1 dr (U k m')
   rw [hsplit]
   refine ⟨hI1.add (hc1.2 hI2), ?_⟩

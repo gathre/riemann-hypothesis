@@ -599,7 +599,7 @@ theorem exists_modif (hK : ReciprocityTheory.ChartRestriction.G.Geo.ResK.ResKSta
   obtain ⟨S, hS, hJ⟩ := R.homog
   obtain ⟨f, hfS, hfP⟩ : ∃ f ∈ S, f ∉ ptIdeal (i (genericPoint X)) := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact R.nondeg (hJ ▸ Ideal.span_le.2 h)
   obtain ⟨a, ha⟩ := hS f hfS
   have hfJ : f ∈ J := hJ ▸ Ideal.subset_span hfS
@@ -684,7 +684,7 @@ theorem integrableOn_of_modif {X : Scheme.{0}} [IsIntegral X] {q : X ⟶ Sp ℤ}
   have hcovK : ∀ x, ∃ j, ∃ u ∈ (A.chart j) '' tsupport (Pt.χ j), (A.chart j).symm u = x := fun x => by
     obtain ⟨j, hj⟩ : ∃ j, Pt.χ j x ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       have := Pt.sum_eq_one x
       simp [h] at this
     have hx : x ∈ tsupport (Pt.χ j) := subset_tsupport _ hj

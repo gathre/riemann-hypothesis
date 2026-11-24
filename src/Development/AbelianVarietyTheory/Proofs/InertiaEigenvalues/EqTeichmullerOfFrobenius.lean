@@ -227,9 +227,9 @@ theorem let_exists {n : ℕ} [NeZero n] (y : S) [IsAdicComplete (Ideal.span {y})
   · rw [Finset.sum_mul_sum]
     refine Finset.sum_congr rfl fun i _ => ?_
     rw [Finset.sum_eq_single i]
-    · rw [mul_mul_mul_comm, h2, if_pos rfl, Pi.mul_apply, map_mul]
+    · rw [mul_mul_mul_comm, h2, ite_eq_left rfl, Pi.mul_apply, map_mul]
     · intro j _ hj
-      rw [mul_mul_mul_comm, h2, if_neg hj.symm, zero_mul]
+      rw [mul_mul_mul_comm, h2, ite_eq_right hj.symm, zero_mul]
     · simp
   · change ∑ i, u (Pi.single i 1) * ev (algebraMap O O⟦X⟧ r) = _
     rw [ev.commutes, ← Finset.sum_mul, h1, one_mul]

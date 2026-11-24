@@ -116,7 +116,7 @@ theorem UpperTheory.V.Ws.Chain.exists_residual_datum_over_restriction_to_rationa
         rw [MonoidHom.mem_ker, map_mul, map_mul, hψ, mul_one, map_inv, inv_mul_cancel]⟩⟩)
       have hx : resQ T.F h = γ * (γ⁻¹ * resQ T.F h * γ) * γ⁻¹ := by group
       rw [hx, map_mul, map_mul, hk, mul_one, ← map_mul, mul_inv_cancel, map_one]
-    · push_neg at hS
+    · push Not at hS
       refine hc₀.pair.kill _ (Or.inl ⟨A, ?_, hI, hb⟩)
       intro q hq
       rcases Finset.mem_insert.1 hq with rfl | hq

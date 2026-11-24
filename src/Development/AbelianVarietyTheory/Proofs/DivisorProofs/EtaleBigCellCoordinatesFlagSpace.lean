@@ -396,9 +396,9 @@ def univN (Dw : Datum H) (A : Type) [CommRing A] (σ : E →+* ℂ) :
 theorem isUnit_det_univN {A B : Type} [CommRing A] [CommRing B] (f : MvPolynomial (VIx Dw) A →+* B) (σ : E →+* ℂ) :
     IsUnit ((univN Dw A σ).map f).det := by
   rw [Matrix.det_of_upperTriangular (M := (univN Dw A σ).map f) (fun i j (h : j < i) => by
-    rw [Matrix.map_apply, univN, dite_eq_right (not_lt.2 h.le), if_neg h.ne', map_zero])]
+    rw [Matrix.map_apply, univN, dite_eq_right (not_lt.2 h.le), ite_eq_right h.ne', map_zero])]
   refine IsUnit.prod_univ_iff.2 fun i => ?_
-  rw [Matrix.map_apply, univN, dite_eq_right (lt_irrefl i), if_pos rfl, map_one]
+  rw [Matrix.map_apply, univN, dite_eq_right (lt_irrefl i), ite_eq_left rfl, map_one]
   exact isUnit_one
 
 theorem eval₂Hom_univN {A B C : Type} [CommRing A] [CommRing B] [CommRing C] (f : A →+* B) (g : C →+* B)
@@ -408,8 +408,8 @@ theorem eval₂Hom_univN {A B C : Type} [CommRing A] [CommRing B] [CommRing C] (
   rw [univN]
   rcases lt_trichotomy i j with h | rfl | h
   · rw [dite_eq_left h]; exact MvPolynomial.eval₂Hom_X' _ _ _
-  · rw [dite_eq_right (lt_irrefl i), if_pos rfl, h1, map_one, map_one]
-  · rw [dite_eq_right (not_lt.2 h.le), if_neg h.ne', h0 σ i j h, map_zero, map_zero]
+  · rw [dite_eq_right (lt_irrefl i), ite_eq_left rfl, h1, map_one, map_one]
+  · rw [dite_eq_right (not_lt.2 h.le), ite_eq_right h.ne', h0 σ i j h, map_zero, map_zero]
 
 theorem Carries.nonempty (hC : IsCell TF Z U e v W k L N) (a : Γ(TF.Y.X, U.1)) {S : Type} [CommRing S]
     [Algebra (MvPolynomial (VIx Dw) Γ(TF.Y.X, U.1)) S]
@@ -691,7 +691,7 @@ theorem map_entry_eq_of_lower_mul {R A S : Type} [CommRing R] [CommRing A] [Comm
       rw [Matrix.of_apply, hbe i j, ← Matrix.map_mul, Matrix.mul_apply]
       rfl)
   have e := congrFun (congrFun key i) j
-  simp only [Matrix.of_apply, Matrix.map_apply, dif_pos hij] at e
+  simp only [Matrix.of_apply, Matrix.map_apply, dite_eq_left hij] at e
   exact e.symm
 
 theorem exists_cell_section : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (TF : TorFlag Xo c) (Z : Comp Xo c), FnAlgClosed (Xo := Xo) (c := c) → ∀ (U : TF.Y.X.affineOpens) (n : ℕ) (e : (Σ τ : E →+* ℂ, Fin (Dw.mult τ)) ≃ Fin n) (v : Fin n → (Sp (DualNumber Γ(TF.Y.X, U.1)) ⟶ TF.Y.t.G.left)), IsEigBasis TF U e v → ∀ (W : (Y₀ TF.X Z).Opens) (k : TF.X.F.J) (L N : ∀ σ : E →+* ℂ, Matrix (Fin (Dw.mult σ)) (Fin (Dw.mult σ)) Γ(Y₀ TF.X Z, W)) (h : IsCell TF Z U e v W k L N), Nonempty W → ∃ g : MvPolynomial (VIx Dw) Γ(TF.Y.X, U.1), ¬ IsNilpotent (MvPolynomial.eval₂Hom ((toBase TF Z).appLE U.1 W h.2.1).hom (cellCoord N) g) ∧ (∀ (S : Type) [CommRing S] (z₀ : Sp S ⟶ Y₀ TF.X Z) (hz₀ : ⊤ ≤ z₀ ⁻¹ᵁ W), IsUnit (ev z₀ W hz₀ (MvPolynomial.eval₂Hom ((toBase TF Z).appLE U.1 W h.2.1).hom (cellCoord N) g)) → ⊤ ≤ z₀ ⁻¹ᵁ U₀ TF.X Z) ∧ ∃ (z : Sp (Localization.Away g) ⟶ Y₀ TF.X Z) (hz : ⊤ ≤ z ⁻¹ᵁ W), ⊤ ≤ z ⁻¹ᵁ U₀ TF.X Z ∧ (∀ r, ev z W hz (((toBase TF Z).appLE U.1 W h.2.1).hom r) = algebraMap (MvPolynomial (VIx Dw) Γ(TF.Y.X, U.1)) (Localization.Away g) (MvPolynomial.C r)) ∧ ∀ i, ev z W hz (cellCoord N i) = algebraMap (MvPolynomial (VIx Dw) Γ(TF.Y.X, U.1)) (Localization.Away g) (MvPolynomial.X i) := by

@@ -192,7 +192,7 @@ private theorem exists_ne_zero_smul_mem_of_mem_span' (n k : ℕ) :
       simp [Fin.val_add, Nat.add_mod, add_comm]
     rw [Matrix.of_apply, hs, Matrix.mul_apply]
     simp only [Matrix.of_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ,
-      if_true, add_assoc]
+      ite_true, add_assoc]
 
 private theorem main_lemma_2 (n : ℕ) :
     ∑ k ∈ Finset.range (n + 1),
@@ -209,7 +209,7 @@ private theorem main_lemma_2 (n : ℕ) :
   simp only [hv]
   have hiff : ∀ i : Fin (n + 1), (a = b + i) ↔ (i = a - b) := fun i => by
     constructor <;> intro h <;> subst h <;> simp
-  simp only [hiff, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [hiff, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 private theorem main_lemma_3 (n : ℕ) : ∃ U : Matrix (Fin n) (Fin n) ℤ,
     Uᵀ * Cm ℤ n * U = Cm ℤ n ∧ ∑ k ∈ Finset.range (n + 1), U ^ k = 0 := by
@@ -506,7 +506,7 @@ theorem gaussSum_dual_shift : ∀ (F : Type) [Field F] [NumberField F] (κ : Typ
     rw [h0, zero_mul]
     obtain ⟨w, hw, hnot⟩ : ∃ w ∈ dualL F G, et (BF G y w) ≠ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hyL (hdd y (fun ν hν => (etiff _).1 (hcon ν hν)))
     have hs : c • w ∈ aL κ (1 : F) := (hB1 _).2 (hcw w hw)
     have hf : ∀ x ∈ aL κ (1 : F), ∀ m ∈ aL κ c,
@@ -816,7 +816,7 @@ theorem gauss_reps {V : Type} [AddCommGroup V] {A B C : AddSubgroup V} {T : Fins
     · have h1' : ∀ q, Gq u q = 1 := fun q => (h6 (r u) (hrB u)).mpr hu (r q) (hrB q)
       simp [h1']
     · have hn' : ¬ ∀ x ∈ B, g (r u) x = 1 := fun hh => hu ((h6 _ (hrB u)).mp hh)
-      push_neg at hn'
+      push Not at hn'
       obtain ⟨x, hxB, hx1⟩ := hn'
       have hq0 : Gq u (QuotientAddGroup.mk (⟨x, hxB⟩ : B)) ≠ 1 := by
         show g (r u) (r (QuotientAddGroup.mk (⟨x, hxB⟩ : B))) ≠ 1
@@ -1172,7 +1172,7 @@ private theorem sl0_mul_of_pos (k : ℕ) (g h : GL (Fin 2) (InfinitePlace F → 
       rw [e]
       exact hh v
     rw [map_mul, UpperHalfPlane.denom_cocycle_σ]
-    simp only [UpperHalfPlane.σ, if_pos hpos, ContinuousAlgEquiv.refl_apply]
+    simp only [UpperHalfPlane.σ, ite_eq_left hpos, ContinuousAlgEquiv.refl_apply]
     rfl
   rw [hact, Finset.prod_congr rfl (fun v _ => hden v), Finset.prod_mul_distrib, mul_inv, mul_pow]
   ring
@@ -1214,7 +1214,7 @@ theorem main_abcd {κ : Type} [Fintype κ] [DecidableEq κ] (G : Matrix κ κ �
       exact hcI.mul ((hLL m).1 hm i)
     by_cases hx : x ∈ LL F κ
     · have hxl : x + c • m ∈ LL F κ := add_mem hx hcm
-      simp only [oneL, if_pos hx, if_pos hxl, one_mul]
+      simp only [oneL, ite_eq_left hx, ite_eq_left hxl, one_mul]
       rw [(hsymm x (c • m)).2, (hsymm x (c • m)).1, (hsc c m x).1, (hsc c m x).2.1]
       have e : a / c * (QF G x + c * BF G m x + c ^ 2 * QF G m) =
           a / c * QF G x + (a * BF G m x + a * c * QF G m) := by

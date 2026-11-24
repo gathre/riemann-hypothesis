@@ -76,7 +76,7 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 
 theorem exists_moved (h : IsCMExt F E σ) : ∃ θ : E, σ θ ≠ θ := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   obtain ⟨τ⟩ : Nonempty (E →+* ℂ) := inferInstance
   have hc' := h.2.1
   refine IsTotallyComplex.complexEmbedding_not_isReal τ ?_

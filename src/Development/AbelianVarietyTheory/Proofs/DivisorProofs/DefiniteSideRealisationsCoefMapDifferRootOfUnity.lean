@@ -298,7 +298,7 @@ theorem eq_zero_of_vanish_skew (F E : Type) [Field F] [NumberField F] [Field E] 
     have hw : ∀ τ i j, ∑ G, z G * ψ τ (A G i j) = w τ i j := by
       intro τ i j
       have k2 := key ((ψ τ).comp c) j i
-      simp only [RingHom.comp_apply, hne, if_false, mul_zero, Finset.sum_const_zero] at k2
+      simp only [RingHom.comp_apply, hne, ite_false, mul_zero, Finset.sum_const_zero] at k2
       rw [sum_gen, key, k2]
       simp [hinj]
     refine ⟨z, ?_⟩
@@ -553,7 +553,7 @@ theorem ratDense (D : D7) (V : Formalism.BasicNotions.TH.HSp D)
     simp only [evDet']
     by_cases hx : ∀ τ, (1 + x τ).det ≠ 0
     · rw [hX x hx, zero_mul]
-    · push_neg at hx
+    · push Not at hx
       obtain ⟨τ, hτ⟩ := hx
       rw [Finset.prod_eq_zero (Finset.mem_univ τ) hτ, mul_zero]
   exact (mul_eq_zero.1 hz).resolve_right hprod2

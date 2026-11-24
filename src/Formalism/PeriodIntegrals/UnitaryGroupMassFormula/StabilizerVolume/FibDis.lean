@@ -129,7 +129,7 @@ theorem G_spec (hD : DensAll μ f ι ν U) {φ : V → ℝ} (h : IsCcOn U φ) :
     Continuous (G hD φ) ∧ ∀ S : Set X, IsCompact S →
       ∫ v in f ⁻¹' (ι '' S), φ v ∂μ = ∫ b in S, G hD φ b ∂ν := by
   classical
-  simp only [G, dif_pos h]
+  simp only [G, dite_eq_left h]
   exact Classical.choose_spec (hD φ h.1 h.2.1 h.2.2)
 
 variable [OpensMeasurableSpace X] [T2Space X] [LocallyCompactSpace X]

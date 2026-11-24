@@ -714,12 +714,12 @@ def aaF (D : D7) (a : Fin (D.R.rS + 1)) : FractionalIdeal (nonZeroDivisors (𝓞
 
 theorem aaF_castSucc (a : Fin D.R.rS) : aaF D (Fin.castSucc a) = ddS D ^ (-((D.R.rS : ℤ) - (a : ℕ))) := by
   unfold aaF
-  rw [if_pos (by simp)]
+  rw [ite_eq_left (by simp)]
   simp
 
 theorem aaF_last : aaF D (Fin.last D.R.rS) = 1 := by
   unfold aaF
-  rw [if_neg (by simp)]
+  rw [ite_eq_right (by simp)]
 
 theorem ddS_ne_zero : ddS D ≠ 0 := by
   unfold ddS
@@ -1194,7 +1194,7 @@ theorem coords_psL {u : Fin e → S.V} (hu : LinearIndependent E u) (I : Fin e �
 
 theorem exists_ne_mem {J : FractionalIdeal (𝓞 E)⁰ E} (hJ : J ≠ 0) : ∃ x ∈ J, x ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   apply hJ
   ext x
   constructor

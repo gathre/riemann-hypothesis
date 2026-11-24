@@ -819,9 +819,9 @@ theorem integral_indicator_eq_zero (hσ : IsSmooth σ) (hc : IsCuspidal σ)
           intro b'
           by_cases hb' : b' = b
           · subst hb'
-            simp only [k, if_pos rfl]
+            simp only [k, ite_eq_left rfl]
             exact hPr _ hm
-          · simp only [k, if_neg hb']
+          · simp only [k, ite_eq_right hb']
             refine neg_le_blockOrd fun i j hi => ?_
             have := hsupp _ (zeroBlock_blockDiag (mem_levi.1 m.2)) h0 i j
             simpa [zeroBlock, hi, hb'] using this
@@ -903,11 +903,11 @@ theorem exists_laurent (hσ : IsSmooth σ) (hc : IsCuspidal σ) (θ : levi F n �
               rintro b' (rfl | h)
               · exact h2
               · exact h1 b' h
-            rw [if_pos h1, if_pos this, if_neg (fun h => absurd h.2 (not_le.2 h2)), add_zero]
-          · rw [if_pos h1, if_neg (fun h => h2 (h b (Or.inl rfl))), if_pos ⟨h1, not_lt.1 h2⟩,
+            rw [ite_eq_left h1, ite_eq_left this, ite_eq_right (fun h => absurd h.2 (not_le.2 h2)), add_zero]
+          · rw [ite_eq_left h1, ite_eq_right (fun h => h2 (h b (Or.inl rfl))), ite_eq_left ⟨h1, not_lt.1 h2⟩,
               zero_add]
-        · rw [if_neg h1, if_neg (fun h => h1 fun b' hb' => h b' (Or.inr hb')),
-            if_neg (fun h => h1 h.1), add_zero]
+        · rw [ite_eq_right h1, ite_eq_right (fun h => h1 fun b' hb' => h b' (Or.inr hb')),
+            ite_eq_right (fun h => h1 h.1), add_zero]
       rw [hpt]
       simp only [Pi.add_apply]
       rw [integral_add (hint.indicator (hQm _)) (hint.indicator hRm)]
@@ -975,12 +975,12 @@ theorem exists_laurent (hσ : IsSmooth σ) (hc : IsCuspidal σ) (θ : levi F n �
           else 0 := by
       intro k
       by_cases hk : k = ordDet (m : GL (Fin n) F)
-      · rw [if_pos hk]
+      · rw [ite_eq_left hk]
         by_cases hm : m ∈ Q nonB1
         · rw [Set.indicator_of_mem ((hQk k).2 ⟨hm, hk.symm⟩), Set.indicator_of_mem hm, hval, hk]
         · rw [Set.indicator_of_notMem (fun h => hm ((hQk k).1 h).1), Set.indicator_of_notMem hm,
             mul_zero]
-      · rw [if_neg hk, Set.indicator_of_notMem (fun h => hk ((hQk k).1 h).2.symm), mul_zero]
+      · rw [ite_eq_right hk, Set.indicator_of_notMem (fun h => hk ((hQk k).1 h).2.symm), mul_zero]
     rw [Finset.sum_congr rfl fun k _ => hterm k, Finset.sum_ite_eq']
     split_ifs with hmem
     · rfl

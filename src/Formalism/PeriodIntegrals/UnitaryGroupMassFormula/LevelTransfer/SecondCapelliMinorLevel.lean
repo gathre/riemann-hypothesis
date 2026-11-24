@@ -75,7 +75,7 @@ theorem mulVec_liftVec (M : Matrix (Fin (2 * r' + k + 1)) (Fin (2 * r' + k + 1))
       rw [liftVec_out _ _ hq, mul_zero]
   · rw [liftVec_out _ _ hp]
     simp only [Matrix.mulVec, dotProduct, ιLev_out M p _ hp, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq,
-      Finset.mem_univ, if_true]
+      Finset.mem_univ, ite_true]
     exact liftVec_out _ _ hp
 
 theorem hpk_mulVec_liftVec (v : Fin (2 * r' + k + 1) → ℂ) :
@@ -120,7 +120,7 @@ theorem bvec_lev (q : Fin (2 * r' + k + 1)) : bvec (levPos k i r' q) = liftVec k
     simp only [bvec, Pi.single_apply, lev_inj.eq_iff]
   · rw [liftVec_out _ _ hp]
     simp only [bvec, Pi.single_apply]
-    rw [if_neg]
+    rw [ite_eq_right]
     rintro rfl
     exact hp (lev_in q)
 

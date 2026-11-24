@@ -52,9 +52,9 @@ attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 variable {hL : GlobalTheory.Published.LocalLanglandsGL} {K : Ctx} {B : Base} {f : Fr B.toPre} {T : TwDat B} {w : ColW B f T} {P : Pre2 K w}
 
-theorem qOf_off (v : B.places.Pl) (h : v ∉ P.Wt) : QOf P v = ∅ := if_neg h
+theorem qOf_off (v : B.places.Pl) (h : v ∉ P.Wt) : QOf P v = ∅ := ite_eq_right h
 
-theorem qOf_on (v : B.places.Pl) (h : v ∈ P.Wt) : QOf P v = T.Q v := if_pos h
+theorem qOf_on (v : B.places.Pl) (h : v ∈ P.Wt) : QOf P v = T.Q v := ite_eq_left h
 
 theorem qOf_eq (v : B.places.Pl) : QOf P v = T.Q v := by
   by_cases h : v ∈ P.Wt

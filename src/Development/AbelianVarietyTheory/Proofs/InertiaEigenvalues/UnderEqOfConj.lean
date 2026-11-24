@@ -99,7 +99,7 @@ theorem locSmall : ∀ (D : D7) (G : Type) [Group G] [Fintype G] (Pl0 T : Type) 
   · obtain ⟨P, hP, e, f', hPI, rfl⟩ := hbad
     rw [Finset.sum_eq_zero fun g hg => by rw [hB μ 𝓕 hμ P hP e f' hPI g (hC g hg).1 (hC g hg).2, norm_zero]]
     exact le_max_right _ _
-  push_neg at hbad
+  push Not at hbad
   obtain ⟨ε, hε, hfε⟩ := hf
   have hI0 := GlobalTheory.IdemSupport.supported_group_and_prime_idempotents (Wc D i)
   obtain ⟨P, hPv⟩ := exists_under D v

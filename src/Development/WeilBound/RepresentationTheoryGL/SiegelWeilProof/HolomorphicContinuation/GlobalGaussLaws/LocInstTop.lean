@@ -172,7 +172,7 @@ theorem exists_away (θ : InfFam D) (V : HSp D) (n : ℕ) (l : D.what₂.Tau →
     simp [evalPoly]
   · have hg0 : g (fun i j => finPart D ((0 : Mx D V.rank n) i j)) = 1 := by
       simp only [g]
-      rw [if_pos]
+      rw [ite_eq_left]
       exact (QuotientAddGroup.eq_zero_iff (N := W) _).2 fun i j => by simp
     show gAway V l s τ (fun τ => compAt θ τ 0) * g (fun i j => finPart D ((0 : Mx D V.rank n) i j)) ≠ 0
     rw [hg0, mul_one]
@@ -203,7 +203,7 @@ theorem exists_sec (θ : InfFam D) (hθ : IsInfFam θ) (τ : D.what₂.Tau) (m n
     · ext a' i'
       simp [Matrix.sum_apply, Matrix.single_apply]
       rw [Fintype.sum_eq_single a' (fun c hc => by simp [hc]), Fintype.sum_eq_single i' (fun c hc => by simp [hc])]
-      simp only [and_self, if_true]
+      simp only [and_self, ite_true]
       exact Complex.re_add_im _
     · simp
   have hf : ∀ u, (S u).map (finPart D) = 0 := by
@@ -217,9 +217,9 @@ theorem exists_sec (θ : InfFam D) (hθ : IsInfFam θ) (τ : D.what₂.Tau) (m n
   refine ⟨S, fun x u => ?_, fun x u τ' h => ?_, fun x u => ?_⟩
   · funext a i
     simp only [piT, Pi.add_apply]
-    rw [e, map_add (f := _), ← e, ← e, hc, if_pos rfl]
+    rw [e, map_add (f := _), ← e, ← e, hc, ite_eq_left rfl]
     rfl
-  · rw [e, map_add (f := _), ← e, ← e, hc, if_neg h, add_zero]
+  · rw [e, map_add (f := _), ← e, ← e, hc, ite_eq_right h, add_zero]
   · rw [ef, map_add (f := _), ← ef, ← ef, hf, add_zero]
 
 theorem cov {m n : ℕ} (fr : Matrix (Fin m) (Fin m) ℂ) (hfr : IsUnit fr.det) :
@@ -485,13 +485,13 @@ theorem lIcell_of (hAw : AwayAct) (hDA : DecompAway) (hU : UnipTau) (hAI : AwayI
     · right
       refine ⟨?_, ?_, ?_⟩
       · rw [abs_of_neg h]; ring
-      · simp [if_neg (not_lt.2 h.le)]
-      · simp [if_neg (not_lt.2 h.le)]
+      · simp [ite_eq_right (not_lt.2 h.le)]
+      · simp [ite_eq_right (not_lt.2 h.le)]
     · left
       refine ⟨?_, ?_, ?_⟩
       · rw [abs_of_pos h]
-      · simp [if_pos h]
-      · simp [if_pos h]
+      · simp [ite_eq_left h]
+      · simp [ite_eq_left h]
   have hS1 : sLd L (cLoc l τ) 1 1 = 1 := by
     have h := congrFun (hL 1 Ψ0 hΨ0a 1) 0
     rw [map_one, map_one, hphi 1] at h
@@ -568,8 +568,8 @@ theorem coeff_reP (p : MvPolynomial σ ℂ) (m : σ →₀ ℕ) : AddMonoidAlgeb
   unfold reP
   rw [coeff_sum]
   by_cases h : m ∈ p.support
-  · rw [Finset.sum_eq_single m (fun b _ hb => by rw [coeff_monomial, if_neg hb]) (fun hm => absurd h hm), coeff_monomial, if_pos rfl]
-  · rw [Finset.sum_eq_zero (fun b hb => by rw [coeff_monomial, if_neg (fun (e : b = m) => h (e ▸ hb))])]
+  · rw [Finset.sum_eq_single m (fun b _ hb => by rw [coeff_monomial, ite_eq_right hb]) (fun hm => absurd h hm), coeff_monomial, ite_eq_left rfl]
+  · rw [Finset.sum_eq_zero (fun b hb => by rw [coeff_monomial, ite_eq_right (fun (e : b = m) => h (e ▸ hb))])]
     have h0 : AddMonoidAlgebra.coeff p m = 0 := by simpa [mem_support_iff] using h
     simp [h0]
 
@@ -578,8 +578,8 @@ theorem coeff_imP (p : MvPolynomial σ ℂ) (m : σ →₀ ℕ) : AddMonoidAlgeb
   unfold imaginary
   rw [coeff_sum]
   by_cases h : m ∈ p.support
-  · rw [Finset.sum_eq_single m (fun b _ hb => by rw [coeff_monomial, if_neg hb]) (fun hm => absurd h hm), coeff_monomial, if_pos rfl]
-  · rw [Finset.sum_eq_zero (fun b hb => by rw [coeff_monomial, if_neg (fun (e : b = m) => h (e ▸ hb))])]
+  · rw [Finset.sum_eq_single m (fun b _ hb => by rw [coeff_monomial, ite_eq_right hb]) (fun hm => absurd h hm), coeff_monomial, ite_eq_left rfl]
+  · rw [Finset.sum_eq_zero (fun b hb => by rw [coeff_monomial, ite_eq_right (fun (e : b = m) => h (e ▸ hb))])]
     have h0 : AddMonoidAlgebra.coeff p m = 0 := by simpa [mem_support_iff] using h
     simp [h0]
 
@@ -637,10 +637,10 @@ theorem ofRe_toRe {m n : ℕ} (P : PX m n) : ofRe m n (toRe m n P) = P := by
     obtain ⟨a, i, b⟩ := k
     cases b
     · simp only [AlgHom.comp_apply, AlgHom.id_apply, toRe, ofRe, aeval_X, map_add (f := _), map_mul, aeval_C, algebraMap_eq,
-        Bool.false_eq_true, if_false, if_true]
+        Bool.false_eq_true, ite_false, ite_true]
       linear_combination (X (a, i, false) - X (a, i, true)) * hC + X (a, i, false) * hC2
     · simp only [AlgHom.comp_apply, AlgHom.id_apply, toRe, ofRe, aeval_X, map_sub, map_mul, aeval_C, algebraMap_eq,
-        Bool.false_eq_true, if_false, if_true]
+        Bool.false_eq_true, ite_false, ite_true]
       linear_combination -(X (a, i, false) - X (a, i, true)) * hC + X (a, i, true) * hC2
   exact congrArg (fun f => f P) this
 
@@ -1260,14 +1260,14 @@ theorem lIrho : LIrho := by
   let ρ0 : GR n → PX V.rank n → PX V.rank n := fun k P => if hk : InK (mR k) then (hexist k hk P).choose else P
   have hρ0 : ∀ (k : GR n) (hk : InK (mR k)) P, L k (fP (cLoc l τ) P) = fP (cLoc l τ) (ρ0 k P) := by
     intro k hk P
-    simp only [ρ0, dif_pos hk]
+    simp only [ρ0, dite_eq_left hk]
     exact (hexist k hk P).choose_spec
   have hρlin : ∀ (k : GR n) (a : ℂ) (P Q : PX V.rank n), ρ0 k (a • P + Q) = a • ρ0 k P + ρ0 k Q := by
     intro k a P Q
     by_cases hk : InK (mR k)
     · apply fP_inj (cLoc l τ)
       rw [fP_add_smul, ← hρ0 k hk, ← hρ0 k hk, ← hρ0 k hk, hLlin k hk]
-    · simp only [ρ0, dif_neg hk]
+    · simp only [ρ0, dite_eq_right hk]
   have hρ00 : ∀ k : GR n, ρ0 k 0 = 0 := by
     intro k
     have := hρlin k 1 0 0

@@ -1098,7 +1098,7 @@ theorem main_of_core (hcore : ∀ (E : Type) [Field E] [NumberField E] [IsCMFiel
   let wit : ∀ y, (Fin 1 → Φ.X y) → (Fin 1 → Φ.X y) := fun y μ => if h : NS y μ then h.choose else μ
   have hwit : ∀ y μ, NS y μ → Cg y (wit y μ) μ ∧ wit y μ ≠ μ ∧ qv y (wit y μ) ≤ qv y μ := by
     intro y μ h
-    simp only [wit, dif_pos h]
+    simp only [wit, dite_eq_left h]
     exact h.choose_spec
   have hel : ∀ y μ, ∃ e : PadicAlgCl p, ‖e‖ = Real.exp (-(Φ.sc y * qv y μ)) := by
     intro y μ
@@ -1159,7 +1159,7 @@ theorem main_of_core (hcore : ∀ (E : Type) [Field E] [NumberField E] [IsCMFiel
         · rw [norm_zero]; exact (Real.exp_pos _).le
     · by_cases hns : NS y μ
       · refine ⟨Sum.inr ⟨y, μ⟩, ?_⟩
-        simp only [t, Sum.elim_inr, g, if_pos hns]
+        simp only [t, Sum.elim_inr, g, ite_eq_left hns]
         exact hel y μ
       · have hstrict : ∀ μ' : Fin 1 → Φ.X y, (∀ u, CongMod N (μ' u) (μ u)) → μ' ≠ μ →
             qW !![(1 : ℤ)] (Φ.β y) μ < qW !![(1 : ℤ)] (Φ.β y) μ' := by
@@ -1177,7 +1177,7 @@ theorem main_of_core (hcore : ∀ (E : Type) [Field E] [NumberField E] [IsCMFiel
           simpa using this
         refine ⟨Sum.inl κ, ?_⟩
         simp only [t, Sum.elim_inl, hsel']
-        rw [if_pos trivial, hF, norm_pow, hnorm, ← Real.exp_nat_mul]; congr 1; push_cast; ring
+        rw [ite_eq_left trivial, hF, norm_pow, hnorm, ← Real.exp_nat_mul]; congr 1; push_cast; ring
   · rintro cc cc' (κ | s) h
     · simp only [f, Sum.elim_inl, hcls cc cc' κ h]
     · rfl
@@ -1191,7 +1191,7 @@ theorem main_of_core (hcore : ∀ (E : Type) [Field E] [NumberField E] [IsCMFiel
       have hsum : ∑ μ ∈ S, t y μ (Sum.inl κ) = t y s (Sum.inl κ) := by
         refine Finset.sum_eq_single_of_mem s hmem (fun μ hμ hne => ?_)
         simp only [t, Sum.elim_inl]
-        rw [if_neg]
+        rw [ite_eq_right]
         intro h
         exact hne (h.trans (hselc y μ _ (hS' μ hμ)))
       have hF : F (fun u => (k y).symm (s u)) κ = F cc κ := by
@@ -1200,7 +1200,7 @@ theorem main_of_core (hcore : ∀ (E : Type) [Field E] [NumberField E] [IsCMFiel
         simpa using this
       rw [hsum]
       simp only [t, Sum.elim_inl, hss]
-      rw [if_pos trivial, hF]
+      rw [ite_eq_left trivial, hF]
       simp [f, hε.le]
     · by_cases hy : y = y'
       · subst hy
@@ -1210,7 +1210,7 @@ theorem main_of_core (hcore : ∀ (E : Type) [Field E] [NumberField E] [IsCMFiel
           simp only [t, Sum.elim_inr, dite_true]
           by_cases hns : NS y μ
           · obtain ⟨hw1, hw2, -⟩ := hwit y μ hns
-            simp only [g, if_pos hns]
+            simp only [g, ite_eq_left hns]
             by_cases hc : Cg y μ (fun u => k y (cc u))
             · have hμS : μ ∈ S := hS₀ μ (by simp) (fun u => by simpa using hc u)
               have hwS : wit y μ ∈ S := hS₀ _ (by simp) (fun u => by simpa using _root_.GlobalTheory.Poinc.GalTrans.cm_trans (hw1 u) (hc u))
@@ -1221,7 +1221,7 @@ theorem main_of_core (hcore : ∀ (E : Type) [Field E] [NumberField E] [IsCMFiel
                 · subst h1; simp [hw2.symm]
                 · simp [h1]
               rw [Finset.sum_congr rfl (fun ν _ => e ν), Finset.sum_add_distrib, Finset.sum_ite_eq' S μ,
-                Finset.sum_ite_eq' S (wit y μ), if_pos hμS, if_pos hwS, add_neg_cancel]
+                Finset.sum_ite_eq' S (wit y μ), ite_eq_left hμS, ite_eq_left hwS, add_neg_cancel]
             · refine Finset.sum_eq_zero (fun ν hν => ?_)
               have h1 : ν ≠ μ := fun h => hc (h ▸ hS' ν hν)
               have h2 : ν ≠ wit y μ := fun h => hc (fun u => _root_.GlobalTheory.Poinc.GalTrans.cm_trans (_root_.GlobalTheory.Poinc.GalTrans.cm_symm (hw1 u)) (h ▸ hS' ν hν u))
@@ -1682,7 +1682,7 @@ theorem exists_idealSheaf_comap_uValThru : ∀ (E : Type) [Field E] [NumberField
       · right
         refine ⟨X₁.M.stalkHom z₀ h, ⟨(X₁.M.stalkEquiv z₀ h).2, ?_⟩, ?_⟩
         · by_contra hne
-          push_neg at hne
+          push Not at hne
           apply (IsLocalRing.mem_maximalIdeal _).1 hh
           have hu : IsUnit (X₁.M.stalkEquiv z₀ h) :=
             (RatModel.isUnit_O_iff _).2 ⟨hne.1, hne.2⟩

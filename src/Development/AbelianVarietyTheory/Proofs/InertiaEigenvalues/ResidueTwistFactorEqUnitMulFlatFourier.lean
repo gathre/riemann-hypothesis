@@ -88,10 +88,10 @@ theorem dite_prod' {ι : Type} (Q : Finset ι) (p : ι → Prop) (f : ∀ i, p i
     (if h : ∀ i ∈ Q, p i then ∏ i ∈ Q.attach, f i.1 (h i.1 i.2) else 0) =
       ∏ i ∈ Q.attach, if h : p i.1 then f i.1 h else 0 := by
   split_ifs with h
-  · exact Finset.prod_congr rfl fun i _ => (dif_pos (h i.1 i.2)).symm
-  · push_neg at h
+  · exact Finset.prod_congr rfl fun i _ => (dite_eq_left (h i.1 i.2)).symm
+  · push Not at h
     obtain ⟨i, hi, hp⟩ := h
-    exact (Finset.prod_eq_zero (Finset.mem_attach Q ⟨i, hi⟩) (dif_neg hp)).symm
+    exact (Finset.prod_eq_zero (Finset.mem_attach Q ⟨i, hi⟩) (dite_eq_right hp)).symm
 
 theorem omegaQ_eq_unit_mul_flat_transform : ∀ (D : D7) [∀ PP : Pl D.host.E, Fintype (kP PP)] (Q : Finset (Pl D.host.E)) (ξ : ∀ PP : Pl D.host.E, (kP PP)ˣ →* ℂˣ) (ψP : ∀ PP : Pl D.host.E, AddChar (kP PP) ℂ) (r n N : ℕ), 0 < N → (∀ PP ∈ Q, (ψP PP).IsPrimitive ∧ ξ PP ≠ 1 ∧ Nat.card (kP PP) ∣ N) → ∃ Gc : ℂ, UnitOff N Gc ∧ ∀ ub : ∀ PP : Pl D.host.E, Matrix (Fin n) (Fin r) (kP PP), omegaQ Q r ξ (-1) ub = Gc * ∑ y : (∀ PP : ↥Q, Matrix (Fin r) (Fin n) (kP PP.1)), omegaFlat Q r ξ (fun PP => if h : PP ∈ Q then -(y ⟨PP, h⟩) else 0) * ∏ PP : ↥Q, ψP PP.1 (Matrix.trace (y PP * ub PP.1)) := by
   intro D _ Q ξ ψP r n N _ hQ
@@ -129,7 +129,7 @@ theorem omegaQ_eq_unit_mul_flat_transform : ∀ (D : D7) [∀ PP : Pl D.host.E, 
         convert dite_prod' Q (fun PP => IsUnit (topL r (Y PP)).det) (fun PP h => ((ξ PP h.unit : ℂˣ) : ℂ))
       rw [e0, Finset.attach_eq_univ]
       refine Finset.prod_congr rfl fun PP _ => ?_
-      simp only [dif_pos PP.2]
+      simp only [dite_eq_left PP.2]
     simp only [hf, ← Finset.prod_mul_distrib]
     have hs := Finset.prod_univ_sum (t := fun (PP : ↥Q) => (Finset.univ : Finset (Matrix (Fin r) (Fin n) (kP PP.1))))
       (f := fun (PP : ↥Q) (y : Matrix (Fin r) (Fin n) (kP PP.1)) => fl PP.1 (-y) * ψP PP.1 (Matrix.trace (y * ub PP.1)))

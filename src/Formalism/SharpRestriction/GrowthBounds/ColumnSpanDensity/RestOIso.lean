@@ -427,7 +427,7 @@ private theorem qr_exists {F k : Type} [Field F] [Field k] [Fintype F] [Fintype 
   have hq2 : p ^ n < (p ^ n) ^ 2 := by nlinarith
   obtain ⟨t, ht⟩ : ∃ t : k, ∀ y, ι y ≠ t := by
     by_contra h
-    push_neg at h
+    push Not at h
     have := Fintype.card_le_of_surjective ι h
     rw [hF, hk] at this
     exact absurd this (not_le.mpr hq2)

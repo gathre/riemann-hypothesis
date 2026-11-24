@@ -318,7 +318,7 @@ theorem spanIsLines_of_onto {N : Type} (L : N → ℤ → M) {r : ℕ} (u : Fin 
     have h3 := congrFun h0 k
     rw [Matrix.mulVec, dotProduct, Finset.sum_eq_single k] at h3
     · change constantCoeff (Mx k k) * v k = 0 at h3
-      rw [heq k k rfl, if_pos rfl, one_mul] at h3
+      rw [heq k k rfl, ite_eq_left rfl, one_mul] at h3
       exact (Finset.mem_filter.1 hk).2 h3
     · intro s _ hs
       change constantCoeff (Mx k s) * v s = 0
@@ -326,7 +326,7 @@ theorem spanIsLines_of_onto {N : Type} (L : N → ℤ → M) {r : ℕ} (u : Fin 
       · rw [hvs, mul_zero]
       rcases (hmax s (by simpa using hvs)).lt_or_eq with h | h
       · rw [hlt k s h, zero_mul]
-      · rw [heq k s h, if_neg (Ne.symm hs), zero_mul]
+      · rw [heq k s h, ite_eq_right (Ne.symm hs), zero_mul]
     · simp
   intro y
   constructor

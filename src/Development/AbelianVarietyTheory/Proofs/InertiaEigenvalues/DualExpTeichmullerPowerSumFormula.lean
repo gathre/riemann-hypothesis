@@ -1008,7 +1008,7 @@ theorem norm_chi (σ : GQ l) : ‖((LT l).χQ σ : ℚ_[l])‖ = 1 :=
 
 theorem logChi_coe (σ : GQ l) :
     ((logChi LT σ : ℤ_[l]) : ℚ_[l]) = logZl l ((LT l).χQ σ : ℚ_[l]) := by
-  exact congrArg Subtype.val (dif_pos ((GlobalTheory.PadicLogUnits.logZl_hom l).2.2.1 _ (norm_chi LT σ)))
+  exact congrArg Subtype.val (dite_eq_left ((GlobalTheory.PadicLogUnits.logZl_hom l).2.2.1 _ (norm_chi LT σ)))
 
 theorem logChi_mul (σ τ : GQ l) : ((logChi LT (σ * τ) : ℤ_[l]) : ℚ_[l]) =
     ((logChi LT σ : ℤ_[l]) : ℚ_[l]) + ((logChi LT τ : ℤ_[l]) : ℚ_[l]) := by
@@ -1234,7 +1234,7 @@ theorem expStar_of_sum : ∀ (LT : LocTheory) (l : ℕ) [Fact l.Prime] (AI : Loc
     rw [← norm_pos_iff, hlog s hs.1 hs.2 u hg.2.le, hg.2]
     exact zpow_pos hl _
   have hLc : ((logChi LT g : ℤ_[l]) : ℚ_[l]) = logZl l u :=
-    congrArg Subtype.val (dif_pos (hint _ (hn g)))
+    congrArg Subtype.val (dite_eq_left (hint _ (hn g)))
   have hne : ∀ j ∈ Finset.range e, u ^ ((j : ℤ) - e) - 1 ≠ 0 := by
     intro j hj
     have hj' := Finset.mem_range.1 hj

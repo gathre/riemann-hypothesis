@@ -240,7 +240,7 @@ theorem isMultiHomog_coord (q : Σ k, Bk n k) :
     simp [Finsupp.single_apply]
   · have : ∀ j, (Finsupp.single (⟨k0, i0⟩ : Σ k, Bk n k) 1 : (Σ k, Bk n k) →₀ ℕ) ⟨k, j⟩ = 0 := by
       intro j
-      rw [Finsupp.single_apply, if_neg]
+      rw [Finsupp.single_apply, ite_eq_right]
       intro e
       exact h (congrArg Sigma.fst e).symm
     simp [this, h]
@@ -1579,7 +1579,7 @@ theorem ae_cover {X : Scheme.{0}} [IsIntegral X] (i : X ⟶ MP ℤ m n) [IsClose
     · refine Or.inr (Set.mem_iUnion₂.2 ⟨c, hcT, y, ⟨hyc, ⟨z, hy, h0⟩, hreg⟩, ?_⟩)
       have hl : Over i y (liftOf i y) := by
         have hex : ∃ z, Over i y z := ⟨z, hy⟩
-        simp only [liftOf, dif_pos hex]
+        simp only [liftOf, dite_eq_left hex]
         exact hex.choose_spec
       have ho : SameOrbit (liftOf i y) z := (_root_.GlobalTheory.CompanionTheory.MixZ.Orbit.eq_iff_sameOrbit m n X i y y _ _ hl hy).1 rfl
       rw [projCoord, ratios_eq_of_sameOrbit Ψ ho h0, ratios_of_proj Ψ hzv]
@@ -1612,7 +1612,7 @@ theorem archIntEq_of_integrable : ArchIntegrableOn → ArchIntEq := by
     ReciprocityTheory.ChartRestriction.G.Geo.goodProjExists _ _ _ D hP
   haveI hsc : SecondCountableTopology (GlobalTheory.CxPts (i ≫ mpStr ℤ m n) σ₀) := _root_.GlobalTheory.CompanionTheory.MixZ.ArchEq.secondCountable_cxPts m n X i D hX
   unfold ptsIntegral
-  rw [dif_pos hex]
+  rw [dite_eq_left hex]
   set Ψ : LinProj n D := hex.choose with hΨdef
   have hΨ : IsGoodProj (ptIdeal (i (genericPoint X))) Ψ := hex.choose_spec
   obtain ⟨j, aj, hj, hjP, hjc⟩ := exists_form_chart i hX

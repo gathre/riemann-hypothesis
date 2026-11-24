@@ -220,7 +220,7 @@ theorem exists_injective_of_tensor {α : Type} [DecidableEq α] {Γ X : α → T
     ∃ f : (ρ i).IntertwiningMap R, Function.Injective f := by
   have hx : ∃ x : ∀ a, X a, φ (PiTensorProduct.tprod ℂ x) ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (PiTensorProduct.ext (MultilinearMap.ext fun x => by simpa using h x))
   obtain ⟨x, hx⟩ := hx
   let ℓ : X i →ₗ[ℂ] D := φ ∘ₗ (PiTensorProduct.tprod ℂ).toLinearMap x i

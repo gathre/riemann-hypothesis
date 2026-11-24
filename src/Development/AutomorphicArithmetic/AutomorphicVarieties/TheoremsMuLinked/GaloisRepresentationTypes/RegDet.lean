@@ -127,7 +127,7 @@ theorem UpperTheory.V.AlgebraTools.der_inner :
       by_cases hab : a = b
       · subst hab
         simp
-      · rw [Finset.sum_eq_zero fun k _ => if_neg fun h => hab (h.1.symm.trans h.2)]
+      · rw [Finset.sum_eq_zero fun k _ => ite_eq_right fun h => hab (h.1.symm.trans h.2)]
         simp [hab]
     · intro s _ hs
       rw [Finset.sum_apply]
@@ -141,9 +141,9 @@ theorem UpperTheory.V.AlgebraTools.der_inner :
       simp only [a, Finset.mul_sum, ← mul_assoc, ← map_mul]
       rw [Finset.sum_eq_single_of_mem t (Finset.mem_univ t)]
       · rw [Finset.sum_eq_single_of_mem q (Finset.mem_univ q)]
-        · rw [hsame, if_pos rfl]
+        · rw [hsame, ite_eq_left rfl]
         · intro k _ hk
-          rw [hsame, if_neg (Ne.symm hk), map_zero, zero_mul]
+          rw [hsame, ite_eq_right (Ne.symm hk), map_zero, zero_mul]
       · intro s _ hs
         refine Finset.sum_eq_zero fun k _ => ?_
         rw [hne t s _ _ _ _ (Ne.symm hs), map_zero, zero_mul]
@@ -151,9 +151,9 @@ theorem UpperTheory.V.AlgebraTools.der_inner :
         = j (u t p (i0 t)) * D (u t (i0 t) q) := by
       rw [Finset.sum_eq_single_of_mem t (Finset.mem_univ t)]
       · rw [Finset.sum_eq_single_of_mem p (Finset.mem_univ p)]
-        · rw [hsame, if_pos rfl]
+        · rw [hsame, ite_eq_left rfl]
         · intro k _ hk
-          rw [hsame, if_neg hk, map_zero, mul_zero]
+          rw [hsame, ite_eq_right hk, map_zero, mul_zero]
       · intro s _ hs
         refine Finset.sum_eq_zero fun k _ => ?_
         rw [hne s t _ _ _ _ hs, map_zero, mul_zero]
@@ -458,7 +458,7 @@ private theorem padicAlgCl_norm_le_one_of_isIntegral {l : ℕ} [Fact l.Prime] (x
     ‖x‖ ≤ 1 := by
   obtain ⟨p, hpm, hp⟩ := hx
   by_contra h
-  push_neg at h
+  push Not at h
   rw [← Polynomial.aeval_def, Polynomial.aeval_eq_sum_range, Finset.sum_range_succ,
     hpm.coeff_natDegree, one_smul] at hp
   have hn0 : p.natDegree ≠ 0 := by

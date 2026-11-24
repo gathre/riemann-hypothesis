@@ -569,15 +569,15 @@ theorem card_badWinBox_le {ι : Type} (S I : Finset ι) (L k : ℕ) (i₀ i : ι
   unfold badWinBox
   by_cases hS : i ∈ S
   · have : i ∈ insert i₀ S := Finset.mem_insert_of_mem hS
-    rw [if_pos hS, if_pos this]
+    rw [ite_eq_left hS, ite_eq_left this]
     split_ifs <;> simp [Int.card_Icc] <;> omega
-  · rw [if_neg hS]
+  · rw [ite_eq_right hS]
     by_cases h0 : i = i₀
     · subst h0
-      rw [if_pos rfl, if_pos (Finset.mem_insert_self _ _)]
+      rw [ite_eq_left rfl, ite_eq_left (Finset.mem_insert_self _ _)]
       refine (Finset.card_union_le _ _).trans ?_
       simp [Int.card_Ico, Int.card_Ioc]; omega
-    · rw [if_neg h0, if_neg (by simp [h0, hS])]
+    · rw [ite_eq_right h0, ite_eq_right (by simp [h0, hS])]
       simp [Int.card_Icc]
       nlinarith
 
@@ -630,27 +630,27 @@ theorem tendsto_badWindow_div_rho : ∀ (K : UQ) (B : InvAlg K) (ι : Type) [Fin
       refine ⟨p, ?_, hp⟩
       simp only [W, Finset.mem_biUnion, Finset.mem_filter, Finset.mem_univ, true_and, Fintype.mem_piFinset]
       unfold Mid at hmid
-      push_neg at hmid
+      push Not at hmid
       obtain ⟨i₀, hi₀, h₀⟩ := hmid
       refine ⟨i₀, hi₀, fun i => ?_⟩
       obtain ⟨h1, h2, h3, h4⟩ := hw i
       unfold badWinBox
       by_cases hS : i ∈ S
-      · rw [if_pos hS]
+      · rw [ite_eq_left hS]
         by_cases hiI : i ∈ I
-        · rw [if_pos hiI]; simp only [Finset.mem_Icc]; exact ⟨h3 hiI, h2⟩
-        · rw [if_neg hiI]
+        · rw [ite_eq_left hiI]; simp only [Finset.mem_Icc]; exact ⟨h3 hiI, h2⟩
+        · rw [ite_eq_right hiI]
           have := (hI i hS).resolve_left hiI
           simp only [Finset.mem_Icc]; exact ⟨h1, h4 this⟩
-      · rw [if_neg hS]
+      · rw [ite_eq_right hS]
         by_cases h0 : i = i₀
         · subst h0
-          rw [if_pos rfl]
+          rw [ite_eq_left rfl]
           simp only [Finset.mem_union, Finset.mem_Ico, Finset.mem_Ioc]
           by_cases hl : (L : ℤ) ≤ p i
           · exact Or.inr ⟨h₀ hl, h2⟩
           · exact Or.inl ⟨h1, lt_of_not_ge hl⟩
-        · rw [if_neg h0]; simp only [Finset.mem_Icc]; exact ⟨h1, h2⟩
+        · rw [ite_eq_right h0]; simp only [Finset.mem_Icc]; exact ⟨h1, h2⟩
     let T : Finset (Submodule K.O B.A) := W.biUnion fun p => (hC p).1.toFinset
     have hTcard : T.card ≤ W.card * C := by
       refine Finset.card_biUnion_le.trans ?_

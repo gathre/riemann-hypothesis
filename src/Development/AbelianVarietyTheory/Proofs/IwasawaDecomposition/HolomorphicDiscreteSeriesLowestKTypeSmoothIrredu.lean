@@ -74,7 +74,7 @@ theorem smFn_coef (hσ : Formalism.QuantumDeterminants.IsCRepOn (Formalism.Quant
       obtain ⟨i, rfl⟩ := List.mem_ofFn.1 hv
       exact single_mem_UG (fun _ : Unit => Hm) _ (hX i) _
   simp only [Pi.mul_apply, hσ.2 _ (hu ()) _ (hmem _ ()), ContinuousLinearMap.comp_apply]
-  simp only [prod_single_apply, if_true]
+  simp only [prod_single_apply, ite_true]
   have h1 := hv k Xs hX
   exact (((innerSL ℂ l).comp (σ (u ()))).restrictScalars ℝ).contDiff.comp h1
 

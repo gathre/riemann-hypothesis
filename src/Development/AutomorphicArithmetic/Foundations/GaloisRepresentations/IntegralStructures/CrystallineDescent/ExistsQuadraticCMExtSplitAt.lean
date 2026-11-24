@@ -104,7 +104,7 @@ private theorem valuation_apply_lt_one_of_mem_dec {F Ω : Type} [Field F] [Field
     exact hz
   have h1 : 1 < A.valuation (e z)⁻¹ := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have h4 := valuation_apply_le_one_of_mem_dec A e⁻¹ (inv_mem he) _ hc
     have h5 : e⁻¹ (e z)⁻¹ = z⁻¹ := by
       rw [map_inv₀, ← AlgEquiv.mul_apply, inv_mul_cancel, AlgEquiv.one_apply]
@@ -286,7 +286,7 @@ theorem UpperTheory.Gal.UnramifiedFromSplittingCriterion.inertSplit :
   obtain ⟨e, he0, hce⟩ : ∃ e : Y, e ≠ 0 ∧ IsCMField.complexConj Y e = -e := by
     obtain ⟨y, hy⟩ : ∃ y : Y, IsCMField.complexConj Y y ≠ y := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact IsCMField.complexConj_ne_one Y (AlgEquiv.ext hc)
     refine ⟨y - IsCMField.complexConj Y y, sub_ne_zero.2 (Ne.symm hy), ?_⟩
     rw [map_sub, IsCMField.complexConj_apply_apply, neg_sub]
@@ -624,7 +624,7 @@ theorem UpperTheory.Gal.UnramifiedFromSplittingCriterion.realSpan :
   intro E M Ω F _ _ _ _ _ _ _ _ _ _ _ _ _ g hE hR
   have hnot : ∃ e : E, algebraMap E M e ∉ maximalRealSubfield M := by
     by_contra h
-    push_neg at h
+    push Not at h
     obtain ⟨φ⟩ : Nonempty (M →+* ℂ) := inferInstance
     apply IsTotallyComplex.complexEmbedding_not_isReal (φ.comp (algebraMap E M))
     show ComplexEmbedding.conjugate _ = _

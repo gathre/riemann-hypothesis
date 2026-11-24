@@ -959,7 +959,7 @@ theorem psi_of_shift (hG : GoodAt dV dW x ψ LV LV₀ LW LW₀ v) (hS : StdAt dV
       simp only [HypDec.extX_apply, Matrix.mul_assoc, Matrix.mul_one])
   have e2 : upSum (u.1 ⬝ (Matrix.single i j s : Mx D ρ ρ)) = s := by
     unfold upSum
-    rw [Finset.sum_eq_single i, Finset.sum_eq_single j, if_pos hij, Matrix.mul_single_apply_same, (hU i i).2, one_mul]
+    rw [Finset.sum_eq_single i, Finset.sum_eq_single j, ite_eq_left hij, Matrix.mul_single_apply_same, (hU i i).2, one_mul]
     · intro l _ hl; rw [Matrix.mul_single_apply_of_ne _ _ _ _ _ hl, ite_self]
     · intro h; exact absurd (Finset.mem_univ _) h
     · intro k _ hk
@@ -1257,7 +1257,7 @@ theorem exists_unit_mem_modul {T : Type} {L : LevCh D T} {sc : Consts} (G : Grid
   have hex : ∀ u ∈ G.pl.S0, ∃ c ∈ u.asIdeal, c ∉ v.asIdeal := by
     intro u hu
     by_contra h
-    push_neg at h
+    push Not at h
     have huv : u = v := HeightOneSpectrum.ext (u.isMaximal.eq_of_le v.isPrime.ne_top h)
     exact hv (huv ▸ hu)
   choose! f hf hfv using hex
@@ -1422,7 +1422,7 @@ theorem exists_mixS_ne {V V₀ W W₀ : HSp D} {ρ σ : ℕ} (dV : HypDec V V₀
     (x : Mx D W.rank ρ) (y : Mx D V₀.rank σ) (F : WO V W → ℂ) (hF : flatS dV dW s x y F ≠ 0) :
     ∃ u : UX D ρ, ∃ w₀, (_root_.I195MixedCoordinates_42c4dae75290f981192a257e.source dV) W ψ s.vS.μ s.vS.𝓕 F (x ⬝ u.1.1) w₀ ≠ 0 := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   apply hF
   funext w
   have h0 : ∀ u : UX D ρ, GlobalTheory.MixPer.flatFun ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 x y F w u = 0 := by

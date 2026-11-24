@@ -73,16 +73,16 @@ theorem sgn_key {K : Finset (Fin n)} {i₀ j : Fin n} (hi₀ : i₀ ∉ K) (hj :
       -(Cech.sgn (insert i₀ K) i₀ * Cech.sgn (insert i₀ K) j) := by
   have hne : j ≠ i₀ := fun e => hi₀ (e ▸ hj)
   have h1 : Cech.sgn (insert i₀ (K.erase j)) i₀ = Cech.sgn (K.erase j) i₀ := by
-    rw [sgn_insert (fun hm => hi₀ (Finset.mem_of_mem_erase hm)), if_neg (lt_irrefl _), mul_one]
+    rw [sgn_insert (fun hm => hi₀ (Finset.mem_of_mem_erase hm)), ite_eq_right (lt_irrefl _), mul_one]
   have h2 : Cech.sgn (insert i₀ K) i₀ = Cech.sgn K i₀ := by
-    rw [sgn_insert hi₀, if_neg (lt_irrefl _), mul_one]
+    rw [sgn_insert hi₀, ite_eq_right (lt_irrefl _), mul_one]
   have h3 := sgn_insert (b := j) hi₀
   have h4 := sgn_insert (b := i₀) (Finset.notMem_erase j K)
   rw [Finset.insert_erase hj] at h4
   rw [h1, h2, h3, h4]
   rcases lt_or_gt_of_ne hne with h | h
-  · simp only [if_pos h, if_neg (lt_asymm h)]; ring
-  · simp only [if_neg (lt_asymm h), if_pos h]; ring
+  · simp only [ite_eq_left h, ite_eq_right (lt_asymm h)]; ring
+  · simp only [ite_eq_right (lt_asymm h), ite_eq_left h]; ring
 
 end Signs
 
@@ -121,7 +121,7 @@ theorem onSet_pair {z : Cech.Cochain (fun _ : StdCell N => V) 0}
     = 0 at h
   have ha : a ∉ ({b} : Finset (Fin (N + 1))) := Finset.notMem_singleton.mpr hab.ne
   rw [Finset.sum_pair hab.ne, Finset.erase_insert ha, Finset.erase_insert_of_ne hab.ne,
-    Finset.erase_singleton, sgn_insert ha, sgn_insert ha, if_neg (lt_irrefl _), if_pos hab] at h
+    Finset.erase_singleton, sgn_insert ha, sgn_insert ha, ite_eq_right (lt_irrefl _), ite_eq_left hab] at h
   have e1 : Cech.sgn ({b} : Finset (Fin (N + 1))) a = 1 := by
     simp [Cech.sgn, Finset.filter_singleton, lt_asymm hab]
   have e2 : Cech.sgn ({b} : Finset (Fin (N + 1))) b = 1 := by
@@ -185,10 +185,10 @@ theorem Cech.Cone.proof : Cech.Cone.Statement.{u, v} := by
       generalize K.1.1 = Kf at hK ⊢
       by_cases h : i₀ ∈ Kf
       · rw [Finset.sum_eq_single i₀]
-        · rw [coneY, if_neg (Finset.notMem_erase i₀ Kf), Finset.insert_erase h, smul_smul,
+        · rw [coneY, ite_eq_right (Finset.notMem_erase i₀ Kf), Finset.insert_erase h, smul_smul,
             sgn_mul_self, one_smul]
         · intro j hj hne
-          rw [coneY, if_pos (Finset.mem_erase.mpr ⟨Ne.symm hne, h⟩), smul_zero]
+          rw [coneY, ite_eq_left (Finset.mem_erase.mpr ⟨Ne.symm hne, h⟩), smul_zero]
         · exact fun h' => absurd h h'
       · have hc := hcoc (insert i₀ Kf) (by rw [Finset.card_insert_of_notMem h, hK])
         rw [Finset.sum_insert h, Finset.erase_insert h] at hc
@@ -200,7 +200,7 @@ theorem Cech.Cone.proof : Cech.Cone.Statement.{u, v} := by
           refine Finset.sum_congr rfl fun j hj => ?_
           have hne : i₀ ≠ j := fun e => h (e ▸ hj)
           have hni : i₀ ∉ Kf.erase j := fun hm => h (Finset.mem_of_mem_erase hm)
-          rw [Finset.erase_insert_of_ne hne, coneY, if_neg hni, smul_smul, smul_smul,
+          rw [Finset.erase_insert_of_ne hne, coneY, ite_eq_right hni, smul_smul, smul_smul,
             sgn_key h hj, neg_smul]
         rw [hs, hb, smul_neg, neg_neg, smul_smul, sgn_mul_self, one_smul]
   · intro hJne i₀ hi₀ z hz hJ

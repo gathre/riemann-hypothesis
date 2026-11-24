@@ -328,7 +328,7 @@ theorem betaRat_holds : BetaRat Zd u u' F0 what₂ := by
     intro a b
     by_cases hab : a ≠ Fin.last D.R.rS ∨ b ≠ Fin.last D.R.rS
     · exact (FsLA.gram_fvec_zero F₃ a b hab).trans (FsLA.gram_fvec_zero F0 a b hab).symm
-    · push_neg at hab
+    · push Not at hab
       rw [hab.1, hab.2]
       exact (FsLA.gram_fvec_last F₃).trans (FsLA.gram_fvec_last F0).symm
   have k2 : ∀ a b, (VS D).hT (h a) (F₂.fvec b) = (VS D).hT (f a) (g b) := by
@@ -344,7 +344,7 @@ theorem betaRat_holds : BetaRat Zd u u' F0 what₂ := by
     intro a b
     by_cases hab : a ≠ Fin.last D.R.rS ∨ b ≠ Fin.last D.R.rS
     · exact (FsLA.gram_fvec_zero F₂ a b hab).trans (h1g a b hab).symm
-    · push_neg at hab
+    · push Not at hab
       rw [hab.1, hab.2]
       exact (FsLA.gram_fvec_last F₂).trans h2g.symm
   have hGr : FsLA.gram (VS D) uu' uu' = FsLA.gram (VS D) uu uu := by
@@ -548,7 +548,7 @@ theorem proj_exists (Λ : Submodule (𝓞 E) S.V) (hL : Submodule.IsFullLattice 
     rw [PI.UnitaryGroupMassFormula.BetaModX.Iota.herm'', h2]
     by_cases hab : a = b
     · subst hab; simp
-    · rw [if_neg (Ne.symm hab), if_neg hab, star_zero]
+    · rw [ite_eq_right (Ne.symm hab), ite_eq_right hab, star_zero]
   refine ⟨u, fun l hl => ⟨?_, ?_⟩⟩
   ·
     refine Λ.sub_mem hl ?_
@@ -572,7 +572,7 @@ theorem proj_exists (Λ : Submodule (𝓞 E) S.V) (hL : Submodule.IsFullLattice 
 
     rw [map_sub, map_sum]
     simp only [LinearMap.map_smul, smul_eq_mul, hdual, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-      Finset.mem_univ, if_true, sub_self]
+      Finset.mem_univ, ite_true, sub_self]
 
 end Proj
 

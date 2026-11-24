@@ -713,7 +713,7 @@ theorem UpperTheory.V.ZK.sCoc : UpperTheory.V.ZK.SCoc := by
     have a1 : 2 * (s : ℕ) % 2 = 0 := by omega
     have a2 : ¬(2 * (s : ℕ) + 1) % 2 = 0 := by omega
     have a3 : 2 * (s : ℕ) / 2 = s := by omega
-    simp only [a1, a2, a3, if_true, if_false, Fin.eta]
+    simp only [a1, a2, a3, ite_true, ite_false, Fin.eta]
 
 end
 end -- clump:auto
@@ -1006,7 +1006,7 @@ theorem UpperTheory.V.K.primeLe :
   · subst h2
     have := Module.finrank_pos (R := ℚ) (M := L)
     omega
-  · rw [if_neg h2] at hζ
+  · rw [ite_eq_right h2] at hζ
     have hdeg := minpoly.natDegree_le (A := ℚ) ζ
     rw [← Polynomial.cyclotomic_eq_minpoly_rat hζ hp.pos, Polynomial.natDegree_cyclotomic,
       Nat.totient_prime hp] at hdeg
@@ -1061,7 +1061,7 @@ private theorem sf_nu {l : ℕ} [Fact l.Prime] (U : Subgroup ℤ_[l]ˣ) (h0 : U.
     rw [PadicInt.norm_add_eq_max_of_ne] <;> simp_all [ne_of_gt, le_of_lt]
   have hmem : hunit.unit ^ U.index ∈ U := U.pow_index_mem hunit.unit
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : (((2 + padicValNat l U.index + padicValNat l e + 1 : ℕ)) : ℕ∞) ≤ nu l U e := by
     have := Order.add_one_le_of_lt hcon
     exact_mod_cast this
@@ -1664,7 +1664,7 @@ theorem goal_of : UpperTheory.V.ZK.SLayer := by
     by_cases h2 : l = 2
     · omega
     · obtain ⟨z, hz⟩ := hμ
-      rw [if_neg h2] at hz
+      rw [ite_eq_right h2] at hz
       have h1 := IsPrimitiveRoot.lcm_totient_le_finrank (K := ℚ) hz hz
         (Polynomial.cyclotomic.irreducible_rat (by rw [Nat.lcm_self]; exact hp.pos))
       rw [Nat.lcm_self, Nat.totient_prime hp] at h1
@@ -1677,7 +1677,7 @@ theorem goal_of : UpperTheory.V.ZK.SLayer := by
   · unfold Base.qExp at hq
     split_ifs at hq <;> omega
   · unfold Base.qExp at hq
-    rwa [if_pos h2] at hq
+    rwa [ite_eq_left h2] at hq
   · have := (q1 _).1 h
     omega
   · have h1 := IsTotallyComplex.finrank L'

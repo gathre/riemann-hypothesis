@@ -294,11 +294,11 @@ def units (hker : ∀ b, φ b = 0 → b ∈ I • (⊤ : Submodule R O)) (hP : �
   mul_eq i j k l := by
     by_cases h : j = k
     · subst h
-      rw [if_pos rfl, ← map_mul]
+      rw [ite_eq_left rfl, ← map_mul]
       refine LinearMap.ext fun x => ?_
       show (E i j * E j l) • x = E i l • x
       exact act_congr hker hP (by rw [map_mul, hE, hE, hE, Matrix.single_mul_single_same, mul_one]) x
-    · rw [if_neg h, ← map_mul]
+    · rw [ite_eq_right h, ← map_mul]
       refine LinearMap.ext fun x => ?_
       show (E i j * E k l) • x = 0
       have := act_congr hker hP (b := E i j * E k l) (b' := 0)

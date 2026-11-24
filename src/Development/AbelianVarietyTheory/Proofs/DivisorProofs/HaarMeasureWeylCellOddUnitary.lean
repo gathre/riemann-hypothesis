@@ -131,7 +131,7 @@ theorem blockHom_out (e : Fin m ↪ Fin n) (g : Matrix (Fin m) (Fin m) L) {i j :
 theorem cases_range (e : Fin m ↪ Fin n) (i j : Fin n) :
     (∃ a b, i = e a ∧ j = e b) ∨ (∀ a, i ≠ e a) ∨ ∀ a, j ≠ e a := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨h1, ⟨a, ha⟩, b, hb⟩ := h
   exact h1 a b ha hb
 
@@ -223,7 +223,7 @@ theorem inBlock_blockU (σ : L →+* L) (A : Fin n) (hA : A.rev.val = A.val + 2)
   · rw [blockU_val]
     by_cases h : ∀ a, i ≠ three A hA a
     · rw [blockHom_out _ _ (Or.inl h), Matrix.one_apply_eq]
-    · push_neg at h
+    · push Not at h
       obtain ⟨a, rfl⟩ := h
       rw [blockHom_apply]
       exact h2 a

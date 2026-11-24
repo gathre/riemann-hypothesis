@@ -58,8 +58,8 @@ open Classical
 def idemOff (S : Finset (HeightOneSpectrum (𝓞 E))) : Af E :=
   ⟨fun v => if v ∈ S then 0 else 1, Filter.Eventually.of_forall fun v => by
     by_cases h : v ∈ S
-    · simp only [h, if_true]; exact zero_mem _
-    · simp only [h, if_false]; exact one_mem _⟩
+    · simp only [h, ite_true]; exact zero_mem _
+    · simp only [h, ite_false]; exact one_mem _⟩
 
 theorem pLoc_idemOff (S : Finset (HeightOneSpectrum (𝓞 E))) (v : HeightOneSpectrum (𝓞 E)) :
     pLoc E v (idemOff S) = if v ∈ S then 0 else 1 := rfl
@@ -98,10 +98,10 @@ theorem exists_mul_supS_finGL : ∀ (E : Type) [Field E] [NumberField E] (a : �
   have hkv : ∀ v, v ∉ S → Matrix.GeneralLinearGroup.map (pLoc E v) k =
       Matrix.GeneralLinearGroup.map ((pLoc E v).comp (pFin E)) k₁ := by
     intro v hv
-    rw [hk, map_cornerGL_of_hom _ _ (pLoc E v) (fun x => by rw [pLoc_cutS, if_neg hv, one_mul])]
+    rw [hk, map_cornerGL_of_hom _ _ (pLoc E v) (fun x => by rw [pLoc_cutS, ite_eq_right hv, one_mul])]
     exact Units.ext (Matrix.ext fun i j => rfl)
   have hkS : ∀ v ∈ S, Matrix.GeneralLinearGroup.map (pLoc E v) k = 1 := fun v hv =>
-    map_cornerGL_of_zero _ _ (fun x => by rw [pLoc_cutS, if_pos hv, zero_mul]) _
+    map_cornerGL_of_zero _ _ (fun x => by rw [pLoc_cutS, ite_eq_left hv, zero_mul]) _
   have hK : ∀ v, v ∉ S → Matrix.GeneralLinearGroup.map ((pLoc E v).comp (pFin E)) k₁ ∈ KGL v (n := a) := by
     intro v hv
     exact Subgroup.mem_iInf.1 (Subgroup.mem_iInf.1 hk₁ v) hv

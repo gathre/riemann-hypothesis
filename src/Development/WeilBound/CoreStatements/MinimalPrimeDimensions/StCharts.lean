@@ -115,7 +115,7 @@ theorem exists_form (h1 : StPts) [IsIntegral Z] [NoetherianSpace Z] (hE : Emb p 
     obtain ⟨f, hf, hfn⟩ := Set.not_subset.mp hnot
     have hex : ∃ d, homogeneousComponent d f ∉ ptIdeal p s (genericPoint Z) := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply hfn
       rw [← MvPolynomial.sum_homogeneousComponent f]
       exact Ideal.sum_mem _ fun d _ => hcon d

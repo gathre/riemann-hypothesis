@@ -227,7 +227,7 @@ theorem torsion_zero_count_twist : Out.MulNSt → Out.SquareSt → (∀ (K : Typ
   obtain ⟨s', hs'⟩ := TwistZero.exists_untwist hsq P (N * d) hq b s
   have hs0 : ∃ j, s'.f j ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨j, hj⟩ := hs
     refine hj (sec_ext_val P.isLB (s := s) (s' := secZero _) (fun y J hJ => ?_) j)
     obtain ⟨u, hu⟩ := hs' _ (𝟙 _) y J hJ

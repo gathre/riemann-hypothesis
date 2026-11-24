@@ -149,7 +149,7 @@ private theorem integral_indicator_mul_char_eq_indicator_measure {V : Type} [Add
   · rw [Set.indicator_of_notMem (show y ∉ (L : Set V) from hy)]
     have hex : ∃ x0 ∈ L, χ x0 y ≠ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hy ((hL y).1 hcon)
     obtain ⟨x0, hx0, hne⟩ := hex
     set f : V → ℂ := (L : Set V).indicator (fun x => χ x y) with hf

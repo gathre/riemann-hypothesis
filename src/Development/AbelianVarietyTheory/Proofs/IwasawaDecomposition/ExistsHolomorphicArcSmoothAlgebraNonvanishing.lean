@@ -80,7 +80,7 @@ theorem exists_line (m : ℕ) (q : MvPolynomial (Fin m) ℂ) (hq : q ≠ 0) (b�
       ∀ u ∈ Metric.ball (0 : ℂ) ρ, u ≠ 0 → MvPolynomial.eval (b₀ + u • v) q ≠ 0 := by
   obtain ⟨w, hw⟩ : ∃ w, MvPolynomial.eval w q ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hq (MvPolynomial.funext fun x => by simpa using h x)
   let v := w - b₀
   let Q : Polynomial ℂ := MvPolynomial.aeval

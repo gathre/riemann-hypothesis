@@ -185,7 +185,7 @@ lemma ds_gen_of_span {S : Type*} [CommRing S] [IsLocalRing S] (A : Set S) (t : S
     (ht0 : t ∈ nonZeroDivisors S) (hA : Ideal.span A = Ideal.span {t}) :
     ∃ y ∈ A, ∃ c : Sˣ, y = c * t := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsub : Ideal.span A ≤ IsLocalRing.maximalIdeal S * Ideal.span {t} := by
     rw [Ideal.span_le]
     intro y hy

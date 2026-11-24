@@ -382,13 +382,13 @@ theorem gram_fvec {T : E} (F : FlagG S r T) (i j : Fin (r + 1)) :
   · have h := F.z_orth b
     rw [← S.herm.eq] at h
     simp only [FlagG.fvec, Fin.snoc_last, Fin.snoc_castSucc]
-    rw [if_neg (fun h' => (Fin.castSucc_lt_last b).ne h'.2)]
+    rw [ite_eq_right (fun h' => (Fin.castSucc_lt_last b).ne h'.2)]
     have h2 := congrArg (starRingEnd E) h
     simpa using h2
   · simp only [FlagG.fvec, Fin.snoc_last, Fin.snoc_castSucc]
-    rw [if_neg (fun h' => (Fin.castSucc_lt_last a).ne h'.1), F.z_orth a]
+    rw [ite_eq_right (fun h' => (Fin.castSucc_lt_last a).ne h'.1), F.z_orth a]
   · simp only [FlagG.fvec, Fin.snoc_castSucc]
-    rw [if_neg (fun h' => (Fin.castSucc_lt_last a).ne h'.1), F.e_iso a b]
+    rw [ite_eq_right (fun h' => (Fin.castSucc_lt_last a).ne h'.1), F.e_iso a b]
 
 theorem fvec_li {T : E} (hT : T ≠ 0) (F : FlagG S r T) : LinearIndependent E F.fvec := by
   unfold FlagG.fvec

@@ -322,7 +322,7 @@ theorem exists_stratification : GlobalTheory.Published.BhattScholzeCrystallineLa
         · subst h; simp
         · simp [Pi.single_eq_of_ne h]
       simp only [h1] at hE
-      simp only [Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true] at hE
+      simp only [Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true] at hE
       simp only [Matrix.map_apply] at hE ⊢
       rw [hE, Finset.mul_sum]
       refine Finset.sum_congr rfl fun m _ => ?_
@@ -555,13 +555,13 @@ theorem eps_frob_compat : ∀ (l : ℕ) [Fact l.Prime] (a e : ℕ) [NeZero a] [N
 
     · rw [map_sum, Finset.sum_apply, Finset.sum_apply]
       refine Finset.sum_congr rfl fun q _ => ?_
-      rw [hl₀, hU0, if_pos rfl, Algebra.smul_def, PowerSeries.algebraMap_apply,
+      rw [hl₀, hU0, ite_eq_left rfl, Algebra.smul_def, PowerSeries.algebraMap_apply,
         PowerSeries.algebraMap_apply, mul_comm]
     · intro i' _ h
 
       rw [map_sum, Finset.sum_apply, Finset.sum_apply]
       refine Finset.sum_eq_zero fun q _ => ?_
-      rw [hl₀, hU0, if_neg (Ne.symm h), mul_zero]
+      rw [hl₀, hU0, ite_eq_right (Ne.symm h), mul_zero]
     · intro h; exact absurd (Finset.mem_univ i) h
   refine Matrix.ext fun i j => ?_
   obtain ⟨n, k, hn⟩ := exists_isFrac (l : PP.A) (EE.Φ PP ⟨l, hl⟩ (EE.tr p₁ (b j)))
@@ -745,7 +745,7 @@ theorem value_eq {l : ℕ} {R₀ O R S ι Q : Type} [CommRing R₀] [CommRing O]
   Finset.sum_apply, Pi.smul_apply, hwb]
   rw [Finset.sum_eq_single i (fun k _ hk => by simp [Ne.symm hk]) (by simp)]
   refine Finset.sum_congr rfl fun q _ => ?_
-  rw [if_pos rfl, smul_comm, smul_eq_mul, mul_one]
+  rw [ite_eq_left rfl, smul_comm, smul_eq_mul, mul_one]
 
 theorem exists_coord' {A B M N O R S ι : Type} [CommRing A] [CommRing B] [AddCommGroup M] [Module A M]
     [AddCommGroup N] [Module B N] {f : A →+* B} {u : M →ₛₗ[f] N} [CommRing O] [CommRing R] [CommRing S]
@@ -877,7 +877,7 @@ theorem indep_of_coord {Z O S W B R M N ι : Type} [CommRing Z] [CommRing O] [Co
 
   simp only [map_sum, Finset.sum_apply, h3]
   rw [Finset.sum_comm]
-  simp only [Finset.sum_ite_eq, Finset.mem_univ, if_true]
+  simp only [Finset.sum_ite_eq, Finset.mem_univ, ite_true]
 
 variable {l : ℕ} [hl : Fact l.Prime] {a : ℕ} [NeZero a] {e : ℕ} [NeZero e]
 
@@ -991,7 +991,7 @@ theorem GlobalTheory.CrysDiag.eps_constantCoeff_eq_one : ∀ (l : ℕ) [Fact l.P
     have hfix : ∀ i, (oE 1).u S₀ (E.tr (δ.comp p₀) (b i)) = E.tr (δ.comp p₀) (b i) := fun i => by
       rw [(oE 1).u_tr, h1]
     simp only [hfix, ite_smul, one_smul, zero_smul, Finset.sum_const, Finset.card_univ, Fintype.card_unit]
-    rw [Finset.sum_ite_eq', if_pos (Finset.mem_univ _)]
+    rw [Finset.sum_ite_eq', ite_eq_left (Finset.mem_univ _)]
     conv_rhs => rw [hδ, E.tr_comp, hy j]
 
     simp only [E.tr_comp, map_sum]
@@ -1082,7 +1082,7 @@ theorem exists_rep {A M O ι : Type} [CommRing A] [AddCommGroup M] [Module A M] 
   rw [Finset.sum_eq_single j (fun j' _ hj' => by simp [hj']) (by simp)]
   rw [← hgg j]
   refine Finset.sum_congr rfl fun k _ => ?_
-  simp only [if_true, ite_smul, zero_smul, Finset.sum_ite_eq, Finset.mem_univ]
+  simp only [ite_true, ite_smul, zero_smul, Finset.sum_ite_eq, Finset.mem_univ]
   rw [← hpc j k]
 
 theorem conv_comb {l : ℕ} [Fact l.Prime] {a e : ℕ} [NeZero a] [NeZero e] {O K : Type} [CommRing O]

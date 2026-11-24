@@ -873,7 +873,7 @@ theorem sum_eLast_mul {m : ℕ} (hm : m + 1 < a) (φ : Fin a → E) :
   rw [Finset.sum_eq_single (⟨(⟨m, by omega⟩, ⟨m + 1, hm⟩), by simp⟩ : UnipotentBlockColumnIndex a (m + 1) (m + 1))]
   · simp [eLast]
   · intro s _ hs
-    rw [eLast, if_neg, zero_mul]
+    rw [eLast, ite_eq_right, zero_mul]
     intro e
     have := s.2
     exact hs (Subtype.ext (Prod.ext (Fin.ext (by simp only; omega)) (Fin.ext (by simp only; omega))))

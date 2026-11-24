@@ -258,10 +258,10 @@ theorem mem_S_of_loc (x : E ⊗[F] FiniteAdeleRing (𝓞 F) F) (h : ∀ w, prV (
     by_cases hw : w ∈ hfin.toFinset
     · rw [Finset.sum_eq_single w (fun v _ hv => afsplit_prV_IE_ne v w (Ne.symm hv) _)
         (fun h => absurd hw h), afsplit_prV_IE]
-      have h0 : (a_u c) w = 0 := if_pos (by simpa using hw)
+      have h0 : (a_u c) w = 0 := ite_eq_left (by simpa using hw)
       rw [h0, TensorProduct.tmul_zero, zero_mul, add_zero]
     · rw [Finset.sum_eq_zero (fun v hv => afsplit_prV_IE_ne v w (by rintro rfl; exact hw hv) _), zero_add]
-      have h0 : (a_u c) w = (algebraMap (𝓞 F) (w.adicCompletion F) c)⁻¹ := if_neg (by simpa using hw)
+      have h0 : (a_u c) w = (algebraMap (𝓞 F) (w.adicCompletion F) c)⁻¹ := ite_eq_right (by simpa using hw)
       rw [h0, ← mul_assoc, Algebra.TensorProduct.tmul_mul_tmul, one_mul,
         show (algebraMap (𝓞 F) (FiniteAdeleRing (𝓞 F) F) c) w = algebraMap (𝓞 F) (w.adicCompletion F) c from rfl,
         inv_mul_cancel₀ (levelaf_algebraMap_ne_zero w c hc0), ← Algebra.TensorProduct.one_def, one_mul]

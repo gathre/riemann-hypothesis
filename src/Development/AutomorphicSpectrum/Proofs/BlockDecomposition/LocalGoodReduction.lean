@@ -129,13 +129,13 @@ theorem mul_nrmL_comm (hU : Unr E) (n : ℕ) (w : Pl E) {y g : GLw n w} (hg : g 
     g * nrmL n w y = nrmL n w y * g := by
   have hinv := (GlobalTheory.BCT.ThBasic.twist_basic E hU n w).2.1
   by_cases hs : IsSplitAt w
-  · have h1 : thL n w = MonoidHom.id _ := by rw [thL, if_pos hs]
+  · have h1 : thL n w = MonoidHom.id _ := by rw [thL, ite_eq_left hs]
     rw [h1] at hg
     have h : g * y = y * g := hg
-    simpa only [nrmL, if_pos hs] using h
-  · have h1 : thL n w = thetaGL n (cj w) := by rw [thL, if_neg hs]
+    simpa only [nrmL, ite_eq_left hs] using h
+  · have h1 : thL n w = thetaGL n (cj w) := by rw [thL, ite_eq_right hs]
     rw [h1] at hg hinv
-    simpa only [nrmL, if_neg hs] using mul_norm_comm _ hinv hg
+    simpa only [nrmL, ite_eq_right hs] using mul_norm_comm _ hinv hg
 
 theorem twCent_comm (hU : Unr E) (n : ℕ) (w : Pl E) (y : GLw n w) (hy : (nrmL n w y).val.charpoly.Separable)
     (g h : GLw n w) (hg : g ∈ twCent (thL n w) y) (hh : h ∈ twCent (thL n w) y) : g * h = h * g := by

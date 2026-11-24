@@ -72,8 +72,8 @@ open Classical in
 def idemSf (S : Finset (HeightOneSpectrum (𝓞 E))) : Af E :=
   ⟨fun w => if w ∈ S then 1 else 0, Filter.Eventually.of_forall fun w => by
     by_cases h : w ∈ S
-    · simp only [h, if_true]; exact one_mem _
-    · simp only [h, if_false]; exact zero_mem _⟩
+    · simp only [h, ite_true]; exact one_mem _
+    · simp only [h, ite_false]; exact zero_mem _⟩
 
 theorem isIdempotentElem_idemSf (S : Finset (HeightOneSpectrum (𝓞 E))) : IsIdempotentElem (idemSf S) := by
   classical

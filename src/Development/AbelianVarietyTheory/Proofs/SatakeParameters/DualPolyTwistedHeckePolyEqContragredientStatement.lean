@@ -127,15 +127,15 @@ theorem heckePolyOf_dual {n q : ℕ} (hq : (q : K) ≠ 0) {a b : ℕ → K} (h0 
     rw [Nat.sub_self, h0] at this
     exact left_ne_zero_of_mul_eq_one this
   have htop : (Formalism.L2.Col.heckePolyOf n q a).coeff n ≠ 0 := by
-    rw [coeff_heckePolyOf, if_pos le_rfl]
+    rw [coeff_heckePolyOf, ite_eq_left le_rfl]
     exact mul_ne_zero (mul_ne_zero (pow_ne_zero _ (by simp)) (pow_ne_zero _ hq)) hn
   have hd : (Formalism.L2.Col.heckePolyOf n q a).natDegree = n :=
-    le_antisymm (natDegree_le_iff_coeff_eq_zero.2 fun i hi => by rw [coeff_heckePolyOf, if_neg (not_le.2 hi)])
+    le_antisymm (natDegree_le_iff_coeff_eq_zero.2 fun i hi => by rw [coeff_heckePolyOf, ite_eq_right (not_le.2 hi)])
       (le_natDegree_of_ne_zero htop)
   ext i
   by_cases hi : i ≤ n
   · rw [coeff_dualPoly_of_le _ _ (by rw [hd]; exact hi), leadingCoeff, hd, eq_inv_mul_iff_mul_eq₀ htop,
-      coeff_heckePolyOf, coeff_heckePolyOf, coeff_heckePolyOf, if_pos le_rfl, if_pos hi, if_pos (Nat.sub_le _ _),
+      coeff_heckePolyOf, coeff_heckePolyOf, coeff_heckePolyOf, ite_eq_left le_rfl, ite_eq_left hi, ite_eq_left (Nat.sub_le _ _),
       ← h i hi]
     obtain ⟨j, rfl⟩ := Nat.exists_eq_add_of_le hi
     rw [Nat.add_sub_cancel_left, ← pow_mul]
@@ -145,7 +145,7 @@ theorem heckePolyOf_dual {n q : ℕ} (hq : (q : K) ≠ 0) {a b : ℕ → K} (h0 
     rw [pow_add]
     linear_combination ((-1 : K) ^ j * a (i + j) * b i * ((-1) ^ i * (-1) ^ i)) * e +
       ((-1 : K) ^ j * a (i + j) * b i * ((q : K) ^ (j * (j - 1) / 2) * (q : K) ^ ((i + j - 1) * i))) * e2
-  · rw [coeff_dualPoly_of_lt _ _ (by rw [hd]; exact not_le.1 hi), coeff_heckePolyOf, if_neg hi]
+  · rw [coeff_dualPoly_of_lt _ _ (by rw [hd]; exact not_le.1 hi), coeff_heckePolyOf, ite_eq_right hi]
 
 end Poly
 

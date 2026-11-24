@@ -98,7 +98,7 @@ private theorem exists_basis_one_sqrt_nonsquare_of_finrank_two (K L : Type) [Fie
       ¬ IsSquare δ := by
   obtain ⟨θ, hθ⟩ : ∃ θ : L, θ ∉ Set.range (algebraMap K L) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbot : (⊥ : Subalgebra K L) = ⊤ :=
       eq_top_iff.mpr fun x _ => Algebra.mem_bot.mpr (hcon x)
     have := Subalgebra.bot_eq_top_iff_finrank_eq_one.mp hbot
@@ -154,7 +154,7 @@ private theorem exists_place_notMem_not_isSquare (F : Type) [Field F] [NumberFie
     ∃ v, v ∉ S₀ ∧ ¬ IsSquare (algebraMap F (v.adicCompletion F) δ) := by
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   set d : Fˣ := Units.mk0 δ hδ0 with hd
   have hidx := (_root_.GlobalTheory.QNorm.two_pow_le_index_locNorm F δ S₀ hδ0).1
   haveI : (_root_.GlobalTheory.QNorm.locNorm F δ S₀).FiniteIndex := ⟨hidx⟩

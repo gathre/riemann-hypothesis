@@ -60,12 +60,12 @@ theorem hasQ_mul_spread : ∀ (N M : ℕ) (f : ℍ → ℂ) (a : ℕ → ℂ), 0
   refine (hinj.hasSum_iff ?_).mp ?_
   · intro n hn
     simp only [spread]
-    rw [if_neg, zero_mul]
+    rw [ite_eq_right, zero_mul]
     rintro ⟨k, rfl⟩
     exact hn ⟨k, rfl⟩
   · convert h τ using 1
     funext k
-    simp only [Function.comp, spread, dvd_mul_right, if_true, Nat.mul_div_cancel_left k hM]
+    simp only [Function.comp, spread, dvd_mul_right, ite_true, Nat.mul_div_cancel_left k hM]
     congr 2
     push_cast
     field_simp

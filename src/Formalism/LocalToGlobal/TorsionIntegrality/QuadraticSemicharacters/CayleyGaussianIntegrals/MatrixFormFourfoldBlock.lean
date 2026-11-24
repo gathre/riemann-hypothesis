@@ -235,7 +235,7 @@ theorem standardFormBasic : StdHBasic := by
     simp only [hi, Complex.ofReal_re]
     obtain ⟨i, hi0⟩ : ∃ i, x i ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hx (funext h)
     exact Finset.sum_pos' (fun j _ => div_nonneg (Complex.normSq_nonneg _) harea.le)
       ⟨i, Finset.mem_univ _, div_pos (Complex.normSq_pos.mpr hi0) harea⟩

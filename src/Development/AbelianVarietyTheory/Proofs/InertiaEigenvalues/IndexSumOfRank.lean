@@ -1190,7 +1190,7 @@ theorem indexSum_inert : ∀ (D : D7) (W : HSp D) (n : ℕ), 2 * W.rank + 5 ≤ 
   let H : GA D W → Formalism.UG.UJ σ (1 : Matrix (Fin W.rank) (Fin W.rank) K) := fun g =>
     if hg : SuppF W (algebraMap (AF D.host.F) (AE D) ε) g then (hGC.2.2.1 g hg).choose else 1
   have hH : ∀ g ∈ C, ι (H g) = g := fun g hg => by
-    simp only [H, dif_pos (hC g hg).1]
+    simp only [H, dite_eq_left (hC g hg).1]
     exact (hGC.2.2.1 g (hC g hg).1).choose_spec
   have hinj : Set.InjOn (fun g => ((H g : GL (Fin W.rank) K))) C := fun g hg g' hg' e => by
     rw [← hH g hg, ← hH g' hg', Subtype.ext e]

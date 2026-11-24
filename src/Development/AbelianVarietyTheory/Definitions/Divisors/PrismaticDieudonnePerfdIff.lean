@@ -308,13 +308,13 @@ def ofConst (ε : (PDivGroup.mu p O).Tate) : ConstTate ε (const p O) where
   t _ := constGen p O
   t' _ := (charHom (const p O)).symm (constHom _ ε)
   pair i j := by
-    rw [pairing_apply, LinearEquiv.apply_symm_apply, tateMap_constHom, if_pos (Subsingleton.elim (α := Fin 1) i j)]
+    rw [pairing_apply, LinearEquiv.apply_symm_apply, tateMap_constHom, ite_eq_left (Subsingleton.elim (α := Fin 1) i j)]
 
 def ofMu (ε : (PDivGroup.mu p O).Tate) : ConstTate ε (PDivGroup.mu p O) where
   t _ := ε
   t' _ := constGen p O
   pair i j := by
-    rw [pairing_apply, charHom_constGen, tateMap_id, if_pos (Subsingleton.elim (α := Fin 1) i j)]
+    rw [pairing_apply, charHom_constGen, tateMap_id, ite_eq_left (Subsingleton.elim (α := Fin 1) i j)]
 
 theorem exists_bijective (C : Type) [Field C] [Algebra O C] [IsIntegrallyClosedIn O C] [IsAlgClosed C] [CharZero C]
     (ε : (PDivGroup.mu p O).Tate) (G : PDivGroup p O) : ∃ c : ConstTate ε G, Function.Bijective c.toTate := by

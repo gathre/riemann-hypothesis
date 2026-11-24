@@ -130,7 +130,7 @@ theorem sx_expS_eq {ι : Type} {f : MvPowerSeries ι (K0 p)} (hf : MvPowerSeries
     rw [Function.mem_support] at hd
     simp only [Finset.coe_range, Set.mem_Iio]
     by_contra h
-    push_neg at h
+    push Not at h
     apply hd
     rw [hz d (by omega), smul_zero]
 

@@ -184,7 +184,7 @@ theorem vLa_sWt {D : D7} {j : ℕ} (B : WeightFamilies.Prov D) (hinj : Function.
     rw [map_mul, map_natCast]
   rw [hc, Crude.crv_vLa_mul la hnn0 (Nat.cast_ne_zero.2 hN), hP, RPfVal.vLa_pPow la D.host.QS_pos.ne' hq hd, hl,
     Nat.padicValNat_def, multiplicity_eq_zero_of_not_dvd (fun h => hnd (h.trans D.host.QS_dvd_condN)),
-    if_neg (D.host.ne_q_of_not_dvd hnd), if_neg (D.host.ne_d_of_not_dvd hnd)]
+    ite_eq_right (D.host.ne_q_of_not_dvd hnd), ite_eq_right (D.host.ne_d_of_not_dvd hnd)]
   simp
 
 theorem nusOf_of_mem {D : D7} {j : ℕ} (B : WeightFamilies.Prov D) (w : WeightFamilies.Wt D j) (nu : HeightOneSpectrum (𝓞 B.KO) → ℝ)
@@ -299,7 +299,7 @@ theorem depth_le_over_level : (∀ (p : ℕ) [Fact p.Prime], Pdiv.ChartF.HTFSt p
       positivity
     · have h0 : (recPJ h j hj).phiC la y = 0 := by
         unfold WeightAlgebra.PJ.phiC
-        rw [if_neg hlt]
+        rw [ite_eq_right hlt]
       rw [h0, (hjm (not_lt.1 hlt)).2]
       simp
 
@@ -520,7 +520,7 @@ theorem depth_le : ∀ (D : D7) (T : Top D) (h : LawsP T) (j : ℕ) (hj : InR D 
       exact err_le (rr0 D) _ w.n _ Φ _ c e _ _ (rootDiscriminantDegreeRatio_pos D) (by positivity) (Nat.cast_nonneg _) he' (by linarith)
         (by linarith) hΦ0 hΦ' (hc hjm' 0).2
     · unfold WeightAlgebra.PJ.phiC
-      rw [(hjm hjm').2, if_neg (not_lt.2 hjm')]
+      rw [(hjm hjm').2, ite_eq_right (not_lt.2 hjm')]
       simp
   have hA := _root_.GlobalTheory.ThetaLeast.iInf_thGen_le_nuLocC _ T.Q.H (T.Q.Dw j) T.Q.l (T.Q.Xo j) T.Q.c (T.nab j) hnab (h.thTot j hj) S io z C hC
     Pu hPu hz ϖ hϖ Q hQ Φ M0 r b hΦ0 hb1 hb2 α hα1 hα2 hMu (wtA w) w.n (WeightAlgebra.DF w) e hn1 ho.1
@@ -619,7 +619,7 @@ theorem combBound_of_depth_le {D : D7} {B : WeightFamilies.Prov D} {P : ModuliIn
     linarith
   · have h0 : X.phiC la y = 0 := by
       unfold WeightAlgebra.PJ.phiC
-      rw [if_neg (not_lt.2 hj)]
+      rw [ite_eq_right (not_lt.2 hj)]
     rw [h0, mul_zero, add_zero] at hd
     exact hd
 
@@ -671,7 +671,7 @@ theorem lastPos_L_of_setC {D : D7} {B : WeightFamilies.Prov D} {P : ModuliIntegr
   have h2 := two_T_sq_le_last h τ i hi1
   have h3 := hL.2.1 τ i
   have hn : ¬ i.1 + 1 < (D.R.sigW j).1 := by omega
-  rw [if_neg hn] at h3
+  rw [ite_eq_right hn] at h3
   unfold WeightAlgebra.gapZ at h3
   rw [dite_eq_right hn] at h3
   have hTp : (0 : ℤ) < (WeightAlgebra.Tp D j T : ℤ) := by unfold WeightAlgebra.Tp; positivity

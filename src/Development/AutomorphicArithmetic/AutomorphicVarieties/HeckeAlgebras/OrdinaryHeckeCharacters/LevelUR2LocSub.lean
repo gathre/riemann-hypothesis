@@ -145,7 +145,7 @@ private theorem ls_le {A T K : Type} [CommRing A] [CommRing T] [Algebra A T] [Al
     [IsUltrametricDist K] (z : T →+* K) (h1 : ∀ b, ‖z (algebraMap A T b)‖ ≤ 1) (s : T) : ‖z s‖ ≤ 1 := by
   obtain ⟨p, hpm, hp⟩ := Algebra.IsIntegral.isIntegral (R := A) s
   by_contra hgt
-  push_neg at hgt
+  push Not at hgt
   have hev := congrArg z hp
   rw [Polynomial.hom_eval₂, map_zero, Polynomial.eval₂_eq_sum_range, Finset.sum_range_succ,
     ← Polynomial.leadingCoeff, hpm.leadingCoeff, map_one, one_mul] at hev
@@ -246,7 +246,7 @@ private theorem ls_core {A T K ι ι' : Type} [CommRing A] [IsLocalRing A] [IsNo
         simpa using this
       · rwa [hfi.pow_succ_eq] at hk
     rw [nilradical_eq_sInf, Ideal.mem_sInf] at hnil
-    push_neg at hnil
+    push Not at hnil
     obtain ⟨P, hP, hfP⟩ := hnil
     haveI : P.IsPrime := hP
     obtain ⟨Q, hQ, hQP⟩ := Ideal.exists_minimalPrimes_le (I := ⊥) (J := P) bot_le
@@ -260,9 +260,9 @@ private theorem ls_core {A T K ι ι' : Type} [CommRing A] [IsLocalRing A] [IsNo
       rw [mem_nonZeroDivisors_iff, not_and_or] at hnz
       have hex : ∃ y : T, algebraMap A T b * y = 0 ∧ y ≠ 0 := by
         rcases hnz with h | h
-        · push_neg at h
+        · push Not at h
           exact h
-        · push_neg at h
+        · push Not at h
           obtain ⟨y, hy, hy0⟩ := h
           exact ⟨y, by rw [mul_comm]; exact hy, hy0⟩
       obtain ⟨y, hy, hy0⟩ := hex

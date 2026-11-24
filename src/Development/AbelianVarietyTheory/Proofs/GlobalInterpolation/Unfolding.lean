@@ -149,7 +149,7 @@ theorem exists_split_finiteAdele {κ : Type} [Finite κ] (a : κ → Af F) :
       filter_upwards [hS.compl_mem_cofinite] with v hv
       rw [dite_eq_right hv]
       exact zero_mem _⟩
-  have hs : ∀ y, p (s y) = y := fun y => funext fun v => dif_pos v.2
+  have hs : ∀ y, p (s y) = y := fun y => funext fun v => dite_eq_left v.2
   have hs1 : ∀ v, s 1 v = if v ∈ S then 1 else 0 := fun v => by
     show dite _ _ _ = _
     split_ifs <;> rfl

@@ -203,7 +203,7 @@ theorem trBasis_append : ∀ {K L : Type} [Field K] [Field L] (cK : ℂ →+* K)
     rw [← hb, Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_apply]
     by_cases hkk : k = k'
     · subst hkk; simp
-    · rw [if_neg (Ne.symm hkk), if_neg hkk]
+    · rw [ite_eq_right (Ne.symm hkk), ite_eq_right hkk]
   let Dfam : Fin (r + n) → Derivation ℂ L L :=
     Fin.addCases (fun i => Dof 0 (Pi.single i 1)) (fun k => Dof (dK k) 0)
   have hval : ∀ m m', Dfam m (y m') = if m = m' then 1 else 0 := by
@@ -215,25 +215,25 @@ theorem trBasis_append : ∀ {K L : Type} [Field K] [Field L] (cK : ℂ →+* K)
         simp only [Dfam, hy, Fin.addCases_left, Fin.append_left, hDof2, Pi.single_apply]
         by_cases hii : i = i'
         · subst hii; simp
-        · rw [if_neg (Ne.symm hii), if_neg]
+        · rw [ite_eq_right (Ne.symm hii), ite_eq_right]
           intro e; exact hii (Fin.castAdd_injective _ _ e)
       | right k' =>
         have hne : Fin.castAdd n i ≠ Fin.natAdd r k' := by
           rw [Ne, Fin.ext_iff]; simp; omega
-        simp only [Dfam, hy, Fin.addCases_left, Fin.append_right, hDof1, if_neg hne]
+        simp only [Dfam, hy, Fin.addCases_left, Fin.append_right, hDof1, ite_eq_right hne]
         simp
     | right k =>
       induction m' using Fin.addCases with
       | left i' =>
         have hne : Fin.natAdd r k ≠ Fin.castAdd n i' := by
           rw [Ne, Fin.ext_iff]; simp; omega
-        simp only [Dfam, hy, Fin.addCases_right, Fin.append_left, hDof2, if_neg hne]
+        simp only [Dfam, hy, Fin.addCases_right, Fin.append_left, hDof2, ite_eq_right hne]
         simp
       | right k' =>
         simp only [Dfam, hy, Fin.addCases_right, Fin.append_right, hDof1, hdK]
         by_cases hkk : k = k'
         · subst hkk; simp
-        · rw [if_neg hkk, if_neg, map_zero]
+        · rw [ite_eq_right hkk, ite_eq_right, map_zero]
           intro e; exact hkk (Fin.natAdd_injective _ _ e)
   have hlin : LinearIndependent L (fun m => KaehlerDifferential.D ℂ L (y m)) := by
     let F : Ω[L⁄ℂ] →ₗ[L] (Fin (r + n) → L) :=

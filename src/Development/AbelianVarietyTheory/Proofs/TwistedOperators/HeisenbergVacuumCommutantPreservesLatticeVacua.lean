@@ -92,7 +92,7 @@ theorem annVac : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ), IsStdChar D ψ (
   · obtain ⟨hμ, h𝓕, -⟩ := v.covol
     have hex : ∃ u, heisO ψ S T u f = f ∧ heisO ψ S T u f₀ = f₀ ∧ ψ (symplO S T w u) ≠ 1 := by
       by_contra hno
-      push_neg at hno
+      push Not at hno
       exact hw ⟨fun u hu => hno _ (hf.2.1 u hu) (hf₀.2.1 u hu),
         fun e he u hu hh => hno _ (hf.2.2 e he u hu hh) (hf₀.2.2 e he u hu hh)⟩
     obtain ⟨u, hu, hu₀, hc⟩ := hex

@@ -106,7 +106,7 @@ theorem AAx_omit {A : Type} [Ring A] [Algebra ℂ A] (k r m : ℕ) (hm : m + 1 �
   · rw [Finset.sum_image (fun a _ b _ h => hg h)]
     apply Finset.sum_congr rfl
     intro l0 _
-    rw [if_pos]
+    rw [ite_eq_left]
     · rfl
     · intro a b hab; simp only [g, Function.comp_apply, xR, eI]; exact Fin.strictMono_succAbove l0 hab
   · intro c _ hc
@@ -142,7 +142,7 @@ theorem _root_.Formalism.FourierDecayAlt.P.head_algebra_relations : Formalism.Fo
       rw [Matrix.det_succ_row _ (Fin.last (m + 1)), Fin.sum_univ_castSucc, Finset.sum_eq_zero]
       · simp only [Matrix.of_apply, Matrix.submatrix, Fin.succAbove_last, zero_add]
         have h1 : xi (Fin.castLE hm (Fin.last (m + 1))) (xR k r (m + 2) hm (Fin.last (m + 1))) = c := by
-          rw [hxl' _ _ (by simp), if_pos (by simp [xR, eI])]
+          rw [hxl' _ _ (by simp), ite_eq_left (by simp [xR, eI])]
         rw [h1]
         have h2 : (Matrix.of fun i j : Fin (m + 1) => xi (Fin.castLE hm (Fin.castSucc i))
             (xR k r (m + 2) hm (Fin.castSucc j))) = Z := by
@@ -155,12 +155,12 @@ theorem _root_.Formalism.FourierDecayAlt.P.head_algebra_relations : Formalism.Fo
         rw [← two_mul, pow_mul]; norm_num; ring
       · intro j _
         simp only [Matrix.of_apply]
-        rw [hxl' _ _ (by simp), if_neg (by simp [xR, eI]; omega)]
+        rw [hxl' _ _ (by simp), ite_eq_right (by simp [xR, eI]; omega)]
         ring
     · intro a p ha hp
       by_cases ha' : a.val < m + 1
       · rw [hxi' a p ha', dite_eq_right (by omega)]
-      · rw [hxl' a p (by omega), if_neg (by omega)]
+      · rw [hxl' a p (by omega), ite_eq_right (by omega)]
   have hA1 : AAx k r E xi (m + 1) (by omega) u = Z.det • qminor E (xR k r (m + 1) (by omega)) (xR k r (m + 1) (by omega)) u := by
     rw [AAx_head k r E xi (m + 1) (by omega) Z u]
     · intro a p ha hp

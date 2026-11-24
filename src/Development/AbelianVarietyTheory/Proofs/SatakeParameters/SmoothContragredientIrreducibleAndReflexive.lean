@@ -216,7 +216,7 @@ theorem exists_smooth_form_ne {π : Representation ℂ G V} (hπ : IsSmooth π)
   have hvK : v ∈ fixed π K := mem_fix.2 fun h hh => hKs hh
   obtain ⟨m, hm⟩ : ∃ m : Module.Dual ℂ (fixed π K), m ⟨v, hvK⟩ ≠ 0 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     exact hv (congrArg Subtype.val ((Module.forall_dual_apply_eq_zero_iff ℂ _).1 hne))
   obtain ⟨l, -, hl⟩ := exists_fixed_contra hπ ho hc m
   exact ⟨l, by rw [show v = ((⟨v, hvK⟩ : fixed π K) : V) from rfl, hl]; exact hm⟩
@@ -340,7 +340,7 @@ theorem contra_isIrreducible
     (contra π).IsIrreducible := by
   obtain ⟨v, hv⟩ : ∃ v : V, v ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply (bot_ne_top : (⊥ : Subrepresentation π) ≠ ⊤)
     apply Subrepresentation.ext
     ext x

@@ -249,7 +249,7 @@ theorem sf_bound {F E : Type} [Field F] [Field E] [Algebra F E] (σ : E →ₐ[F
   rw [hN] at key
   have h1 : ‖τ ((J * g) i j)‖ ^ 2 ≤ ta * tb := by
     by_contra hneg
-    push_neg at hneg
+    push Not at hneg
     have h6 : s * tw < 0 := by
       rw [← key]
       nlinarith

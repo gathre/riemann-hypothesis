@@ -97,12 +97,12 @@ theorem norm_rsTermNM_le (q : ℕ) (hq : 0 < q) {m n : ℕ} (h : m ≤ n) (α : 
     (v : Fin m → ℤ) :
     ‖rsTermNM q α β x v‖ ≤ (sqTerm q α x (padInt h v) + sqTerm q β x v) / 2 := by
   by_cases hv : (∀ i, 0 ≤ v i) ∧ Antitone v
-  · rw [rsTermNM, if_pos hv, sqTerm, if_pos (padInt_valid h hv), sqTerm, if_pos hv, toNat_padInt h v,
+  · rw [rsTermNM, ite_eq_left hv, sqTerm, ite_eq_left (padInt_valid h hv), sqTerm, ite_eq_left hv, toNat_padInt h v,
       sum_padNat h, norm_mul, norm_mul, Complex.norm_conj, norm_cpow_pow q hq]
     have hw : 0 ≤ (q : ℝ) ^ (-(((∑ i, (v i).toNat : ℕ) : ℝ) * x)) := Real.rpow_nonneg (Nat.cast_nonneg _) _
     nlinarith [mul_nonneg (sq_nonneg (‖schurAt (padNat (n := n) fun i => (v i).toNat) α‖ -
       ‖schurAt (fun i => (v i).toNat) β‖)) hw]
-  · rw [rsTermNM, if_neg hv, norm_zero]
+  · rw [rsTermNM, ite_eq_right hv, norm_zero]
     exact div_nonneg (add_nonneg (sqTerm_nonneg _ _ _ _) (sqTerm_nonneg _ _ _ _)) zero_le_two
 
 theorem rsTermNM_zero (q : ℕ) {m n : ℕ} (α : Fin n → ℂ) (β : Fin m → ℂ) (x : ℝ) : rsTermNM q α β x 0 = 1 := by
@@ -113,14 +113,14 @@ theorem rsTermNM_zero (q : ℕ) {m n : ℕ} (α : Fin n → ℂ) (β : Fin m →
     rw [this, schurAt, schur_zero]; simp
   have hs' : schurAt (fun i => ((0 : Fin m → ℤ) i).toNat) β = 1 := by
     rw [← h, schurAt, schur_zero]; simp
-  rw [rsTermNM, if_pos ⟨fun i => le_rfl, antitone_const⟩, hs, hs']
+  rw [rsTermNM, ite_eq_left ⟨fun i => le_rfl, antitone_const⟩, hs, hs']
   simp
 
 theorem rsTermNM_partVec (q : ℕ) {m n : ℕ} (α : Fin n → ℂ) (β : Fin m → ℂ) (x : ℝ)
     (l : {l : Fin m → ℕ // Antitone l}) :
     rsTermNM q α β x (partVec l) =
       schurAt (padNat (n := n) l.1) α * conj (schurAt l.1 β) * ((q : ℂ) ^ (-(x : ℂ))) ^ (∑ i, l.1 i) := by
-  rw [rsTermNM, if_pos (partVec_valid l)]
+  rw [rsTermNM, ite_eq_left (partVec_valid l)]
   simp [partVec]
 
 end GlobalTheory.RSnmEul
@@ -157,7 +157,7 @@ theorem hasSum_rsTermNM_local (q : ℕ) {m n : ℕ} (hmn : m ≤ n) (α : Fin n 
   · intro v hv
     by_cases hval : (∀ j, 0 ≤ v j) ∧ Antitone v
     · exact absurd (mem_range_partVec hval) hv
-    · rw [rsTermNM, if_neg hval]
+    · rw [rsTermNM, ite_eq_right hval]
 
 theorem euler_rsTermNM : ∀ {I : Type} (q : I → ℕ) {n m : ℕ}, m ≤ n → ∀ (α : I → Fin n → ℂˣ) (β : I → Fin m → ℂˣ) (x : ℝ), 1 < x →
     (∀ i, 2 ≤ q i) → GlobalTheory.RSPole.eulD q (fun i j => (α i j : ℂ)) x ≠ ⊤ → GlobalTheory.RSPole.eulD q (fun i j => (β i j : ℂ)) x ≠ ⊤ →

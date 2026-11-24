@@ -116,7 +116,7 @@ theorem secGram_holds : SecGram := by
         algebraMap F (R ⊗[F] E) (1 / 2) * S i' j * (if i = i' then 1 else 0) := fun i' => by
       rw [← hq i i', Finset.mul_sum]
       exact Finset.sum_congr rfl fun k _ => by ring
-    simp only [e3, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    simp only [e3, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
   have h2 : ∀ i j, hR R σ J
       (fun k => ∑ i', (algebraMap F (R ⊗[F] E) (1 / 2) * S i' i) * q k i') (x j) =
         algebraMap F (R ⊗[F] E) (1 / 2) * S i j := by

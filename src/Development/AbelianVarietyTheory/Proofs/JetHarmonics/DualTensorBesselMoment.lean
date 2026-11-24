@@ -155,7 +155,7 @@ theorem H_ne {i j : Fin (2 * r + k + 1)} (h : Formalism.QuantumDeterminants.Hpk 
   · exact Or.inr (Or.inl h2)
   by_cases h3 : r ≤ i.val ∧ i.val ≤ r + k ∧ i = j
   · exact Or.inr (Or.inr ⟨h3.1, h3.2.1, congrArg Fin.val h3.2.2⟩)
-  · rw [if_neg h1, if_neg h2, if_neg h3] at h
+  · rw [ite_eq_right h1, ite_eq_right h2, ite_eq_right h3] at h
     exact absurd rfl h
 
 theorem H_herm : (Formalism.QuantumDeterminants.Hpk k r)ᴴ = Formalism.QuantumDeterminants.Hpk k r := by

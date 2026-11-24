@@ -144,7 +144,7 @@ theorem GlobalTheory.EvenOnto.parBound_of_rapidDecay : GlobalTheory.Published.Cu
   obtain ⟨hu0, hpar⟩ := hB
   have hex : ∃ v, PiLocalization₂.val u v ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hu0
     apply Subtype.ext
     apply LinearMap.ext
@@ -479,7 +479,7 @@ namespace GlobalTheory.EvenOnto
 theorem exists_tprod_ne_zero_of_cc {D : D7} {c : Com D} {s : PiLocalization₂ D} (z : s.CC c) (hz : z ≠ 0) :
     ∃ v : s.M.Vec, PiTensorProduct.tprod ℂ v ≠ 0 := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   apply hz
   apply Subtype.ext
   show (z : SmT s.M →ₗ[ℂ] (GA D s.V → ℂ)) = 0
@@ -563,7 +563,7 @@ theorem ontoAll_of : ∀ D : D7, FinDim D → MetEx D → EigSpan D → ParIndep
     intro i i' hii'
     have := hne i i' hii'
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact this hcon
   · intro u B hu
     exact hadj ipD₀ ip₀ ipD ip hm₀ hm u B hu

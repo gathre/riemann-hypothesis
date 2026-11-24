@@ -642,7 +642,7 @@ theorem smoothed_pres_of_shCoc [IsAlgClosure ℚ Ω] (A : ValuationSubring Ω) (
     if h : (ρ s : Matrix (Fin 2) (Fin 2) (Qbar l)) 1 1 ≠ 0 then Units.mk0 _ h else 1
   have hν : ∀ s ∈ Dec (F := ℚ) A, (ν s : Qbar l) = (ρ s : Matrix (Fin 2) (Fin 2) (Qbar l)) 1 1 := by
     intro s hs
-    simp only [ν, dif_pos (hnz s hs), Units.val_mk0]
+    simp only [ν, dite_eq_left (hnz s hs), Units.val_mk0]
   refine smoothed_pres A hA c ν (fun r s y => Y r s y 1) (fun r => ⟨hO r, fun s hs u _ x => ?_⟩)
     (fun r => GlobalTheory.LambdaValuationPowers.AllRoots.continuous_of_cg _ fun n => ?_) (fun s hs => ?_) d₀ hd₀ m ζ hζ
   · have := congrFun (hY r s u x) 1
@@ -678,7 +678,7 @@ theorem exists_pres_smoothed : ∀ (l : ℕ) [Fact l.Prime] (Ω : Type) [Field �
     exact smoothed_pres_of_shCoc A hN.atL cf ρ hD hI Y (fun r => hfun ▸ hY r) hc hO d₀ hd₀ m ζ hζ
   · refine GlobalTheory.LambdaValuationPowers.AllRoots.pres_of_vanish A cf _ m ζ hζ fun s _ _ => ?_
     obtain ⟨Yx, -, hs⟩ := hZ
-    push_neg at hcw
+    push Not at hcw
     simp [hs, hcw]
 
 end GlobalTheory.LambdaValuationPowers.Smooth
@@ -1364,7 +1364,7 @@ theorem fix_sqrt_unit (hl : l ≠ 2) {A : ValuationSubring Ω} (hA : OverL l A) 
   obtain ⟨-, hI⟩ := hs
   have hβ1 : A.valuation β ≤ 1 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have h1 : 1 < A.valuation β ^ 2 := one_lt_pow₀ hc two_ne_zero
     rw [← map_pow, hβ] at h1
     have : A.valuation (N : Ω) ≤ 1 := (A.valuation_le_one_iff _).2 (intCast_mem A N)

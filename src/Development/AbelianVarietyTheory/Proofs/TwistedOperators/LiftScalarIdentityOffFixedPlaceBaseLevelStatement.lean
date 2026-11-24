@@ -681,8 +681,8 @@ theorem hkF_evC (V : HSp D) {W : Type} [AddCommGroup W] [Module ℂ W] (P : Pl D
     · have := congrFun (h d hd) g
       unfold hkF at this
       rw [Finsupp.sum_single_index (by simp), one_smul] at this
-      rw [if_pos hd, this]; rfl
-    · rw [if_neg hd, rep_of_not hd, Finset.sum_empty, zero_smul]
+      rw [ite_eq_left hd, this]; rfl
+    · rw [ite_eq_right hd, rep_of_not hd, Finset.sum_empty, zero_smul]
   simp only [hkF, evC, Finsupp.sum, Pi.smul_apply, Finset.sum_smul, e, smul_smul]
   refine Finset.sum_congr rfl fun d _ => ?_
   split_ifs <;> simp
@@ -710,9 +710,9 @@ theorem tri_solve' {X : Type} [AddCommGroup X] [Module ℂ X] (n : ℕ) (z : ℕ
   refine (Finset.sum_congr rfl fun j hj => ?_).trans
     (Finset.sum_subset (Finset.range_subset_range.2 (by omega)) fun j hj hj' => ?_)
   · rw [Finset.mem_range] at hj
-    rw [if_pos (by omega)]
+    rw [ite_eq_left (by omega)]
   · rw [Finset.mem_range] at hj hj'
-    rw [if_neg (by omega), zero_smul]
+    rw [ite_eq_right (by omega), zero_smul]
 
 theorem exists_split_data {P : Pl D.host.E} (hc : Formalism.DivisionValues.conjPl P ≠ P) : ∃ (e : AE D) (ϖ : 𝓞 D.host.E) (x : (AE D)ˣ),
     Formalism.L2.NTheta.IsIdemAt e P ∧ ϖ ∈ P.asIdeal ∧ ϖ ∉ P.asIdeal ^ 2 ∧ (x : AE D) = e * incA D (ϖ : D.host.E) + (1 - e) := by
@@ -840,7 +840,7 @@ theorem lift_eig_mem_part : GlobalTheory.Hk3.HoweUnram → ∀ {D : D7} {G : Typ
     if h : Good R A.μ0 P ∧ RelLab (Wc D i) P d then (loc P h.1 d h.2).choose else 0
   obtain ⟨ev, hev⟩ := GlobalTheory.T.thetaForm_eigen_mem_single_part R hC.lev hC.models.HW i σ b
   refine ⟨ev, fun u hu => hev (th u) fun P d hP hd => ?_⟩
-  simp only [b, dif_pos (And.intro hP hd)]
+  simp only [b, dite_eq_left (And.intro hP hd)]
   exact (loc P hP d hd).choose_spec u hu
 
 end GlobalTheory.ConjScalar.LiftPart
@@ -1128,7 +1128,7 @@ theorem heckePolyOf_coeff {L : Type} [Field L] (n q : ℕ) (a : ℕ → L) {k : 
   classical
   simp only [Formalism.L2.Col.heckePolyOf, Polynomial.finsetSum_coeff, Polynomial.coeff_C_mul_X_pow]
   rw [Finset.sum_ite_eq]
-  rw [if_pos (Finset.mem_range.2 (Nat.lt_succ_of_le hk))]
+  rw [ite_eq_left (Finset.mem_range.2 (Nat.lt_succ_of_le hk))]
 
 theorem heckePolyOf_val_eq {L : Type} [Field L] [CharZero L] (n q : ℕ) (hq : q ≠ 0) (a b : ℕ → L)
     (h : Formalism.L2.Col.heckePolyOf n q a = Formalism.L2.Col.heckePolyOf n q b) {k : ℕ} (hk : k ≤ n) : a k = b k := by

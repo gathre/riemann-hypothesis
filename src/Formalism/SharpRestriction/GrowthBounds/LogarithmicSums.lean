@@ -137,7 +137,7 @@ theorem stmtEF_of {eps : ℝ} (Fm : FamP eps) (h0 : FamilyAskBounds Fm) (h1 : Re
 
     intro t ht
     unfold aL bL
-    simp only [dif_pos ht]
+    simp only [dite_eq_left ht]
     exact ⟨((Fm.L x i).aT_win ⟨t, ht⟩).1, ((Fm.L x i).aT_win ⟨t, ht⟩).2, (Fm.L x i).bT_ge ⟨t, ht⟩⟩
 
 theorem stmtF_of_stmtEF {eps : ℝ} (Fm : FamP eps) (h : FamilyClosedForm Fm) : KudlaFamilyStatement Fm := by
@@ -226,7 +226,7 @@ theorem shift_le (p y κ A : ℝ) (hp : 2 ≤ p) (hκ : 0 ≤ κ) (hy0 : 0 ≤ y
   have hsupp : ∀ e ∉ Finset.range (n + 1), ind e = 0 := by
     intro e he
     simp only [hind]
-    rw [if_neg]
+    rw [ite_eq_right]
     rintro ⟨_, h⟩
     exact he (Finset.mem_range.2 (Nat.lt_succ_of_le (hlog e h)))
   have hind_sum : Summable ind := summable_of_ne_finset_zero hsupp
@@ -269,15 +269,15 @@ theorem shift_le (p y κ A : ℝ) (hp : 2 ≤ p) (hκ : 0 ≤ κ) (hy0 : 0 ≤ y
           have h1 : 1 < y / p ^ e := lt_of_le_of_lt (hw e) (by linarith)
           rw [lt_div_iff₀ (by positivity)] at h1
           linarith
-        rw [if_pos hq, if_pos hq, if_pos ⟨hq, hpA⟩, max_eq_right hu.le]
+        rw [ite_eq_left hq, ite_eq_left hq, ite_eq_left ⟨hq, hpA⟩, max_eq_right hu.le]
         have := le_max_right 0 (y / p ^ e - (w e + κ))
         linarith
-      · rw [if_pos hq, if_pos hq, max_eq_left (not_lt.1 hu)]
+      · rw [ite_eq_left hq, ite_eq_left hq, max_eq_left (not_lt.1 hu)]
         have h1 := le_max_left 0 (y / p ^ e - (w e + κ))
         have h2 : 0 ≤ κ * (if Q e ∧ (p : ℝ) ^ e < A then (1 : ℝ) else 0) :=
           mul_nonneg hκ (by split_ifs <;> norm_num)
         linarith
-    · rw [if_neg hq, if_neg hq, if_neg (fun h => hq h.1)]
+    · rw [ite_eq_right hq, ite_eq_right hq, ite_eq_right (fun h => hq h.1)]
       simp
   have hsκ := hs (fun e => w e + κ) (fun e => by linarith [hw e])
   calc ∑' e, (if Q e then max 0 (y / p ^ e - w e) else 0)
@@ -324,9 +324,9 @@ theorem fill_ge (X : Inst D L) (b : HH D → ℤ) (hb : ∀ t ∈ D.host.TT, (0 
       _ ≤ L.sc.b := div_le_self (by linarith) hX1
   unfold fill
   by_cases htop : IsTopPl D z
-  · rw [if_pos (show z.1 = false ∧ z.2 ∈ D.host.TT from htop)]
+  · rw [ite_eq_left (show z.1 = false ∧ z.2 ∈ D.host.TT from htop)]
     linarith [hb z.2 htop.2, (X.off_top j z htop).1]
-  · rw [if_neg (show ¬(z.1 = false ∧ z.2 ∈ D.host.TT) from htop), zero_add]
+  · rw [ite_eq_right (show ¬(z.1 = false ∧ z.2 ∈ D.host.TT) from htop), zero_add]
     by_cases hthick : IsThickPl D z
     · linarith [(X.off_thick j z hthick).1]
     · exact (X.off_thin j z ⟨htop, hthick⟩).1
@@ -684,18 +684,18 @@ theorem sum_high (P : ParameterChoice' D L) (X : Inst D L) (K : Consts) (C bo : 
     have hd := dfc_high P X K h p hpX
     have hl : 0 ≤ Real.log p := Real.log_natCast_nonneg p
     by_cases hlt : (p : ℝ) < L.sc.X'' D.R.n * (1 + thS L)
-    · rw [if_pos hlt] at hd
+    · rw [ite_eq_left hlt] at hd
       have hmem : p ∈ R9 := by
         rw [hR9]
         refine Finset.mem_Ioc.2 ⟨(Nat.floor_lt (by linarith)).2 hpX, ?_⟩
         exact_mod_cast le_trans hlt.le (Nat.le_ceil _)
-      rw [if_pos hmem, one_mul]
+      rw [ite_eq_left hmem, one_mul]
       have h1 : max 0 (Dfc X K a b p) ≤ (D.R.m : ℝ) * (D.host.TT.card : ℝ) * (thW D L.sc * L.sc.w'' D.R.n + L.Sc) :=
         max_le (by positivity) (by linarith)
       have h2 : Real.log p ≤ Real.log (2 * L.sc.X'' D.R.n) :=
         Real.log_le_log (by linarith) (by nlinarith)
       exact mul_le_mul h2 h1 (le_max_left _ _) hl2
-    · rw [if_neg hlt] at hd
+    · rw [ite_eq_right hlt] at hd
       have h1 : max 0 (Dfc X K a b p) = 0 := max_eq_left (by linarith)
       rw [h1, mul_zero]
       split_ifs
@@ -724,7 +724,7 @@ theorem inWin_of_box {K : Consts} {a b : HH D → ℤ} (ha : a ∈ box D (winA D
   unfold box at ha hb
   have h1 := Fintype.mem_piFinset.1 ha t
   have h2 := Fintype.mem_piFinset.1 hb t
-  rw [if_pos ht] at h1 h2
+  rw [ite_eq_left ht] at h1 h2
   unfold winA at h1
   unfold winB at h2
   obtain ⟨h1a, h1b⟩ := Finset.mem_Icc.1 h1
@@ -1343,7 +1343,7 @@ theorem inWin_of_boxT {K : Consts} {a b : HH D → ℤ} (ha : a ∈ box D (winA 
   unfold box at ha hb
   have h1 := Fintype.mem_piFinset.1 ha t
   have h2 := Fintype.mem_piFinset.1 hb t
-  rw [if_pos ht] at h1 h2
+  rw [ite_eq_left ht] at h1 h2
   unfold winA at h1
   unfold winB at h2
   obtain ⟨h1a, h1b⟩ := Finset.mem_Icc.1 h1
@@ -1406,12 +1406,12 @@ theorem third_estimate_of_numeric_facts (P : ParameterChoice' D L) (X : Inst D L
       obtain ⟨hd0, hd⟩ := hdd p hp
       have hl : 0 ≤ Real.log p := Real.log_natCast_nonneg p
       by_cases hlt : (p : ℝ) < L.sc.X'' D.R.n * (1 + thS L)
-      · rw [if_pos hlt] at hd
+      · rw [ite_eq_left hlt] at hd
         have hmem : p ∈ R9 := by
           rw [hR9]
           refine Finset.mem_Ioc.2 ⟨(Nat.floor_lt hX0.le).2 hpX, ?_⟩
           exact_mod_cast le_trans hlt.le (Nat.le_ceil _)
-        rw [if_pos hmem, one_mul]
+        rw [ite_eq_left hmem, one_mul]
         have h1 : (∑ j ∈ SizeData₂.lifts D, ∑ s ∈ D.host.TT, askG X a b p j s) ≤
             (D.R.m : ℝ) * (D.host.TT.card : ℝ) * (thW D L.sc * L.sc.w'' D.R.n + L.Sc) := by
           simpa only [mul_assoc] using hd
@@ -1420,7 +1420,7 @@ theorem third_estimate_of_numeric_facts (P : ParameterChoice' D L) (X : Inst D L
           rw [mul_comm (2 : ℝ)]
           exact hlt.le.trans (mul_le_mul_of_nonneg_left (by linarith only [hth1]) hX0.le)
         exact mul_le_mul h2 h1 hd0 hl2
-      · rw [if_neg hlt] at hd
+      · rw [ite_eq_right hlt] at hd
         have h1 : (∑ j ∈ SizeData₂.lifts D, ∑ s ∈ D.host.TT, askG X a b p j s) = 0 :=
           le_antisymm (by simpa only [mul_zero] using hd) hd0
         rw [h1, mul_zero]

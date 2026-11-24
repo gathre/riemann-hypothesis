@@ -752,8 +752,8 @@ theorem main_ind {Y : Pend X} (hfr : IsFractionRing X.G.O X.G.Kf) (hp : (p : X.G
     rw [e4, e5, ZL_smul hL]
     have hb := ZL_bound hfr hL hF hE u m m' hj hu (fun v => hc0 v m' hj) (fun v => hcr v m' hj) B hBnd
       (fun v => if v ∈ B then Gn v (m' + 1) else G0n v (m' + 1))
-      (fun v hv => by simp only [hv, if_true]; exact h1 v (List.mem_of_mem_filter hv) m' hj)
-      (fun v hv => by simp only [hv, if_false]; exact h2 v m' hj) G' hG'
+      (fun v hv => by simp only [hv, ite_true]; exact h1 v (List.mem_of_mem_filter hv) m' hj)
+      (fun v hv => by simp only [hv, ite_false]; exact h2 v m' hj) G' hG'
     have h3 := vGe_smul X hfr (vGeK_ppow X hfr (-(PrS X (m' + 1) B))) (vGe_smul X hfr (vGeK_vsc (∑ j ∈ range m', bbJ X Lv Gn G0n Q j)) hb)
     rw [Finset.sum_range_succ]
     refine vGe_mono X hfr (le_of_eq ?_) h3
@@ -1124,7 +1124,7 @@ theorem Ar_lift_le (h : Std p n' k1 t m c r TT a b lam0 w) (j i : ℕ) (hj : j +
     · intro x hx
       rw [mem_filter] at hx
       unfold lamAt
-      rw [if_pos he]
+      rw [ite_eq_left he]
       show liftWt t k1 (lam0 s) (fun l => w l s) (j + 1) x = _
       unfold liftWt
       rw [dite_eq_left (by omega : x.val < k1 + 1)]
@@ -1146,7 +1146,7 @@ theorem Ar_lift_le (h : Std p n' k1 t m c r TT a b lam0 w) (j i : ℕ) (hj : j +
         (univ.filter fun x : Fin (k1 + (j + 1) * (t + 1) + 1) => x.val < i).card • w (j + 1) s := by
       refine Finset.sum_le_card_nsmul _ _ _ fun x _ => ?_
       unfold lamAt
-      rw [if_neg he]
+      rw [ite_eq_right he]
       exact neg_liftWt_le h s j hj x.rev
     refine le_trans h1 ?_
     rw [nsmul_eq_mul]
@@ -1186,7 +1186,7 @@ theorem restricted_hecke_integral_of_edges (h : ∀ j, RestWeylEdge (X.Pj j)) : 
   rw [mem_Icc] at hi
   have hp := p_ne_zero X v
   unfold Sys.Tt
-  rw [if_neg (by omega)]
+  rw [ite_eq_right (by omega)]
   have h1 := TmInt X (h (j + 1)) v i hF
   have hle : Ar i ((X.Pj (j + 1)).lam0 (X.vJ (j + 1) v)) ≤ Nprime (X.G.P.lam0 v) (X.w v) (j + 1) i :=
     Ar_lift_le (X.std v) j i hj (by have := (X.std v).two_r; omega)
@@ -1418,7 +1418,7 @@ theorem tsum_rat (P N : ℕ) (hP : 2 ≤ P) (hN : 0 < N) (α : ℤ) (c : ℕ →
       exact Rat.cast_lt.1 this
     have hE1 : Ds.sup id + α.natAbs + 1 ≤ e0 + M * N := le_trans he0 (Nat.le_add_right _ _)
     unfold fqT at hlt'
-    rw [if_neg (h1 _ hE1), hcK] at hlt'
+    rw [ite_eq_right (h1 _ hE1), hcK] at hlt'
     have b1 := abs_lt.1 (h2' _ hE1)
     have b2 : ((c e0 : ℤ) : ℚ) ≤ -1 := by exact_mod_cast hneg
     have b3 := le_max_left ((α : ℚ) / (P : ℚ) ^ (2 * (e0 + M * N) + 1) - (c e0 : ℚ)) 0
@@ -1428,7 +1428,7 @@ theorem tsum_rat (P N : ℕ) (hP : 2 ≤ P) (hN : 0 < N) (α : ℤ) (c : ℕ →
     intro e he
     have he' : Ds.sup id + α.natAbs + 1 ≤ e + N := le_trans he (Nat.le_add_right _ _)
     unfold fqT
-    rw [if_neg (h1 _ he), if_neg (h1 _ he'), hc]
+    rw [ite_eq_right (h1 _ he), ite_eq_right (h1 _ he'), hc]
     have hQ : (0 : ℚ) < (P : ℚ) ^ (2 * N) := pow_pos hP0 _
     rcases (h3 e he).eq_or_lt with h0 | h0
     · rw [← h0]

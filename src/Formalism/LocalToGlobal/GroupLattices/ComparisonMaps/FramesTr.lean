@@ -113,7 +113,7 @@ theorem cmpC_inj (hc : ∀ τ x, emb τ (σ x) = starRingEnd ℂ (emb τ x)) (he
     have h1 : cmpC S emb embLL G e A pos embV yc x i
         (fun v => colSpan (G.P.W v) (g v : Matrix (Fin (G.P.m + 1)) (Fin (G.P.m + 1)) (G.P.Qq v))) = 0 := by
       rw [hx]; rfl
-    simp only [cmpC, if_pos hL] at h1
+    simp only [cmpC, ite_eq_left hL] at h1
     exact MvPolynomial.map_injective e e.injective (by rw [h1, map_zero])
   rw [h0] at hv
   unfold IsVal at hv
@@ -150,9 +150,9 @@ theorem cmpC_li (hc : ∀ τ x, emb τ (σ x) = starRingEnd ℂ (emb τ x)) (hex
     funext i L
     by_cases hL : G.P.IsLatTup L
     · have h3 := congrFun (congrFun hx i) ⟨L, hL⟩
-      simp only [cmpC, if_pos hL, Pi.zero_apply]
+      simp only [cmpC, ite_eq_left hL, Pi.zero_apply]
       rw [show valC S emb embLL G A pos embV yc x i L = 0 from h3, map_zero]
-    · simp only [cmpC, if_neg hL, Pi.zero_apply]
+    · simp only [cmpC, ite_eq_right hL, Pi.zero_apply]
   have hw := hb.map' Φ hΦ
   letI : Algebra LL G.Kf := e.toAlgebra
   have hsm : ∀ (q : LL) (y : G.Kf), y * e q = q • y := fun q y => by
@@ -167,7 +167,7 @@ theorem cmpC_li (hc : ∀ τ x, emb τ (σ x) = starRingEnd ℂ (emb τ x)) (hex
     ext i L m
     have h1 := congrArg (AddMonoidAlgebra.coeff · m) (congrFun (congrFun hg i) L.1)
     simp only [Finset.sum_apply, Pi.smul_apply, MvPolynomial.coeff_sum, MvPolynomial.coeff_smul,
-      smul_eq_mul, Pi.zero_apply, MvPolynomial.coeff_zero, cmpC, if_pos L.2, MvPolynomial.coeff_map] at h1
+      smul_eq_mul, Pi.zero_apply, MvPolynomial.coeff_zero, cmpC, ite_eq_left L.2, MvPolynomial.coeff_map] at h1
     have h2 := congrArg (fun y => β.repr y k) h1
 
     simp only [map_sum, map_zero, Finset.sum_apply', Finsupp.coe_zero, Pi.zero_apply,

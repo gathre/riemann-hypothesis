@@ -142,8 +142,8 @@ theorem coeff_frob2_congr_box : ∀ (l : ℕ) [Fact l.Prime] (K : Type) [NormedF
     rw [map_mul, hC, map_pow, frob_X, ← pow_mul]
   have hz : coeff n (coeff i (φ₂ (G - H))) = 0 := by
     rw [hAB, map_add (f := _), e1, e2, map_add (f := _), map_add (f := _), coeff_X_pow_mul',
-      if_neg (show ¬ (i + 1 ≤ i) by omega), map_zero, zero_add, coeff_C_mul, coeff_X_pow_mul',
-      if_neg (show ¬ (l * (n + 1) ≤ n) by nlinarith)]
+      ite_eq_right (show ¬ (i + 1 ≤ i) by omega), map_zero, zero_add, coeff_C_mul, coeff_X_pow_mul',
+      ite_eq_right (show ¬ (l * (n + 1) ≤ n) by nlinarith)]
   rwa [map_sub, map_sub, map_sub, sub_eq_zero] at hz
 
 end GlobalTheory.CrysPrism
@@ -297,12 +297,12 @@ theorem intCast_div_factorial_mem_QSet (z : ℤ) (m : ℕ) :
   rw [coeff_ofW, coeff_C]
   by_cases hi : i = 0
   · subst hi
-    rw [if_pos rfl, coeff_C_mul, coeff_X_pow]
+    rw [ite_eq_left rfl, coeff_C_mul, coeff_X_pow]
     by_cases hn : n = e * m
     · subst hn
       simp [dpDen, Nat.mul_div_cancel_left m (Nat.pos_of_ne_zero (NeZero.ne e))]
-    · rw [if_neg hn, Pi.single_eq_of_ne (by simpa using hn)]; simp
-  · rw [if_neg hi, Pi.single_eq_of_ne (by simp [hi])]; simp
+    · rw [ite_eq_right hn, Pi.single_eq_of_ne (by simpa using hn)]; simp
+  · rw [ite_eq_right hi, Pi.single_eq_of_ne (by simp [hi])]; simp
 
 end
 
@@ -466,7 +466,7 @@ theorem mono_mem (c : Wq l a) (i n : ℕ) :
   rw [coeff_ofW, coeff_C_mul, coeff_X_pow]
   by_cases hj : j = i
   · subst hj
-    rw [if_pos rfl, mul_one, coeff_C_mul, coeff_X_pow]
+    rw [ite_eq_left rfl, mul_one, coeff_C_mul, coeff_X_pow]
     by_cases hm : m = n
     · subst hm; simp
     · simp [hm]
@@ -590,7 +590,7 @@ theorem goodSet_of_finite_of_local (l : ℕ) [Fact l.Prime] (a e : ℕ) [NeZero 
       have hm : (i', n') ∈ s := by
         simp only [hs, Finset.mem_product, Finset.mem_range]
         omega
-      rw [coeff_ofW, coeff_ofW, if_pos hm]
+      rw [coeff_ofW, coeff_ofW, ite_eq_left hm]
     refine ⟨v (i, n), b (i, n), fun τ => ?_⟩
     have h1 : coeff n (coeff i (frob2 φ₂ (ofW t K e w) τ)) =
         coeff n (coeff i (frob2 φ₂ (ofW t K e (fun p => if p ∈ s then w p else 0)) τ)) :=
@@ -651,21 +651,21 @@ theorem bd_CC (c : K) : Bd 0 (C (C c) : K⟦X⟧⟦X⟧) := by
   intro i n hin
   rw [coeff_C]
   split_ifs with h
-  · rw [coeff_C, if_neg (by omega)]
+  · rw [coeff_C, ite_eq_right (by omega)]
   · simp
 
 theorem bd_CX : Bd 1 (C X : K⟦X⟧⟦X⟧) := by
   intro i n hin
   rw [coeff_C]
   split_ifs with h
-  · rw [coeff_X, if_neg (by omega)]
+  · rw [coeff_X, ite_eq_right (by omega)]
   · simp
 
 theorem bd_X : Bd 1 (X : K⟦X⟧⟦X⟧) := by
   intro i n hin
   rw [coeff_X]
   split_ifs with h
-  · rw [coeff_one, if_neg (by omega)]
+  · rw [coeff_one, ite_eq_right (by omega)]
   · simp
 
 
@@ -692,13 +692,13 @@ theorem Bd.eq_sum {M : ℕ} {F : K⟦X⟧⟦X⟧} (h : Bd M F) :
 
   simp only [map_sum (coeff i), coeff_C_mul_X_pow, Finset.sum_ite_eq, Finset.mem_range]
   by_cases hi : i < M + 1
-  · simp only [if_pos hi]
+  · simp only [ite_eq_left hi]
 
     simp only [map_sum (coeff n), coeff_C_mul_X_pow, Finset.sum_ite_eq, Finset.mem_range]
     split_ifs with hn
     · rfl
     · exact h i n (by omega)
-  · simp only [if_neg hi, map_zero]
+  · simp only [ite_eq_right hi, map_zero]
     exact h i n (by omega)
 
 theorem map_mem (φ : K⟦X⟧⟦X⟧ →+* K⟦X⟧⟦X⟧) (h1 : ∀ c : K, φ (C (C c)) ∈ fin K)
@@ -835,15 +835,15 @@ theorem frob_keeps_decay (l : ℕ) [hl : Fact l.Prime] (a e : ℕ) [NeZero a] [N
       by_cases h : (l : Wq l a) ^ (r + 1) ∣ w p
       · obtain ⟨c, hc⟩ := id h
         refine ⟨c, ?_⟩
-        simp only [w1, if_pos h]
+        simp only [w1, ite_eq_left h]
         simp [hc]
-      · exact ⟨0, by simp only [w1, if_neg h]; simp⟩
+      · exact ⟨0, by simp only [w1, ite_eq_right h]; simp⟩
     choose w2 hw2 using hex
     have hw12 : w = w1 + (l ^ (r + 1) : ℕ) • w2 := funext hw2
     have hw1 : ∀ i n, max N1 N2 < i ∨ max N1 N2 < n → w1 (i, n) = 0 := by
       intro i n h
       by_cases h' : (l : Wq l a) ^ (r + 1) ∣ w (i, n)
-      · simp only [w1, if_pos h']
+      · simp only [w1, ite_eq_left h']
       · have h3 : (i, n) ≤ (N1, N2) := hN h'
         obtain ⟨h4, h5⟩ := h3
         simp only at h4 h5
@@ -981,15 +981,15 @@ theorem uPow_mem_QSet_goodU [CharZero K] (m : ℕ) :
   by_cases h : (i, n) = (0, m)
   · obtain ⟨rfl, rfl⟩ := Prod.mk.inj h
     have : (dpDen e 0 n : K) ≠ 0 := Nat.cast_ne_zero.mpr (dpDen_pos e 0 n).ne'
-    simp only [if_true, map_natCast, coeff_X_pow_self]
+    simp only [ite_true, map_natCast, coeff_X_pow_self]
     exact div_self this
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     simp only [map_zero, zero_div]
     by_cases hi : i = 0
     · subst hi
       have hn : n ≠ m := fun hn => h (by rw [hn])
-      rw [if_pos rfl, coeff_X_pow, if_neg hn]
-    · rw [if_neg hi, map_zero]
+      rw [ite_eq_left rfl, coeff_X_pow, ite_eq_right hn]
+    · rw [ite_eq_right hi, map_zero]
 
 end
 

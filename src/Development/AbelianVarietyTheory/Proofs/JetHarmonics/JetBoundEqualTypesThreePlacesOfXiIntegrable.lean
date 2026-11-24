@@ -402,11 +402,11 @@ theorem lift_pairing_poly (hXi : B.XiExists) (hs : 1 ≤ s) (hsj : s ≤ j)
         P1 ⟨j - s, by omega⟩ (Fin.last j) := by
       rw [Finset.sum_eq_single ⟨j - s, by omega⟩]
       · rw [Finset.sum_eq_single (Fin.last j)]
-        · rw [if_pos (by simp; omega)]
+        · rw [ite_eq_left (by simp; omega)]
         · intro m _ hm
           have := m.isLt
           have hm' : (m : ℕ) ≠ j := fun e => hm (Fin.ext (by simp [e]))
-          rw [if_neg (by simp; omega)]
+          rw [ite_eq_right (by simp; omega)]
         · simp
       · intro l _ hl
         apply Finset.sum_eq_zero
@@ -421,11 +421,11 @@ theorem lift_pairing_poly (hXi : B.XiExists) (hs : 1 ≤ s) (hsj : s ≤ j)
         P2 (Fin.last j) ⟨j - s, by omega⟩ := by
       rw [Finset.sum_eq_single (Fin.last j)]
       · rw [Finset.sum_eq_single ⟨j - s, by omega⟩]
-        · rw [if_pos (by simp; omega)]
+        · rw [ite_eq_left (by simp; omega)]
         · intro m _ hm
           have := m.isLt
           have hm' : (m : ℕ) ≠ j - s := fun e => hm (Fin.ext (by simp [e]))
-          rw [if_neg (by simp; omega)]
+          rw [ite_eq_right (by simp; omega)]
         · simp
       · intro l _ hl
         apply Finset.sum_eq_zero
@@ -443,7 +443,7 @@ theorem lift_pairing_poly (hXi : B.XiExists) (hs : 1 ≤ s) (hsj : s ≤ j)
       obtain ⟨ε, hε⟩ := hN' (KB.minusW ys w); exact decV_of_nice hε
     have e1 : P1 ⟨j - s, by omega⟩ (Fin.last j) = cLift s τ true * Wl p F j s hj w h h' τ τ' ha ha' ys := by
       simp only [hP1]
-      rw [hEt, hD0l, if_pos rfl]
+      rw [hEt, hD0l, ite_eq_left rfl]
       have := FormsFromXi.pairing_add_smul_left hXi P p.T (M.sgn P p.l0) ⟨j, Nat.lt_succ_of_le hj⟩ w ys 0
         (KB.slv p.T F j hj (KB.plusW ys w) (h ++ [(s, τ)]) ha)
         (KB.slv p.T F j hj (KB.minusW ys w) (h' ++ [(s, τ')]) ha') (cLift s τ true) decV_zero dXP dXM
@@ -451,14 +451,14 @@ theorem lift_pairing_poly (hXi : B.XiExists) (hs : 1 ≤ s) (hsj : s ≤ j)
       rw [this]; rfl
     have e2 : P2 (Fin.last j) ⟨j - s, by omega⟩ = conj (cLift s τ' false) * Wl p F j s hj w h h' τ τ' ha ha' ys := by
       simp only [hP2]
-      rw [hE't, hC0l, if_pos rfl]
+      rw [hE't, hC0l, ite_eq_left rfl]
       have := FormsFromXi.pairing_add_smul_right hXi P p.T (M.sgn P p.l0) ⟨j, Nat.lt_succ_of_le hj⟩ w ys
         (KB.slv p.T F j hj (KB.plusW ys w) (h ++ [(s, τ)]) ha) 0
         (KB.slv p.T F j hj (KB.minusW ys w) (h' ++ [(s, τ')]) ha') (cLift s τ' false) dXP decV_zero dXM
       rw [zero_add, ← hΞ', zR _ dXP, zero_add] at this
       rw [this]; rfl
     rw [e1, e2]
-    simp only [cLift, if_true, Bool.false_eq_true, if_false, map_mul, map_pow, map_neg, map_one, map_inv₀,
+    simp only [cLift, ite_true, Bool.false_eq_true, ite_false, map_mul, map_pow, map_neg, map_one, map_inv₀,
       Complex.conj_conj]
     ring
   · rw [hX y]
@@ -468,9 +468,9 @@ theorem lift_pairing_poly (hXi : B.XiExists) (hs : 1 ≤ s) (hsj : s ≤ j)
       intro l m
       by_cases hlm : (l : ℕ) + m ≤ N
       · rw [Finset.sum_eq_single ⟨(l : ℕ) + m, by omega⟩]
-        · rw [if_pos rfl, pow_add]
+        · rw [ite_eq_left rfl, pow_add]
         · intro q _ hq
-          rw [if_neg, mul_zero]
+          rw [ite_eq_right, mul_zero]
           intro e
           exact hq (Fin.ext e.symm)
         · simp
@@ -480,7 +480,7 @@ theorem lift_pairing_poly (hXi : B.XiExists) (hs : 1 ≤ s) (hsj : s ≤ j)
         symm
         apply Finset.sum_eq_zero
         intro q _
-        rw [if_neg, mul_zero]
+        rw [ite_eq_right, mul_zero]
         have := q.isLt
         omega
     simp only [key]
@@ -519,7 +519,7 @@ theorem degLift_of_liftDeg (hXi : B.XiExists) (hL : LiftDegAll) : KB.DegLift := 
     (fun a => grid (Fin.rev a)) hPS hinj (fun _ => 0)
   rw [Finset.prod_const, Finset.card_univ, Fintype.card_fin, smul_eq_mul] at hE
   have hW0 : W 0 (fun _ => 0) = p.RR F j w (h ++ [(s, t)]) (h' ++ [(s, t')]) := by
-    simp only [hW, KB.Pl.RR, D.RRplace, dif_pos (And.intro ha ha'), dif_pos hj]
+    simp only [hW, KB.Pl.RR, D.RRplace, dite_eq_left (And.intro ha ha'), dite_eq_left hj]
     rfl
   rw [hW0] at hE
   rw [hE]
@@ -1490,9 +1490,9 @@ theorem uInv_eq_zero {Y Z : Type} [AddCommGroup Z] [Module ℂ Z] (s : ℂ) (g :
     have h1 := uInv_eq_zero s g w (fun e' => x (Fin.cons 1 e')) (fun a => e a.succ) (fun a => h _)
     simp only [KB.uInv]
     by_cases h : e 0 = 0
-    · simp only [if_pos h]
+    · simp only [ite_eq_left h]
       exact h0
-    · simp only [if_neg h, Pi.add_apply, Pi.smul_apply]
+    · simp only [ite_eq_right h, Pi.add_apply, Pi.smul_apply]
       rw [h0, h1, smul_zero, add_zero]
 
 theorem waveG_cptCoef {k r : ℕ} {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp]
@@ -1568,13 +1568,13 @@ theorem extension_at_zero (hXi : B.XiExists) (hP : P5.ThmPActualCpt) (p : KB.Pl 
           KB.levW P (P.r + 1) c := by
         rw [hlast, hTT]
         rw [hT, hT'] at hc2
-        simp only [C.nAux, KB.levW, B2.zWeight, if_pos hc2.le]
-        rw [if_pos ⟨by omega, trivial⟩]
+        simp only [C.nAux, KB.levW, B2.zWeight, ite_eq_left hc2.le]
+        rw [ite_eq_left ⟨by omega, trivial⟩]
         simp
       have hlev : 0 ≤ KB.levW P (P.r + 1) c := by
         rw [← hfac, hlast]
         simp only [C.nAux]
-        rw [if_pos ⟨by omega, trivial⟩]
+        rw [ite_eq_left ⟨by omega, trivial⟩]
         have : 0 ≤ Complex.normSq c - TBB.TTp p := by
           unfold TBB.TTp; linarith
         simpa using pow_nonneg this _
@@ -1584,7 +1584,7 @@ theorem extension_at_zero (hXi : B.XiExists) (hP : P5.ThmPActualCpt) (p : KB.Pl 
   · have hfac : C.nAux P.k P.r (D.ptGG (TBB.TTp p) (h ++ [(1, c)])) (fun _ _ => 1) (1 + j) [(1, c)] =
         KB.levW P (j + 1) c := by
       simp only [C.nAux, KB.levW]
-      rw [if_neg (by omega), if_neg (by omega)]
+      rw [ite_eq_right (by omega), ite_eq_right (by omega)]
       have e : 1 + j + 1 - 1 = j + 1 := by omega
       rw [e]
       simp only [one_mul, mul_one, Nat.cast_one]
@@ -1592,7 +1592,7 @@ theorem extension_at_zero (hXi : B.XiExists) (hP : P5.ThmPActualCpt) (p : KB.Pl 
       ring
     have hlev : 0 ≤ KB.levW P (j + 1) c := by
       simp only [KB.levW]
-      rw [if_neg (by omega)]
+      rw [ite_eq_right (by omega)]
       exact zpow_nonneg (norm_nonneg _) _
     rw [hfac, Real.mul_self_sqrt (mul_nonneg hA hlev)]
     push_cast

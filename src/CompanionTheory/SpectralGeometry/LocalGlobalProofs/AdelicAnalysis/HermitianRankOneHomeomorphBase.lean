@@ -79,7 +79,7 @@ theorem exists_sig_ne (hcm : IsCMExt F E σ) : ∃ x : E, σ x ≠ x := by
   have hc : (InfinitePlace.mk τ).IsComplex := htc.isComplex _
   rw [InfinitePlace.isComplex_mk_iff] at hc
   by_contra hall
-  push_neg at hall
+  push Not at hall
   apply hc
   rw [ComplexEmbedding.isReal_iff]
   ext x

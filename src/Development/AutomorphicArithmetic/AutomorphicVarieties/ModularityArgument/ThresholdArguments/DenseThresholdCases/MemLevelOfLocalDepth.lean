@@ -195,9 +195,9 @@ theorem UpperTheory.V.Z.Sym.Wt.contRep :
         split_ifs <;> rfl
       rw [hfun]
       by_cases hk : k.2 = true
-      · simp only [hk, if_true]
+      · simp only [hk, ite_true]
         exact entci 3 k.1 i' i
-      · simp only [if_neg hk]
+      · simp only [ite_eq_right hk]
         exact entc 3 k.1 i i'
     exact cont_m (fun k : I × Bool => dg j S k.1) (fun g : I → GL (Fin 3) ℂ => dbl 3 g) hent (x S)
       (f ∘ₗ LinearMap.single ℂ (fun S => ↥(Bi 3 (dg j S))) S)
@@ -582,7 +582,7 @@ theorem UpperTheory.V.Z.Sym.Al.afOps :
   have hu : ∀ w, w ∈ S → ∀ d (φ : AF R (lev U S iw)),
       ((u w d φ : AF R (lev U S iw)) : UA L n → V) = op w (iw w) d φ := by
     intro w hw d φ
-    simp only [u, dif_pos hw]
+    simp only [u, dite_eq_left hw]
     rfl
   refine ⟨u, fun w hw d _ φ => hu w hw d φ, fun w hw d d' hd hd' => ?_, fun w hw d hd => ?_,
     fun w hw w' hw' hne d d' _ _ => ?_⟩
@@ -1440,8 +1440,8 @@ theorem UpperTheory.V.Z.Sym.W.adjoint_lift_w_of_literal_automorphy_spec_out : _r
       have hsub : ((S₀ : Set (Plc L)) ∪ S₁) ⊆ (S₀ : Set (Plc L)) ∪ P := Set.union_subset_union_right _ fun w hw => (h1 w hw).1
       have hp1 : Places (S₁ : Set (Plc L)) := mono fun w hw => Or.inr (h1 w hw).1
       let W : ∀ w : Plc L, Sig.Lev (Kw w) := fun w => if w ∈ S₀ then deep c w else iw w
-      have W0 : ∀ w ∈ S₀, W w = deep c w := fun w hw => if_pos hw
-      have W1 : ∀ w ∈ S₁, W w = iw w := fun w hw => if_neg (hn w hw)
+      have W0 : ∀ w ∈ S₀, W w = deep c w := fun w hw => ite_eq_left hw
+      have W1 : ∀ w ∈ S₁, W w = iw w := fun w hw => ite_eq_right (hn w hw)
       obtain ⟨e, φ, h0, hAF, hE⟩ := _root_.UpperTheory.V.Z.Sym.Al.inVec_alt H L π hπ j hwt (S₀ ∪ S₁) (by rw [Finset.coe_union]; exact mono hsub)
         (fun w hw => hunr w fun w' hw' => hw w' (Finset.mem_union_left _ hw')) W ψ fun w hw => by
           rcases Finset.mem_union.1 hw with hw | hw

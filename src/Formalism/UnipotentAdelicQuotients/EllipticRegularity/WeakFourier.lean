@@ -266,14 +266,14 @@ theorem cf_good {k : ℕ} {K : Set (E d)} {L : List (List (Fin d) × (E d → �
     constructor
     · refine ContDiff.add ?_ ih1
       by_cases hc : p.1 = List.ofFn w
-      · simp only [if_pos hc]; exact hp.2.1
-      · simp only [if_neg hc]; exact contDiff_const
+      · simp only [ite_eq_left hc]; exact hp.2.1
+      · simp only [ite_eq_right hc]; exact contDiff_const
     · intro y hy
       show (if p.1 = List.ofFn w then p.2 y else 0) + cf L n w y = 0
       rw [ih2 y hy]
       by_cases hc : p.1 = List.ofFn w
       · simp [hp.2.2 y hy]
-      · simp [if_neg hc]
+      · simp [ite_eq_right hc]
 
 theorem single_term {m : ℕ} (p : List (Fin d) × (E d → ℂ)) (hp : p.1.length < m) (g : E d → ℂ) (y : E d) :
     ∑ n ∈ Finset.range m, ∑ w : Fin n → Fin d,
@@ -284,14 +284,14 @@ theorem single_term {m : ℕ} (p : List (Fin d) × (E d → ℂ)) (hp : p.1.leng
       = if v = List.ofFn w then c y * ZetaZeros.D.EllReg.dw v g y else 0 := by
     intro n w
     by_cases h : v = List.ofFn w
-    · rw [if_pos h, if_pos h, h]
-    · rw [if_neg h, if_neg h, zero_mul]
+    · rw [ite_eq_left h, ite_eq_left h, h]
+    · rw [ite_eq_right h, ite_eq_right h, zero_mul]
   simp only [key]
   rw [Finset.sum_eq_single v.length]
   · rw [Finset.sum_eq_single v.get]
-    · rw [if_pos (List.ofFn_get v).symm]
+    · rw [ite_eq_left (List.ofFn_get v).symm]
     · intro w _ hw
-      rw [if_neg]
+      rw [ite_eq_right]
       intro h
       apply hw
       have h' : List.ofFn w = List.ofFn v.get := by rw [← h, List.ofFn_get]
@@ -300,7 +300,7 @@ theorem single_term {m : ℕ} (p : List (Fin d) × (E d → ℂ)) (hp : p.1.leng
   · intro n _ hn
     apply Finset.sum_eq_zero
     intro w _
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h
     apply hn
     rw [h, List.length_ofFn]

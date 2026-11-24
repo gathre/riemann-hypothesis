@@ -297,7 +297,7 @@ theorem exists_isSel (G : HTGroup p) (h : G.a ≤ 1) : ∃ sel, IsSel G sel := b
     have hP : 0 < (P.map v.embedding).degree := by
       rw [Polynomial.degree_eq_natDegree (hm.map _).ne_zero, hm.natDegree_map, hd]
       exact_mod_cast G.n_pos
-    simp only [dif_pos hP]
+    simp only [dite_eq_left hP]
     rw [← Polynomial.eval_map]
     exact (Complex.exists_root hP).choose_spec
   · exact ⟨0, fun v hv _ _ _ => absurd ⟨v, hv⟩ h0⟩

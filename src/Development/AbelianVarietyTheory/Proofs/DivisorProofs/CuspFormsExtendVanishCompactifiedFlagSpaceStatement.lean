@@ -146,14 +146,14 @@ theorem not_tendsto_re_atTop_of_periodic {L : ℂ → ℂ} {T M : ℝ} (hM : 0 <
   have hpos : ∀ᶠ w in imTop, 0 < (L w).re := ht.eventually (eventually_gt_atTop 0)
   classical
   set f : ℂ → ℂ := fun w => if T < w.im then (L w)⁻¹ else 0 with hf
-  have hfe : ∀ w : ℂ, T < w.im → f w = (L w)⁻¹ := fun w hw => if_pos hw
+  have hfe : ∀ w : ℂ, T < w.im → f w = (L w)⁻¹ := fun w hw => ite_eq_left hw
   refine not_eventually_re_pos_of_periodic (f := f) hM ?_ ?_ ?_ ?_
   · intro w
     by_cases hw : T < w.im
     · have hw' : T < (w + M).im := by simpa using hw
       rw [hfe _ hw, hfe _ hw', hper w hw]
     · have hw' : ¬ T < (w + M).im := by simpa using hw
-      simp only [hf, if_neg hw, if_neg hw']
+      simp only [hf, ite_eq_right hw, ite_eq_right hw']
   · filter_upwards [hT, hpos] with w hw hw0
     have hne : L w ≠ 0 := fun h => by simp [h] at hw0
     refine ((hd.differentiableAt (hopen.mem_nhds hw)).inv hne).congr_of_eventuallyEq ?_
@@ -308,7 +308,7 @@ theorem tendsto_val {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Reci
     rw [hsec.2.1 _ (hγd w hw) b hb1, hsec.2.2 γ hΓ _ (hdom w hw), hχ k γ hΓ]
     simp [ReciprocityTheory.ChartRestriction.G.FD.bchar, hb2]
   · rw [Complex.exp_zero, norm_one, mul_one]
-    have rd : rdU U g k (xx w) = toC (evR Xo c g (U.un k ⟨xx w, h⟩)) := dif_pos h
+    have rd : rdU U g k (xx w) = toC (evR Xo c g (U.un k ⟨xx w, h⟩)) := dite_eq_left h
     show ‖toC (evR Xo c g (y (eTwoPi w)))‖ = ‖rdU U g k (xx w)‖
     rw [rd, GlobalTheory.ShFam.KeyRel.evR_sameLie he hg hl]
 

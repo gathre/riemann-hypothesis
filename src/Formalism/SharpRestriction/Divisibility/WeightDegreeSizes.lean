@@ -81,7 +81,7 @@ theorem gain_above {L : SizeData₂ D} (X : Inst D L) (K : Consts) (hF : ∀ w, 
   · by_cases hin : IsResidueClassZero D (D.what₂.places.resChar w) ∨ IsSg D (D.what₂.places.resChar w)
     · rw [(hF w).2.2.2.1 hs hin j hj]
       unfold gainP
-      rw [if_pos (Or.inr hX)]
+      rw [ite_eq_left (Or.inr hX)]
     · exact (L.not_inert w (fun h => hin (Or.inr h)) (fun h => hin (Or.inl h))).1 j
   · exact L.gain_supp j w hs
 
@@ -214,7 +214,7 @@ theorem Eval_atG (L : SizeData₂ D) (X : ErrX D) (K : Consts) (c : ErrC) (hT : 
     (w : D.what₂.places.Pl) (hw : D.what₂.places.resChar w = D.host.g i) :
     Eval L X K c u j w = (padicValNat (D.host.g i) (D.mem u).C.DGam : ℝ) + EatG L X c i u j w := by
   unfold Eval
-  simp only [hw, if_neg (hT u i)]
+  simp only [hw, ite_eq_right (hT u i)]
   fin_cases i
   · simp
   · have : D.host.g 1 ≠ D.host.g 0 := D.host.g_ne.symm
@@ -357,22 +357,22 @@ theorem Eval_off (L : SizeData₂ D) (X : ErrX D) (K : Consts) (c : ErrC) (u : D
   have h1 : D.what₂.places.resChar w ≠ D.host.g 1 := fun h => hg (by simp [SizeData₂.gTypes, h])
   have hv : (0 : ℝ) ≤ (padicValNat (D.what₂.places.resChar w) (D.mem u).C.DGam : ℝ) := Nat.cast_nonneg _
   unfold Eval hOff EatCI
-  simp only [if_neg h0, if_neg h1, if_neg hT]
+  simp only [ite_eq_right h0, ite_eq_right h1, ite_eq_right hT]
   refine (abs_add_le _ _).trans ?_
   rw [abs_of_nonneg hv]
   by_cases hr : D.host.cls (D.what₂.places.resChar w) = PrimeClass.ramD
-  · simp only [if_pos hr]
+  · simp only [ite_eq_left hr]
     have : 0 ≤ (if (IsResidueClassZero D (D.what₂.places.resChar w) ∨ IsSg D (D.what₂.places.resChar w)) ∧
         (D.what₂.places.resChar w : ℝ) ≤ L.sc.X'' D.R.n then
         |if IsResidueClassZero D (D.what₂.places.resChar w) ∧ hP D (D.what₂.places.resChar w) = 0 then
           EatC L c j (D.what₂.places.resChar w) else EatI L K c j (D.what₂.places.resChar w)| else 0) := by
       split_ifs <;> simp
     linarith
-  · simp only [if_neg hr]
+  · simp only [ite_eq_right hr]
     by_cases hi : (IsResidueClassZero D (D.what₂.places.resChar w) ∨ IsSg D (D.what₂.places.resChar w)) ∧
         (D.what₂.places.resChar w : ℝ) ≤ L.sc.X'' D.R.n
-    · simp only [if_pos hi]; linarith
-    · simp only [if_neg hi]; simp
+    · simp only [ite_eq_left hi]; linarith
+    · simp only [ite_eq_right hi]; simp
 
 theorem EatT_nonneg (u : D.what₂.Word) (w : D.what₂.places.Pl) : 0 ≤ EatT D u w := by
   unfold EatT
@@ -401,7 +401,7 @@ theorem C2off_of (L : SizeData₂ D) (X : ErrX D) (K : Consts) (c : ErrC) (CT CG
       intro w hw
       have hw' := (Finset.mem_filter.1 hw).2
       have : L.E u j w = EatT D u w := by
-        rw [hE u j hj w]; unfold Eval; simp only [if_pos hw']
+        rw [hE u j hj w]; unfold Eval; simp only [ite_eq_left hw']
       rw [this, abs_of_nonneg]
       unfold SizeData₂.sz
       have := logWeight_nonneg w

@@ -598,7 +598,7 @@ theorem part_projector_mem_adjoin :
   obtain ⟨F, hF, -⟩ := NCov.exists_finset_pts hinj hS hsplit hint
   by_cases hA : ∃ ψ0 : Algebra.adjoin O S →ₐ[O] O, NCov.cls ψ0 = 𝔪
   swap
-  · push_neg at hA
+  · push Not at hA
     refine ⟨0, Subalgebra.zero_mem _, fun x hx => ?_, fun x _ => rfl⟩
     have : NCov.part (Algebra.adjoin O S) 𝔪 = ⊥ := by
       unfold NCov.part
@@ -931,7 +931,7 @@ private theorem exists_integral_inverse_coefficients {K : Type} [Field K] [Numbe
   classical
   by_cases hc : ∀ k, c k = 0
   · exact ⟨0, fun j k => ⟨0, by simp⟩, fun k => by simp [hc k]⟩
-  push_neg at hc
+  push Not at hc
   obtain ⟨k₀, hk₀⟩ := hc
   let I : FractionalIdeal (nonZeroDivisors (𝓞 K)) K :=
     FractionalIdeal.spanFinset (𝓞 K) Finset.univ c

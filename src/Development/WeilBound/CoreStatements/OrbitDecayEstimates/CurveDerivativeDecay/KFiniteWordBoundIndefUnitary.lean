@@ -72,9 +72,9 @@ theorem re_term (hU : IsInfUnitary ε E) (a b : Fin n) (x : M) :
   unfold adjSign
   by_cases h : ε b = ε a
   · have h' : ε a = ε b := h.symm
-    rw [if_pos h', if_pos h, one_mul, one_mul, ← RCLike.ofReal_pow, RCLike.ofReal_re]
+    rw [ite_eq_left h', ite_eq_left h, one_mul, one_mul, ← RCLike.ofReal_pow, RCLike.ofReal_re]
   · have h' : ¬ ε a = ε b := fun e => h e.symm
-    rw [if_neg h', if_neg h, neg_mul, one_mul, neg_mul, one_mul, map_neg, ← RCLike.ofReal_pow,
+    rw [ite_eq_right h', ite_eq_right h, neg_mul, one_mul, neg_mul, one_mul, map_neg, ← RCLike.ofReal_pow,
       RCLike.ofReal_re]
 
 theorem sum_sq_eq (hU : IsInfUnitary ε E) (x : M) :

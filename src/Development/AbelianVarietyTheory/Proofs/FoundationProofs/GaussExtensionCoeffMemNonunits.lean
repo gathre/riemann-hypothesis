@@ -284,7 +284,7 @@ theorem _root_.GlobalTheory.gaussExtension_coeff_mem_nonunits : ∀ {F : Type} [
   rw [hev Ψ, hroot, mul_zero, add_zero] at hsplit
   obtain ⟨j, hj⟩ : ∃ j, IsLocalRing.residue V (cv.coeff j) ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hc0
     ext j
     simp [Polynomial.coeff_map, h j]

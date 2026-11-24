@@ -633,7 +633,7 @@ lemma exists_preimage {l : ℕ} (hfin : Finite {x : X // l • x = 0}) {y : X} (
   rw [pow_one] at hz0
   haveI := finite_fiber hfin y z0 hz0
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hm : ∀ z : {z : X // l • z = y}, ∃ m : ℕ, ∀ w : X, l ^ m • w ≠ z.1 := by
     intro z
     have := hcon z.1 z.2
@@ -659,7 +659,7 @@ lemma exists_start {l : ℕ} (htors : ∀ x : X, ∃ n : ℕ, l ^ n • x = 0)
     (hfin : Finite {x : X // l • x = 0}) (hunb : ∀ m : ℕ, ∃ x : X, l ^ m • x ≠ 0) :
     ∃ y : X, y ≠ 0 ∧ l • y = 0 ∧ DivAll l y := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hm : ∀ y : {x : X // l • x = 0}, ∃ m : ℕ, y.1 ≠ 0 → ∀ w : X, l ^ m • w ≠ y.1 := by
     intro y
     by_cases hy0 : y.1 = 0

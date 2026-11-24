@@ -87,7 +87,7 @@ theorem goal1 :
       LinearMap.quotKerEquivRange_symm_apply_image, Submodule.mkQ_apply, Submodule.liftQ_apply]
     simp [σ]
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hz : Ψ = 0 := LinearMap.pi_ext' fun i => hne _
   rw [hz] at hΨ
   exact hs hΨ.symm

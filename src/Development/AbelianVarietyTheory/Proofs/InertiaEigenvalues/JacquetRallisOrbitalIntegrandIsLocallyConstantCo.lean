@@ -63,8 +63,8 @@ namespace GlobalTheory.JR.OrbTest
 theorem eta_eq_of_norm_eq {F : Type} [NormedField F] {x y : F} (h : ‖x‖ = ‖y‖) : eta x = eta y := by
   unfold eta
   by_cases hx : ∃ z : F, ‖x‖ = ‖z‖ ^ 2
-  · rw [if_pos hx, if_pos (h ▸ hx)]
-  · rw [if_neg hx, if_neg (h ▸ hx)]
+  · rw [ite_eq_left hx, ite_eq_left (h ▸ hx)]
+  · rw [ite_eq_right hx, ite_eq_right (h ▸ hx)]
 
 theorem isLocallyConstant_eta_comp {X F : Type} [TopologicalSpace X] [NormedField F] [IsUltrametricDist F]
     (h : X → F) (hc : Continuous h) (h0 : ∀ x, h x ≠ 0) : IsLocallyConstant (fun x => eta (h x)) := by

@@ -166,8 +166,8 @@ theorem _root_.GlobalTheory.GoodCharsCompare.exists_ext {ι : (_root_.Formalism.
     ∃ ω : _root_.Formalism.CyclotomicNorms.Fbar g →*₀ ℂ, Function.Injective ω ∧ _root_.GlobalTheory.GoodCharsCompare.Ext ι ω := by
   classical
   let f : _root_.Formalism.CyclotomicNorms.Fbar g → ℂ := fun x => if h : x = 0 then 0 else ((ι (Units.mk0 x h) : ℂˣ) : ℂ)
-  have hf0 : ∀ x (hx : x ≠ 0), f x = ((ι (Units.mk0 x hx) : ℂˣ) : ℂ) := fun x hx => dif_neg hx
-  have hfz : f 0 = 0 := dif_pos rfl
+  have hf0 : ∀ x (hx : x ≠ 0), f x = ((ι (Units.mk0 x hx) : ℂˣ) : ℂ) := fun x hx => dite_eq_right hx
+  have hfz : f 0 = 0 := dite_eq_left rfl
   let ω : _root_.Formalism.CyclotomicNorms.Fbar g →*₀ ℂ :=
     { toFun := f
       map_zero' := hfz

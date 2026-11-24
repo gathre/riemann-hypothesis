@@ -80,10 +80,10 @@ theorem IsWeylRep.inv {R : Type} [CommRing R] {n : ℕ} {v : Equiv.Perm (Fin n)}
   intro i j hij
   have hu : IsUnit ((y : Matrix (Fin n) (Fin n) R) j (v⁻¹ j)) := by
     have h := key (v⁻¹ j) (v⁻¹ j)
-    rw [hv, if_pos rfl] at h
+    rw [hv, ite_eq_left rfl] at h
     exact IsUnit.of_mul_eq_one_right _ h
   have h := key i (v⁻¹ j)
-  rw [hv, if_neg hij] at h
+  rw [hv, ite_eq_right hij] at h
   exact hu.mul_left_eq_zero.1 h
 
 end WeylCell

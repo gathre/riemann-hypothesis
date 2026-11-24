@@ -559,11 +559,11 @@ lemma three_eq {a a' b b' : K} (ha : a = a') (hb : b = b') :
 
 lemma rho_pos {g : SpecialLinearGroup (Fin 2) K} (h : en g 1 0 = 0) :
     rho n m t g = mx m (en g 0 0) * n (en g 0 1 / en g 0 0) := by
-  unfold rho; rw [if_pos h]
+  unfold rho; rw [ite_eq_left h]
 
 lemma rho_neg {g : SpecialLinearGroup (Fin 2) K} (h : en g 1 0 ≠ 0) :
     rho n m t g = n (en g 0 0 / en g 1 0) * mx m (-1 / en g 1 0) * t * n (en g 1 1 / en g 1 0) := by
-  unfold rho; rw [if_neg h]
+  unfold rho; rw [ite_eq_right h]
 
 lemma rho_n (hn : ∀ a b, n (a + b) = n a * n b) (g : SpecialLinearGroup (Fin 2) K) (z : K) :
     rho n m t (g * nS z) = rho n m t g * n z := by
@@ -640,7 +640,7 @@ lemma rho_one (hn0 : n 0 = 1) (hm1 : m 1 = 1) : rho n m t (1 : SpecialLinearGrou
   have e : ∀ i j : Fin 2, en (1 : SpecialLinearGroup (Fin 2) K) i j = (1 : Matrix (Fin 2) (Fin 2) K) i j :=
     fun _ _ => rfl
   simp only [rho, e, Matrix.one_apply_ne (show (1 : Fin 2) ≠ 0 by decide),
-    Matrix.one_apply_ne (show (0 : Fin 2) ≠ 1 by decide), Matrix.one_apply_eq, if_true, zero_div, hn0, mul_one]
+    Matrix.one_apply_ne (show (0 : Fin 2) ≠ 1 by decide), Matrix.one_apply_eq, ite_true, zero_div, hn0, mul_one]
   have := mx_unit m 1; rw [Units.val_one] at this; rw [this, hm1]
 
 lemma rho_mul (hn0 : n 0 = 1) (hn : ∀ a b, n (a + b) = n a * n b) (hm : ∀ a b, m (a * b) = m a * m b)
@@ -1361,24 +1361,24 @@ theorem weilField_main : WeilField := by
   obtain ⟨ρ, hρn, hρm, hρw⟩ := _root_.GlobalTheory.BruhatRep.exists_hom_of_bruhat A.K hK (Module.End ℂ S) Nz Ms Tw e1 e2 e3 e4 e5 e6 e7 e8
   refine ⟨G₁⁻¹, fun g φ => if h : IsTest φ then ((ρ g ⟨φ, h⟩ : S) : A.L → ℂ) else 0, ⟨?_, ?_, ?_, ?_⟩, ?_⟩
   · intro g f hf
-    simp only [dif_pos hf]
+    simp only [dite_eq_left hf]
     exact (ρ g ⟨f, hf⟩).2
   · intro f hf
-    simp [dif_pos hf]
+    simp [dite_eq_left hf]
   · intro g h f hf
     have hh : IsTest ((ρ h ⟨f, hf⟩ : S) : A.L → ℂ) := (ρ h ⟨f, hf⟩).2
-    simp only [dif_pos hf, dif_pos hh, map_mul, Module.End.mul_apply]
+    simp only [dite_eq_left hf, dite_eq_left hh, map_mul, Module.End.mul_apply]
   · intro g c f f' hf hf'
     have hc : IsTest (c • f + f') := S.add_mem (S.smul_mem c hf) hf'
-    simp only [dif_pos hf, dif_pos hf', dif_pos hc]
+    simp only [dite_eq_left hf, dite_eq_left hf', dite_eq_left hc]
     have : (⟨c • f + f', hc⟩ : S) = c • ⟨f, hf⟩ + ⟨f', hf'⟩ := rfl
     rw [this, map_add (f := _), map_smul]
     rfl
   · intro φ hφ
     refine ⟨fun z y => ?_, fun s y => ?_, fun y => ?_⟩
-    · simp only [dif_pos hφ, hρn]; rfl
-    · simp only [dif_pos hφ, hρm]; rfl
-    · simp only [dif_pos hφ, hρw]; rfl
+    · simp only [dite_eq_left hφ, hρn]; rfl
+    · simp only [dite_eq_left hφ, hρm]; rfl
+    · simp only [dite_eq_left hφ, hρw]; rfl
 
 end GlobalTheory.JR.WeilQuad
 

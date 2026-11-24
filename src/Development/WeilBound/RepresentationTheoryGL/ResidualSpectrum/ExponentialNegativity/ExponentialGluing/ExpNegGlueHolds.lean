@@ -137,7 +137,7 @@ theorem main : ExpNegGlue := by
       convert dec_smul μ ρ a c₀ (dec_translate μ ρ a hcomm s hdec_ctn) using 1
     obtain ⟨g₀, hg₀⟩ : ∃ g₀, F g₀ ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hF0 (funext h)
     obtain ⟨Q, hQc, hQn⟩ := exists_compact_mem_nhds g₀
     have hFc := hdecF.1
@@ -166,7 +166,7 @@ theorem main : ExpNegGlue := by
     rw [tendsto_congr hval] at hlim
     have hlt : c.re < ρ := by
       by_contra hge
-      push_neg at hge
+      push Not at hge
       have hev : ∀ᶠ t in atTop, I ≤ Real.exp (2 * (c.re - ρ) * t) * I := by
         filter_upwards [eventually_ge_atTop 0] with t ht
         have h1 : 1 ≤ Real.exp (2 * (c.re - ρ) * t) :=

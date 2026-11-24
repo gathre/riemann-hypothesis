@@ -106,7 +106,7 @@ theorem evPt_surjective (T : Subalgebra O (X → O))
     exact Finset.prod_erase_mul _ _ (Finset.mem_univ z)
   have hφ : ∃ x, φ (P x) ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 := congrArg φ hsum
     rw [AlgHom.commutes] at h1
     exact hN0 (by simpa [hcon] using h1.symm)

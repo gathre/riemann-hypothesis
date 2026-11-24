@@ -582,11 +582,11 @@ private theorem mask_mul (j : X) (Y : Matrix ι ι k) {A : Matrix ι ι k} (hA :
   split_ifs with e
   · refine Finset.sum_congr rfl fun c _ => ?_
     by_cases n : w c = w b
-    · rw [if_pos (by rw [n, e])]
+    · rw [ite_eq_left (by rw [n, e])]
     · simp [hA c b n]
   · refine (Finset.sum_eq_zero fun c _ => ?_).symm
     by_cases n : w c = w b
-    · rw [if_neg (by rw [n]; exact e), zero_mul]
+    · rw [ite_eq_right (by rw [n]; exact e), zero_mul]
     · simp [hA c b n]
 
 omit [DecidableEq ι] in
@@ -597,11 +597,11 @@ private theorem mul_mask (j : X) (Y : Matrix ι ι k) {A : Matrix ι ι k} (hA :
   split_ifs with e
   · refine Finset.sum_congr rfl fun c _ => ?_
     by_cases n : w a = w c
-    · rw [if_pos (by rw [← n, e])]
+    · rw [ite_eq_left (by rw [← n, e])]
     · simp [hA a c n]
   · refine (Finset.sum_eq_zero fun c _ => ?_).symm
     by_cases n : w a = w c
-    · rw [if_neg (by rw [← n]; exact e), mul_zero]
+    · rw [ite_eq_right (by rw [← n]; exact e), mul_zero]
     · simp [hA a c n]
 
 variable {O : Type} [CommRing O] [Algebra O k] {w} (Φ : FormData O w)
@@ -624,19 +624,19 @@ private theorem mask_mem (j : X) {Y : Matrix ι ι k} (hY : Y ∈ Φ.g k) : mask
   · rw [← h]
     congr 1 <;> refine Finset.sum_congr rfl fun c _ => ?_
     · by_cases n : w c + w b = Φ.c
-      · rw [if_pos (by rw [← e, ← n]; abel)]
+      · rw [ite_eq_left (by rw [← e, ← n]; abel)]
       · simp [hJ _ _ n]
     · by_cases n : w a + w c = Φ.c
-      · rw [if_pos (by rw [← e, ← n]; abel)]
+      · rw [ite_eq_left (by rw [← e, ← n]; abel)]
       · simp [hJ _ _ n]
   · rw [Finset.sum_eq_zero, Finset.sum_eq_zero, add_zero]
     · intro c _
       by_cases n : w a + w c = Φ.c
-      · rw [if_neg (fun m => e (by rw [← m, ← n]; abel)), mul_zero]
+      · rw [ite_eq_right (fun m => e (by rw [← m, ← n]; abel)), mul_zero]
       · simp [hJ _ _ n]
     · intro c _
       by_cases n : w c + w b = Φ.c
-      · rw [if_neg (fun m => e (by rw [← m, ← n]; abel)), zero_mul]
+      · rw [ite_eq_right (fun m => e (by rw [← m, ← n]; abel)), zero_mul]
       · simp [hJ _ _ n]
 
 end Mat
@@ -881,7 +881,7 @@ theorem UpperTheory.V.Alg.framed_tangent :
   · rintro j (⟨s, a, b⟩ | ⟨v, a, b⟩) x e
     · show ((x.1.1 s).1 * rbar s) a b = 0
       rw [← mask_fix Φ (x.1.1 s).2, ← mask_mul w j _ (hbar.2.2 s)]
-      exact if_neg e
+      exact ite_eq_right e
     · exact neg_eq_zero.2 ((x.1.2 v).2.2 a b e)
   · intro j x hx
     refine Subtype.ext (Prod.ext (funext fun s => Subtype.ext ?_) (funext fun v => Subtype.ext ?_))
@@ -933,10 +933,10 @@ theorem UpperTheory.V.Alg.framed_tangent :
     · rintro (⟨s, a, b⟩ | ⟨v, a, b⟩) e
       · show (mask w j (((r.map f).hom s).map snd * rbar s⁻¹) * rbar s) a b = _
         rw [z1, ← mask_mul w j _ (hbar.2.2 s), mul_assoc, inv1, mul_one]
-        exact if_pos e
+        exact ite_eq_left e
       · show -(mask w j _ a b) = _
         rw [z2, neg_eq_iff_eq_neg]
-        exact if_pos e
+        exact ite_eq_left e
   · intro f hf hz y
     let f0 : R →ₐ[O] DualNumber (ResidueField O) := (inlAlgHom O (ResidueField O) (ResidueField O)).comp (res O R)
     have key : ∀ y, (f y).snd = 0 → f0 y = f y := fun y hy => by
@@ -1421,13 +1421,13 @@ private theorem lp_wcomp_mul {O σ X : Type} [CommRing O] [AddCommGroup X] (wt :
   · refine Finset.sum_congr rfl fun p hp => ?_
     have hp' := Finset.HasAntidiagonal.mem_antidiagonal.1 hp
     by_cases h2 : Finsupp.weight wt p.2 = c
-    · rw [coeff_wcomp, if_pos]
+    · rw [coeff_wcomp, ite_eq_left]
       rw [← h, ← hp', map_add (f := _), h2, add_sub_cancel_right]
     · rw [ha _ h2, mul_zero, mul_zero]
   · refine (Finset.sum_eq_zero fun p hp => ?_).symm
     have hp' := Finset.HasAntidiagonal.mem_antidiagonal.1 hp
     by_cases h2 : Finsupp.weight wt p.2 = c
-    · rw [coeff_wcomp, if_neg, zero_mul]
+    · rw [coeff_wcomp, ite_eq_right, zero_mul]
       intro h1
       exact h (by rw [← hp', map_add (f := _), h1, h2, sub_add_cancel])
     · rw [ha _ h2, mul_zero]
@@ -1587,13 +1587,13 @@ private theorem lp_detect {O B A R κ : Type} [CommRing O] [IsLocalRing O] [Comm
     rw [sub_mul, sub_eq_zero] at this
     rw [this, Algebra.smul_def]
   have h7 := hind (fun u => b u - if u = u0 then 1 + ∑ v, b v * (c v * d) else 0) (by
-    simp only [sub_smul, Finset.sum_sub_distrib, ite_smul, zero_smul, Finset.sum_ite_eq', Finset.mem_univ, if_true,
+    simp only [sub_smul, Finset.sum_sub_distrib, ite_smul, zero_smul, Finset.sum_ite_eq', Finset.mem_univ, ite_true,
       add_smul, one_smul, Finset.sum_smul]
     simp only [δ, smul_sub, Finset.sum_sub_distrib, smul_smul] at h6
     linear_combination h6)
   have h8 : ∑ u, (b u - if u = u0 then 1 + ∑ v, b v * (c v * d) else 0) * (c u * d) ∈ maximalIdeal O :=
     Ideal.sum_mem _ fun u _ => Ideal.mul_mem_right _ _ (h7 u)
-  simp only [sub_mul, Finset.sum_sub_distrib, ite_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true,
+  simp only [sub_mul, Finset.sum_sub_distrib, ite_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true,
     hd, mul_one] at h8
   rw [sub_add_cancel_right, neg_mem_iff] at h8
   exact (maximalIdeal.isMaximal O).ne_top ((Ideal.eq_top_iff_one _).2 h8)

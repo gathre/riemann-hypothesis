@@ -990,7 +990,7 @@ theorem intAtA_of_val {ι : AfE F E ≃+* FiniteAdeleRing (𝓞 E) E} (hι : IsA
   have hsP : s ∉ P.asIdeal := by
     intro hm
     have h1 := hs P (Finset.mem_insert_self _ _)
-    simp only [if_true, pow_one] at h1
+    simp only [ite_true, pow_one] at h1
     apply P.isPrime.ne_top
     rw [Ideal.eq_top_iff_one]
     have := P.asIdeal.sub_mem hm h1
@@ -1353,8 +1353,8 @@ theorem ratPt : UnderTie (fun {D L hT Gi Gl Kc Y cX ex t u μ St} A dtU a => ∀
     rw [hx, hmv, mul_assoc (ratA D.host.F (seamGL t.seam g.1))]
     by_cases hPg : P.1 ∈ t.Pr.vGs
     · have hD : (t.cst μ).D P = 1 := (t.idx_ok μ).depthG P hPg
-      have e0 : frsF t.sel (t.tup μ) p P = p.deco.1.liftFr ⟨P.1, hPg⟩ := dif_pos hPg
-      have e1 : frsF (R := D.R) t.sel (t.tup μ) (a' • p) P = ((g, (1 : GLG (E := t.X.E) (n := D.R.N i) (SG := t.Pr.vGs))) • p.deco).1.liftFr ⟨P.1, hPg⟩ := dif_pos hPg
+      have e0 : frsF t.sel (t.tup μ) p P = p.deco.1.liftFr ⟨P.1, hPg⟩ := dite_eq_left hPg
+      have e1 : frsF (R := D.R) t.sel (t.tup μ) (a' • p) P = ((g, (1 : GLG (E := t.X.E) (n := D.R.N i) (SG := t.Pr.vGs))) • p.deco).1.liftFr ⟨P.1, hPg⟩ := dite_eq_left hPg
       rw [hD, e0] at hb
       rw [hD, e1]
       exact _root_.GlobalTheory.FrameRat.nearAt_liftFr_smul t.seam p.deco ⟨P.1, hPg⟩ g (mq_rowSG_unif (t.tup μ) hP.fields.ok t.pr_ok hP.sel P) _ hb

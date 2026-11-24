@@ -966,7 +966,7 @@ theorem approx {F E K : Type} [Field F] [Field E] [Algebra F E] [Field K] [Algeb
       · have : Valued.v w = 0 := by
           rw [hu, Valuation.map_zero] at hw; exact le_antisymm hw zero_le'
         rw [this, zero_mul]; exact hr0
-      · rw [if_neg hu] at hz
+      · rw [ite_eq_right hu] at hz
         have hu0 : (0 : ℤᵐ⁰) < Valued.v u := by rw [pos_iff_ne_zero]; simpa using hu
         calc Valued.v w * Valued.v z ≤ Valued.v u * Valued.v z := by gcongr
           _ < Valued.v u * Valued.v (r * u⁻¹) := mul_lt_mul_of_pos_left hz hu0
@@ -1121,7 +1121,7 @@ theorem prime_not_stable : ∀ (F E : Type) [Field F] [NumberField F] [Field E] 
     rw [hν, h]
     simp [swapR]
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   let σO : 𝓞 E →+* 𝓞 E := NumberField.RingOfIntegers.mapRingHom (σ : E →+* E)
   have hσP : ∀ a : 𝓞 E, a ∈ P.asIdeal → σO a ∈ P.asIdeal := fun a ha => hcon a (σO a) rfl ha
   have hσs : ∀ s : 𝓞 E, s ∉ P.asIdeal → σO s ∉ P.asIdeal := by

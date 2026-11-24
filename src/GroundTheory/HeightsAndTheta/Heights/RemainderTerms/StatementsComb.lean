@@ -82,7 +82,7 @@ theorem pcnt_castSucc_snoc {n : ℕ} (w : Fin n → Fin m) (a : Fin m) (t : ℕ)
   unfold pcnt
   rw [Finset.card_filter, Finset.card_filter, Fin.sum_univ_castSucc]
   simp only [Fin.snoc_castSucc, Fin.val_castSucc, Fin.snoc_last, Fin.val_last]
-  rw [if_neg (by omega), add_zero]
+  rw [ite_eq_right (by omega), add_zero]
 
 theorem pcnt_snoc_last {n : ℕ} (w : Fin n → Fin m) (a : Fin m) (i : Fin m) :
     pcnt (Fin.snoc w a : Fin (n + 1) → Fin m) (n + 1) i = pcnt w n i + if a = i then 1 else 0 := by

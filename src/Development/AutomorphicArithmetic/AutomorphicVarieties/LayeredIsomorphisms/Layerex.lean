@@ -118,9 +118,9 @@ theorem UpperTheory.V.Win.layerex :
     obtain ⟨ζ, hζ⟩ := hq
     by_cases h2 : l = 2
     · subst h2
-      rw [if_pos rfl] at hζ
+      rw [ite_eq_left rfl] at hζ
       exact ⟨ζ ^ 2, hζ.pow (by norm_num) (by norm_num)⟩
-    · rw [if_neg h2] at hζ
+    · rw [ite_eq_right h2] at hζ
       exact ⟨ζ, hζ⟩
   have key : ∃ (L' : Type) (_ : Field L') (_ : NumberField L') (_ : Algebra L L'),
       (∃ k : ℕ, IsCyclotomicExtension {l ^ (k + 1)} L L') ∧ Module.finrank L L' = l ^ j := by

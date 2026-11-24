@@ -129,9 +129,9 @@ theorem tr_bad (d : LocData E n) (hd : d.Ok) {a : ℕ} (ha : a ≤ n) {w : Pl E}
   have e : ((d.fixL a).mul (pw (d.betaL a ha) m)).tr d.P d.one w =
       PositivityTheory.Rg.BcN.F2.mconv (d.fix a w) ((pw (d.betaL a ha) m).s w) := by
     unfold LM.tr
-    rw [if_neg hP]
+    rw [ite_eq_right hP]
     show PositivityTheory.Rg.BcN.F2.mconv (if w ∈ d.Bad then d.fix a w else idem (d.lev a w)) _ = _
-    rw [if_pos hw]
+    rw [ite_eq_left hw]
   rw [e, stabilizerDilationWeights_dualIsotropicVector d hd ha hT hw' m]
   exact GlobalTheory.CompanionTheory.FmPowP.mconv_idem_right ho hle _ fun u hu g => ((hd.fix a ha w hw).2 u hu g).2
 
@@ -186,7 +186,7 @@ theorem mconv_left {a b : ℕ} {w : Pl E} {u v : GLw a w × GLw b w → ℂ} {l 
 theorem tr_one (d : LocData E n) {a : ℕ} (L : LM d.kap a (n - a)) {w : Pl E} (hw : w ∈ d.P) :
     L.tr d.P d.one w = ∑ x, L.m w x x := by
   unfold LM.tr
-  rw [if_pos hw]
+  rw [ite_eq_left hw]
   refine Finset.sum_congr rfl fun x _ => ?_
   rw [Finset.sum_eq_single x]
   · simp [LocData.one]
@@ -198,11 +198,11 @@ theorem sum_diag (d : LocData E n) {a : ℕ} {w : Pl E} (f g : d.kap w → LF a 
     ∑ z, mconv (d.diag f x z) (g z) = mconv (f x) (g x) := by
   refine (Finset.sum_eq_single x ?_ ?_).trans ?_
   · intro z _ hz
-    have h : d.diag f x z = 0 := if_neg (Ne.symm hz)
+    have h : d.diag f x z = 0 := ite_eq_right (Ne.symm hz)
     rw [h]
     exact GlobalTheory.CompanionTheory.FmPowP.mconv_zero_left _
   · simp
-  · have h : d.diag f x x = f x := if_pos rfl
+  · have h : d.diag f x x = f x := ite_eq_left rfl
     rw [h]
 
 section S0
@@ -314,7 +314,7 @@ theorem trace_at_S0_matches (hd : d.Ok) (hT : w ∉ d.T) (hS : w ∈ d.S₀) (m 
         MS.mpow (d.X w) (phi3 (Nat.add_sub_of_le ha) w (d.e w)) m x.1.2 x.1.2 y)) := fun x => by
     have hf : (d.fixL a).m w = d.diag (fun _ y => d.sgn a w * idem (d.L a w) y) := by
       show d.diag (fun _ => if w ∈ d.T then idem (d.lev a w) else d.sgn a w • idem (d.lev a w)) = _
-      simp only [if_neg hT, hl]
+      simp only [ite_eq_right hT, hl]
       rfl
     have e1 : ((d.fixL a).mul (pw (d.betaL a ha) m)).m w x x =
         mconv (fun y => d.sgn a w * idem (d.L a w) y) ((pw (d.betaL a ha) m).m w x x) := by
@@ -471,10 +471,10 @@ theorem powers_diagonal_at_T (hT : w ∈ d.T) (k : ℕ) (x y : d.kap w) :
     show ∑ z, mconv ((d.betaL a ha).m w x z) ((pw (d.betaL a ha) k).m w z y) = _
     rw [beta_m_alt d ha hT, sum_diag d _ (fun z => (pw (d.betaL a ha) k).m w z y), ih]
     by_cases h : x = y
-    · have e1 : ∀ f : d.kap w → LF a (n - a) w, d.diag f x y = f x := fun f => if_pos h
+    · have e1 : ∀ f : d.kap w → LF a (n - a) w, d.diag f x y = f x := fun f => ite_eq_left h
       rw [e1, e1]
       rfl
-    · have e1 : ∀ f : d.kap w → LF a (n - a) w, d.diag f x y = 0 := fun f => if_neg h
+    · have e1 : ∀ f : d.kap w → LF a (n - a) w, d.diag f x y = 0 := fun f => ite_eq_right h
       rw [e1, e1]
       exact GlobalTheory.CompanionTheory.FmPowP.mconv_zero_right _
 
@@ -485,11 +485,11 @@ theorem trace_test_function_eq (hT : w ∈ d.T) (m : ℕ)
   have hl : d.lev a w = Tail.I2 a (n - a) w := by simp [LocData.lev, hT]
   have hf : (d.fixL a).m w = d.diag (fun _ => idem (Tail.I2 a (n - a) w)) := by
     show d.diag (fun _ => if w ∈ d.T then idem (d.lev a w) else d.sgn a w • idem (d.lev a w)) = _
-    simp only [if_pos hT, hl]
+    simp only [ite_eq_left hT, hl]
   have hent : ∀ x : d.kap w, ((d.fixL a).mul (pw (d.betaL a ha) m)).m w x x = MT.mpow w (d.qT a w x.1.1) (m + 1) := fun x => by
     show ∑ z, mconv ((d.fixL a).m w x z) ((pw (d.betaL a ha) m).m w z x) = _
     rw [hf, sum_diag d _ (fun z => (pw (d.betaL a ha) m).m w z x), powers_diagonal_at_T d ha hT]
-    have e1 : ∀ f : d.kap w → LF a (n - a) w, d.diag f x x = f x := fun f => if_pos rfl
+    have e1 : ∀ f : d.kap w → LF a (n - a) w, d.diag f x x = f x := fun f => ite_eq_left rfl
     rw [e1]
     exact GlobalTheory.CompanionTheory.FmPowP.mconv_idem_left (GlobalTheory.CompanionTheory.MatchPow.iwahori_pair_open a (n - a) w) (GlobalTheory.CompanionTheory.MatchPow.iwahori_pair_le_maximal a (n - a) w) _ (hH _)
   rw [tr_one d _ hP]
@@ -503,7 +503,7 @@ theorem unitary_function_at_T (hT : w ∈ d.T) : d.g₀ w = fun y => (((iwU n w 
   have h : d.g₀ w = fun y => (d.c w).sum fun x t =>
       t * (((iwU n w (d.b w)).relIndex (KL n w) : ℕ) : ℂ) * fU n w (d.b w) (d.ϖ w) (lOf x) y := by
     unfold LocData.g₀
-    rw [if_pos hT]
+    rw [ite_eq_left hT]
   rw [h]
   funext y
   rw [Finsupp.sum, Finset.mul_sum, ← Finset.sum_coe_sort (d.c w).support]
@@ -632,7 +632,7 @@ theorem matchBadIOf2 : MatchBadIOf2 := by
     rw [mb_lone_apply]
     by_cases h : γ ∈ K'
     · have h' : γ ∈ ({γ : UL n w | γ.1 ∈ congK n w k} : Set (UL n w)) := (hmem γ).1 h
-      rw [if_pos h, Set.indicator_of_mem h', Pi.one_apply, mul_one]
+      rw [ite_eq_left h, Set.indicator_of_mem h', Pi.one_apply, mul_one]
     · have h' : γ ∉ ({γ : UL n w | γ.1 ∈ congK n w k} : Set (UL n w)) := fun h' => h ((hmem γ).2 h')
       simp [h, h']
   rw [hf]

@@ -425,14 +425,14 @@ theorem exists_matrixUnits_extend : ∀ {S B : Scheme.{0}} [AlgebraicGeometry.Is
     apply uG
     by_cases hbc : b = c
     · subst hbc
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       have h1 := comp_left_comp (he a b) (he b d)
-      rw [hrel, if_pos rfl] at h1
+      rw [hrel, ite_eq_left rfl] at h1
       have h2 : e a b ≫ e b d = e a d := uq h1 (he a d)
       rw [← comp_left_comp (hE a b).2 (hE b d).2, h2, (hE a d).2]
-    · rw [if_neg hbc]
+    · rw [ite_eq_right hbc]
       have h1 := comp_left_comp (he a b) (he c d)
-      rw [hrel, if_neg hbc] at h1
+      rw [hrel, ite_eq_right hbc] at h1
       have h2 : e a b ≫ e c d = 1 := uq h1 (one_left_comp hψ)
       rw [← comp_left_comp (hE a b).2 (hE c d).2, h2, one_left_comp hφ]
   · have key : ∀ s : Finset (Fin 8), ∃ x : G' ⟶ G', x.left ≫ φ = φ ≫ (∏ a ∈ s, E a a).left ∧

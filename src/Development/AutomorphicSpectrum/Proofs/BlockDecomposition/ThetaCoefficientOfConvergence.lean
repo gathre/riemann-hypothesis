@@ -140,7 +140,7 @@ theorem setIntegral_pairH {ψ : AddChar (AF D.host.F) ℂ} (hψ : IsCharAF D.hos
     ((GlobalTheory.CompanionTheory.HermPoisson.ofHermE_bijective (D := D) (r := r)).1 (Subtype.ext (sub_eq_zero.1 h)))
   have hex : ∃ b₀, pairH ψ (S - S') b₀ ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hne (h2 _ (sub_mem (GlobalTheory.CompanionTheory.HermPoisson.ofHermE T).2 (GlobalTheory.CompanionTheory.HermPoisson.ofHermE β).2) hcon)
   obtain ⟨b₀, hb₀⟩ := hex
   have hdec : ∀ b, pairH ψ S b = pairH ψ (S - S') b * pairH ψ S' b := fun b => by

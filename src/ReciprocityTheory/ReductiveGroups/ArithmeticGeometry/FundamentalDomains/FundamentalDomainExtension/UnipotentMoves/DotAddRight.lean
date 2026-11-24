@@ -149,17 +149,17 @@ lemma sum_splitC (f : Fin r → ℂ) :
   have e1 : ∑ j, f j = ∑ i ∈ Finset.range r, g i := by
     rw [Finset.sum_range]
     refine Finset.sum_congr rfl fun j _ => ?_
-    rw [hg, dif_pos j.isLt]
+    rw [hg, dite_eq_left j.isLt]
   have e2 : ∑ a : Fin X.p0, f (Fin.castLE X.p0_le a) = ∑ i ∈ Finset.range X.p0, g i := by
     rw [Finset.sum_range]
     refine Finset.sum_congr rfl fun a _ => ?_
-    rw [hg, dif_pos (lt_of_lt_of_le a.isLt X.p0_le)]
+    rw [hg, dite_eq_left (lt_of_lt_of_le a.isLt X.p0_le)]
     rfl
   have e3 : ∑ m : Fin (r - X.p0), f (nI X m) = ∑ i ∈ Finset.range (r - X.p0), g (X.p0 + i) := by
     rw [Finset.sum_range]
     refine Finset.sum_congr rfl fun m _ => ?_
     have hm : X.p0 + (m : ℕ) < r := by have := m.isLt; omega
-    rw [hg, dif_pos hm]
+    rw [hg, dite_eq_left hm]
     rfl
   rw [e1, e2, e3, ← Finset.sum_range_add, hr]
 
@@ -185,7 +185,7 @@ lemma hpair_ortho {x : Frame X.Ψ r} (ho : X.IsOrtho x) (τ : X.Ψ) (c : Fin r �
     rw [Finset.mul_sum]
     refine Finset.sum_congr rfl fun j _ => ?_
     ring
-  simp only [e, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [e, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 lemma hermC_ortho {x : Frame X.Ψ r} (ho : X.IsOrtho x) (τ : X.Ψ) (u w : Fin r → ℂ) :
     hermC τ.1 X.Gm (mat x τ *ᵥ u) (mat x τ *ᵥ w) =
@@ -222,10 +222,10 @@ lemma mulVec_ext (P : Matrix (Fin r) (Fin r) ℂ) (d : Fin X.p0 → ℂ) :
     have hm : ¬ (((nI X m : Fin r) : ℕ) < X.p0) := by
       show ¬ (X.p0 + (m : ℕ) < X.p0)
       omega
-    rw [show ext X d (nI X m) = 0 from dif_neg hm, mul_zero]
+    rw [show ext X d (nI X m) = 0 from dite_eq_right hm, mul_zero]
   rw [h2, add_zero]
   refine Finset.sum_congr rfl fun a _ => ?_
-  rw [show ext X d (Fin.castLE X.p0_le a) = d a from dif_pos a.isLt]
+  rw [show ext X d (Fin.castLE X.p0_le a) = d a from dite_eq_left a.isLt]
   try ring
 
 lemma dot_top_col (Z : X.Coord) (τ : X.Ψ) (u : Fin r → ℂ) (b : Fin X.p0) :

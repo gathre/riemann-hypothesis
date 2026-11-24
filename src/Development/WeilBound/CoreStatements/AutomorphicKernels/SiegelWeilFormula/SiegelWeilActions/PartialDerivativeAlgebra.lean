@@ -166,7 +166,7 @@ theorem w1_mul_j_comm (h : Hyp L nb uM nb' w₁ cM δ) (g : G2 σ L.Y) : w₁ * 
     intro r c hrc
     rw [Matrix.sub_apply, hW]
     simp only [P, not_and_or] at hrc
-    rcases hrc with hr | hr <;> push_neg at hr <;>
+    rcases hrc with hr | hr <;> push Not at hr <;>
       simp [Matrix.one_apply, Ne.symm hr.1, Ne.symm hr.2]
   have hJo : ∀ r c, (P r ∨ P c) → (J - 1) r c = 0 := by
     intro r c hrc

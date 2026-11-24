@@ -62,7 +62,7 @@ theorem inv_congr {n : Type*} [Fintype n] [DecidableEq n] (A B : Matrix n n k)
     (hA : ∀ i j, valuation k (A i j - (1 : Matrix n n k) i j) ≤ valuation k t) :
     ∀ i j, valuation k (B i j - (1 : Matrix n n k) i j) ≤ valuation k t := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨i₁, j₁, h₁⟩ := h
   haveI : Nonempty (n × n) := ⟨(i₁, j₁)⟩
   obtain ⟨⟨i₀, j₀⟩, hm⟩ := Finite.exists_max

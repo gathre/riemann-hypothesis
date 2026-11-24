@@ -437,12 +437,12 @@ lemma gauss_sum_localize (hI : ∀ y ∈ I, ∀ y' ∈ I, y * y' = 0) (hψ : ∀
       (Fintype.card I : ℂ) * (if (x : R) - c ∈ I then t x else 0) := by
     intro x
     by_cases hx : (x : R) - c ∈ I
-    · rw [if_pos hx]
+    · rw [ite_eq_left hx]
       have : ∀ y : I, ψ (((x : R) - c) * (y : R)) = 1 := by
         intro y; rw [hI _ hx _ y.2, AddChar.map_zero_eq_one]
       simp only [this, sum_const, card_univ, nsmul_eq_mul, mul_one]
       ring
-    · rw [if_neg hx, mul_zero, sum_additive_character_eq_zero I ψ _ ?_, mul_zero]
+    · rw [ite_eq_right hx, mul_zero, sum_additive_character_eq_zero I ψ _ ?_, mul_zero]
       by_contra hcon
       push Not at hcon
       exact hx (hψ _ hcon)
@@ -509,14 +509,14 @@ theorem gauss_sum_ratio : GaussSumTwist := by
     apply sum_congr rfl
     intro x _
     by_cases hx : (x : R) - c ∈ I
-    · rw [if_pos hx, if_pos hx]
+    · rw [ite_eq_left hx, ite_eq_left hx]
       have hd : dl x = dl x0 := by
         have := hdl _ (hrep x hx)
         rw [map_mul, map_inv, inv_mul_eq_one] at this
         exact this.symm
       rw [MonoidHom.mul_apply, hd, mul_inv, Units.val_mul]
       ring
-    · rw [if_neg hx, if_neg hx, mul_zero]
+    · rw [ite_eq_right hx, ite_eq_right hx, mul_zero]
 
 theorem valuation_ratio_bound : TowerValuationBound := by
   intro G _ v hv a a' d h p q e h1 h2 h3 h4 h5 T Td Tdp ρ E N0 ε δ σ hN hε hR1 hR2 c0 c00 A A0 A0'
@@ -932,7 +932,7 @@ def twoAdicValuationRat : AddValuation ℚ (WithTop ℝ) :=
         · simp [hy]
         · by_cases hxy : x + y = 0
           · simp [hxy]
-          · simp only [if_neg hx, if_neg hy, if_neg hxy]
+          · simp only [ite_eq_right hx, ite_eq_right hy, ite_eq_right hxy]
             rw [← WithTop.coe_min, WithTop.coe_le_coe, ← Int.cast_min, Int.cast_le]
             exact padicValRat.min_le_padicValRat_add hxy)
     (by
@@ -941,7 +941,7 @@ def twoAdicValuationRat : AddValuation ℚ (WithTop ℝ) :=
       · simp [hx]
       · by_cases hy : y = 0
         · simp [hy]
-        · simp only [if_neg hx, if_neg hy, if_neg (mul_ne_zero hx hy)]
+        · simp only [ite_eq_right hx, ite_eq_right hy, ite_eq_right (mul_ne_zero hx hy)]
           rw [padicValRat.mul hx hy, ← WithTop.coe_add]; push_cast; rfl)
 
 lemma two_adic_valuation_half : twoAdicValuationRat (1 / 2 : ℚ) = ((-1 : ℝ) : WithTop ℝ) := by
@@ -951,7 +951,7 @@ lemma two_adic_valuation_half : twoAdicValuationRat (1 / 2 : ℚ) = ((-1 : ℝ) 
     rw [show ((2 : ℕ) : ℚ) = 2 by norm_num] at this
     rw [this]
   show (if (1 / 2 : ℚ) = 0 then ⊤ else (((padicValRat 2 (1 / 2 : ℚ) : ℤ) : ℝ) : WithTop ℝ)) = _
-  rw [if_neg (by norm_num), h]; norm_num
+  rw [ite_eq_right (by norm_num), h]; norm_num
 
 end tests
 

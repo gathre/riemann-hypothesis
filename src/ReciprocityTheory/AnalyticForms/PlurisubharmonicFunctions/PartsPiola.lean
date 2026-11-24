@@ -320,8 +320,8 @@ private lemma mdisc_eq_inv_factorial_mul_sum_sign_prod {N : ℕ} (M : Fin N → 
         (((Equiv.Perm.sign σ : ℤ) : ℂ) * ∏ i, M (f i) (σ i) i) := by
     intro S
     by_cases h : ∀ i, f i ∈ S
-    · rw [if_pos h, if_pos ((hiff S).mp h)]
-    · rw [if_neg h, if_neg (fun h' => h ((hiff S).mpr h')), mul_zero, zero_mul]
+    · rw [ite_eq_left h, ite_eq_left ((hiff S).mp h)]
+    · rw [ite_eq_right h, ite_eq_right (fun h' => h ((hiff S).mpr h')), mul_zero, zero_mul]
   rw [Finset.sum_congr rfl fun S _ => hS S, ← Finset.sum_mul, sum_superset_neg_one_pow_fin_eq_ite_univ]
   split_ifs <;> simp
 

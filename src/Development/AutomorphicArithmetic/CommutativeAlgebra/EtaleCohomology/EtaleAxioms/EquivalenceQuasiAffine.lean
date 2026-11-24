@@ -700,7 +700,7 @@ theorem glue : LateralTheory.E.FinEtSectionPf.Glue := by
     obtain ⟨q, hq⟩ := hsurj ⟨J, hJ⟩
     have : ∃ j, e j ∉ q.asIdeal := by
       by_contra hall
-      push_neg at hall
+      push Not at hall
       exact q.isPrime.ne_top ((Ideal.eq_top_iff_one _).2 (he.complete ▸ Ideal.sum_mem _ fun j _ => hall j))
     obtain ⟨j, hj⟩ := this
     have hq' : q ∈ Set.range (PrimeSpectrum.comap (algebraMap C (Localization.Away (e j)))) := by
@@ -1626,7 +1626,7 @@ theorem cover_mem {S : Type} [CommRing S] (f g : S) (hfg : Ideal.span {f, g} = �
   let p : PrimeSpectrum S := pt
   have hp : f ∉ p.asIdeal ∨ g ∉ p.asIdeal := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have : Ideal.span {f, g} ≤ p.asIdeal := by
       rw [Ideal.span_le]; intro z hz
       rcases hz with rfl | hz

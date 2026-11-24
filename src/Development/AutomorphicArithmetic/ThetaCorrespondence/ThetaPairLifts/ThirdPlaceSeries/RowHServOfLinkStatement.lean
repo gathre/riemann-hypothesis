@@ -968,7 +968,7 @@ theorem inv_mem (hp : p.Prime) (hpn : ‖(p : K)‖ < 1) {w : K} (hw : w ∈ W K
         _ ≤ max ‖w‖ ‖r - w‖ := IsUltrametricDist.norm_add_le_max _ _
         _ ≤ 1 := max_le h1.le hd'.le
     · by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       have : ‖w‖ < 1 :=
         calc ‖w‖ = ‖r + (w - r)‖ := by rw [add_sub_cancel]
           _ ≤ max ‖r‖ ‖w - r‖ := IsUltrametricDist.norm_add_le_max _ _
@@ -1003,7 +1003,7 @@ theorem mem_W_of_norm_le (hp : p.Prime) (hp0 : (p : K) ≠ 0) (hpn : ‖(p : K)�
 theorem exists_unit (hp : p.Prime) (hp0 : (p : K) ≠ 0) (hpn : ‖(p : K)‖ < 1) {w : K}
     (hw : w ∈ W K p) (hw0 : w ≠ 0) : ∃ k : ℕ, w / p ^ k ∈ W K p ∧ ‖w / p ^ k‖ = 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
 
   have hall : ∀ k : ℕ, w / (p : K) ^ k ∈ W K p := by
     intro k

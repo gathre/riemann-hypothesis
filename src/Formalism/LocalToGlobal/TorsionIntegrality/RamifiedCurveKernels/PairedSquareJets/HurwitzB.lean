@@ -141,7 +141,7 @@ theorem exists_of_coeff_inBlock_ne_zero {K : Type} [Field K] {ι B : Type} (k : 
     ∃ m : ι →₀ ℕ, x = Finsupp.embDomain (blockEmb B ι k) m := by
   rw [inBlock_eq_rename] at h
   by_contra hx
-  push_neg at hx
+  push Not at hx
   apply h
   apply MvPowerSeries.coeff_rename_eq_zero
   rintro ⟨m, rfl⟩

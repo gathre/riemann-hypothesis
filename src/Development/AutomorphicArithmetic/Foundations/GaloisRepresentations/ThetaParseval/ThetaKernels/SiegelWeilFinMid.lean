@@ -883,7 +883,7 @@ theorem mZ_place_k (R : _root_.PositivityTheory.SiegelWeilFormula.RD_k d) (w : I
     have hVb : (V' * (_root_.PositivityTheory.SiegelWeilFormula.KK.firstFrameColumns d)ᵀ).map (piInf (d.B.emb w)) = V * ((d.b.1.map (d.B.emb w).1).toCols₁)ᵀ := by
       rw [_root_.PositivityTheory.SiegelWeilFormula.KK.map_mul_incM_T_k]
       have := hV w
-      rw [if_pos rfl] at this
+      rw [ite_eq_left rfl] at this
       rw [show V'.map (piInf (d.B.emb w)) = d.cw w V' from rfl, this]
       rfl
     rw [hX, hVb]
@@ -892,7 +892,7 @@ theorem mZ_place_k (R : _root_.PositivityTheory.SiegelWeilFormula.RD_k d) (w : I
     have hVb : (V' * (_root_.PositivityTheory.SiegelWeilFormula.KK.firstFrameColumns d)ᵀ).map (piInf (d.B.emb w')) = 0 := by
       rw [_root_.PositivityTheory.SiegelWeilFormula.KK.map_mul_incM_T_k]
       have := hV w'
-      rw [if_neg hw'] at this
+      rw [ite_eq_right hw'] at this
       rw [show V'.map (piInf (d.B.emb w')) = d.cw w' V' from rfl, this, Matrix.zero_mul]
     rw [hVb]
     simp
@@ -945,7 +945,7 @@ theorem var_span'_k (R : _root_.PositivityTheory.SiegelWeilFormula.RD_k d) (w : 
     simp only [trace, diag_apply, Matrix.mul_apply, transpose_apply, of_apply, mul_ite, mul_zero]
     rw [Finset.sum_eq_single k.2.1 (fun j _ hj => by simp [hj]) (by simp)]
     simp only [Finset.mul_sum]
-    exact Finset.sum_congr rfl fun b _ => by simp only [if_true]; ring
+    exact Finset.sum_congr rfl fun b _ => by simp only [ite_true]; ring
   obtain ⟨Z₁, h1, e1⟩ := key (Matrix.of fun b j => if j = k.2.1 then 1 * fi k.1 b else 0)
   obtain ⟨Z₂, h2, e2⟩ := key (Matrix.of fun b j => if j = k.2.1 then (-Complex.I) * fi k.1 b else 0)
   have hl : ∀ X, evX (MvPolynomial.X k) (R.loc w X) =

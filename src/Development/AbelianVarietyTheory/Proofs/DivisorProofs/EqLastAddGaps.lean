@@ -110,10 +110,10 @@ theorem decomp (la : AllWt.Weight Dw) (hla : GapGe 0 la) (hN : 0 < Dw.p + Dw.q) 
   rw [Finset.sum_apply, Finset.sum_apply, Finset.sum_disjSum, Finset.sum_product, Finset.univ_product_univ.symm,
     Finset.sum_product]
   simp only [Sum.elim_inl, Sum.elim_inr, Pi.smul_apply, piece_apply, unitWt_apply, Fintype.sum_bool,
-    if_true]
+    ite_true]
   rw [Finset.sum_eq_single (s := Finset.univ) τ' (fun x _ hx => by simp [Ne.symm hx]) (by simp),
     Finset.sum_eq_single (s := Finset.univ) τ' (fun x _ hx => by simp [Ne.symm hx]) (by simp)]
-  simp only [if_true, nsmul_eq_mul, Bool.false_eq_true, if_false, mul_one]
+  simp only [ite_true, nsmul_eq_mul, Bool.false_eq_true, ite_false, mul_one]
   have hv := eq_last_add_gaps (la τ') hN i
   have hterm : ∀ y ∈ Finset.range (Dw.p + Dw.q - 1), (if (i : ℕ) ≤ y then gap (la τ') y else 0) =
       ((gap (la τ') y).toNat : ℤ) * (if y + 1 < Dw.p + Dw.q then (if y < Dw.p then (if (i : ℕ) ≤ y then 1 else 0)
@@ -121,7 +121,7 @@ theorem decomp (la : AllWt.Weight Dw) (hla : GapGe 0 la) (hN : 0 < Dw.p + Dw.q) 
     intro y hy
     have hy' : y + 1 < Dw.p + Dw.q := by simp only [Finset.mem_range] at hy; omega
     have hg : 0 ≤ gap (la τ') y := hla τ' y hy'
-    rw [Int.toNat_of_nonneg hg, if_pos hy']
+    rw [Int.toNat_of_nonneg hg, ite_eq_left hy']
     split_ifs <;> first | omega
   have hc := Int.toNat_sub_toNat_neg (cτ τ')
   have hcdef : cτ τ' = la τ' ⟨Dw.p + Dw.q - 1, by omega⟩ +

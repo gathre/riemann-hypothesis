@@ -239,7 +239,7 @@ theorem UpperTheory.Esk.diagonal_integrand_vanishes_proof : UpperTheory.Esk.Diag
             = (y : ℂ) * (((1 - r : ℝ) : ℂ) * (x : ℂ) + ((1 + r : ℝ) : ℂ) * Complex.I) := by
           push_cast; ring
         rw [e1, e2, mul_div_mul_left _ _ hy']
-      simp only [q1, if_pos hpos', j1, hden]
+      simp only [q1, ite_eq_left hpos', j1, hden]
       rw [hratio, div_pow, hE, hcdef]
       ring
     · obtain ⟨K, hK, h⟩ := bound hr1 hs hk

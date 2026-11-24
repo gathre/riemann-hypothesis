@@ -132,7 +132,7 @@ variable {D : D7} {T : Type} (L : LevCh D T) (i : Fin D.R.m) (t : T)
 
 theorem isPosDef_of_vStd (hV : VStd D i) : (Vc D i).IsPosDef := fun τ => by
   have h := factVSig _ _ D.sp ((i : ℕ) + 1) (by omega) (by omega) τ
-  rw [GlobalTheory.StdFrame.neg_eq_false_of_vStd D i hV, if_neg Bool.false_ne_true] at h
+  rw [GlobalTheory.StdFrame.neg_eq_false_of_vStd D i hV, ite_eq_right Bool.false_ne_true] at h
   rw [D.sp.V_rank _ (by omega) i.2]
   exact h
 

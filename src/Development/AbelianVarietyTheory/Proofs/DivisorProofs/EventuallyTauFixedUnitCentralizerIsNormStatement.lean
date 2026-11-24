@@ -232,7 +232,7 @@ theorem exists_conj_neg (G : HTGroup p) : ∃ f : G.F, f ≠ 0 ∧ IsCMField.com
   have hne := IsCMField.complexConj_ne_one G.F
   obtain ⟨x, hx⟩ : ∃ x, IsCMField.complexConj G.F x ≠ x := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (AlgEquiv.ext h)
   refine ⟨x - IsCMField.complexConj G.F x, sub_ne_zero.2 (Ne.symm hx), ?_⟩
   simp [IsCMField.complexConj_apply_apply]

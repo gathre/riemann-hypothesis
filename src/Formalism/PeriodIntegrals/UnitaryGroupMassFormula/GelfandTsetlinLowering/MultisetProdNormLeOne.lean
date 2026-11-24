@@ -152,7 +152,7 @@ theorem det_sub_norm_le_one {N s : ℕ} (x : Matrix (Fin N) (Fin N) ℂ) (hx : x
       (Finset.single_le_sum (fun i _ => Complex.normSq_nonneg (v i)) (Finset.mem_univ q))
   have h1 : Complex.normSq μ ≤ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     nlinarith
   have h2 := Complex.normSq_eq_norm_sq μ
   nlinarith [norm_nonneg μ]

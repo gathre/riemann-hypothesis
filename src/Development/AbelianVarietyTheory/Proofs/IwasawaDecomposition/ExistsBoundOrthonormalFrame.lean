@@ -99,7 +99,7 @@ theorem hermC_normal {τ : E →+* ℂ} {Y : Matrix (Fin r) (Fin r) ℂ} (hY : Y
   rw [hermC_sum_left]
   refine Finset.sum_congr rfl fun a _ => ?_
   rw [hermC_smul_left, hermC_sum_right]
-  simp_rw [hermC_smul_right, hc, mul_ite, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+  simp_rw [hermC_smul_right, hc, mul_ite, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
   ring
 
 def Normal (G : Matrix (Fin r) (Fin r) E) (p : X.Ψ → ℕ) (y : X.Ψ → Matrix (Fin r) (Fin r) ℂ) : Prop :=
@@ -366,14 +366,14 @@ theorem entry_bound (hG : G.det ≠ 0) {q0 : ℕ} {τ : E →+* ℂ} {Y : Matrix
       ring
     simp only [hermC, col]
     simp_rw [e, hGG, Matrix.one_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-      Finset.mem_univ, if_true]
+      Finset.mem_univ, ite_true]
   have h2 := hermC_normal hY _ hg (col Y b) q
   have h3 : Y⁻¹ *ᵥ col Y b = Pi.single b 1 := by
     have : col Y b = Y *ᵥ Pi.single b 1 := by funext i; simp [col]
     rw [this, mulVec_mulVec, nonsing_inv_mul _ (isUnit_iff_ne_zero.mpr hY), one_mulVec]
   rw [h3] at h2
   simp only [Pi.single_apply, mul_ite, mul_one, mul_zero, ite_mul, zero_mul, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true] at h2
+    Finset.mem_univ, ite_true] at h2
   rw [← h1, h2, norm_mul, Complex.norm_conj]
   have hs : ‖(((sgn q0 (b : ℕ) : ℝ) : ℂ))‖ = 1 := by
     unfold sgn; split_ifs <;> simp

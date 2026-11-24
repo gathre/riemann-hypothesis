@@ -173,7 +173,7 @@ private theorem link {n m : ℕ} (b : WDRep h (Fin m → ℂ)) (μ : Fin n → W
     simpa only [hs.isFinitelySemisimple.maxGenEigenspace_eq_eigenspace] using h1
   obtain ⟨c, v, hv, hNv⟩ : ∃ c v, v ∈ Module.End.eigenspace (b.ρ (frob h)) c ∧ b.N v ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     refine hN (LinearMap.ker_eq_top.1 (top_le_iff.1 ?_))
     rw [← htop]
     exact iSup_le fun c v hv => hc c v hv
@@ -413,7 +413,7 @@ theorem UpperTheory.V.Lev.fixed_semisimple_of_flag_fixed_dvd_fixed_unramified :
         exact hw (by rw [Nat.cast_mul]; exact Ideal.mul_mem_right _ _ hlw)
       · refine hsp fun i j => ?_
         by_contra hne
-        push_neg at hne
+        push Not at hne
         rcases hG i j hne with e | e
         · exact hk i j e
         · exact hk j i e

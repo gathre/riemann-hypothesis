@@ -83,7 +83,7 @@ theorem mvAeval_add_of_mul_eq_zero (t n : I → D) (hn : ∀ i j, n i * n j = 0)
         rw [MvPolynomial.pderiv_mul, map_add (f := _), map_mul, map_mul, MvPolynomial.aeval_X,
           MvPolynomial.pderiv_X, Pi.single_apply]
         split_ifs <;> simp <;> ring
-      simp only [h3, Finset.sum_add_distrib, Finset.sum_ite_eq, Finset.mem_univ, if_true,
+      simp only [h3, Finset.sum_add_distrib, Finset.sum_ite_eq, Finset.mem_univ, ite_true,
         Finset.sum_mul]
     rw [map_mul, map_mul, hp, h2, MvPolynomial.aeval_X, MvPolynomial.aeval_X]
     linear_combination h1

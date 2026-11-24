@@ -134,7 +134,7 @@ theorem rows_KBound_of {C' Cl Cg cb Cu cT CT C0 A c : ℝ} (hH : Cnt.Hyp D large
       unfold rows_Kt
       refine Finset.prod_eq_one fun τ _ => ?_
       unfold chRatio
-      rw [if_pos ((rows_Dr_zero_iff Y hrd t τ).2 hD)]
+      rw [ite_eq_left ((rows_Dr_zero_iff Y hrd t τ).2 hD)]
     rw [e, one_pow]
     exact one_le_mul_of_one_le_of_one_le (one_le_pow₀ (by norm_num)) (one_le_pow₀ hHH1)
   · have eK : rows_Kt Y t = ∏ τ, (1 + Lat.ch (Tu D u) (Tu D u') (X.fl t) (X.fl' t) (embS D τ)) /
@@ -143,7 +143,7 @@ theorem rows_KBound_of {C' Cl Cg cb Cu cT CT C0 A c : ℝ} (hH : Cnt.Hyp D large
       refine Finset.prod_congr rfl fun τ _ => ?_
       rw [rows_chRatio_eq Y hrd t τ]
       unfold onePlusChSh
-      rw [if_neg hD]
+      rw [ite_eq_right hD]
     have hT1 : 1 ≤ Tr D u := by unfold Tr; exact_mod_cast (D.mem u).A.T_prime.pos
     have hT1' : 1 ≤ Tr D u' := by unfold Tr; exact_mod_cast (D.mem u').A.T_prime.pos
     have hDpos : ∀ τ, 0 < absDl D (termGramMatrix X t) D.R.rS τ := by

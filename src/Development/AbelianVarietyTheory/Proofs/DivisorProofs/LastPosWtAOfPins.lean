@@ -60,7 +60,7 @@ theorem lastPos_wtA_of_pins : ∀ (D : D7) (Q : Par D), Q.Pins → ∀ j, InR D 
   have hmult : (Q.Dw j).mult (DV.tauEmb D t) = (D.R.sigW j).1 := by
     unfold ReciprocityTheory.ChartRestriction.G.Geo.Tor.Datum.mult
     have hτ' : (DV.tauEmb D t) (Q.H.rt : D.host.E) = Q.H.rt0 := hτ
-    rw [if_pos hτ']
+    rw [ite_eq_left hτ']
     exact (h.2.2.2 j hj).1
   rw [hmult] at hm ⊢
   have h1 : 1 ≤ w.aP t ⟨(D.R.sigW j).1 - 1, by omega⟩ :=
@@ -71,7 +71,7 @@ theorem lastPos_wtA_of_pins : ∀ (D : D7) (Q : Par D), Q.Pins → ∀ j, InR D 
   unfold wtA
   classical
   refine lt_of_lt_of_le ?_ (Finset.single_le_sum (fun _ _ => Nat.zero_le _) (Finset.mem_univ t))
-  simp only [if_true]
+  simp only [ite_true]
   omega
 
 end GlobalTheory

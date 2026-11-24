@@ -111,7 +111,7 @@ theorem cross (h1 : ∀ i j, Commute (L i) (an j)) (h2 : ∀ i j, Commute (L i) 
       simp only [mul_assoc]
     rw [c1, c2, ← mul_add, ← add_mul, hac]
     split_ifs <;> simp
-  simp only [e, Finset.sum_ite_eq', mem_univ, if_true]
+  simp only [e, Finset.sum_ite_eq', mem_univ, ite_true]
   rw [eq_neg_of_add_eq_zero_left (haa j i)]
   simp
 
@@ -187,7 +187,7 @@ theorem b_sq (hanti : ∀ i j k, c i j k = -c j i k)
   have L' : ∑ p : ι × ι × ι, ∑ q : ι × ι × ι,
       (t p * t q) • (if p.1 = q.2.2 then cr p.2.2 * (an p.2.1 * (an q.2.1 * an q.1)) else 0) =
       ∑ p, ∑ q, ∑ r, ∑ k, (∑ i, c p q i * c i r k) • (cr k * (an r * an q * an p)) := by
-    simp only [Fintype.sum_prod_type, t, smul_ite, smul_zero, Finset.sum_ite_eq, mem_univ, if_true, Finset.sum_smul]
+    simp only [Fintype.sum_prod_type, t, smul_ite, smul_zero, Finset.sum_ite_eq, mem_univ, ite_true, Finset.sum_smul]
     symm
     calc _ = ∑ p, ∑ q, ∑ i, ∑ r, ∑ k, (c p q i * c i r k) • (cr k * (an r * an q * an p)) := by
           refine Finset.sum_congr rfl fun p _ => Finset.sum_congr rfl fun q _ => ?_
@@ -201,7 +201,7 @@ theorem b_sq (hanti : ∀ i j k, c i j k = -c j i k)
   have R' : ∑ p : ι × ι × ι, ∑ q : ι × ι × ι,
       (t p * t q) • (if p.2.1 = q.2.2 then cr p.2.2 * (an q.2.1 * an q.1 * an p.1) else 0) =
       ∑ p, ∑ q, ∑ r, ∑ k, (∑ j, c q r j * c p j k) • (cr k * (an r * an q * an p)) := by
-    simp only [Fintype.sum_prod_type, t, smul_ite, smul_zero, Finset.sum_ite_eq, mem_univ, if_true, Finset.sum_smul]
+    simp only [Fintype.sum_prod_type, t, smul_ite, smul_zero, Finset.sum_ite_eq, mem_univ, ite_true, Finset.sum_smul]
     refine Finset.sum_congr rfl fun p _ => ?_
     calc _ = ∑ x : ι × ι, ∑ y : ι × ι,
             (c p x.1 x.2 * c y.1 y.2 x.1) • (cr x.2 * (an y.2 * an y.1 * an p)) := by
@@ -288,7 +288,7 @@ theorem keyR_inj {i j : Ix n} (h : keyR i = keyR j) : i = j := by
   have hp := key_lt p
   have hq := key_lt q
   have hk : key p = key q → p = q := fun e => CompanionTheory.D.LK.Car.key_inj e
-  cases s <;> cases t <;> simp only [keyR, Bool.false_eq_true, if_false, if_true] at h
+  cases s <;> cases t <;> simp only [keyR, Bool.false_eq_true, ite_false, ite_true] at h
   · rw [hk (by omega)]
   · omega
   · omega
@@ -346,7 +346,7 @@ theorem ann_ann (i j : Ix n) : (annR i * annR j + annR j * annR i : Module.End �
   · simp [hi]
   by_cases hj : j ∈ A
   · simp [hj]
-  simp only [hi, hj, Finset.mem_insert, hij, hji, or_self, if_false]
+  simp only [hi, hj, Finset.mem_insert, hij, hji, or_self, ite_false]
   rw [sg_insert j hi, sg_insert i hj, tw_swap hij, Finset.insert_comm j i, smul_smul, smul_smul, ← add_smul]
   have : sgR i A * (-tw i j * sgR j A) + sgR j A * (tw i j * sgR i A) = 0 := by ring
   rw [this, zero_smul]
@@ -365,7 +365,7 @@ theorem cre_cre (i j : Ix n) : (creR i * creR j + creR j * creR i : Module.End �
   by_cases hj : j ∈ A
   swap
   · simp [hj]
-  simp only [hi, hj, Finset.mem_erase, ne_eq, hij, hji, not_false_eq_true, and_self, if_true]
+  simp only [hi, hj, Finset.mem_erase, ne_eq, hij, hji, not_false_eq_true, and_self, ite_true]
   rw [sg_erase j hi, sg_erase i hj, tw_swap hij, Finset.erase_right_comm (a := j) (b := i), smul_smul, smul_smul,
     ← add_smul]
   have : sgR i A * (-tw i j * sgR j A) + sgR j A * (tw i j * sgR i A) = 0 := by ring
@@ -381,13 +381,13 @@ theorem ann_cre (i j : Ix n) :
     · simp [hi, sg_erase i hi, tw_self, smul_smul, sg_mul_self, Finset.insert_erase hi]
     · simp [hi, sg_insert i hi, tw_self, smul_smul, sg_mul_self, Finset.erase_insert hi]
   have hji : j ≠ i := fun e => hij e.symm
-  rw [if_neg hij, LinearMap.zero_apply, Pi.zero_apply]
+  rw [ite_eq_right hij, LinearMap.zero_apply, Pi.zero_apply]
   by_cases hi : i ∈ A
   · simp [hi, hij]
   by_cases hj : j ∈ A
   swap
   · simp [hj, hji]
-  simp only [hi, hj, Finset.mem_insert, Finset.mem_erase, or_true, and_false, if_true, if_false]
+  simp only [hi, hj, Finset.mem_insert, Finset.mem_erase, or_true, and_false, ite_true, ite_false]
   rw [sg_insert j hi, sg_erase i hj, tw_swap hij, Finset.erase_insert_of_ne hij, smul_smul, smul_smul,
     ← add_smul]
   have : sgR i A * (-tw i j * sgR j A) + sgR j A * (tw i j * sgR i A) = 0 := by ring
@@ -415,9 +415,9 @@ theorem sum_one {M : Type} [AddCommGroup M] [Module ℂ M] (G : Fin n → Fin n 
     rw [Finset.sum_eq_single (⟨(p.1.1, q.1.2), hlt⟩ : Pos n)]
     · simp [h]
     · intro r _ hr
-      rw [if_neg fun e => hr (Subtype.ext e.2), zero_smul]
+      rw [ite_eq_right fun e => hr (Subtype.ext e.2), zero_smul]
     · simp
-  · exact Finset.sum_eq_zero fun r _ => by rw [if_neg fun e => h e.1, zero_smul]
+  · exact Finset.sum_eq_zero fun r _ => by rw [ite_eq_right fun e => h e.1, zero_smul]
 
 theorem sum_cp {M : Type} [AddCommGroup M] [Module ℂ M] (G : Fin n → Fin n → M) (p q : Pos n) :
     ∑ r : Pos n, cp p q r • G r.1.1 r.1.2 =

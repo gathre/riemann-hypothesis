@@ -791,7 +791,7 @@ theorem GlobalTheory.MinorFrame.exists_unitary_detChar_ne : ∀ {ι : Type} [Fin
     intro m
     unfold GlobalTheory.MinorFrame.detChar
     rw [Finset.prod_eq_single τ₀]
-    · simp only [g, if_pos rfl, Matrix.det_diagonal, d]
+    · simp only [g, ite_eq_left rfl, Matrix.det_diagonal, d]
       rw [Finset.prod_update_of_mem (Finset.mem_univ _)]
       simp
     · intro b _ hb
@@ -1002,7 +1002,7 @@ theorem exists_unitary_eval_ne {a d : ℕ} (h : a ≤ d) (P : Pol ι d a) (hP : 
     ∃ κ : ι → Matrix.unitaryGroup (Fin d) ℂ,
       eval (basePt ι d a) (rowSub (fun τ => (κ τ : Matrix (Fin d) (Fin d) ℂ)) P) ≠ 0 := by
   by_contra hall
-  push_neg at hall
+  push Not at hall
   apply hP
   let f : Var ι d a → MvPolynomial (ι × Fin d × Fin d) ℂ := fun y => X (y.1, Fin.castLE h y.2.2, y.2.1)
   have key : ∀ (Q : Pol ι d a) (w : ι × Fin d × Fin d → ℂ),
@@ -1072,7 +1072,7 @@ theorem lowScal_mem_unitary {d a : ℕ} {t : ℂ} (ht : ‖t‖ = 1) : lowScal d
   funext i
   by_cases hi : (i : ℕ) < a
   · simp [hi]
-  · simp only [Pi.star_apply, hi, if_false, RCLike.star_def]
+  · simp only [Pi.star_apply, hi, ite_false, RCLike.star_def]
     rw [Complex.conj_mul', ht]; simp
 
 theorem rowSub_lowScal_zero_mem {a d : ℕ} (S : Submodule ℂ (Pol ι d a))
@@ -1482,7 +1482,7 @@ theorem quot_minor_eq_const_smul_compl : ∀ (D : D7) {a a' d : ℕ} (had : a + 
 
   have hF : ∃ P ∈ inv (ι := D.what₂.Tau) a d n₀, F P ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨x, hx⟩ := exists_ne (0 : Pr)
     obtain ⟨P', rfl⟩ := hq's x
     obtain ⟨P₀, hP₀, he⟩ := _root_.GlobalTheory.MinorFrame.exists_mem_inv_eq_of_twisted a' d n₀ Pr q' hq' P'

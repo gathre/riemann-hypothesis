@@ -427,7 +427,7 @@ private lemma densNonneg_S_consequence (hN : TopDensNonneg (S := S) P z z' π π
     have hwt : (0 : ℂ) ≤ ((∏ l, ‖q.1 l‖ ^ (-2 : ℤ) : ℝ) : ℂ) :=
       Complex.zero_le_real.mpr (Finset.prod_nonneg fun l _ => zpow_nonneg (norm_nonneg _) _)
     exact mul_nonneg hwt (hN w hw _ (level_product_preserves_compact hS w hw i u hu) _ hg _)
-  · push_neg at h0
+  · push Not at h0
     obtain ⟨j, hj⟩ := h0
     have h1 : (∏ l, ‖q.1 l‖ ^ (-2 : ℤ)) = 0 :=
       Finset.prod_eq_zero (Finset.mem_univ j) (by rw [hj, norm_zero]; exact zero_zpow _ (by norm_num))

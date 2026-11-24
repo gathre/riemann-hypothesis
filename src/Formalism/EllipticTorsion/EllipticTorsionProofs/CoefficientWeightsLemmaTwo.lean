@@ -72,7 +72,7 @@ theorem norm_nat_eq_one {p : ℕ} (hp : p.Prime) (hpl : ‖(p : K)‖ < 1) (m : 
     exact this
   refine le_antisymm (IsUltrametricDist.norm_natCast_le_one K m) ?_
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hmax := IsUltrametricDist.norm_add_le_max ((p : K) * (Nat.gcdA p m : K)) ((m : K) * (Nat.gcdB p m : K))
   rw [← hK, norm_one, norm_mul, norm_mul] at hmax
   have ha := IsUltrametricDist.norm_intCast_le_one K (Nat.gcdA p m)
@@ -126,18 +126,18 @@ theorem coeff_X0_add_X1_pow {R : Type*} [CommRing R] (d i j : ℕ) :
         omega
       · rintro ⟨rfl, rfl⟩; rfl
     by_cases hc : m = i ∧ d - m = j
-    · rw [if_pos (this.2 hc), if_pos hc]; simp
-    · rw [if_neg (fun h => hc (this.1 h)), if_neg hc, mul_zero]
+    · rw [ite_eq_left (this.2 hc), ite_eq_left hc]; simp
+    · rw [ite_eq_right (fun h => hc (this.1 h)), ite_eq_right hc, mul_zero]
   rw [Finset.sum_congr rfl hterm]
   by_cases hij : i + j = d
-  · rw [if_pos hij, Finset.sum_eq_single i]
-    · rw [if_pos ⟨rfl, by omega⟩]
-    · intro b _ hb; rw [if_neg (fun h => hb h.1)]
+  · rw [ite_eq_left hij, Finset.sum_eq_single i]
+    · rw [ite_eq_left ⟨rfl, by omega⟩]
+    · intro b _ hb; rw [ite_eq_right (fun h => hb h.1)]
     · intro h; simp at h; omega
-  · rw [if_neg hij]
+  · rw [ite_eq_right hij]
     refine Finset.sum_eq_zero fun m hm => ?_
     simp at hm
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
 
 open Formalism.G
 
@@ -261,19 +261,19 @@ theorem main (hCE : Formalism.ELL.CompExpWeight.{u}) : Formalism.ELL.EllipticTor
         (((i + j).choose i : ℕ) : K) * coeff (i + j) G := by
       rw [PowerSeries.coeff_subst (PowerSeries.HasSubst.of_constantCoeff_zero hS),
         finsum_eq_single _ (i + j)]
-      · rw [coeff_X0_add_X1_pow, if_pos rfl, smul_eq_mul, mul_comm]
+      · rw [coeff_X0_add_X1_pow, ite_eq_left rfl, smul_eq_mul, mul_comm]
       · intro d hd
-        rw [coeff_X0_add_X1_pow, if_neg (Ne.symm hd), smul_zero]
+        rw [coeff_X0_add_X1_pow, ite_eq_right (Ne.symm hd), smul_zero]
     have e2 : MvPowerSeries.coeff (Finsupp.single 0 i + Finsupp.single 1 j)
         (PowerSeries.subst (MvPowerSeries.X 0 : MvPowerSeries (Fin 2) K) G) = 0 := by
-      rw [PowerSeries.coeff_subst_single, if_neg]
+      rw [PowerSeries.coeff_subst_single, ite_eq_right]
       intro h
       have := congrArg (· 1) h
       simp at this
       omega
     have e3 : MvPowerSeries.coeff (Finsupp.single 0 i + Finsupp.single 1 j)
         (PowerSeries.subst (MvPowerSeries.X 1 : MvPowerSeries (Fin 2) K) G) = 0 := by
-      rw [PowerSeries.coeff_subst_single, if_neg]
+      rw [PowerSeries.coeff_subst_single, ite_eq_right]
       intro h
       have := congrArg (· 0) h
       simp at this

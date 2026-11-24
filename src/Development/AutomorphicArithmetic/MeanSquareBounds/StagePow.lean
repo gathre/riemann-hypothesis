@@ -173,7 +173,7 @@ private theorem bs_mul_D_eq_S (Z : ℝ) (y : ℝ) (q : ℕ) (κ : ℕ → ℂ) :
     have := (Finset.mem_Icc.1 hm).1
     exact_mod_cast this
   by_cases h : y < (m : ℝ)
-  · simp only [h, if_true]
+  · simp only [h, ite_true]
     rw [min_eq_right ((div_le_one hm0).2 h.le)]
     push_cast
     ring

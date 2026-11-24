@@ -298,7 +298,7 @@ theorem theta_exists (h : IsCMExt F E σ) : ∃ θ : 𝓞 E,
     nlinarith
   have hx : ∃ x : QE (E := E) v, x ∉ Set.range (algebraMap (𝓞 F ⧸ v.asIdeal) (QE (E := E) v)) := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have hs : Function.Surjective (algebraMap (𝓞 F ⧸ v.asIdeal) (QE (E := E) v)) := fun y => hne y
     have hle := Nat.card_le_card_of_surjective _ hs
     rw [hcard] at hle

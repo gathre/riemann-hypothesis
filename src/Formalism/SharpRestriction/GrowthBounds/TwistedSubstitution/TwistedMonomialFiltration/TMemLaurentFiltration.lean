@@ -108,7 +108,7 @@ def flt_L (A : Type*) [CommRing A] (e : ℤ) : flt_Fil (LaurentPolynomial A) whe
     have : k = 0 := by
       by_contra h
       apply hk
-      rw [← LaurentPolynomial.T_zero, LaurentPolynomial.T_apply, if_neg (Ne.symm h)]
+      rw [← LaurentPolynomial.T_zero, LaurentPolynomial.T_apply, ite_eq_right (Ne.symm h)]
     simp [this]
   anti := by
     intro t u h f hf k hk

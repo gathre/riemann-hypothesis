@@ -137,7 +137,7 @@ theorem normV_eq_of_split {E : Type} [Field E] [NumberField E] {p : ℕ} (hp : p
     rw [← pow_succ', ← Multiset.card_cons w.asIdeal, ← hM', hc, ← hN, ← hprod, hM', Multiset.prod_cons, map_mul,
       map_multiset_prod]
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hpos : 0 < p ^ M'.card := pow_pos hp.pos _
   nlinarith
 

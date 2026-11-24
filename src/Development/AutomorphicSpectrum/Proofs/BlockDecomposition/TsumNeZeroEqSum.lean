@@ -94,7 +94,7 @@ theorem truncTerm_finite (hC : CountBd) (F : Type) [Field F] [NumberField F] (hF
     by_cases h1 : θ δ * algebraMap F (Ainf F) x ∈ tsupport G
     · have : ∃ v ∈ T, algebraMap F (Fv F v) x ∉ tsupport (ψ v) := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         exact hxB ((hfin.mem_toFinset).2 ⟨hx0, hxT, h1, hcon⟩)
       obtain ⟨v, hv, hvx⟩ := this
       have h0 : ψ v (algebraMap F (Fv F v) x) = 0 := image_eq_zero_of_notMem_tsupport hvx

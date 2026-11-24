@@ -75,7 +75,7 @@ theorem pderiv_embP {n' n : ℕ} (e : Fin n' → Fin n) (he : Function.Injective
   rw [LogPf.pderiv_ev (cz_embP e), Finset.sum_eq_single (b, j)]
   · simp [embP, LogPf.pderiv_pt]
   · intro p _ hp
-    rw [show embP (k := k) (d := d) e p.1 p.2 = pt k d (e p.1) p.2 from rfl, LogPf.pderiv_pt, if_neg, mul_zero]
+    rw [show embP (k := k) (d := d) e p.1 p.2 = pt k d (e p.1) p.2 from rfl, LogPf.pderiv_pt, ite_eq_right, mul_zero]
     intro hc
     apply hp
     have h1 : e p.1 = e b := congrArg Prod.fst hc
@@ -87,7 +87,7 @@ theorem pderiv_ev_embP_of_notMem_range {n' n : ℕ} (e : Fin n' → Fin n) (g : 
     (j : Fin d) : pderiv (R := k) (c, j) (ev (embP e) g) = 0 := by
   classical
   refine LogPf.pderiv_ev_zero (cz_embP e) g (c, j) fun b i => ?_
-  rw [show embP (k := k) (d := d) e b i = pt k d (e b) i from rfl, LogPf.pderiv_pt, if_neg]
+  rw [show embP (k := k) (d := d) e b i = pt k d (e b) i from rfl, LogPf.pderiv_pt, ite_eq_right]
   intro h
   exact hc b (congrArg Prod.fst h)
 
@@ -125,7 +125,7 @@ theorem dofN_vf (G : FGLaw k d) {n : ℕ} (b : Fin n) (u : Fin d → k) (g : PS 
   unfold DofN WickVanishing.Nab.vf cB
   rw [Fintype.sum_prod_type, Finset.sum_eq_single b]
   · refine Finset.sum_congr rfl fun j _ => ?_
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     congr 1
     unfold WickVanishing.Nab.co
     rw [LogPf.ev_sum (cz_embP _)]
@@ -134,7 +134,7 @@ theorem dofN_vf (G : FGLaw k d) {n : ℕ} (b : Fin n) (u : Fin d → k) (g : PS 
     congr 1
     exact ev_ptz (fun _ : Fin 1 => b) 0 _
   · intro c _ hc
-    exact Finset.sum_eq_zero fun j _ => by rw [if_neg hc, zero_mul]
+    exact Finset.sum_eq_zero fun j _ => by rw [ite_eq_right hc, zero_mul]
   · simp
 
 theorem cB_one (G : FGLaw k d) (u : Fin d → k) : cB G (0 : Fin 1) u = WickVanishing.Nab.co G u := by
@@ -144,7 +144,7 @@ theorem cB_one (G : FGLaw k d) (u : Fin d → k) : cB G (0 : Fin 1) u = WickVani
     funext j
     rw [Subsingleton.elim j 0]
     rfl
-  simp only [cB, if_pos h1, hp, LogPf.ev_pt]
+  simp only [cB, ite_eq_left h1, hp, LogPf.ev_pt]
   rw [show t = ((0 : Fin 1), t.2) from Prod.ext h1 rfl]
 
 theorem dofN_cB_ne (G : FGLaw k d) {n : ℕ} (b c : Fin n) (hbc : b ≠ c) (u v : Fin d → k) (t : Fin n × Fin d) :
@@ -172,9 +172,9 @@ theorem dofN_comm (G : FGLaw k d) {n : ℕ} (b b' : Fin n) (u v : Fin d → k) (
         fun w X => dofN_embP G.F (fun _ : Fin 1 => b) (inj1 b) 0 w X
       unfold cB
       by_cases ht : t.1 = b
-      · rw [if_pos ht, if_pos ht, hE, hE, ← LogPf.ev_sub (cz_embP _), dofN_vf G (0 : Fin 1),
+      · rw [ite_eq_left ht, ite_eq_left ht, hE, hE, ← LogPf.ev_sub (cz_embP _), dofN_vf G (0 : Fin 1),
           dofN_vf G (0 : Fin 1), cB_one, cB_one, WickVanishing.Nab.co_bracket G u v, LogPf.ev_zero' (cz_embP _)]
-      · rw [if_neg ht, if_neg ht]
+      · rw [ite_eq_right ht, ite_eq_right ht]
         unfold DofN
         simp
     · rw [dofN_cB_ne G b b' hb, dofN_cB_ne G b' b (Ne.symm hb), sub_zero]

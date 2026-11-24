@@ -143,7 +143,7 @@ def siegelS (hn : 0 < n) : Finset (Fin n) := {⟨n - 1, by omega⟩}
 
 theorem below_siegelS (hn : 0 < n) (i : Fin n) : below (siegelS hn) i = 0 := by
   unfold below siegelS
-  rw [Finset.filter_singleton, if_neg]
+  rw [Finset.filter_singleton, ite_eq_right]
   · rfl
   · simp only [Fin.lt_def]
     omega

@@ -1034,7 +1034,7 @@ theorem mem_span_locBall
     exact hx.2 z
   have hle : ∀ s, ‖iC (coef b j B x s)‖ ≤ 1 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     obtain ⟨s1, hs1⟩ := hne
     obtain ⟨s0, -, hs0⟩ := Finset.exists_max_image Finset.univ (fun s => ‖iC (coef b j B x s)‖) ⟨s1, Finset.mem_univ _⟩
     have hM : 1 < ‖iC (coef b j B x s0)‖ := hs1.trans_le (hs0 s1 (Finset.mem_univ _))
@@ -1102,7 +1102,7 @@ theorem mem_span_locBall
 
     simp only [map_sum, Finset.sum_apply', Module.Basis.baseChange_repr_tmul,
     Module.Basis.repr_self, Finsupp.single_apply, ite_smul, one_smul, zero_smul, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true] at hco
+    Finset.mem_univ, ite_true] at hco
     have h1 : ‖φ' (a' s0 * (algebraMap S.Ks F' ϖ)⁻¹)‖ ≤ 1 := by
 
       rw [hco, map_sum]

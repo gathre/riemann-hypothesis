@@ -490,7 +490,7 @@ theorem recPJ_phiC {D : D7} {T : Top D} (h : LawsP T) {j : ℕ} (hj : InR D j) (
     (recPJ h j hj).phiC la y =
       (eWL T.Q.c.F la : ℝ) * (T.G.P.loc (T.G.dat j) (WeightAlgebra.resCh la)).phiCy (imgV y) := by
   unfold WeightAlgebra.PJ.phiC
-  rw [if_pos h2]
+  rw [ite_eq_left h2]
   rfl
 
 theorem etVal_of_isEtaRule : ∀ (D : D7) (T : Top D) (h : LawsP T) (j : ℕ) (h1 : 1 ≤ j) (h2 : j < D.R.m) (i : ℕ) (η : (recB h.toLawsCore).Cusp j (wEt D j i)) (J : Type) [Fintype J] (n : ℕ) (cf : J → ℤ) (xs : J → Fin n → LatMod (T.Q.Dw j) (5 ^ 4)), Nat.card (LevGrp (T.Q.Dw j) (5 ^ 4)) = 2 * 5 ^ 4 * i → Spans xs → IsEtaRule (T.Q.Xo j) T.Q.c 5 cf xs η.1 → EtVal h j ⟨h1, h2.le⟩ i η := by
@@ -576,7 +576,7 @@ theorem exists_form_four_clauses (D : D7) (T : Top D) (h : LawsP T) (DF q : ℕ)
         supC (T.Q.Xo j) T.Q.c (T.U j) (xiR D) (goodOf T.Q.c σ) 0 (2 * 5 ^ 4 * D.R.r * i) f := by
       change cutN T.C T.Ns j (wEt D j i) σ ⟨f, hmem⟩ = _
       unfold cutN
-      rw [if_pos hj]
+      rw [ite_eq_left hj]
       unfold Core.Ns
       rw [hw, hn]
     have hs0 := (recB h.toLawsCore).supN_nonneg j _ σ ⟨f, hmem⟩

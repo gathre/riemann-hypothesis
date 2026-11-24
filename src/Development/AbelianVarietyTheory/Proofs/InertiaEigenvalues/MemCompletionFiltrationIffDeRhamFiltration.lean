@@ -916,7 +916,7 @@ theorem linIndep_of_mutual_span_of_indep :
     have h0 : ∑ k'', ((Matrix.vecMul (Q k) (Matrix.of P)) k'' - (1 : Matrix ι ι R) k k'') • b k''
         = 0 := by
       simp only [sub_smul, Finset.sum_sub_distrib, ← expand, ← hQ, Matrix.one_apply,
-        ite_smul, one_smul, zero_smul, Finset.sum_ite_eq, Finset.mem_univ, if_true, sub_self]
+        ite_smul, one_smul, zero_smul, Finset.sum_ite_eq, Finset.mem_univ, ite_true, sub_self]
     have := hb _ h0 k'
     rw [sub_eq_zero] at this
     rw [← this, Matrix.mul_apply]

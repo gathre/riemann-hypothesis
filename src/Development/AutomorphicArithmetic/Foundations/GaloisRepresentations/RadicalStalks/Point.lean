@@ -953,7 +953,7 @@ theorem UpperTheory.Gal.Ord.cnt :
     rw [← spOver_comp, Category.assoc]
     rfl
   · left
-    push_neg at hlt
+    push Not at hlt
     have hLle : L ≤ p ^ f := by
       rw [hL] at hlt
       exact_mod_cast hlt
@@ -963,7 +963,7 @@ theorem UpperTheory.Gal.Ord.cnt :
       exact pow_ne_zero _ hPne hIN
     have hjle : j' ≤ D.n := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have h1 : (p ^ f) ^ D.n < (p ^ f) ^ j' := Nat.pow_lt_pow_right hP2 hcon
       have h2 : (p ^ f) ^ j' ≤ (p ^ f) ^ j' * L := Nat.le_mul_of_pos_right _ (Nat.pos_of_ne_zero hL0)
       rw [hIN, hMpow] at h1

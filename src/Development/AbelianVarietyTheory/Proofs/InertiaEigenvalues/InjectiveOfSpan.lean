@@ -143,11 +143,11 @@ theorem exists_comb {S : Type} [CommRing S] (h : ℕ → S⟦X⟧) (hh : ∀ n, 
     refine ⟨fun n => if n = m then constantCoeff z * ↑hu.unit⁻¹ else c n, ?_⟩
     rw [Finset.sum_range_succ]
     beta_reduce
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     have hsum : ∑ n ∈ Finset.range m,
         (if n = m then constantCoeff z * ↑hu.unit⁻¹ else c n) • ((X : S⟦X⟧) ^ n * h n)
           = ∑ n ∈ Finset.range m, c n • ((X : S⟦X⟧) ^ n * h n) :=
-      Finset.sum_congr rfl fun n hn => by rw [if_neg (Finset.mem_range.mp hn).ne]
+      Finset.sum_congr rfl fun n hn => by rw [ite_eq_right (Finset.mem_range.mp hn).ne]
     rw [hsum]
     have hX : (X : S⟦X⟧) ∣ z - (constantCoeff z * ↑hu.unit⁻¹) • h m := by
       rw [X_dvd_iff, smul_eq_C_mul, map_sub, map_mul, constantCoeff_C, mul_assoc,

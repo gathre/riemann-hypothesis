@@ -95,7 +95,7 @@ theorem UpperTheory.Gal.Int.Geo.Pl.Tj.cjInt :
       simpa [Matrix.mul_apply] using h
     obtain ⟨k, hk⟩ : ∃ k, 1 ≤ Valued.v ((comp w g).val i₀ k * ((comp w g)⁻¹).val k i₀) := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       have h := Valuation.map_sum_lt Valued.v (one_ne_zero) (s := Finset.univ) (fun k _ => hc k)
       rw [hsum, map_one] at h
       exact lt_irrefl _ h

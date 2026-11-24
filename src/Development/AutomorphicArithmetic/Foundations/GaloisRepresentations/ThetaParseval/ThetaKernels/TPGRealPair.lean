@@ -157,7 +157,7 @@ private theorem key_succ {m d : ℕ} (h : m + 1 ≤ d) (ν μ : Fin (m + 1) → 
       ν (Fin.castSucc i) - Formalism.GradedWeylDivisibility.nuNext ν (Fin.castSucc i) := by
     intro i
     have hi : (Fin.castSucc i : ℕ) + 1 < m + 1 := by simp
-    simp only [Formalism.GradedWeylDivisibility.nuNext, dif_pos hi, hν]
+    simp only [Formalism.GradedWeylDivisibility.nuNext, dite_eq_left hi, hν]
     omega
   have e2 : Formalism.GradedWeylDivisibility.nuNext μ (Fin.last m) = 0 := by simp [Formalism.GradedWeylDivisibility.nuNext]
   have e3 : Formalism.GradedWeylDivisibility.nuNext ν (Fin.last m) = 0 := by simp [Formalism.GradedWeylDivisibility.nuNext]
@@ -206,7 +206,7 @@ theorem UpperTheory.TP.RP.exists_act1_equivariant_nablaSq_map_hitting_joint :
   | succ m =>
     have hd : lam.detShift = lam.w (Fin.last m) := by
       unfold DomWeight.detShift
-      rw [dif_pos (by omega)]
+      rw [dite_eq_left (by omega)]
       congr 1
     have hk : ∀ k, ((lam.natW k : ℕ) : ℤ) = (μ k : ℤ) - μ (Fin.last m) := by
       intro k
@@ -340,7 +340,7 @@ private theorem hw_eq {d : ℕ} (ν μ : Fin d → ℕ) (t : ℕ) (hν : ∀ k, 
       intro k
       unfold Formalism.GradedWeylDivisibility.nuNext
       have hk : (k.castSucc : ℕ) + 1 < m + 1 := by simp
-      rw [dif_pos hk, dif_pos hk]
+      rw [dite_eq_left hk, dite_eq_left hk]
       have h1 := hν k.castSucc
       have h2 := hν ⟨(k.castSucc : ℕ) + 1, hk⟩
       omega
@@ -367,7 +367,7 @@ theorem UpperTheory.TP.RP.exists_act2_equivariant_nablaSq_map_hitting_joint :
     rcases h.lt_or_eq with hlt | rfl
     · have hs : lam'.detShift = c := by
         have h0 : 0 < d := by omega
-        simp only [DomWeight.detShift, dif_pos h0]
+        simp only [DomWeight.detShift, dite_eq_left h0]
         rw [hμ]
         simp [show ¬ (d - 1 < n) by omega]
       rw [hs]
@@ -378,9 +378,9 @@ theorem UpperTheory.TP.RP.exists_act2_equivariant_nablaSq_map_hitting_joint :
       simp only [DomWeight.natW, hs]
       rw [hμ]
       split_ifs <;> simp
-    · have hμ' : ∀ k, lam'.w k = (μ k : ℤ) + c := fun k => by rw [hμ, dif_pos k.2]
+    · have hμ' : ∀ k, lam'.w k = (μ k : ℤ) + c := fun k => by rw [hμ, dite_eq_left k.2]
       have hsh : ∀ h0 : 0 < n, lam'.detShift = (μ ⟨n - 1, by omega⟩ : ℤ) + c := fun h0 => by
-        simp only [DomWeight.detShift, dif_pos h0, hμ']
+        simp only [DomWeight.detShift, dite_eq_left h0, hμ']
       refine ⟨fun g => ?_, ?_⟩
       · rw [rightSub_dTop, mul_pow, ← C_pow, ← mul_assoc, ← C_mul]
         congr 2
@@ -486,7 +486,7 @@ private theorem map_mem (S : Submodule ℂ (⨂[ℂ] i, V i))
 private theorem exists_dual_ne (x : ⨂[ℂ] i, V i) (hx : x ≠ 0) :
     ∃ f : ∀ i, Module.Dual ℂ (V i), PiTensorProduct.dualDistrib (PiTensorProduct.tprod ℂ f) x ≠ 0 := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   refine hx ((Module.forall_dual_apply_eq_zero_iff ℂ x).1 fun ℓ => ?_)
   obtain ⟨t, rfl⟩ := (PiTensorProduct.dualDistribEquiv (R := ℂ) (M := V)).surjective ℓ
   change PiTensorProduct.dualDistrib t x = 0

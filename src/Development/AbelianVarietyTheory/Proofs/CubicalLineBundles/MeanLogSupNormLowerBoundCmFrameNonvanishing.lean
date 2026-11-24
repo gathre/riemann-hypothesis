@@ -134,10 +134,10 @@ namespace GlobalTheory.LamT
 theorem cusp_bound_allEmb : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (r : ℕ) (U : ∀ σ : c.F →+* ℂ, Unf Xo c σ r) (ξ : ℝ), (∀ σ, GoodEmb c σ → IsUnf (U σ)) → (∀ σ, GoodEmb c σ → ∀ k (τ : E →+* ℂ), ‖τ ((U σ).X k).ξ0‖ = ξ) → 1 ≤ Dw.p + Dw.q → ∀ a n, Dom a n → ∀ F ∈ cusp Xo c U a n, ∀ (σ : c.F →+* ℂ) (y : FrPt Xo c (CAt σ)) (N : ℝ), IsMetric y N (fun _ => 1) → cabs (evR Xo c F y) ≤ Real.sqrt N ^ n * supC Xo c U ξ (goodOf c σ) a n F := by
   intro E _ _ _ H Dw l Xo c r U ξ hU hξ hpq a n hd F hF σ y N hm
   by_cases hσ : GoodEmb c σ
-  · have e : goodOf c σ = σ := if_pos hσ
+  · have e : goodOf c σ = σ := ite_eq_left hσ
     rw [e]
     exact _root_.GlobalTheory.LamT.OrthoBound.cabs_evR_le_supC E H Dw l Xo c r U ξ hU hξ hpq a n hd F hF σ hσ y N hm
-  · have e : goodOf c σ = (starRingEnd ℂ).comp σ := if_neg hσ
+  · have e : goodOf c σ = (starRingEnd ℂ).comp σ := ite_eq_right hσ
     have hg : GoodEmb c ((starRingEnd ℂ).comp σ) := e ▸ goodEmb_goodOf c σ
     rw [e]
     have hB : Out.SecBaseChangeSt := GlobalTheory.lawsFieldsSeparately.2.1

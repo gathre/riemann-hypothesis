@@ -169,7 +169,7 @@ theorem second_bound_arith_a (g k W x b' X' b : ℝ) (hg : g ≤ x / 2) (hx : 0 
   have h1 : k ^ 2 * W * x * x * b' ≤ X' * b' := mul_le_mul_of_nonneg_right h hb'
   have h2 : k ^ 2 * W * x * b' ≤ b := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have hlt := mul_lt_mul_of_pos_left hc hx
     have e1 : k ^ 2 * W * x * x * b' = x * (k ^ 2 * W * x * b') := by ring
     have e2 : X' * b' = b' * X' := mul_comm _ _

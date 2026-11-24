@@ -595,7 +595,7 @@ theorem exists_box {W : Set (κ → Af F)} (hW : W ∈ 𝓝 0) : ∃ K h h', ((b
     exact ⟨K, fun x hx => hst (hK hx)⟩
   choose K hK using this
   refine ⟨fun u => if u ∈ I then K u ⊓ intV κ u else intV κ u, ?_, fun u => ?_, fun y hy => ?_⟩
-  · filter_upwards [hI.compl_mem_cofinite] with u hu using if_neg hu
+  · filter_upwards [hI.compl_mem_cofinite] with u hu using ite_eq_right hu
   · simp only
     split_ifs
     · exact inf_le_right
@@ -608,7 +608,7 @@ theorem exists_box {W : Set (κ → Af F)} (hW : W ∈ 𝓝 0) : ∃ K h h', ((b
       · exact this
     refine hs (a := fun u => ⟨_, h1 u⟩) fun u hu => hK u _ ?_
     have := hy u
-    simp only [if_pos hu] at this
+    simp only [ite_eq_left hu] at this
     exact this.1
 
 theorem mem_span_pf {g : (κ → Af F) → ℂ} (hg : g ∈ SB (κ → Af F)) :

@@ -140,7 +140,7 @@ theorem dual_weyl_module_stable : Formalism.UG.DwStable := by
       · subst hkj
 
         simp only [AlgHom.comp_apply, Formalism.GradedWeylDivisibility.rowAct, Formalism.GradedWeylDivisibility.colAddGen, aeval_X, map_sum, map_mul,
-        aeval_C, map_add, if_true, Option.elim, algebraMap_eq]
+        aeval_C, map_add, ite_true, Option.elim, algebraMap_eq]
         rw [Finset.mul_sum, ← Finset.sum_add_distrib]
         apply Finset.sum_congr rfl
         intro b _

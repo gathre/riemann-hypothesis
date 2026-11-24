@@ -86,7 +86,7 @@ theorem exists_conj_of_algHom {B : Type} [CommRing B] [IsLocalRing B] {r : ℕ}
       intro j
       have : θ (Matrix.single j j (1 : B)) =
           θ (Matrix.single j i0 1) * θ (Matrix.single i0 i0 1) * θ (Matrix.single i0 j 1) := by
-        rw [hF, if_pos rfl, hF, if_pos rfl]
+        rw [hF, ite_eq_left rfl, hF, ite_eq_left rfl]
       rw [this, h0, mul_zero, zero_mul]
     have h1 : (1 : Matrix (Fin r) (Fin r) B) = 0 := by
       rw [← hsum]
@@ -95,11 +95,11 @@ theorem exists_conj_of_algHom {B : Type} [CommRing B] [IsLocalRing B] {r : ℕ}
     simp at h2
   obtain ⟨a, b, hab⟩ : ∃ a b, IsUnit (θ (Matrix.single i0 i0 (1 : B)) a b) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hne
     have he : θ (Matrix.single i0 i0 (1 : B)) * θ (Matrix.single i0 i0 1) =
         θ (Matrix.single i0 i0 1) := by
-      rw [hF, if_pos rfl]
+      rw [hF, ite_eq_left rfl]
     have hres : (IsLocalRing.residue B).mapMatrix (θ (Matrix.single i0 i0 (1 : B))) = 0 := by
       ext i j
       simp [IsLocalRing.residue_eq_zero_iff, hcon i j]
@@ -130,7 +130,7 @@ theorem exists_conj_of_algHom {B : Type} [CommRing B] [IsLocalRing B] {r : ℕ}
         rw [Matrix.single_mul_mul_single, one_mul, mul_one]
       · rw [mul_zero, zero_mul]
     simp_rw [key]
-    rw [Finset.sum_ite_eq, if_pos (Finset.mem_univ _)]
+    rw [Finset.sum_ite_eq, ite_eq_left (Finset.mem_univ _)]
   have hdiag : ∑ j : Fin r, Matrix.single j j (θ (Matrix.single i0 i0 (1 : B)) a b) =
       Matrix.diagonal (fun _ : Fin r => θ (Matrix.single i0 i0 (1 : B)) a b) := by
     ext p q
@@ -176,7 +176,7 @@ theorem exists_conj_of_algHom {B : Type} [CommRing B] [IsLocalRing B] {r : ℕ}
         rw [Matrix.single_mul_single_same, mul_one]
       · rw [Matrix.single_mul_single_of_ne _ _ _ _ (Ne.symm h), mul_zero]
     simp_rw [hl, hr]
-    rw [Finset.sum_ite_eq, Finset.sum_ite_eq, if_pos (Finset.mem_univ _), if_pos (Finset.mem_univ _)]
+    rw [Finset.sum_ite_eq, Finset.sum_ite_eq, ite_eq_left (Finset.mem_univ _), ite_eq_left (Finset.mem_univ _)]
 
 theorem det_algHom {B : Type} [CommRing B] [IsLocalRing B] {r : ℕ}
     (θ : Matrix (Fin r) (Fin r) B →ₐ[B] Matrix (Fin r) (Fin r) B) (x : Matrix (Fin r) (Fin r) B) : (θ x).det = x.det := by

@@ -97,7 +97,7 @@ theorem matDer_bracket (τ : T) (X Y : Matrix (Fin n) (Fin n) ℂ) :
   rw [Derivation.commutator_apply, matDer_X, matDer_X, matDer_X]
   split_ifs with h
 
-  · simp only [map_sum, Derivation.leibniz, MvPolynomial.derivation_C, zero_add, matDer_X, if_true,
+  · simp only [map_sum, Derivation.leibniz, MvPolynomial.derivation_C, zero_add, matDer_X, ite_true,
     smul_eq_mul, Matrix.sub_apply, Matrix.mul_apply, map_sub, map_sum, MvPolynomial.C_mul,
     Finset.mul_sum, mul_sub, Finset.sum_sub_distrib, mul_zero, zero_add]
     refine congrArg₂ (· - ·) ?_ ?_ <;> rw [Finset.sum_comm] <;>

@@ -467,13 +467,13 @@ private theorem revM_mul (M : Matrix (Fin n) (Fin n) k) : revM k n * M = M.subma
   ext i j
   rw [Matrix.mul_apply]
   simp only [revM, Matrix.submatrix_apply, id, Matrix.one_apply, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq,
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
 
 private theorem mul_revM (M : Matrix (Fin n) (Fin n) k) : M * revM k n = M.submatrix id Fin.rev := by
   ext i j
   rw [Matrix.mul_apply]
   simp only [revM, Matrix.submatrix_apply, id, Matrix.one_apply, Fin.rev_eq_iff, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
 
 private theorem revM_sq : revM k n * revM k n = 1 := by
   rw [revM_mul]

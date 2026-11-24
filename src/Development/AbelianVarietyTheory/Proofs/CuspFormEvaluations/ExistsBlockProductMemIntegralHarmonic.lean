@@ -161,18 +161,18 @@ theorem rowShift_minor (σ : T) (i i' : Fin (r σ)) (hi : i' < i) (t : k) (σ' :
     · subst hx
       simp only [AlgHom.mapMatrix_apply, Matrix.map_apply, Matrix.of_apply, rowShift, aeval_X,
         Matrix.updateRow_self, Pi.add_apply, Pi.smul_apply, smul_eq_mul]
-      rw [if_pos ⟨_, rfl⟩]
+      rw [ite_eq_left ⟨_, rfl⟩]
       rfl
     · simp only [AlgHom.mapMatrix_apply, Matrix.map_apply, Matrix.of_apply, rowShift, aeval_X,
         Matrix.updateRow_ne hx]
-      rw [if_neg]
+      rw [ite_eq_right]
       rintro ⟨b, hb⟩
       have := eq_of_heq (Sigma.mk.inj_iff.1 hb).2
       exact hx (Fin.castLE_injective s.isLt (congrArg Prod.fst this))
   · congr 1
     ext1 x y
     simp only [AlgHom.mapMatrix_apply, Matrix.map_apply, Matrix.of_apply, rowShift, aeval_X]
-    rw [if_neg]
+    rw [ite_eq_right]
     rintro ⟨b, hb⟩
     obtain ⟨rfl, hb'⟩ := Sigma.mk.inj_iff.1 hb
     exact h ⟨x, by rw [show Fin.castLE s.isLt x = i from congrArg Prod.fst (eq_of_heq hb')]⟩
@@ -224,7 +224,7 @@ theorem minorMonomial_rowDegree (a : T → ℕ → ℕ) (ha : ∀ σ, Antitone (
         · simp [w]
         · intro j _ hj
           simp only [w]
-          rw [if_neg]
+          rw [ite_eq_right]
           intro e
           have e' : Fin.castLE s.isLt j = i := eq_of_heq (Sigma.mk.inj_iff.1 e).2
           exact hj (Fin.ext (congrArg Fin.val e' :))
@@ -232,7 +232,7 @@ theorem minorMonomial_rowDegree (a : T → ℕ → ℕ) (ha : ∀ σ, Antitone (
       · rw [Finset.sum_eq_zero, smul_zero]
         intro j _
         simp only [w]
-        rw [if_neg]
+        rw [ite_eq_right]
         intro e
         have := congrArg Fin.val (eq_of_heq (Sigma.mk.inj_iff.1 e).2)
         have := j.isLt
@@ -369,7 +369,7 @@ theorem exists_blockProd_mem_harmA :
     exact ThetaClaimsCompare.not_inPsi_conjugate h (h1 ▸ h)
   have hdeg : RowDeg Dw.mult n c.F b (minorsP Dw.mult n col c.F b) :=
     minorMonomial_rowDegree _ _ _ _ _ (ThetaClaimsCompare.antitone_trunc fun τ i j hij => ha τ i j hij)
-      fun τ => if_neg (lt_irrefl _)
+      fun τ => ite_eq_right (lt_irrefl _)
   have hne := minorMonomial_ne_zero Dw.mult n c.F col hinj b
   have hD : (minorsP Dw.mult n col c.F b).totalDegree = Formalism.L2.Pj.DF Dw a := by
     rw [← ThetaClaimsCompare.df_trunc]

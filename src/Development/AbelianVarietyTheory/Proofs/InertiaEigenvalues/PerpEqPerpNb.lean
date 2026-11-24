@@ -100,7 +100,7 @@ theorem nb_sd (c : O ≃+* O) (cK : K ≃+* K)
   refine ⟨fun hx y hy => nb_int c cK hcK hc2 hJ hϖ hSD hvv hx hy, fun hx => ?_⟩
   obtain ⟨l0, hl0, hβ⟩ : ∃ l0 ∈ L, hf cK J v l0 ∉ (algebraMap O K).range := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hv ((hSD v).2 hcon)
   have hβ' : algebraMap O K ϖ * hf cK J v l0 ∈ (algebraMap O K).range :=
     mul_pair_mem c cK hcK hϖ hSD hw hl0
@@ -185,7 +185,7 @@ theorem good_nb (c : O ≃+* O) (cK : K ≃+* K)
   obtain ⟨hv, hw, hvv⟩ := hstep
   obtain ⟨l0, hl0, hβ⟩ : ∃ l0 ∈ L, hf cK J v l0 ∉ (algebraMap O K).range := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hv ((hSD v).2 hcon)
   have hβ' : algebraMap O K ϖ * hf cK J v l0 ∈ (algebraMap O K).range :=
     mul_pair_mem c cK hcK hϖ hSD hw hl0

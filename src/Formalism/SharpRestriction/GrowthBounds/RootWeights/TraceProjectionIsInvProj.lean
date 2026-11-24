@@ -130,7 +130,7 @@ theorem sl2_string_nonvanishing {n : ℕ} {K W : Type*} [Field K] [CharZero K] [
       module
   have hfin : ∃ k, (ρ c a ^ k) y = 0 := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     have hinj : Function.Injective (fun k : ℕ => (nu a : K) - k) := by
       intro i j hij
       simpa using hij

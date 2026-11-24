@@ -194,7 +194,7 @@ theorem siegelWeilStd_lt (h : SWStdLt) : ∀ (F E : Type) [Field F] [NumberField
   have hEq : thetaMean om S μ D Φ =
       fun x => (if n < m then (1 : ℂ) else 2) * ⨍ g in D, thetaSum F (om x (S g Φ)) ∂μ := by
     funext x
-    rw [if_pos hnm, one_mul]
+    rw [ite_eq_left hnm, one_mul]
     try rfl
   rw [hEq] at key
   exact key
@@ -260,7 +260,7 @@ theorem Atop.fieldOf : FieldOf := by
   by_cases hlt : n < m
   · exact Khead.siegelWeilStd_lt hLt F E σ B m n A Y r s r' s' hlt h1 h2 h3 h4 h5 χ h6 h7 κ dd om S l h8 b K a h9 h10 h11
       μ D h12 h13 Φ h14 h15
-  · simp only [if_neg hlt]
+  · simp only [ite_eq_right hlt]
     let d : SD σ :=
       { B := B, m := m, n := n, A := A, Y := Y, r := r, s := s, χ := χ, κ := κ, dd := dd, om := om, S := S, l := l, b := b,
         K := K, a := a, μ := μ, D := D, bs := Khead.basis2 h1,

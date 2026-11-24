@@ -86,7 +86,7 @@ theorem exists_max_norm {ι : Type*} [Nonempty ι] (f : ι → ℤ_[l]) :
   by_cases h0 : ∀ j, f j = 0
   · obtain ⟨i⟩ := ‹Nonempty ι›
     exact ⟨i, fun j => by rw [h0 j, h0 i]⟩
-  · push_neg at h0
+  · push Not at h0
     have hex : ∃ n, ∃ j, f j ≠ 0 ∧ (f j).valuation = n := by
       obtain ⟨j, hj⟩ := h0
       exact ⟨_, j, hj, rfl⟩

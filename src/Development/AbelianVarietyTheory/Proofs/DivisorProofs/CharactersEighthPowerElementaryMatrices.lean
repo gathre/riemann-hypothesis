@@ -142,19 +142,19 @@ theorem characters_eighthPower_elementaryMatrices : ∀ (R : Type) [CommRing R] 
       rw [Functor.map_comp, Category.assoc, hgen v, ← Category.assoc, hicg u]
       simp only [Category.assoc, Iso.inv_hom_id_assoc, hz u v]
     by_cases h : v = u
-    · rw [if_pos h] at key ⊢
+    · rw [ite_eq_left h] at key ⊢
       refine ext hG hG _ _ inferInstance inferInstance ?_
       rw [← cancel_mono U.gen.hom, key, CategoryTheory.Functor.map_id, Category.id_comp, Category.comp_id]
-    · rw [if_neg h] at key ⊢
+    · rw [ite_eq_right h] at key ⊢
       refine ext hG hG _ _ inferInstance isMonHom_one ?_
       rw [← cancel_mono U.gen.hom, key, Functor.map_one, MonObj.comp_one, MonObj.one_comp]
   have hpw : ∀ w, (∏ v, pG v ≫ ic v) ≫ pG w = pG w := by
     intro w
     haveI := hpG w
     rw [PowChar.prod_comp, Finset.prod_eq_single w]
-    · rw [Category.assoc, hicp w w, if_pos rfl, Category.comp_id]
+    · rw [Category.assoc, hicp w w, ite_eq_left rfl, Category.comp_id]
     · intro v _ hv
-      rw [Category.assoc, hicp v w, if_neg (Ne.symm hv), MonObj.comp_one]
+      rw [Category.assoc, hicp v w, ite_eq_right (Ne.symm hv), MonObj.comp_one]
     · intro h
       exact absurd (Finset.mem_univ w) h
   have hprod : (∏ v, pG v ≫ ic v) = 𝟙 G' := by
@@ -176,10 +176,10 @@ theorem characters_eighthPower_elementaryMatrices : ∀ (R : Type) [CommRing R] 
       (RingHom.id R) (ic u).left hinj hk (c v) (d u) (hc v) (hd u)
     rw [← Over.comp_left, hicp u v, RingHom.id_comp] at h1
     by_cases h : v = u
-    · rw [if_pos h] at h1 ⊢
+    · rw [ite_eq_left h] at h1 ⊢
       rw [Over.id_left] at h1
       exact torMatch_unique R hR G hG D A U R hR G hG D A U _ _ hinj _ _ h1 hid
-    · rw [if_neg h] at h1 ⊢
+    · rw [ite_eq_right h] at h1 ⊢
       exact torMatch_unique R hR G hG D A U R hR G hG D A U _ _ hinj _ _ h1 hone
   have hcd : ∑ v, (c v).comp (d v) = AddMonoidHom.id _ := by
     have hs : ∀ s : Finset (Fin 8), TorMatch U' U' (RingHom.id R) (∏ v ∈ s, pG v ≫ ic v).left
@@ -207,7 +207,7 @@ theorem characters_eighthPower_elementaryMatrices : ∀ (R : Type) [CommRing R] 
         rw [this]
         split_ifs <;> rfl
 
-      simp only [map_sum, e, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      simp only [map_sum, e, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     · have := DFunLike.congr_fun hcd x
       simpa using this
   · intro a b f f₁ m hf hf₁ hff₁ hm w x
@@ -217,10 +217,10 @@ theorem characters_eighthPower_elementaryMatrices : ∀ (R : Type) [CommRing R] 
       have key : (Over.pullback (jK R)).map (f ≫ pG w) ≫ U.gen.hom = U'.gen.hom ≫ (if w = a then pr b else 1) := by
         rw [Functor.map_comp, Category.assoc, hgen w, ← Category.assoc, hff₁, Category.assoc, hf₁.2 w]
       by_cases h : w = a
-      · rw [if_pos h] at key ⊢
+      · rw [ite_eq_left h] at key ⊢
         refine ext hG' hG _ _ inferInstance (hpG b) ?_
         rw [← cancel_mono U.gen.hom, key, hgen b]
-      · rw [if_neg h] at key ⊢
+      · rw [ite_eq_right h] at key ⊢
         refine ext hG' hG _ _ inferInstance isMonHom_one ?_
         rw [← cancel_mono U.gen.hom, key, Functor.map_one, MonObj.comp_one, MonObj.one_comp]
     have h1 := torMatch_comp R hR G hG D A U R hR G' hG' D' A' U' (RingHom.id R) (pG w).left R hR G' hG' D' A' U'
@@ -228,9 +228,9 @@ theorem characters_eighthPower_elementaryMatrices : ∀ (R : Type) [CommRing R] 
     rw [← Over.comp_left, hfp, RingHom.id_comp] at h1
     have e : m.comp (c w) = if w = a then c b else 0 := by
       by_cases h : w = a
-      · rw [if_pos h] at h1 ⊢
+      · rw [ite_eq_left h] at h1 ⊢
         exact torMatch_unique R hR G hG D A U R hR G' hG' D' A' U' _ _ hinj _ _ h1 (hc b)
-      · rw [if_neg h] at h1 ⊢
+      · rw [ite_eq_right h] at h1 ⊢
         exact torMatch_unique R hR G hG D A U R hR G' hG' D' A' U' _ _ hinj _ _ h1 hone''
     have := DFunLike.congr_fun e x
     rw [AddMonoidHom.comp_apply] at this

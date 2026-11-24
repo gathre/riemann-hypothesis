@@ -343,7 +343,7 @@ theorem GlobalTheory.LevelFinite.finite_ratio_field : ∀ (o Ω : Type) [CommRin
     simp only [RingHom.coe_comp, Function.comp_apply, AlgHom.coe_toRingHom]
     rw [show (R.val.toRingHom (v i) : Ω) = v i from rfl, key, hfix, map_div₀]
     ring
-  · push_neg at h
+  · push Not at h
     refine ⟨1, one_ne_zero, fun i => ?_⟩
     simp only [RingHom.coe_comp, Function.comp_apply, AlgHom.coe_toRingHom]
     rw [show (R.val.toRingHom (v i) : Ω) = v i from rfl, h i]

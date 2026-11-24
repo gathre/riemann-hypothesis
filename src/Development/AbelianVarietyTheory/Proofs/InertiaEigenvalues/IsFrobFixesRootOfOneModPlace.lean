@@ -109,7 +109,7 @@ theorem frob_fixes_root_of_one_mod (F Ω : Type) [Field F] [NumberField F] [Fiel
     have hprod := congrArg (Polynomial.eval w) (X_pow_sub_one_eq_prod hM0 hζ'p)
     simp only [eval_sub, eval_pow, eval_X, eval_one, eval_prod, eval_C] at hprod
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 : A.valuation (w ^ M - 1) = 1 := by
       rw [hprod, map_prod]
       apply Finset.prod_eq_one

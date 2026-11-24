@@ -127,7 +127,7 @@ theorem det_eq_det_minor_of_unit_rows {K : Type} [CommRing K] {i d : ℕ} (r : F
   have h21 : (M.submatrix E E).toBlocks₂₁ = 0 := by
     ext e b
     simp only [Matrix.toBlocks₂₁, Matrix.of_apply, Matrix.submatrix_apply, Matrix.zero_apply, hEl, hEr]
-    rw [hM e.1 e.2, if_neg]
+    rw [hM e.1 e.2, ite_eq_right]
     rintro h
     exact e.2 ⟨b, h⟩
   have h22 : (M.submatrix E E).toBlocks₂₂ = 1 := by
@@ -136,7 +136,7 @@ theorem det_eq_det_minor_of_unit_rows {K : Type} [CommRing K] {i d : ℕ} (r : F
     rw [hM e.1 e.2]
     by_cases hee : e = e'
     · subst hee; simp
-    · rw [if_neg (fun h => hee (Subtype.ext h).symm), if_neg hee]
+    · rw [ite_eq_right (fun h => hee (Subtype.ext h).symm), ite_eq_right hee]
   have h11 : (M.submatrix E E).toBlocks₁₁ = M.submatrix r r := by
     ext a b
     simp only [Matrix.toBlocks₁₁, Matrix.of_apply, Matrix.submatrix_apply, hEl]
@@ -217,9 +217,9 @@ theorem exists_basis_adapted_frame : ∀ (C : Type) [Field C] [IsAlgClosed C] [C
     if hm : e ∈ Set.range r0 then γ' ((Equiv.ofInjective r0 hinj).symm ⟨e, hm⟩) else ζ e
   have hγr : ∀ a, γ (r0 a) = γ' a := by
     intro a
-    simp only [γ, dif_pos (Set.mem_range_self a)]
+    simp only [γ, dite_eq_left (Set.mem_range_self a)]
     rw [Equiv.ofInjective_symm_apply]
-  have hγn : ∀ e, e ∉ Set.range r0 → γ e = ζ e := fun e he => by simp only [γ, dif_neg he]
+  have hγn : ∀ e, e ∉ Set.range r0 → γ e = ζ e := fun e he => by simp only [γ, dite_eq_right he]
   have htan : ∀ a, tangent (γ (r0 a)) = ∑ a', x a a' • u a' := by
     intro a
     rw [hγr, hxt a]
@@ -542,9 +542,9 @@ theorem sum_radii_le {i d j : ℕ} (p : ℕ) (hp : 2 ≤ p) (r : Fin i → Fin d
       _ = j := Finset.card_range j
   calc _ ≤ ∑ a : Fin i, (A + if a.val < j then B else 0) := Finset.sum_le_sum fun a _ => by
         by_cases hj : a.val < j
-        · rw [if_pos hj]
+        · rw [ite_eq_left hj]
           split_ifs <;> linarith
-        · rw [if_neg hj, if_pos (hgood a (not_lt.1 hj)), add_zero]
+        · rw [ite_eq_right hj, ite_eq_left (hgood a (not_lt.1 hj)), add_zero]
     _ = i * A + (Finset.univ.filter fun a : Fin i => a.val < j).card * B := by
         rw [Finset.sum_add_distrib, ← Finset.sum_filter]
         simp
@@ -702,7 +702,7 @@ theorem content_le_detDepth_add :
       rw [← EReal.coe_add]; congr 1; ring
     rw [e3]
     exact add_le_add hlow (EReal.coe_le_coe_iff.2 hS)
-  · push_neg at hfin
+  · push Not at hfin
     have htop : detDepth G (fun a => tangent (γ (r a))) c = ⊤ := by
       refine (EReal.eq_top_iff_forall_lt _).2 fun y => ?_
       refine lt_of_lt_of_le (EReal.coe_lt_coe_iff.2 (lt_add_one y)) (hlowAll (y + 1) fun α hα => ?_)
@@ -832,7 +832,7 @@ theorem facBetween_inert : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E
       ReciprocityTheory.ChartRestriction.G.PullbackSections.CVA.not_inPsi_both H f.1 ⟨hpsi, by rw [hf0]; exact hiff.1 h1⟩
     have hc1 : (Finset.univ.filter fun a => ty a = (0 : ZMod h) + 1).card ≤ Dw.q := by
       have := hcard (0 + 1)
-      rw [if_neg hnot, Fintype.card_subtype] at this
+      rw [ite_eq_right hnot, Fintype.card_subtype] at this
       exact this.le
     have hd2 := GlobalTheory.FGDepth.InertBound.content_le_detDepth_add X.C (vX_vp X) p Fact.out (vX_vp_p X) d' h hh ty G' mu
       0 Dw.q (rk f) k hc1 _ hsat hsupp
@@ -928,10 +928,10 @@ theorem oscLe_inert_large : ∀ (E : Type) [Field E] [NumberField E] [IsCMField 
     by_cases hb : IsBig k f
     · obtain ⟨A, B, hAB, hBA⟩ := _root_.GlobalTheory.RefSum.facBetween_inert E H Dw l Xo c p la hdisc hin f (cx f) hb.1
       refine ⟨(A, B), hAB, ?_⟩
-      simp only [hw, if_pos hb]
+      simp only [hw, ite_eq_left hb]
       exact hBA.trans (big_bound (by have := rk_add_one_le f; omega) hkp hSq hp2)
     · refine ⟨(0, boundAll p (rk f) (cx f)), (_root_.GlobalTheory.RefSum.facBetween_zero_boundAll E H Dw l Xo c p la f (cx f)).1, ?_⟩
-      simp only [hw, if_neg hb, boundAll, sub_zero, le_refl]
+      simp only [hw, ite_eq_right hb, boundAll, sub_zero, le_refl]
   choose g hg using key
   obtain ⟨n, hn⟩ := ((_root_.GlobalTheory.RefSum.nuBetween_sum_and_eLoc_le E H Dw l Xo c p la cx).1 (fun f => (g f).1) (fun f => (g f).2) fun f => (hg f).1).2
   refine ⟨n, nuBetween_mono hn ?_⟩
@@ -1027,7 +1027,7 @@ theorem facBetween_fine : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E]
       intro s hs
       have hn : ¬ InPsi H (lab s) := fun h1 => (Nat.not_even_iff_odd.2 hs) ((hpar s).1 h1)
       have h2 := hcard s
-      rw [if_neg hn] at h2
+      rw [ite_eq_right hn] at h2
       rw [← h2, Fintype.card_subtype]
     obtain ⟨hsat, hzero, hdep⟩ := hfr 0 f horb.1.symm
     obtain ⟨cr, -, hcr, hlow⟩ := _root_.GlobalTheory.DepthLow.detDepth_lower X.C (vX_vp X) p hp (vX_vp_p X) hp3 d' h hh0 hev ty G' mu Dw.q hodd
@@ -1120,7 +1120,7 @@ theorem card_big_fiber_le {Dw : Datum H} {F k m : ℕ} (hS : Shape Dw F k m) (τ
             Set.mem_setOf_eq, Finset.mem_Ico] at hf ⊢
           obtain ⟨⟨hpsi, hk⟩, -⟩ := hf
           have hlt := f.2.isLt
-          have hm : Dw.mult f.1 = Dw.p := if_pos hpsi
+          have hm : Dw.mult f.1 = Dw.p := ite_eq_left hpsi
           have hk' : k ≤ f.2.val + 1 + 1 := hk
           omega
         · intro f hf g hg hfg
@@ -1223,7 +1223,7 @@ theorem sum_bound_le {Dw : Datum H} {F k m M : ℕ} {Mb Sm : ℝ} {cx : Lt1 Dw �
   rw [e]
   refine add_le_add (le_trans (Finset.sum_le_sum fun f hf => ?_) hbig) (le_trans (le_of_eq ?_) hsm)
   · have hb : IsBig k f := (Finset.mem_filter.1 hf).2
-    have hm : Dw.mult f.1 = Dw.p := if_pos hb.1
+    have hm : Dw.mult f.1 = Dw.p := ite_eq_left hb.1
     have hr := rk_le f
     have hk := hb.2
     split_ifs with h
@@ -1232,7 +1232,7 @@ theorem sum_bound_le {Dw : Datum H} {F k m M : ℕ} {Mb Sm : ℝ} {cx : Lt1 Dw �
         by_contra hne
         exact h ⟨hb, by omega⟩
       simp [boundAll, h0, hY0]
-  · exact Finset.sum_congr rfl fun f hf => if_neg fun h => (Finset.mem_filter.1 hf).2 h.1
+  · exact Finset.sum_congr rfl fun f hf => ite_eq_right fun h => (Finset.mem_filter.1 hf).2 h.1
 
 end GlobalTheory.RefSum.OscInert
 
@@ -1315,16 +1315,16 @@ theorem mean_bound_big_factors_at_two : ∀ (E : Type) [Field E] [NumberField E]
   let len : (E →+* ℂ) → ℝ := fun τ => if InPsi H τ then Real.log (xs τ) / Real.log v2 else 0
   have hlen_pow : ∀ τ, InPsi H τ → v2 ^ len τ = (xs τ : ℝ) := by
     intro τ hτ
-    simp only [len, if_pos hτ]
+    simp only [len, ite_eq_left hτ]
     rw [Real.rpow_def_of_pos hv2pos, mul_div_cancel₀ _ hlogv.ne, Real.exp_log (hpos τ hτ)]
   refine ⟨len, ?_, ?_, ?_, ?_⟩
   · intro τ
     by_cases hτ : InPsi H τ
-    · simp only [len, if_pos hτ]
+    · simp only [len, ite_eq_left hτ]
       exact div_nonneg_of_nonpos (Real.log_nonpos (NNReal.coe_nonneg _) (hle1 τ hτ)) hlogv.le
-    · simp [len, if_neg hτ]
+    · simp [len, ite_eq_right hτ]
   · intro τ hτ
-    simp [len, if_neg hτ]
+    simp [len, ite_eq_right hτ]
   · have hsum : ∑ τ, len τ = (∑ τ ∈ Finset.univ.filter (fun τ => InPsi H τ), Real.log (xs τ)) / Real.log v2 := by
       rw [Finset.sum_div, Finset.sum_filter]
     have hlogP : Real.log (∏ τ ∈ Finset.univ.filter (fun τ => InPsi H τ), (xs τ : ℝ)) =
@@ -1388,9 +1388,9 @@ theorem oscLe_two : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : 
     have hfb : ∀ f, letI := H.starRing; nuFac p y f (cx f) ≤ ((b f : ℝ) : EReal) := by
       intro f
       by_cases hbig : IsBig k f
-      · simp only [hb, if_pos hbig]
+      · simp only [hb, ite_eq_left hbig]
         simpa [mul_comm] using hlen f (cx f) hbig.1
-      · simp only [hb, if_neg hbig]
+      · simp only [hb, ite_eq_right hbig]
         have := (hfall f).2 hy
         have hB : boundAll p (rk f) (cx f) ≤ (rk f : ℝ) * cx f := by
           have h2 : (2 : ℝ) ≤ p := by exact_mod_cast hp.out.two_le
@@ -1537,9 +1537,9 @@ theorem oscLe_split : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H 
     rw [ereal_coe_sum]
     refine Finset.sum_le_sum fun f _ => ?_
     by_cases hf : IsBig k f
-    · simp only [B, if_pos hf]
+    · simp only [B, ite_eq_left hf]
       exact (_root_.GlobalTheory.FacUpOdd.nuFac_le_odd_unram E H Dw l Xo c p T io y (not_isUnit_of_overLa la ho) ha h2 hd f (cx f) hf.1).1 hs
-    · simp only [B, if_neg hf]
+    · simp only [B, ite_eq_right hf]
       exact (hall f).2 ha
 
 end GlobalTheory.OscSplit

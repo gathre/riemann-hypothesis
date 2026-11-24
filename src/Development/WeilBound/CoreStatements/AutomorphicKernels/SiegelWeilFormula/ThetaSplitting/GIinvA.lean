@@ -192,13 +192,13 @@ theorem exists_embU (d : SD σ) (R : RD d) (w : InfinitePlace F) (u : Matrix (Fi
   · rw [inv_inv]
     show (fri * d.cw w (Krd.atM d w Z * X)).map star = u * (fri * d.cw w X).map star
     rw [cw_mul', Krd.cw_atM]
-    simp only [Krd.fam, if_true]
+    simp only [Krd.fam, ite_true]
     rw [hZ_def, show fri * (fr * h * fri * d.cw w X) = (fri * fr) * h * (fri * d.cw w X) by
       simp only [Matrix.mul_assoc], hb', Matrix.one_mul, mapStar_mul', hhs]
   · rw [inv_inv]
     show d.cw w' (Krd.atM d w Z * X - X) = 0
     rw [cw_sub, cw_mul', Krd.cw_atM]
-    simp only [Krd.fam, if_neg hw', Matrix.one_mul, sub_self]
+    simp only [Krd.fam, ite_eq_right hw', Matrix.one_mul, sub_self]
   · rw [inv_inv]
     show finOne F • (Krd.atM d w Z * X - X) = 0
     rw [smul_sub, ← Matrix.smul_mul, Krd.fin_atM, Matrix.smul_mul, Matrix.one_mul, sub_self]

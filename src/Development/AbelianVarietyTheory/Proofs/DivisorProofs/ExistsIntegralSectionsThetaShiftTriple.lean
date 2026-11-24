@@ -318,7 +318,7 @@ theorem exists_unit_sval (R : Type) [CommRing R] [IsDomain R] (Q : DegPre R) (k 
     hj ((basicOpen_eq_bot_iff _).1 h)
   obtain ⟨w, hw⟩ : ∃ w, w ∈ (DegPre.BF Q (FractionRing R)).left.basicOpen (s.f j) := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (eq_bot_iff.2 fun x hx => (h x hx).elim)
   have hwU := Scheme.basicOpen_le _ _ hw
   set T := (DegPre.trF Q (FractionRing R) ν).left with hT

@@ -108,7 +108,7 @@ theorem exists_integral_ne_zero_of_carried_by_isOpen
   obtain ⟨K, hK, hKU⟩ := hσ
   have hex : ∃ n, m (K n) ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hmU
     rw [← hKU]
     exact measure_iUnion_null hcon
@@ -635,7 +635,7 @@ theorem exists_fin_point {V P : Type} [MeasurableSpace V] [MeasurableSpace P]
     (h : ∫⁻ v in U, f v ∂μ = ∫⁻ b, ∫⁻ v, f v ∂(fib b) ∂ν) (hfin : ∫⁻ v, f v ∂μ ≠ ⊤)
     (O : Set P) (hO : MeasurableSet O) (hpos : ν O ≠ 0) : ∃ s ∈ O, ∫⁻ v, f v ∂(fib s) ≠ ⊤ := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : (⊤ : ℝ≥0∞) * ν O ≤ ∫⁻ b, ∫⁻ v, f v ∂(fib b) ∂ν := by
     rw [← lintegral_indicator_const hO]
     refine lintegral_mono fun S => ?_

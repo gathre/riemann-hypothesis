@@ -156,7 +156,7 @@ private theorem height_aV (hr : 0 < r) : ∃ H : ℝ, 0 ≤ H ∧ ∀ v : ℝ, |
     refine congrArg _ (Prod.ext ?_ ?_)
     · refine congrArg (diagUnits r) (funext fun i => ?_)
       refine posIdele_eq (Real.rpow_pos_of_pos (Real.exp_pos _) _) _ ?_
-      simp only [hρd, Fin.val_castAdd, i.2, if_true]
+      simp only [hρd, Fin.val_castAdd, i.2, ite_true]
       rw [← Real.exp_mul]
     · symm
       refine Units.ext (Matrix.ext fun i j => ?_)

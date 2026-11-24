@@ -153,7 +153,7 @@ theorem finGL_locGL_eq_uGL (w : HeightOneSpectrum (𝓞 E)) {u : GL (Fin a) (w.a
   rw [finGL_locGL_apply, coe_uGL, uMat_apply]
   by_cases hij : i = j
   · subst hij; simp [h2]
-  · rw [if_neg hij, Matrix.one_apply_ne hij, Matrix.one_apply_ne hij, map_zero, map_zero, sub_zero, zero_add]
+  · rw [ite_eq_right hij, Matrix.one_apply_ne hij, Matrix.one_apply_ne hij, map_zero, map_zero, sub_zero, zero_add]
     by_cases hlt : i < j
     · rw [dite_eq_left hlt]
     · rw [dite_eq_right hlt, h1 i j (lt_of_le_of_ne (not_lt.1 hlt) (Ne.symm hij)), map_zero, map_zero]

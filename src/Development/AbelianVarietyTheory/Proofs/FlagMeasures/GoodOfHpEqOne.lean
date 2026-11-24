@@ -266,9 +266,9 @@ private lemma norm_amp_BBzero_eq_one_and_mass_eq_one_of_Hp_eq_one (hk : 4 * r + 
       ENNReal.ofReal (S.mu (Quotient.out o0)) := by
     unfold _root_.GlobalTheory.HL.Frames.mass
     rw [tsum_eq_single o0]
-    · rw [if_pos ⟨hT2, trivial⟩]
+    · rw [ite_eq_left ⟨hT2, trivial⟩]
     · intro o ho
-      rw [if_neg]
+      rw [ite_eq_right]
       exact fun hc => hne o ho hc.1
   have hpos : 0 < S.mu (Quotient.out o0) := by
     obtain ⟨hA, hB, -⟩ := (_root_.GlobalTheory.HL.volSt L r k S).1 _
@@ -288,9 +288,9 @@ private lemma norm_amp_BBzero_eq_one_and_mass_eq_one_of_Hp_eq_one (hk : 4 * r + 
   rw [tsum_eq_single o0]
   swap
   · intro o ho
-    rw [if_neg]
+    rw [ite_eq_right]
     exact fun hc => hne o ho hc.1
-  rw [if_pos ⟨hT2, hBB _ _ hT2⟩, hmu]
+  rw [ite_eq_left ⟨hT2, hBB _ _ hT2⟩, hmu]
   obtain ⟨-, hW, -⟩ := _root_.GlobalTheory.HL.TermBasic.term_basic L r k S d' _ hT2
   simpa using (_root_.GlobalTheory.HL.WitIndep.witness_independence L r k S d' _ _ _ hW).2.2.2.2
 

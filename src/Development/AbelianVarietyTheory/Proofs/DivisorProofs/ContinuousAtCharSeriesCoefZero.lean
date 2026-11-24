@@ -194,24 +194,24 @@ theorem continuousAt_coef_zero {Y Ξ P : Type} [AddCommGroup Y] [Zero Ξ] [Topol
         (δ * S + (S - ∑ a ∈ s, M a)) := by
       refine (hM.hasSum.mul_left δ).add (hM.hasSum.sub ?_)
       have : HasSum (fun a => if a ∈ s then M a else 0) (∑ b ∈ s, if b ∈ s then M b else 0) :=
-        hasSum_sum_of_ne_finset_zero (fun b hb => if_neg hb)
+        hasSum_sum_of_ne_finset_zero (fun b hb => ite_eq_right hb)
       have e2 : (∑ b ∈ s, if b ∈ s then M b else 0) = ∑ b ∈ s, M b :=
-        Finset.sum_congr rfl (fun b hb => if_pos hb)
+        Finset.sum_congr rfl (fun b hb => ite_eq_left hb)
       rw [e2] at this
       exact this
     refine h3.norm_le_of_bounded hg (fun a => ?_)
     have hMa := hM0 a
     by_cases ha : a = 0
     · subst ha
-      simp only [hα0, one_mul, if_true, sub_self, norm_zero]
+      simp only [hα0, one_mul, ite_true, sub_self, norm_zero]
       split_ifs <;> nlinarith [mul_nonneg hδ.le hMa]
-    · simp only [ha, if_false, sub_zero]
+    · simp only [ha, ite_false, sub_zero]
       by_cases has : a ∈ s
-      · simp only [has, if_true, sub_self, add_zero]
+      · simp only [has, ite_true, sub_self, add_zero]
         rw [norm_mul]
         have := hw a (Finset.mem_erase.mpr ⟨ha, has⟩)
         exact mul_le_mul this (hp a) (norm_nonneg _) hδ.le
-      · simp only [has, if_false, sub_zero]
+      · simp only [has, ite_false, sub_zero]
         rw [norm_mul]
         have : ‖α a‖ * ‖c p a‖ ≤ 1 * M a := mul_le_mul (hα1 a) (hp a) (norm_nonneg _) zero_le_one
         nlinarith

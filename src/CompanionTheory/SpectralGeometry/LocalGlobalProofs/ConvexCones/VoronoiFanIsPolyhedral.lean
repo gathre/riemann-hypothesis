@@ -353,7 +353,7 @@ theorem finite_isMin2 : ∀ (X : Type) [AddCommGroup X] [Module.Finite ℤ X] [M
           Finset.single_le_sum (f := fun g => ∑ j, P j g g)
             (fun g _ => Finset.sum_nonneg fun j _ => hnn j g) (hG.mem_toFinset.mpr hy'G)
     refine Set.mem_iUnion.mpr ⟨S, ?_⟩
-    rw [if_pos hpos]
+    rw [ite_eq_left hpos]
     show Q S y y ≤ S.card * C
     rw [hQ]
     calc ∑ i ∈ S, P i y y ≤ ∑ i ∈ S, C := Finset.sum_le_sum fun i hi => (heq i hi).trans (hbound i)
@@ -541,7 +541,7 @@ theorem free_int_of_projective (O : Type) [CommRing O] [IsDomain O] [CharZero O]
     refine Module.IsTorsionFree.of_smul_eq_zero ?_
     intro n y h
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have h1 : ((n : O)) • y = 0 := by rw [Int.cast_smul_eq_zsmul]; exact h
     have h2 : (n : O) • s y = 0 := by rw [← map_smul, h1, map_zero]
     have hy : s y ≠ 0 := fun h0 => hc.2 (hinj (by rw [h0, map_zero]))
@@ -640,7 +640,7 @@ theorem exists_indep_rep (v : ι → V) (n : ℕ) : ∀ (t : ι → ℝ), (∀ i
   by_cases hli : LinearIndepOn ℝ v (S : Set ι)
   · exact ⟨S, t, hli, ht, hSt, rfl⟩
   rw [linearIndepOn_finset_iff] at hli
-  push_neg at hli
+  push Not at hli
   obtain ⟨f, hf0, i₀, hi₀, hfi₀⟩ := hli
   obtain ⟨g, hg0, hgS, hgpos⟩ : ∃ g : ι → ℝ, (∑ i, g i • v i = 0) ∧ (∀ i, i ∉ S → g i = 0) ∧ 0 < g i₀ := by
     refine ⟨fun i => if i ∈ S then f i * f i₀ else 0, ?_, fun i hi => by simp [hi], ?_⟩
@@ -653,7 +653,7 @@ theorem exists_indep_rep (v : ι → V) (n : ℕ) : ∀ (t : ι → ℝ), (∀ i
         rw [Finset.smul_sum]
         exact Finset.sum_congr rfl fun i _ => by rw [smul_smul, mul_comm]
       rw [h2, hf0, smul_zero]
-    · simp only [hi₀, if_true]
+    · simp only [hi₀, ite_true]
       exact mul_self_pos.mpr hfi₀
   have hP : (S.filter (fun i => 0 < g i)).Nonempty := ⟨i₀, by simp [hi₀, hgpos]⟩
   obtain ⟨j, hjP, hjmin⟩ := Finset.exists_min_image _ (fun i => t i / g i) hP
@@ -1283,7 +1283,7 @@ theorem exists_nat_comb_of_toReal_mem_rcone (X : Type) [AddCommGroup X] (m : ℕ
     simpa [T, Finset.sum_apply] using h
   have hex : ∃ k, 0 < v k (Fin.last m) := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have : ∑ k, c k * (v k (Fin.last m) : ℝ) = 0 :=
       Finset.sum_eq_zero fun k _ => by
         have : v k (Fin.last m) = 0 := Nat.le_zero.1 (hno k)

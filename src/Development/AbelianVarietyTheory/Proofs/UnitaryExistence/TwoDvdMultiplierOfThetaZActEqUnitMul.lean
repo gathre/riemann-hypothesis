@@ -73,7 +73,7 @@ theorem _root_.GlobalTheory.entire_eq_zero_of_mul_continuous_eq_zero {E : Type*}
     (h : ∀ z, f z * t z = 0) (z : E) : f z = 0 := by
   obtain ⟨w, hw⟩ : ∃ w, t w ≠ 0 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     exact ht0 (funext hne)
   have hU : ∀ᶠ y in 𝓝 w, f y = 0 := by
     filter_upwards [ht.continuousAt.eventually_ne hw] with y hy

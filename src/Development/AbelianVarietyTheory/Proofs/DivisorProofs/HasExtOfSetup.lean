@@ -594,7 +594,7 @@ theorem exists_locus_of_span : ∀ (R₁ F : Type) [CommRing R₁] [Field F] (Y 
     have : t i ∈ Sec D₁ k := by rw [hS k]; exact subset_spanBy _ _ (ht i)
     exact hg.regularAt_iff.1 (this y)
   by_contra hne
-  push_neg at hne
+  push Not at hne
   apply (zeroAt_iff.1 ?_).2 hunit
   rw [Finset.sum_mul]
   refine Finset.sum_induction _ (ZeroAt y) (fun _ _ => ZeroAt.add) (zeroAt_zero y) fun i _ => ?_
@@ -722,7 +722,7 @@ def decHom (hN : GradedFam c₀ N) : ring hN →+ DirectSum ℕ (fun k => piece 
 instance gradedMonoid (hN : GradedFam c₀ N) : SetLike.GradedMonoid (piece hN) where
   one_mem j hj := by
     change (1 : F[X]).coeff j = 0
-    rw [coeff_one, if_neg hj]
+    rw [coeff_one, ite_eq_right hj]
   mul_mem i j a b ha hb := by
     rw [mem_piece_iff] at ha hb
     intro l hl
@@ -935,7 +935,7 @@ theorem cover (z : Proj (piece hN)) : ∃ k, 1 ≤ k ∧ ∃ b ∈ N k, z ∈ Dp
   obtain ⟨y, hy, hyz⟩ := Set.not_subset.1 z.not_irrelevant_le
   have : ∃ j, (DirectSum.decompose (piece hN) y j : ring hN) ∉ z.asHomogeneousIdeal := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     apply hyz
     rw [← DirectSum.sum_support_decompose (piece hN) y]
     exact Ideal.sum_mem _ fun j _ => hc j

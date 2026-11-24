@@ -275,7 +275,7 @@ theorem heisMat_mul {h : ZMod N} (hh : 2 * h = 1) (u v u' v' : ZMod N) :
     heisMat ψ h u v * heisMat ψ h u' v' = ψ (h * (u * v' - v * u')) • heisMat ψ h (u + u') (v + v') := by
   ext i k
   rw [Matrix.mul_apply, Finset.sum_eq_single (i + u) (fun j _ hj => by simp [heisMat, hj]) (by simp)]
-  simp only [heisMat, Matrix.of_apply, if_true, Matrix.smul_apply, smul_eq_mul, add_assoc]
+  simp only [heisMat, Matrix.of_apply, ite_true, Matrix.smul_apply, smul_eq_mul, add_assoc]
   split_ifs
   · rw [← AddChar.map_add_eq_mul, ← AddChar.map_add_eq_mul]
     congr 1

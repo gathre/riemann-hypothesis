@@ -93,13 +93,13 @@ theorem exists_tExp_eq_indicator (b : Fin n → ℤ) (hb : Antitone b) :
   refine ⟨⟨Nat.find hex, by omega⟩, ?_⟩
   funext j
   have hne : Nat.find hex ≠ n + 1 := by omega
-  simp only [tExp, hne, if_false]
+  simp only [tExp, hne, ite_false]
   by_cases hj : (j : ℕ) < Nat.find hex
   · have hnot := Nat.find_min hex hj
     have hpos : 0 < b j := by
       by_contra hcon
       exact hnot (Or.inr ⟨j.2, not_lt.mp hcon⟩)
-    rw [if_pos hj, if_pos hpos]
+    rw [ite_eq_left hj, ite_eq_left hpos]
   · have hspec := Nat.find_spec hex
     have hnpos : ¬ 0 < b j := by
       rcases hspec with h | ⟨h, h'⟩
@@ -109,7 +109,7 @@ theorem exists_tExp_eq_indicator (b : Fin n → ℤ) (hb : Antitone b) :
           rw [Fin.le_def]
           exact not_lt.mp hj)
         omega
-    rw [if_neg hj, if_neg hnpos]
+    rw [ite_eq_right hj, ite_eq_right hnpos]
 
 theorem dPow_mem_closure_of_nonneg (p : Lˣ) (N : ℕ) :
     ∀ b : Fin n → ℤ, Antitone b → (∀ j, 0 ≤ b j) → (∀ j, b j ≤ N) →
@@ -715,7 +715,7 @@ theorem tExp_antitone (n : ℕ) (i : Fin (n + 2)) : Antitone (tExp n i) := by
   unfold tExp
   by_cases h : (i : ℕ) = n + 1
   · simp [h]
-  · simp only [h, if_false]
+  · simp only [h, ite_false]
     by_cases hk : (k : ℕ) < i
     · have hj : (j : ℕ) < i := lt_of_le_of_lt hjk' hk
       simp [hj, hk]

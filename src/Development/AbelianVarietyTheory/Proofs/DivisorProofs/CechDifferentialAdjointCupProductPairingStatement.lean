@@ -69,14 +69,14 @@ theorem cech_apply_mem {F : Finset ι → Submodule k E} {n : ℤ} {a : Finset �
 theorem cech_apply_eq_zero {F : Finset ι → Submodule k E} {n : ℤ} {a : Finset ι → E} (ha : a ∈ cechC F n)
     {s : Finset ι} (h : ¬ (s.Nonempty ∧ (s.card : ℤ) = n + 1)) : a s = 0 := by
   have := cech_apply_mem ha s
-  rw [if_neg h] at this
+  rw [ite_eq_right h] at this
   exact (Submodule.mem_bot k).1 this
 
 theorem cech_apply_mem_of_subset {F : Finset ι → Submodule k E} (hF : ∀ s t, s.Nonempty → s ⊆ t → F s ≤ F t)
     {n : ℤ} {a : Finset ι → E} (ha : a ∈ cechC F n) {s t : Finset ι} (hst : s ⊆ t) : a s ∈ F t := by
   by_cases h : s.Nonempty ∧ (s.card : ℤ) = n + 1
   · have := cech_apply_mem ha s
-    rw [if_pos h] at this
+    rw [ite_eq_left h] at this
     exact hF s t h.1 hst this
   · rw [cech_apply_eq_zero ha h]; exact zero_mem _
 

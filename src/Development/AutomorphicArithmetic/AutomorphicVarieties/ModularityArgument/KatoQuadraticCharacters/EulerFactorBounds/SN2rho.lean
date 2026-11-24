@@ -100,7 +100,7 @@ private theorem nle {l : ℕ} [Fact l.Prime] (c : Coef l) {a : Qbar l} (ha : a �
         exact (PadicAlgCl.norm_extends l _).trans_le (PadicInt.norm_le_one r)
       exact (mul_le_of_le_one_left (norm_nonneg _) hr).trans hx
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   obtain ⟨n, hn⟩ := pow_unbounded_of_one_lt (∑ g ∈ s, ‖(g : PadicAlgCl l)‖) hlt
   have hle : ‖a ^ n‖ ≤ ∑ g ∈ s, ‖(g : PadicAlgCl l)‖ := hB ⟨a ^ n, c.O.pow_mem ha n⟩
   rw [norm_pow] at hle

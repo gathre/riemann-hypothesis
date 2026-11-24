@@ -410,7 +410,7 @@ theorem UpperTheory.Cb.exists_unit_mul_mem_span_of_reduced_isolated_zero :
     · exact ⟨1, by simp, fun h => absurd hs h⟩
     · obtain ⟨y, hy⟩ : ∃ y, e y ≠ s.1 y := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         exact hs (AlgHom.ext fun y => (hcon y).symm)
       refine ⟨y - algebraMap ℂ A (s.1 y), ?_, fun _ => ?_⟩
       · rw [map_sub, AlgHom.commutes]
@@ -453,12 +453,12 @@ private theorem reduced_of_etale_proj (R S : Type) [CommRing R] [CommRing S] [Al
   by_contra hne
   obtain ⟨φ, hφ⟩ : ∃ φ : Module.Dual R S, φ s ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne ((Module.forall_dual_apply_eq_zero_iff R s).1 h)
   have hnil : φ s ∉ nilradical R := by
     rw [nilradical_eq_zero]; simpa using hφ
   rw [nilradical_eq_sInf, Ideal.mem_sInf] at hnil
-  push_neg at hnil
+  push Not at hnil
   obtain ⟨p, hp, hsp⟩ := hnil
   haveI : p.IsPrime := hp
   let κ := p.ResidueField

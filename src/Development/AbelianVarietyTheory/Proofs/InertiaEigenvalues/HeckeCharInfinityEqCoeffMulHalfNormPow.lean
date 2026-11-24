@@ -119,7 +119,7 @@ theorem inf_eq_mul_normPow : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (θ :
   have hnorm : ∏ τ, ‖tauE D τ (a : D.host.E)‖ ^ 2 = |((Algebra.norm ℚ (a : D.host.E) : ℚ) : ℝ)| := by
     rw [← Rat.cast_abs, ← NumberField.InfinitePlace.prod_eq_abs_norm]
     refine (Fintype.prod_bijective _ (_root_.GlobalTheory.CMTypePlaces.mk_tauE_bijective D) _ _ (fun τ => ?_))
-    rw [NumberField.InfinitePlace.mult, if_neg (mk_tauE_complex D τ)]
+    rw [NumberField.InfinitePlace.mult, ite_eq_right (mk_tauE_complex D τ)]
     rfl
   have hA : ∏ τ, (tauE D τ (a : D.host.E) ^ ((b τ : ℤ) + (W.rank : ℤ)) *
       ((starRingEnd ℂ (tauE D τ (a : D.host.E))) ^ (b τ : ℤ))⁻¹) ∈ σ.fieldRange := by

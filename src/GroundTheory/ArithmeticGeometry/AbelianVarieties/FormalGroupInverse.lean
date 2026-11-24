@@ -157,7 +157,7 @@ theorem coeff_subst_X {σ : Type*} [DecidableEq σ] (i : σ) (f : PowerSeries R)
     mul_zero]
   rw [finsum_eq_single _ (d i)]
   intro n hn
-  rw [if_neg]
+  rw [ite_eq_right]
   rintro rfl
   simp at hn
 
@@ -376,7 +376,7 @@ theorem degree_fin_two (d : Fin 2 →₀ ℕ) : d.degree = d 0 + d 1 := by
 theorem two_le_order_addSlope : (2 : ℕ∞) ≤ MvPowerSeries.order (addSlope W) := by
   refine MvPowerSeries.nat_le_order fun d hd => ?_
   have hd2 : d 0 + d 1 < 2 := by rw [degree_fin_two] at hd; exact_mod_cast hd
-  rw [addSlope, coeff_divDiff, formalW, PowerSeries.coeff_X_pow_mul', if_neg (by omega)]
+  rw [addSlope, coeff_divDiff, formalW, PowerSeries.coeff_X_pow_mul', ite_eq_right (by omega)]
 
 theorem two_le_order_wAt_X (i : Fin 2) :
     (2 : ℕ∞) ≤ MvPowerSeries.order (wAt W (MvPowerSeries.X i : MvPowerSeries (Fin 2) R)) := by
@@ -386,7 +386,7 @@ theorem two_le_order_wAt_X (i : Fin 2) :
   split_ifs with h
   · have : d i ≤ d.degree := by
       rw [degree_fin_two]; fin_cases i <;> simp
-    rw [formalW, PowerSeries.coeff_X_pow_mul', if_neg (by omega)]
+    rw [formalW, PowerSeries.coeff_X_pow_mul', ite_eq_right (by omega)]
   · rfl
 
 theorem two_le_order_addIntercept : (2 : ℕ∞) ≤ MvPowerSeries.order (addIntercept W) := by
@@ -773,7 +773,7 @@ theorem infinite_mvPowerSeries [Nonempty τ] : Infinite (MvPowerSeries τ R) := 
   have := congrArg (MvPowerSeries.coeff (Finsupp.single i m)) h
   simp only [MvPowerSeries.coeff_X_pow] at this
   by_contra hmn
-  rw [if_neg (fun h' => hmn (Finsupp.single_injective i h'))] at this
+  rw [ite_eq_right (fun h' => hmn (Finsupp.single_injective i h'))] at this
   exact one_ne_zero this
 
 noncomputable def toFrac : R →+* FractionRing (MvPowerSeries τ R) :=
@@ -936,7 +936,7 @@ theorem coeff_single_X [DecidableEq τ] (i j : τ) :
   rw [MvPowerSeries.coeff_X]
   by_cases h : i = j
   · subst h; simp
-  · rw [if_neg, if_neg h]
+  · rw [ite_eq_right, ite_eq_right h]
     intro h'
     exact h (Finsupp.single_left_injective one_ne_zero h')
 

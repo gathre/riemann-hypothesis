@@ -610,15 +610,15 @@ theorem stTensor : StTensor := by
   let ξ : ∀ u, (R u).H := fun u => if u ∈ s then ξs u else ξg u
   have hξ : ∀ u, ‖ξ u‖ = 1 := fun u => by
     by_cases hu : u ∈ s
-    · simp only [ξ, if_pos hu]
+    · simp only [ξ, ite_eq_left hu]
       exact (hξs u hu).1
-    · simp only [ξ, if_neg hu]
+    · simp only [ξ, ite_eq_right hu]
       exact (hξg u hu).1
   have hfixall : ∀ u, A u (ξ u) (ξ u) w₁ = w₁ := fun u => by
     by_cases hu : u ∈ s
-    · simp only [ξ, if_pos hu]
+    · simp only [ξ, ite_eq_left hu]
       exact (hξs u hu).2
-    · simp only [ξ, if_neg hu]
+    · simp only [ξ, ite_eq_right hu]
       exact hI.2 u hu
   have hn : (‖w₁‖ : ℂ) ≠ 0 := by exact_mod_cast norm_ne_zero_iff.2 hw₁
   set w := (‖w₁‖ : ℂ)⁻¹ • w₁ with hwdef
@@ -641,7 +641,7 @@ theorem stTensor : StTensor := by
       refine ⟨s ∪ t, fun i hi' => ?_, fun s' hs' k hk1 hk2 => hlev k ?_⟩
       · have h1 : i ∉ s := fun h => hi' (Finset.mem_union_left _ h)
         have h2 : i ∉ t := fun h => hi' (Finset.mem_union_right _ h)
-        simp only [ξ, if_neg h1]
+        simp only [ξ, ite_eq_right h1]
         exact (hξg i h1).2.1 _ (ht i h2)
       · refine mem_levelOff.2 ⟨mem_finPts_iff_forall.2 fun w => hk1 _ (hs' (Finset.mem_union_left _ (hinl w))),
           fun v hv => hk1 _ (hs' (Finset.mem_union_left _ (hinr v hv))), fun v hv => ?_⟩

@@ -88,7 +88,7 @@ theorem exists_aniso {K : Type} [Field K] [CharZero K] {n : ℕ} (σ : K →+* K
     (M : Matrix (Fin n) (Fin n) K) (hM : ∀ a b, σ (M a b) = M b a) {i j : Fin n} (hij : M i j ≠ 0) :
     ∃ x : Fin n → K, hf σ M x x ≠ 0 := by
   by_contra hno
-  push_neg at hno
+  push Not at hno
   set x : Fin n → K := Pi.single i 1
   set y : Fin n → K := Pi.single j 1
   have hm0 : hf σ M x y ≠ 0 := by rw [hf_single]; exact hij
@@ -127,7 +127,7 @@ theorem exists_aniso_gram (V : HSp D) (hV : 0 < V.rank) :
     ∃ x0 : Fin V.rank → D.host.E, hf (starRingEnd D.host.E) V.gramᵀ x0 x0 ≠ 0 := by
   obtain ⟨i, j, hij⟩ : ∃ i j, V.gramᵀ i j ≠ 0 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     apply GlobalTheory.LevelSubgroup.gram_det_ne_zero V
     have h0 : V.gram = 0 := Matrix.ext fun a b => hne b a
     rw [h0]

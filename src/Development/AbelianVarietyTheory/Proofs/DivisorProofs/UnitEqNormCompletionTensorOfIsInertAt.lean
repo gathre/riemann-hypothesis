@@ -86,7 +86,7 @@ open IsDedekindDomain.HeightOneSpectrum Polynomial
 theorem exists_ne_of_isCMExt {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     (σ : E →ₐ[F] E) (hσ : IsCMExt F E σ) : ∃ x : E, σ x ≠ x := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨τ⟩ : Nonempty (E →+* ℂ) := inferInstance
   have hreal : NumberField.ComplexEmbedding.IsReal τ := by
     rw [NumberField.ComplexEmbedding.isReal_iff]
@@ -210,7 +210,7 @@ theorem exists_approx_mod {F : Type} [Field F] [NumberField F] (v : HeightOneSpe
     linear_combination h ^ 2 * hsρ' + (h * s * π b * ρ + h * π b ^ 2 * ρ ^ 2 - (π c * ρ ^ 2 - π u₀) * (1 + 2 * h)) * hh
   refine ⟨r, t, (hz _).1 hQ, ?_⟩
   by_contra hboth
-  push_neg at hboth
+  push Not at hboth
   have e1 := (hz _).2 hboth.1
   have e2 := (hz _).2 hboth.2
   simp only [map_sub, map_mul, map_ofNat] at e1 e2

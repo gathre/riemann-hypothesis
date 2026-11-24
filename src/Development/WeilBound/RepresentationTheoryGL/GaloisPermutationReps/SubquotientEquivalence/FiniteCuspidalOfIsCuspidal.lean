@@ -84,7 +84,7 @@ theorem exists_block_lt_unipotent {K : Type} [Field K] {n s : ℕ} {d : Fin s �
     (e : (Σ a, Fin (d a)) ≃ Fin n) (h : GlobalTheory.SmGL.unipRad K e ≠ ⊥) :
     ∃ i j : Fin n, GlobalTheory.SmGL.blk e i < GlobalTheory.SmGL.blk e j := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply h
   rw [eq_bot_iff]
   intro g hg
@@ -120,7 +120,7 @@ private theorem finite_cuspidal_of_isCuspidal_lemma_2 {K : Type} [Field K] [Fint
         intro h
         subst h
         exact lt_irrefl _ hji
-      rw [hud i j ?_, if_neg hne]
+      rw [hud i j ?_, ite_eq_right hne]
       by_cases h1 : GlobalTheory.SmGL.blk e i < t
       · have h2 : GlobalTheory.SmGL.blk e j < t := lt_trans hji h1
         simp [h1, h2]

@@ -141,7 +141,7 @@ theorem birational_of_ratGen {Y : Model Xo c (RingHom.id c.F)} (X : FlagCover Y)
     exact (hu.map (R.X.residue η').hom).ne_zero
   obtain ⟨j₀, hj₀⟩ : ∃ j, G.coords xp j ≠ 0 := by
     by_contra hn
-    push_neg at hn
+    push Not at hn
     exact G.geom.alg.bpf.coords_ne_zero xp (funext hn)
   have hmemV : ∀ f f', Vf f / Vf f' ∈ G.ratioField xp := by
     intro f f'

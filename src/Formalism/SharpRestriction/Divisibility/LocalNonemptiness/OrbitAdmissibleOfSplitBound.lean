@@ -61,7 +61,7 @@ theorem orbOK_iff (D : D7) (p : ℕ) : OrbOK D p ↔ 5 ≤ p ∧ (IsSg D p ∨ H
     · exact Or.inl hs
     · right
       unfold nP at hev
-      rw [if_neg hs] at hev
+      rw [ite_eq_right hs] at hev
       exact hev
   · rintro ⟨h5, hc⟩
     by_cases hs : IsSg D p
@@ -70,19 +70,19 @@ theorem orbOK_iff (D : D7) (p : ℕ) : OrbOK D p ↔ 5 ≤ p ∧ (IsSg D p ∨ H
         exact addOrderOf_pos _
       refine ⟨h5, ?_, ?_⟩
       · unfold nP
-        rw [if_pos hs]
+        rw [ite_eq_left hs]
         exact even_two_mul _
       · unfold nP
-        rw [if_pos hs]
+        rw [ite_eq_left hs]
         omega
     · have hev : HEv D p := hc.resolve_left hs
       obtain ⟨h1, h2⟩ := even_add_order_two_le D (hP D p) hev
       refine ⟨h5, ?_, ?_⟩
       · unfold nP
-        rw [if_neg hs]
+        rw [ite_eq_right hs]
         exact h1
       · unfold nP
-        rw [if_neg hs]
+        rw [ite_eq_right hs]
         exact h2
 
 private theorem five_le_of_prime_not_small_not_split (D : D7) (p : ℕ) (hp : p.Prime) (h3 : 3 ≤ D.host.splitBound)

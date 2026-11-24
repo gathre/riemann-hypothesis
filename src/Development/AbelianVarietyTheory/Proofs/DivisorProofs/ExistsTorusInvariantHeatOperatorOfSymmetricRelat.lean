@@ -330,7 +330,7 @@ theorem constFn_two {Z : Scheme.{0}} (p : Z ⟶ Sp R) (O : Z.Opens) : constFn p 
 theorem valR_pbT {A : Type} [CommRing A] {Z X : Scheme.{0}} (a : Sp A ⟶ Z) (p : Z ⟶ X) {O₀ : X.Opens} {O : Z.Opens}
     (hO : O ≤ p ⁻¹ᵁ O₀) (ha : ⊤ ≤ a ⁻¹ᵁ O) (s : Γ(X, O₀)) : valR a O (pbT p s O) = valR (a ≫ p) O₀ s := by
   have ha' : ⊤ ≤ (a ≫ p) ⁻¹ᵁ O₀ := ha.trans (a.preimage_mono hO)
-  rw [valR, dif_pos ha, valR, dif_pos ha', pbT_of_le p hO, ← Scheme.Hom.appLE_comp_appLE a p O₀ O ⊤ hO ha]
+  rw [valR, dite_eq_left ha, valR, dite_eq_left ha', pbT_of_le p hO, ← Scheme.Hom.appLE_comp_appLE a p O₀ O ⊤ hO ha]
   rfl
 
 theorem constFn_eq_pbT {Z : Scheme.{0}} (p : Z ⟶ Sp R) (O : Z.Opens) (r : R) :
@@ -339,7 +339,7 @@ theorem constFn_eq_pbT {Z : Scheme.{0}} (p : Z ⟶ Sp R) (O : Z.Opens) (r : R) :
 
 theorem valR_spMap {S : Type} [CommRing S] (φ : R →+* S) (r : R) :
     valR (spMap φ) ⊤ ((Scheme.ΓSpecIso (CommRingCat.of R)).inv.hom r) = φ r := by
-  rw [valR, dif_pos (show ⊤ ≤ spMap φ ⁻¹ᵁ ⊤ from fun _ _ => trivial)]
+  rw [valR, dite_eq_left (show ⊤ ≤ spMap φ ⁻¹ᵁ ⊤ from fun _ _ => trivial)]
   have e := congrArg (fun f => f.hom ((Scheme.ΓSpecIso (CommRingCat.of R)).inv.hom r))
     (Scheme.ΓSpecIso_naturality (CommRingCat.ofHom φ))
   simp only [CommRingCat.hom_comp, RingHom.comp_apply, Iso.inv_hom_id_apply, CommRingCat.hom_ofHom] at e
@@ -352,19 +352,19 @@ theorem valR_constFn {A : Type} [CommRing A] {Z : Scheme.{0}} (a : Sp A ⟶ Z) (
 
 theorem valR_mul {A : Type} [CommRing A] {Z : Scheme.{0}} (a : Sp A ⟶ Z) {O : Z.Opens} (ha : ⊤ ≤ a ⁻¹ᵁ O)
     (f g : Γ(Z, O)) : valR a O (f * g) = valR a O f * valR a O g := by
-  simp only [valR, dif_pos ha, map_mul]
+  simp only [valR, dite_eq_left ha, map_mul]
 
 theorem valR_add {A : Type} [CommRing A] {Z : Scheme.{0}} (a : Sp A ⟶ Z) {O : Z.Opens} (ha : ⊤ ≤ a ⁻¹ᵁ O)
     (f g : Γ(Z, O)) : valR a O (f + g) = valR a O f + valR a O g := by
-  simp only [valR, dif_pos ha, map_add (f := _)]
+  simp only [valR, dite_eq_left ha, map_add (f := _)]
 
 theorem valR_sub {A : Type} [CommRing A] {Z : Scheme.{0}} (a : Sp A ⟶ Z) {O : Z.Opens} (ha : ⊤ ≤ a ⁻¹ᵁ O)
     (f g : Γ(Z, O)) : valR a O (f - g) = valR a O f - valR a O g := by
-  simp only [valR, dif_pos ha, map_sub]
+  simp only [valR, dite_eq_left ha, map_sub]
 
 theorem valR_one {A : Type} [CommRing A] {Z : Scheme.{0}} (a : Sp A ⟶ Z) {O : Z.Opens} (ha : ⊤ ≤ a ⁻¹ᵁ O) :
     valR a O (1 : Γ(Z, O)) = 1 := by
-  simp only [valR, dif_pos ha, map_one]
+  simp only [valR, dite_eq_left ha, map_one]
 
 theorem valR_zero {A : Type} [CommRing A] {Z : Scheme.{0}} (a : Sp A ⟶ Z) {O : Z.Opens} :
     valR a O (0 : Γ(Z, O)) = 0 := by

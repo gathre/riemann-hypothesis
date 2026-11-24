@@ -124,7 +124,7 @@ theorem exists_mean_zero (X : Data E r) (la : Wt X.Ψ r) {P : Frame X.Ψ r → �
   obtain ⟨-, -, h1, h2⟩ := hex.choose_spec
   refine ⟨hex.choose, h1, h2, fun x hx => ?_⟩
   have h := hP.2 ξ hξ x hx
-  rw [Data.fj, if_pos (fun p _ => ⟨0, by simp⟩), dite_eq_left hex] at h
+  rw [Data.fj, ite_eq_left (fun p _ => ⟨0, by simp⟩), dite_eq_left hex] at h
   simp only [Pi.zero_apply, Complex.ofReal_zero, zero_mul, Finset.sum_const_zero, mul_zero, Complex.exp_zero, mul_one] at h
   refine (mul_eq_zero.1 h).resolve_left (inv_ne_zero ?_)
   exact_mod_cast (ENNReal.toReal_pos h1.ne' h2.ne).ne'

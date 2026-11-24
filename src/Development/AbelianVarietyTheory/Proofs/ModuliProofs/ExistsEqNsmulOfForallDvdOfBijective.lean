@@ -93,7 +93,7 @@ private theorem card_mul_card_orthogonal_eq_card_of_nondegenerate {Q : Type} [Ad
     by_cases ht : t = 0
     · subst ht
       simp
-    · rw [if_neg ht]
+    · rw [ite_eq_right ht]
       have hne : e.compAddMonoidHom (B t) ≠ 0 := by
         intro h
         apply ht
@@ -108,12 +108,12 @@ private theorem card_mul_card_orthogonal_eq_card_of_nondegenerate {Q : Type} [Ad
   have hcol : ∀ x : Q, ∑ t : U, e (B t x) = if x ∈ V then (Fintype.card U : ℂ) else 0 := by
     intro x
     by_cases hx : x ∈ V
-    · rw [if_pos hx]
+    · rw [ite_eq_left hx]
       have : ∀ t : U, e (B t x) = 1 := by
         intro t
         rw [(hmemV x).mp hx t t.2, AddChar.map_zero_eq_one]
       simp [this]
-    · rw [if_neg hx]
+    · rw [ite_eq_right hx]
       have hne : e.compAddMonoidHom ((B.flip x).comp U.subtype) ≠ 0 := by
         intro h
         apply hx
@@ -125,8 +125,8 @@ private theorem card_mul_card_orthogonal_eq_card_of_nondegenerate {Q : Type} [Ad
       have := AddChar.sum_eq_zero_iff_ne_zero.mpr hne
       simpa using this
   have hA : ∑ t : U, ∑ x : Q, e (B t x) = (Fintype.card Q : ℂ) := by
-    rw [Fintype.sum_eq_single 0 (fun t ht => by rw [hrow t, if_neg ht])]
-    rw [hrow 0, if_pos rfl]
+    rw [Fintype.sum_eq_single 0 (fun t ht => by rw [hrow t, ite_eq_right ht])]
+    rw [hrow 0, ite_eq_left rfl]
   have hB : ∑ t : U, ∑ x : Q, e (B t x) = (Fintype.card V : ℂ) * (Fintype.card U : ℂ) := by
     rw [Finset.sum_comm]
     simp_rw [hcol]

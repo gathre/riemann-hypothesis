@@ -64,7 +64,7 @@ theorem exists_isChar_eq_add_of_pair_ne_zero : ∀ (K L : Type) [Field K] [Field
   rw [← hφ', ← ha'] at h
   have hex : ∃ f : Representation.IntertwiningMap σ ρ, f ≠ 0 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     haveI : Subsingleton (Representation.IntertwiningMap σ ρ) :=
       ⟨fun x y => (hne x).trans (hne y).symm⟩
     apply hp

@@ -97,7 +97,7 @@ theorem split_datum (P : HeightOneSpectrum (𝓞 D.host.E)) (hP : ¬ Lev.IsConjP
       t ∉ v.asIdeal ∧ N ∈ v.asIdeal := by
   have hnc : ∃ c ∈ P.asIdeal, starO c ∉ P.asIdeal := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hP (fun c hc => ⟨starO c, hcon c hc, rfl⟩)
   obtain ⟨b, hbP, hbs⟩ := hnc
   obtain ⟨t, ht⟩ := fixed_int (b + starO b) (by simp [coe_starO, add_comm])

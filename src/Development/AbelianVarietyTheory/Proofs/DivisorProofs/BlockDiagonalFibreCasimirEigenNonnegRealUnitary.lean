@@ -100,7 +100,7 @@ theorem cas_diag_unitOn (ι M : Type) [Fintype ι] [DecidableEq ι] [AddCommGrou
       · exact h
       · exact absurd h (ne_of_gt rp)
     · by_contra hneg
-      push_neg at hneg
+      push Not at hneg
       nlinarith
   refine ⟨first, fun hne => ?_⟩
   have hcU : ∀ x ∈ U, cas s F x ∈ U := by

@@ -67,7 +67,7 @@ private theorem toDeg_single_one (i : Fin k) : toDeg (Finsupp.single i 1) = e i 
 private theorem exists_sec_notMem {p : Ideal (rees N)} (hp : ¬ Irr (reesGr N) ≤ p) (i : Fin k) :
     ∃ (f : A) (hf : f ∈ N i), sec N i f hf ∉ p := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hp
   have hle : Ideal.span (reesGr N (e i) : Set (rees N)) ≤ p := by
     rw [Ideal.span_le]

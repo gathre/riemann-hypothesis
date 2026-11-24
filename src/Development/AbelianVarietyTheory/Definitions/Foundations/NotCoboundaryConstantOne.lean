@@ -227,7 +227,7 @@ theorem exists_not_dvd (x : AdicCompletion.AdicCauchySequence (pI p) (Lau p))
     (hx : AdicCompletion.mk (pI p) (Lau p) x ≠ 0) :
     ∃ a, ∀ n, a ≤ n → ¬ (p : Lau p) ^ a ∣ x.1 n := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hx
   apply AdicCompletion.ext_evalₐ
   intro a
@@ -254,7 +254,7 @@ instance isDomain_completed_ring : IsDomain (O0 p) := by
   haveI : NoZeroDivisors (O0 p) := ⟨by
     intro x y hxy
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨hx, hy⟩ := hcon
     obtain ⟨x, rfl⟩ := AdicCompletion.mk_surjective (pI p) (Lau p) x
     obtain ⟨y, rfl⟩ := AdicCompletion.mk_surjective (pI p) (Lau p) y

@@ -165,7 +165,7 @@ theorem GlobalTheory.CovTop.LevelIndex.level_index_le_bound : ∀ (hP : _root_.G
   intro _ D Tu C t0 hC i P
   have hB : GlobalTheory.IndefiniteRowSideFullHecke.OneMeasureSizes.levW C i (LevelP.full _ _ _) = parLev D.sp.cm (Wc D i).gram (C.βW i) (C.datWp i P) := by
     have e : C.datWp i (LevelP.full _ _ _) = { C.datWp i P with P := LevelP.full (C.datWp i P).Pg (C.datWp i P).r ℂ } := by
-      simp only [LevCh.datWp, datY, if_true]
+      simp only [LevCh.datWp, datY, ite_true]
     rw [← GlobalTheory.CovTop.LevelIndex.lev_full, ← e]
   obtain ⟨h0, h1⟩ := GlobalTheory.CovTop.LevelIndex.relIndex_lev_le D.sp.cm (Wc D i).gram (C.βW i) (C.datWp i P) _ hB
   refine ⟨h0, ?_⟩

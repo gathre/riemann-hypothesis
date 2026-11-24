@@ -418,7 +418,7 @@ private lemma mem_ideal_of_sum_mul_mem_of_independent_mod_max {A : Type} [CommRi
     intro C hC I b hb
     have h0 : ∃ l0, C 0 l0 ∉ maximalIdeal A := by
       by_contra h
-      push_neg at h
+      push Not at h
       have := hC (Pi.single 0 1) (fun l => by
         simpa [Fin.sum_univ_succ, Pi.single_apply] using h l) 0
       simp at this

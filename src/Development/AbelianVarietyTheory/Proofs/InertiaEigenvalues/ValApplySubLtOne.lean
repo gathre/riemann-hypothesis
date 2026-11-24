@@ -81,7 +81,7 @@ private theorem valuation_lt_one_iff_mem_and_inv_not_mem {L : Type} [Field L] (B
     have hne : B.valuation z ≠ 0 := (Valuation.ne_zero_iff _).2 h0
     have h4 : 1 ≤ B.valuation z := by
       by_contra h5
-      push_neg at h5
+      push Not at h5
       have h6 := one_lt_inv₀ (zero_lt_iff.2 hne) |>.2 h5
       exact absurd h3 (not_le.2 h6)
     exact absurd h (not_lt.2 h4)
@@ -141,7 +141,7 @@ theorem exists_sub_lt_one (hk : IsAlgClosed (ResidueField O)) {x : AlgebraicClos
   simp only [Q, map_multiset_prod, Multiset.map_map, Function.comp_def, map_sub, Polynomial.aeval_X,
     Polynomial.aeval_C] at hval
   by_contra hne
-  push_neg at hne
+  push Not at hne
   refine absurd hval (not_lt.2 ?_)
   apply Multiset.one_le_prod_of_one_le
   intro t ht

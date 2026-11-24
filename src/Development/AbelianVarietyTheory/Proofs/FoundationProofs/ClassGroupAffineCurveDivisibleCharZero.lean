@@ -105,7 +105,7 @@ theorem classGroup_nthPower_of_codim_one_mod : ∀ (k A : Type) [Field k] [IsAlg
   have hI0 : (I : Ideal A) ≠ ⊥ := nonZeroDivisors.coe_ne_zero I
   by_cases hex : ∃ P₀ : Ideal A, P₀.IsMaximal ∧ P₀ ≠ ⊥
   swap
-  · push_neg at hex
+  · push Not at hex
     have htop : (I : Ideal A) = ⊤ := by
       by_contra h
       obtain ⟨M, hM, hIM⟩ := Ideal.exists_le_maximal _ h
@@ -127,7 +127,7 @@ theorem classGroup_nthPower_of_codim_one_mod : ∀ (k A : Type) [Field k] [IsAlg
     have hj : (⊥ : Ideal A).jacobson = ⊥ :=
       IsJacobsonRing.out' _ (Ideal.isPrime_bot).isRadical
     by_contra hne
-    push_neg at hne
+    push Not at hne
     apply hx
     have : x ∈ (⊥ : Ideal A).jacobson := by
       rw [Ideal.jacobson]

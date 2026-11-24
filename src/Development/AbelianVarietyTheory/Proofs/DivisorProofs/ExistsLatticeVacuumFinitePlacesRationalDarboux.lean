@@ -182,7 +182,7 @@ theorem exists_dotProduct_eq {K : Type} [NormedField K] [IsUltrametricDist K] {�
   obtain ⟨r, hr, hrL'⟩ := Metric.isOpen_iff.1 hL' 0 L'.zero_mem
   obtain ⟨t₁, ht₁⟩ : ∃ t, ψ₀ t ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (DFunLike.ext _ _ fun t => by rw [h t, AddChar.one_apply])
   have ht0 : 0 < ‖t₁‖ := norm_pos_iff.2 fun h => ht₁ (by rw [h, AddChar.map_zero_eq_one])
   set ρ := ‖t₁‖ / r with hρ
@@ -224,7 +224,7 @@ theorem exists_dotProduct_eq {K : Type} [NormedField K] [IsUltrametricDist K] {�
     rw [pi_norm_lt_iff hr]
     intro k
     by_contra hk
-    push_neg at hk
+    push Not at hk
     have hyk : 0 < ‖y k‖ := hr.trans_le hk
     refine ht₁ ?_
     have hnorm : ‖(Pi.single k (t₁ / y k) : κ → K)‖ ≤ ρ := by
@@ -280,7 +280,7 @@ theorem exists_dotProduct_eq {K : Type} [NormedField K] [IsUltrametricDist K] {�
     obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective q
     have hyN : (y : κ → K) ∉ M := fun h => hq ((QuotientAddGroup.eq_zero_iff _).2 h)
     rw [hMmem] at hyN
-    push_neg at hyN
+    push Not at hyN
     obtain ⟨a, ha, hay⟩ := hyN
     obtain ⟨Λ, hΛ⟩ := exists_lift N (e a) fun z hz => hz a ha
     exact ⟨Λ, ⟨a, ha, fun z => hΛ z⟩, by rw [hΛ]; exact hay⟩
@@ -576,7 +576,7 @@ theorem schr_vacFn : ∀ {K κ : Type} [CommRing K] [Invertible (2 : K)] [Fintyp
       rintro ⟨u', hu', he⟩
       refine hx ⟨u' - w, sub_mem hu' hw, ?_⟩
       rw [Prod.fst_sub, ← add_sub_assoc, ← he, add_sub_cancel_right]
-    simp only [vacFn, dif_neg hx, dif_neg hx', mul_zero]
+    simp only [vacFn, dite_eq_right hx, dite_eq_right hx', mul_zero]
 
 end GlobalTheory.HeisLatVac
 end -- clump:auto
@@ -761,7 +761,7 @@ theorem exists_vac_of_lattice : ∀ {F : Type} [Field F] [NumberField F] {W : Ty
   have hχ : ∀ γ ∈ Γ, χ (GlobalTheory.LatVac.locCo co v γ) = c γ := by
     intro γ hγ
     have h : ∃ γ' ∈ Γ, GlobalTheory.LatVac.locCo co v γ' = GlobalTheory.LatVac.locCo co v γ := ⟨γ, hγ, rfl⟩
-    simp only [χ, dif_pos h]
+    simp only [χ, dite_eq_left h]
     rw [hinj _ h.choose_spec.1 _ hγ h.choose_spec.2]
   have hcont : Continuous (GlobalTheory.LatVac.psiAt ψ v) := GlobalTheory.VacAny.continuous_psiV hψc v
   obtain ⟨φ, hSB, hne, heig⟩ := exists_local_vac v (GlobalTheory.LatVac.psiAt ψ v) hcont hψ1

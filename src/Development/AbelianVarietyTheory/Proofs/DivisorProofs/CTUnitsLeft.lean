@@ -152,7 +152,7 @@ theorem aeval_map_mat {n : ℕ} (w : Pl E) (M : Matrix (Fin n) (Fin n) E) (p : E
 theorem kapSign_eq {n : ℕ} (w : Pl E) (hw : ¬ IsSplitAt w) (Q : (w.adicCompletion E)[X]) (γ : GLw n w) :
     kapSign n w Q γ = sgnOn (cj w) 1 Q γ.val := by
   unfold kapSign sgnOn gramOn hform
-  rw [if_neg hw]
+  rw [ite_eq_right hw]
   simp [Matrix.one_apply]
 
 theorem mem_S {S : Set (Pl E)} (hS : IsSection S) {w : Pl E} (hw : ¬ IsSplitAt w) : w ∈ S := by

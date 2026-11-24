@@ -358,7 +358,7 @@ theorem exists_kFin_ne_zero_of_cwCont : PI.KFinSmooth → ∀ (k r : ℕ) (ε : 
   haveI : SecondCountableTopology (Formalism.REAL.KG ε) :=
     Topology.IsInducing.subtypeVal.secondCountableTopology
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨P, hP, -⟩ := hR.2
   obtain ⟨κ, hκc, hκG, hκ1, hκm, hκs⟩ := exists_param_maxCompact hP
   obtain ⟨hmul, hone, -, -, -, -, -, -, hσc⟩ := rep_basic_of_isDS hKS k r ε mu R hR

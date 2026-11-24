@@ -97,7 +97,7 @@ def secOfH0 (σ : H0 L 1) : LB.Sec L where
 theorem ne_zero_of_gen {K : Type} [Field K] {p : X ⟶ Sp K} {b : LB.Sec L}
     (hb : ∀ s : LB.Sec L, ∃! a : K, ∀ i, s.f i = constFn p _ a * b.f i) : ∃ i, ∃ y ∈ L.U i, gs (𝟙 X) y _ (b.f i) ≠ 0 := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hb0 : ∀ i, b.f i = 0 := fun i => fn_ext fun y hy => by
     rw [hne i y hy]
     unfold gs

@@ -196,7 +196,7 @@ theorem one_le_norm_place [_root_.NumberField.IsTotallyComplex L] (x : 𝓞 L) (
     ∃ w : InfinitePlace L, 1 ≤ ‖embO w x‖ ^ 2 := by
   classical
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have heq : ∀ w : InfinitePlace L, ‖embO w x‖ = w (x : L) := by
     intro w
     simp [embO, NumberField.InfinitePlace.norm_embedding_eq]
@@ -225,7 +225,7 @@ theorem one_le_lm_one [_root_.NumberField.IsTotallyComplex L] (hN : 1 ≤ N) :
   intro y hy
   obtain ⟨i, hi⟩ : ∃ i, y i ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hy (funext h)
   obtain ⟨w, hw⟩ := one_le_norm_place (y i) hi
   unfold tv nsq

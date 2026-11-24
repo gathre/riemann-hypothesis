@@ -1456,7 +1456,7 @@ theorem exists_sum_ne_zero {D k K : Type} [Group D] [Fintype D] [Field k] [Field
     (φ : D →* (K ≃ₐ[k] K)) (h : (Nat.card φ.ker : K) ≠ 0) : ∃ w : K, ∑ g, φ g w ≠ 0 := by
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hf : Function.Injective (fun σ : K ≃ₐ[k] K => (σ : K →* K)) :=
     fun σ τ hστ => AlgEquiv.ext fun x => DFunLike.congr_fun hστ x
   have hli := (linearIndependent_monoidHom K K).comp _ hf
@@ -1669,7 +1669,7 @@ theorem residue_finite_separable : ∀ (Γ : Type) [Group Γ] [Finite Γ] (A B :
     have hc0 : c0 ≠ 0 := mul_ne_zero hv0 hyq'
     have ht : ∃ t : B ⧸ q, ∑ g, φ g (c0 * algebraMap (B ⧸ q) K t) ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply hw0
       obtain ⟨t1, t2, ht2, hdiv⟩ := IsFractionRing.div_surjective (A := B ⧸ q) (w0 / c0)
       have ht20 : t2 ≠ 0 := nonZeroDivisors.ne_zero ht2

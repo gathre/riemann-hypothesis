@@ -622,7 +622,7 @@ theorem single_field (hK : IsRes i K) {ρ : GE N →* GL (Fin D.R.r) (X.O0 i)} (
   have hεc : ∀ g, algebraMap (X.O0 i) K ((eps0 X i (cConj X g) : (X.O0 i)ˣ) : X.O0 i) =
       algebraMap (X.O0 i) K ((eps0 X i g : (X.O0 i)ˣ) : X.O0 i) := fun g => by rw [eps_cj]
   by_cases hl : ResIso i s K
-  · rw [if_neg (nu_pos_of_resIso i s K hsd hl).ne']
+  · rw [ite_eq_right (nu_pos_of_resIso i s K hsd hl).ne']
     obtain ⟨A₁, hu, hA⟩ := hl
     obtain ⟨A, rfl⟩ := hu
     obtain ⟨R₀, hR⟩ := abs_two (ρ := red i K (Tgl i s)) (ρ' := red i K ρ) (cConj X) continuous_cj _ (pairing i s K hρ) hεc

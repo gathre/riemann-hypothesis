@@ -129,7 +129,7 @@ theorem eq_sum_pureA_coset_indicator : ∀ (F : Type) [Field F] [NumberField F] 
       simp only [GlobalTheory.WeilM.pureA]
       have hm : (fun i => (x i).2) ∉ {y | y - r ∈ U} := fun h => hne (hdist r hr r0 hr0 _ h hxr0)
       rw [Set.indicator_of_notMem hm, mul_zero]
-  · push_neg at hx
+  · push Not at hx
     have hK' : (fun i => (x i).2) ∉ K := fun h => by
       obtain ⟨r, hr, h'⟩ := hcover _ h
       exact hx r hr h'

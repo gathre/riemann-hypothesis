@@ -185,7 +185,7 @@ theorem sup_dual_eq_std (t c : 𝓞 E) (ht : t ≠ 0) (hc : (c : E) = star (t : 
         obtain ⟨d, rfl⟩ := hdiv hk
         obtain ⟨s, hs⟩ := _root_.GlobalTheory.Mem.Chr.DetSD.star_integer d
         refine ⟨s * r k, ?_⟩
-        simp only [w, hk, if_true, hq]
+        simp only [w, hk, ite_true, hq]
         rw [map_mul, hr k, show algebraMap (𝓞 E) E s = (s : E) from rfl, hs]
         push_cast
         rw [star_mul', ← hr k]
@@ -194,7 +194,7 @@ theorem sup_dual_eq_std (t c : 𝓞 E) (ht : t ≠ 0) (hc : (c : E) = star (t : 
     have hxe : x = x' + c • w := by
       funext j
       by_cases hj : j.1 + 1 = n
-      · simp only [x', w, hj, if_true, Pi.add_apply, Pi.smul_apply, zero_add]
+      · simp only [x', w, hj, ite_true, Pi.add_apply, Pi.smul_apply, zero_add]
         rw [Algebra.smul_def, show algebraMap (𝓞 E) E c = (c : E) from rfl, hc]
         field_simp
       · simp [x', w, hj]

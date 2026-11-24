@@ -162,7 +162,7 @@ theorem blockDiag_transvection (hb : ((cb : ℕ) < N - j ↔ (ca : ℕ) < N - j)
     IsBlockDiag j (1 + Matrix.single cb ca t : Matrix (Fin N) (Fin N) ℂ) := by
   intro r s h
   have hrs : r ≠ s := fun e => h (by rw [e])
-  rw [Matrix.add_apply, Matrix.one_apply_ne hrs, zero_add, Matrix.single_apply, if_neg]
+  rw [Matrix.add_apply, Matrix.one_apply_ne hrs, zero_add, Matrix.single_apply, ite_eq_right]
   rintro ⟨rfl, rfl⟩
   exact h hb
 
@@ -232,9 +232,9 @@ theorem an_minorIJ {h : (Fin e → ℂ) → Matrix (Fin N) (Fin N) ℂ}
     AnalyticOnNhd ℂ (fun u => minorIJ (h u) I J) V := by
   unfold minorIJ
   by_cases c : I.card = J.card
-  · simp only [dif_pos c]
+  · simp only [dite_eq_left c]
     exact an_det fun r s => hh _ _
-  · simp only [dif_neg c]
+  · simp only [dite_eq_right c]
     exact analyticOnNhd_const
 
 theorem an_mul_transvection {h : (Fin e → ℂ) → Matrix (Fin N) (Fin N) ℂ}
@@ -317,7 +317,7 @@ theorem an_flagPt {M : FlagModel y Ψ N j} {n : ℕ} (BM : BaseMetric M n) (l : 
   have va := _root_.GlobalTheory.CompanionTheory.Ar.PB.WSq.FC.bvec_val_analytic K ι Φ y Ψ N j M n BM l e V bp hV hc ha hO
   by_cases hk : ∀ p, M.blk p ≠ some k
   · have e1 : (fun u => FC.flagPt M (BM.F l) (FC.bvec BM l (bp u)) (h u) ⟨k, m⟩) =
-        fun u => FC.bvec BM l (bp u) ⟨⟨k, hk⟩, m⟩ := funext fun u => dif_pos hk
+        fun u => FC.bvec BM l (bp u) ⟨⟨k, hk⟩, m⟩ := funext fun u => dite_eq_left hk
     rw [e1]
     exact va.1 _
   · obtain ⟨p, hp⟩ := not_forall.1 hk
@@ -361,8 +361,8 @@ theorem snd_orbit (k₀ : K) {z z' : (Σ o : Option K, ι (o.getD k₀)) → ℂ
   · funext ⟨k, m⟩
     by_cases e : k = k₀
     · subst e
-      simp only [sndPt, Function.comp, v₁_self, if_true]
-    · simp only [sndPt, Function.comp, v₁_ne (p := ⟨k, m⟩) e, if_neg e]
+      simp only [sndPt, Function.comp, v₁_self, ite_true]
+    · simp only [sndPt, Function.comp, v₁_ne (p := ⟨k, m⟩) e, ite_eq_right e]
 
 end Families
 
@@ -585,8 +585,8 @@ theorem orbit_sndPt {k₀ : K} {z z' : (Σ o : Option K, ι (o.getD k₀)) → �
     obtain ⟨k, m⟩ := p
     by_cases hk : k = k₀
     · subst hk
-      simp only [sndPt, Function.comp, v₁_self, if_true]
-    · simp only [sndPt, Function.comp, v₁_ne (p := ⟨k, m⟩) hk, if_neg hk]
+      simp only [sndPt, Function.comp, v₁_self, ite_true]
+    · simp only [sndPt, Function.comp, v₁_ne (p := ⟨k, m⟩) hk, ite_eq_right hk]
 
 end Orbits
 
@@ -662,7 +662,7 @@ theorem vector_of_chart : ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k, F
     intro r s hrs
     have e1 : (1 : Matrix (Fin N) (Fin N) ℂ) r s = 0 := Matrix.one_apply_ne fun e => hrs (by rw [e])
     have e2 : (Matrix.single cb ca t : Matrix (Fin N) (Fin N) ℂ) r s = 0 := by
-      rw [Matrix.single_apply, if_neg]
+      rw [Matrix.single_apply, ite_eq_right]
       rintro ⟨rfl, rfl⟩
       exact hrs hs.symm
     rw [Matrix.add_apply, e1, e2, add_zero]
@@ -670,12 +670,12 @@ theorem vector_of_chart : ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k, F
     refine (Matrix.det_of_lowerTriangular _ fun r s hrs => ?_).trans (Finset.prod_eq_one fun r _ => ?_)
     · have e1 : (1 : Matrix (Fin N) (Fin N) ℂ) r s = 0 := Matrix.one_apply_ne (ne_of_lt (show r < s from hrs))
       have e2 : (Matrix.single cb ca t : Matrix (Fin N) (Fin N) ℂ) r s = 0 := by
-        rw [Matrix.single_apply, if_neg]
+        rw [Matrix.single_apply, ite_eq_right]
         rintro ⟨rfl, rfl⟩
         exact lt_asymm hlt hrs
       rw [Matrix.add_apply, e1, e2, add_zero]
     · have e2 : (Matrix.single cb ca t : Matrix (Fin N) (Fin N) ℂ) r r = 0 := by
-        rw [Matrix.single_apply, if_neg]
+        rw [Matrix.single_apply, ite_eq_right]
         rintro ⟨rfl, h'⟩
         exact hlt.ne h'
       rw [Matrix.add_apply, e2, add_zero, Matrix.one_apply_eq]
@@ -765,10 +765,10 @@ theorem blockDiag_transv {N j : ℕ} {ca cb : Fin N} (h : (cb : ℕ) < N - j ↔
 theorem lowerUni_transv {N : ℕ} {ca cb : Fin N} (h : ca < cb) (t : ℂ) :
     IsLowerUni (1 + Matrix.single cb ca t) := by
   refine ⟨fun r => ?_, fun r s hrs => ?_⟩
-  · rw [Matrix.add_apply, Matrix.one_apply_eq, Matrix.single_apply, if_neg, add_zero]
+  · rw [Matrix.add_apply, Matrix.one_apply_eq, Matrix.single_apply, ite_eq_right, add_zero]
     rintro ⟨rfl, e⟩
     exact h.ne e
-  · rw [Matrix.add_apply, Matrix.one_apply_ne hrs.ne, zero_add, Matrix.single_apply, if_neg]
+  · rw [Matrix.add_apply, Matrix.one_apply_ne hrs.ne, zero_add, Matrix.single_apply, ite_eq_right]
     rintro ⟨rfl, rfl⟩
     exact absurd h (not_lt.2 hrs.le)
 
@@ -777,11 +777,11 @@ theorem minor_analytic {m N : ℕ} {V : Set (Fin m → ℂ)} {A : (Fin m → ℂ
     AnalyticOnNhd ℂ (fun u => minorIJ (A u) I J) V := by
   unfold minorIJ
   by_cases e : I.card = J.card
-  · simp only [dif_pos e, Matrix.det_apply]
+  · simp only [dite_eq_left e, Matrix.det_apply]
     refine Finset.analyticOnNhd_fun_sum _ fun σ _ => ?_
     simp only [Units.smul_def, zsmul_eq_mul]
     exact analyticOnNhd_const.mul (Finset.analyticOnNhd_fun_prod _ fun i _ => hA _ _)
-  · simp only [dif_neg e]
+  · simp only [dite_eq_right e]
     exact analyticOnNhd_const
 
 theorem mul_analytic {m N : ℕ} {V : Set (Fin m → ℂ)} {A : (Fin m → ℂ) → Matrix (Fin N) (Fin N) ℂ}
@@ -855,7 +855,7 @@ theorem GlobalTheory.CompanionTheory.Ar.PB.WSq.FC.dens_w : ∀ (K : Type) [Finty
     | some k =>
       by_cases hk : ∀ p, M.blk p ≠ some k
       · have e : ∀ u, FC.wVec M (BM.F l) (FC.bvec BM l (bp u)) (fun τ' => hh τ' u) τ a k₀ ca cb t ⟨some k, mm⟩ =
-            FC.bvec BM l (bp u) ⟨⟨k, hk⟩, mm⟩ := fun u => (FC.DensW.wVec_some M (BM.F l) _ _ τ a k₀ ca cb t k mm).trans (dif_pos hk)
+            FC.bvec BM l (bp u) ⟨⟨k, hk⟩, mm⟩ := fun u => (FC.DensW.wVec_some M (BM.F l) _ _ τ a k₀ ca cb t k mm).trans (dite_eq_left hk)
         simp only [e]
         exact hbv _
       · obtain ⟨p, hp⟩ := not_forall.1 hk
@@ -944,7 +944,7 @@ theorem sameOrbit_sndPt {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype
     · obtain ⟨k, m⟩ := p
       obtain rfl : k = k₀ := hk
       simp [v₁_self]
-    · rw [if_neg hk, v₁_ne hk]
+    · rw [ite_eq_right hk, v₁_ne hk]
 
 theorem null_w : ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k, Fintype (ι k)] (Φ : Type) [Field Φ] (y : (Σ k, ι k) → Φ) (Ψ : Type) [Fintype Ψ] [DecidableEq Ψ] (N j : ℕ) (M : FlagModel y Ψ N j) (n d : ℕ) (BM : BaseMetric M n) (FA : FlagAn BM d) (τ : Ψ) (a b : Fin N) (k₀ : K) (ca cb : Fin N), (b : ℕ) = a + 1 → ((b : ℕ) < j ∨ j ≤ (a : ℕ)) → M.blk (τ, a) = some k₀ → (ca : ℕ) = lastCol N j a → (cb : ℕ) = ca + 1 → ∀ (RW : AnLogRes (mCoordIdeal (M.wCo (τ, a) k₀ ca cb RatFunc.X)) ⊤ (d + 2)) (q : Fin 2 → RW.X → FA.S.X), (∀ i, HoloMap RW.A FA.S.A (q i)) → (∀ x x₀, FA.Re.π x₀ = q 0 x → SameOrbit (FA.Re.R.lift x₀ x₀) (fstPt k₀ (RW.lift x x))) → (∀ x x₀, FA.Re.π x₀ = q 1 x → SameOrbit (FA.Re.R.lift x₀ x₀) (sndPt k₀ (RW.lift x x))) → (Function.Injective fun w => (q 0 w, q 1 w)) → ∀ l : Fin BM.q, IsNull RW.A {x | FA.pr (q 0 x) ∈ BM.O l ∧ (FA.pr (q 0 x) ∈ bdry BM.s ∨ ∃ p, FC.plk M (BM.F l) (FC.bvec BM l (FA.pr (q 0 x))) (fstPt k₀ (RW.lift x x)) p = 0 ∨ FC.plk M (BM.F l) (FC.bvec BM l (FA.pr (q 0 x))) (sndPt k₀ (RW.lift x x)) p = 0)} := by
   intro K _ ι _ Φ _ y Ψ _ _ N j M n d BM FA τ a b k₀ ca cb hab hj hblk hca hcb RW q hq h0 h1 hinj l
@@ -1139,8 +1139,8 @@ theorem minor_insert_of_lowerUni {L : Matrix (Fin N) (Fin N) ℂ} (hL : IsLowerU
     exact this
   have hle : ∀ i, i ≤ m := fun i => e.le_iff_le.1 (by rw [hm]; exact hmax _ (hmem i))
   let f : Fin C.card → Fin N := fun i => if i = m then r else e i
-  have hf_ne : ∀ i, i ≠ m → f i = e i := fun i h => if_neg h
-  have hf_m : f m = r := if_pos rfl
+  have hf_ne : ∀ i, i ≠ m → f i = e i := fun i h => ite_eq_right h
+  have hf_m : f m = r := ite_eq_left rfl
   have hmono : StrictMono f := by
     intro a b hab
     have ham : a ≠ m := fun h => absurd (hle b) (by rw [← h]; exact not_le.2 hab)
@@ -1219,21 +1219,21 @@ theorem flag_uniq : ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k, Fintype
       · have hr : (r : ℕ) < N - j := hblk.2 hs
         refine ent τ' ⟨s + j, by omega⟩ s r ⟨by simp only; omega, by simp only; omega⟩ ?_ ?_ hsr
         · simp only [stepCols, Finset.mem_filter, Finset.mem_univ, true_and]
-          rw [if_neg (by omega)]
+          rw [ite_eq_right (by omega)]
           omega
         · intro a ha
           simp only [stepCols, Finset.mem_filter, Finset.mem_univ, true_and] at ha
-          rw [if_neg (by omega)] at ha
+          rw [ite_eq_right (by omega)] at ha
           exact Fin.le_def.2 (by omega)
       · have hr : ¬ (r : ℕ) < N - j := fun h => hs (hblk.1 h)
         have hrN := r.2
         refine ent τ' ⟨s - (N - j), by omega⟩ s r ⟨by simp only; omega, by simp only; omega⟩ ?_ ?_ hsr
         · simp only [stepCols, Finset.mem_filter, Finset.mem_univ, true_and]
-          rw [if_pos (by omega)]
+          rw [ite_eq_left (by omega)]
           omega
         · intro a ha
           simp only [stepCols, Finset.mem_filter, Finset.mem_univ, true_and] at ha
-          rw [if_pos (by omega)] at ha
+          rw [ite_eq_left (by omega)] at ha
           exact Fin.le_def.2 (by omega)
     · rw [(hL τ').1 r s hblk, (hL' τ').1 r s hblk]
   · rw [hsr, (hL τ').2.1, (hL' τ').2.1]
@@ -1456,7 +1456,7 @@ theorem fibre_charts : ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k, Fint
     obtain ⟨m, hm⟩ := hpc_cov (FA.pr (FA.Re.π x₀))
     refine ⟨x₀, Set.mem_iUnion.2 ⟨(tm m).2, hm.1.2, ?_⟩, rfl⟩
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨c, a', ho⟩ := _root_.GlobalTheory.CompanionTheory.Ar.PB.WSq.FC.exists_Lca_of_plk_ne K ι Φ y Ψ N j M n d BM FA τ ca cb hlt hblk (tm m).2 x₀ hm.1.2 hcon.2
     have hbs := hm.1.1
     let w := mk ((BM.Rb.A.chart (tm m).1) (FA.pr (FA.Re.π x₀))) c
@@ -1526,7 +1526,7 @@ theorem fibre_charts : ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k, Fint
     obtain ⟨m, hm⟩ := hpc_cov (FA.pr (q 0 x))
     refine Set.mem_iUnion.2 ⟨(tm m).2, hm.1.2, ?_⟩
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨c, a₀, a₁, ho⟩ := _root_.GlobalTheory.CompanionTheory.Ar.PB.WSq.FC.Cell.vector_of_chart K ι Φ y Ψ N j M n d BM FA τ a b k₀ ca cb hb hs hk hca hcb RW q hq h0 h1 hinj
       (tm m).2 x hm.1.2 (fun p => (hcon.2 p).1) (fun p => (hcon.2 p).2)
     have hbs := hm.1.1

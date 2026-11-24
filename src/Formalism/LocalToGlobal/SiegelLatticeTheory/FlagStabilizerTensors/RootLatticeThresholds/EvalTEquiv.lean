@@ -94,8 +94,8 @@ theorem equiv_ginf {θ : D.what₂.Tau → (Ainf D.host.F ⊗[D.host.F] D.host.E
   have hu : ∀ s : Finset D.what₂.Tau, Formalism.IndefR.Eqv.IsUnitFam D V (fun τ => if τ ∈ s then gs τ else 1) := by
     intro s τ
     by_cases hτ : τ ∈ s
-    · simp only [hτ, if_true]; exact hgs τ
-    · simp only [hτ, if_false]; simp
+    · simp only [hτ, ite_true]; exact hgs τ
+    · simp only [hτ, ite_false]; simp
   have key : ∀ s : Finset D.what₂.Tau, ∀ y, T v (y * Formalism.IndefR.Eqv.famH D V _ (hu s)) = T (translS M a s v) y := by
     intro s
     induction s using Finset.induction_on with

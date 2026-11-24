@@ -77,7 +77,7 @@ private theorem gm_res_pullU_lemma_2 {A B C : Scheme.{0}} (f : B ⟶ A) (U : A.O
     gm r c V (res h (pullU f U s)) = gm (r ≫ f) c U s := by
   have hc' : (r ≫ f) c ∈ U := by simpa using h hc
   unfold gm
-  rw [dif_pos hc, dif_pos hc']
+  rw [dite_eq_left hc, dite_eq_left hc']
   have hc2 : c ∈ r ⁻¹ᵁ V := hc
   have hc3 : c ∈ r ⁻¹ᵁ f ⁻¹ᵁ U := hc'
   have key : f.app U ≫ B.presheaf.map (homOfLE h).op ≫ r.app V ≫ C.presheaf.germ (r ⁻¹ᵁ V) c hc2 =
@@ -138,7 +138,7 @@ private theorem units_ext_gm_lemma_3 {A : Scheme.{0}} {V : A.Opens} (a b : Γ(A,
       ((gm (𝟙 A) y V s : A.presheaf.stalk y)) = A.presheaf.germ V y hy (s : Γ(A, V)) := by
     intro y hy s
     have hy1 : (𝟙 A) y ∈ V := by simpa using hy
-    simp only [gm, dif_pos hy1]
+    simp only [gm, dite_eq_left hy1]
     first
     | rfl
   ext
@@ -151,7 +151,7 @@ private theorem gm_res_lemma_4 {B C : Scheme.{0}} {U V : B.Opens} (h : V ≤ U) 
     (hc : r c ∈ V) (s : Γ(B, U)ˣ) : gm r c V (res h s) = gm r c U s := by
   have hc' : r c ∈ U := h hc
   unfold gm
-  rw [dif_pos hc, dif_pos hc']
+  rw [dite_eq_left hc, dite_eq_left hc']
   have hc2 : c ∈ r ⁻¹ᵁ V := hc
   have hc3 : c ∈ r ⁻¹ᵁ U := hc'
   have key : B.presheaf.map (homOfLE h).op ≫ r.app V ≫ C.presheaf.germ (r ⁻¹ᵁ V) c hc2 =
@@ -186,7 +186,7 @@ theorem isGen_of_gm {M : LB X} {φ : K → (Y ⟶ X)} {ε : K → ℤ} (t : LB.G
 private theorem gm_id_lemma_6 {A : Scheme.{0}} (V : A.Opens) (y : A) (hy : y ∈ V) (s : Γ(A, V)ˣ) :
     ((gm (𝟙 A) y V s : A.presheaf.stalk y)) = A.presheaf.germ V y hy (s : Γ(A, V)) := by
   have hy1 : (𝟙 A) y ∈ V := by simpa using hy
-  simp only [gm, dif_pos hy1]
+  simp only [gm, dite_eq_left hy1]
   first
   | rfl
 

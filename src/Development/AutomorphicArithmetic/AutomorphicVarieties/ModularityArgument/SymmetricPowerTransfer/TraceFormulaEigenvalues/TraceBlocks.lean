@@ -244,7 +244,7 @@ theorem finsum_sig {I : Type} {A : I → Type} (F : (Σ i, A i) → ℂ) (h : (F
   · intro i hi
     obtain ⟨x, hx⟩ : ∃ x, F ⟨i, x⟩ ≠ 0 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact hi (by simp [hc])
     exact Finset.mem_coe.mpr (Finset.mem_image.mpr ⟨⟨i, x⟩, by simpa [s] using hx, rfl⟩)
 
@@ -271,7 +271,7 @@ theorem trace_blocks {Q : Type} [Fintype Q] [FiniteDimensional ℂ V] (E : Q →
     · subst hoo
       rw [LinearMap.proj_comp_single_same, LinearMap.comp_id]
     · rw [LinearMap.proj_comp_single_ne ℂ _ _ _ hoo, LinearMap.comp_zero, map_zero]
-  simp only [hterm, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [hterm, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 theorem finsum_triv (Γ₀ : Subgroup Γ) (h0 : ∀ z ∈ Γ₀, ∀ y : Y, z • y = y) (k : Y → V) (hk : (Function.support k).Finite) :
     {b : orbitRel.Quotient Γ₀ Y | k b.out ≠ 0}.Finite ∧

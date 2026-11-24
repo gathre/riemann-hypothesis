@@ -451,7 +451,7 @@ private theorem span_push {K K' : Type} [Field K] [Field K'] {n a : ℕ} (j : Po
     · have hE : Matrix.single p q (1 : PowerSeries K) ∈ Ev (PowerSeries K) (PowerSeries K) n a := by
         intro p' q'
         refine ⟨fun _ => trivial, fun e => ?_⟩
-        rw [Submodule.mem_bot, Matrix.single_apply, if_neg]
+        rw [Submodule.mem_bot, Matrix.single_apply, ite_eq_right]
         rintro ⟨rfl, rfl⟩
         exact e hpq
       obtain ⟨s, hs⟩ := h _ hE

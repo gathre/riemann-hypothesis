@@ -190,8 +190,8 @@ private theorem prod_coord (c : Cinf K) : ∏ τ : K →+* ℂ, coord τ c = ((�
       · rw [InfinitePlace.mk_conjugate_eq, InfinitePlace.mk_embedding]
   rw [hf, Finset.prod_pair hne.symm]
   unfold coord
-  rw [if_pos (by rw [InfinitePlace.mk_embedding]),
-    if_neg (by rw [InfinitePlace.mk_conjugate_eq, InfinitePlace.mk_embedding]; exact hne.symm)]
+  rw [ite_eq_left (by rw [InfinitePlace.mk_embedding]),
+    ite_eq_right (by rw [InfinitePlace.mk_conjugate_eq, InfinitePlace.mk_embedding]; exact hne.symm)]
   simp [InfinitePlace.mk_embedding, InfinitePlace.mk_conjugate_eq, Complex.mul_conj']
 
 end UpperTheory.V.Z.Inf.FourDH

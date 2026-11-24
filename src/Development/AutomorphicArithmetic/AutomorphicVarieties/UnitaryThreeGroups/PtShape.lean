@@ -102,7 +102,7 @@ private theorem norm_coe_coefO_le_one {l : ℕ} [Fact l.Prime] (c : Coef l) (x :
     exact hx.map c.O.val
   obtain ⟨p, hmon, hp⟩ := hint
   by_contra hgt
-  push_neg at hgt
+  push Not at hgt
   rw [hmon.as_sum, Polynomial.eval₂_add, Polynomial.eval₂_X_pow, Polynomial.eval₂_finsetSum] at hp
   have hcoef : ∀ i ∈ Finset.range p.natDegree,
       ‖Polynomial.eval₂ (algebraMap ℤ_[l] (PadicAlgCl l)) (x : PadicAlgCl l)

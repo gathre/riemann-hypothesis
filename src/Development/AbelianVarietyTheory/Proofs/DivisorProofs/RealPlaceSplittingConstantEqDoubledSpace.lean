@@ -227,7 +227,7 @@ theorem weight_single (P Q R S : ℕ) (c : InfinitePlace F → ℂ) (w₀ w : In
       (1 : Formalism.BasicNotions.TH.Pol P Q R S) := by
   by_cases hw : w = w₀
   · subst hw
-    simp only [if_true, LinearMap.add_apply, LinearMap.smul_apply, Module.End.one_apply]
+    simp only [ite_true, LinearMap.add_apply, LinearMap.smul_apply, Module.End.one_apply]
     rw [Matrix.smul_one_eq_diagonal, hvac, sum_signed_scalar, Matrix.trace_diagonal, add_smul]
     congr 2
     simp only [Finset.sum_const, Finset.card_univ, Fintype.card_sum, Fintype.card_fin, nsmul_eq_mul]
@@ -244,7 +244,7 @@ theorem weight_dbl (P Q R S : ℕ) (cd : InfinitePlace F → ℂ) (w₀ w : Infi
   congr 1
   by_cases hw : w = w₀
   · subst hw
-    simp only [if_true]
+    simp only [ite_true]
     rw [sum_signed_first, trace_first]
   · simp [hw]
 
@@ -310,7 +310,7 @@ theorem compare_of (hcen : ∀ (F E : Type) [Field F] [NumberField F] [Field E] 
     (fun w => weight_single hvac P Q R S c w₀ w)
   have hsumd := sumPl_tprod (fun w => fockAct2 P Q (R + S) (S + R) (genDbl R S w₀ w) +
       (cd w * (genDbl R S w₀ w).trace) • 1) 1 _ (fun w => weight_dbl hvac P Q R S cd w₀ w)
-  simp only [Finset.sum_ite_eq', Finset.mem_univ, if_true] at hsum hsumd
+  simp only [Finset.sum_ite_eq', Finset.mem_univ, ite_true] at hsum hsumd
   have hA := hact γ hγ _ hgen (PiTensorProduct.tprod ℂ fun _ => 1)
   rw [hsum, map_smul] at hA
   have hB := hactd _ hγd _ hgd (PiTensorProduct.tprod ℂ fun _ => 1)
@@ -320,7 +320,7 @@ theorem compare_of (hcen : ∀ (F E : Type) [Field F] [NumberField F] [Field E] 
     htp F P Q R S (hfock.1 (by rw [h, map_zero]))
   obtain ⟨y, hy⟩ : ∃ y, Φ (PiTensorProduct.tprod ℂ fun _ => 1) y ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hf₁ (SchwartzMap.ext hcon)
   obtain ⟨z0, hz0, hfd⟩ := hvb
   set f₁ := Φ (PiTensorProduct.tprod ℂ fun _ => 1) with hf₁def

@@ -237,7 +237,7 @@ theorem res_art_eq_art_norm (E E' Ω : Type) [Field E] [NumberField E] [Field Ω
   obtain ⟨a, hap, hapos⟩ := _root_.GlobalTheory.FinPlaceApproxPos.exists_approx_totally_positive E' TSK (fun u => if u = w' then (y : E') else 1) (P0 + m)
   have haW : w'.valuation E' (a - y) ≤ WithZero.exp (-((P0 : ℤ) + m)) := by
     have := hap w' hWT
-    rw [if_pos rfl] at this
+    rw [ite_eq_left rfl] at this
     exact valuation_le_of_exponent_le w' this (by push_cast; omega)
   have hz : w'.valuation E' (a / y - 1) ≤ WithZero.exp (-(P0 : ℤ)) :=
     valuation_div_sub_one_le w' y.ne_zero le_rfl haW
@@ -251,7 +251,7 @@ theorem res_art_eq_art_norm (E E' Ω : Type) [Field E] [NumberField E] [Field Ω
   have hauy : au = y * zu := by simp [zu]
   have hoth : ∀ u ∈ TSK, u ≠ w' → u.valuation E' (a - 1) ≤ WithZero.exp (-(P0 : ℤ)) := fun u hu hne => by
     have := hap u hu
-    rw [if_neg hne] at this
+    rw [ite_eq_right hne] at this
     exact valuation_le_of_exponent_le u this (by push_cast; omega)
 
   have F1 : ψ1 (locUnit E' w' au) = ψ1 (locUnit E' w' y) := by

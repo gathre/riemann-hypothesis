@@ -63,7 +63,7 @@ theorem exists_mem_pow_forall_ne_zero : ∀ (p : ℕ) [Fact p.Prime] (D : Datum 
   intro p _ D R _ b w0 r hw k _ β
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   rcases Nat.eq_zero_or_pos D.a with ha | ha
   · obtain ⟨i, -⟩ := hcon 0 (zero_mem _)
     exact (Fin.elim0 (ha ▸ i))

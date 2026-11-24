@@ -55,7 +55,7 @@ theorem cosetIn_smul_unitary : ∀ (X : Fields) (Pr : Primes X) (R : Ranks) (sel
       ((frsF sel mu q'.1.1 P).symm (γ.1 y) - (frsF sel mu q.1.1 P).symm y) ∈ stdAt X.E (R.N j) P.1 := by
     intro y hy
     by_cases hP : P.1 ∈ Pr.vGs
-    · rw [if_pos hP, pow_zero, inv_one, one_smul]
+    · rw [ite_eq_left hP, pow_zero, inv_one, one_smul]
       by_cases hj : j + 1 = R.m
       swap
       · have h0 : q.1.2 = ∅ := by
@@ -124,7 +124,7 @@ theorem cosetIn_smul_unitary : ∀ (X : Fields) (Pr : Primes X) (R : Ranks) (sel
       rw [map_smul]
       simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
       field_simp
-    · rw [if_neg hP]
+    · rw [ite_eq_right hP]
       have e : (frsF sel mu q'.1.1 P).symm (γ.1 y) = (frsF sel mu q.1.1 P).symm y := by
         rw [LinearEquiv.symm_apply_eq]
         unfold frsF

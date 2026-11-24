@@ -96,7 +96,7 @@ theorem ballIdeal_isPrime (l : ℕ) [Fact l.Prime] (E : Type) [Field E] [NumberF
     push_cast at hab
     rw [map_mul, norm_mul] at hab
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have ha := le_antisymm (norm_int_le_one l c a) hcon.1
     have hb := le_antisymm (norm_int_le_one l c b) hcon.2
     rw [ha, hb] at hab

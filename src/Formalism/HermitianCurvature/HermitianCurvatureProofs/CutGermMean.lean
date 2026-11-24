@@ -177,7 +177,7 @@ variable (hG : PBK.GermD s β ε' ({()} : Finset Unit) (fun _ => ut) (fun _ => b
 theorem inner_uL_uL {x x' : ℂ} (hx : x ≠ 0) (hx' : x' ≠ 0) :
     ⟪uL hG x, uL hG x'⟫_ℂ =
       PBK.gramL volume (PBK.Uc s fun _ => ut) (PBK.Uc s fun _ => ut) ((), x) ((), x') := by
-  simp only [uL, dif_pos hx, dif_pos hx']
+  simp only [uL, dite_eq_left hx, dite_eq_left hx']
   rw [MeasureTheory.L2.inner_def, PBK.gramL]
   refine integral_congr_ae ?_
   filter_upwards [((PBK.memLp_cvec s ut x hx).1 (hG.memU () (Finset.mem_singleton_self _) x hx)).coeFn_toLp, ((PBK.memLp_cvec s ut x' hx').1 (hG.memU () (Finset.mem_singleton_self _) x' hx')).coeFn_toLp] with D h1 h2
@@ -187,7 +187,7 @@ theorem inner_uL_uL {x x' : ℂ} (hx : x ≠ 0) (hx' : x' ≠ 0) :
 theorem inner_uL_aL {x x' : ℂ} (hx : x ≠ 0) (hx' : x' ≠ 0) :
     ⟪uL hG x, aL hG x'⟫_ℂ =
       PBK.gramL volume (PBK.Uc s fun _ => ut) (PBK.Ac s β ε' fun _ => bt) ((), x) ((), x') := by
-  simp only [uL, aL, dif_pos hx, dif_pos hx']
+  simp only [uL, aL, dite_eq_left hx, dite_eq_left hx']
   rw [MeasureTheory.L2.inner_def, PBK.gramL]
   refine integral_congr_ae ?_
   filter_upwards [((PBK.memLp_cvec s ut x hx).1 (hG.memU () (Finset.mem_singleton_self _) x hx)).coeFn_toLp, ((PBK.memLp_cvec s (fun x D => PBK.mainD s β ε' bt x D) x' hx').1
@@ -198,7 +198,7 @@ theorem inner_uL_aL {x x' : ℂ} (hx : x ≠ 0) (hx' : x' ≠ 0) :
 theorem inner_aL_aL {x x' : ℂ} (hx : x ≠ 0) (hx' : x' ≠ 0) :
     ⟪aL hG x, aL hG x'⟫_ℂ =
       PBK.gramL volume (PBK.Ac s β ε' fun _ => bt) (PBK.Ac s β ε' fun _ => bt) ((), x) ((), x') := by
-  simp only [aL, dif_pos hx, dif_pos hx']
+  simp only [aL, dite_eq_left hx, dite_eq_left hx']
   rw [MeasureTheory.L2.inner_def, PBK.gramL]
   refine integral_congr_ae ?_
   filter_upwards [((PBK.memLp_cvec s (fun x D => PBK.mainD s β ε' bt x D) x hx).1
@@ -448,7 +448,7 @@ theorem germ_mean_property : PropGMean := by
     · have hd : δ = 0 := by simp [hδ, h]
       simp only [hd, add_zero, h, one_mul]
       rw [inner_uL_uL hGD h3' (by simpa [h] using h4)]
-    · have hd : δ = -σ := by rw [hδ, if_neg (by rw [h]; norm_num)]
+    · have hd : δ = -σ := by rw [hδ, ite_eq_right (by rw [h]; norm_num)]
       simp only [hd, h, neg_one_mul, neg_add_cancel_right]
       have h4' : X x + -σ ≠ 0 := by simpa [h] using h4
       rw [← sub_eq_add_neg, ← inner_uL_uL hGD (by rwa [sub_eq_add_neg]) h3', sub_eq_add_neg, norm_inner_symm]

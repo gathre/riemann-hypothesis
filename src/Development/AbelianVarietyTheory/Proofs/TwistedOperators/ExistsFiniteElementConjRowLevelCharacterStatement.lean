@@ -225,12 +225,12 @@ theorem exists_lift_redIs : ∀ {D : D7} {n : ℕ} (β₀ : GL (Fin n) (EAf D)) 
   split_ifs with hij
   · have h1' : GlobalTheory.StdFrames.cpt Q (((C⁻¹).val * ((β₀⁻¹).val * colMat (W Q))) i j) =
         GlobalTheory.StdFrames.cpt Q ((1 : Formalism.L2.Herm.intAf D.host.F D.host.E) : EAf D) := by
-      rw [hcpt, Matrix.one_apply, if_pos hij]
+      rw [hcpt, Matrix.one_apply, ite_eq_left hij]
       exact (map_one _).symm
     exact (res_eq Q _ hmem 1 h1').trans (map_one _)
   · have h0' : GlobalTheory.StdFrames.cpt Q (((C⁻¹).val * ((β₀⁻¹).val * colMat (W Q))) i j) =
         GlobalTheory.StdFrames.cpt Q ((0 : Formalism.L2.Herm.intAf D.host.F D.host.E) : EAf D) := by
-      rw [hcpt, Matrix.one_apply, if_neg hij]
+      rw [hcpt, Matrix.one_apply, ite_eq_right hij]
       exact (map_zero _).symm
     exact (res_eq Q _ hmem 0 h0').trans (map_zero _)
 
@@ -344,17 +344,17 @@ theorem v_det_eq_one {n : ℕ} (M : Matrix (Fin n) (Fin n) K) (d : Fin n → K) 
     by_cases hij : i = j
     · subst hij
       have h1 := h i i
-      rw [if_pos rfl] at h1
+      rw [ite_eq_left rfl] at h1
       have : M i i = (M i i - d i) + d i := by ring
       rw [this]
       exact (Valuation.map_add v _ _).trans (max_le h1.le (hd i).le)
     · have h1 := h i j
-      rw [if_neg hij, sub_zero] at h1
+      rw [ite_eq_right hij, sub_zero] at h1
       exact h1.le
   have hdiag : ∀ i, v (M i i) = 1 := by
     intro i
     have h1 := h i i
-    rw [if_pos rfl] at h1
+    rw [ite_eq_left rfl] at h1
     have : M i i = (M i i - d i) + d i := by ring
     rw [this, Valuation.map_add_eq_of_lt_right v (by rw [hd i]; exact h1), hd i]
   rw [Matrix.det_apply, ← Finset.add_sum_erase _ _ (Finset.mem_univ (1 : Equiv.Perm (Fin n)))]
@@ -366,11 +366,11 @@ theorem v_det_eq_one {n : ℕ} (M : Matrix (Fin n) (Fin n) K) (d : Fin n → K) 
     have hs1 : s ≠ 1 := Finset.ne_of_mem_erase hs
     obtain ⟨i, hi⟩ : ∃ i, s i ≠ i := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact hs1 (Equiv.ext hc)
     rw [v_sign_smul, map_prod, ← Finset.mul_prod_erase _ _ (Finset.mem_univ i)]
     have h1 := h (s i) i
-    rw [if_neg hi, sub_zero] at h1
+    rw [ite_eq_right hi, sub_zero] at h1
     exact lt_of_le_of_lt (mul_le_of_le_one_right' (Finset.prod_le_one' fun j _ => hle _ _)) h1
   rw [Valuation.map_add_eq_of_lt_left v (by rw [hmain]; exact hrest), hmain]
 
@@ -551,9 +551,9 @@ theorem exists_frame_redIs : ∀ {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 
       rw [cT_mul_entry]
       change SmallAt Q (hY D (pairAt X h Q a) (flagAt X h Q b) - _)
       by_cases hc : GlobalTheory.StdFrames.cpt Q (ewT X h) = 1
-      · rw [pairAt, flagAt, if_pos hc, if_pos hc]
+      · rw [pairAt, flagAt, ite_eq_left hc, ite_eq_left hc]
         exact GlobalTheory.T.flagPairingTable_diagonal_modSmall (hY D) (SmallAt Q) D.R.rS D.R.k _ hn _ _ _ _ _ (GlobalTheory.T.flagPairingTable_idempotentComponent_one X h Q hg hc) a b
-      · rw [pairAt, flagAt, if_neg hc, if_neg hc]
+      · rw [pairAt, flagAt, ite_eq_right hc, ite_eq_right hc]
         exact GlobalTheory.T.flagPairingTable_diagonal_modSmall (hY D) (SmallAt Q) D.R.rS D.R.k _ hn _ _ _ _ _ (GlobalTheory.T.flagPairingTable_idempotentComponent_ne_one X h Q hg hc) a b
   obtain ⟨β, hβ, hred⟩ := GlobalTheory.T.exists_frame_lifting_prescribed_reductions β₀ R.Pg (flagAt X h) (fun Q _ i j => (hint Q i j).1) hdet
   refine ⟨β, ?_, hred⟩
@@ -821,7 +821,7 @@ theorem redFn_mul_intGL (β : GL (Fin n) (E ⊗[F] Formalism.L2.Herm.Af F)) (y :
     rw [redFn_frGL, redFn_frGL]
     rw [map_mul, map_mul, map_inv]
   · have hx' : x ∉ St (β * intGL F E n y) := by rwa [St_mul_intGL]
-    simp only [redFn, ext1, dif_neg hx, dif_neg hx', mul_one, inv_mul_cancel]
+    simp only [redFn, ext1, dite_eq_right hx, dite_eq_right hx', mul_one, inv_mul_cancel]
 
 theorem frGL_mul (β : GL (Fin n) (E ⊗[F] Formalism.L2.Herm.Af F)) (y : GL (Fin n) (Formalism.L2.Herm.intAf F E)) :
     frGL β y * β = β * intGL F E n y := by

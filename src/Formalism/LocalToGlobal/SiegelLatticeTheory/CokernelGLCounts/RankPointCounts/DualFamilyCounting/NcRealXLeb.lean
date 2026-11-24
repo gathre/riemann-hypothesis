@@ -113,7 +113,7 @@ section Real
 variable {r k : ℕ}
 
 theorem reim_cont (b : Bool) : Continuous fun c : ℂ => LsNc5.reim c b := by
-  cases b <;> simp only [LsNc5.reim, Bool.false_eq_true, if_false, if_true] <;>
+  cases b <;> simp only [LsNc5.reim, Bool.false_eq_true, ite_false, ite_true] <;>
     first | exact Complex.continuous_re | exact Complex.continuous_im
 
 def idxC : WlocSk.NB.CI k r × Bool ⊕ Fin r → LsNc5.CIdx r k
@@ -150,7 +150,7 @@ def eIdx : WlocSk.NB.CI k r × Bool ⊕ Fin r ≃ LsNc5.CIdx r k where
     rintro ((⟨p, b⟩ | ⟨a, b⟩) | (⟨a, j, b⟩ | (⟨p, b⟩ | a)))
     · rfl
     · simp [idxC', idxC]
-    · simp only [idxC', idxC, Fin.coe_castSucc, dif_pos j.isLt]
+    · simp only [idxC', idxC, Fin.coe_castSucc, dite_eq_left j.isLt]
     · rfl
     · rfl
 
@@ -343,7 +343,7 @@ theorem kapL_eq {z : Fin (2 * r + k + 1) → ℂ} {T : ℝ} (hF : IsFrameJ ε e 
     intro a
     have hv : (eI k r a).val = a.val := rfl
     unfold colQ
-    rw [dif_pos (by omega)]
+    rw [dite_eq_left (by omega)]
     all_goals rfl
   have cF : ∀ a : Fin r, colQ e f w (z0v T z) (esI k r a) = f a := by
     intro a
@@ -358,13 +358,13 @@ theorem kapL_eq {z : Fin (2 * r + k + 1) → ℂ} {T : ℝ} (hF : IsFrameJ ε e 
     have hj := j.isLt
     have hv : (wI k r (Fin.castSucc j)).val = r + j.val := rfl
     unfold colQ
-    rw [dite_eq_right (by omega), dif_pos (by omega)]
+    rw [dite_eq_right (by omega), dite_eq_left (by omega)]
     congr 1
     all_goals (apply Fin.ext; show (wI k r (Fin.castSucc j)).val - r = j.val; omega)
   have cZ : colQ e f w (z0v T z) (wI k r (Fin.last k)) = z0v T z := by
     have hv : (wI k r (Fin.last k)).val = r + k := rfl
     unfold colQ
-    rw [dite_eq_right (by omega), dite_eq_right (by omega), dif_pos hv]
+    rw [dite_eq_right (by omega), dite_eq_right (by omega), dite_eq_left hv]
   have hX : xL ε e f g = WlocSk.NB.bA M := by
     funext b a
     show hJ ε (f b) (uMat g *ᵥ e a) = M (eI k r b) (eI k r a)

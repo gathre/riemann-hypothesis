@@ -428,7 +428,7 @@ theorem le_val_of_mixVals (hc : HTCmp Xo c) {B : ℝ} {Z : Comp Xo c} {u : AllWt
       rw [EReal.coe_le_coe_iff]
       nlinarith
   · exact Or.inl (hf la v (by
-      have : (mixVals Xo c B).1 la = (recVals Xo c).1 la := if_neg h
+      have : (mixVals Xo c B).1 la = (recVals Xo c).1 la := ite_eq_right h
       rw [this]; exact hv))
 
 theorem fin_bound {Z : Comp Xo c} {G G' : WTZ E} {θ : Rul Xo c} {e : HeightOneSpectrum (𝓞 c.F) →₀ ℝ}

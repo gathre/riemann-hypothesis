@@ -107,7 +107,7 @@ theorem cone_lift_spec [DecidableEq K] {Q : Ideal (MRingOver ℂ ι)} (hP : Reci
   refine ⟨cone_scale hP (c := fun k => (if k = k0 then segre z i0 else 1) / z ⟨k, i0 k⟩)
     (fun k => div_ne_zero (by split_ifs <;> simp [hne]) (h0 k)) hz, ?_⟩
   have hprod : ∏ k, (if k = k0 then segre z i0 else 1) / z ⟨k, i0 k⟩ = 1 := by
-    rw [Finset.prod_div_distrib, Finset.prod_ite_eq' Finset.univ k0, if_pos (Finset.mem_univ _)]
+    rw [Finset.prod_div_distrib, Finset.prod_ite_eq' Finset.univ k0, ite_eq_left (Finset.mem_univ _)]
     exact div_self hne
   rw [segre_bsmul, hprod]
   funext i
@@ -467,7 +467,7 @@ theorem cxPosDens_eq {S : Set ((Σ k, ι k) → ℂ)} (hS0 : BlockNonzero S) {L 
     have hqN : (y, segre (γ y)) ∈ N := by
       have h := hEN _ hy.2 (by rw [hΨ1]; simp)
       rwa [crd_of_eq hΨ1, nrm_of_eq hΨ1] at h
-    rw [finsum_eq_single _ (segre (γ y)) ?_, finsum_eq_if, if_pos hfib,
+    rw [finsum_eq_single _ (segre (γ y)) ?_, finsum_eq_if, ite_eq_left hfib,
       setSheetDensity_eq hS0 hL hEg hU hγ hN hNp hqN hfib, Set.indicator_of_mem (show γ y ∈ E from hy.2)]
     intro w hne
     rw [finsum_eq_if]
@@ -1069,11 +1069,11 @@ theorem cxPosDens_split {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype
     · have hz : hs.choose y ∈ conePts Q := hs.choose_spec.2.self_of_nhds.2.1
       obtain ⟨k₀, hk₀⟩ := hcov w hw' hs _ hz hs.choose_spec.1
       rw [tsum_eq_single k₀]
-      · simp only [setSheetDensity, dif_pos hs, Set.indicator_of_mem hk₀]
+      · simp only [setSheetDensity, dite_eq_left hs, Set.indicator_of_mem hk₀]
       · intro k hk
         have hxk : hs.choose y ∉ E k := fun hxk => Set.disjoint_left.mp (hE hk) hxk hk₀
-        simp [setSheetDensity, dif_pos hs, Set.indicator_of_notMem hxk]
-    · simp [setSheetDensity, dif_neg hs]
+        simp [setSheetDensity, dite_eq_left hs, Set.indicator_of_notMem hxk]
+    · simp [setSheetDensity, dite_eq_right hs]
   rw [ENNReal.ofReal_sum_of_nonneg (fun w _ => hT0 g w), Finset.sum_congr rfl hpt,
     ← Summable.tsum_finsetSum (fun _ _ => ENNReal.summable)]
   exact tsum_congr fun k => (ENNReal.ofReal_sum_of_nonneg (fun w _ => hT0 _ w)).symm

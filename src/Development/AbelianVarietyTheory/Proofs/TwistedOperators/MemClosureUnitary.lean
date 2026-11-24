@@ -700,7 +700,7 @@ private theorem sig_involutive_and_nontrivial (D : Formalism.BasicNotions.D7) :
   letI := D.host.cmStar
   refine ⟨fun x => star_star x, ?_⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have htop : (⊥ : Subalgebra D.host.F D.host.E) = ⊤ := by
     refine eq_top_iff.2 fun a _ => ?_
     obtain ⟨b, hb⟩ := (D.sp.cm.fixed a).1 (hcon a)

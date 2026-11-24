@@ -999,7 +999,7 @@ theorem coeff_prod_X_sub_C_mem {R : Type} [CommRing R] (P : Ideal R) [P.IsPrime]
     intro a ha
     simp [Ideal.Quotient.eq_zero_iff_mem.mpr (hs a ha)]
   rw [Multiset.map_congr rfl hX, Multiset.map_const', Multiset.prod_replicate, coeff_X_pow,
-    if_neg hi.ne]
+    ite_eq_right hi.ne]
 
 end Algebra
 
@@ -1539,7 +1539,7 @@ theorem exists_normCoeff_not_mem {A B : Type} [CommRing A] [IsDomain A] [IsInteg
     rw [Monic, leadingCoeff_map_of_injective hinj] at h1
     simpa using h1
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
 
   have hcoeff : ∀ j < P.natDegree, P.coeff j ∈ p := by
     intro j hj

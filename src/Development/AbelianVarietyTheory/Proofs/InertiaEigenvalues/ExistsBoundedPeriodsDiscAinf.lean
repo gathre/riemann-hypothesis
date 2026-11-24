@@ -253,7 +253,7 @@ theorem exists_bounded_periods : ∀ (l : ℕ) [Fact l.Prime] (K : FinExt l) (bk
     by_cases e : ab = ab'
     · subst e
       refine ⟨i₁, fun hm => hq ?_, rfl⟩
-      simp only [c, if_pos rfl]
+      simp only [c, ite_eq_left rfl]
       exact Ideal.mem_map_of_mem _ hm
     · exact (hq (by simp [c, e])).elim
   have hj0c : Continuous j0 :=

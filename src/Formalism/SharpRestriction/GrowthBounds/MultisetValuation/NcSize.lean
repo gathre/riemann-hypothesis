@@ -101,7 +101,7 @@ theorem nc_de (X : Formalism.MainNotions.G.Inst D L) (Y : Formalism.MainNotions.
     rw [nc_topsOn X Y hT hL u w hg t0 ht0, Finset.card_image_of_injective _ hinj]
   have hnP : (Formalism.MainNotions.G.nP D (D.what₂.places.resChar w) : ℝ) = ((D.gat u w hg).P.n' (Y.vOf u w hg t0) : ℕ) := by
     unfold Formalism.MainNotions.G.nP
-    rw [if_neg (nc_notSg hg), nc_n_eq X Y hT hL u w hg t0 ht0]
+    rw [ite_eq_right (nc_notSg hg), nc_n_eq X Y hT hL u w hg t0 ht0]
   unfold nc_De Formalism.MainNotions.G.dl Formalism.MainNotions.G.Nm
   rw [hNv, hnP]
   have hl0 : 0 ≤ Real.logb (D.what₂.places.resChar w) (2 * L.sc.a) := by linarith

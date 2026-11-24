@@ -499,7 +499,7 @@ theorem mod_form (m l : ℕ) (hm : 4 ≤ m) (h : (l : ZMod m) = 1 ∨ (l : ZMod 
 
 theorem le_of_form (m l : ℕ) (hl : 2 ≤ l) (h : l % m = 1 ∨ (l + 1) % m = 0) : m ≤ l + 1 := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   rcases h with h | h
   · rw [Nat.mod_eq_of_lt (by omega)] at h
     omega

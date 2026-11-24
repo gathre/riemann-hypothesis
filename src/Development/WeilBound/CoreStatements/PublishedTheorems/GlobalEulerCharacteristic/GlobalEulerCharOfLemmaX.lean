@@ -1629,10 +1629,10 @@ theorem transport_data {l : ℕ} [Fact l.Prime] (S : Finset (HeightOneSpectrum (
   choose g hg using fun v => exists_transport_elem K τ σ hτ (cc v)
   refine ⟨K, S', hS', θ, ιr, fun w => if hw : w.IsReal then g (e ⟨w, hw⟩) else 1, e,
     hn l hS, fun w hw => ?_, hcard, fun A _ w => ?_⟩
-  · simp only [dif_pos hw]
+  · simp only [dite_eq_left hw]
     exact hcc ⟨w, hw⟩ _ _ (hg _) (hccv _)
   · rw [hfixv (e w)]
-    simp only [dif_pos w.2, Subtype.coe_eta]
+    simp only [dite_eq_left w.2, Subtype.coe_eta]
     rw [← hθ _ _ (hg (e w))]
     refine Nat.card_congr (Equiv.subtypeEquivRight fun a => ?_)
     show A.ρ (θ.symm (θ _)) a = a ↔ _

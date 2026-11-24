@@ -222,7 +222,7 @@ private theorem exists_root_near_of_aeval_small (l : ℕ) [Fact l.Prime] (g : �
     intro b _
     simp
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hle : δ ^ n ≤ ‖aeval α g‖ := by
     rw [hev]
     show δ ^ n ≤ (normHom : Om l →*₀ ℝ) _

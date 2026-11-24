@@ -616,7 +616,7 @@ theorem linearForm_coeff_single {F : Type} [Field F] {n : ℕ} (a : Fin n → F)
   · rw [mul_comm, coeff_C_mul, coeff_X]
     simp
   · intro j _ hji
-    rw [mul_comm, coeff_C_mul, coeff_X, if_neg, mul_zero]
+    rw [mul_comm, coeff_C_mul, coeff_X, ite_eq_right, mul_zero]
     intro h
     exact hji ((Finsupp.single_left_inj one_ne_zero).mp h)
   · simp

@@ -700,7 +700,7 @@ theorem nlen_le_lenN {O : Type} [CommRing O] [IsDomain O] [IsDiscreteValuationRi
   · intro h1
     have h2 : Module.length O A ≠ ⊤ := fun h3 => h1 (by
       rw [(top_le_iff.1 (h3 ▸ h) : Module.length O A' = ⊤), ENat.toENNReal_top, ENNReal.top_div_of_ne_top (ENNReal.natCast_ne_top _)])
-    rw [if_neg h2]
+    rw [ite_eq_right h2]
     exact WithTop.coe_ne_top
   · intro q hq
     split_ifs at hq with h2
@@ -1502,7 +1502,7 @@ theorem selT_eq_selG (a : D.nd.Loc) (s : D.ntw.Sig (D.ntw.twOf a)) (ψ : Formali
   rw [hS]
   by_cases hv : v ∈ placesOver D.host.E (D.nd.l a)
   · have hv' : v ∈ placesOver D.host.E (D.ntw.l (D.ntw.twOf a)) := by rw [hl]; exact hv
-    refine (if_pos hv').trans (Eq.trans ?_ (if_pos hv).symm)
+    refine (ite_eq_left hv').trans (Eq.trans ?_ (ite_eq_left hv).symm)
     unfold condL Br.LlG
     rw [dite_eq_left hv, dite_eq_left hv']
     have := IsAlgClosure.isAlgClosed D.host.E (K := D.nd.Om)
@@ -1512,7 +1512,7 @@ theorem selT_eq_selG (a : D.nd.Loc) (s : D.ntw.Sig (D.ntw.twOf a)) (ψ : Formali
     ext g i j
     simp [latTpsi, twistM, mapM, hψ v hv g.1 g.2]
   · have hv' : v ∉ placesOver D.host.E (D.ntw.l (D.ntw.twOf a)) := by rw [hl]; exact hv
-    exact (if_neg hv').trans (if_neg hv).symm
+    exact (ite_eq_right hv').trans (ite_eq_right hv).symm
 
 theorem nlen_congr {O : Type} [CommRing O] (l : ℕ) (M N : Type) [AddCommGroup M] [Module O M]
     [AddCommGroup N] [Module O N] (h : Module.length O M = Module.length O N) :
@@ -1745,14 +1745,14 @@ theorem sel_at (hC : GlobalTheory.TwSys.Cheb) (D : D7) (hT : TriplesGood D) (hG 
     unfold Br.sFin
     rw [lt_top_iff_ne_top]
     intro h4
-    exact h3 (by simp only [GlobalTheory.IndefiniteRowSideFullHecke.LatticeConditions.sPiTop, GlobalTheory.IndefiniteRowSideFullHecke.LatticeConditions.nlen, h4, if_true])
+    exact h3 (by simp only [GlobalTheory.IndefiniteRowSideFullHecke.LatticeConditions.sPiTop, GlobalTheory.IndefiniteRowSideFullHecke.LatticeConditions.nlen, h4, ite_true])
   · by_cases h4 : Module.length (D.nd.O a) ↥(Br.selPi D.loc D.nbr a ρ π) = ⊤
     · have h5 : BlochKatoReduction.Gen.sLen (BlochKatoReduction.bk0 D) _ s k (D.nd.Q a) ψ = ⊤ := by
         by_contra hne
-        exact h1 hne (by simp only [GlobalTheory.IndefiniteRowSideFullHecke.LatticeConditions.sPiTop, GlobalTheory.IndefiniteRowSideFullHecke.LatticeConditions.nlen, h4, if_true])
+        exact h1 hne (by simp only [GlobalTheory.IndefiniteRowSideFullHecke.LatticeConditions.sPiTop, GlobalTheory.IndefiniteRowSideFullHecke.LatticeConditions.nlen, h4, ite_true])
       rw [h5]
       exact le_top
-    · exact h2 _ (by simp only [GlobalTheory.IndefiniteRowSideFullHecke.LatticeConditions.sPiTop, GlobalTheory.IndefiniteRowSideFullHecke.LatticeConditions.nlen, h4, if_false, Br.sPi])
+    · exact h2 _ (by simp only [GlobalTheory.IndefiniteRowSideFullHecke.LatticeConditions.sPiTop, GlobalTheory.IndefiniteRowSideFullHecke.LatticeConditions.nlen, h4, ite_false, Br.sPi])
 
 theorem selCore : GlobalTheory.TwSys.Cheb → ∀ (D : D7) (C : NChoice D), NChTie D C → TriplesGood D → GoodPtRow D →
     ResAbsIrr D → SameTwist D C →

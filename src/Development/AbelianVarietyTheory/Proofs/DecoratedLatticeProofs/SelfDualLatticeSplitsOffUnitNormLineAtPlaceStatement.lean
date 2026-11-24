@@ -114,7 +114,7 @@ theorem eps_mem_idV (v : GlobalTheory.FinPl.Pl D) :
     · exact one_mem _
     · exact zero_mem _
   · intro w hw
-    rw [GlobalTheory.SelfDualAt.evalV_indP, if_neg hw]
+    rw [GlobalTheory.SelfDualAt.evalV_indP, ite_eq_right hw]
   · exact FractionalIdeal.one_mem_one _
   · rw [Algebra.TensorProduct.algebraMap_apply, Algebra.algebraMap_self, RingHom.id_apply]
     rfl
@@ -204,7 +204,7 @@ theorem splitsAt : ∀ (D : D7) (S A L : HSp D) (o : OrthDec S A L) (ζ : Fin L.
     have hs : ∀ j k : Fin L.rank, j = k := fun j k => Fin.ext (by have := hζ.1; omega)
     obtain ⟨i, hi⟩ : ∃ i, ζ i ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply hζ.2
       rw [show ζ = 0 from funext hcon]
       simp

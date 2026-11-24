@@ -187,7 +187,7 @@ theorem ccr_of_sign {κ A : Type} [DecidableEq κ] [Ring A] [Algebra ℂ A] (x y
     {a b : κ → A} (ha : ∀ k, a k = (s k)⁻¹ • if p k then x k else y k)
     (hb : ∀ k, b k = -(s k)⁻¹ • if p k then y k else x k) :
     (∀ k l, a k * a l = a l * a k) ∧ ∀ k l, b k * a l = a l * b k + (if k = l then (1 : ℂ) else 0) • 1 := by
-  have c4 : ∀ k l, k ≠ l → y k * x l = x l * y k := fun k l h => by rw [c3, if_neg h, zero_smul, add_zero]
+  have c4 : ∀ k l, k ≠ l → y k * x l = x l * y k := fun k l h => by rw [c3, ite_eq_right h, zero_smul, add_zero]
   refine ⟨fun k l => ?_, fun k l => ?_⟩
   · by_cases h : k = l
     · rw [h]
@@ -203,13 +203,13 @@ theorem ccr_of_sign {κ A : Type} [DecidableEq κ] [Ring A] [Algebra ℂ A] (x y
     · subst h
       have := hs k
       have e := c3 k k
-      simp only [eq_self, if_true] at e ⊢
+      simp only [eq_self, ite_true] at e ⊢
       split_ifs at e ⊢
       · rw [e]
         match_scalars <;> field_simp
       · rw [e]
         match_scalars <;> field_simp <;> ring
-    · rw [if_neg h, zero_smul, add_zero, smul_comm]
+    · rw [ite_eq_right h, zero_smul, add_zero, smul_comm]
       split_ifs
       · rw [c4 k l h]
       · rw [c2]
@@ -437,9 +437,9 @@ theorem exists_raise_lower (h : GlobalTheory.FockCompare.Chart θ σ) (hψ : IsS
       rw [e, uM_gram, diagonal_apply]
       by_cases hkl : k = l
       · subst hkl
-        rw [if_pos rfl, if_pos rfl, s2, map_mul, map_mul, cs, conj_sgn, conj_sgn, mul_assoc (cc D _), sgn_mul]
+        rw [ite_eq_left rfl, ite_eq_left rfl, s2, map_mul, map_mul, cs, conj_sgn, conj_sgn, mul_assoc (cc D _), sgn_mul]
         ring
-      · rw [if_neg hkl, if_neg fun e : (l.2, l.1) = (k.2, k.1) => hkl (Prod.swap_injective e).symm, map_zero, mul_zero])
+      · rw [ite_eq_right hkl, ite_eq_right fun e : (l.2, l.1) = (k.2, k.1) => hkl (Prod.swap_injective e).symm, map_zero, mul_zero])
     (a := a) (b := b) (fun _ => rfl) fun _ => rfl
   have hdJ : ∀ (k : FVar D W.rank V.rank) (g : thetaSub ψ V W),
       Datum.dRho (heisO ψ V W) θ k.1 (unitMap (A.onb k.1) (B.onb k.1) k.2.1 k.2.2) g = d (u k) g ∧
@@ -482,17 +482,17 @@ theorem exists_raise_lower (h : GlobalTheory.FockCompare.Chart θ σ) (hψ : IsS
     refine ⟨E, h1, fun i j P => ?_, fun i j P => ?_⟩
     · unfold raiO
       by_cases hp : B.ε τ i = A.ε τ j
-      · simp only [if_pos hp, LinearMap.smul_apply, map_smul, LinearMap.mulLeft_apply, h2, a, p, smul_smul]
-      · simp only [if_neg hp, LinearMap.smul_apply, map_smul, LinearMap.neg_apply, map_neg, Derivation.coeFn_coe, h3,
+      · simp only [ite_eq_left hp, LinearMap.smul_apply, map_smul, LinearMap.mulLeft_apply, h2, a, p, smul_smul]
+      · simp only [ite_eq_right hp, LinearMap.smul_apply, map_smul, LinearMap.neg_apply, map_neg, Derivation.coeFn_coe, h3,
           b, p, smul_smul, neg_smul, neg_neg]
     · unfold lowO
       by_cases hp : B.ε τ i = A.ε τ j
-      · simp only [if_pos hp, LinearMap.smul_apply, map_smul, Derivation.coeFn_coe, h3, b, p, smul_smul]
+      · simp only [ite_eq_left hp, LinearMap.smul_apply, map_smul, Derivation.coeFn_coe, h3, b, p, smul_smul]
         rw [hp, neg_mul, mul_neg]
       · have e : sgn (A.ε τ j) = -sgn (B.ε τ i) := by
           revert hp
           cases B.ε τ i <;> cases A.ε τ j <;> simp [sgn]
-        simp only [if_neg hp, LinearMap.smul_apply, map_smul, LinearMap.mulLeft_apply, h2, a, p, smul_smul, e]
+        simp only [ite_eq_right hp, LinearMap.smul_apply, map_smul, LinearMap.mulLeft_apply, h2, a, p, smul_smul, e]
   · beta_reduce
     rw [← mulVec_mulVec, diagonal_mulVec_single, ← smul_eq_mul _ (1 : ℂ), Pi.single_smul',
       mulVec_smul, map_smulₛₗ, map_mul, map_mul, map_inv₀, cs, conj_sgn, conj_sgn]

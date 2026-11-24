@@ -551,7 +551,7 @@ theorem exists_pos_complex_structure : ∀ (F E : Type) [Field F] [NumberField F
     rw [pair_Psi, key]
     have hex : ∃ v, a.map (piInf (B.emb v)) ≠ 0 := by
       by_contra hn
-      push_neg at hn
+      push Not at hn
       have ha0 : a = 0 := eq_of_map_piInf hcm B.emb hat (fun c _ => smul_zero c)
         fun v => by rw [hn v, Matrix.map_zero _ (map_zero _)]
       exact hw (by rw [ha0, hPsi0])
@@ -1731,7 +1731,7 @@ theorem continuous_pure_theta_integral : _root_.GlobalTheory.FunPr.ThetaLocalInp
     refine Seminorm.continuous_of_lowerSemicontinuous ν fun u y hy => ?_
     by_cases hy0 : y < 0
     · exact Filter.Eventually.of_forall fun u' => hy0.trans_le (apply_nonneg ν u')
-    · push_neg at hy0
+    · push Not at hy0
       have hy' : y < (∫⁻ g, ‖T u g‖ₑ ∂μd).toReal := by rw [← hν]; exact hy
       have h1 : ENNReal.ofReal y < ∫⁻ g, ‖T u g‖ₑ ∂μd := (ENNReal.ofReal_lt_iff_lt_toReal hy0 (hfin _)).2 hy'
       filter_upwards [hN u _ h1] with u' hu'
@@ -1791,7 +1791,7 @@ theorem exists_algebraic_vector_definite_theta_ne (hP : _root_.GlobalTheory.FunP
     {Φ' : (Fin a' × Fin (a + a') → AF F) → ℂ} (hΦ' : Φ' ∈ G.M'.So B.ψ B.τ₁) (hne : G.M'.I om' Φ' ≠ 0) :
     ∃ ΦD ∈ GlobalTheory.SquareAgree.algD G.M' B.ψ B.emb, G.M'.I om' ΦD ≠ 0 := by
   by_contra hall
-  push_neg at hall
+  push Not at hall
   apply hne
   clear hne
   funext h

@@ -64,7 +64,7 @@ theorem whittaker_eq_zero_of_not_antitone : ∀ (E : Type) [Field E] [NumberFiel
 
   obtain ⟨i, j, hij, hlt⟩ : ∃ i j : Fin n, (j : ℕ) = i + 1 ∧ l i < l j := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hl
     cases n with
     | zero => exact fun a => a.elim0
@@ -82,7 +82,7 @@ theorem whittaker_eq_zero_of_not_antitone : ∀ (E : Type) [Field E] [NumberFiel
     exact absurd (Multiplicative.ofAdd_le.1 (h.trans_eq (ofAdd_zero).symm)) (by norm_num)
   obtain ⟨y, hy, hψy⟩ : ∃ y ∈ Ov E w, ψ (((ϖ : w.adicCompletion E))⁻¹ * y) ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hnot ((hψ _).1 h)
   set x : w.adicCompletion E := ((ϖ : w.adicCompletion E))⁻¹ * y with hx
   have hϖ0 : (ϖ : w.adicCompletion E) ≠ 0 := ϖ.ne_zero
@@ -111,26 +111,26 @@ theorem whittaker_eq_zero_of_not_antitone : ∀ (E : Type) [Field E] [NumberFiel
 
   have hu : T x ∈ GlobalTheory.SmGL.unipB (w.adicCompletion E) (Fin n) := by
     refine (GlobalTheory.SmGL.mem_unipB _).2 ⟨fun p q hqp => ?_, fun p => ?_⟩
-    · rw [hT, hentry, if_neg (fun h => by rw [h] at hqp; exact lt_irrefl _ hqp), if_neg, add_zero]
+    · rw [hT, hentry, ite_eq_right (fun h => by rw [h] at hqp; exact lt_irrefl _ hqp), ite_eq_right, add_zero]
       rintro ⟨rfl, rfl⟩
       exact lt_asymm hqp hlt'
-    · rw [hT, hentry, if_pos rfl, if_neg, add_zero]
+    · rw [hT, hentry, ite_eq_left rfl, ite_eq_right, add_zero]
       rintro ⟨rfl, h⟩
       exact hne h.symm
   have hsd : GlobalTheory.Whittaker.superDiag (T x) = x := by
     unfold GlobalTheory.Whittaker.superDiag
     rw [Finset.sum_eq_single i]
     · rw [Finset.sum_eq_single j]
-      · rw [hT, hentry, if_neg hne, if_pos ⟨rfl, rfl⟩, zero_add]
+      · rw [hT, hentry, ite_eq_right hne, ite_eq_left ⟨rfl, rfl⟩, zero_add]
       · intro b hb hbj
         have hb' := (Finset.mem_filter.1 hb).2
-        rw [hT, hentry, if_neg (fun h => by rw [← h] at hb'; omega), if_neg (fun h => hbj h.2.symm), add_zero]
+        rw [hT, hentry, ite_eq_right (fun h => by rw [← h] at hb'; omega), ite_eq_right (fun h => hbj h.2.symm), add_zero]
       · intro hj
         exact absurd (Finset.mem_filter.2 ⟨Finset.mem_univ j, hij⟩) hj
     · intro a _ hai
       refine Finset.sum_eq_zero fun b hb => ?_
       have hb' := (Finset.mem_filter.1 hb).2
-      rw [hT, hentry, if_neg (fun h => by rw [← h] at hb'; omega), if_neg (fun h => hai h.1.symm), add_zero]
+      rw [hT, hentry, ite_eq_right (fun h => by rw [← h] at hb'; omega), ite_eq_right (fun h => hai h.1.symm), add_zero]
     · intro h
       exact absurd (Finset.mem_univ i) h
 
@@ -159,10 +159,10 @@ theorem whittaker_eq_zero_of_not_antitone : ∀ (E : Type) [Field E] [NumberFiel
     rw [Matrix.diagonal_mul, Matrix.mul_diagonal, hentry, hentry]
     by_cases hpq : i = p ∧ j = q
     · obtain ⟨rfl, rfl⟩ := hpq
-      rw [if_neg hne, if_pos ⟨rfl, rfl⟩, if_pos ⟨rfl, rfl⟩, zero_add, zero_add, hc, hlj, pow_add]
+      rw [ite_eq_right hne, ite_eq_left ⟨rfl, rfl⟩, ite_eq_left ⟨rfl, rfl⟩, zero_add, zero_add, hc, hlj, pow_add]
       congr 1
       ring
-    · simp only [if_neg hpq, add_zero]
+    · simp only [ite_eq_right hpq, add_zero]
       split_ifs with h
       · subst h
         simp

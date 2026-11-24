@@ -93,7 +93,7 @@ theorem cc_jac (i b : Fin d) : constantCoeff (Jac G i b) = if i = b then 1 else 
   simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Pi.zero_apply, map_zero, mul_zero,
     Finset.sum_const_zero, zero_add, pderiv_pt] at h
   simp only [Fin.isValue, Prod.mk.injEq, true_and, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true] at h
+    Finset.mem_univ, ite_true] at h
   rw [h, pderiv_X]
   simp [Pi.single_apply]
 
@@ -221,7 +221,7 @@ theorem om_key (i a b : Fin d) :
   have hR : ∑ j, Om G i j * ev (n := 1) ![pt k d 0, 0] (pderiv (R := k) ((0 : Fin 2), a) (pderiv (R := k) ((1 : Fin 2), b) (G.F j))) =
       ∑ j, Om G i j * ev (n := 1) ![pt k d 0, 0] (pderiv (R := k) ((1 : Fin 2), b) (pderiv (R := k) ((0 : Fin 2), a) (G.F j))) := by
     simp only [pderiv_comm ((0 : Fin 2), a) ((1 : Fin 2), b)]
-  simp only [Finset.sum_ite_eq', Finset.mem_univ, if_true, ite_mul, one_mul, zero_mul] at hQ hP
+  simp only [Finset.sum_ite_eq', Finset.mem_univ, ite_true, ite_mul, one_mul, zero_mul] at hQ hP
   rw [hR] at hQ
   linear_combination hQ - hP
 
@@ -272,12 +272,12 @@ theorem pderiv_prim (ω : τ → MvPowerSeries τ k)
     intro w
     by_cases hwv : w = v
     · subst hwv
-      rw [if_neg (by simp), add_tsub_cancel_right, if_pos rfl]
-    · have hsw : (Finsupp.single v 1 : τ →₀ ℕ) w = 0 := by rw [Finsupp.single_apply, if_neg (Ne.symm hwv)]
-      rw [Finsupp.add_apply, hsw, add_zero, if_neg hwv]
+      rw [ite_eq_right (by simp), add_tsub_cancel_right, ite_eq_left rfl]
+    · have hsw : (Finsupp.single v 1 : τ →₀ ℕ) w = 0 := by rw [Finsupp.single_apply, ite_eq_right (Ne.symm hwv)]
+      rw [Finsupp.add_apply, hsw, add_zero, ite_eq_right hwv]
       by_cases hnw : n w = 0
       · simp [hnw]
-      · rw [if_neg hnw]
+      · rw [ite_eq_right hnw]
         have hle : Finsupp.single w 1 ≤ n := Finsupp.single_le_iff.2 (Nat.one_le_iff_ne_zero.2 hnw)
         set p := n - Finsupp.single w 1 with hp
         have hpn : p + Finsupp.single w 1 = n := tsub_add_cancel_of_le hle
@@ -295,7 +295,7 @@ theorem pderiv_prim (ω : τ → MvPowerSeries τ k)
   have hsum : ((n v : k) + 1) * ∑ w, (if (n + Finsupp.single v 1 : τ →₀ ℕ) w = 0 then 0 else
       coeff (n + Finsupp.single v 1 - Finsupp.single w 1) (ω w)) = ((n.degree : k) + 1) * coeff n (ω v) := by
     rw [Finset.mul_sum, Finset.sum_congr rfl fun w _ => hterm w, ← Finset.sum_mul, Finset.sum_add_distrib,
-      Finset.sum_ite_eq', if_pos (Finset.mem_univ _), degree_eq_sum]
+      Finset.sum_ite_eq', ite_eq_left (Finset.mem_univ _), degree_eq_sum]
     push_cast; ring
   have hdeg : ((n + Finsupp.single v 1).degree : ℚ) = (n.degree : ℚ) + 1 := by
     rw [map_add (f := _), Finsupp.degree_single]; push_cast; ring

@@ -82,7 +82,7 @@ theorem balanced_pairs (H : Host E) {l : Level H} (c : Coeff l) {S : Type} [Comm
     (hne : τ ≠ ComplexEmbedding.conjugate τ') : v = 0 := by
   have : ∃ a : 𝓞 E, embK c τ a ≠ embK c τ' (H.bar a) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hne
     apply IsLocalization.ringHom_ext (nonZeroDivisors (𝓞 E))
     ext a

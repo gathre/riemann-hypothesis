@@ -215,7 +215,7 @@ theorem exists_rounding (K : Type) [Field K] [NumberField K] (B : Finset ℕ) (�
         rw [hnK] at h1
         have h2 : (1 : ℝ) ≤ vAdd w (n : K) := by exact_mod_cast h1
         linarith [Int.fract_lt_one (ρ w)]
-      · push_neg at h
+      · push Not at h
         obtain ⟨m, hm⟩ := hint w h
         have h1 := vAdd_int_nonneg w hn0'
         rw [hnK] at h1

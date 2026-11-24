@@ -176,7 +176,7 @@ theorem rspan_le_modGr (π : CuspSub E a) : rspan π ≤ modGr E a := by
           rfl
         · have h' : ∀ t, ¬ IsUnit (Matrix.of (toL (Matrix.of x * (γ t).val))) :=
             fun t h' => h ((Units.isUnit_mul_units _ (γ t)).1 h')
-          simp only [chart, dif_neg h, dif_neg (h' _), mul_zero, integral_zero]
+          simp only [chart, dite_eq_right h, dite_eq_right (h' _), mul_zero, integral_zero]
       rw [e]
       have hγ : Measurable fun x => toL (γ x).val := hk.2.1
       have hm : Measurable fun p : Lie E a × X => toL (Matrix.of p.1 * (γ p.2).val) := by

@@ -94,7 +94,7 @@ theorem ddChar_exists_unit [Finite R]
       · exact ⟨false, by simp [Ideal.Quotient.eq_zero_iff_mem.2 hc]⟩
       · refine ⟨true, ?_⟩
         have h1 := hno c hc
-        simp only [if_true]
+        simp only [ite_true]
         rw [eq_comm, ← sub_eq_zero, ← map_one (Ideal.Quotient.mk m.asIdeal), ← map_sub,
           Ideal.Quotient.eq_zero_iff_mem]
         exact h1
@@ -200,7 +200,7 @@ theorem ddChar_diag_single (ψ : GL n R →* A) (i j : n) (u : Rˣ) :
     simp only [Matrix.submatrix_apply, id, diagonal_apply, σ, Equiv.symm_swap]
     by_cases hab : a = b
     · subst hab
-      simp only [if_true]
+      simp only [ite_true]
       simp [Pi.mulSingle_apply, Equiv.swap_apply_def]
       split_ifs <;> simp_all
     · have : Equiv.swap i j a ≠ Equiv.swap i j b := fun h => hab ((Equiv.swap i j).injective h)
@@ -397,7 +397,7 @@ theorem ddChar_induction [Finite R] (ψ : GL n R →* A) (u : Rˣ) (hu : IsUnit 
     have hg2a : ∀ i, i ≠ a → (g2 : Matrix n n R) i a = 0 := by
       intro i hia
       rw [e2]
-      simp only [x2, if_neg hia]
+      simp only [x2, ite_eq_right hia]
       change (g1 : Matrix n n R) i a + -((g1 : Matrix n n R) i a * ci) * C = 0
       rw [neg_mul, mul_assoc, hciC, mul_one, add_neg_cancel]
     have hg2aj : ∀ j, (g2 : Matrix n n R) a j = (g1 : Matrix n n R) a j := by
@@ -410,7 +410,7 @@ theorem ddChar_induction [Finite R] (ψ : GL n R →* A) (u : Rˣ) (hu : IsUnit 
         rw [hg2aj]
         exact hs1 i j hij hout
       · rw [e2, hs1 i j hij hout, zero_add]
-        simp only [x2, if_neg hia]
+        simp only [x2, ite_eq_right hia]
         rcases hout with h | h
         · rw [hs1 i a hia (Or.inl h), zero_mul, neg_zero, zero_mul]
         · have haj : a ≠ j := fun e => h (e ▸ Finset.mem_insert_self a s)
@@ -434,7 +434,7 @@ theorem ddChar_induction [Finite R] (ψ : GL n R →* A) (u : Rˣ) (hu : IsUnit 
       by_cases hia : i = a
       · subst hia
         have hja : j ≠ i := fun e => hij e.symm
-        simp only [y3, if_neg hja]
+        simp only [y3, ite_eq_right hja]
         rw [hg2aa, mul_neg, ← mul_assoc, hCci, one_mul, add_neg_cancel]
       · rw [hg2a i hia, zero_mul, add_zero]
         by_cases hja : j = a

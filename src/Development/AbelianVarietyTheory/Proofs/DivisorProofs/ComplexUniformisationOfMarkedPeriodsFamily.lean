@@ -183,7 +183,7 @@ theorem le_of_injOn_differentiableOn :
       U.Nonempty → DifferentiableOn ℂ f U → Set.InjOn f U → d ≤ d' := by
   intro d d' U f hU hne hf hinj
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   obtain ⟨a, ha⟩ := hne
   let L : (Fin d' → ℂ) →L[ℂ] (Fin d → ℂ) := LinearMap.toContinuousLinearMap (padZero d' d)
   have hL : Function.Injective L := padZero_injective hlt.le

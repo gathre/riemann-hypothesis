@@ -415,7 +415,7 @@ private theorem UpperTheory.product_four_geometric_series (x y x' y' c : ℂ) (S
   · simp only [UpperTheory.powerSeriesFirstDifferenceSeq, hS, hT, hS0, hT0]
     norm_num
     ring
-  · rw [if_neg (by omega), if_neg (by omega)]
+  · rw [ite_eq_right (by omega), ite_eq_right (by omega)]
     simp only [UpperTheory.powerSeriesFirstDifferenceSeq, hS2, hT2]
     ring
 
@@ -540,7 +540,7 @@ theorem UpperTheory.exists_whittaker_heckeEigenvalues_at_split_place :
   · rintro ⟨h, hh⟩
     obtain ⟨h₁, hh₁⟩ : ∃ h₁, φ h₁ ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply hh
       simp [Wo, hcon]
     set c : ℂ := ((χ.val v : ℂˣ) : ℂ) with hc

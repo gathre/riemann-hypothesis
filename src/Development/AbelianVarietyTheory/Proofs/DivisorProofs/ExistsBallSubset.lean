@@ -156,7 +156,7 @@ theorem cj_mem_Ov (w : Pl E) (x : w.adicCompletion E) (hx : x ∈ Ov E w) : cj w
 theorem thL_mem_congSub (w : Pl E) (hw : ¬ IsSplitAt w) (n k : ℕ) (g : GLw n w) (hg : g ∈ congSub w n k) :
     thL n w g ∈ congSub w n k := by
   obtain ⟨h, hh, rfl⟩ := hg
-  have ht : thL n w = thetaGL n (cj w) := by unfold thL; rw [if_neg hw]
+  have ht : thL n w = thetaGL n (cj w) := by unfold thL; rw [ite_eq_right hw]
   rw [ht]
   let c' : Ov E w →+* Ov E w := (cj w).restrict (Ov E w) (Ov E w) (cj_mem_Ov w)
   have hI : congIdeal w k ≤ (congIdeal w k).comap c' := by

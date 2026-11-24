@@ -604,7 +604,7 @@ theorem noCommonZero_combVal {b : α → B.Sec} (hb : ⨆ j, nonzeroLocus (b j) 
   obtain ⟨j, hj⟩ := hy
   have hj' : secVal p σ (b j) i y ≠ 0 := (secVal_ne_zero_iff (b j) hi).2 (mem_ptsIn.2 hj)
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hv : Matrix.vecMul (fun l => secVal p σ (b l) i y) M = 0 := by
     funext a
     rw [Pi.zero_apply, ← hcon a]

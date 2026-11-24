@@ -212,7 +212,7 @@ theorem lev_facts {X : Fields} {Pr : Primes X} {R : Ranks} {Ch : Chars X Pr R.m}
     refine ⟨fun i j => ?_, fun i j => ?_⟩
     · simpa [reGL_symm_val] using h.1 (o.symm i) (o.symm j)
     · simpa [reGL_symm_val] using h.2 (o.symm i) (o.symm j)
-  · rw [hJ, hL.last_h, prCat, Jat, if_neg hA.nmem, mem_prX_JQ _ _ _ _ _ hc]
+  · rw [hJ, hL.last_h, prCat, Jat, ite_eq_right hA.nmem, mem_prX_JQ _ _ _ _ _ hc]
     exact mem_par_iff (c := 0) (s := s) hA.compl W.unif rfl hn he' W.tame γ
 
 
@@ -467,7 +467,7 @@ theorem uloc_iff {B : GlobalTheory.Mem.Base} {X : PreX B.toPre} {I : TC B X} {l 
   have hsc : ∀ y y', GlobalTheory.TwU.SameCoset (n := B.R.N (s + 1)) I.sel (I.tup a) (I.cst a) P y y' ↔
       ∀ r, Formalism.L2.Col.IntAt P.1 ((((Formalism.L2.Col.qOf P.1 : ℕ) : B.fields.E) ^ (I.cst a).M)⁻¹ * (y - y') r) := fun y y' => by
     unfold GlobalTheory.TwU.SameCoset
-    rw [if_neg hW.nmem]
+    rw [ite_eq_right hW.nmem]
   constructor
   · intro h
     obtain ⟨g, z, hg, hin⟩ := hle P v (by rw [hseam]; exact hv) κ hκ h

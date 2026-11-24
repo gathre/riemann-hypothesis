@@ -319,7 +319,7 @@ theorem field_data : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Numbe
       exact absurd hlt (not_lt.2 h1)
     obtain ⟨y, hyO, hyψ⟩ : ∃ y ∈ v.adicCompletionIntegers F, psiLoc B.ψ v (ϖv⁻¹ * y) ≠ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hnot ((hψ _).1 hcon)
     refine ⟨complMap h y, complMap_mem h hyO, ?_, ?_⟩
     · rw [← hsymm (complMap h y), hcompl, hc]

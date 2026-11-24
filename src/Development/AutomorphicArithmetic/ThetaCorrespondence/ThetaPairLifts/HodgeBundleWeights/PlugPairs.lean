@@ -142,11 +142,11 @@ theorem finE_mem_lev_of_isKM : ∀ (D : D7) (V : HSp D) (β : GL (Fin V.rank) (F
   refine Formalism.L2.DIV.mem_lev.2 ⟨Formalism.L2.DIV.mem_parLev.2 ⟨hU, hS, fun PP _ => ?_, fun PP _ => ?_⟩, ?_⟩
   · intro i j hij
     exfalso
-    simp only [Formalism.L2.DIV.blkOf, if_pos (hb i), if_pos (hb j)] at hij
+    simp only [Formalism.L2.DIV.blkOf, ite_eq_left (hb i), ite_eq_left (hb j)] at hij
     exact lt_irrefl _ hij
   · intro i j hij
     exfalso
-    simp only [Formalism.L2.DIV.blk2, if_pos (hb i), if_pos (hb j)] at hij
+    simp only [Formalism.L2.DIV.blk2, ite_eq_left (hb i), ite_eq_left (hb j)] at hij
     exact lt_irrefl _ hij
   · rw [hP]; exact Subgroup.mem_top _
 

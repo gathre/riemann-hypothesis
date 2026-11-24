@@ -75,7 +75,7 @@ private lemma degW_blattner_le_of_sign_lemma {p q : ℕ} (M : _root_.Formalism.B
     rw [Finset.sum_comm]
     refine Finset.sum_congr rfl fun b _ => ?_
     simp only [mul_sub, Finset.sum_sub_distrib, mul_ite, mul_one, mul_zero,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     ring
   have hnn : 0 ≤ ∑ x, s x * Δ x := by
     rw [key]

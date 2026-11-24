@@ -170,7 +170,7 @@ theorem char_eq_cexp (χ : ℝ → ℂ) (hc : Continuous χ) (h0 : χ 0 = 1)
     (hc.integral_hasStrictDerivAt 0 x).hasDerivAt
   obtain ⟨δ, hδ⟩ : ∃ δ, I δ ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hz : I = fun _ => 0 := funext hcon
     have h1 := hI 0
     rw [hz] at h1
@@ -334,7 +334,7 @@ theorem killPoly_natDegree_le (G : Type) [Group G] (a : ℝ → G) (F₀ : G →
     have hv1 : R 1 v = z • v := Module.End.mem_eigenspace_iff.1 hvW
     obtain ⟨g₀, hg₀⟩ : ∃ g₀, (v : G → ℂ) g₀ ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hv0 (Subtype.ext (funext hcon))
     let χ : ℝ → ℂ := fun t => (v : G → ℂ) (a t * g₀) / (v : G → ℂ) g₀
     have hχ : ∀ t g, (v : G → ℂ) (a t * g) = χ t * (v : G → ℂ) g := by

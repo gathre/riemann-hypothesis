@@ -78,7 +78,7 @@ theorem exists_tail {U : Set (GL (Fin a) (Af E))} (hU : U ∈ 𝓝 (1 : GL (Fin 
       (∀ v ∈ F, GeneralLinearGroup.map (pLoc E v) r = 1) → r ∈ U := by
   classical
   by_contra hn
-  push_neg at hn
+  push Not at hn
   choose r hr1 hr2 hrU using hn
   have ent : ∀ q : Finset (HeightOneSpectrum (𝓞 E)) → GL (Fin a) (Af E),
       (∀ F v, GeneralLinearGroup.map (pLoc E v) (q F) ∈ KGL v (n := a)) →

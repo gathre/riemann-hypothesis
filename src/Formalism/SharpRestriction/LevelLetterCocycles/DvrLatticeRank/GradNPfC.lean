@@ -116,7 +116,7 @@ private theorem val_add_eq_left_of_val_lt (x y : L) (h : v x < v y) : v (x + y) 
   rw [min_eq_left h.le] at h1
   refine le_antisymm ?_ h1
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have h2 : min (v (x + y)) (v (-y)) ≤ v (x + y + -y) := v.map_add _ _
   have e : x + y + -y = x := by ring
   rw [e, v.map_neg] at h2

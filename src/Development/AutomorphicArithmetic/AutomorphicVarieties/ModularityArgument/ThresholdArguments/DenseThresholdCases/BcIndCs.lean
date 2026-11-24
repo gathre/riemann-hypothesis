@@ -1823,8 +1823,8 @@ theorem UpperTheory.Esk.pf_PropMV_sv_alt : _root_.UpperTheory.V.Af.HypothesesH' 
     exact ⟨hw, fun h' => h (dec_cong ha hc hL ((hc0 w).1 (hcl w hw)) h' hA hσ)⟩
   obtain ⟨k, hkB, hk, φ, lam, hφ, hcu, hlam⟩ := hMH F l hl2 ι ω c hfo hsg hcond hex hcl P
     (hP1.imp fun w h => ⟨h.1, hnc w h.2⟩) (hP2.imp fun w h => ⟨h.1, hnc w h.2⟩) 3
-  have hlev : ∀ w : Pl F, ((l : ℕ) : 𝓞 F) ∉ w.asIdeal → levL l c w = c w := fun w hw => if_neg hw
-  have hlev1 : ∀ w : Pl F, ((l : ℕ) : 𝓞 F) ∈ w.asIdeal → levL l c w = 1 := fun w hw => if_pos hw
+  have hlev : ∀ w : Pl F, ((l : ℕ) : 𝓞 F) ∉ w.asIdeal → levL l c w = c w := fun w hw => ite_eq_right hw
+  have hlev1 : ∀ w : Pl F, ((l : ℕ) : 𝓞 F) ∈ w.asIdeal → levL l c w = 1 := fun w hw => ite_eq_left hw
   have hfinL : {w | levL l c w ≠ 0}.Finite := by
     refine (hfin.union (fin_l (l := l))).subset fun w hw => ?_
     by_contra h
@@ -1833,7 +1833,7 @@ theorem UpperTheory.Esk.pf_PropMV_sv_alt : _root_.UpperTheory.V.Af.HypothesesH' 
   have heu : ∀ w : Pl F, ((l : ℕ) : 𝓞 F) ∈ w.asIdeal → ‖ι.symm (eisT l ω c P w)‖ = 1 := fun w hw => by
     obtain ⟨A, hA⟩ := exists_isPlaceOver Ω w
     obtain ⟨σ, hσ⟩ := exists_isFrob hA
-    rw [eisT, if_pos hw]
+    rw [eisT, ite_eq_left hw]
     split_ifs
     · rw [hfr w (hcl w hw) A hA σ hσ, hn]
     · simp
@@ -1870,7 +1870,7 @@ theorem UpperTheory.Esk.pf_PropMV_sv_alt : _root_.UpperTheory.V.Af.HypothesesH' 
       obtain rfl := hB₁.unique hB₂
       obtain ⟨h2, h3⟩ := tr_det ι _ _ _ (((hF A hA).2 σ hσ).trans e)
       have h4 := haway w hl
-      rw [eisT, if_neg hl, if_pos h0, map_sub, map_add (f := _), map_one, hfr w h0 A hA σ hσ] at h4
+      rw [eisT, ite_eq_right hl, ite_eq_left h0, map_sub, map_add (f := _), map_one, hfr w h0 A hA σ hσ] at h4
       rw [h2, h3, map_mul, hfr w h0 A hA σ hσ, map_pow, map_natCast, cyc_frob hl hA hσ]
       exact ⟨h4, rfl⟩
   refine ⟨k, t, by omega, htB, hk, ht, levL l c, fun w => ι.symm (eisT l ω c P w), π, r,
@@ -1885,7 +1885,7 @@ theorem UpperTheory.Esk.pf_PropMV_sv_alt : _root_.UpperTheory.V.Af.HypothesesH' 
     exact ⟨v, h1, h2⟩
   · refine ⟨lam' w, hU w, norm_one_of ?_⟩
     have h4 := haway w hl
-    rwa [eisT, if_neg hl, if_neg (hlev w hl ▸ hw), map_sub, map_one] at h4
+    rwa [eisT, ite_eq_right hl, ite_eq_right (hlev w hl ▸ hw), map_sub, map_one] at h4
   · obtain ⟨v₀, hv₀⟩ := D.surj w hw
     have hnorm : normV w = l := hv₀ ▸ D.norm v₀
     have hc' := hlam' w
@@ -1896,12 +1896,12 @@ theorem UpperTheory.Esk.pf_PropMV_sv_alt : _root_.UpperTheory.V.Af.HypothesesH' 
     · rw [hnorm]
       by_cases h : w ∈ P
       · have hv : v₀ ∈ {v | D.pl v ∈ P} := by simpa [hv₀] using h
-        rw [if_pos hv, map_sub, map_mul, map_pow, map_natCast, mul_comm] at hc'
-        rw [if_pos h]
+        rw [ite_eq_left hv, map_sub, map_mul, map_pow, map_natCast, mul_comm] at hc'
+        rw [ite_eq_left h]
         simpa using hc'
       · have hv : v₀ ∉ {v | D.pl v ∈ P} := by simpa [hv₀] using h
-        rw [if_neg hv, one_mul, map_sub] at hc'
-        rw [if_neg h]
+        rw [ite_eq_right hv, one_mul, map_sub] at hc'
+        rw [ite_eq_right h]
         simpa using hc'
     · obtain ⟨v, hvd⟩ : ∃ v, InfinitePlace.mk (ι.toRingHom.comp τ) = v := ⟨_, rfl⟩
       have hv : D.pl v = w := hvd ▸ (D.embAt τ w).1 hτ
@@ -1912,9 +1912,9 @@ theorem UpperTheory.Esk.pf_PropMV_sv_alt : _root_.UpperTheory.V.Af.HypothesesH' 
         ext i; fin_cases i <;> simp [h, hS]
       · have hS : v ∉ {v | D.pl v ∈ P} := by simpa [hv] using h
         ext i; fin_cases i <;> simp [h, hS]
-  · simp only [eisT, if_pos hw, if_pos h]
+  · simp only [eisT, ite_eq_left hw, ite_eq_left h]
     exact hfr w (hcl w hw) A hA σ hσ
-  · simp only [eisT, if_pos hw, if_neg h, map_one]
+  · simp only [eisT, ite_eq_left hw, ite_eq_right h, map_one]
 end
 end -- clump:auto
 end -- clump:auto

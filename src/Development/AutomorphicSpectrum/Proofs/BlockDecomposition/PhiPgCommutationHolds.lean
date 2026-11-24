@@ -885,12 +885,12 @@ theorem pgProj_fst (i t : ℕ) (c : Fin (i + 1) → k) :
   · simp only [colMat]
     by_cases hb : b = Fin.last (i + 1)
     · subst hb
-      rw [if_pos (ePG_false_last _ _), if_pos rfl]
+      rw [ite_eq_left (ePG_false_last _ _), ite_eq_left rfl]
       induction a using Fin.lastCases with
       | last => rw [ePG_false_last, Fin.lastCases_last, Fin.lastCases_last]
       | cast a =>
         rw [ePG_false_eq_castAdd, Fin.lastCases_castSucc, Fin.lastCases_castSucc, cVec, Fin.append_left]
-    · rw [if_neg (fun h => hb ((ePG_false_eq_last_iff _ _ _).1 h)), if_neg hb]
+    · rw [ite_eq_right (fun h => hb ((ePG_false_eq_last_iff _ _ _).1 h)), ite_eq_right hb]
 
 theorem pgProj_snd (i t : ℕ) (c : Fin (i + 1) → k) :
     (pgProj k (i + 1) (t + 1) ⟨uM k _ (cVec i t c), uM_mem_HPG i t c⟩).2 = 1 := by
@@ -901,7 +901,7 @@ theorem pgProj_snd (i t : ℕ) (c : Fin (i + 1) → k) :
   rw [unip_entry]
   have h0 : colMat k _ (cVec i t c) (ePG (i + 1) (t + 1) ⟨true, a⟩) (ePG (i + 1) (t + 1) ⟨true, b⟩) = 0 := by
     simp only [colMat]
-    rw [if_neg (ePG_true_ne_last _ _ _)]
+    rw [ite_eq_right (ePG_true_ne_last _ _ _)]
   rw [h0, add_zero]
   by_cases hab : a = b
   · subst hab; simp
@@ -1257,7 +1257,7 @@ theorem exists_avg (H : Subgroup G) (σ : Representation ℂ H Z) {L : Subgroup 
   refine ⟨_, h1, ?_, h2⟩
   intro x hx
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hx
   have hz : ∀ i, evC H σ x (twOrbit (cInd H σ) L χ f (r i)) = 0 := by
     intro i

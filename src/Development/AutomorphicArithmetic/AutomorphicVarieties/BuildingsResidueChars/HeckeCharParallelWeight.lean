@@ -156,7 +156,7 @@ private theorem infDiag_inv_unit_eq_infinite_one {F : Type} [Field F] [NumberFie
 private theorem one_le_of_tendsto_pow_factorial_one (r : ℝ) (h0 : 0 ≤ r)
     (h : Filter.Tendsto (fun k : ℕ => r ^ (Nat.factorial k)) Filter.atTop (nhds 1)) : 1 ≤ r := by
   by_contra hr
-  push_neg at hr
+  push Not at hr
   have hf : Filter.Tendsto (fun k : ℕ => Nat.factorial k) Filter.atTop Filter.atTop :=
     Filter.tendsto_atTop_mono Nat.self_le_factorial Filter.tendsto_id
   have h2 := (tendsto_pow_atTop_nhds_zero_of_lt_one h0 hr).comp hf

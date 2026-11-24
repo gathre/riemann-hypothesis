@@ -125,13 +125,13 @@ theorem cvec_gram (hcj : ∀ x, cj (cj x) = x) (Z : Matrix (Fin (r + 1)) (Fin (r
           intro k
           rw [← a1 k, Finset.sum_mul]
           exact Finset.sum_congr rfl (fun a _ => by ring)
-        simp_rw [this, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+        simp_rw [this, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
       rw [← a3, Finset.mul_sum, ← Finset.sum_add_distrib]
       exact Finset.sum_congr rfl (fun a _ => by ring)
     rw [e1]
     by_cases hj : j = Fin.last r
-    · subst hj; simp only [if_true]; ring
-    · rw [if_neg hj, if_neg (Ne.symm hj)]; ring
+    · subst hj; simp only [ite_true]; ring
+    · rw [ite_eq_right hj, ite_eq_right (Ne.symm hj)]; ring
 
 theorem formC_eq (hcj : ∀ x, cj (cj x) = x) (Z : Matrix (Fin (r + 1)) (Fin (r + 1)) O)
     (hu : IsUnit (Z.map O.subtype).det) (hκ : (Z.map O.subtype)⁻¹ (Fin.last r) (Fin.last r) = 0)

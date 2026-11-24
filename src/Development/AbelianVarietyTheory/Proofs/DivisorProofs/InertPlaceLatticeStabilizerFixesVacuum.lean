@@ -702,7 +702,7 @@ theorem scalar_eq_one : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Nu
     rw [← e1, hfix]
   obtain ⟨y, hy⟩ : ∃ y, G.M'.vac v y ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (funext h)
   let x : Fin a' × Fin (a + a') → AF F := fun i => GlobalTheory.LatVac.liftV v (y i)
   have hRx : R x = R 0 := by

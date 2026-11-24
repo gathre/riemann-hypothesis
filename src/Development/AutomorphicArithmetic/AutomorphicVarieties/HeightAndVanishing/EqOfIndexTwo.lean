@@ -100,7 +100,7 @@ private theorem ine_le (Ω : Type) [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω
   have hin : ∀ x : Ω, A.valuation x ≤ 1 → A.valuation (σ x - x) < 1 := (show σ ∈ Inertia A from hσ).2
   show ∀ x : K, σ (algebraMap K Ω x) = algebraMap K Ω x
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨x₀, hx₀⟩ := hne
   let ι : K →ₐ[ℚ] Ω := (algebraMap K Ω).toRatAlgHom
   let ι' : K →ₐ[ℚ] Ω := (σ : Ω ≃ₐ[ℚ] Ω).toAlgHom.comp ι
@@ -286,7 +286,7 @@ theorem UpperTheory.V.HV.gdLoc :
   · intro A hA
     refine ⟨ine_le Ω K hp hdisc A hA, ?_⟩
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hG.gen
     apply hOm.2.2.2.2.2.2.1 A hA (2 * (e + a))
     intro σ hσ
@@ -308,7 +308,7 @@ theorem UpperTheory.V.HV.gdLoc :
       rw [sub_add_sub_cancel] at this
       simpa using this
   · by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hθ := key (e + 1) (fun σ hσ => by
         have h1 := hcon σ hσ
         have h2 : (((w ^ (e + 1) * D) σ : (c.O)ˣ) : c.O) - ((w σ * Chr.Psi l e D σ : (c.O)ˣ) : c.O)
@@ -329,7 +329,7 @@ theorem UpperTheory.V.HV.gdLoc :
     rw [hθ, hg]
     exact hCF.1.refl _
   · by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨e', he⟩ : ∃ e', e = e' + 1 := ⟨e - 1, by have := hG.e_pos; omega⟩
     have hθ := key e' (fun σ hσ => by
         have h1 := hcon σ hσ

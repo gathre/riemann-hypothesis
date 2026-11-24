@@ -110,11 +110,11 @@ theorem sum_fin_ite (k c0 : ℕ) : (∑ c : Fin k, if (c : ℕ) = c0 then 1 else
   split_ifs with h
   · rw [Finset.sum_eq_single ⟨c0, h⟩]
     · simp
-    · intro b _ hb; rw [if_neg]; intro hc; exact hb (Fin.ext hc)
+    · intro b _ hb; rw [ite_eq_right]; intro hc; exact hb (Fin.ext hc)
     · simp
   · apply Finset.sum_eq_zero
     intro c _
-    rw [if_neg]
+    rw [ite_eq_right]
     intro hc
     exact h (by rw [← hc]; exact c.2)
 
@@ -130,7 +130,7 @@ theorem isWH_minorK_row {N N' k : ℕ} {w : Fin N × Fin N' → ℕ} (P : Prop) 
       simp [h.1, h.2]
     · simp [hP]
   · unfold minorK
-    rw [dite_eq_right h, if_neg (fun hc => h ⟨hc.1, hc.2.1⟩)]
+    rw [dite_eq_right h, ite_eq_right (fun hc => h ⟨hc.1, hc.2.1⟩)]
     exact isWeightedHomogeneous_one R w
 
 end WH
@@ -170,7 +170,7 @@ theorem wLet_mk (σ : T) (c0 : Fin (r σ)) (τ : T) (c : Fin (r τ)) (ρ : Fin n
   unfold wLet
   simp only [letEq]
   by_cases h : (⟨τ, c⟩ : Σ σ, Fin (r σ)) = ⟨σ, c0⟩
-  · simp only [h, true_and, if_true]
+  · simp only [h, true_and, ite_true]
     rw [Finset.sum_ite_eq]
     simp
   · simp [h]

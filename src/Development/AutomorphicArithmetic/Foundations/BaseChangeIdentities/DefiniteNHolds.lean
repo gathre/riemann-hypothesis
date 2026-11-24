@@ -287,7 +287,7 @@ theorem ident_of (hD : DerVal) (hI : InfMatch) : BC.Ident := by
   intro hR E _ _ _ n π S T F₀ F i χ hχ O
   have e0 : (F.t₀ i).val O.χa O.χb = 1 := (O.eigArch (.inl ()) (F.t₀ i) rfl rfl).symm.trans (hχ.2.1 (.inl ()))
   have e1 : ∀ v s m side, (F.tD i v s m side).val O.χa O.χb = F.dval (i, v, s, m, side) := fun v s m side =>
-    (O.eigArch (.inr (.inl (i, v, s, m, side))) (F.tD i v s m side) (if_pos rfl) rfl).symm.trans
+    (O.eigArch (.inr (.inl (i, v, s, m, side))) (F.tD i v s m side) (ite_eq_left rfl) rfl).symm.trans
       (hχ.2.1 (.inr (.inl (i, v, s, m, side))))
   have key := fun v s m => hD E _ _ _ _ _ _ _ _ (F₀.A i) F.κ (F.ψ i (F.d.eL _)) (F.ψ i (F.d.eL _))
     (PositivityTheory.Rg.BcB.F.sizeOf (F.ψ i (F.d.eL _))) (PositivityTheory.Rg.BcB.F.sizeOf (F.ψ i (F.d.eL _))) v s m O.χa O.χb
@@ -356,7 +356,7 @@ private theorem valA_single {E : Type} [Field E] [NumberField E] [IsCMField E] {
     · subst hv
       simp [hf]
     · simp [hv]
-  simp only [h, Finset.prod_mul_distrib, Finset.prod_ite_eq', Finset.mem_univ, if_true]
+  simp only [h, Finset.prod_mul_distrib, Finset.prod_ite_eq', Finset.mem_univ, ite_true]
 
 end UpperTheory.BaseChangeIdentities.GelfandReading
 
@@ -452,9 +452,9 @@ theorem dcos_eq (m : ℕ) (w : Pl E) (ϖ : (w.adicCompletion E)ˣ) (x : Fin m �
     dcos m w (tdiag ϖ x) = GlobalTheory.IndefiniteRowSideFullHecke.IwahoriDoubleCosets.cosetInd (fun i => ϖ ^ x i) := by
   funext g
   by_cases h : ∃ a ∈ iwGL m w, ∃ b ∈ iwGL m w, g = a * tdiag ϖ x * b
-  · rw [dcos, if_pos h, GlobalTheory.IndefiniteRowSideFullHecke.IwahoriDoubleCosets.cosetInd, Set.indicator_of_mem]
+  · rw [dcos, ite_eq_left h, GlobalTheory.IndefiniteRowSideFullHecke.IwahoriDoubleCosets.cosetInd, Set.indicator_of_mem]
     exact h
-  · rw [dcos, if_neg h, GlobalTheory.IndefiniteRowSideFullHecke.IwahoriDoubleCosets.cosetInd, Set.indicator_of_notMem]
+  · rw [dcos, ite_eq_right h, GlobalTheory.IndefiniteRowSideFullHecke.IwahoriDoubleCosets.cosetInd, Set.indicator_of_notMem]
     exact h
 
 theorem dcos_right (m : ℕ) (w : Pl E) (t g : GLw m w) (i : GLw m w) (hi : i ∈ iwGL m w) :

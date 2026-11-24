@@ -228,9 +228,9 @@ theorem entry_eq_zero_of_comm {ε : Fin n → Bool} {Y : Matrix (Fin n) (Fin n) 
   simp only [Jm, Matrix.mul_diagonal, Matrix.diagonal_mul] at h
   cases ha : ε a <;> cases hb : ε b
   · exact absurd (ha.trans hb.symm) hab
-  · rw [ha, hb] at h; simp only [Bool.false_eq_true, if_false, if_true] at h
+  · rw [ha, hb] at h; simp only [Bool.false_eq_true, ite_false, ite_true] at h
     linear_combination h / 2
-  · rw [ha, hb] at h; simp only [Bool.false_eq_true, if_false, if_true] at h
+  · rw [ha, hb] at h; simp only [Bool.false_eq_true, ite_false, ite_true] at h
     linear_combination -h / 2
   · exact absurd (ha.trans hb.symm) hab
 

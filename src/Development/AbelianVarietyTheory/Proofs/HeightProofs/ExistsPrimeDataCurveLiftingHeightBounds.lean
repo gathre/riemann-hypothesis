@@ -708,7 +708,7 @@ theorem supPTGe_of_fnPin : ∀ (D : D7) (T : Core D) (h : LawsCore T) (j : ℕ) 
       F.1 hFc g hg h1 h0 sg).2
     change cutN T.C T.Ns j ka sg ⟨g, hg'⟩ ≤ _
     unfold cutN
-    rw [if_pos hj]
+    rw [ite_eq_left hj]
     exact h4
 
 theorem exists_frame {E : Type} [Field E] [NumberField E] [IsCMField E] {H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E}
@@ -724,11 +724,11 @@ theorem exists_frame {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Rec
     (fun σ => Formalism.L2.PjFree.Unf.ofPj (U σ)) hU xR fn hx hfn
   have hg := goodEmb_goodOf c σ
   by_cases hσ : GoodEmb c σ
-  · have e : goodOf c σ = σ := if_pos hσ
+  · have e : goodOf c σ = σ := ite_eq_left hσ
     rw [e]
     obtain ⟨k, x, t, ht⟩ := (hU σ hσ).2.2.1 y
     exact ⟨k, x, fun a n hd f hf => h2 σ hσ k x t y ht a n hd f hf⟩
-  · have e : goodOf c σ = (starRingEnd ℂ).comp σ := if_neg hσ
+  · have e : goodOf c σ = (starRingEnd ℂ).comp σ := ite_eq_right hσ
     rw [e] at hg ⊢
     obtain ⟨y', hy'⟩ := GlobalTheory.Frames.FramedBaseChange.exists_frMap GlobalTheory.lawsFieldsSeparately.2.1 E H Dw l Xo c _ _
       (conjAlg σ) y
@@ -976,7 +976,7 @@ theorem heights_indefinite :
   let wR : Fin (N + 1) → T.R j := fun k => (G.w (eN k)).1
   let jc : Comp (T.Q.Xo j) T.Q.c → Fin (N + 1) := fun Z => eN.symm (k0 Z)
   let wsize : WTZ D.host.E → ℝ := fun g => if g = wtZ (wtA wL) wL.n then wL.size else wF.size
-  have hsL : wsize (wtZ (wtA wL) wL.n) = wL.size := if_pos rfl
+  have hsL : wsize (wtZ (wtA wL) wL.n) = wL.size := ite_eq_left rfl
   have hsF : wsize (wtZ (wtA wF) wF.n) = wF.size := by
     by_cases e : wtZ (wtA wF) wF.n = wtZ (wtA wL) wL.n
     · have e1 : wF = wL := by
@@ -986,7 +986,7 @@ theorem heights_indefinite :
         · have : (wF.n : ℤ) = wL.n := congrArg Prod.snd e
           exact_mod_cast this
       rw [e, hsL, e1]
-    · exact if_neg e
+    · exact ite_eq_right e
   have hwb : ∀ Z, evC hG Z (wR (jc Z)) ≠ 0 := fun Z => by
     simp only [wR, jc, Equiv.apply_symm_apply]
     exact hk0 Z

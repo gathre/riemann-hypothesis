@@ -84,7 +84,7 @@ theorem hs_of_compact {m : ℕ} {ε : Fin m → Bool} (hc : ∀ a b, ε a = ε b
     intro j
     have h1 := congrFun (congrFun hg j) j
     simp only [Jm, Matrix.mul_apply, Matrix.conjTranspose_apply, Matrix.diagonal_apply, mul_ite, mul_zero,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true] at h1
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true] at h1
     have h2 : ∀ i, (if ε i = true then star (uMat g i j) * 1 else star (uMat g i j) * -1) * uMat g i j =
         (if ε j = true then 1 else -1) * ((‖uMat g i j‖ ^ 2 : ℝ) : ℂ) := by
       intro i
@@ -117,7 +117,7 @@ theorem dec_low {m N : ℕ} {ε : Fin m → Bool} {lam : Fin m → ℝ} {π : Ma
     rw [hs_of_compact hcp, ← mul_pow, mul_assoc, mul_inv_cancel₀ h2.ne', mul_one]
     exact h1.trans (one_le_pow₀ (Real.one_le_exp zero_le_one))
   have hpq' : (∃ a, ε a = true) ∧ ∃ a, ε a = false := by
-    push_neg at hcp
+    push Not at hcp
     obtain ⟨a, b, hab⟩ := hcp
     cases ha : ε a <;> cases hb : ε b <;> simp_all <;> exact ⟨⟨_, ‹_›⟩, ⟨_, ‹_›⟩⟩
   obtain ⟨hp, hq⟩ := hpq'

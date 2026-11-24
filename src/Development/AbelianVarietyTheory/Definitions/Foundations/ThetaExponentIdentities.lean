@@ -363,7 +363,7 @@ variable {Dw : Datum H}
 
 theorem toWt_apply (v : D.what₂.Tau → ℕ → ℤ) {τ : Psi H} {t : D.what₂.Tau} (h : τ.1 = DV.tauEmb D t)
     (i : Fin (Dw.p + Dw.q)) : toWt Dw v τ i = v t i := by
-  rw [toWt, sum_eq_single t (fun s _ hs => if_neg fun e => hs ?_) (by simp), if_pos h]
+  rw [toWt, sum_eq_single t (fun s _ hs => ite_eq_right fun e => hs ?_) (by simp), ite_eq_left h]
   exact GlobalTheory.WeightExponents.tauEmb_injective D (e.symm.trans h)
 
 def psiOf {T : Par D} (h : T.PinHost) (t : D.what₂.Tau) : Psi T.H := ⟨DV.tauEmb D t, h.2.2.2 t⟩

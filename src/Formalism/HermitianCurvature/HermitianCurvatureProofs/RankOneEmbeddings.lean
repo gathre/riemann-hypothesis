@@ -76,8 +76,8 @@ lemma emb_out_col (μ : Matrix (Fin (k + 1)) (Fin (k + 1)) ℂ) (q j : Fin (2 * 
   rw [dite_eq_right (fun h => hj' h.2)]
   by_cases hqj : q = j
   · subst hqj
-    rw [if_pos ⟨rfl, hj'⟩, if_pos rfl]
-  · rw [if_neg (fun h => hqj h.1), if_neg hqj]
+    rw [ite_eq_left ⟨rfl, hj'⟩, ite_eq_left rfl]
+  · rw [ite_eq_right (fun h => hqj h.1), ite_eq_right hqj]
 
 lemma emb_out_row (μ : Matrix (Fin (k + 1)) (Fin (k + 1)) ℂ) (q j : Fin (2 * r + k + 1)) (hq : ¬ mid k r q) :
     embWb k r μ q j = if q = j then 1 else 0 := by
@@ -86,8 +86,8 @@ lemma emb_out_row (μ : Matrix (Fin (k + 1)) (Fin (k + 1)) ℂ) (q j : Fin (2 * 
   rw [dite_eq_right (fun h => hq' h.1)]
   by_cases hqj : q = j
   · subst hqj
-    rw [if_pos ⟨rfl, hq'⟩, if_pos rfl]
-  · rw [if_neg (fun h => hqj h.1), if_neg hqj]
+    rw [ite_eq_left ⟨rfl, hq'⟩, ite_eq_left rfl]
+  · rw [ite_eq_right (fun h => hqj h.1), ite_eq_right hqj]
 
 lemma emb_mid (μ : Matrix (Fin (k + 1)) (Fin (k + 1)) ℂ) (q j : Fin (2 * r + k + 1)) (hq : mid k r q) (hj : mid k r j) :
     embWb k r μ q j = μ ⟨q.val - r, by have := hq; omega⟩ ⟨j.val - r, by have := hj; omega⟩ := by
@@ -137,7 +137,7 @@ lemma emb_mul (a b : Matrix (Fin (k + 1)) (Fin (k + 1)) ℂ) :
         rw [emb_mid _ _ _ hi (wI_mid q), emb_mid _ _ _ (wI_mid q) hj]
         simp only [fin_wI_sub_eq_self]
       · intro p hp
-        rw [emb_out_col a i p hp, if_neg (fun (h : i = p) => hp (h ▸ hi)), zero_mul]
+        rw [emb_out_col a i p hp, ite_eq_right (fun (h : i = p) => hp (h ▸ hi)), zero_mul]
     · simp [emb_out_col b _ _ hj]
       rw [emb_out_col _ _ _ hj, emb_out_col _ _ _ hj]
   · simp [emb_out_row a _ _ hi]
@@ -267,12 +267,12 @@ def secF (k r : ℕ) (z z' : Vc k r) (μsec : ℂ → Matrix (Fin (k + 1)) (Fin 
 theorem secF_on {z z' : Vc k r} {μsec : ℂ → Matrix (Fin (k + 1)) (Fin (k + 1)) ℂ} {ζ : ℂ} (h : ζ ∈ Om k r z z') :
     secF k r z z' μsec ζ = μsec ζ := by
   unfold secF
-  exact if_pos h
+  exact ite_eq_left h
 
 theorem secF_off {z z' : Vc k r} {μsec : ℂ → Matrix (Fin (k + 1)) (Fin (k + 1)) ℂ} {ζ : ℂ} (h : ζ ∉ Om k r z z') :
     secF k r z z' μsec ζ = 1 := by
   unfold secF
-  exact if_neg h
+  exact ite_eq_right h
 
 theorem secF_section {z z' : Vc k r} {μsec : ℂ → Matrix (Fin (k + 1)) (Fin (k + 1)) ℂ}
     (hsec : IsSection k r z z' μsec) : IsSection k r z z' (secF k r z z' μsec) := by
@@ -333,7 +333,7 @@ theorem ae_Om (z z' : Vc k r) :
     have h0 : ¬ (Tz k r z * Tz k r z' < Complex.normSq ζ) := h
     have h' : Complex.normSq ζ ≤ Tz k r z * Tz k r z' := not_lt.1 h0
     unfold zWeight
-    rw [if_neg]
+    rw [ite_eq_right]
     intro hle
     apply hζ
     rw [mem_sphere_zero_iff_norm, ← le_antisymm h' hle, Complex.normSq_eq_norm_sq,
@@ -675,7 +675,7 @@ theorem wd_ne_zero (z z' : Vc k r) : wd k r z z' ≠ 0 := by
   have hp : 0 < (Complex.normSq ζ - Tz k r z * Tz k r z') ^ (k - 1) := pow_pos (by linarith) _
   show ¬ (ENNReal.ofReal (zWeight k (Tz k r z) (Tz k r z') ζ) = 0)
   unfold zWeight
-  rw [if_pos hlt.le]
+  rw [ite_eq_left hlt.le]
   exact (ENNReal.ofReal_pos.2 hp).ne'
 
 theorem nu_ne_zero (z z' : Vc k r) {s : ℂ → Matrix (Fin (k + 1)) (Fin (k + 1)) ℂ} (hs : MeasSec s)
@@ -1077,7 +1077,7 @@ open Formalism.REAL Formalism.QuantumDeterminants Formalism.FourierDecayAlt.B Fo
 
 theorem exists_pos {k r : ℕ} (μ : Measure (Mt k r)) (h0 : μ ≠ 0) : ∃ K : Set (Mt k r), IsCompact K ∧ μ K ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply h0
   rw [← Measure.measure_univ_eq_zero, ← iUnion_compactCovering]
   exact measure_iUnion_null fun n => hcon _ (isCompact_compactCovering _ n)

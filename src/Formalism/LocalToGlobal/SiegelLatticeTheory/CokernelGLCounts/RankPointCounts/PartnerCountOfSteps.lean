@@ -114,7 +114,7 @@ def mkMat {m : ℕ} (P : Matrix (Fin m) (Fin m) E) (hP : ∀ a b, P a b ∈ M.R)
 theorem clsOf_mk {m : ℕ} (P : Matrix (Fin (m + 1)) (Fin (m + 1)) E) (hP : ∀ a b, P a b ∈ M.R)
     (hu : IsUnit P.det) : clsOf M P = some (Quotient.mk (M.isoSetoid m) (mkMat M P hP hu)) := by
   unfold clsOf
-  rw [dif_pos ⟨hP, hu⟩]
+  rw [dite_eq_left ⟨hP, hu⟩]
   rfl
 
 theorem clsOf_map {m : ℕ} (Z : M.Mat (m + 1)) :
@@ -137,7 +137,7 @@ def headMat {m : ℕ} (P : Matrix (Fin (m + 1)) (Fin (m + 1)) E) (hP : ∀ a b, 
         P.submatrix (Fin.castLE (Nat.le_succ m)) (Fin.castLE (Nat.le_succ m)) := by
       ext a b; rfl
     have e2 : leadM P m = (P.submatrix (Fin.castLE (Nat.le_succ m)) (Fin.castLE (Nat.le_succ m))).det := by
-      unfold leadM; exact dif_pos _
+      unfold leadM; exact dite_eq_left _
     rw [e1, ← e2]; exact hu⟩
 
 end Mats
@@ -196,8 +196,8 @@ theorem partnerIsomorphismCount_of_bounds (hT2 : Formalism.MainNotions.ThinScale
     have hk' := hk
     unfold kind at hk'
     constructor
-    · intro h; by_contra h'; rw [if_pos h, if_neg h'] at hk'; exact absurd hk' (by simp)
-    · intro h; by_contra h'; rw [if_neg h', if_pos h] at hk'; exact absurd hk' (by simp)
+    · intro h; by_contra h'; rw [ite_eq_left h, ite_eq_right h'] at hk'; exact absurd hk' (by simp)
+    · intro h; by_contra h'; rw [ite_eq_right h', ite_eq_left h] at hk'; exact absurd hk' (by simp)
   obtain ⟨uL, uU, hd, ho, hP1⟩ := h1
   obtain ⟨uL', uU', hd', ho', hP2⟩ := h2
   obtain ⟨hLo, hUp⟩ := loUp_of_hyp hd ho
@@ -215,8 +215,8 @@ theorem partnerIsomorphismCount_of_bounds (hT2 : Formalism.MainNotions.ThinScale
     rw [hP2]; exact leadM_mul hLo' hUp' _
   by_cases hD : Dmin w D.R.rS = 0
   · have hD' := hkd.1 hD
-    have hsh : cornerSh Zd.δ T T' p w = 0 := by unfold cornerSh; rw [if_pos hD]
-    have hsh' : cornerSh Zd.δ T T' p w' = 0 := by unfold cornerSh; rw [if_pos hD']
+    have hsh : cornerSh Zd.δ T T' p w = 0 := by unfold cornerSh; rw [ite_eq_left hD]
+    have hsh' : cornerSh Zd.δ T T' p w' = 0 := by unfold cornerSh; rw [ite_eq_left hD']
     have e1 : (locH Zd p).ZZplus t₁ + cornE p (cornerSh Zd.δ T T' p w) = (locH Zd p).ZZplus t₁ := by
       rw [hsh]; exact add_cornE_zero _ _
     have e2 : Loc.HermSp.ZZplusOf (Zd.M p) ((locH Zd p).Zhat t₁.f f₂') t₁.T t₁.T' + cornE p (cornerSh Zd.δ T T' p w') =
@@ -244,16 +244,16 @@ theorem partnerIsomorphismCount_of_bounds (hT2 : Formalism.MainNotions.ThinScale
       exact hu2 (hLZ2.2.2 (hLZ2.1.2 hl2) hg.1.2.2.2.1)
   · have hD' : Dmin w' D.R.rS ≠ 0 := fun h => hD (hkd.2 h)
     have hz : zetaOf w = zetaOf w' := by
-      unfold kind at hk; rw [if_neg hD, if_neg hD'] at hk; exact Option.some_inj.1 hk
+      unfold kind at hk; rw [ite_eq_right hD, ite_eq_right hD'] at hk; exact Option.some_inj.1 hk
     obtain ⟨hu1, hcol1, hc1, hs1⟩ := (hK p T T' w).2 hD
     obtain ⟨hu2, hcol2, hc2, -⟩ := (hK p T T' w').2 hD'
     rw [← hz] at hc2
     have hsh : cornerSh Zd.δ T T' p w =
         ((nSh (blkMod Zd.δ T T' p (D.R.rS + 1) 1 (zetaOf w)) : ℕ) : (D.s.atP p).Ep) := by
-      unfold cornerSh; rw [if_neg hD]
+      unfold cornerSh; rw [ite_eq_right hD]
     have hsh' : cornerSh Zd.δ T T' p w' =
         ((nSh (blkMod Zd.δ T T' p (D.R.rS + 1) 1 (zetaOf w)) : ℕ) : (D.s.atP p).Ep) := by
-      unfold cornerSh; rw [if_neg hD', ← hz]
+      unfold cornerSh; rw [ite_eq_right hD', ← hz]
     rw [hsh, hsh', cornE_eq]
     have hl1 : IsUnit (leadM ((locH Zd p).ZZplus t₁) D.R.rS) := hlead1 ▸ hu1
     have hl2 : IsUnit (leadM (Loc.HermSp.ZZplusOf (Zd.M p) ((locH Zd p).Zhat t₁.f f₂') t₁.T t₁.T') D.R.rS) :=

@@ -243,7 +243,7 @@ lemma re_one_div_sub_zero_pos_ter {q : ℕ} [NeZero q] (χ : DirichletCharacter 
     0 < (1 / ((σ : ℂ) + t * I - ρ)).re := by
   have hre : ρ.re < 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact DirichletCharacter.LFunction_ne_zero_of_one_le_re χ (Or.inl hχ) h hρ
   have hwre : ((σ : ℂ) + t * I - ρ).re = σ - ρ.re := by simp
   have hwpos : 0 < ((σ : ℂ) + t * I - ρ).re := by rw [hwre]; linarith
@@ -287,7 +287,7 @@ theorem zeroFreeNonRealCharOfBounds : NoZeroComplexOf := by
   have hℓpos : 0 < ℓ := by linarith
   have hβ1 : s.re < 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact DirichletCharacter.LFunction_ne_zero_of_one_le_re χ (Or.inl hχ) h hzero
   have hsmall : δ / 8 / ℓ ≤ 1 / 10 := by
     rw [div_le_iff₀ hℓpos]
@@ -428,7 +428,7 @@ lemma term_ofReal_add_mul_I {q : ℕ} [NeZero q] (χ : DirichletCharacter ℂ q)
   rcases eq_or_ne n 0 with rfl | hn
   · simp [LSeries.term_def]
   · have hn' : (n : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr hn
-    rw [LSeries.term_def, if_neg hn, Complex.cpow_add _ _ hn']
+    rw [LSeries.term_def, ite_eq_right hn, Complex.cpow_add _ _ hn']
     push_cast
     rw [Complex.ofReal_cpow (Nat.cast_nonneg n)]
     push_cast
@@ -440,7 +440,7 @@ lemma term_ofReal {q : ℕ} [NeZero q] (χ : DirichletCharacter ℂ q) (σ : ℝ
     term (↗χ * ↗Λ) (σ : ℂ) n = ((Λ n / (n : ℝ) ^ σ : ℝ) : ℂ) * χ n := by
   rcases eq_or_ne n 0 with rfl | hn
   · simp [LSeries.term_def]
-  · rw [LSeries.term_def, if_neg hn]
+  · rw [LSeries.term_def, ite_eq_right hn]
     push_cast
     rw [Complex.ofReal_cpow (Nat.cast_nonneg n)]
     push_cast
@@ -1145,7 +1145,7 @@ lemma zeta_log_deriv_landau_bound (t σ : ℝ) (ht : 2 < |t|) (hσ : 1 < σ) (h�
     have hρ0 := ((hZ ρ).mp hρ).2
     have hρre : ρ.re ≤ 1 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact riemannZeta_ne_zero_of_one_lt_re h hρ0
     apply re_natCast_div_nonneg
     simp
@@ -1542,7 +1542,7 @@ theorem zeroFreeRegionExceptionalZeroOfBounds : ZFRDirichletOf := by
       exact hN q χ s hsq (inRegion_mono' hccN hs) h0
     refine ⟨hsq, hχ1, ?_⟩
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     exact hL q χ s hsq hχ1 hlt (inRegion_mono' hccL hs) h0
   obtain ⟨hsq, hχ1, hsm⟩ := key χ s hs hz
   obtain ⟨him, hder, -⟩ := hS q χ hsq hχ1 s s hsm hsm (inRegion_mono' hccS hs)

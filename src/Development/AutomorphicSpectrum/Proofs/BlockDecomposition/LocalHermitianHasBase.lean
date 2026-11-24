@@ -178,7 +178,7 @@ theorem swapHerm_self {e e' : R} (hee : e * e' = 0) (hce : c e = e') (hH : IsHer
 
 theorem swapHerm_exists_ne (hP : IsPerfect h) {a : V} (ha : a ≠ 0) : ∃ y, h a y ≠ 0 := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   exact ha (hP.nondeg a hne)
 
 theorem swapHerm_pair_ne {e e' : R} (hee : e * e' = 0) (hce : c e = e') (hce' : c e' = e)
@@ -834,7 +834,7 @@ theorem sigR_fixed_eq_algebraMap : ∀ {F E : Type} [Field F] [NumberField F] [F
     rw [h.2.2.2, h.2.2.2, star_star]
   have hmoved : ∃ y, σ y ≠ y := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     obtain ⟨τ⟩ : Nonempty (E →+* ℂ) := inferInstance
     have hreal : ComplexEmbedding.IsReal τ := ComplexEmbedding.isReal_iff.2 (RingHom.ext fun x => by
       rw [ComplexEmbedding.conjugate_coe_eq]

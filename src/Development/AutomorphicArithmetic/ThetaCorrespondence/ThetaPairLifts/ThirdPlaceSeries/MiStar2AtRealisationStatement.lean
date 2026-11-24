@@ -514,7 +514,7 @@ theorem exists_eval {D : D7} {S : D.what₂.Tau → Formalism.BasicNotions.TH.SP
     exact (congrFun (PiTensorProduct.lift.tprod (φ := (T : MMap M)) hE.choose) _).symm
   · exact ((mem_EEC St Gd _).1 (hE.choose_spec.2.choose T).2).1
   · unfold sEEofTT
-    simp only [dif_pos hE]
+    simp only [dite_eq_left hE]
     rfl
 
 theorem inner_smul_star {D : D7} {St : Formalism.L2.SG.HidaSetting.HidaSetting D} (h : St.B.I = Formalism.L2.SG.InstExistsPf.instOf D)

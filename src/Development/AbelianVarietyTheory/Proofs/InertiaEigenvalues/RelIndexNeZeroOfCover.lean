@@ -97,7 +97,7 @@ theorem relIndex_ne_zero_of_cover {H K : Subgroup G} (F : Finset G) (hF : ∀ κ
         have := K.mul_mem κ.2 (K.inv_mem (hle hfκ))
         simpa using this
       refine ⟨⟨f, hf⟩, ?_⟩
-      simp only [φ, dif_pos hfK]
+      simp only [φ, dite_eq_left hfK]
       exact QuotientGroup.eq.2 (by simpa [Subgroup.mem_subgroupOf] using hfκ)
   show (H.subgroupOf K).index ≠ 0
   exact Subgroup.index_ne_zero_of_finite

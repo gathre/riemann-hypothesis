@@ -441,9 +441,9 @@ theorem UpperTheory.V.GC.H2_galois_quotient_eq :
       A = fun v : S => A' v.1 := by
     refine ⟨fun v => if hv : v ∈ S then A ⟨v, hv⟩ else (exists_isPlaceOver Ω v).choose, fun v => ?_, funext fun v => ?_⟩
     · by_cases hv : v ∈ S
-      · simpa only [dif_pos hv] using hA ⟨v, hv⟩
-      · simpa only [dif_neg hv] using (exists_isPlaceOver Ω v).choose_spec
-    · simp only [dif_pos v.2]
+      · simpa only [dite_eq_left hv] using hA ⟨v, hv⟩
+      · simpa only [dite_eq_right hv] using (exists_isPlaceOver Ω v).choose_spec
+    · simp only [dite_eq_left v.2]
   obtain ⟨S', p, hSS, hp, hps, rfl, hker⟩ := levelS F Ω l S K Γ π h
   haveI hcl := isClosed_NS Ω (S' : Set (HeightOneSpectrum (𝓞 F)))
   haveI : TotallyDisconnectedSpace (GS Ω (S' : Set (HeightOneSpectrum (𝓞 F)))) :=

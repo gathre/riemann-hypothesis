@@ -62,7 +62,7 @@ theorem finsum_prod_mul {α β : Type} (u : α → ℂ) (v : β → ℂ) :
     · rw [finsum_of_infinite_support hv, mul_zero]
       by_cases h0 : ∀ a, u a = 0
       · simp [h0]
-      · push_neg at h0
+      · push Not at h0
         obtain ⟨a, ha⟩ := h0
         apply finsum_of_infinite_support
         intro hfin
@@ -73,7 +73,7 @@ theorem finsum_prod_mul {α β : Type} (u : α → ℂ) (v : β → ℂ) :
   · rw [finsum_of_infinite_support hu, zero_mul]
     by_cases h0 : ∀ b, v b = 0
     · simp [h0]
-    · push_neg at h0
+    · push Not at h0
       obtain ⟨b, hb⟩ := h0
       apply finsum_of_infinite_support
       intro hfin

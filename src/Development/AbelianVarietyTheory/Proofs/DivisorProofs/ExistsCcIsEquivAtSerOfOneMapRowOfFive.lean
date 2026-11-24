@@ -328,7 +328,7 @@ theorem delta_extremal_weight_ofFive : ∀ (D : D7) (G : Type) [Group G] [Fintyp
     · subst e
       rw [show compAt R.θ ρ (Formalism.L2.Theta.mt (Wc D i) g) = _ from a2, ← Matrix.mul_assoc, ← Matrix.mul_assoc, h1,
         Matrix.one_mul, Matrix.mul_assoc, h1, Matrix.mul_one]
-      simp only [θs, if_true]
+      simp only [θs, ite_true]
     · rw [show compAt R.θ ρ (Formalism.L2.Theta.mt (Wc D i) g) = _ from a3 ρ e, Matrix.mul_one, h1]
       simp [θs, e]
   have e1 : ∀ ρ, (R.BV i ρ)⁻¹ * compAt R.θ ρ (Formalism.L2.Theta.mt (Vc D i) 1) * R.BV i ρ = 1 := fun ρ => by
@@ -349,7 +349,7 @@ theorem delta_extremal_weight_ofFive : ∀ (D : D7) (G : Type) [Group G] [Fintyp
   congr 1
   by_cases hp : (j : ℕ) < ((Wc D i).sig (tauE D τ)).1
   · simp [θs, hp, mul_assoc]
-  · rw [if_neg hp, if_neg hp, if_neg (by have := hpq τ; omega),
+  · rw [ite_eq_right hp, ite_eq_right hp, ite_eq_right (by have := hpq τ; omega),
       show (Wc D i).rank - 1 - ((Wc D i).rank - 1 - (j - ((Wc D i).sig (tauE D τ)).1)) =
         j - ((Wc D i).sig (tauE D τ)).1 by omega]
     simp [θs, mul_assoc]
@@ -555,7 +555,7 @@ theorem letters_eq_fockVars_ofFive : ∀ (D : D7) (G : Type) [Group G] [Fintype 
   have hP := hT.laws.pins
   have hm : ∀ τ, τ ∉ X.Ψ → (T.Q.Dw ((i : ℕ) + 1)).mult τ ≤ X.p0 := fun τ hτ => by
     unfold Datum.mult
-    rw [if_neg fun h : τ (T.Q.H.rt : D.host.E) = T.Q.H.rt0 => hτ ((hM.psi τ).2 (ReciprocityTheory.ChartRestriction.G.PullbackSections.Pf.exists_tau_of_inPsi T.Q hP.1 τ h)), hp]
+    rw [ite_eq_right fun h : τ (T.Q.H.rt : D.host.E) = T.Q.H.rt0 => hτ ((hM.psi τ).2 (ReciprocityTheory.ChartRestriction.G.PullbackSections.Pf.exists_tau_of_inPsi T.Q hP.1 τ h)), hp]
   obtain ⟨h1, h2⟩ := Dic.letter Dc (fun τ => RingHom.ext fun _ => rfl) hm ℓ
   obtain ⟨g1, g2, g3⟩ := hv (Dc.eL ℓ)
   refine ⟨g2.trans h1, ?_⟩
@@ -683,7 +683,7 @@ theorem class_scalar_value_ofFive : ∀ (D : D7) (G : Type) [Group G] [Fintype G
     (fun Q hQ x => by
       rw [Formalism.L2.Host.HChar.resFin_mul, Formalism.L2.Host.HChar.resFin_mul, Formalism.L2.Host.HChar.resFin_inv,
         (R.C.isMu0 i).triv.1, (hL.xi_triv (tup t)).1, R.C.isEta.res.1, Formalism.L2.Host.etaFin, above_eq,
-        Finset.card_pair hQ.symm, if_neg (by norm_num), inv_one, one_mul, one_mul])
+        Finset.card_pair hQ.symm, ite_eq_right (by norm_num), inv_one, one_mul, one_mul])
   rw [← hbar] at c1 c3
   rw [← hLh] at c3
   obtain ⟨q, q0, q1, q2⟩ := (hO.ep t).2 (O.Lh t k) cc g.1 g.2.1 g.2.2 c1 c3
@@ -877,7 +877,7 @@ theorem exact_identity_ofFive (hC : GlobalTheory.Core5 R F) (hT : TieIn T R κ v
     ring
   have had := ad_value_ofFive hC hT O hP hka hδ t h J' hR y xs hpl g' γ hγ _ g Dc hX hp hrt _ hon hinv (hbas _) hΛ mk₂ ha₂ v _ hv
     (hfr ▸ hrd') Y hY
-  have hrdU : rdU (unfO O) f (O.dict g').1 (O.dict g').2 = _ := (dif_pos hx).trans hgeo
+  have hrdU : rdU (unfO O) f (O.dict g').1 (O.dict g').2 = _ := (dite_eq_left hx).trans hgeo
   have e1 := congrArg (clsSum (inC O.c') ((unfO O).X (O.dict g').1) Dc.hr Dc.bas Dc.idx Dc.eL (O.w t) (O.La t) (O.Nc t) (O.gam t)
     (O.vol t) (O.ep t) (fun j => O.io (xs j)) ((unfO O).X (O.dict g').1).Λ v Y) hfr
   rw [had.trans (congrArg (fun z => _ * z) e1.symm), hrdU]
@@ -940,7 +940,7 @@ theorem thetaVector_eq_sum_heisenberg_of_core_five : ∀ (D : D7) (G : Type) [Gr
   by_cases hw : w ∈ latO (Vc D i) (Wc D i) (R.ΛV i : Set (Fin (Vc D i).rank → D.host.E))
       (R.ΛW i : Set (Fin (Wc D i).rank → D.host.E)) (fun _ => True) ∧ IsHalf (cA D e) w
   swap
-  · rw [halfInd, if_neg hw, zero_mul, if_neg]
+  · rw [halfInd, ite_eq_right hw, zero_mul, ite_eq_right]
     rintro ⟨h1, h2⟩
     have hN : ∀ PP ∈ R.Pg ∪ R.Q t, ((Ideal.absNorm D.host.ccK : ℕ) : 𝓞 D.host.E) ∉ PP.asIdeal := fun PP hPP h =>
       (hP PP (Finset.mem_union.1 hPP)).2 (by rw [Nat.cast_mul]; exact Ideal.mul_mem_left _ _ h)
@@ -961,7 +961,7 @@ theorem thetaVector_eq_sum_heisenberg_of_core_five : ∀ (D : D7) (G : Type) [Gr
     rw [hfr]
     have : Ideal.span {(l.M : 𝓞 D.host.E)} ≤ l.Mb := l.prod ▸ Ideal.mul_le_left
     exact GlobalTheory.PlaceVec.redM_add_nsmul PP ((hP PP hPP).1 (this (Ideal.subset_span rfl))) (hφ x).1 (hint u hu)
-  rw [halfInd, if_pos hw, one_mul, if_pos ⟨hw.2, hw' ▸ hint w hw.1⟩,
+  rw [halfInd, ite_eq_left hw, one_mul, ite_eq_left ⟨hw.2, hw' ▸ hint w hw.1⟩,
     GlobalTheory.PlaceVec.omegaK_congr _ fun PP h => hred PP (Or.inl h),
     GlobalTheory.PlaceVec.omegaQ_congr _ _ _ _ fun PP h => hred PP (Or.inr h), ← (hφ x).2, RingHom.id_apply, ← inversion l φ x]
   refine Finset.sum_congr rfl fun q _ => congrArg _ ?_
@@ -1180,7 +1180,7 @@ theorem coefMap_norm_equivariant_basis_ofFive : ∀ (D : D7) (G : Type) [Group G
     have hγE : Matrix.nonsingInvUnit γE.val hu = γE := Units.ext rfl
     have hemb : (fun τ => embF O.c' (tauE D τ)) = fun τ => O.jL.comp (labLL D τ) :=
       funext fun τ => (embV_eq_embF O.c' O.jL hσ τ).symm
-    rw [rhoM, dif_pos hu, hγE, hemb]
+    rw [rhoM, dite_eq_left hu, hγE, hemb]
     exact CoefExt.equivariant (W := (R.cV i).W) hE ((R.cV i).ρ γ) (Formalism.L2.DIV.rhoVr (labLL D) (lamV D i) γE) _
       (CoefExt.up_rhoVr O.jL (lamV D i) (labLL D) γE) (h1 γ γE hγ) v
 
@@ -1280,9 +1280,9 @@ theorem io_eq_phase_smul_ofFive : ∀ (D : D7) (G : Type) [Group G] [Fintype G] 
       refine toF_pG O.c' hl hty i1 _ _ _ _ _ (fun τ => by rw [hsig, d1]) (fun τ => by rw [hsig, d2]) (fun τ k hk => ?_)
         fun τ k hk => ?_
       · rw [d1] at hk
-        exact (w3 τ k).1.trans ((dif_pos hk).trans ((hT.kap i τ).1 ⟨k, hk⟩))
+        exact (w3 τ k).1.trans ((dite_eq_left hk).trans ((hT.kap i τ).1 ⟨k, hk⟩))
       · rw [d2] at hk
-        exact (w3 τ k).2.trans ((dif_pos hk).trans ((hT.kap i τ).2.1 ⟨k, hk⟩))
+        exact (w3 τ k).2.trans ((dite_eq_left hk).trans ((hT.kap i τ).2.1 ⟨k, hk⟩))
     obtain ⟨a, ha, ha'⟩ := proportional ((R.cV i).ρ.comp (GQ (Vc D i)).subtype) _ r1 (fun γ hγ => hγ) r2 A₀ (PT A.μ0 ∘ₗ B₀)
       (fun γ => by
         obtain ⟨γE, a, k, h1, h2, h3, h4, h5, h6⟩ := rat_parts hθ hP.std γ
@@ -1362,7 +1362,7 @@ theorem cover_value_ofFive : ∀ (D : D7) (G : Type) [Group G] [Fintype G] (Pl0 
   obtain ⟨a, ha⟩ := hrat γ' hγ'
   have hv := hval k γ' ⟨hγ', h2, h3⟩
   rw [(hO.tuple t).xi _ _ (hmul _ _ _ _ ha hxk), map_mul, (hR.lev.xi (tup t)).1.2 a, _root_.one_mul] at hv
-  exact (evR_eq_of_point _ hlev.2.2.2.2.2.2.2.1 _ y₂ hpt).trans ((dif_pos hd).symm.trans hv)
+  exact (evR_eq_of_point _ hlev.2.2.2.2.2.2.2.1 _ y₂ hpt).trans ((dite_eq_left hd).symm.trans hv)
 
 end GlobalTheory.AdTh.CoverVal
 end

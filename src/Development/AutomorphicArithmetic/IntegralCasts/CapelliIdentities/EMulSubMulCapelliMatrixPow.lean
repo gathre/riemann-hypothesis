@@ -98,9 +98,9 @@ private theorem commutator_matrix_pow {R : Type*} [Ring R] {n : Nat}
     rw [Finset.mul_sum, Finset.sum_mul, ← Finset.sum_sub_distrib,
       Finset.sum_congr rfl (fun j _ => key j)]
     simp only [sub_mul, mul_sub, Finset.sum_add_distrib, Finset.sum_sub_distrib, ite_mul, mul_ite,
-      zero_mul, mul_zero, Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      zero_mul, mul_zero, Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     by_cases h1 : b = c <;> by_cases h2 : d = a <;>
-      simp only [h1, h2, if_true, if_false, Finset.sum_const_zero] <;> abel
+      simp only [h1, h2, ite_true, ite_false, Finset.sum_const_zero] <;> abel
 
 private theorem E_comm {n : Nat} (a b c d : Fin n) :
     E (a, b) * E (c, d)

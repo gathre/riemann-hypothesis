@@ -126,7 +126,7 @@ theorem gnorm_one_eq (v : Fin g → ℂ) : gnorm 1 v = √(∑ a, ‖v a‖ ^ 2)
   rw [gnorm, form_eq_sum]
   congr 1
   simp only [Matrix.one_apply, mul_ite, mul_one, mul_zero, ite_mul, zero_mul,
-    Finset.sum_ite_eq, Finset.mem_univ, if_true, re_sum]
+    Finset.sum_ite_eq, Finset.mem_univ, ite_true, re_sum]
   refine Finset.sum_congr rfl fun a _ => ?_
   rw [Complex.mul_conj, Complex.normSq_eq_norm_sq, ofReal_re]
 
@@ -804,7 +804,7 @@ theorem gnorm_diag_sq {n : ℕ} (d : Fin n → ℝ) (hd : ∀ k, 0 ≤ d k) (ξ 
     rw [posSemidef_diagonal_iff]; intro k; exact_mod_cast hd k
   rw [gnorm_sq hP, form_eq_sum]
   simp only [diagonal_apply, mul_ite, mul_zero, ite_mul, zero_mul, Finset.sum_ite_eq,
-    Finset.mem_univ, if_true, re_sum]
+    Finset.mem_univ, ite_true, re_sum]
   refine Finset.sum_congr rfl fun k _ => ?_
   rw [mul_comm (ξ k), mul_assoc, mul_conj, ← ofReal_mul, ofReal_re, normSq_eq_norm_sq]
 
@@ -860,7 +860,7 @@ theorem poincare_bounds : ∀ (n a : ℕ) (ha : a ≤ n) (ρ : ℝ), ρ ≤ 1 �
     obtain ⟨hp, -⟩ := norm_mul_tlog_lt h0 (lt_of_lt_of_le (hz.1 k) hρ)
     have h1 := pdiag_term_le a z ξ k
     have hd : pdiag a z k = 1 / (2 * (‖z k‖ * tlog (z k)) ^ 2) := by
-      unfold pdiag; rw [if_pos hk]; ring
+      unfold pdiag; rw [ite_eq_left hk]; ring
     rw [hd] at h1
     set s := ‖z k‖ * tlog (z k)
     set G := gnorm (poincareGram a z) ξ

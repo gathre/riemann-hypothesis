@@ -399,7 +399,7 @@ theorem agree_truncLog {f : MvPowerSeries σ K} (hf : MvPowerSeries.constantCoef
 
 theorem coeff_log_succ_mul (k : ℕ) :
     PowerSeries.coeff (k + 1) (PowerSeries.log K) * ((k + 1 : ℕ) : K) = (-1) ^ k := by
-  rw [PowerSeries.coeff_log, if_neg (Nat.succ_ne_zero k)]
+  rw [PowerSeries.coeff_log, ite_eq_right (Nat.succ_ne_zero k)]
   simp only [map_div₀, map_pow, map_neg, map_one, map_natCast]
   have : ((k + 1 : ℕ) : K) ≠ 0 := Nat.cast_ne_zero.mpr (Nat.succ_ne_zero k)
   field_simp
@@ -699,7 +699,7 @@ theorem expand {bar : O → O} {ψ : M → Q} (H : BiHyp bar ψ) {ι : Type*}
     have hse : ∀ e ∈ s, ∑ e' ∈ (insert a s).filter (fun e' => e < e'), quadDiff ψ (x e) (x e') =
         quadDiff ψ (x e) (x a) + ∑ e' ∈ s.filter (fun e' => e < e'), quadDiff ψ (x e) (x e') := by
       intro e he
-      rw [Finset.filter_insert, if_pos (hlt e he),
+      rw [Finset.filter_insert, ite_eq_left (hlt e he),
         Finset.sum_insert (fun h => ha (Finset.mem_filter.mp h).1)]
     rw [Finset.sum_insert ha, hdef, ih, Finset.sum_insert ha, Finset.sum_insert ha, hfa,
       Finset.sum_empty, Finset.sum_congr rfl hse, Finset.sum_add_distrib, qd_comm, sum1 H]
@@ -976,12 +976,12 @@ theorem coeff_pow_of_cc {e : PowerSeries K} (he : constantCoeff e = 0) :
 theorem coeff_pow_eq_zero {e : PowerSeries K} (he : constantCoeff e = 0) {m n : ℕ} (h : n < m) :
     coeff n (e ^ m) = 0 := by
   obtain ⟨g, -, hg⟩ := coeff_pow_of_cc he
-  rw [hg, if_neg (by omega)]
+  rw [hg, ite_eq_right (by omega)]
 
 theorem coeff_pow_self {e : PowerSeries K} (he : constantCoeff e = 0) (n : ℕ) :
     coeff n (e ^ n) = coeff 1 e ^ n := by
   obtain ⟨g, hg1, hg⟩ := coeff_pow_of_cc he
-  rw [hg, if_pos le_rfl, Nat.sub_self, PowerSeries.coeff_zero_eq_constantCoeff_apply, map_pow, hg1]
+  rw [hg, ite_eq_left le_rfl, Nat.sub_self, PowerSeries.coeff_zero_eq_constantCoeff_apply, map_pow, hg1]
 
 theorem coeff_subst_eq_sum {l e : PowerSeries K} (he : constantCoeff e = 0) (n : ℕ) :
     coeff n (l.subst e) = ∑ m ∈ Finset.range (n + 1), coeff m l * coeff n (e ^ m) := by
@@ -1355,8 +1355,8 @@ theorem v_map : veluV (W.map f) (f a) (f b) = f (veluV W a b) := by
   unfold veluV
   rw [gx_map, gy_map]
   by_cases h : veluGy W a b = 0
-  · rw [if_pos (by rw [h, map_zero]), if_pos h]
-  · rw [if_neg (by rwa [map_eq_zero_iff f f.injective]), if_neg h]
+  · rw [ite_eq_left (by rw [h, map_zero]), ite_eq_left h]
+  · rw [ite_eq_right (by rwa [map_eq_zero_iff f f.injective]), ite_eq_right h]
     simp [map_sub, map_mul, map_ofNat]
 
 theorem u_map : veluU (W.map f) (f a) (f b) = f (veluU W a b) := by

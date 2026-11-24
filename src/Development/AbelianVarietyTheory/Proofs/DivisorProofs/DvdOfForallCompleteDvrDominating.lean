@@ -93,7 +93,7 @@ theorem dvd_of_forall_complete_dvr : ∀ (R : Type) [CommRing R] [IsDomain R] [I
     apply hnd
     refine ⟨r, hinj ?_⟩
     rw [map_mul, hr, mul_div_cancel₀ _ hg']
-  push_neg at hx
+  push Not at hx
   obtain ⟨V, hV, h1, h2, hxV⟩ := hx
   have hdom : LocalSubring.range (algebraMap R K) ≤ V.toLocalSubring :=
     (GlobalTheory.localSubring_range_le_valuationSubring_iff _ _).mpr ⟨h1, h2⟩

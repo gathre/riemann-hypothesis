@@ -70,7 +70,7 @@ theorem eU_apply (a : S) (i j : Fin 2) (x y : Ix S) :
       by_cases hb : b = a
       · subst hb
         simp [h2]
-      · simp only [Function.update_apply, if_neg hb]
+      · simp only [Function.update_apply, ite_eq_right hb]
         exact (h3 b hb).symm
     · rintro ⟨h1, rfl⟩
       exact ⟨h1, by simp, fun b hb => by simp [hb]⟩

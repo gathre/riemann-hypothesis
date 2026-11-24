@@ -1012,7 +1012,7 @@ theorem le_of_lintegral_ball_eq {X : Type} [PseudoMetricSpace X] [ProperSpace X]
     (h : ∀ r > 0, ∫⁻ x in Metric.ball b r, G x ∂ν = ∫⁻ x in Metric.ball b r, H x ∂ν) :
     H b ≤ G b := by
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   obtain ⟨c, hc1, hc2⟩ := exists_between hlt
   obtain ⟨d, hd1, hd2⟩ := exists_between hc2
   have e : ∀ᶠ x in 𝓝 b, G x < c ∧ d < H x :=
@@ -1187,7 +1187,7 @@ theorem fibre_lintegral_ne_zero : ActionCoordinates.QuotientMeasure → CDHaar �
   let s : ActionCoordinates.Wsp P Q → UpqT P Q := fun y => if h : ActionCoordinates.qf y = β then s0 y h else 1
   have hs : ∀ y, ActionCoordinates.qf y = β → ActionCoordinates.act (s y)⁻¹ x₀ = y := by
     intro y hy
-    simp only [s, dif_pos hy]
+    simp only [s, dite_eq_left hy]
     exact hs0 y hy
   have hc : Continuous fun g : UpqT P Q => ActionCoordinates.act g⁻¹ x₀ :=
     (hcl.continuous.comp continuous_inv).matrix_mulVec continuous_const

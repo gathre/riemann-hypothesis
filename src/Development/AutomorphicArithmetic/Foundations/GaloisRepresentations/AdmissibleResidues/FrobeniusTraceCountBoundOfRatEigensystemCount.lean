@@ -98,7 +98,7 @@ private theorem one_le_sqrt_mul_norm_inv_natCast_mul_and_le_sqrt_and_pos (q : �
   have hs : 0 < √(q : ℝ) := Real.sqrt_pos.2 hQ0
   have hr : 0 < ‖b‖ := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have : √(q : ℝ) * ‖b‖ ≤ 0 := mul_nonpos_of_nonneg_of_nonpos hs.le hc
     have : (0 : ℝ) < (q : ℝ)⁻¹ := inv_pos.2 hQ0
     linarith
@@ -196,7 +196,7 @@ private theorem norm_inv_pow_le_sqrt_and_pos_of_one_lt_sqrt_mul_norm (p : ℕ) (
   have hs : 0 < √(p : ℝ) := Real.sqrt_pos.2 (by exact_mod_cast (show 0 < p by omega))
   have hr : 0 < ‖b‖ := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have : √(p : ℝ) * ‖b‖ ≤ 0 := mul_nonpos_of_nonneg_of_nonpos hs.le hc
     linarith
   have hsq : √((p ^ h : ℕ) : ℝ) = √(p : ℝ) ^ h := by

@@ -167,7 +167,7 @@ theorem UpperTheory.Gal.TypesAndIwahori.indSupp :
   have key : ∀ (p : P) (c : G), c ∈ C → φ (↑p * c) = σ p u := by
     intro p c hc
     have h : ∃ p' : P, ∃ c' ∈ C, (↑p * c : G) = ↑p' * c' := ⟨p, c, hc, rfl⟩
-    simp only [φ, dif_pos h]
+    simp only [φ, dite_eq_left h]
     obtain ⟨c', hc', hpc⟩ := h.choose_spec
     have hq : ((h.choose⁻¹ * p : P) : G) ∈ C := by
       have e : ((h.choose⁻¹ * p : P) : G) = c' * c⁻¹ := by
@@ -181,7 +181,7 @@ theorem UpperTheory.Gal.TypesAndIwahori.indSupp :
       _ = σ p u := by rw [← Module.End.mul_apply, ← map_mul, mul_inv_cancel_left]
   have zero : ∀ g : G, (¬∃ p : P, ∃ c ∈ C, g = ↑p * c) → φ g = 0 := by
     intro g hg
-    simp only [φ, dif_neg hg]
+    simp only [φ, dite_eq_right hg]
   have memInd : φ ∈ indSpace P σ := by
     show ∀ (h : P) (g : G), φ (↑h * g) = σ h (φ g)
     intro h g
@@ -422,7 +422,7 @@ theorem UpperTheory.Gal.InertialTypesAlt.avgMap :
   refine ⟨∑ g : G, (ρ g⁻¹).comp (Φ.comp (ψ.comp (η g))), ?_, ?_⟩
   · obtain ⟨x, hx⟩ : ∃ x, ψ x ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hne (LinearMap.ext h)
     intro h0
     have h1 := congrArg (fun L => ev (L x)) h0

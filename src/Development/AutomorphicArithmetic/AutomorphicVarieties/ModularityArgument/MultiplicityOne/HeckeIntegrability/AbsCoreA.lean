@@ -159,7 +159,7 @@ private theorem trace_range {V U : Type} [AddCommGroup V] [Module ℂ V] [AddCom
   have e3 : b ∘ₗ a = (i ∘ₗ B).restrict fun x _ => LinearMap.mem_range_self (i ∘ₗ B) x := by
     ext x
     rfl
-  rw [trOn, dif_pos h0, e1, LinearMap.trace_comp_comm', e2, LinearMap.trace_comp_comm', e3]
+  rw [trOn, dite_eq_left h0, e1, LinearMap.trace_comp_comm', e2, LinearMap.trace_comp_comm', e3]
 
 private theorem trOn_smul {U : Type} [AddCommGroup U] [Module ℂ U] (F : Submodule ℂ U) (c : ℂ) (f : U →ₗ[ℂ] U)
     (hf : ∀ x ∈ F, f x ∈ F) : trOn F (c • f) = c * trOn F f := by
@@ -167,7 +167,7 @@ private theorem trOn_smul {U : Type} [AddCommGroup U] [Module ℂ U] (F : Submod
   have e : (c • f).restrict h = c • f.restrict hf := by
     ext x
     rfl
-  rw [trOn, trOn, dif_pos h, dif_pos hf, e, map_smul, smul_eq_mul]
+  rw [trOn, trOn, dite_eq_left h, dite_eq_left hf, e, map_smul, smul_eq_mul]
 
 section Conc
 
@@ -276,7 +276,7 @@ theorem UpperTheory.V.Z.Mult.Pi.twisted_trace_global_bound_of_archimedean :
   have he : ∀ y : Y, ((e y : Y.map j) : Sm E n) = (D.i y).1 := fun _ => rfl
   let ρ : (GL (Fin n) (Af E) → ℂ) → Module.End ℂ (Y.map j) := fun h =>
     if hh : IsHeckeF K h then e.conj ((D.R ⟨h, hh⟩).restrict (hYR ⟨h, hh⟩)) else 0
-  have hρ : ∀ h (hh : IsHeckeF K h), ρ h = e.conj ((D.R ⟨h, hh⟩).restrict (hYR ⟨h, hh⟩)) := fun h hh => dif_pos hh
+  have hρ : ∀ h (hh : IsHeckeF K h), ρ h = e.conj ((D.R ⟨h, hh⟩).restrict (hYR ⟨h, hh⟩)) := fun h hh => dite_eq_left hh
   have hmul : ∀ f g : Module.End ℂ Y, e.conj f * e.conj g = e.conj (f * g) := fun f g => (e.conj_comp g f).symm
   refine ⟨Y.map j, ρ, e.conj (D.Θ.restrict hYΘ), c₂ * c₁, ?_, inferInstance, ?_, ?_, ?_, ?_, ?_, ?_,
     by rw [norm_mul, hc₁], ?_⟩
@@ -336,7 +336,7 @@ theorem UpperTheory.V.Z.Mult.Pi.twisted_trace_global_bound_of_archimedean :
         simp only [LinearMap.comp_apply, LinearMap.smul_apply, Module.End.mul_apply, h3, h4]
       have h5 : ∀ y ∈ Y, (D.R ⟨h, hh⟩ * D.Θ) y ∈ Y := fun y hy => hYR _ _ (hYΘ y hy)
       have h6 : LinearMap.trace ℂ (Y.map j) (ρ h * e.conj (D.Θ.restrict hYΘ)) = trOn Y (D.R ⟨h, hh⟩ * D.Θ) := by
-        rw [hρ h hh, hmul, LinearMap.trace_conj', trOn, dif_pos h5]
+        rw [hρ h hh, hmul, LinearMap.trace_conj', trOn, dite_eq_left h5]
         rfl
       rw [← htrL, h2, trOn_smul _ a (Q * D.R ⟨h, hh⟩ * D.Θ) (fun x _ => hPF _), htr, h6, ha]
       ring
@@ -1079,7 +1079,7 @@ theorem UpperTheory.V.Z.Mult.Pi.opFormA :
     intro y
     have e1 : (l.map fun v => (Pi.mulSingle v (y v) : InfinitePlace E → G n)).prod = y := by
       funext w
-      rw [prod_single y l (Finset.nodup_toList _), if_pos (Finset.mem_toList.2 (Finset.mem_univ w))]
+      rw [prod_single y l (Finset.nodup_toList _), ite_eq_left (Finset.mem_toList.2 (Finset.mem_univ w))]
     conv_rhs => rw [← e1]
     refine Eq.trans ?_ (map_list_prod ih _).symm
     rw [List.map_map]
@@ -1541,7 +1541,7 @@ private lemma trace_idem {Y : Type} [AddCommGroup Y] [Module ℂ Y] [FiniteDimen
     LinearMap.trace ℂ Y f = 1 := by
   obtain ⟨y, hy⟩ : ∃ y, f y ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact h0 (LinearMap.ext h)
   have hidem : ∀ v, f (f v) = f v := fun v => by
     have := congrArg (fun g : Module.End ℂ Y => g v) hf
@@ -1549,7 +1549,7 @@ private lemma trace_idem {Y : Type} [AddCommGroup Y] [Module ℂ Y] [FiniteDimen
   obtain ⟨φ, hφ⟩ : ∃ φ : Module.Dual ℂ Y, φ (f y) = 1 := by
     have h1 : ¬ ∀ φ : Module.Dual ℂ Y, φ (f y) = 0 := fun h =>
       hy ((Module.forall_dual_apply_eq_zero_iff ℂ (f y)).1 h)
-    push_neg at h1
+    push Not at h1
     obtain ⟨ψ, hψ⟩ := h1
     refine ⟨(ψ (f y))⁻¹ • ψ, ?_⟩
     simp [hψ]
@@ -1949,7 +1949,7 @@ theorem UpperTheory.V.Z.Mult.Pi.seenTrA :
     Prod.ext rfl (Subsingleton.elim _ _)
   rw [hcv]
   unfold PositivityTheory.Rg.BcB.G8.seen
-  rw [if_pos hw]
+  rw [ite_eq_left hw]
   rw [hint_fst (KGL w (n := n)) N (KGL w (n := 0)) _ hNK ?_ hi]
   · congr 1
     refine finsum_congr fun q => ?_

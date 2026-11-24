@@ -1035,7 +1035,7 @@ theorem exists_cp (p : ℕ) [hp : Fact p.Prime] {C : Type} [Field C] [IsAlgClose
   obtain ⟨c, hc⟩ := IsAlgClosed.exists_pow_nat_eq (p : C) h1
   have hle : v c ≤ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have : 1 < v c ^ (p - 1) := one_lt_pow₀ h h1.ne'
     rw [← map_pow, hc] at this
     exact absurd hpv (not_lt.2 this.le)

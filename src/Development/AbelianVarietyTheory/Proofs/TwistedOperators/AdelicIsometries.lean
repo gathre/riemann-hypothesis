@@ -881,7 +881,7 @@ theorem form_sumMap {Y X : HSp D} {ι : X.V →ₗ[D.host.E] Y.V} {a ρ : ℕ} {
     exact ⟨fun i j => Fin.ext (by omega)⟩
   have zz : ∀ i j, Y.hT (z i) (z j) = if i = j then c else 0 := fun i j => by
     obtain rfl := Subsingleton.elim i j
-    rw [if_pos rfl]; exact h.z_norm i
+    rw [ite_eq_left rfl]; exact h.z_norm i
   have zx : ∀ i x, Y.hT (z i) (ι x) = 0 := fun i x => h.z_X i x
   have xz : ∀ i x, Y.hT (ι x) (z i) = 0 := fun i x => by rw [hT_swap, zx, star_zero]
   have ex : ∀ i x, Y.hT (e i) (ι x) = 0 := fun i x => (h.hyp_X i x).1
@@ -903,7 +903,7 @@ theorem form_sumMap {Y X : HSp D} {ι : X.V →ₗ[D.host.E] Y.V} {a ρ : ℕ} {
   simp only [map_add (f := _), map_sum, LinearMap.map_smulₛₗ, LinearMap.add_apply, LinearMap.sum_apply,
   LinearMap.smul_apply, zz, zx, xz, ex, xe, fx, xf, ez, ze, fz, zf, ee, ff, fe, ef, xx, smul_eq_mul, mul_zero,
   Finset.sum_const_zero, add_zero, zero_add, mul_ite, Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ,
-  if_true, mul_one, RingHom.id_apply, starRingEnd_apply]
+  ite_true, mul_one, RingHom.id_apply, starRingEnd_apply]
   rw [add_comm (∑ i, star (p.2.2.1 i) * q.2.2.2 i)]
   congr 1
   congr 1

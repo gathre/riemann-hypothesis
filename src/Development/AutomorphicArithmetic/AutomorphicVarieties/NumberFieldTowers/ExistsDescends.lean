@@ -130,7 +130,7 @@ private theorem exists_qz_ne_zero_annihilators_of_ne_zero (l : ℕ) [Fact l.Prim
     · rw [hdec _ a a0] at ha ⊢
       have hle : r ≤ a.valuation := Nat.find_min' hex ha
       rw [← Nat.add_sub_cancel' hle, pow_add, mul_comm, mul_smul, hx, smul_zero]
-  · push_neg at hex
+  · push Not at hex
     obtain ⟨ι, hinj, hrange, hlin⟩ := zmodToQZ l 1
     haveI : Fact (1 < l ^ 1) := ⟨by rw [pow_one]; exact hl1⟩
     have hι0 : ι 0 = 0 := by simpa using hlin 0 0
@@ -347,7 +347,7 @@ theorem UpperTheory.V.Tower.existsGen :
         rw [Subgroup.map_le_iff_le_comap]
         intro x hx
         have hx' := h hx
-        simp only [gamU, levU, qExp, if_pos hl, Subgroup.mem_inf] at hx'
+        simp only [gamU, levU, qExp, ite_eq_left hl, Subgroup.mem_inf] at hx'
         exact hx'.2
     · exact Or.inl hl
   obtain ⟨γ', hγ', hle⟩ := UpperTheory.V.Kum.existsGen l (U.map (cycZ k Ω l)) hclosed hc
@@ -503,7 +503,7 @@ open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.
 private theorem exists_level_pow_dvd_of_not_finOrder (l : ℕ) [hl : Fact l.Prime] (u : ℤ_[l]ˣ) (hu : ¬ IsOfFinOrder u) (a : ℕ) :
     ∃ j : ℕ, ∀ m : ℤ, PadicInt.toZModPow j ((u ^ m : ℤ_[l]ˣ) : ℤ_[l]) = 1 → (l : ℤ) ^ (a + 1) ∣ m := by
   by_contra h
-  push_neg at h
+  push Not at h
   apply hu
   have hK : 0 < l ^ a * (l - 1) :=
     Nat.mul_pos (pow_pos hl.out.pos a) (Nat.sub_pos_of_lt hl.out.one_lt)
@@ -537,7 +537,7 @@ private theorem exists_level_pow_dvd_of_not_finOrder (l : ℕ) [hl : Fact l.Prim
       obtain ⟨b, -, hb⟩ := (Nat.dvd_prime_pow hl.out).mp (Nat.gcd_dvd_right (orderOf w) (l ^ i))
       have hba : b ≤ a := by
         by_contra hba
-        push_neg at hba
+        push Not at hba
         apply hnd
         have h1 : (l : ℤ) ^ b ∣ m := by
           have : l ^ b ∣ orderOf w := hb ▸ Nat.gcd_dvd_left _ _

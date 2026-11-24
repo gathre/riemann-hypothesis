@@ -97,7 +97,7 @@ theorem mem_of_divCycle_ne_zero {K : Type*} {ι : K → Type*} {R : Type*} [Comm
   unfold divCycle at h
   by_cases hW : W ∈ (P ⊔ Ideal.span {f}).minimalPrimes ∧ IsRelevant W
   · exact ⟨hW.1.1.2 (Ideal.mem_sup_right (Ideal.subset_span rfl)), hW.1.1.1, hW.2⟩
-  · exact False.elim (h (dif_neg hW))
+  · exact False.elim (h (dite_eq_right hW))
 
 end Examples
 

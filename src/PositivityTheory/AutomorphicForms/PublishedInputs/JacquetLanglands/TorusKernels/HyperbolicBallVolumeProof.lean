@@ -119,11 +119,11 @@ theorem kap_pt {x y : ℝ} (hy : 0 < y) :
     rw [Complex.sq_norm, Complex.normSq_apply]
     simp [iP, pt]; ring
   have him : 0 < iP.1.im * (pt x y hy.ne').1.im := by simp [iP, pt, hy]
-  rw [kap, if_pos him, hn]
+  rw [kap, ite_eq_left him, hn]
   simp [iP, pt]
 
 theorem kap_neg (w : P) (hw : w.1.im < 0) : kap iP w = 0 := by
-  rw [kap, if_neg]
+  rw [kap, ite_eq_right]
   simp [iP]; linarith
 
 theorem kap_sq_le {x y : ℝ} (hy : 0 < y) :
@@ -162,7 +162,7 @@ theorem inner_le (y : ℝ) (hy : y ≠ 0) :
       rw [H, kap_neg _ (by simp [pt, hn])]
       simp
     simp [this]
-  · rw [B, if_pos hp, ← x_int hp, ← lintegral_const_mul _ (by fun_prop)]
+  · rw [B, ite_eq_left hp, ← x_int hp, ← lintegral_const_mul _ (by fun_prop)]
     refine lintegral_mono fun x => ?_
     rw [H, ← ENNReal.ofReal_mul (by positivity)]
     refine ENNReal.ofReal_le_ofReal ?_
@@ -205,7 +205,7 @@ theorem H_lt (h5 : UpperHalfPlaneMeasureCoordinates) (hc : Continuous fun p : P 
     _ ≤ ∫⁻ y, (Ioi (0 : ℝ)).indicator (fun y => ENNReal.ofReal (16 * F y) * A) y := by
         refine (setLIntegral_le_lintegral _ _).trans (lintegral_mono fun y => ?_)
         by_cases hy : 0 < y
-        · rw [indicator_of_mem (show y ∈ Ioi 0 from hy), B, if_pos hy, abs_of_pos hy, ← mul_assoc, ← mul_assoc,
+        · rw [indicator_of_mem (show y ∈ Ioi 0 from hy), B, ite_eq_left hy, abs_of_pos hy, ← mul_assoc, ← mul_assoc,
             ← ENNReal.ofReal_mul (by positivity), ← ENNReal.ofReal_mul (by positivity)]
           refine le_of_eq (congrArg (· * A) (congrArg ENNReal.ofReal ?_))
           unfold F

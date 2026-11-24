@@ -139,7 +139,7 @@ theorem qW_add_smul_single {r : ℕ} (W : Matrix (Fin 8) (Fin 8) ℤ) (b : Linea
 theorem psd_of_min : ∀ {r N : ℕ}, 0 < N → ∀ (W : Matrix (Fin 8) (Fin 8) ℤ), IsE8 W → ∀ (b : LinearMap.BilinForm ℤ (Fin r → ℤ)) (μ : Fin 8 → Fin r → ℤ), (∀ α : Fin 8 → Fin r → ℤ, (∀ u i, ∃ m : ℤ, α u i = μ u i + N * m) → qW W b μ ≤ qW W b α) → ∀ x, 0 ≤ b x x := by
   intro r N hN W hW b μ hmin x
   by_contra hx
-  push_neg at hx
+  push Not at hx
   have hW0 := isE8_apply_zero_zero_pos hW
   set e : Fin 8 → Fin r → ℤ := Pi.single 0 x with he
   set B : ℤ := ∑ u, ∑ v, W u v * (b (e u) (μ v) + b (μ u) (e v)) with hB
@@ -203,7 +203,7 @@ open Matrix
 theorem exists_e8Form_value_not_dvd_prime (W : Matrix (Fin 8) (Fin 8) ℤ) (hW : IsE8 W) (p : ℕ) (hp : p.Prime) :
     ∃ ε : Fin 8 → ℤ, ¬ (p : ℤ) ∣ ∑ u, ∑ v, W u v * ε u * ε v := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hQ : ∀ ε : Fin 8 → ℤ, ∑ u, ∑ v, W u v * ε u * ε v = ε ⬝ᵥ (W *ᵥ ε) := by
     intro ε
     simp only [dotProduct, Matrix.mulVec, Finset.mul_sum]
@@ -411,7 +411,7 @@ theorem finite_minimiser_systems_upTo_aut : ∀ (g : ℕ) (φ : InvFun ℤ), IsP
     rw [hbyy] at this
     simp [hz] at this
   have hmem : μ' ∈ T i := by
-    simp only [T, dif_pos hPi]
+    simp only [T, dite_eq_left hPi]
     refine Classical.choose_spec (_root_.GlobalTheory.Poinc.MinSys.finite_minimiser_systems φ W hW N hN r i.1.val _ hPi.1 hPi.2) (pull e.toLinearMap b) 1 cf
       one_pos hcf ?_ μ' h1 h2
     ext a c

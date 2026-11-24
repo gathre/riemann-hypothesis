@@ -180,7 +180,7 @@ theorem coeff_F_y (c i : Fin d) : coeff (Finsupp.single ((1 : Fin 2), i) 1) (G.F
   rw [h, coeff_X]
   by_cases hci : c = i
   · subst hci; simp
-  · rw [if_neg, if_neg hci]
+  · rw [ite_eq_right, ite_eq_right hci]
     intro he
     exact hci (congrArg Prod.snd (Finsupp.single_left_injective one_ne_zero he)).symm
 
@@ -216,7 +216,7 @@ theorem T_eq (b i j : Fin d) :
 
   simp only [d_F, map_sum, ev_sum cz1, Derivation.leibniz, smul_eq_mul, ev_add cz1, ev_mul cz1, ezF, d_y, ez_y,
   ez_Ar, ez_dF, C_cc_jac, ite_mul, one_mul, zero_mul, Finset.sum_add_distrib, Finset.sum_ite_eq',
-  Finset.mem_univ, if_true] at h
+  Finset.mem_univ, ite_true] at h
   have hs : ∑ c, Jac G c b * pderiv ((0 : Fin 1), c) (Jac G j i) =
       ∑ c, pderiv ((0 : Fin 1), c) (Jac G j i) * Jac G c b := Finset.sum_congr rfl fun c _ => mul_comm _ _
   rw [hs, h, add_comm]

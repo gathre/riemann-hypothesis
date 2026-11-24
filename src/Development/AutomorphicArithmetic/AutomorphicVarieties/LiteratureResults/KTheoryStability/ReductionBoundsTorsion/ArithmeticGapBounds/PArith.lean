@@ -191,11 +191,11 @@ private theorem mem_Kg_zero_inf_Kg_one_iff_col_dvd_pi {L : Type} [Field L] [Numb
   have hik : ∀ i : Fin N, (i : ℕ) < 1 ↔ i = k := fun i => by
     rw [Nat.lt_one_iff, ← hk, Fin.val_inj]
   rw [Subgroup.mem_inf, scaled_integral_entry_eq_swap_scales π hπ 0 1 g γ h]
-  simp only [Nat.not_lt_zero, if_false, mul_one, hik, Set.mem_setOf_eq]
+  simp only [Nat.not_lt_zero, ite_false, mul_one, hik, Set.mem_setOf_eq]
   constructor
   · rintro ⟨-, H⟩ i hi
     obtain ⟨z, hz⟩ := H i k
-    simp only [hi, if_false, if_true, one_mul] at hz
+    simp only [hi, ite_false, ite_true, one_mul] at hz
     refine ⟨z, ?_⟩
     apply FaithfulSMul.algebraMap_injective (NumberField.RingOfIntegers L) L
     simp only [map_mul]
@@ -208,7 +208,7 @@ private theorem mem_Kg_zero_inf_Kg_one_iff_col_dvd_pi {L : Type} [Field L] [Numb
     · obtain ⟨z, hz⟩ := H i hi
       refine ⟨z, ?_⟩
       subst hj
-      simp only [hi, if_false, if_true, one_mul]
+      simp only [hi, ite_false, ite_true, one_mul]
       rw [hz]; push_cast; ring
     · exact ⟨(γ : Matrix (Fin N) (Fin N) _) i j, by simp [hi, hj]⟩
 
@@ -237,10 +237,10 @@ private theorem mem_Kg_one_inf_Kg_two_iff_col_dvd_pi_of_dg_one {L : Type} [Field
     simp only [map_mul]
     by_cases hi0 : i = k0
     · subst hi0
-      simp only [true_or, if_true, or_true, hne.symm, if_false, mul_one] at hz
+      simp only [true_or, ite_true, or_true, hne.symm, ite_false, mul_one] at hz
       apply mul_left_cancel₀ hπ
       linear_combination hz
-    · simp only [hi0, hi, or_self, if_false, or_true, if_true, hne.symm, one_mul, mul_one] at hz
+    · simp only [hi0, hi, or_self, ite_false, or_true, ite_true, hne.symm, one_mul, mul_one] at hz
       linear_combination hz
   · intro H
     refine ⟨hgr, fun i j => ?_⟩
@@ -249,7 +249,7 @@ private theorem mem_Kg_one_inf_Kg_two_iff_col_dvd_pi_of_dg_one {L : Type} [Field
       | (exfalso; exact hne (hi0.symm.trans hi1))
       | (exfalso; exact hne (hj0.symm.trans hj1))
       | skip
-    all_goals simp only [hi0, hi1, hj0, hj1, hne, hne.symm, true_or, or_true, or_self, if_true, if_false,
+    all_goals simp only [hi0, hi1, hj0, hj1, hne, hne.symm, true_or, or_true, or_self, ite_true, ite_false,
       one_mul, mul_one]
     all_goals first
       | (refine ⟨((γ : Matrix (Fin N) (Fin N) (NumberField.RingOfIntegers L)) i j), ?_⟩; subst_vars; push_cast; ring; done)
@@ -282,10 +282,10 @@ private theorem mem_Kg_one_inf_Kg_two_iff_transpose_dvd_pi_of_dg_two {L : Type} 
     simp only [map_mul]
     by_cases hj0 : j = k0
     · subst hj0
-      simp only [true_or, if_true, or_true, hne.symm, if_false, one_mul] at hz
+      simp only [true_or, ite_true, or_true, hne.symm, ite_false, one_mul] at hz
       apply mul_left_cancel₀ hπ
       linear_combination hz
-    · simp only [hj0, hj, or_self, if_false, or_true, if_true, hne.symm, one_mul, mul_one] at hz
+    · simp only [hj0, hj, or_self, ite_false, or_true, ite_true, hne.symm, one_mul, mul_one] at hz
       linear_combination hz
   · intro H
     refine ⟨fun i j => ?_, hgr⟩
@@ -294,7 +294,7 @@ private theorem mem_Kg_one_inf_Kg_two_iff_transpose_dvd_pi_of_dg_two {L : Type} 
       | (exfalso; exact hne (hi0.symm.trans hi1))
       | (exfalso; exact hne (hj0.symm.trans hj1))
       | skip
-    all_goals simp only [hi0, hi1, hj0, hj1, hne, hne.symm, true_or, or_true, or_self, if_true, if_false,
+    all_goals simp only [hi0, hi1, hj0, hj1, hne, hne.symm, true_or, or_true, or_self, ite_true, ite_false,
       one_mul, mul_one]
     all_goals first
       | (refine ⟨((γ : Matrix (Fin N) (Fin N) (NumberField.RingOfIntegers L)) i j), ?_⟩; subst_vars; push_cast; ring; done)
@@ -333,7 +333,7 @@ private theorem transvection_mem_Kg_of_same_side {L : Type} [Field L] [NumberFie
     simp [this]
   · by_cases h : a = p ∧ b = q
     · obtain ⟨rfl, rfl⟩ := h
-      simp only [hab, if_false, if_true, and_self, zero_add]
+      simp only [hab, ite_false, ite_true, and_self, zero_add]
       by_cases ha : (a : ℕ) < r
       · simp [ha, hr.mp ha, mul_comm]
       · have hb : ¬ (b : ℕ) < r := fun h => ha (hr.mpr h)
@@ -428,7 +428,7 @@ private theorem col_entry_eq_zero_of_mul_cols_proportional {F : Type} [Field F] 
     have h1 : (M * X) i k = Y i k := by rw [hXY]
     rw [Matrix.mul_apply] at h1
     simp only [Matrix.mulVec, dotProduct, mul_sub, Finset.sum_sub_distrib, mul_ite, mul_one, mul_zero,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true, Pi.zero_apply]
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true, Pi.zero_apply]
     rw [h1, hYk, hMk]
     field_simp
     ring
@@ -546,13 +546,13 @@ private theorem exists_col_fixing_mul_col_eq_smul_single {R : Type} [CommRing R]
         (w : Matrix (Fin N) (Fin N) R) i k + c i * (w : Matrix (Fin N) (Fin N) R) m k := by
       rw [Matrix.mul_apply]
       simp only [hent, add_mul, Finset.sum_add_distrib, Matrix.one_apply, ite_mul, one_mul, zero_mul,
-        Finset.sum_ite_eq, Finset.mem_univ, if_true, he, mul_ite, mul_one, mul_zero]
+        Finset.sum_ite_eq, Finset.mem_univ, ite_true, he, mul_ite, mul_one, mul_zero]
       simp
     rw [h2]
     by_cases him : i = m
     · subst him
       simp [hc]
-    · simp only [hc, him, if_false, mul_zero, map_add (f := _), map_mul, map_neg, ht]
+    · simp only [hc, him, ite_false, mul_zero, map_add (f := _), map_mul, map_neg, ht]
       field_simp
       ring
 
@@ -592,7 +592,7 @@ private theorem arith_holds_lemma_3 {L : Type} [Field L] [NumberField L] {N : �
           u * (if i = m then 1 else 0) := by
     intro γ hγ
     rw [hmemS] at hγ
-    push_neg at hγ
+    push Not at hγ
     obtain ⟨ε1, h1S, h1m⟩ := exists_col_fixing_mul_entry_ne_zero q k m γ hγ
     obtain ⟨ε2, h2S, u, hu, hu'⟩ := exists_col_fixing_mul_col_eq_smul_single q hsurj k m hkm (ε1 * γ) h1m
     refine ⟨ε2 * ε1, sl_mul_col_off_diag_zero_of_both q ε2 ε1 k h2S h1S, u, hu, ?_⟩
@@ -734,7 +734,7 @@ private theorem inv_mul_mem_Kg_of_lifts_congr_pi_sq {L : Type} [Field L] [Number
       by_cases hij' : i = j
       · subst hij'
         split_ifs <;> push_cast <;> ring
-      · simp only [hij', if_false]
+      · simp only [hij', ite_false]
         split_ifs <;> push_cast <;> ring
 
 private theorem index_Kg_triple_subgroupOf_Kg_ne_zero {L : Type} [Field L] [NumberField L]
@@ -768,7 +768,7 @@ private theorem index_Kg_triple_subgroupOf_Kg_ne_zero {L : Type} [Field L] [Numb
       simpa [dg, Matrix.diagonal_mul, Matrix.mul_diagonal] using Classical.choose_spec (hb i j)
     · intro i j
       have := congrFun (congrFun hab i) j
-      simp only [φ, dif_pos (ha i j), dif_pos (hb i j)] at this
+      simp only [φ, dite_eq_left (ha i j), dite_eq_left (hb i j)] at this
       rw [Ideal.Quotient.eq, hIdef, Ideal.mem_span_singleton] at this
       simpa using dvd_sub_comm.mp this
   exact ⟨⟨key 0, key 1⟩, key 2⟩

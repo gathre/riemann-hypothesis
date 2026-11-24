@@ -63,7 +63,7 @@ def bs {I : Type} (e : I → Bool) : X I := fun v => if e v then iP else iN
 
 theorem kap_pos (a z : P) (ha : a.1.im = 1 ∨ a.1.im = -1) (h : 0 < a.1.im * z.1.im) : 0 < kap a z := by
   unfold kap
-  rw [if_pos h]
+  rw [ite_eq_left h]
   apply div_pos (by linarith)
   apply pow_pos
   apply norm_pos_iff.2
@@ -77,9 +77,9 @@ theorem kap_bs_pos {I : Type} (z : X I) (v : I) :
   have hz := (z v).2
   unfold bs
   by_cases h : 0 < (z v).1.im
-  · simp only [h, decide_true, if_true]
+  · simp only [h, decide_true, ite_true]
     exact kap_pos _ _ (Or.inl (by simp [iP])) (by simpa [iP] using h)
-  · simp only [h, decide_false, Bool.false_eq_true, if_false]
+  · simp only [h, decide_false, Bool.false_eq_true, ite_false]
     have h' : (z v).1.im < 0 := lt_of_le_of_ne (not_lt.1 h) hz
     exact kap_pos _ _ (Or.inr (by simp [iN])) (by simp [iN]; linarith)
 

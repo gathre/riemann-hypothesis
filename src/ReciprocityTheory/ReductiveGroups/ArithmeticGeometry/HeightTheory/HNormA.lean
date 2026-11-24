@@ -68,7 +68,7 @@ theorem nonneg_of_isIntegral {R L : Type*} [CommRing R] [Field L] [Algebra R L]
     (w : AddValuation L (WithTop ℤ)) (h0 : ∀ r : R, 0 ≤ w (algebraMap R L r)) {x : L}
     (hx : IsIntegral R x) : 0 ≤ w x := by
   by_contra hneg
-  push_neg at hneg
+  push Not at hneg
   obtain ⟨m, hm⟩ := WithTop.ne_top_iff_exists.mp (ne_top_of_lt hneg)
   have hm0 : m < 0 := by rw [← hm] at hneg; exact_mod_cast hneg
   obtain ⟨p, hpm, hp⟩ := hx

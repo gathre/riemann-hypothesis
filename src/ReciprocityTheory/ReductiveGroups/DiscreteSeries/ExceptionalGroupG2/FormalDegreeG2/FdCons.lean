@@ -320,7 +320,7 @@ variable {n : ℕ}
 private theorem pmat_apply_eq_zero_of_sign_eq {ε : Fin n → Bool} (y : PCoord ε → ℂ) {a b : Fin n} (he : ε a = ε b) :
     pmat y a b = 0 := by
   simp only [pmat]
-  rw [dif_neg (fun h => h.2 he), dif_neg (fun h => h.2 he.symm)]
+  rw [dite_eq_right (fun h => h.2 he), dite_eq_right (fun h => h.2 he.symm)]
 
 theorem matrix_coefficient_pointwise_limit (hB3 : Lap.Base.TangentPairingStatement) {ε : Fin n → Bool} {lam : Fin n → ℝ} (H : ℕ → Type)
     [∀ t, NormedAddCommGroup (H t)] [∀ t, InnerProductSpace ℂ (H t)] [∀ t, CompleteSpace (H t)]

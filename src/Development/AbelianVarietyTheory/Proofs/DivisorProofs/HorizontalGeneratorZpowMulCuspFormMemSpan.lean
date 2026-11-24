@@ -109,7 +109,7 @@ theorem horizGen_zpow_mul_rdU_mem_span : ∀ (E : Type) [Field E] [NumberField E
     · subst hkk
       have hd : y ∉ ((U σ).X k).dom := fun hd => hy (by rw [hk]; exact ⟨rfl, hd⟩)
       have h0 : rdU (U σ) f k y = 0 := by
-        simp only [rdU, LinearMap.coe_mk, AddHom.coe_mk, hd, dif_neg, not_false_eq_true]
+        simp only [rdU, LinearMap.coe_mk, AddHom.coe_mk, hd, dite_eq_right, not_false_eq_true]
       rw [mulAt_same]
       simp only [h0, mul_zero]
     · rw [mulAt_ne _ _ _ _ hkk]
@@ -118,7 +118,7 @@ theorem horizGen_zpow_mul_rdU_mem_span : ∀ (E : Type) [Field E] [NumberField E
       Submodule.span ℂ (rdU (U σ) '' (cuspOn U Z (wtZ b' n) : Set (Rul Xo c))) := by
     let P := mulAt (U σ).X k0 (fun y => horizGen τ' y ^ m) (rdU (U σ) f)
     have hpts : HasPts U Z := GlobalTheory.FlatLine.hasPts U hL.pos hL.good hL.unf Z
-    have e : goodOf c σ = σ := if_pos hσ
+    have e : goodOf c σ = σ := ite_eq_left hσ
     have htest := (hpts.1 σ).2
     rw [e] at htest
     have hoff' : P ∈ offZero (U σ).X := fun k y hy => hoff k y fun hz => hy hz.1
@@ -130,7 +130,7 @@ theorem horizGen_zpow_mul_rdU_mem_span : ∀ (E : Type) [Field E] [NumberField E
       by_cases hz : (⟨k, y⟩ : Σ k, Frame ((U σ).X k).Ψ r) ∈ framesOn (U σ) Z
       · obtain ⟨hd, hl⟩ := hz
         have h1 : rdU (U σ) (idem Z) k y = 1 := by
-          simp only [rdU, LinearMap.coe_mk, AddHom.coe_mk, hd, dif_pos]
+          simp only [rdU, LinearMap.coe_mk, AddHom.coe_mk, hd, dite_eq_left]
           rw [evR_idem hl (htest _ ⟨hd, hl⟩ hd)]
           rfl
         rw [h1, one_mul]

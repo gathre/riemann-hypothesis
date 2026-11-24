@@ -155,18 +155,18 @@ theorem pderiv_subst_coe [Fintype σ] {a : σ → MvPowerSeries τ C} (ha : HasS
         subst_X ha]
       by_cases hw : w = w0
       · subst hw
-        rw [pderiv_X_self, if_pos rfl]
+        rw [pderiv_X_self, ite_eq_left rfl]
         have : subst a (1 : MvPowerSeries σ C) = 1 := by
           rw [← substAlgHom_apply ha, map_one]
         rw [this]
         ring
-      · rw [pderiv_X_of_ne (Ne.symm hw), if_neg hw]
+      · rw [pderiv_X_of_ne (Ne.symm hw), ite_eq_right hw]
         have : subst a (0 : MvPowerSeries σ C) = 0 := by
           rw [← substAlgHom_apply ha, map_zero]
         rw [this]
         ring
     simp only [h1]
-    rw [Finset.sum_add_distrib, Finset.sum_ite_eq' Finset.univ w0, if_pos (Finset.mem_univ _),
+    rw [Finset.sum_add_distrib, Finset.sum_ite_eq' Finset.univ w0, ite_eq_left (Finset.mem_univ _),
       ← Finset.mul_sum, smul_eq_mul, smul_eq_mul]
     ring
 

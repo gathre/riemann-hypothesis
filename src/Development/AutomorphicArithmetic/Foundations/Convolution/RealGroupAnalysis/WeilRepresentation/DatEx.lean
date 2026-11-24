@@ -96,7 +96,7 @@ theorem UpperTheory.ConvolutionTheory.R2.datAlg :
   have hall : ∀ τ : E ≃ₐ[F] E, τ = 1 ∨ τ = σ := by
     intro τ
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have h3 : 3 ≤ Nat.card (E ≃ₐ[F] E) := by
       haveI : Fintype (E ≃ₐ[F] E) := Fintype.ofFinite _
       rw [Nat.card_eq_fintype_card]
@@ -113,7 +113,7 @@ theorem UpperTheory.ConvolutionTheory.R2.datAlg :
     rwa [pow_two] at h
   obtain ⟨α, hα⟩ : ∃ α : E, σ α ≠ α := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hσ (AlgEquiv.ext hc)
   have hσσα : ∀ x : E, σ (σ x) = x := fun x => by
     have := congrArg (fun τ : E ≃ₐ[F] E => τ x) hσσ

@@ -666,7 +666,7 @@ theorem exists_irr_family (hG : IsLinRed G) (hA : IsAdmOn G π) (m : ℕ) :
       · rintro I rfl
         exact ⟨hfin, hS, hirr⟩
       · simp
-    · push_neg at hirr
+    · push Not at hirr
       obtain ⟨S', hle, hS', hne0, hneS⟩ := hirr
       haveI : FiniteDimensional ℂ S' := Submodule.finiteDimensional_of_le hle
       have hlt : S' < S := lt_of_le_of_ne hle hneS

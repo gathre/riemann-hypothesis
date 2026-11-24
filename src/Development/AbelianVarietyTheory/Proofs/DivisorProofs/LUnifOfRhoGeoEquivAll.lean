@@ -65,7 +65,7 @@ variable {D : D7} {V : HSp D} {S : D.what₂.Tau → SPar} {M : DSModel V S} {μ
 theorem isMultiplicityInner_of_ne_zero {T T' : MMap M} (h : ipM M μ 𝓕 T T' ≠ 0) : IsMultIP M μ 𝓕 T T' (ipM M μ 𝓕 T T') :=
   ipM_spec M μ 𝓕 T T' (by
     by_contra hn
-    exact h (by rw [ipM, dif_neg hn]))
+    exact h (by rw [ipM, dite_eq_right hn]))
 
 theorem exists_schur (H : HMod (MMap M)) (d : ℂ) (h : ∀ x y : H.H, inner ℂ x y = d * ipM M μ 𝓕 (H.e x) (H.e y)) (x y : H.H) :
     ∃ c, IsMultIP M μ 𝓕 (H.e x) (H.e y) c ∧ inner ℂ x y = d * c := by
@@ -228,12 +228,12 @@ theorem jEvAt_of_nontrivial (hu : JUnif T R κ v₀) {i : Fin D.R.m} {σ : D.wha
   refine hn (subsingleton_of_jTop hu ?_)
   by_cases hV : T.V ((i : ℕ) + 1) (res T σ) = Wc D i
   · exact jTop_good0 T R κ v₀ hσ hV fun h' => h ⟨hV, h'⟩
-  · rw [jTop, if_pos hσ, dif_neg hV]
+  · rw [jTop, ite_eq_left hσ, dite_eq_right hV]
 
 theorem jEvBarAt_of_nontrivial (hu : JUnif T R κ v₀) {i : Fin D.R.m} {σ : D.what₂.LL →+* ℂ} (hσ : ¬ GoodEmb T.Q.c (res T σ))
     (hn : ¬ Subsingleton (R.HW i σ).H) : ∃ hV, JEvBarAt T R κ i σ hV := by
   by_contra h
-  exact hn (subsingleton_of_jTop hu (by rw [jTop, if_neg hσ, dif_neg h]))
+  exact hn (subsingleton_of_jTop hu (by rw [jTop, ite_eq_right hσ, dite_eq_right h]))
 
 theorem evAt_jK (t : FWTie T R κ v₀) {i : Fin D.R.m} {σ : D.what₂.LL →+* ℂ} (hσ : GoodEmb T.Q.c (res T σ))
     {hV : T.V ((i : ℕ) + 1) (res T σ) = Wc D i} (h : JEvAt T R κ v₀ i σ hV) (f : Cu T κ i) :
@@ -289,7 +289,7 @@ theorem exists_lift_actW (he : R.models_HW) (hw : R.models_gW) {i : Fin D.R.m} {
       rw [hw]
       refine MultilinearMap.ext fun v => ?_
       show actG0 (Wc D i) (R.βW i) (R.datWp i R.triv) (R.eG g) _ = 0
-      exact dif_neg hk
+      exact dite_eq_right hk
     rw [Representation.self_inv_apply] at h1
     exact (he i σ).1 (h1.trans (map_zero _).symm)
 

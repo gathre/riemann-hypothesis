@@ -1107,7 +1107,7 @@ theorem exists_ne_zero_of_rel {K V : Type} [Field K] [AddCommGroup V] [Module K 
           _ = ∑ j, r j • b j := by simp only [hb]
           _ = u l := b.sum_repr (u l)
       simp only [sub_smul, Finset.sum_sub_distrib, e, Pi.single_apply, ite_smul, one_smul,
-        zero_smul, Finset.sum_ite_eq', Finset.mem_univ, if_true, sub_self]
+        zero_smul, Finset.sum_ite_eq', Finset.mem_univ, ite_true, sub_self]
     have h2 := hrel _ hl
     have h3 : ∀ j, ∑ k, w k * σ (c k j) = 0 := fun j => by
       have := congrFun hx j
@@ -1127,7 +1127,7 @@ theorem exists_ne_zero_of_rel {K V : Type} [Field K] [AddCommGroup V] [Module K 
     rw [h4] at h2
     simpa [h3] using h2
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have h0 : Matrix.vecMul (Matrix.vecMul w (c.map σ)) A = 0 := by
     rw [Matrix.vecMul_vecMul]
     funext a
@@ -1251,7 +1251,7 @@ theorem linComb_ratio_and_vanish : ∀ (K Ω : Type) [Field K] [NumberField K] [
   refine ⟨hA, fun hy lam hsum => ?_⟩
   obtain ⟨k₀, hk₀⟩ : ∃ k₀, y k₀ ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hy (funext hc)
   apply GlobalTheory.LB.f_injective
   funext i

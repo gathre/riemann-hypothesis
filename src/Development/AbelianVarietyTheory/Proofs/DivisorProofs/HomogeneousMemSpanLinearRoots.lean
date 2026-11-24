@@ -91,7 +91,7 @@ theorem coeff_polOf (φ : Module.Dual ℝ (MvPolynomial σ ℝ)) (d : ℕ) (m : 
   rw [Finset.sum_eq_single (⇑m)]
   · simp
   · intro k _ hk
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h
     apply hk
     rw [← h]

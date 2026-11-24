@@ -149,11 +149,11 @@ theorem exists_cocycle {n : K → ℤ} {s : Ω} (hs : s ∈ secOver S y n) :
   have hzC : ∀ I : Cell K ι 0, z I ∈ locPart ι (quotPart S (mIdealOver S y)) (cellMon S I.1) n := by
     intro I
     by_cases hI : Good y I.1
-    · simp only [z, dif_pos hI]; exact (hlift I hI).choose_spec.1
-    · simp only [z, dif_neg hI]; exact Submodule.zero_mem _
+    · simp only [z, dite_eq_left hI]; exact (hlift I hI).choose_spec.1
+    · simp only [z, dite_eq_right hI]; exact Submodule.zero_mem _
   have hzv : ∀ I : Cell K ι 0, Good y I.1 → evMap y I.1 (z I) = s := by
     intro I hI
-    simp only [z, dif_pos hI]
+    simp only [z, dite_eq_left hI]
     exact (hlift I hI).choose_spec.2
   have hzCc : z ∈ cechCc ι (quotPart S (mIdealOver S y)) n 0 :=
     Submodule.mem_pi.mpr fun I _ => hzC I

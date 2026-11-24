@@ -54,7 +54,7 @@ theorem coord_pInf_algebraMap {E : Type} [Field E] [NumberField E] [IsCMField E]
     coord v.embedding (pInf E (algebraMap E (Ad E) e)) = v.embedding e := by
   have hv : (InfinitePlace.mk v.embedding) = v := InfinitePlace.mk_embedding v
   have h : (InfinitePlace.mk v.embedding).embedding = v.embedding := by rw [hv]
-  simp only [coord, h, if_true, Pi.evalRingHom_apply]
+  simp only [coord, h, ite_true, Pi.evalRingHom_apply]
   rw [pInf_algebraMap, hv]
 
 theorem ratGL_mem_UA {E : Type} [Field E] [NumberField E] [IsCMField E] {n : ℕ} (γ : UE E n) :

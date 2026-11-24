@@ -934,7 +934,7 @@ theorem GlobalTheory.FlagNorm.conj_mem_unip : ∀ (F E : Type) [Field F] [Number
         change _ ∈ colSpan F X _ at h2
         simpa [sub_mulVec] using h2
       simpa [sub_mulVec] using hle hz
-    · push_neg at hex
+    · push Not at hex
       have eAj : {i | ∃ k ∈ T, i ≤ k ∧ k < j} = {i | i ≤ T.max' hne} := by
         rw [← eB]
         exact Set.ext fun i => ⟨fun ⟨k, hk, h1, _⟩ => ⟨k, hk, h1⟩, fun ⟨k, hk, h1⟩ => ⟨k, hk, h1, hex k hk⟩⟩
@@ -1048,11 +1048,11 @@ theorem aeval_matDer_single {T : Type} {n : ℕ} (τ τ' : T) (a b c d : Fin n) 
   by_cases h : τ' = τ
   · subst h
 
-    simp only [if_true, map_sum, map_mul, MvPolynomial.aeval_X, MvPolynomial.aeval_C, Matrix.single_apply,
+    simp only [ite_true, map_sum, map_mul, MvPolynomial.aeval_X, MvPolynomial.aeval_C, Matrix.single_apply,
     Algebra.algebraMap_self, RingHom.id_apply, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ,
-    if_true, Prod.mk.injEq, true_and]
-  · simp only [h, if_false, map_zero]
-    rw [if_neg]; intro h'; exact h (congrArg Prod.fst h').symm
+    ite_true, Prod.mk.injEq, true_and]
+  · simp only [h, ite_false, map_zero]
+    rw [ite_eq_right]; intro h'; exact h (congrArg Prod.fst h').symm
 
 variable {D : D7} {θ : D.what₂.Tau → (Ainf D.host.F ⊗[D.host.F] D.host.E →+* ℂ)} {V : HSp D}
 

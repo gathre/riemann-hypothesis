@@ -165,7 +165,7 @@ theorem exists_lDiag_schr_ne {ψ : AddChar (AF F) ℂ} (hψ : IsStd ψ) {f : (κ
     (hf : f ∈ schA F (κ ⊕ κ)) (hf0 : f ≠ 0) : ∃ w, lDiag F κ (schr ψ w f) ≠ 0 := by
   obtain ⟨p, hp⟩ := Function.ne_iff.1 hf0
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hmem := fun w => GlobalTheory.HeisSchA.schr_mem_schA ψ hψ w f hf
   let N : Vi F κ × Vf F κ → ℂ := resD F κ (schr ψ (p, 0) f)
   have hN : ∀ q, N q = f (Sum.elim (glue q) (glue q) + p) := fun q => by

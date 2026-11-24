@@ -54,7 +54,7 @@ private theorem UpperTheory.V.AlgebraTools.exists_unit_entry {R : Type} [CommRin
     ∃ a b, IsUnit (e a b) := by
   classical
   by_contra h
-  push_neg at h
+  push Not at h
   have hm : ∀ a b, e a b ∈ maximalIdeal R := fun a b => (mem_maximalIdeal _).2 (h a b)
   have hmap : (1 - e).map (residue R) = 1 := by
     ext a b
@@ -104,6 +104,6 @@ theorem UpperTheory.V.AlgebraTools.coi_conj_single :
   · subst hji
     by_cases hik : i = k
     · subst hik
-      rw [hidem, hidem, IsUnit.val_inv_mul, if_pos ⟨rfl, rfl⟩]
-    · rw [hidem, hort i k hik, Matrix.zero_apply, mul_zero, if_neg (fun h => hik h.2)]
-  · rw [hort j i (Ne.symm hji), zero_mul, Matrix.zero_apply, mul_zero, if_neg (fun h => hji h.1)]
+      rw [hidem, hidem, IsUnit.val_inv_mul, ite_eq_left ⟨rfl, rfl⟩]
+    · rw [hidem, hort i k hik, Matrix.zero_apply, mul_zero, ite_eq_right (fun h => hik h.2)]
+  · rw [hort j i (Ne.symm hji), zero_mul, Matrix.zero_apply, mul_zero, ite_eq_right (fun h => hji h.1)]

@@ -310,12 +310,12 @@ theorem exists_finite_homogeneous_generators : ∀ (K : Type) [CommRing K] (D c 
     | mem p hp =>
       obtain ⟨g, hg, rfl⟩ := hp
       refine ⟨fun b hb => ?_, fun q => ?_⟩
-      · simp only [v, Polynomial.coeff_C_mul_X_pow]; rw [if_neg (by omega)]
+      · simp only [v, Polynomial.coeff_C_mul_X_pow]; rw [ite_eq_right (by omega)]
       · simp only [v, Polynomial.coeff_C_mul_X_pow]
         by_cases hq : q = g.1
-        · subst hq; rw [if_pos rfl]
+        · subst hq; rw [ite_eq_left rfl]
           exact AddSubgroup.subset_closure ⟨g, hg, 0, by simp, by simp⟩
-        · rw [if_neg (by omega)]; exact (A q).zero_mem
+        · rw [ite_eq_right (by omega)]; exact (A q).zero_mem
     | zero => exact good_zero c A
     | add a b _ _ ha hb => exact good_add ha hb
     | smul r a _ ha => rw [hsmul]; exact good_twist_mul x hA r a ha

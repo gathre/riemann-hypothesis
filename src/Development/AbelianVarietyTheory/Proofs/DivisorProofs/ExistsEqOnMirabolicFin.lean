@@ -101,11 +101,11 @@ theorem mem_of_separates {X : Type} [TopologicalSpace X] [CompactSpace X] (A : S
     simp only [Finset.sum_apply, Pi.smul_apply, Finset.prod_apply, smul_eq_mul]
     rw [Finset.sum_eq_single (T x)]
     · have hx : T x ∈ Set.range T := ⟨x, rfl⟩
-      simp only [v, dif_pos hx, T, if_true, Finset.prod_const_one, mul_one]
+      simp only [v, dite_eq_left hx, T, ite_true, Finset.prod_const_one, mul_one]
       exact (hT _ _ hx.choose_spec).symm
     · intro c _ hc
       obtain ⟨a, ha⟩ := Function.ne_iff.1 hc
-      rw [Finset.prod_eq_zero (Finset.mem_univ a) (if_neg (Ne.symm ha)), mul_zero]
+      rw [Finset.prod_eq_zero (Finset.mem_univ a) (ite_eq_right (Ne.symm ha)), mul_zero]
     · intro h
       exact (h (hfin.mem_toFinset.mpr ⟨x, rfl⟩)).elim
   rw [e]

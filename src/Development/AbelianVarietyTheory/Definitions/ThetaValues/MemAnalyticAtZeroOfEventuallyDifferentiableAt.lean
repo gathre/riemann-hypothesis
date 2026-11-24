@@ -456,7 +456,7 @@ theorem taylor_clm (ℓ : (σ → ℂ) →L[ℂ] ℂ) :
 @[simp] theorem taylor_coord (i : σ) : taylor (fun z : σ → ℂ => z i) = MvPowerSeries.X i := by
   have h := taylor_clm (ContinuousLinearMap.proj (R := ℂ) (φ := fun _ : σ => ℂ) i)
   simp only [ContinuousLinearMap.proj_apply, Pi.single_apply, ite_smul, one_smul, zero_smul,
-    Finset.sum_ite_eq, Finset.mem_univ, if_true] at h
+    Finset.sum_ite_eq, Finset.mem_univ, ite_true] at h
   exact h
 
 theorem span_range_single_one :

@@ -761,8 +761,8 @@ theorem isSeries_first_coefficient (hπ : W.π₀ ∈ W.AΔ) (T : LocLat G Qp LL
     Formalism.MainNotions.CrystallineLiftingInputs.IsSer W T i w (c0 W T y1) := by
   refine ⟨by simp [c0], fun y => ?_, fun K => ?_⟩
   · by_cases h : y = 1
-    · simp only [c0, h, if_true]; exact DL_of W T i (InNΔi_osmul W T i _ hy1)
-    · simp only [c0, h, if_false]; exact DL_of W T i (InNΔi_zero W T i)
+    · simp only [c0, h, ite_true]; exact DL_of W T i (InNΔi_osmul W T i _ hy1)
+    · simp only [c0, h, ite_false]; exact DL_of W T i (InNΔi_zero W T i)
   · obtain ⟨z', hz', hzw⟩ := z_of_InI W T i hw
     rcases lt_or_ge K 2 with hK | hK
     · have hs : ∑ y ∈ Finset.range K, ((PD.p : ℕ) : O) ^ (Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p K - Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p y) •
@@ -781,7 +781,7 @@ theorem isSeries_first_coefficient (hπ : W.π₀ ∈ W.AΔ) (T : LocLat G Qp LL
           (W.γ T (W.π₀ ^ y • c0 W T y1 y) - W.π₀ ^ y • c0 W T y1 y) =
           ((PD.p : ℕ) : O) ^ Formalism.MainNotions.CrystallineLiftingInputs.eY PD.p K • (W.γ T w - w) := by
         rw [Finset.sum_eq_single 1 (fun y _ hy => by simp [c0, hy]) (fun h => absurd h1 h)]
-        simp only [c0, if_true, pow_one]
+        simp only [c0, ite_true, pow_one]
         rw [smul_comm W.π₀, (W.γ T).map_smul, ← smul_sub, smul_smul, ← pow_add,
           Nat.sub_add_cancel (eY_mono (PD := PD) (by omega : 1 ≤ K)), hwy]
       refine ⟨0, 0, (W.N T).zero_mem, fun δ _ => map_zero _, ?_⟩

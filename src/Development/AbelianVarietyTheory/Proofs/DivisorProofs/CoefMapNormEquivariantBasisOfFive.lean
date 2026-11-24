@@ -285,7 +285,7 @@ theorem hypConj_of_chars_ofFive : ∀ {D : D7} {G : Type} [Group G] [Fintype G] 
       sig := fun ρ => D.sp.W_sigval _ (Nat.le_add_left _ _) i.2 _
       lab_bij := hb
       lab_at := hat
-      par := fun ρ => if_pos (hat ρ)
+      par := fun ρ => ite_eq_left (hat ρ)
       gap := fun ρ n hn => GlobalTheory.IndefiniteRowSideFullHecke.ThetaAdjointScalarOnComponents.gap (D.hc (lab σ ρ)) i hn
       mu_res := ⟨hres.1, fun η _ a => (hμ.2.1 a).trans (pow_zero _).symm⟩
       mu_inf := hμ.2.2.1
@@ -737,7 +737,7 @@ theorem deltaConj_extremal_weight_ofFive : ∀ {D : D7} {G : Type} [Group G] [Fi
     · subst e
       rw [show compAt R.θ ρ (Formalism.L2.Theta.mt (Wc D i) g) = _ from a2, ← Matrix.mul_assoc, ← Matrix.mul_assoc, h1,
         Matrix.one_mul, Matrix.mul_assoc, h1, Matrix.mul_one]
-      simp only [θs, if_true]
+      simp only [θs, ite_true]
     · rw [show compAt R.θ ρ (Formalism.L2.Theta.mt (Wc D i) g) = _ from a3 ρ e, Matrix.mul_one, h1]
       simp [θs, e]
   have e1 : ∀ ρ, (R.BV i ρ)⁻¹ * compAt R.θ ρ (Formalism.L2.Theta.mt (Vc D i) 1) * R.BV i ρ = 1 := fun ρ => by
@@ -758,7 +758,7 @@ theorem deltaConj_extremal_weight_ofFive : ∀ {D : D7} {G : Type} [Group G] [Fi
   congr 1
   by_cases hp : (j : ℕ) < pW D i τ
   · simp [θs, hp, mul_assoc]
-  · rw [if_neg hp, if_neg hp, if_neg (by have := hpq τ; omega),
+  · rw [ite_eq_right hp, ite_eq_right hp, ite_eq_right (by have := hpq τ; omega),
       show (Wc D i).rank - 1 - ((Wc D i).rank - 1 - (j - pW D i τ)) = j - pW D i τ by omega]
     simp [θs, mul_assoc]
 
@@ -915,7 +915,7 @@ theorem io_eq_phase_smul_at_ofFive : ∀ {D : D7} {G : Type} [Group G] [Fintype 
   have n1 : ‖c₁ v₁‖ = 1 := by
     have hn := GlobalTheory.StdFrame.neg_eq_false_of_vStd D i hstd
     have hG : gramV D i = 1 := by
-      rw [gramV, hn, if_neg Bool.false_ne_true]
+      rw [gramV, hn, ite_eq_right Bool.false_ne_true]
       exact hstd.1
     have hi := inner_of_int (lamV D i) σ c₁ _ hc₁.pair v₁ v₁ (∏ τ, Formalism.GradedWeylDivisibility.blockEmb ℤ τ (Formalism.BasicNotions.extremal ℤ _ (lamV D i τ))) (by
       show Formalism.L2.DIV.ten _ = _
@@ -938,7 +938,7 @@ theorem io_eq_phase_smul_at_ofFive : ∀ {D : D7} {G : Type} [Group G] [Fintype 
     have hγE : Matrix.nonsingInvUnit γE.val hu = γE := Units.ext rfl
     have hemb : (fun τ => embF O.c' (tauE D τ)) = fun τ => O.jL.comp (labLL D τ) :=
       funext fun τ => (embV_eq_embF O.c' O.jL hO.lift.field τ).symm
-    rw [rhoM, dif_pos hu, hγE, hemb]
+    rw [rhoM, dite_eq_left hu, hγE, hemb]
     exact CoefExt.up_rhoVr O.jL (lamV D i) (labLL D) γE v
   have hid : ∀ v, c₁ (CoefExt.up (RingHom.id _) (lamV D i) v) = c₁ v := fun v => congrArg c₁ (up_id _ v)
   have n3 : Submodule.span ℂ (Set.range c₁) = ⊤ := CoefExt.span_top (W := c.W) hid hc₁.span
@@ -1007,10 +1007,10 @@ theorem io_eq_phase_smul_at_ofFive : ∀ {D : D7} {G : Type} [Group G] [Fintype 
       refine toG_pG O.c' σ' he hl hty i1 _ _ _ _ _ (fun τ => by rw [pW, hsig, d1]) (fun τ => by rw [qW, hsig, d2])
         (fun τ k hk => ?_) fun τ k hk => ?_
       · rw [d1] at hk
-        refine (w3 _ k).1.trans ((dif_pos hk).trans (((hT.kap i _).1 ⟨k, hk⟩).trans ?_))
+        refine (w3 _ k).1.trans ((dite_eq_left hk).trans (((hT.kap i _).1 ⟨k, hk⟩).trans ?_))
         rw [pW, hsig, hsig]
       · rw [d2] at hk
-        refine (w3 _ k).2.trans ((dif_pos hk).trans (((hT.kap i _).2.1 ⟨k, hk⟩).trans ?_))
+        refine (w3 _ k).2.trans ((dite_eq_left hk).trans (((hT.kap i _).2.1 ⟨k, hk⟩).trans ?_))
         rw [pW, qW, hsig, hsig]
     obtain ⟨a, ha, ha'⟩ := proportional (c.ρ.comp (GQ (Vc D i)).subtype) _ r1 (fun γ hγ => hγ) r2 A₀ (PT ∘ₗ B₀)
       (fun γ => by
@@ -1126,10 +1126,10 @@ theorem ioAt_of_conj_ofFive : ∀ {D : D7} {G : Type} [Group G] [Fintype G] {Pl0
         (ℓ.2.1 : ℕ) < (T.Q.Dw ((i : ℕ) + 1)).q) := fun ℓ => by
     by_cases h : InPsi T.Q.H ℓ.1
     · obtain ⟨ρ, hρ⟩ := (w1 _).1 ((hrl _).2 h)
-      have h3 : (ℓ.2.1 : ℕ) < (T.Q.Dw ((i : ℕ) + 1)).p := lt_of_lt_of_eq ℓ.2.1.2 (if_pos h)
+      have h3 : (ℓ.2.1 : ℕ) < (T.Q.Dw ((i : ℕ) + 1)).p := lt_of_lt_of_eq ℓ.2.1.2 (ite_eq_left h)
       exact ⟨ρ, ⟨(T.Q.Dw ((i : ℕ) + 1)).q + ℓ.2.1, by omega⟩, Or.inl ⟨hρ, rfl, h3⟩⟩
     · obtain ⟨ρ, hρ⟩ := (w2 _).1 (fun h' => h ((hrl _).1 h'))
-      have h3 : (ℓ.2.1 : ℕ) < (T.Q.Dw ((i : ℕ) + 1)).q := lt_of_lt_of_eq ℓ.2.1.2 (if_neg h)
+      have h3 : (ℓ.2.1 : ℕ) < (T.Q.Dw ((i : ℕ) + 1)).q := lt_of_lt_of_eq ℓ.2.1.2 (ite_eq_right h)
       exact ⟨ρ, ⟨(T.Q.Dw ((i : ℕ) + 1)).q - 1 - ℓ.2.1, by omega⟩, Or.inr ⟨hρ, rfl, h3⟩⟩
   choose ρ c hc using hex
   let lt' : LtN (T.Q.Dw ((i : ℕ) + 1)) (Vc D i).rank → FVar D (Wc D i).rank (Vc D i).rank := fun ℓ => (ρ ℓ, c ℓ, ℓ.2.2)
@@ -1144,7 +1144,7 @@ theorem ioAt_of_conj_ofFive : ∀ {D : D7} {G : Type} [Group G] [Fintype G] {Pl0
       omega
     · refine Or.inr ⟨h1, ?_⟩
       show ((arr (T.Q.Dw ((i : ℕ) + 1)).q (c ℓ) : Fin _) : ℕ) = _
-      rw [arr, dif_pos (by omega)]
+      rw [arr, dite_eq_left (by omega)]
       show (Wc D i).rank - 1 - (c ℓ : ℕ) = _
       omega⟩)
   have hBV : ∀ τ, (R.BV i τ)ᴴ * gramAt D (Vc D i) τ * R.BV i τ = 1 := fun τ => by
@@ -1171,7 +1171,7 @@ theorem ioAt_of_conj_ofFive : ∀ {D : D7} {G : Type} [Group G] [Fintype G] {Pl0
       have h : ¬ InPsi T.Q.H τ := fun h => by
         obtain ⟨s, hs⟩ := (w1 _).1 ((hrl τ).2 h)
         exact hτ (by rw [hs, ← heT s]; exact (eT s).2)
-      have h2 : (T.Q.Dw ((i : ℕ) + 1)).mult τ = (T.Q.Dw ((i : ℕ) + 1)).q := if_neg h
+      have h2 : (T.Q.Dw ((i : ℕ) + 1)).mult τ = (T.Q.Dw ((i : ℕ) + 1)).q := ite_eq_right h
       omega
     have hne : ∀ (s : D.what₂.Tau) (t : X.Ψ), tauE D s ≠ ReciprocityTheory.ChartRestriction.G.Geo.Tor.conjEmb t.1 := fun s t e =>
       (w2 _).2 ⟨eT.symm t, by rw [e, ← heT, Equiv.apply_symm_apply]⟩ ((w1 _).2 ⟨s, rfl⟩)
@@ -1572,7 +1572,7 @@ theorem coefMap_norm_equivariant_basis_ofFive' : ∀ (D : D7) (G : Type) [Group 
     have hγE : Matrix.nonsingInvUnit γE.val hu = γE := Units.ext rfl
     have hemb : (fun τ => embF O.c' (tauE D τ)) = fun τ => O.jL.comp (labLL D τ) :=
       funext fun τ => (embV_eq_embF O.c' O.jL hσ τ).symm
-    rw [rhoM, dif_pos hu, hγE, hemb]
+    rw [rhoM, dite_eq_left hu, hγE, hemb]
     exact CoefExt.equivariant (W := (R.cV i).W) hE ((R.cV i).ρ γ) (Formalism.L2.DIV.rhoVr (labLL D) (lamV D i) γE) _
       (CoefExt.up_rhoVr O.jL (lamV D i) (labLL D) γE) (h1 γ γE hγ) v
 
@@ -1659,7 +1659,7 @@ theorem thetaVector_eq_sum_heisenberg_of_core_five' : ∀ (D : D7) (G : Type) [G
   by_cases hw : w ∈ latO (Vc D i) (Wc D i) (R.ΛV i : Set (Fin (Vc D i).rank → D.host.E))
       (R.ΛW i : Set (Fin (Wc D i).rank → D.host.E)) (fun _ => True) ∧ IsHalf (cA D e) w
   swap
-  · rw [halfInd, if_neg hw, zero_mul, if_neg]
+  · rw [halfInd, ite_eq_right hw, zero_mul, ite_eq_right]
     rintro ⟨h1, h2⟩
     have hN : ∀ PP ∈ R.Pg ∪ R.Q t, ((Ideal.absNorm D.host.ccK : ℕ) : 𝓞 D.host.E) ∉ PP.asIdeal := fun PP hPP h =>
       (hP PP (Finset.mem_union.1 hPP)).2 (by rw [Nat.cast_mul]; exact Ideal.mul_mem_left _ _ h)
@@ -1680,7 +1680,7 @@ theorem thetaVector_eq_sum_heisenberg_of_core_five' : ∀ (D : D7) (G : Type) [G
     rw [hfr]
     have : Ideal.span {(l.M : 𝓞 D.host.E)} ≤ l.Mb := l.prod ▸ Ideal.mul_le_left
     exact GlobalTheory.PlaceVec.redM_add_nsmul PP ((hP PP hPP).1 (this (Ideal.subset_span rfl))) (hφ x).1 (hint u hu)
-  rw [halfInd, if_pos hw, one_mul, if_pos ⟨hw.2, hw' ▸ hint w hw.1⟩,
+  rw [halfInd, ite_eq_left hw, one_mul, ite_eq_left ⟨hw.2, hw' ▸ hint w hw.1⟩,
     GlobalTheory.PlaceVec.omegaK_congr _ fun PP h => hred PP (Or.inl h),
     GlobalTheory.PlaceVec.omegaQ_congr _ _ _ _ fun PP h => hred PP (Or.inr h), ← (hφ x).2, RingHom.id_apply, ← inversion l φ x]
   refine Finset.sum_congr rfl fun q _ => congrArg _ ?_
@@ -1922,7 +1922,7 @@ theorem vec_eq_sum_heis_ofFive : ∀ (D : D7) (G : Type) [Group G] [Fintype G] (
   by_cases hw : w ∈ latO (Vc D i) (Wc D i) (R.ΛV i : Set (Fin (Vc D i).rank → D.host.E))
       (R.ΛW i : Set (Fin (Wc D i).rank → D.host.E)) (fun _ => True) ∧ IsHalf (cA D e) w
   swap
-  · rw [halfInd, if_neg hw, zero_mul, if_neg]
+  · rw [halfInd, ite_eq_right hw, zero_mul, ite_eq_right]
     rintro ⟨h1, h2⟩
     have hN : ∀ PP ∈ R.Pg ∪ R.Q t, ((Ideal.absNorm D.host.ccK : ℕ) : 𝓞 D.host.E) ∉ PP.asIdeal := fun PP hPP h =>
       (hP PP (Finset.mem_union.1 hPP)).2 (by rw [Nat.cast_mul]; exact Ideal.mul_mem_left _ _ h)
@@ -1943,7 +1943,7 @@ theorem vec_eq_sum_heis_ofFive : ∀ (D : D7) (G : Type) [Group G] [Fintype G] (
     rw [hfr]
     have : Ideal.span {(l.M : 𝓞 D.host.E)} ≤ l.Mb := l.prod ▸ Ideal.mul_le_left
     exact GlobalTheory.PlaceVec.redM_add_nsmul PP ((hP PP hPP).1 (this (Ideal.subset_span rfl))) (hφ x).1 (hint u hu)
-  rw [halfInd, if_pos hw, one_mul, if_pos ⟨hw.2, hw' ▸ hint w hw.1⟩,
+  rw [halfInd, ite_eq_left hw, one_mul, ite_eq_left ⟨hw.2, hw' ▸ hint w hw.1⟩,
     GlobalTheory.PlaceVec.omegaK_congr _ fun PP h => hred PP (Or.inl h),
     GlobalTheory.PlaceVec.omegaQ_congr _ _ _ _ fun PP h => hred PP (Or.inr h), ← (hφ x).2, RingHom.id_apply, ← inversion l φ x]
   refine Finset.sum_congr rfl fun q _ => congrArg _ ?_
@@ -2129,7 +2129,7 @@ theorem class_scalar_value_ofFive' : ∀ (D : D7) (G : Type) [Group G] [Fintype 
     (fun Q hQ x => by
       rw [Formalism.L2.Host.HChar.resFin_mul, Formalism.L2.Host.HChar.resFin_mul, Formalism.L2.Host.HChar.resFin_inv,
         (R.C.isMu0 i).triv.1, (hL.xi_triv (tup t)).1, R.C.isEta.res.1, Formalism.L2.Host.etaFin, above_eq,
-        Finset.card_pair hQ.symm, if_neg (by norm_num), inv_one, one_mul, one_mul])
+        Finset.card_pair hQ.symm, ite_eq_right (by norm_num), inv_one, one_mul, one_mul])
   rw [← hbar] at c1 c3
   rw [← hLh] at c3
   obtain ⟨q, q0, q1, q2⟩ := (hO.ep t).2 (O.Lh t k) cc g.1 g.2.1 g.2.2 c1 c3
@@ -2254,7 +2254,7 @@ theorem class_scalar_conj_ofFive : ∀ {D : D7} {G : Type} [Group G] [Fintype G]
     (fun Q hQ x => by
       rw [Formalism.L2.Host.HChar.resFin_mul, Formalism.L2.Host.HChar.resFin_mul, Formalism.L2.Host.HChar.resFin_inv,
         (R.C.isMu0 i).triv.1, (hL.xi_triv A.μ0).1, R.C.isEta.res.1, Formalism.L2.Host.etaFin, GlobalTheory.ClassScalarValue.above_eq,
-        Finset.card_pair hQ.symm, if_neg (by norm_num), inv_one, one_mul, one_mul])
+        Finset.card_pair hQ.symm, ite_eq_right (by norm_num), inv_one, one_mul, one_mul])
     σ R.eta η' hch.1.2.1 hη
   rw [← hbar] at c1 c3
   rw [← hLh] at c3
@@ -2448,7 +2448,7 @@ theorem conj_coeff_eq_dilate_ofFive : ∀ {D : D7} {G : Type} [Group G] [Fintype
   have hQ : R.Q A.μ0 = ∅ := (chars_of_lift_ofFive D G Pl0 T0 A _ R F hR i).2.2.1
   have hq : ∀ {a b : ℕ} (Q : Finset (Formalism.L2.DIV.Pl D.host.E)) r ξ k y, Q = ∅ → omegaQ (D := D) (a := a) (b := b) Q r ξ k y = 1 := by
     rintro a b _ r ξ k y rfl
-    rw [omegaQ, dif_pos (fun _ h => absurd h (Finset.notMem_empty _))]
+    rw [omegaQ, dite_eq_left (fun _ h => absurd h (Finset.notMem_empty _))]
     simp
   have hk : ∀ {a b : ℕ} (Q : Finset (Formalism.L2.DIV.Pl D.host.E)) y,
       omegaK (D := D) (a := a) (b := b) Q y = 0 ∨ omegaK (D := D) (a := a) (b := b) Q y = 1 := by
@@ -2737,7 +2737,7 @@ theorem identity_of_frConst_ofFive (hR : GlobalTheory.Core5 R F) (tie : FWTie T 
     _ (fibExt hAo A₀) (k5.2.2.2.2.2.2.2 g Dc.bas Dc.idx Dc.e Dc.sympl hM A₀ mk hmk.1 hmk.2) k7.1
   have hb := hbc ℂ hAo ((ptC (T.U ((i : ℕ) + 1) (sOf O σ')) (dictS hV q).1 ⟨(dictS hV q).2, hdom⟩).ext O.hle hAo)
   have e1 : ∑ k, σ' (as k) * rdU (T.U ((i : ℕ) + 1) (sOf O σ')) (fs k) (dictS hV q).1 (dictS hV q).2 = _ :=
-    (Finset.sum_congr rfl fun k _ => congrArg (σ' (as k) * ·) (dif_pos hdom)).trans (hb.symm.trans hg)
+    (Finset.sum_congr rfl fun k _ => congrArg (σ' (as k) * ·) (dite_eq_left hdom)).trans (hb.symm.trans hg)
   rw [← hfr] at ha
   have alg : ∀ {n : ℕ} (a r : Fin n → ℂ) (ph c0 S l c u k C : ℂ), ph * S = c * u * k * l * C → ∑ j, a j * r j = c0 * k * C →
       ph * c0 * S = ∑ j, a j * (l * (c * u * r j)) := fun a r ph c0 S l c u k C h1 h2 => by

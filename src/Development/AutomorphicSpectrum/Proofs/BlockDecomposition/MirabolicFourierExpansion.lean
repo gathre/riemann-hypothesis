@@ -314,7 +314,7 @@ private theorem isHecke_div_and_resEtaPow_div {k : Type} [Field k] [ValuativeRel
       nlinarith
   have hx0 : 1 ≤ ((ψ y : Circle) : ℂ).re := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hd : 0 < 1 - ((ψ y : Circle) : ℂ).re := by linarith
     obtain ⟨j, hj⟩ := pow_unbounded_of_one_lt (1 / (1 - ((ψ y : Circle) : ℂ).re)) (by norm_num : (1 : ℝ) < 2)
     have h1 := hgrow j

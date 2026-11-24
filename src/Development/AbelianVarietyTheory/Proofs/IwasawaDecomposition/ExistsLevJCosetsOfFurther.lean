@@ -462,7 +462,7 @@ theorem GlobalTheory.Mem.Col2.TC.chartLev_stab_vec : ∀ {B : Base} {X : PreX B.
       exact ⟨hxJ, (hw v hv x hxJ).1 hx⟩
     · rintro ⟨hxJ, hs⟩
       exact (hw v hv x hxJ).2 hs
-  · push_neg at hv
+  · push Not at hv
     rw [GlobalTheory.Mem.Col2.TC.chartLev_off_type I hI hP l Z u F hF h1 β0 v (fun j => hv j) x]
     exact ⟨fun h => ⟨h, fun j hj => absurd hj (hv j)⟩, fun h => h.1⟩
 
@@ -563,13 +563,13 @@ theorem ulocQ_pos (H0 : Formalism.L2.Herm.StepLevel hc S gp T f) (Q : Finset (He
     (W : ∀ v, v ∈ Q → Subgroup (GL (Fin S.rank) (E ⊗[F] v.adicCompletion F))) {v : HeightOneSpectrum (𝓞 F)} (h : v ∈ Q) :
     ulocQ H0 Q W v = W v h := by
   unfold ulocQ
-  exact dif_pos h
+  exact dite_eq_left h
 
 theorem ulocQ_neg (H0 : Formalism.L2.Herm.StepLevel hc S gp T f) (Q : Finset (HeightOneSpectrum (𝓞 F)))
     (W : ∀ v, v ∈ Q → Subgroup (GL (Fin S.rank) (E ⊗[F] v.adicCompletion F))) {v : HeightOneSpectrum (𝓞 F)} (h : v ∉ Q) :
     ulocQ H0 Q W v = H0.Uloc v := by
   unfold ulocQ
-  exact dif_neg h
+  exact dite_eq_right h
 
 def uQ (H0 : Formalism.L2.Herm.StepLevel hc S gp T f) (Q : Finset (HeightOneSpectrum (𝓞 F)))
     (W : ∀ v, v ∈ Q → Subgroup (GL (Fin S.rank) (E ⊗[F] v.adicCompletion F))) :

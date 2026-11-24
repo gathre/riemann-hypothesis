@@ -313,8 +313,8 @@ theorem boundary_unit_at_integral_points : _root_.GlobalTheory.CovTop.PublishedH
   obtain ⟨φ, hφ⟩ := _root_.GlobalTheory.LiftAndFactorization.exists_factor T io hio
   have hy : ∀ s, GlobalTheory.AllWt.ptF y₀.1 s ∈ (V : Set (Xo.XF c)) := fun s => hVZ ▸ hlies s
   obtain ⟨χ, hχ1, hχ2, hχ3⟩ := pt_ext E H Dw l Xo c Y V T io φ hφ y₀.1 hy
-  have hp : Dw.mult τ.1 = Dw.p := by rw [Datum.mult, if_pos τ.2]
-  have hq : Dw.mult (conjEmb τ.1) = Dw.q := by rw [Datum.mult, if_neg (conj_ne τ)]
+  have hp : Dw.mult τ.1 = Dw.p := by rw [Datum.mult, ite_eq_left τ.2]
+  have hq : Dw.mult (conjEmb τ.1) = Dw.q := by rw [Datum.mult, ite_eq_right (conj_ne τ)]
   obtain ⟨v, hv, hsv⟩ := _root_.GlobalTheory.IntFrameLift.exists_eigenBasis_sameVec E H Dw l Xo c Y T io φ hφ y₀.1 y₀.2.2 χ hχ1 hχ2 τ.1 Dw.p hp
   obtain ⟨w, hw, hsw⟩ := _root_.GlobalTheory.IntFrameLift.exists_eigenBasis_sameVec E H Dw l Xo c Y T io φ hφ y₀.1 y₀.2.2 χ hχ1 hχ2 (conjEmb τ.1) Dw.q hq
   let aT : GlobalTheory.IndefiniteRowSideFullHecke.FramedFlatCoordinates.Framed Y V τ.1 T.V φ := ⟨χ, hχ1, hχ3, v, w, hv, hw⟩

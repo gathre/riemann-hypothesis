@@ -1535,7 +1535,7 @@ theorem exists_thRule_value_le : ∀ (E : Type) [Field E] [NumberField E] [IsCMF
     calc _ ≤ (0 : EReal) + ((B : ℝ) : EReal) := add_le_add hloc le_rfl
       _ = _ := zero_add _
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hlow : (((⌊B⌋ + 1 : ℤ) : ℝ) : EReal) ≤
       ⨅ (f : Rul Xo c) (_ : ∃ x : Fin n → Dw.La, IsThRule Xo c nab x P₁ f), nval T.V 1 (evI y f) := by
     refine le_iInf₂ fun f ⟨x, hx⟩ => ?_

@@ -311,9 +311,9 @@ theorem not_mem_of_pD {v : PlE D.host} (hv : v ∈ X.pD i) (M : ℕ) :
   rw [X.pD_eq i] at hv'
   have h15 := D.host.pde_mod
   by_cases h : X.l i = D.host.pde
-  · rw [if_pos h] at hv'
+  · rw [ite_eq_left h] at hv'
     exact key _ D.host.pde'_prime (by omega) (fun e => D.host.pde_ne (h ▸ e).symm) hv'
-  · rw [if_neg h] at hv'
+  · rw [ite_eq_right h] at hv'
     exact key _ D.host.pde_prime (by omega) (fun e => h e.symm) hv'
 
 theorem stepAB : Cheb → ∀ (D : Formalism.BasicNotions.D7) (N : NData D.R D.host D.what₂) (X : NTw D.R D.host D.what₂ D.LL0 N) (i : X.Tw),

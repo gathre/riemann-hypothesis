@@ -406,7 +406,7 @@ theorem lift_cocycle_of_duality (hT : Formalism.GaloisCohomology.LocalTateDualit
           Eventually.of_forall fun g => (Φ.symm g).2⟩
       exact h2.eventually h1)
   let z' : GQ l → ℚ_[l] := fun σ => if h : σ ∈ L.fixingSubgroup then z (Φ ⟨σ, h⟩) else 0
-  have hz' : ∀ σ (h : σ ∈ Gj K s), z' σ = z (Φ ⟨σ, h⟩) := fun σ h => dif_pos h
+  have hz' : ∀ σ (h : σ ∈ Gj K s), z' σ = z (Φ ⟨σ, h⟩) := fun σ h => dite_eq_left h
   refine ⟨z', ⟨?_, fun _ _ => trivial, fun σ hσ τ hτ => ?_⟩, fun σ hσ => ?_⟩
   · rw [continuousOn_iff_continuous_restrict]
     exact (hz1.comp hΦ2).congr fun σ => (hz' σ.1 σ.2).symm

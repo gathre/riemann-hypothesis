@@ -266,7 +266,7 @@ theorem exists_series_sum (a : ℕ → LetA O n) :
 
     rw [map_sub, coeff_mk, map_sum, map_sum, sub_eq_zero]
     refine Finset.sum_subset (Finset.range_subset_range.2 hk) fun j _ hj => ?_
-    rw [coeff_X_pow_mul', if_neg]
+    rw [coeff_X_pow_mul', ite_eq_right]
     simpa using hj
   choose b hb using h2
   refine ⟨b, funext fun i => ?_⟩

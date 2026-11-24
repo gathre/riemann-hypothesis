@@ -211,7 +211,7 @@ private lemma val_untilt_e_sub_one (hv : v.Integers O) (e : PreTilt O p)
     rw [Nat.cast_ofNat] at hpl
     have hxl : v (z - 1) < 1 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       have h9 : 1 ≤ v (z - 1) ^ 2 := one_le_pow₀ hc
       rw [hx2] at h9
       exact absurd hpl (not_lt.mpr h9)
@@ -232,7 +232,7 @@ private lemma val_untilt_e_sub_one (hv : v.Integers O) (e : PreTilt O p)
     have hx0 : v (algebraMap O C e.untilt - 1) ≠ 0 := (Valuation.ne_zero_iff v).mpr hne
     have hxl : v (algebraMap O C e.untilt - 1) < 1 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       have h9 : 1 ≤ v (algebraMap O C e.untilt - 1) ^ (p - 1) := one_le_pow₀ hc
       rw [hx] at h9
       exact absurd hpl (not_lt.mpr h9)

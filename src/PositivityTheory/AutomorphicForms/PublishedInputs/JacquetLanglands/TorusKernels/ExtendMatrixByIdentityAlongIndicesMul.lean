@@ -188,7 +188,7 @@ theorem pt_eq (f : P → ℂ) (m : ℕ) {r θ : ℝ} (hr0 : 0 < r) (hr1 : r < 1)
   have hqi : q1 (m + 2) iP (mkP w hwim.ne') =
       (((m + 2 : ℕ) : ℂ) - 1) / (4 * π) * ((w - conj w) / (Complex.I - conj w)) ^ (m + 2) := by
     unfold q1
-    rw [if_pos (by show 0 < Complex.I.im * w.im; rw [Complex.I_im, one_mul]; exact hwim)]
+    rw [ite_eq_left (by show 0 < Complex.I.im * w.im; rw [Complex.I_im, one_mul]; exact hwim)]
     rfl
   have hcs : s * conj s = (r : ℂ) ^ 2 := by rw [Complex.mul_conj, hsq]; push_cast; ring
   have h1c : (1 - conj s) ≠ 0 := by
@@ -264,7 +264,7 @@ theorem at_i (B1b' : B1b) (B1c' : B1c) (B2' : B2) (B6' : B6) {k : ℕ} (hk : 4 �
       show ¬ (0 < Complex.I.im * w.1.im)
       rw [Complex.I_im, one_mul, not_lt]; exact hw.le
     unfold q1
-    rw [if_neg this, zero_mul]
+    rw [ite_eq_right this, zero_mul]
   obtain ⟨hIO, heq⟩ := B2' (fun w => q1 (m + 2) iP w * f w) hvan hint
   rw [heq]
   have hS : MeasurableSet (Set.Ioo (0 : ℝ) 1 ×ˢ Set.Ioo (-π) π) :=

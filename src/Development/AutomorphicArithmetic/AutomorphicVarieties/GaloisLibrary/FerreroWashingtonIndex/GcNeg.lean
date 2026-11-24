@@ -56,7 +56,7 @@ private theorem div_sub_add_div_add_one_eq (c M a : ℕ) (hM : 0 < M) (hr : a % 
   subst hdm
   have hkc : k < c := by
     by_contra hck
-    push_neg at hck
+    push Not at hck
     have : M * c ≤ M * k := Nat.mul_le_mul_left M hck
     nlinarith
   obtain ⟨j, rfl⟩ : ∃ j, c = k + 1 + j := ⟨c - k - 1, by omega⟩

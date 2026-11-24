@@ -83,7 +83,7 @@ private theorem exists_close_vector_ultrametric (k : Type) [NormedField k] [IsUl
   · obtain ⟨p0, hp0, hp0ne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hP
     have hex : ∃ i, p0 i ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hp0ne (funext hcon)
     obtain ⟨j, hj⟩ := hex
     haveI : Nonempty X := ⟨j⟩

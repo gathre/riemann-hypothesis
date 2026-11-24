@@ -231,7 +231,7 @@ theorem xiHyp_of_stX {u u' : D.what₂.Word} {C' Cl Cg cb Cu cT CT C0 A CX cX C 
     have e1 : ∀ HH Cc : ℝ, XiS D u HH Cc s = massS D s * massS D (D.R.k - s) / massS D D.R.k := by
       intro HH Cc
       unfold XiS Xi
-      rw [if_pos ⟨hs2, hsk'⟩]
+      rw [ite_eq_left ⟨hs2, hsk'⟩]
     refine ⟨?_, ?_⟩
     · unfold XiB; rw [e1]
       unfold massS massU
@@ -287,7 +287,7 @@ theorem xiHyp_of_stX {u u' : D.what₂.Word} {C' Cl Cg cb Cu cT CT C0 A CX cX C 
     have e : XiB D large₂ u C s = (C * D.R.k) ^ (D.R.k * D.R.f) *
         (LatticeSumBounds.bigH C D.R.m D.R.f large₂.sc.b ^ (C * (D.R.m : ℝ)) * NT D u) ^ (C * (D.R.k : ℝ)) := by
       unfold XiB XiS Xi
-      rw [if_neg hn, if_pos hy]
+      rw [ite_eq_right hn, ite_eq_left hy]
       rfl
     rw [e]
     refine ⟨?_, le_refl _⟩

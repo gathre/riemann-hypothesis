@@ -74,7 +74,7 @@ theorem SchSchurAtRootsOfUnity.proof (h1 : SchSchurRowsToK.Statement)
     simp only [hnu']
     by_cases hj : (j : ℕ) < r
     · have hi : (i : ℕ) < r := lt_of_le_of_lt (Fin.le_def.mp hij) hj
-      rw [dif_pos hi, dif_pos hj]
+      rw [dite_eq_left hi, dite_eq_left hj]
       exact hanti (Fin.le_def.mpr (Fin.le_def.mp hij))
     · rw [dite_eq_right hj]; exact Nat.zero_le _
 
@@ -85,7 +85,7 @@ theorem SchSchurAtRootsOfUnity.proof (h1 : SchSchurRowsToK.Statement)
     have e2 : ∑ i, nu i = ∑ i ∈ range r, g i := by
       rw [← Fin.sum_univ_eq_sum_range]
       refine Finset.sum_congr rfl fun i _ => ?_
-      simp only [hg, dif_pos i.isLt]
+      simp only [hg, dite_eq_left i.isLt]
     have hgk : ∀ i, k ≤ i → g i = 0 := by
       intro i hi
       simp only [hg]
@@ -112,7 +112,7 @@ theorem SchSchurAtRootsOfUnity.proof (h1 : SchSchurRowsToK.Statement)
       · rw [hz]; exact Nat.zero_le _
       · have hik := hplace i (Nat.one_le_iff_ne_zero.mpr hz)
         have := H ⟨i, hik⟩ hi0
-        simp only [hnu', dif_pos i.isLt] at this
+        simp only [hnu', dite_eq_left i.isLt] at this
         exact this
     · intro H i hi0
       simp only [hnu']
@@ -137,7 +137,7 @@ theorem SchSchurAtRootsOfUnity.proof (h1 : SchSchurRowsToK.Statement)
     · intro i hi
       simp only [Finset.mem_filter, Finset.mem_univ, true_and, hnu'] at hi ⊢
       refine ⟨hi.1, ?_⟩
-      rw [dif_pos i.isLt]; exact hi.2
+      rw [dite_eq_left i.isLt]; exact hi.2
     · intro i hi; rfl
     · intro i hi; rfl
   simp only [hcond, hcard]

@@ -187,7 +187,7 @@ theorem expSum_holds : PositivityTheory.Rg.BcB.F.ExpSum := by
     refine Finset.sum_eq_zero fun i hi => absurd ?_ hμS
     rw [hS, ← (Finset.mem_filter.mp hi).2]
     exact Finset.mem_image_of_mem lam (Finset.mem_univ i)
-  push_neg at hμS
+  push Not at hμS
   have hmaps : ∀ i ∈ (Finset.univ : Finset ι), lam i ∈ S := fun i _ => by
     rw [hS]; exact Finset.mem_image_of_mem lam (Finset.mem_univ i)
   have hsum : ∀ k : ℕ, ∑ i, c i * lam i ^ k = ∑ ν ∈ S, d ν * ν ^ k := by
@@ -527,7 +527,7 @@ theorem peak {A : Type} [CommRing A] [StarRing A] [Algebra ℂ A] [StarModule �
     apply finite_cover (S s) (hSc s) (fun g => R s (d g)) (fun g => hR s (d g)) _ (hB s) ε0
     intro ψ hψ
     by_contra hno
-    push_neg at hno
+    push Not at hno
     obtain ⟨χ, hχb, hχ⟩ := restr (S s) (hSc s) ψ
     have hz : ∀ g, θ s χ (d g) = 0 := by
       intro g
@@ -630,7 +630,7 @@ theorem peak {A : Type} [CommRing A] [StarRing A] [Algebra ℂ A] [StarModule �
         _ ≤ ε0 := by
             have := (lt_div_iff₀ hb0p).1 hL
             nlinarith
-    · push_neg at hbig
+    · push Not at hbig
       calc ‖w‖ * ‖χ ⟨B, hB s⟩‖ * ‖w‖ ≤ 1 * ε0 * 1 := by
             apply mul_le_mul (mul_le_mul hw1 hbig.le (norm_nonneg _) zero_le_one) hw1 (norm_nonneg _)
               (by positivity)
@@ -641,7 +641,7 @@ theorem peak {A : Type} [CommRing A] [StarRing A] [Algebra ℂ A] [StarModule �
     rw [sq, ← CStarRing.norm_star_mul_self, e1]
     exact hkey
   by_contra hc
-  push_neg at hc
+  push Not at hc
   nlinarith [norm_nonneg (β s ^ m * R s g)]
 
 end PositivityTheory.Rg.BcB.F.ExponentialIntegralMeasures
@@ -651,7 +651,7 @@ theorem PositivityTheory.Rg.BcB.F.peak_trace_bound_holds : PositivityTheory.Rg.B
   intro A _ _ _ _ ι _ _ H _ _ _ R β m V _ _ _ ρ u p a₀ hβ hu ha₀ hbound hv
   obtain ⟨v, hv0, huv, hρv⟩ := hv
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hμpos : 0 < ‖p a₀‖ := norm_pos_iff.2 ha₀
   set K : ℝ := 1 + ∑ s, ‖R s a₀‖ with hK
   have hKs : ∀ s, ‖R s a₀‖ ≤ K := by

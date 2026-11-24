@@ -598,12 +598,12 @@ theorem linRelation_descend : ∀ (K Ω : Type) [Field K] [Field Ω] [Algebra K 
   intro K Ω _ _ _ ι _ V c hc hV
   obtain ⟨s0, hs0⟩ : ∃ s, c s ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hc (funext h)
   let b := Module.Basis.ofVectorSpace K Ω
   obtain ⟨j, hj⟩ : ∃ j, b.repr (c s0) j ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hs0
     have h0 : b.repr (c s0) = 0 := Finsupp.ext h
     exact b.repr.map_eq_zero_iff.mp h0
@@ -1409,7 +1409,7 @@ theorem heckeStable : GlobalTheory.IndefiniteRowSideFullHecke.UnusedSlot39.Hecke
     rw [norm_mul, norm_one] at h4
     have h5 : ‖jj (algebraMap T'.V T'.Fr (u2 a : T'.V))‖ = 1 := by
       refine le_antisymm h1 (by_contra fun hlt => ?_)
-      push_neg at hlt
+      push Not at hlt
       have : ‖jj (algebraMap T'.V T'.Fr (u2 a : T'.V))‖ * ‖jj (algebraMap T'.V T'.Fr ((u2 a)⁻¹ : T'.Vˣ))‖ < 1 :=
         (mul_le_of_le_one_right (norm_nonneg _) h2).trans_lt hlt
       exact this.ne h4

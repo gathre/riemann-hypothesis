@@ -143,7 +143,7 @@ theorem unfold_tied : ∀ (D : D7) (X : HidaSetting D) (Y : Full X) (u u' : D.wh
   haveI := infinite_finPl D.host.F
   obtain ⟨p0, hp0⟩ : ∃ p, p ∉ Fm.P := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact Set.infinite_univ (α := PlF D) (Fm.P.finite_toSet.subset fun p _ => h p)
   have hBased : Based (zOf Y) Fm.FP (Tu D u) (Tu D u') F00 F'0 := fun p => hFP p
   have hG : Gval F00 F'0 ≠ 0 := by

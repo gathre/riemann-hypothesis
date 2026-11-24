@@ -181,7 +181,7 @@ namespace GlobalTheory.Mum.MonoAb
 theorem exists_pos_of_ne_zero {X : Type} [AddCommGroup X] (d : LinearMap.BilinForm ℤ X)
     (hs : ∀ a b, d a b = d b a) (hn : ∀ a, 0 ≤ d a a) (h : d ≠ 0) : ∃ y, 0 < d y y := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   apply h
   ext a b
   have h1 := hc (a + b)
@@ -1066,7 +1066,7 @@ theorem sum_hadamard_posDef_posSemidef :
   refine ⟨Finset.sum_nonneg fun k _ => term k, fun hne => ?_⟩
   have : ∃ k, v k ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hne
     simp [h]
   obtain ⟨k, hk⟩ := this
@@ -1266,7 +1266,7 @@ theorem main : ∀ (R : Type) [CommRing R] [IsDomain R] [IsLocalRing R] (Q : Dat
     rw [hn l, zpow_natCast, Units.val_pow_eq_pow_val]; rfl
   · intro y hy
     obtain ⟨j, hj⟩ : ∃ j, xe y j ≠ 0 := by
-      by_contra h; push_neg at h
+      by_contra h; push Not at h
       exact hy (xe.injective (by rw [map_zero]; exact funext h))
     obtain ⟨l, hl⟩ := hdef _ hj
     refine ⟨l, ?_⟩

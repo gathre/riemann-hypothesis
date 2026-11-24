@@ -544,8 +544,8 @@ theorem card_eq_prod_locLen : ∀ (n : ℕ) (Q : Type) [AddCommGroup Q] [Module 
           Finsupp.single_apply]
         by_cases hw : (⟨m0, hm0⟩ : {p : Ideal R // p.IsMaximal}) = w
         · subst hw
-          rw [if_pos rfl, locLen_quot_self]; simp
-        · rw [if_neg hw, locLen_quot_ne w.1 m0 (fun h => hw (Subtype.ext h.symm))]; simp
+          rw [ite_eq_left rfl, locLen_quot_self]; simp
+        · rw [ite_eq_right hw, locLen_quot_ne w.1 m0 (fun h => hw (Subtype.ext h.symm))]; simp
       · have hz : ∀ w : {p : Ideal R // p.IsMaximal}, Nat.card (R ⧸ w.1) ^ 0 = 1 :=
           fun _ => pow_zero _
         have ha : ∀ (w : {p : Ideal R // p.IsMaximal}) (a c : ℕ), Nat.card (R ⧸ w.1) ^ (a + c) =

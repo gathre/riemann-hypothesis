@@ -62,7 +62,7 @@ theorem conv_eq_sum (w : PowerSeries L) (g : ℤ → M) (m : ℤ) (hg : ∀ j < 
   simp only [Function.mem_support] at hi
   simp only [Finset.coe_range, Set.mem_Iio]
   by_contra hc
-  push_neg at hc
+  push Not at hc
   apply hi
   have : g (k - i) = 0 := hg _ (by omega)
   simp [this]

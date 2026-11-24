@@ -166,7 +166,7 @@ theorem _root_.GlobalTheory.GaugeSubHaar.isGaugeSub_haar : ∀ (n : ℕ) (ε : F
   set ν' := μ'.comap (Subtype.val : S → _root_.Formalism.REAL.UJ ε) with hν'
   have hcover : ∃ k, ν (compactCovering S k) ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hne
     rw [← Measure.measure_univ_eq_zero, ← iUnion_compactCovering]
     exact measure_iUnion_null hcon
@@ -287,7 +287,7 @@ private theorem rescaled_integral_comparable_of_nonneg_compactSupport {d : ℕ} 
     simp only [hU, Set.mem_setOf_eq, not_lt] at hy
     refine hR y ?_
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     nlinarith [mul_lt_mul_of_pos_left hlt hr]
   have hnear : ∀ y ∈ U, ∀ᶠ s : ℝ in nhdsWithin 0 (Set.Ioi 0),
       (ν (Metric.closedBall (r • y) (r * s)) ≤

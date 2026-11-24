@@ -650,7 +650,7 @@ theorem q_not_pow : ∀ (p : ℕ) [Fact p.Prime] (Ω : Type) [Field Ω] [Algebra
   have hc' := (Fintype.linearIndependent_iff.1 hli) c hc
   have : ∃ i, f i ≠ 0 := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     apply hb0
     have : φ g * b = 0 := by rw [hrep]; simp [hall]
     rcases mul_eq_zero.1 this with h0 | h0

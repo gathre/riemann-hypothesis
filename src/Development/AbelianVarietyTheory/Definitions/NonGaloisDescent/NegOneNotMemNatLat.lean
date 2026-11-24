@@ -56,11 +56,11 @@ theorem secRow_eLast {R : Type*} [CommRing R] : secRow (eLast R a) = 1 := by
   ext i j
   simp only [secRow, eLast, Matrix.of_apply, Matrix.one_apply]
   by_cases h : (i : ℕ) + 1 = a
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     by_cases h2 : (j : ℕ) + 1 = a
-    · rw [if_pos h2, if_pos (Fin.ext (by omega))]
-    · rw [if_neg h2, if_neg (fun e : i = j => h2 (e ▸ h))]
-  · rw [if_neg h]
+    · rw [ite_eq_left h2, ite_eq_left (Fin.ext (by omega))]
+    · rw [ite_eq_right h2, ite_eq_right (fun e : i = j => h2 (e ▸ h))]
+  · rw [ite_eq_right h]
 
 
 

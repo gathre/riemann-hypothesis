@@ -83,19 +83,19 @@ theorem aPl_anti (i : Fin D.R.m) (p : ℕ) (τ : D.what₂.Tau) (hp : p ≤ D.R.
   refine antitone_nat_of_succ_le fun n => ?_
   unfold aPl
   by_cases h1 : n + 1 < p
-  · rw [if_pos h1, if_pos (by omega : n < p)]
+  · rw [ite_eq_left h1, ite_eq_left (by omega : n < p)]
     apply Int.toNat_le_toNat
     apply Int.floor_le_floor
     have := lam_step τ n (by omega)
     push_cast
     linarith
-  · rw [if_neg h1]; exact Nat.zero_le _
+  · rw [ite_eq_right h1]; exact Nat.zero_le _
 
 theorem aMi_anti (i : Fin D.R.m) (p q : ℕ) (τ : D.what₂.Tau) (hpq : p + q = D.R.r) : Antitone (aMi D i p q τ) := by
   refine antitone_nat_of_succ_le fun n => ?_
   unfold aMi
   by_cases h1 : n + 1 < q
-  · rw [if_pos h1, if_pos (by omega : n < q)]
+  · rw [ite_eq_left h1, ite_eq_left (by omega : n < q)]
     apply Int.toNat_le_toNat
     apply Int.floor_le_floor
     have e1 : p + (q - n) - 1 = (p + (q - (n + 1)) - 1) + 1 := by omega
@@ -105,7 +105,7 @@ theorem aMi_anti (i : Fin D.R.m) (p q : ℕ) (τ : D.what₂.Tau) (hpq : p + q =
       rw [show q - n = (q - (n + 1)) + 1 by omega]; push_cast; ring
     rw [e2]
     linarith
-  · rw [if_neg h1]; exact Nat.zero_le _
+  · rw [ite_eq_right h1]; exact Nat.zero_le _
 
 end GlobalTheory.LowRowAnti
 

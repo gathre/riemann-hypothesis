@@ -81,9 +81,9 @@ private theorem pyc_kosZ_mono {κ : Type} [LinearOrder κ] {M M' : Submodule ℂ
   intro s _
   have h1 := hc.1 s (Set.mem_univ _)
   by_cases hs : (s.card : ℤ) = m
-  · simp only [if_pos hs] at h1 ⊢
+  · simp only [ite_eq_left hs] at h1 ⊢
     exact h h1
-  · simp only [if_neg hs] at h1 ⊢
+  · simp only [ite_eq_right hs] at h1 ⊢
     exact h1
 
 private theorem pyc_kstep (k2 : KoszulBoundaryOfComponentMemIdeal) (k3 : K3) {κ0 : Type} [LinearOrder κ0] [Fintype κ0] (R : Subalgebra ℂ S)
@@ -411,5 +411,5 @@ theorem UpperTheory.Gal.productCup_of_system.yCmpG_of :
     · have hz := pyc_colZ hSB (sysY x j2 d) (app n11 n) (gG x j2 z) hD (I := {i}) (J := {j}) (by simp) (by simp)
       refine (((hKE {i} {j} hI hJ).2.2.2 ?_ d).1) hz
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hij ⟨Finset.singleton_injective hcon.1, Finset.singleton_injective hcon.2⟩

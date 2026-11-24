@@ -104,7 +104,7 @@ theorem UpperTheory.V.Base.places :
         change A.valuation (algebraMap k Ω (x : k)) < 1 ∨ A.valuation (algebraMap k Ω (y : k)) < 1
         simp only [map_mul] at hxy
         by_contra h
-        push_neg at h
+        push Not at h
         have hx1 : A.valuation (algebraMap k Ω (x : k)) = 1 := le_antisymm (hOk x) h.1
         have hy1 : A.valuation (algebraMap k Ω (y : k)) = 1 := le_antisymm (hOk y) h.2
         rw [hx1, hy1, one_mul] at hxy

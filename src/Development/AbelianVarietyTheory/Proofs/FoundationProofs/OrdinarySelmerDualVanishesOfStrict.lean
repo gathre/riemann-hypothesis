@@ -377,7 +377,7 @@ theorem approx_candidate {K : Type} [NormedField K] {Γ : Type} (k a : Γ → K)
 theorem exists_depth_of_not_coboundary : ∀ (l : ℕ) [Fact l.Prime] {Γ : Type} (H : Set Γ) (k a : Γ → Qbar l), (∃ s ∈ H, k s ≠ 1) → (¬ ∃ X : Qbar l, ∀ s ∈ H, a s = k s * X - X) → ∃ r : ℕ, ∀ (n : ℕ) (x y : Qbar l), ‖x‖ ≤ 1 → (∀ s ∈ H, ‖x * a s - (k s * y - y)‖ ≤ ‖((l : ℕ) : Qbar l) ^ n‖) → ‖x‖ ≤ ‖((l : ℕ) : Qbar l) ^ (n - r)‖ := by
   intro l _ Γ H k a ⟨s₀, hs₀, hk⟩ hna
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   set q : ℝ := ‖((l : ℕ) : Qbar l)‖ with hq
   have hq1 : q < 1 := GlobalTheory.CoefEmbed.norm_prime_lt_one
   have hq0 : 0 ≤ q := norm_nonneg _
@@ -388,7 +388,7 @@ theorem exists_depth_of_not_coboundary : ∀ (l : ℕ) [Fact l.Prime] {Γ : Type
     by_cases hnr : n < r
     · rw [Nat.sub_eq_zero_of_le hnr.le, pow_zero] at hx
       exact absurd hx (not_lt.mpr hx1)
-    push_neg at hnr
+    push Not at hnr
     have hxpos : 0 < ‖x‖ := lt_of_le_of_lt (pow_nonneg hq0 _) hx
     have hx0 : x ≠ 0 := norm_pos_iff.mp hxpos
     refine ⟨y / x, fun t ht => ?_⟩
@@ -400,7 +400,7 @@ theorem exists_depth_of_not_coboundary : ∀ (l : ℕ) [Fact l.Prime] {Γ : Type
       rw [← pow_add, Nat.sub_add_cancel hnr]
     rw [hsplit] at h1
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have : q ^ (n - r) * q ^ r < ‖x‖ * ‖a t - (k t * (y / x) - y / x)‖ :=
       mul_lt_mul'' hx hlt (pow_nonneg hq0 _) (pow_nonneg hq0 _)
     linarith

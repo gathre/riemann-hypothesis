@@ -227,7 +227,7 @@ theorem Pl_mul_PT (hP : Formalism.MainNotions.S.IsLoUni P) : Pl r * Pᵀ = Pl r 
     · subst hj
       simp
     · simp [hj, Ne.symm hj]
-  · simp only [hi, if_false, zero_mul]
+  · simp only [hi, ite_false, zero_mul]
     clear hP
     split_ifs <;> simp_all
 

@@ -288,7 +288,7 @@ theorem exists_elim_form_of_field : ∀ (F : Type) [Field F] [CharZero F] (D N d
         simpa using this)
   obtain ⟨j0, hj0⟩ : ∃ j0, y j0 ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hy (funext hcon)
   let z : Fin N → K := fun j => if j = j0 then (y j0)⁻¹ else 0
   let x0 : (Fin D × Fin N) ⊕ (Fin N ⊕ Fin N) → K := Sum.elim (fun p => s p.1 p.2) (Sum.elim y z)
@@ -597,9 +597,9 @@ theorem homogeneous_components_of_integral_equation (F K : Type) [Field F] [Fiel
       = MvPolynomial.eval₂ φ w (homogeneousComponent (e * (m - k)) (b k)) * τ ^ (k : ℕ) := by
     intro k
     have hle : e * (k : ℕ) ≤ e * m := Nat.mul_le_mul_left e k.is_lt.le
-    rw [hpow, ← mul_assoc, Polynomial.coeff_mul_X_pow', if_pos hle, Polynomial.coeff_mul_C,
+    rw [hpow, ← mul_assoc, Polynomial.coeff_mul_X_pow', ite_eq_left hle, Polynomial.coeff_mul_C,
       ← Nat.mul_sub, coeff_eval₂_C_mul_X]
-  rw [hpow, Polynomial.coeff_C_mul_X_pow, if_pos rfl] at hc
+  rw [hpow, Polynomial.coeff_C_mul_X_pow, ite_eq_left rfl] at hc
   simpa only [hterm] using hc
 
 end GlobalTheory
@@ -749,7 +749,7 @@ theorem exists_pt_of_mem_cone_of_isAlgClosed : ∀ (F : Type) [Field F] (S : Lin
   intro F _ S hS hb K _ _ _ y hy hI
   classical
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hT : (S.baseChange K).IsVariety := hS.baseChange K
   have hbT : (S.baseChange K).BasePointFree := hb.baseChange K
   obtain ⟨i₀, hi₀⟩ := Function.ne_iff.1 hy
@@ -760,7 +760,7 @@ theorem exists_pt_of_mem_cone_of_isAlgClosed : ∀ (F : Type) [Field F] (S : Lin
 
   have hcov : ∀ z : (S.baseChange K).Y, ∃ j, z ∈ nonzeroLocus ((S.baseChange K).comb (u j)) := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     obtain ⟨z, hz⟩ := hc
     have := hT.smooth
     have : Smooth (S.baseChange K).str := SmoothOfRelativeDimension.smooth (S.baseChange K).D _
@@ -1416,7 +1416,7 @@ theorem line_natDegree_le_and_coeff (F R : Type) [CommRing F] [CommRing R] [Alge
   have hdeg : ∀ p, (v p).natDegree ≤ w p := by
     rintro ⟨i, j⟩
     refine Fin.lastCases ?_ (fun i => ?_) i
-    · simp only [hv, w, join, if_true, Fin.lastCases_last]
+    · simp only [hv, w, join, ite_true, Fin.lastCases_last]
       rw [add_comm]
       exact Polynomial.natDegree_linear_le
     · simp [hv, w, join]
@@ -1572,9 +1572,9 @@ theorem coeffDeg_line {D N δ : ℕ} (f : MvPolynomial (Fin (D + 1) × Fin N) F)
         (fun j => Polynomial.C (C (ξ₀ j)) + Polynomial.C (C (ξ₁ j)) * Polynomial.X) p) := by
     rintro ⟨i, j⟩
     refine Fin.lastCases ?_ (fun i => ?_) i
-    · simp only [join, Fin.lastCases_last, if_true]
+    · simp only [join, Fin.lastCases_last, ite_true]
       exact (coeffDeg_C (totalDegree_C _).le).add ((coeffDeg_C (e := 0) (totalDegree_C _).le).mul coeffDeg_X)
-    · simp only [join, Fin.lastCases_castSucc, if_neg (Fin.castSucc_ne_last i)]
+    · simp only [join, Fin.lastCases_castSucc, ite_eq_right (Fin.castSucc_ne_last i)]
       exact coeffDeg_C (totalDegree_X _).le
   refine (hc.mul (coeffDeg_prod Finset.univ _ _ fun p _ => (hw p).pow (d p))).mono (le_of_eq ?_)
   rw [zero_add, Fintype.sum_prod_type, Fin.sum_univ_castSucc]

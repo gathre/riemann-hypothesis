@@ -64,12 +64,12 @@ theorem fockSubst_eq_fsub {D : D7} {m n : ℕ} (p : D.what₂.Tau → ℕ) (u : 
   refine MvPolynomial.algHom_ext fun v => ?_
   rw [fockSubst, fsub, MvPolynomial.aeval_X, MvPolynomial.aeval_X]
   by_cases h : v.2.1.val < p v.1
-  · rw [if_pos h, Finset.sum_eq_single v.2.1]
+  · rw [ite_eq_left h, Finset.sum_eq_single v.2.1]
     · simp [sgnOf, h, Matrix.coe_units_inv]
     · intro a _ ha
       simp [sgnOf, h, Matrix.one_apply_ne ha]
     · simp
-  · rw [if_neg h, Finset.sum_eq_single v.2.1]
+  · rw [ite_eq_right h, Finset.sum_eq_single v.2.1]
     · simp [sgnOf, h]
     · intro a _ ha
       simp [sgnOf, h, Matrix.one_apply_ne (Ne.symm ha)]

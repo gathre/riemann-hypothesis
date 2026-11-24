@@ -342,10 +342,10 @@ theorem oneTop_abs (K : Type) [Field K] [CharZero K] (k P Q p : ℕ) (hk : 1 ≤
     if hj : j ≤ min P Q then E j hj ∘ₗ s j else 0
   have hpr : ∀ j (hj : j ≤ min P Q) x, pr j x = β j (Dc j hj x) := by
     intro j hj x
-    simp only [pr, dif_pos hj, LinearMap.comp_apply]
+    simp only [pr, dite_eq_left hj, LinearMap.comp_apply]
   have hio : ∀ j (hj : j ≤ min P Q) f, io j (β j f) = E j hj f := by
     intro j hj f
-    simp only [io, dif_pos hj, LinearMap.comp_apply]
+    simp only [io, dite_eq_left hj, LinearMap.comp_apply]
     exact hEβ j hj f
   have hterm : ∀ j (hj : j ≤ min P Q) x,
       ((α (io j (pr j x)) : Formalism.CountingSumsFrames.PolAB K k P Q) : Formalism.CountingSumsFrames.PolXY K k) =

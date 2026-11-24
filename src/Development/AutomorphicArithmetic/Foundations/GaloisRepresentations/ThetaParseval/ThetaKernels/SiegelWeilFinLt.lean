@@ -294,7 +294,7 @@ theorem arc_apply_k (R : _root_.PositivityTheory.SiegelWeilFormula.RD_k d) (X : 
 theorem norm_arc_sq_k (R : _root_.PositivityTheory.SiegelWeilFormula.RD_k d) (X : Mx F E d.m d.n) :
     ‖_root_.PositivityTheory.SiegelWeilFormula.KFP.arc_k R X‖ ^ 2 = ∑ w, ∑ a, ∑ j, ‖R.loc w X a j‖ ^ 2 := by
   rw [EuclideanSpace.norm_sq_eq]
-  simp only [Fintype.sum_prod_type, Fintype.sum_bool, _root_.PositivityTheory.SiegelWeilFormula.KFP.OswGen.arc_apply_k, if_true, Bool.false_eq_true, if_false,
+  simp only [Fintype.sum_prod_type, Fintype.sum_bool, _root_.PositivityTheory.SiegelWeilFormula.KFP.OswGen.arc_apply_k, ite_true, Bool.false_eq_true, ite_false,
     Real.norm_eq_abs, sq_abs]
   refine Finset.sum_congr rfl fun w _ => Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun j _ => ?_
   rw [Complex.sq_norm, Complex.normSq_apply]
@@ -313,10 +313,10 @@ def lin_k (a : Fin d.m) (j : Fin d.n) (b : Bool) : PX d.m d.n :=
 theorem evX_lin_k (a : Fin d.m) (j : Fin d.n) (b : Bool) (z : Fin d.m → Fin d.n → ℂ) :
     evX (_root_.PositivityTheory.SiegelWeilFormula.KFP.OswGen.lin_k (d := d) a j b) z = ((if b then (z a j).re else (z a j).im : ℝ) : ℂ) := by
   cases b
-  · simp only [_root_.PositivityTheory.SiegelWeilFormula.KFP.OswGen.lin_k, evX, Bool.false_eq_true, if_false, map_mul, map_sub, MvPolynomial.eval_C, MvPolynomial.eval_X,
-      if_true]
+  · simp only [_root_.PositivityTheory.SiegelWeilFormula.KFP.OswGen.lin_k, evX, Bool.false_eq_true, ite_false, map_mul, map_sub, MvPolynomial.eval_C, MvPolynomial.eval_X,
+      ite_true]
     apply Complex.ext <;> simp <;> ring
-  · simp only [_root_.PositivityTheory.SiegelWeilFormula.KFP.OswGen.lin_k, evX, if_true, Bool.false_eq_true, if_false, map_mul, map_add (f := _), MvPolynomial.eval_C,
+  · simp only [_root_.PositivityTheory.SiegelWeilFormula.KFP.OswGen.lin_k, evX, ite_true, Bool.false_eq_true, ite_false, map_mul, map_add (f := _), MvPolynomial.eval_C,
       MvPolynomial.eval_X]
     apply Complex.ext <;> simp <;> ring
 theorem fP_mul_k (P Q : PX d.m d.n) (u : Fin d.m → Fin d.n → ℂ) : fP (P * Q) u = evX P u * fP Q u := by
@@ -604,7 +604,7 @@ theorem cw_inFrame_prod'_k (R : _root_.PositivityTheory.SiegelWeilFormula.RD_k d
 theorem dZ_cw_rot'_k (R : _root_.PositivityTheory.SiegelWeilFormula.RD_k d) (t : ℝ) (w : InfinitePlace F) :
     dZ d.n R.ζ * d.cw w (inFrame d.b (_root_.PositivityTheory.SiegelWeilFormula.KFP.rot_k R t)) = yrotM d.n (R.sg w) t * dZ d.n R.ζ := by
   rw [_root_.PositivityTheory.SiegelWeilFormula.KFP.rot_k, _root_.PositivityTheory.SiegelWeilFormula.KFP.cw_inFrame_prod'_k R (fun w => yrot d.n (R.sg w) t) w _ (Finset.nodup_toList _),
-    if_pos (Finset.mem_toList.2 (Finset.mem_univ w)), R.at_w, mR_yrot]
+    ite_eq_left (Finset.mem_toList.2 (Finset.mem_univ w)), R.at_w, mR_yrot]
 end PositivityTheory.SiegelWeilFormula.KFP
 end
 end
@@ -1584,13 +1584,13 @@ theorem ek_eq_k (d : _root_.PositivityTheory.SiegelWeilFormula.SD_k σ) (q : _ro
   show _ = (1 : AF F) ⊗ₜ[F] _
   by_cases h : (i, j) = (i0, j0)
   · obtain ⟨rfl, rfl⟩ := Prod.mk.inj h
-    rw [if_pos rfl, Finset.sum_eq_single k0]
+    rw [ite_eq_left rfl, Finset.sum_eq_single k0]
     · simp
     · intro b _ hb
       have : ((i, j, k0) : _root_.PositivityTheory.SiegelWeilFormula.TBij_k.Adp.Ix d) ≠ (i, j, b) := fun e => hb (by simp at e; exact e.symm)
       simp [this]
     · simp
-  · rw [if_neg h, TensorProduct.tmul_zero]
+  · rw [ite_eq_right h, TensorProduct.tmul_zero]
     refine Finset.sum_eq_zero fun k _ => ?_
     have : ((i0, j0, k0) : _root_.PositivityTheory.SiegelWeilFormula.TBij_k.Adp.Ix d) ≠ (i, j, k) := fun e => h (by simp at e; rw [e.1, e.2.1])
     simp [this]

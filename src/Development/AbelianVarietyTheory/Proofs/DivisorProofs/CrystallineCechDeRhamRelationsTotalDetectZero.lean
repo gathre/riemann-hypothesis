@@ -883,11 +883,11 @@ theorem restrict_upwardClosed_subcategory_pull1_bijective : ∀ (R : Type) [Comm
       obtain ⟨x, hx⟩ := glue T (fun S u ↦ if hS : P S then g S hS - f.1 T S u else 0)
         fun S S' u ψ hS ↦ by
           have hS' := hP _ _ ψ hS
-          simp only [dif_pos hS, dif_pos hS', map_sub]
+          simp only [dite_eq_left hS, dite_eq_left hS', map_sub]
           have k1 := Z1.comp f u ψ
           have k2 := hg' S S' hS hS' ψ
           linear_combination k2 - k1
-      exact ⟨x, fun S u hS ↦ by rw [hx S u hS, dif_pos hS]⟩
+      exact ⟨x, fun S u hS ↦ by rw [hx S u hS, dite_eq_left hS]⟩
     choose x hx using h1
     refine H1.mk_eq_zero.2 ⟨x, ?_⟩
     funext T T' φ
@@ -907,12 +907,12 @@ theorem restrict_upwardClosed_subcategory_pull1_bijective : ∀ (R : Type) [Comm
         z S S'' (ψ ≫ χ) = mp F χ (z S S' ψ) + z S' S'' χ := by
       intro S S' S'' ψ χ hp
       have hp' := hP _ _ ψ hp
-      simp only [z, dif_pos hp, dif_pos hp']
+      simp only [z, dite_eq_left hp, dite_eq_left hp']
       exact y.2 (T := ⟨S, hp⟩) (T' := ⟨S', hp'⟩) (T'' := ⟨S'', hP _ _ χ hp'⟩)
         (ObjectProperty.homMk ψ) (ObjectProperty.homMk χ)
     have hzy : ∀ (S S' : P.FullSubcategory) (ψ : S ⟶ S'), z S.obj S'.obj ψ.hom = y.1 S S' ψ := by
       intro S S' ψ
-      simp only [z, dif_pos S.property]
+      simp only [z, dite_eq_left S.property]
       rfl
     have h1 : ∀ T : C, ∃ b : ∀ S, (T ⟶ S) → F.obj S, (∀ S S' u ψ, P S →
         b S' (u ≫ ψ) - mp F ψ (b S u) = z S S' ψ) ∧ (P T → ∀ S u, b S u = z T S u) := by

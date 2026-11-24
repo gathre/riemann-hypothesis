@@ -205,7 +205,7 @@ lemma exists_bound (B : HermLine ι) (hB : IsSmoothHerm B) :
   have hmc : ∀ z ∈ S, ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0 := by
     intro z hz k
     by_contra hn
-    push_neg at hn
+    push Not at hn
     have := hz k
     simp [bnorm, hn] at this
   have hcont : ContinuousOn (fun z => Real.log (B.h z)) S :=

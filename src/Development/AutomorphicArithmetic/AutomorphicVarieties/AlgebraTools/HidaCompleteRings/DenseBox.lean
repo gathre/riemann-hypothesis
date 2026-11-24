@@ -201,7 +201,7 @@ theorem UpperTheory.V.abelian₂.mu_dvd :
   · intro h
     obtain ⟨n, hn⟩ : ∃ n, coeff n (map (residue O) f) ≠ 0 := by
       by_contra hall
-      push_neg at hall
+      push Not at hall
       exact h (PowerSeries.ext fun n => by simpa using hall n)
     rw [PowerSeries.coeff_map, residue_ne_zero_iff_isUnit,
       ← IsDiscreteValuationRing.addVal_eq_zero_iff] at hn

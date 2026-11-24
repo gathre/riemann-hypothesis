@@ -330,7 +330,7 @@ end Sat
 private lemma fi_exists_ne_lemma {R K : Type} [CommRing R] [Field K] [Algebra R K] {S : Submonoid R}
     {I : FractionalIdeal S K} (hI : I ≠ 0) : ∃ x ∈ I, x ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   apply hI
   ext x
   rw [FractionalIdeal.mem_zero_iff]

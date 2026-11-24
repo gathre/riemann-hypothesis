@@ -88,7 +88,7 @@ private theorem exists_single_of_sum_star_mul {n : ℕ} [Star K]
   have hd : (0 : ℝ) < Module.finrank ℚ K := by exact_mod_cast Module.finrank_pos
   obtain ⟨i, hi⟩ : ∃ i, z i ≠ 0 := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     simp [hall] at h1
   refine ⟨i, fun j hji => ?_⟩
   by_contra hj

@@ -126,10 +126,10 @@ theorem isUnit_secMat (ρ j : Fin n) (hj : j ≤ ρ) (v : Fin n → ℂ) (hv : v
     have hρ : e ρ = 0 := by
       have h := hcol j
       rw [Finset.sum_eq_single ρ] at h
-      · rw [secMat_self, if_pos hj] at h
+      · rw [secMat_self, ite_eq_left hj] at h
         exact (mul_eq_zero.1 h).resolve_right hv
       · intro i _ hi
-        rw [secMat_of_ne _ _ _ hi, if_neg, mul_zero]
+        rw [secMat_of_ne _ _ _ hi, ite_eq_right, mul_zero]
         intro h'
         apply hi
         calc i = Equiv.swap j ρ (Equiv.swap j ρ i) := (Equiv.swap_apply_self _ _ _).symm
@@ -141,12 +141,12 @@ theorem isUnit_secMat (ρ j : Fin n) (hj : j ≤ ρ) (v : Fin n → ℂ) (hv : v
     · rw [hi]; exact hρ
     · have h := hcol (Equiv.swap j ρ i)
       rw [Finset.sum_eq_single i] at h
-      · rw [secMat_of_ne _ _ _ hi, if_pos rfl, mul_one] at h
+      · rw [secMat_of_ne _ _ _ hi, ite_eq_left rfl, mul_one] at h
         exact h
       · intro i' _ hi'
         by_cases h'' : i' = ρ
         · rw [h'', hρ, zero_mul]
-        · rw [secMat_of_ne _ _ _ h'', if_neg, mul_zero]
+        · rw [secMat_of_ne _ _ _ h'', ite_eq_right, mul_zero]
           intro h3
           exact hi' ((Equiv.swap j ρ).injective h3).symm
       · simp
@@ -185,8 +185,8 @@ theorem secMat_main : ∀ (n : ℕ) (ρ j : Fin n), j ≤ ρ → (∀ v : Fin n 
     intro i hi
     have hiρ : ρ < i := by rw [Fin.lt_def]; omega
     refine ⟨fun l hl => ?_, ?_⟩
-    · rw [hSv, Matrix.of_apply, secMat_of_ne _ _ _ hiρ.ne', swap_of_lt' hj hiρ, if_neg hl.ne]
-    · rw [hSv, Matrix.of_apply, secMat_of_ne _ _ _ hiρ.ne', swap_of_lt' hj hiρ, if_pos rfl]
+    · rw [hSv, Matrix.of_apply, secMat_of_ne _ _ _ hiρ.ne', swap_of_lt' hj hiρ, ite_eq_right hl.ne]
+    · rw [hSv, Matrix.of_apply, secMat_of_ne _ _ _ hiρ.ne', swap_of_lt' hj hiρ, ite_eq_left rfl]
   have hp : g * S⁻¹ ∈ levSet n (ρ + 1) :=
     (_root_.GlobalTheory.JSW.levSet_closed_subgroup n (ρ + 1)).1 g hg _ ((_root_.GlobalTheory.JSW.levSet_closed_subgroup n (ρ + 1)).2.1 S hSlev)
   set P := ((g * S⁻¹ : GL (Fin n) ℂ) : Matrix (Fin n) (Fin n) ℂ) with hPdef
@@ -202,17 +202,17 @@ theorem secMat_main : ∀ (n : ℕ) (ρ j : Fin n), j ≤ ρ → (∀ v : Fin n 
       · intro i _ hi
         rcases lt_or_gt_of_ne hi with h | h
         · simp [w, hi, h]
-        · rw [secMat_of_ne _ _ _ hi, swap_of_lt' hj h, if_neg (lt_of_le_of_lt hl h).ne, mul_zero]
+        · rw [secMat_of_ne _ _ _ hi, swap_of_lt' hj h, ite_eq_right (lt_of_le_of_lt hl h).ne, mul_zero]
       · simp
     · have hlρ : ρ < l := lt_of_not_ge hl
       rw [Finset.sum_eq_single l]
       · simp [w, secMat_of_ne _ _ _ hlρ.ne', swap_of_lt' hj hlρ, hlρ.ne', not_lt.2 hlρ.le]
       · intro i _ hi
         by_cases h1 : i = ρ
-        · rw [h1, secMat_self, if_neg hl, mul_zero]
+        · rw [h1, secMat_self, ite_eq_right hl, mul_zero]
         · rcases lt_or_gt_of_ne h1 with h | h
           · simp [w, h1, h]
-          · rw [secMat_of_ne _ _ _ h1, swap_of_lt' hj h, if_neg (Ne.symm hi), mul_zero]
+          · rw [secMat_of_ne _ _ _ h1, swap_of_lt' hj h, ite_eq_right (Ne.symm hi), mul_zero]
       · simp
   have hPw : P ρ ᵥ* Matrix.of (secMat ρ j v) = (g : Matrix (Fin n) (Fin n) ℂ) ρ := by
     rw [← hPS]
@@ -276,9 +276,9 @@ theorem secMatInf_mem_lev (ρ : Fin n) (j : InfinitePlace E → Fin n) (hj : ∀
   have hiρ : ρ < i := by rw [Fin.lt_def]; omega
   refine ⟨fun l hl => funext fun w => ?_, funext fun w => ?_⟩
   · change secMat ρ (j w) (fun l => v l w) i l = 0
-    rw [secMat_of_ne _ _ _ hiρ.ne', swap_of_lt' (hj w) hiρ, if_neg hl.ne]
+    rw [secMat_of_ne _ _ _ hiρ.ne', swap_of_lt' (hj w) hiρ, ite_eq_right hl.ne]
   · change secMat ρ (j w) (fun l => v l w) i i = 1
-    rw [secMat_of_ne _ _ _ hiρ.ne', swap_of_lt' (hj w) hiρ, if_pos rfl]
+    rw [secMat_of_ne _ _ _ hiρ.ne', swap_of_lt' (hj w) hiρ, ite_eq_left rfl]
 
 theorem rowCutInf_apply (ρ : Fin n) (g : GL (Fin n) (Cinf E)) (w : InfinitePlace E) (l : Fin n) :
     rowCutInf ρ (g : Matrix (Fin n) (Fin n) (Cinf E)) l w = rowCut ρ ((compGL w g : GL (Fin n) ℂ) : Matrix (Fin n) (Fin n) ℂ) l := by
@@ -374,7 +374,7 @@ theorem truncatedRow_unipotent_mul_and_ne_zero : ∀ (n : ℕ) (ρ : Fin n), ∀
       · simp
     · rfl
   · by_contra hne
-    push_neg at hne
+    push Not at hne
     have hinv := (_root_.GlobalTheory.JSW.levSet_closed_subgroup n (ρ + 1)).2.1 g hg
     have h1 : ((g * g⁻¹ : GL (Fin n) ℂ) : Matrix (Fin n) (Fin n) ℂ) ρ ρ = 1 := by simp
     rw [Units.val_mul, Matrix.mul_apply, Finset.sum_eq_zero] at h1
@@ -382,9 +382,9 @@ theorem truncatedRow_unipotent_mul_and_ne_zero : ∀ (n : ℕ) (ρ : Fin n), ∀
     · intro k _
       by_cases hk : k ≤ ρ
       · have := hne k hk
-        simp only [rowCut, hk, if_true] at this
+        simp only [rowCut, hk, ite_true] at this
         rw [this, zero_mul]
-      · push_neg at hk
+      · push Not at hk
         have h' := Fin.lt_def.1 hk
         rw [(hinv k (by omega)).1 ρ hk, mul_zero]
 
@@ -676,7 +676,7 @@ theorem conj_colGL_unipB {R : Type} [CommRing R] {n : ℕ} (ρ : Fin n) (hρ : (
     by_cases ha : (a : ℕ) < ρ + 1
     · have : G i a = 0 := (hg i hi).1 a (by rw [Fin.lt_def]; omega)
       rw [this, zero_mul]
-    · simp only [v, ha, if_false, mul_zero]
+    · simp only [v, ha, ite_false, mul_zero]
   have hqe : ∀ l, q l = Gi r l := by
     intro l
     simp only [q, Matrix.vecMul, dotProduct, e]
@@ -864,9 +864,9 @@ theorem exists_kerOpInf_rowFreq_colGL : ∀ (E : Type) [Field E] [NumberField E]
         if (j : ℕ) = ρ + 1 ∧ (i : ℕ) < ρ + 1 then ξ x i else 0)) i l
       simp only [Matrix.add_apply, Matrix.of_apply]
       by_cases h : ((l : ℕ) = ρ + 1 ∧ (i : ℕ) < ρ + 1)
-      · simp only [h, and_self, if_true]
+      · simp only [h, and_self, ite_true]
         exact measurable_const.add ((measurable_pi_apply i).comp hξm)
-      · simp only [h, if_false]
+      · simp only [h, ite_false]
         exact measurable_const
     have hγ' : ∀ i j, Measurable fun x => (γ' x : Matrix (Fin n) (Fin n) (Cinf E)) i j := by
       intro i j
@@ -1340,13 +1340,13 @@ theorem smoothMatInf_affine_eq_integral_secKInf : ∀ (E : Type) [Field E] [Numb
           (κ x * (𝐞 (τ x (z, fun i j => (((q⁻¹ : GL (Fin n) (Cinf E)) : Matrix (Fin n) (Fin n) (Cinf E)) *
             Matrix.of (σ₀ + L z) * Matrix.of h) i j)) : ℂ)) := by
         intro x
-        simp only [secKInf, secEtaInf, if_pos hc]
+        simp only [secKInf, secEtaInf, ite_eq_left hc]
         rw [ContinuousLinearMap.comp_apply, ContinuousLinearMap.prod_apply, ContinuousLinearMap.id_apply,
           ContinuousLinearMap.comp_apply, ← hsum, map_add, AddChar.map_add_eq_mul, Circle.coe_mul]
         ring
-      rw [integral_congr_ae (Filter.Eventually.of_forall e), integral_const_mul, if_pos hc]
+      rw [integral_congr_ae (Filter.Eventually.of_forall e), integral_const_mul, ite_eq_left hc]
       ring
-    · simp [secKInf, if_neg hc]
+    · simp [secKInf, ite_eq_right hc]
   have hR : ∫ p, secKInf (R1 * R2) σ₀ κ τ q p * (𝐞 (secEtaInf L τ q p z) : ℂ) * W (g * toGLInf (Matrix.of p.1))
       ∂((volume : Measure (Fin n → Fin n → Cinf E)).prod ν) = ∫ h : Fin n → Fin n → Cinf E,
       (if IsUnit (Matrix.of h) ∧ htInf (toGLInf (Matrix.of h)) ≤ R1 * R2 * htInf q then
@@ -1399,7 +1399,7 @@ theorem smoothMatInf_affine_eq_integral_secKInf : ∀ (E : Type) [Field E] [Numb
       _ ≤ htInf q * (R1 * R2) :=
           mul_le_mul_of_nonneg_left (mul_le_mul hb1' hb2 p2.le (p1.le.trans hb1')) p3.le
       _ = R1 * R2 * htInf q := by ring
-  rw [if_pos ⟨hh, hbound⟩]
+  rw [ite_eq_left ⟨hh, hbound⟩]
   have hG : ((g * σ'⁻¹ * q : GL (Fin n) (Cinf E)) : Matrix (Fin n) (Fin n) (Cinf E)) *
       (((q⁻¹ * σ' : GL (Fin n) (Cinf E)) : Matrix (Fin n) (Fin n) (Cinf E)) * Matrix.of h) = (g : Matrix (Fin n) (Fin n) (Cinf E)) * Matrix.of h := by
     rw [← Matrix.mul_assoc, ← Units.val_mul]
@@ -1632,9 +1632,9 @@ theorem levRepInf_succ (ρ : Fin n) (hρ : (ρ : ℕ) + 1 < n) {lam : (GL (Fin n
   have hrc : Continuous fun g : GL (Fin n) (Cinf E) => rowCutInf ρ (g : Matrix (Fin n) (Fin n) (Cinf E)) := by
     refine continuous_pi fun l => ?_
     by_cases h : l ≤ ρ
-    · simp only [rowCutInf, h, if_true]
+    · simp only [rowCutInf, h, ite_true]
       exact Units.continuous_val.matrix_elem ρ l
-    · simp only [rowCutInf, h, if_false]
+    · simp only [rowCutInf, h, ite_false]
       exact continuous_const
   obtain ⟨hl1, hl2, hl3, hl4⟩ := _root_.GlobalTheory.JSW.MirCinf.levSetInf_closed_subgroup E n (ρ + 1)
   have hK : IsCompact (D ×ˢ ((fun g : GL (Fin n) (Cinf E) => rowCutInf ρ (g : Matrix (Fin n) (Fin n) (Cinf E))) ''

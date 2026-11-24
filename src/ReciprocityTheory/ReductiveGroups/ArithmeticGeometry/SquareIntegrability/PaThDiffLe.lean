@@ -93,7 +93,7 @@ theorem paTh_diff_le (hP : Ext.PackingCount) (hA : Ext.GaussianTailBound) (Y : G
       simp [g, B]
     · have hne : γ ≠ 0 := fun h' => h (by rw [h']; rfl)
       rw [hgdef, Function.update_of_ne hne]
-      simp only [B, if_neg h]
+      simp only [B, ite_eq_right h]
       rw [norm_mul, Y.ka_abs γ γ.2, one_mul]
       exact polynomial_translate_innerProduct_bound hq (γ : EuclideanSpace ℂ ι) hF hG
   have hsB : Summable fun γ => K * B γ * paN q F * paN q G :=

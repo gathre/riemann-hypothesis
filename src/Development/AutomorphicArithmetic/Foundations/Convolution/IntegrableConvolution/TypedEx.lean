@@ -106,7 +106,7 @@ private theorem key_abs (π : UnitaryRep G H) {V : Submodule ℂ H} (hcl : IsClo
     (N : Submodule ℂ H) (hNV : N ≤ V) (hN : N ≠ ⊥) (hst : ∀ g, ∀ u ∈ N, π (φ g) u ∈ N) :
     ∃ u ∈ N, e u ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   let M : Submodule ℂ H :=
     { carrier := {u | u ∈ V ∧ ∀ g, e (π (φ g) u) = 0}
       add_mem' := fun {a b} ha hb => ⟨V.add_mem ha.1 hb.1, fun g => by

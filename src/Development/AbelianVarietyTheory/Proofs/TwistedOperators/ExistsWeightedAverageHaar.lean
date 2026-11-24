@@ -201,7 +201,7 @@ theorem stdFst_fixed : ∀ {D : D7} {T : Type} {L : LevCh D T} {sc : Consts} {G 
           rw [e'] at h2
           exact h2.symm
         · unfold GlobalTheory.IndefiniteRowSideFullHecke.UnitCharTriangle.stdFst
-          rw [if_neg hx, if_neg hx']
+          rw [ite_eq_right hx, ite_eq_right hx']
 
 end GlobalTheory.StdFstFix
 end -- clump:auto
@@ -290,7 +290,7 @@ theorem exists_open_fix_vac_neg : ∀ {D : D7} {T : Type} {L : LevCh D T} {sc : 
   have key : ∃ n : ℕ, ∀ k ∈ GfC (neg A), GlobalTheory.Member.FinCong (neg A) (N₁ * n.factorial) k →
       om' (k, 1) X.vac = X.vac := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     choose k hk hkc hkne using hne
     have hpow : ∀ n, ∃ m : ℕ, ∃ c : ℂ, om' (k n ^ m, 1) X.vac = c • X.vac ∧ ¬ ‖c - 1‖ ≤ 1 / 2 := by
       intro n
@@ -299,7 +299,7 @@ theorem exists_open_fix_vac_neg : ∀ {D : D7} {T : Type} {L : LevCh D T} {sc : 
         rintro rfl
         exact hkne n (by rw [hc, one_smul])
       by_contra h
-      push_neg at h
+      push Not at h
       exact hc1 (GlobalTheory.Doubling.eq_one_of_forall_norm_pow_sub_one_le (A := ℂ) fun m =>
         h m (c ^ m) (GlobalTheory.VacFixSource.om_pow_eq_fst _ (k n) _ c hc m))
     choose m c hmc hc using hpow
@@ -317,7 +317,7 @@ theorem exists_open_fix_vac_neg : ∀ {D : D7} {T : Type} {L : LevCh D T} {sc : 
     obtain ⟨n, hn⟩ := (h2.eventually (Metric.ball_mem_nhds _ hpos)).exists
     rw [hmc n, Pi.smul_apply, smul_eq_mul, dist_eq_norm, ← sub_one_mul, norm_mul] at hn
     have := hc n
-    push_neg at this
+    push Not at this
     nlinarith [norm_nonneg (X.vac w₀)]
   obtain ⟨n, hn⟩ := key
   have hNpos : 0 < N₁ * n.factorial := Nat.mul_pos hN₁ n.factorial_pos

@@ -124,7 +124,7 @@ private theorem character_support_pairing_le_of_antitone {n : ℕ} (κ : Wt n) (
     simp only [add_mul, Finset.sum_add_distrib, mul_assoc, ← Finset.mul_sum] at this
     linarith
   by_contra hc
-  push_neg at hc
+  push Not at hc
   set A := ∑ a, x a * ξ a - ∑ a, x a * κ a with hA
   set B := ∑ a, rhoV n a * κ a - ∑ a, rhoV n a * ξ a with hB
   have hA0 : 0 < A := by rw [hA]; linarith

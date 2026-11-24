@@ -119,7 +119,7 @@ theorem _root_.GlobalTheory.summable_inv_absNorm_of_not_prime :
             · intro P _ P' _ h
               exact Subtype.ext (HeightOneSpectrum.ext h)
         _ ≤ d := Ideal.card_primesOverFinset_le_finrank (𝓞 K) ℚ K hspan
-    · push_neg at hr
+    · push Not at hr
       rw [Finset.card_eq_zero.mpr (Finset.filter_eq_empty_iff.mpr hr)]
       exact Nat.zero_le _
   have hsum : Summable fun n : ℕ => 1 / (n : ℝ) ^ 2 := Real.summable_one_div_nat_pow.mpr one_lt_two

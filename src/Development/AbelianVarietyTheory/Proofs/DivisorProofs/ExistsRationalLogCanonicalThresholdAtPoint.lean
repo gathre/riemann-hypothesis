@@ -90,7 +90,7 @@ theorem exists_threshold_lcAt_not_kltAt : GlobalTheory.Published.Principalisatio
 
   obtain ⟨E₀, hE₀S, hE₀x, hE₀⟩ : ∃ E ∈ S, E.Through x ∧ a E - 1 * t E ≤ -1 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     obtain ⟨m₁', g₁, hm₁', hL₁, hd₁⟩ := step 1
     rw [one_smul] at hL₁
     refine hnk ((hL₁.kltAt_iff hn hη hm₁').2 fun E hE => ?_)

@@ -133,7 +133,7 @@ theorem lZero_of (u u' : D.what₂.Word) (sc : ℝ) (i0 i0' : ∀ _ : InfinitePl
   simp only
   by_cases hrep : ∃ γ, IsPtRep X u u' w γ
   · have h1 : ¬ ∀ v, 0 < GX X u u' D.host.rdE (gamW X u u' w) v := fun h => hng ⟨hrep, h⟩
-    push_neg at h1
+    push Not at h1
     obtain ⟨v, hv⟩ := h1
     have hrepw : IsPtRep X u u' w (gamW X u u' w) := by
       unfold gamW; rw [dite_eq_left hrep]; exact hrep.choose_spec
@@ -145,7 +145,7 @@ theorem lZero_of (u u' : D.what₂.Word) (sc : ℝ) (i0 i0' : ∀ _ : InfinitePl
       rw [h0, zero_pow (by omega), zero_mul]
     rw [hn, Real.sqrt_zero, Complex.ofReal_zero, zero_smul]
   · have hV : unscaledOperatorAtPointRepresentative X u u' sc i0 i0' νq w = 0 := by
-      unfold unscaledOperatorAtPointRepresentative; rw [if_neg hrep]
+      unfold unscaledOperatorAtPointRepresentative; rw [ite_eq_right hrep]
     rw [hV, map_zero, smul_zero]
 
 theorem gX_nonneg {θ : ℝ} (C : Formalism.L2.SG.LocWSOf.Choice X θ) (u u' : D.what₂.Word) (γ : X.B.I.Ginf)
@@ -339,7 +339,7 @@ theorem rZero_carrierInT (u u' : D.what₂.Word) (e : InfinitePlace D.host.E ≃
       Tw (D := D) u * Tw (D := D) u' * ‖RealObj.Dl (RealObj.ZhatO (ptC X v w)) D.R.rS‖ ^ 2 ≤ 0 := by
     by_cases hrep : ∃ γ, IsPtRep X u u' w γ
     · have h1 : ¬ ∀ v, 0 < GX X u u' D.host.rdE (gamW X u u' w) v := fun h => hng ⟨hrep, h⟩
-      push_neg at h1
+      push Not at h1
       obtain ⟨v, hv1⟩ := h1
       refine ⟨v, ?_⟩
       have hrepw : IsPtRep X u u' w (gamW X u u' w) := by
@@ -355,7 +355,7 @@ theorem rZero_carrierInT (u u' : D.what₂.Word) (e : InfinitePlace D.host.E ≃
         (Tw (D := D) u * Tw (D := D) u') (by rw [hcl]; simp)
       rw [Formalism.L2.SG.Pf.CarrierTop.zx_sc, hGd, hZ1] at hv1
       by_contra hpos
-      push_neg at hpos
+      push Not at hpos
       have hrd := Formalism.MainNotions.LocalModelPeriodLattices.rdE_pos D
       have hne : (∏ i : Fin D.R.rS, Formalism.L2.SG.Pf.CarrierTop.cS D.R.rS D.host.rdE (Fin.castLE (Nat.le_succ D.R.rS) i)) ≠ 0 :=
         Finset.prod_ne_zero_iff.mpr fun i _ => by
@@ -366,7 +366,7 @@ theorem rZero_carrierInT (u u' : D.what₂.Word) (e : InfinitePlace D.host.E ≃
       have := mul_pos hc hpos
       linarith
     · by_contra hall
-      push_neg at hall
+      push Not at hall
       obtain ⟨γ, hγ, -⟩ := hPRE w (fun v => by have := hall v; unfold Gv; exact this)
       exact hrep ⟨γ, hγ⟩
   refine ⟨(tauE X e).symm v, Or.inr ?_⟩

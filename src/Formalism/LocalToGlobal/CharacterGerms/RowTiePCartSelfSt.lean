@@ -87,14 +87,14 @@ theorem coeff_tyS_congr {l : ℕ} (hl : 2 ≤ l) (a b : ℕ → C) (N : ℕ) (ha
   simp only [tyS, PowerSeries.coeff_mk]
   refine Finset.sum_congr rfl fun s _ => ?_
   by_cases hs : l ^ s = m
-  · rw [if_pos hs, if_pos hs]
+  · rw [ite_eq_left hs, ite_eq_left hs]
     apply hab
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have h1 : l ^ N ≤ l ^ s := Nat.pow_le_pow_right (by omega) hc
     rw [hs] at h1
     exact absurd hm (not_lt.2 h1)
-  · rw [if_neg hs, if_neg hs]
+  · rw [ite_eq_right hs, ite_eq_right hs]
 
 theorem constantCoeff_tyS {l : ℕ} (hl : 2 ≤ l) (a : ℕ → C) : PowerSeries.constantCoeff (tyS l a) = 0 := by
   rw [← PowerSeries.coeff_zero_eq_constantCoeff_apply]
@@ -137,11 +137,11 @@ theorem sumV_mem (V : VF C) (g : Fin 2) (hlg0 : ∀ i, MvPowerSeries.constantCoe
     have hsub : Finset.range (i + 1) ⊆ Finset.range N := Finset.range_subset_range.2 (by omega)
     rw [← Finset.sum_subset hsub]
     · refine Finset.sum_congr rfl fun s hs => ?_
-      rw [if_neg]
+      rw [ite_eq_right]
       have := Finset.mem_range.1 hs
       omega
     · intro s _ hs
-      rw [if_pos]
+      rw [ite_eq_left]
       have : ¬ s < i + 1 := fun h => hs (Finset.mem_range.2 h)
       omega
   choose γN lamN hγN hlamN h1N h2N using hP
@@ -281,7 +281,7 @@ theorem coeff_subst_rename_out {σ τ : Type} [Finite σ] (φ : σ → τ) (F : 
   rw [coeff_subst (hasSubst_of_constantCoeff_zero fun s => constantCoeff_X _)]
   apply finsum_eq_zero_of_forall_eq_zero
   intro e'
-  rw [prod_X_rename, coeff_monomial, if_neg (fun h => he e' h.symm), smul_zero]
+  rw [prod_X_rename, coeff_monomial, ite_eq_right (fun h => he e' h.symm), smul_zero]
 
 theorem coeff_inCol_lin (col : Fin 2) (f f' : MvPowerSeries (Fin dd) C)
     (h : ∀ μ : Fin dd →₀ ℕ, μ.degree ≤ 1 → coeff μ f = coeff μ f') (μ : Fin 2 × Fin dd →₀ ℕ) (hμ : μ.degree ≤ 1) :
@@ -291,7 +291,7 @@ theorem coeff_inCol_lin (col : Fin 2) (f f' : MvPowerSeries (Fin dd) C)
   · obtain ⟨μ', rfl⟩ := hr
     rw [coeff_subst_rename_inj _ (col_inj col), coeff_subst_rename_inj _ (col_inj col)]
     exact h μ' (by rw [Finsupp.degree_mapDomain] at hμ; exact hμ)
-  · push_neg at hr
+  · push Not at hr
     rw [coeff_subst_rename_out _ _ _ hr, coeff_subst_rename_out _ _ _ hr]
 
 end Col
@@ -364,7 +364,7 @@ theorem FBChart.rawSelf_u_integral (g : Fin 2) (c : I0) (x : Fin 2 × Fin dd) : 
 theorem SelfData.gm_pair (a : ZMod d) (g : Fin 2) :
     ∑ col, p.gm a col g * p.gm (a + p.hd) col (1 - g) = 1 := by
   have h := p.gm_hyp (a + p.hd) g (1 - g)
-  rw [add_assoc, p.hd_two, add_zero, if_neg (by fin_cases g <;> decide)] at h
+  rw [add_assoc, p.hd_two, add_zero, ite_eq_right (by fin_cases g <;> decide)] at h
   exact h
 
 theorem FBChart.exists_integral_right_inverse (g : Fin 2) :
@@ -381,7 +381,7 @@ theorem FBChart.exists_integral_right_inverse (g : Fin 2) :
   simp_rw [← Finset.mul_sum, huw c c']
   by_cases hc : c = c'
   · subst hc
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     simp only [mul_one]
     exact SelfData.gm_pair Y p _ g
   · simp [hc]

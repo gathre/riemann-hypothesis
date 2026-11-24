@@ -338,7 +338,7 @@ theorem etr_conj_scalar_matrix {A : Type} [Ring A] [Algebra ℂ A] {n : ℕ} (E 
   refine Finset.sum_congr rfl fun c _ => ?_
   rw [Finset.sum_comm]
   simp only [← Finset.sum_smul, ← Matrix.mul_apply, h1, Matrix.one_apply, ite_smul, one_smul,
-    zero_smul, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    zero_smul, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
 
 end GlobalTheory
 end -- clump:auto
@@ -767,7 +767,7 @@ theorem mem_of_mem_closure [CompleteSpace H] (hU : IsURepOn (UJset ε) ρ) (hV :
 theorem casimir_eq_etr {M : Type} [AddCommGroup M] [Module ℂ M] (E : Fin n → Fin n → Module.End ℂ M) :
     ReciprocityTheory.ChartRestriction.DS.casimir E = etr E 2 := by
   simp only [ReciprocityTheory.ChartRestriction.DS.casimir, etr, Formalism.REAL.epow, ite_mul, one_mul, zero_mul,
-    Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    Finset.sum_ite_eq, Finset.mem_univ, ite_true]
 
 def vK (hV : IsGKSub ε ρ V) (κ : Matrix (Fin n) (Fin n) ℂ) (hκ : κ ∈ Kset ε) : Module.End ℂ V :=
   (ρ κ : H →ₗ[ℂ] H).restrict (fun x hx => hV.kStable κ hκ x hx)
@@ -977,7 +977,7 @@ variable {H₁ H₂ : Type} [NormedAddCommGroup H₁] [InnerProductSpace ℂ H�
 theorem exists_kIso_ne_bot [Nontrivial H₁] (hU : IsURepOn (UJset ε) σ₁) :
     ∃ Λ, GlobalTheory.KFinDual.kIso ε σ₁ Λ ≠ ⊥ := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have hall : ∀ v : H₁, IsKFin ε σ₁ v → v = 0 := fun v hv => by
     have h := GlobalTheory.KFinDual.decomp n ε H₁ σ₁ (_root_.GlobalTheory.Dec.FormF.URep_K hU) (kType_exists hU) v hv
     have h0 : (⨆ Λ : Fin n → ℝ, sSup {S : Submodule ℂ H₁ | IsKTypeOf ε σ₁ Λ S}) = ⊥ := iSup_eq_bot.2 hc

@@ -435,7 +435,7 @@ theorem latCo_one {B : Base} {X : PreX B.toPre} (I : TC B X) (hI : I.Ok) (l : I.
     show (GlobalTheory.Mem.Col2.shW (Examples₂.lamOf (B.hcW u τ) B.R.m) _).natW = (Examples₂.lamOf (B.hcW u τ) B.R.m).natW
     funext i
     have hN : 0 < B.R.N B.R.m := lt_of_le_of_lt (Nat.zero_le _) i.2
-    simp only [DomWeight.natW, DomWeight.detShift, dif_pos hN, GlobalTheory.Mem.Col2.shW]
+    simp only [DomWeight.natW, DomWeight.detShift, dite_eq_left hN, GlobalTheory.Mem.Col2.shW]
     congr 1
     ring
   exact (_root_.GlobalTheory.WeylLocOnePlace.mem_locW_delAtr_iff B.fields.emb B.embLL B.places (I.rec7 l Z).plEq (I.rec7 l Z).val_eq
@@ -493,7 +493,7 @@ private theorem fockB_monomial_monomial {σ : Type} [DecidableEq σ] (a b : σ �
     Formalism.L2.DIV.fockB (MvPolynomial.monomial a (1 : ℂ)) (MvPolynomial.monomial b 1) =
       if a = b then (Formalism.L2.DIV.mfact a : ℂ) else 0 := by
   unfold Formalism.L2.DIV.fockB
-  rw [MvPolynomial.support_monomial, if_neg one_ne_zero, Finset.sum_singleton,
+  rw [MvPolynomial.support_monomial, ite_eq_right one_ne_zero, Finset.sum_singleton,
     MvPolynomial.coeff_monomial, MvPolynomial.coeff_monomial]
   by_cases h : a = b
   · subst h; simp
@@ -514,7 +514,7 @@ private theorem fockB_ten_monomial_eq_prod {ι : Type} [Fintype ι] {n : ℕ} (v
   simp_rw [fockB_monomial_monomial]
   by_cases h : v = w
   · subst h
-    simp only [if_true]
+    simp only [ite_true]
     rw [_root_.Formalism.L2.Ker.mfact_eq_prod, Fintype.prod_prod_type]
     simp_rw [_root_.Formalism.L2.Ker.mfact_eq_prod, sum_mapDomain_prodMk_apply]
     push_cast
@@ -527,8 +527,8 @@ private theorem fockB_ten_monomial_eq_prod {ι : Type} [Fintype ι] {n : ℕ} (v
       have := congrArg (fun f : ι × Fin n × Fin n →₀ ℕ => f (τ, x)) hE
       simpa only [sum_mapDomain_prodMk_apply] using this
     obtain ⟨τ, hτ⟩ := Function.ne_iff.mp h
-    rw [if_neg hA]
-    exact (Finset.prod_eq_zero (Finset.mem_univ τ) (if_neg hτ)).symm
+    rw [ite_eq_right hA]
+    exact (Finset.prod_eq_zero (Finset.mem_univ τ) (ite_eq_right hτ)).symm
 
 private theorem fockB_ten_eq_prod {ι : Type} [Fintype ι] {n : ℕ} (f g : ι → MvPolynomial (Fin n × Fin n) ℂ) :
     Formalism.L2.DIV.fockB (Formalism.MainNotions.product_first_zeroth_parts.ten f) (Formalism.MainNotions.product_first_zeroth_parts.ten g) = ∏ τ, Formalism.L2.DIV.fockB (f τ) (g τ) := by
@@ -596,7 +596,7 @@ private theorem fockB_proj_of_isUnit_gramB {κ : Type} [Fintype κ] {m : ℕ} (l
     refine Finset.sum_congr rfl fun i _ => ?_
     ring
   simp_rw [e2, Matrix.mul_nonsing_inv _ hG, Matrix.one_apply, ite_mul, one_mul, zero_mul,
-    Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    Finset.sum_ite_eq, Finset.mem_univ, ite_true]
 
 private theorem proj_unique_of_isUnit_gramB {κ : Type} [Fintype κ] {m : ℕ} (lam : κ → DomWeight m)
     (hG : IsUnit (Formalism.L2.Col.Br.gramB (K := ℂ) lam).det) (x v : Formalism.L2.DIV.Pol ℂ κ m)
@@ -800,21 +800,21 @@ private theorem coefLast_monomial' {ι : Type} [Fintype ι] {N n : ℕ} (hN : N 
   simp_rw [toUnit_monomial, Formalism.L2.Col.Br.coefLast_monomial, apply_ite (Formalism.L2.Ker.toUnit ℂ n).symm,
     map_zero, toUnit_symm_monomial]
   by_cases hT : Formalism.L2.Col.Br.IsTop hN (Formalism.L2.Col.Br.bExp hN lam sg) M
-  · rw [if_pos hT]
+  · rw [ite_eq_left hT]
     have hT' := hiff.mp hT
-    simp only [hT', if_true]
+    simp only [hT', ite_true]
     rw [Formalism.MainNotions.product_first_zeroth_parts.ten_monomial]
     refine congrArg (fun A => MvPolynomial.monomial A (1 : ℂ)) ?_
     ext ⟨τ, a, s⟩
     rw [sum_mapDomain_prodMk_apply]
     simp only [Finsupp.comapDomain_apply]
     exact (hev τ () _).symm
-  · rw [if_neg hT]
+  · rw [ite_eq_right hT]
     obtain ⟨τ, hτ⟩ := not_forall.mp (mt hiff.mpr hT)
     unfold Formalism.MainNotions.product_first_zeroth_parts.ten
     refine (Finset.prod_eq_zero (Finset.mem_univ τ) ?_).symm
     dsimp only
-    rw [if_neg hτ, map_zero]
+    rw [ite_eq_right hτ, map_zero]
 
 private theorem ten_brOne_monomial_eq_brStdP {ι : Type} [Fintype ι] {N n : ℕ} (hN : N = n + 1)
     (lam : ι → DomWeight N) (sg : ι → DomWeight n) (M : ι × Fin N × Fin N →₀ ℕ) :

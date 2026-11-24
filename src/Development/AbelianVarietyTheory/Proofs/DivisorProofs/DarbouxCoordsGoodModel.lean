@@ -261,7 +261,7 @@ theorem norm_addChar_eq_one {v : Pl (F := F)} (χ : AddChar (Fv F v) ℂ) (hχ :
       rw [← norm_pow, ← AddChar.map_nsmul_eq_pow]
       exact hM _ hmem
     by_contra h
-    push_neg at h
+    push Not at h
     obtain ⟨n, hn'⟩ := pow_unbounded_of_one_lt M h
     exact absurd (hn n) (not_le.mpr hn')
   have h1 := hb x

@@ -201,7 +201,7 @@ theorem exists_scaleOff_isProjFrame (x : κ → Ω) (e : Fin (D + 1) → κ)
     · have e1 : C (scaleOff e (∏ i, n i) x i) * X =
           ((∏ j ∈ Finset.univ.erase i, n j : ℕ) : Polynomial Ω) * ((n i : Polynomial Ω) * (C (x i) * X)) := by
         rw [← mul_assoc, ← Nat.cast_mul, Finset.prod_erase_mul _ _ (Finset.mem_univ i)]
-        simp only [scaleOff, if_neg hi, map_mul, map_natCast]
+        simp only [scaleOff, ite_eq_right hi, map_mul, map_natCast]
         ring
       rw [e1]
       exact isIntegral_natCast_mul_coneRing (x ∘ e) _ (hint i)

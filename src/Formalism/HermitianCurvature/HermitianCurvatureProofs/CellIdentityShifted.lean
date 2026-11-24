@@ -177,7 +177,7 @@ theorem orbJ_swap (Ds : B.RealPlaceData k r Wp Wq) (Ds' : B.RealPlaceData k r Wp
   have hex : ∃ θ' : B.SS k r → ℝ, D.IsNormCut Ds γ μR θ' ∧
       Integrable (fun p => θ' p • D.orbIntegrand Ds γ f p) Ds.μSS := ⟨θ, hθ, hi⟩
   unfold D.orbJ
-  rw [dif_pos hex', dif_pos hex]
+  rw [dite_eq_left hex', dite_eq_left hex]
   rw [P.orbital_integral_indep_choice k r Wp Wq' Ds' γ μR hrel' hH F' _ θ hex'.choose_spec.1 hθ'
       hex'.choose_spec.2 hi',
     P.orbital_integral_indep_choice k r Wp Wq Ds γ μR hrel hH f _ θ hex.choose_spec.1 hθ hex.choose_spec.2 hi]
@@ -197,7 +197,7 @@ theorem cell_identity_shifted : CellIdSh := by
     exact hG'
   by_cases hex : ∃ g ∈ B.GV Pa.k Pa.r, Zhat Pa.k Pa.r p.T.base.z p.T.base.z' g = D.ptMatN γ (Pa.r + 1) ∧
       D.IsDFrame p.T.base p.ν' p.m₀ g
-  · have hrep : ptRep p γ = hex.choose := dif_pos hex
+  · have hrep : ptRep p γ = hex.choose := dite_eq_left hex
     obtain ⟨hgGV, hZ, hF⟩ := hex.choose_spec
     rw [hrep]
     generalize hex.choose = g at hgGV hZ hF ⊢
@@ -231,9 +231,9 @@ theorem cell_identity_shifted : CellIdSh := by
       · rw [hν, hm] at hg3
         exact (isDFrame_swap p.T.base q.T.base hz hz' p.ν' p.m₀ g).1 hg3
     simp only [KB.Pl.V, D.vecV]
-    rw [dif_pos ⟨hγ, hGq⟩]
-    conv_rhs => rw [dif_pos ⟨hγ, hG'⟩, dif_neg hex, ContinuousLinearMap.zero_comp]
-    exact dif_neg h1
+    rw [dite_eq_left ⟨hγ, hGq⟩]
+    conv_rhs => rw [dite_eq_left ⟨hγ, hG'⟩, dite_eq_right hex, ContinuousLinearMap.zero_comp]
+    exact dite_eq_right h1
 
 end
 

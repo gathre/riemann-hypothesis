@@ -76,9 +76,9 @@ theorem trace_dg_single {m : ℕ} (d : Fin m → ℝ) (a b : Fin m) :
   by_cases h : a = b
   · subst h
     simp [Matrix.single_apply]
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     refine Finset.sum_eq_zero (fun c _ => ?_)
-    rw [Matrix.single_apply, if_neg, zero_mul]
+    rw [Matrix.single_apply, ite_eq_right, zero_mul]
     rintro ⟨rfl, rfl⟩
     exact h rfl
 

@@ -206,9 +206,9 @@ theorem coeff_chosenRed_eq_redHom : ∀ (D : D7) (X : HidaSetting D) (red : X.B.
   intro D X red hred a ha x
   by_cases hx : x ∈ X.B.I.Kset
   · have hc : x ∈ X.B.I.Kset ∧ ∃ γ : G0g D.nd, GoodAt X x γ := ⟨hx, red x, hred.1 x hx⟩
-    rw [dite_eq_left hc, if_pos hx,
+    rw [dite_eq_left hc, ite_eq_left hx,
       coeff_goodAt_eq D X a ha x (red x) (Classical.choose hc.2) (hred.1 x hx) (Classical.choose_spec hc.2)]
-  · rw [dite_eq_right (fun h => hx h.1), if_neg hx]
+  · rw [dite_eq_right (fun h => hx h.1), ite_eq_right hx]
 
 end GlobalTheory
 end -- clump:auto
@@ -376,12 +376,12 @@ theorem integral_inflate [Fintype Q] (μf : Measure I.Gf) [μf.IsHaarMeasure] (h
       fun x => ∑ q, {x | x ∈ I.Kset ∧ ρ.toFun x = q}.indicator (fun _ => F q) x := by
     funext x
     by_cases hx : x ∈ I.Kset
-    · rw [if_pos hx, Finset.sum_eq_single (ρ.toFun x)]
+    · rw [ite_eq_left hx, Finset.sum_eq_single (ρ.toFun x)]
       · rw [Set.indicator_of_mem]
         exact ⟨hx, rfl⟩
       · exact fun q _ hq => Set.indicator_of_notMem (by exact fun h => hq h.2.symm) _
       · exact fun h => absurd (Finset.mem_univ _) h
-    · rw [if_neg hx]
+    · rw [ite_eq_right hx]
       exact (Finset.sum_eq_zero fun q _ => Set.indicator_of_notMem (by exact fun h => hx h.1) _).symm
   have hi : ∀ q, Integrable ({x | x ∈ I.Kset ∧ ρ.toFun x = q}.indicator (fun _ => F q)) μf := fun q =>
     (integrable_indicator_iff (hm q).1).2 (integrableOn_const ((hm q).2 ▸ hfin))
@@ -767,8 +767,8 @@ theorem mem_VT_of_sum_fixed : ∀ (D : D7) (X : HidaSetting D) (red : X.B.I.Gf �
     · unfold egA
       convert GlobalTheory.coeff_chosenRed_eq_redHom D X red hred (ES {t}) hcent x using 2
     by_cases hx : x ∈ X.B.I.Kset
-    · rw [if_pos hx, GlobalTheory.RowLev.Red.lift_of_mem ρ _ _ hx]
-    · rw [if_neg hx, GlobalTheory.RowLev.Red.lift_of_notMem ρ _ _ hx]
+    · rw [ite_eq_left hx, GlobalTheory.RowLev.Red.lift_of_mem ρ _ _ hx]
+    · rw [ite_eq_right hx, GlobalTheory.RowLev.Red.lift_of_notMem ρ _ _ hx]
   obtain ⟨h1R, hm, hn, -⟩ := GlobalTheory.RightRegProps.rightReg_unitary_mul_continuous X.B.I X.B.μf X.B.fund
     X.B.fund_spec X.B.R X.B.R_spec
   obtain ⟨huniq, -, -, hprod, -⟩ := GlobalTheory.WeakConv.rightConv_unique_add_smul_mul_comm X.B.I X.B.μf X.B.fund X.B.R
@@ -876,7 +876,7 @@ theorem sum_prod_fixed_place_average {ι : Type} [Fintype ι] [DecidableEq ι] {
       · intro γ _ hγ
         obtain ⟨i, hi⟩ : ∃ i, γ i ≠ 1 := by
           by_contra hcon
-          push_neg at hcon
+          push Not at hcon
           exact hγ (funext hcon)
         have : c ∅ γ = 0 := Finset.prod_eq_zero (mem_univ i) (by simp [hi])
         rw [this, zero_smul]

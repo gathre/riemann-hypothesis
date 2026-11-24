@@ -79,7 +79,7 @@ theorem weight_blockWeight (m : (Σ k, ι k) →₀ ℕ) :
   have h2 : ∑ x ∈ T, (if k = x.1 then m x else 0) =
       ∑ x ∈ m.support ∪ T, (if k = x.1 then m x else 0) := by
     refine Finset.sum_subset Finset.subset_union_right fun x _ hx => ?_
-    rw [if_neg]
+    rw [ite_eq_right]
     rintro rfl
     exact hx (Finset.mem_map.mpr ⟨x.2, Finset.mem_univ _, rfl⟩)
   rw [h1, ← h2, Finset.sum_map]

@@ -97,7 +97,7 @@ theorem cLL_unit_interval_le : ∀ (l h N v : ℕ) (U : Finset ℤ) (U' : Set �
       rw [Function.mem_support] at hu
       by_contra hnot
       have hnU' : u ∉ U' := fun h' => hnot (Finset.mem_coe.mpr (hU h'))
-      exact hu (by simp only [finsum_eq_if, if_neg hnU'])
+      exact hu (by simp only [finsum_eq_if, ite_eq_right hnU'])
   have hNL : 1 ≤ N * (4 + 2 * L) := by
     have := Nat.mul_le_mul hN (show 1 ≤ 4 + 2 * L by omega)
     omega

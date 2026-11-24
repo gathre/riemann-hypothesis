@@ -65,7 +65,7 @@ private lemma deg_one {σ : Type} [DecidableEq σ] (d : σ →₀ ℕ) (h : d.de
   ext i
   by_cases his : i = s
   · subst his; simp [hds]
-  · rw [Finsupp.single_apply, if_neg (Ne.symm his)]
+  · rw [Finsupp.single_apply, ite_eq_right (Ne.symm his)]
     by_cases hi : i ∈ d.support
     · exact hrest i (Finset.mem_erase.mpr ⟨his, hi⟩)
     · exact Finsupp.notMem_support_iff.mp hi

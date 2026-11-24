@@ -154,7 +154,7 @@ lemma key0 {n : Type} [Fintype n] (Y Z B : Matrix n n (WittVector p C))
     coeff_frobenius_charP] at this
     exact this
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨i0, j0, hij⟩ := hne
   obtain ⟨⟨i1, j1⟩, -, hmax⟩ := Finset.exists_max_image (Finset.univ : Finset (n × n))
     (fun q => A.valuation ((Z q.1 q.2).coeff 0)) ⟨(i0, j0), Finset.mem_univ _⟩

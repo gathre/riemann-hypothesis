@@ -117,7 +117,7 @@ theorem lab_eq (L : LabelDatum g) (hg : 5 ≤ g) (c : Pc g) (P : (ZMod g)[X]) (h
     lab L c = P := by
   have hex : ∃ P, IsCuspOf L P c.2 := ⟨P, h⟩
   unfold lab
-  rw [dif_pos hex]
+  rw [dite_eq_left hex]
   exact ((_root_.GlobalTheory.GLq.isCuspOf_label_unique g L hg c.1 P _ c.2 c.2 h).1 hex.choose_spec).symm
 
 theorem map_fst_eq (L : LabelDatum g) (hg : 5 ≤ g) (Q : List ((ZMod g)[X] × Pc g))
@@ -196,7 +196,7 @@ theorem label_exists (L : LabelDatum g) (hg : 5 ≤ g) (hG : Green) {n : ℕ} (�
     have hc' := hex c hc
     show IsCuspOf L (lab L c) c.2
     unfold lab
-    rw [dif_pos hc']
+    rw [dite_eq_left hc']
     exact hc'.choose_spec
   · rw [hmap]
     exact hdC
@@ -210,7 +210,7 @@ theorem exists_section (L : LabelDatum g) (hG : Green) : ∃ t : (P : (ZMod g)[X
   intro P hP
   have hpos : 0 < P.natDegree :=
     Polynomial.natDegree_pos_iff_degree_pos.2 (Polynomial.degree_pos_of_irreducible hP.2.1)
-  simp only [dif_pos hpos]
+  simp only [dite_eq_left hpos]
   exact (hG g L P.natDegree hpos).choose_spec.1 P hP
 
 theorem squarefree_series (L : LabelDatum g) (hg : 5 ≤ g) (hG : Green) (n : ℕ) (f : (ZMod g)[X])
@@ -299,7 +299,7 @@ theorem squarefree_series (L : LabelDatum g) (hg : 5 ≤ g) (hG : Green) (n : �
       (char_snd L Q' hQ')).2 hperm2
     rw [hhc] at hip'
     by_contra hne
-    rw [(_root_.GlobalTheory.GLq.ZOrth.zorth _ χ _ hχ hirr).2.2, if_neg hne] at hip'
+    rw [(_root_.GlobalTheory.GLq.ZOrth.zorth _ χ _ hχ hirr).2.2, ite_eq_right hne] at hip'
     exact hip' rfl
   · rintro rfl
     refine ⟨hirr, Q, hQc, hdeg, hprod.symm, ?_⟩

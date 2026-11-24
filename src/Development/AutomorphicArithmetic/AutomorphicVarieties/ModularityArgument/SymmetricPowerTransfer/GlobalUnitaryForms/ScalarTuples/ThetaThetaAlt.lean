@@ -497,7 +497,7 @@ private theorem exists_scale [IsFractionRing O K] {ι : Type} [Finite ι] (f g :
     have hc0 : algebraMap O K (c : O) ≠ 0 := IsFractionRing.to_map_ne_zero_of_mem_nonZeroDivisors c.2
     refine ⟨(algebraMap O K c)⁻¹, inv_ne_zero hc0, fun i => ⟨0, by simp [hall i]⟩, fun j => ⟨N * q j, ?_⟩⟩
     rw [map_mul, hq j, inv_inv, Algebra.smul_def]
-  push_neg at hall
+  push Not at hall
   obtain ⟨i1, hi1⟩ := hall
   haveI : Nonempty ι := ⟨i1⟩
   obtain ⟨i0, hi0⟩ := Finite.exists_min (fun i => IsDiscreteValuationRing.addVal O (p i))
@@ -1271,11 +1271,11 @@ theorem UpperTheory.V.Z.Sym.Glob.gqG :
   have hlocF := fun v : Pl F => by
     haveI := hcz v
     exact modelFacts (Kv v) (cv v Δ) (cv v τ) (cv v c) _ _ _ (ιv v) (Pv v) (hΔv v) (hdatv v) (hMv v)
-  have hfS : ∀ v ∈ D.Sg, D.fGv t v = (D.S v).fG (t v) := fun v hv => funext fun g => if_pos hv
+  have hfS : ∀ v ∈ D.Sg, D.fGv t v = (D.S v).fG (t v) := fun v hv => funext fun g => ite_eq_left hv
   have hfN : ∀ v ∉ D.Sg, D.fGv t v = fun g => one (g ∈ KU (Ov v) (cv v Δ)) :=
-    fun v hv => funext fun g => if_neg hv
-  have hJS : ∀ v ∈ D.Sg, D.Jv v = (D.S v).J := fun v hv => if_pos hv
-  have hJN : ∀ v ∉ D.Sg, D.Jv v = KU (Ov v) (cv v Δ) := fun v hv => if_neg hv
+    fun v hv => funext fun g => ite_eq_right hv
+  have hJS : ∀ v ∈ D.Sg, D.Jv v = (D.S v).J := fun v hv => ite_eq_left hv
+  have hJN : ∀ v ∉ D.Sg, D.Jv v = KU (Ov v) (cv v Δ) := fun v hv => ite_eq_right hv
   obtain ⟨hphi⟩ : Nonempty (∃ φ, IsDiagT τ φ) := ⟨(iotaEx F Δ).2.2 τ⟩
   set φ := hphi.choose with hφdef
   have hφ : IsDiagT τ φ := hphi.choose_spec
@@ -1402,7 +1402,7 @@ theorem UpperTheory.V.Z.Sym.Glob.gqG :
       Finset.prod_congr rfl fun v hv => by simp [one, hAdm v hv]
     show mass φ (scalE τ) _ * ∏ v ∈ S, orb (ιv v) (Cint (Ov v) (cv v τ)) (theta (cv v Δ)) (D.Jv v) (D.fGv t v) ((ι δ).1 v) = _
     rw [hsplit, hprod, hms]
-    simp only [one, if_pos hAdm, Dat.nL]
+    simp only [one, ite_eq_left hAdm, Dat.nL]
     ring
   · have hz : ∀ y : GA Δ ⧸ D.UG,
         D.FG t ((Quotient.out y)⁻¹ * ι δ * θ (Quotient.out y)) = 0 := by

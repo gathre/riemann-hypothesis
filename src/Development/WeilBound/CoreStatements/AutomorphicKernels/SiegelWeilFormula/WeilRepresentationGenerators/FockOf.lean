@@ -189,7 +189,7 @@ theorem arc_apply (R : RD d) (X : Mx F E d.m d.n) (i : Iw d) :
 theorem norm_arc_sq (R : RD d) (X : Mx F E d.m d.n) :
     ‖arc R X‖ ^ 2 = ∑ w, ∑ a, ∑ j, ‖R.loc w X a j‖ ^ 2 := by
   rw [EuclideanSpace.norm_sq_eq]
-  simp only [Fintype.sum_prod_type, Fintype.sum_bool, arc_apply, if_true, Bool.false_eq_true, if_false,
+  simp only [Fintype.sum_prod_type, Fintype.sum_bool, arc_apply, ite_true, Bool.false_eq_true, ite_false,
     Real.norm_eq_abs, sq_abs]
   refine Finset.sum_congr rfl fun w _ => Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun j _ => ?_
   rw [Complex.sq_norm, Complex.normSq_apply]
@@ -211,10 +211,10 @@ def lin (a : Fin d.m) (j : Fin d.n) (b : Bool) : PX d.m d.n :=
 theorem evX_lin (a : Fin d.m) (j : Fin d.n) (b : Bool) (z : Fin d.m → Fin d.n → ℂ) :
     evX (lin (d := d) a j b) z = ((if b then (z a j).re else (z a j).im : ℝ) : ℂ) := by
   cases b
-  · simp only [lin, evX, Bool.false_eq_true, if_false, map_mul, map_sub, MvPolynomial.eval_C, MvPolynomial.eval_X,
-      if_true]
+  · simp only [lin, evX, Bool.false_eq_true, ite_false, map_mul, map_sub, MvPolynomial.eval_C, MvPolynomial.eval_X,
+      ite_true]
     apply Complex.ext <;> simp <;> ring
-  · simp only [lin, evX, if_true, Bool.false_eq_true, if_false, map_mul, map_add (f := _), MvPolynomial.eval_C,
+  · simp only [lin, evX, ite_true, Bool.false_eq_true, ite_false, map_mul, map_add (f := _), MvPolynomial.eval_C,
       MvPolynomial.eval_X]
     apply Complex.ext <;> simp <;> ring
 

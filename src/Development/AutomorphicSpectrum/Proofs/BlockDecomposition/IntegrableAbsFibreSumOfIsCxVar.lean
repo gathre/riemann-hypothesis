@@ -173,7 +173,7 @@ theorem isSetSheet_of_isSheet {P : Ideal (MRing ι)} {Q : Ideal (MRingOver ℂ �
     have hnot : γ y ∉ conePts Q' := fun hc => hne (hone Q' hQ' _ hγQ hc hΨγ)
     obtain ⟨f, hf, hf0⟩ : ∃ f ∈ Q', eval (γ y) f ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hnot ⟨hm.1, hcon⟩
     have hc : ContinuousAt (fun y' => eval (γ y') f) y :=
       (MvPolynomial.continuous_eval f).continuousAt.comp hd.continuousAt
@@ -654,7 +654,7 @@ theorem algebraicIndependent_sumElim_cx (Q : Ideal (MRingOver ℂ ι)) [Q.IsPrim
   have hH'hom : IsWeightedHomogeneous (sWt k0 r) H' δ :=
     weightedHomogeneousComponent_isWeightedHomogeneous δ H
   have hn0' : n0 ∈ H'.support := by
-    rw [mem_support_iff, coeff_weightedHomogeneousComponent, if_pos rfl]
+    rw [mem_support_iff, coeff_weightedHomogeneousComponent, ite_eq_left rfl]
     exact mem_support_iff.mp hn0
   have hmem : aeval yt H ∈ Q := by
     rw [← Ideal.Quotient.eq_zero_iff_mem, hcomp]
@@ -818,7 +818,7 @@ theorem exists_goodProj_coord (K : Type) [Fintype K] (ι : K → Type) [∀ k, F
     intro m hm
     rw [mem_support_iff, coeff_homogeneousComponent] at hm
     by_contra hne
-    exact hm (if_neg hne)
+    exact hm (ite_eq_right hne)
   obtain ⟨lam, hlam⟩ := exists_eval_cons_one_ne_zero _ _ hsupp
     (homogeneousComponent_totalDegree_ne_zero hc0)
   let Ψ : (((k : K) → ι k) → ℂ) →ₗ[ℂ] (Fin (e + 1) → ℂ) :=
@@ -844,7 +844,7 @@ theorem exists_goodProj_coord (K : Type) [Fintype K] (ι : K → Type) [∀ k, F
   have hVs : ∀ j : Fin r', V j.succ = lam j * V 0 := by
     intro j
     have h := congrFun hΨ (Fin.succ ⟨j, by omega⟩)
-    simp only [Ψ, LinearMap.coe_mk, AddHom.coe_mk, Fin.cases_succ, dif_pos j.2, Fin.eta,
+    simp only [Ψ, LinearMap.coe_mk, AddHom.coe_mk, Fin.cases_succ, dite_eq_left j.2, Fin.eta,
       Pi.zero_apply] at h
     simp only [hVdef]
     rw [← sub_eq_zero, Finset.mul_sum, ← Finset.sum_sub_distrib, ← h]
@@ -1365,7 +1365,7 @@ theorem integrable_chartAbsDens_cellWeight : ∀ (K : Type) [Fintype K] [Decidab
       have hnz := chartLift_blockNonzero σ i h1
       have habs : absLogNorm A s (chartLift σ i x) = |logNormC A s (chartLift σ i x)| := by
         simp only [absLogNorm]
-        rw [if_pos hnz]
+        rw [ite_eq_left hnz]
       rw [Set.indicator_of_mem hd, Set.indicator_of_mem hb, habs, abs_abs, logNormC,
         ← eval_chartSection]
       exact (abs_log_div_le (norm_nonneg _) (A.pos _ hnz) hC' (le_max_right _ _)).trans
@@ -1582,7 +1582,7 @@ theorem GlobalTheory.CompanionTheory.Ar.Pub.CxChart.logNorm_mass_lt_top : ∀ (K
     intro z hz
     obtain ⟨i, hi⟩ := exists_mem_domCell hz.1
     have : |logNormC A s z| = G i z := by
-      simp only [hG, Set.indicator_of_mem hi, absLogNorm, if_pos hz.1]
+      simp only [hG, Set.indicator_of_mem hi, absLogNorm, ite_eq_left hz.1]
     rw [this]
     exact Finset.single_le_sum (f := fun i => G i z) (fun i _ => hG0 i z) (Finset.mem_univ i)
   have hpt : ∀ y, ENNReal.ofReal (∑ᶠ w ∈ setFibre (conePts Q) Ψ y,
@@ -1703,7 +1703,7 @@ theorem abs_setSheetDensity_eq {K : Type} [Fintype K] {ι : K → Type} [∀ k, 
   split_ifs with hγ
   · have hz := hS _ hγ.choose_spec.2.self_of_nhds.2.1
     have ha : absLogNorm A s (hγ.choose y) = |logNormC A s (hγ.choose y)| := by
-      simp only [absLogNorm, if_pos hz]
+      simp only [absLogNorm, ite_eq_left hz]
     beta_reduce
     rw [ha, abs_mul]
     generalize maDensity (fun j y' => φ j (hγ.choose y')) y = m

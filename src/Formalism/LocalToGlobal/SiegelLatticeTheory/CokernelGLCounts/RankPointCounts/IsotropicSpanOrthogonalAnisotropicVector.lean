@@ -67,11 +67,11 @@ theorem hff {T : D.host.E} (F : FlagG (VS D) D.R.rS T) (a b : Fin (D.R.rS + 1)) 
   induction a using Fin.lastCases with
   | last =>
     induction b using Fin.lastCases with
-    | last => rw [fvec_last, F.z_norm, if_pos ⟨rfl, rfl⟩]
+    | last => rw [fvec_last, F.z_norm, ite_eq_left ⟨rfl, rfl⟩]
     | cast j =>
-      rw [fvec_last, fvec_cs, if_neg (fun h => Fin.castSucc_ne_last j h.2), hsw', F.z_orth, star_zero]
+      rw [fvec_last, fvec_cs, ite_eq_right (fun h => Fin.castSucc_ne_last j h.2), hsw', F.z_orth, star_zero]
   | cast i =>
-    rw [if_neg (fun h => Fin.castSucc_ne_last i h.1)]
+    rw [ite_eq_right (fun h => Fin.castSucc_ne_last i h.1)]
     induction b using Fin.lastCases with
     | last => rw [fvec_cs, fvec_last, F.z_orth]
     | cast j => rw [fvec_cs, fvec_cs, F.e_iso]

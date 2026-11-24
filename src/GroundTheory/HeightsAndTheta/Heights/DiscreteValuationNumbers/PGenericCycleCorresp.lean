@@ -279,7 +279,7 @@ theorem GenericCycleCorresp.proof : GenericCycleCorresp.Statement.{u} := by
     rw [Set.indicator_apply_eq_self]
     intro hW
     by_cases hϖW : (C ϖ : MRing ι O) ∈ W
-    · rw [if_pos hϖW, mul_zero]
+    · rw [ite_eq_left hϖW, mul_zero]
     · have : divCycle P s W = 0 := by
         by_contra h
         exact hW ⟨hsupp0 W h, hϖW⟩
@@ -314,7 +314,7 @@ theorem GenericCycleCorresp.proof : GenericCycleCorresp.Statement.{u} := by
         (IsLocalization.map_units (MRing ι (FractionRing O)) (⟨_, hϖM⟩ : M)))
     · exact IsLocalization.map_under M (MRing ι (FractionRing O)) W'
   · intro W hW
-    rw [if_neg hW.2, hkey W hW.1 hW.2]
+    rw [ite_eq_right hW.2, hkey W hW.1 hW.2]
 
 end
 

@@ -285,7 +285,7 @@ theorem exists_pair (T : Submodule O V) (T' : Submodule O V') (m : V →ₗ[LL] 
     ∃ y : T', (algebraMap O LL ϖ)⁻¹ ^ r * m t y = (algebraMap O LL ϖ)⁻¹ := by
   rw [mem_pow_smul_top (LL := LL) T hϖ.ne_zero] at ht
   have h1 := mt (h _) ht
-  push_neg at h1
+  push Not at h1
   obtain ⟨y, hy, hu⟩ := h1
   rw [map_smul, LinearMap.smul_apply, smul_eq_mul] at hu
   set u := (algebraMap O LL ϖ)⁻¹ ^ r * m t y with hudef

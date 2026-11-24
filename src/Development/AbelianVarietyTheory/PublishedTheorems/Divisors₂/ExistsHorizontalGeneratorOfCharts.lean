@@ -167,7 +167,7 @@ theorem isPreconnected_offDivisor_ball (c : Fin n → ℂ) {r : ℝ} (hr : 0 < r
         · exact this.1
         · exact this
       · have := h i
-        rw [if_pos hi] at this
+        rw [ite_eq_left hi] at this
         exact this.2
   rw [this]
   refine isPreconnected_univ_pi fun i => ?_
@@ -243,7 +243,7 @@ theorem exists_ball_div {U : Set (Fin n → ℂ)} (hU : IsOpen U) (S : Finset (F
       ∀ z ∈ ball c r, a i z = (if i ∈ S then z i else 1) * b z := by
     intro i
     by_cases hi : i ∈ S
-    · simp only [if_pos hi]
+    · simp only [ite_eq_left hi]
       by_cases hci : c i = 0
       · exact exists_div_ball hci ((ha i).mono hsub) fun z hz => h0 i hi z (hsub hz)
       · refine ⟨fun z => a i z * (z i)⁻¹, ((ha i).mono hsub).mul

@@ -202,7 +202,7 @@ lemma slopes_const {p h s m : ℕ} (hp : 2 ≤ p) (hs : s < h) (hm : 1 ≤ m) (a
     intro r₁ r₂ h1 h12 h2 h2p
     have hr2 : 0 < r₂ := by linarith
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hclaim : ∀ i : ℕ, b r₂ + i ≤ b (r₂ / (p:ℝ) ^ i) := by
       intro i
       induction i with

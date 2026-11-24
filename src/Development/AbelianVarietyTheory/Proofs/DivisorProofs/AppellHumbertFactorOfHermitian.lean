@@ -175,7 +175,7 @@ theorem re_form_pos_of_relAmple :
   have hNpos : (0 : ℝ) < N := Nat.cast_pos.mpr hN
   have hnn : ∀ w : Fin g → ℂ, 0 ≤ (w ⬝ᵥ Hm.mulVec (star w)).re := fun w => by
     by_contra hw
-    push_neg at hw
+    push Not at hw
     have hw' : (w ⬝ᵥ HN.mulVec (star w)).re < 0 := by
       rw [form_smul, re_ofReal_mul]
       exact mul_neg_of_pos_of_neg hNpos hw

@@ -244,7 +244,7 @@ theorem decompU (f f' : Fin (r + 1) → V) (T T' : F) (hF : Formalism.MainNotion
       h_omP_f H f f' hD]
     by_cases ha : a = Fin.last r
     · subst ha
-      simp only [and_self, if_true]
+      simp only [and_self, ite_true]
       ring
     · obtain ⟨a', rfl⟩ := Fin.exists_castSucc_eq.2 ha
       simp [ha, hX' a']

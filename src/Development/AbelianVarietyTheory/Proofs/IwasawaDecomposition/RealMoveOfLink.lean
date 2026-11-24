@@ -373,7 +373,7 @@ variable {hX : B.fields.Ok} {Wt W₁ : Set B.places.Pl}
 
 theorem ExtModel.sign_at_base_place_eq_embedding (z : Dat (w.st Z) w.I hX T Wt) :
     sg0 (w.st Z).toD7 (famR (w.st Z) w.I hX (usedOf w.I T Wt) z.Xg z.tr).A = (w.st Z).toD7.what₂.embLL :=
-  if_pos z.R.hv0
+  ite_eq_left z.R.hv0
 
 
 

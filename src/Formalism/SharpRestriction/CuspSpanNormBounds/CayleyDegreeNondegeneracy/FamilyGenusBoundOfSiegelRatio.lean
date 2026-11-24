@@ -385,7 +385,7 @@ theorem exists_small_mem_fractional_ideal (K : Type) [Field K] [NumberField K] [
   have hr0 : 0 ≤ rootDiscriminant K := by unfold rootDiscriminant; positivity
   let f : InfinitePlace K → NNReal := fun _ => NNReal.sqrt (Real.toNNReal (rootDiscriminant K))
   have hmult : ∀ w : InfinitePlace K, w.mult = 2 := fun w => by
-    rw [InfinitePlace.mult, if_neg]
+    rw [InfinitePlace.mult, ite_eq_right]
     exact InfinitePlace.not_isReal_iff_isComplex.2 (IsTotallyComplex.isComplex w)
   have hcard : Fintype.card (InfinitePlace K) = InfinitePlace.nrComplexPlaces K := by
     rw [InfinitePlace.card_eq_nrRealPlaces_add_nrComplexPlaces, IsTotallyComplex.nrRealPlaces_eq_zero K, zero_add]
@@ -745,7 +745,7 @@ theorem eq_zero_of_inner_self_eq_zero (hK : IsCMUnram K) (L : Submodule (𝓞 K)
   have h01 : h (e 0) (e 1) = 0 := by rw [horth]; simp
   have h10 : h (e 1) (e 0) = 0 := by rw [horth]; simp
   rw [inner_comb_orthogonal_pair h _ _ h01 h10, horth, horth] at hv
-  simp only [if_true, mul_one] at hv
+  simp only [ite_true, mul_one] at hv
   obtain ⟨φ⟩ : Nonempty (K →+* ℂ) := inferInstance
   have h2 := congrArg φ hv
   rw [map_add (f := _), map_mul, map_mul, hK.2.1, hK.2.1, map_zero] at h2
@@ -1148,7 +1148,7 @@ theorem trace_inner_pos_of_orthonormal_pair (hK : IsCMUnram K) (h : V →ₗ⋆[
   rw [inner_sum_orthonormal_pair h e he a a]
   have hi : ∃ i, a i ≠ 0 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     apply hx
     simp [hne]
   obtain ⟨i, hi⟩ := hi
@@ -1405,7 +1405,7 @@ theorem second_orthogonal_vector_holds (K : Type) [Field K] [NumberField K] [Sta
         by_contra hv
         obtain ⟨i, hi⟩ : ∃ i, b.repr v i ≠ 0 := by
           by_contra hn
-          push_neg at hn
+          push Not at hn
           apply hv
           apply b.repr.injective
           ext i

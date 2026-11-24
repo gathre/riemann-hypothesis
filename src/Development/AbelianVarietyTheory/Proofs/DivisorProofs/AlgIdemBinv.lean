@@ -243,12 +243,12 @@ theorem pr_inc (i₀ : Fin r) : pr i₀ ≫ inc pr hl i₀ = act pr hl (Matrix.s
   simp only [hp, Category.assoc, inc_pr, act_pr]
   by_cases h : i = i₀
   · subst h
-    rw [if_pos rfl, Category.comp_id, Finset.prod_eq_single i]
+    rw [ite_eq_left rfl, Category.comp_id, Finset.prod_eq_single i]
     · simp
     · intro j _ hj
       simp [Ne.symm hj]
     · simp
-  · rw [if_neg h, comp_one]
+  · rw [ite_eq_right h, comp_one]
     symm
     apply Finset.prod_eq_one
     intro j _
@@ -309,7 +309,7 @@ theorem c_xi (hc : ∀ z i, D'.c z ≫ pr i = Q.c (xe z i)) (i₀ : Fin r) (y : 
   by_cases h : i = i₀
   · subst h
     simp [xe_xi]
-  · rw [if_neg h, comp_one]
+  · rw [ite_eq_right h, comp_one]
     simp [xe_xi, h, c_zero]
 
 end Points

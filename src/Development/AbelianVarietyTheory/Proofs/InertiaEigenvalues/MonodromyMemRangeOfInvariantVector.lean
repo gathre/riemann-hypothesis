@@ -78,7 +78,7 @@ theorem PhiMod.eq_xi_red_of_conn_eq_zero (P : PhiMod O K l e a ι) {v : Vec K a 
     · have := congrArg (coeff (n + 1)) (hN τ i)
       rw [coeff_N, map_zero] at this
       have hn : ((n + 1 : ℕ) : K) ≠ 0 := Nat.cast_ne_zero.2 (Nat.succ_ne_zero n)
-      rw [cst_apply, coeff_C, if_neg (Nat.succ_ne_zero n)]
+      rw [cst_apply, coeff_C, ite_eq_right (Nat.succ_ne_zero n)]
       exact (mul_eq_zero.1 this).resolve_left (by exact_mod_cast hn)
   rw [PhiMod.xi_apply, PhiMod.red_xiExt, ← hw]
 

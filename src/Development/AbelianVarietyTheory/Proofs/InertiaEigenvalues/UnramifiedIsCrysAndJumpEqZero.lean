@@ -684,8 +684,8 @@ theorem exists_matrixHom {l : ℕ} [Fact l.Prime] {G : Type} [Group G] {L V : Ty
     change e.repr (ρ 1 (e j)) i = _
     rw [map_one, Module.End.one_apply, e.repr_self, Finsupp.single_apply, Matrix.one_apply]
     by_cases h : i = j
-    · rw [if_pos h, if_pos h.symm, PadicInt.coe_one]
-    · rw [if_neg h, if_neg (Ne.symm h), PadicInt.coe_zero]
+    · rw [ite_eq_left h, ite_eq_left h.symm, PadicInt.coe_one]
+    · rw [ite_eq_right h, ite_eq_right (Ne.symm h), PadicInt.coe_zero]
   · ext i j
     rw [Matrix.mul_apply, PadicInt.coe_sum]
     simp only [PadicInt.coe_mul]

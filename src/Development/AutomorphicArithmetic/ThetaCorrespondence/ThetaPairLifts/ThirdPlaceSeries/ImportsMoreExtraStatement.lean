@@ -178,7 +178,7 @@ private lemma natLog_le_add_two_mul_of_le_two_pow_mul_exp {l m k : ℕ} {L : ℝ
     have := Real.log_two_gt_d9
     linarith
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have : ((Nat.log l m : ℝ) - k) * Real.log 2 ≤ L := by linarith
   nlinarith
 

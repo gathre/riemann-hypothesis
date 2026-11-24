@@ -159,7 +159,7 @@ private theorem constantCoeff_subst_eq_zero' {κ τ S : Type} [CommRing S] [Fini
       rw [hf, zero_smul]
     · obtain ⟨s, hs⟩ : ∃ s, d s ≠ 0 := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         exact hd (Finsupp.ext hcon)
       have h0 : MvPowerSeries.constantCoeff (d.prod fun s e => a s ^ e) = 0 := by
         rw [Finsupp.prod, map_prod]

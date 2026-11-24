@@ -203,7 +203,7 @@ theorem Pre.orth {s s' : Ψ ⊕ Ψ} (h : s ≠ s') (ι : L →+* ℂ) {x y : V�
     (B.metric.form ι).inner ((1 : ComplexAt ι) ⊗ₜ[𝓞 L] P.f x) ((1 : ComplexAt ι) ⊗ₜ[𝓞 L] P.f y) = 0 := by
   obtain ⟨a, ha⟩ : ∃ a, P.σ s a ≠ P.σ s' a := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact h (P.σ_bij.1 (RingHom.ext hc))
   have key : ∀ (c : 𝓞 L) (u : B.carrier), ((1 : ComplexAt ι) ⊗ₜ[𝓞 L] (c • u) : Fibre ι B.carrier) =
       (ι (c : L) : ℂ) • ((1 : ComplexAt ι) ⊗ₜ[𝓞 L] u) := by

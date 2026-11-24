@@ -141,7 +141,7 @@ theorem cas_mem_of_qdet_mem {n : ℕ} (X : Fin n → Fin n → A) (hX : Formalis
   set c := (pS (univ : Finset (Fin n))).coeff (n - 2)
   have hC : Cf (n - 2) = c • (1 : A) + ∑ i, (pS (univ.erase i)).coeff (n - 2) • X i i +
       ∑ i, ∑ j ∈ univ.filter (fun j => i < j), (X i i * X j j - X j i * X i j) := by
-    simp only [Cf, lt_irrefl, if_false, add_zero]
+    simp only [Cf, lt_irrefl, ite_false, add_zero]
     congr 1
     exact sum_congr rfl fun i _ => sum_congr rfl fun j hj => by rw [hc2 i j hj, one_smul]
   have h3 : ∑ i : Fin n, ((n : ℂ) - 1 - 2 * (i : ℕ)) • X i i + (2 : ℂ) • ∑ i, (pS (univ.erase i)).coeff (n - 2) • X i i

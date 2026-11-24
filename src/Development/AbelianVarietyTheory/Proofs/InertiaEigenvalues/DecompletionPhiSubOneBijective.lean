@@ -259,7 +259,7 @@ theorem powerSeries_exists_sum {O : Type} [CommRing O] (a : ℕ → PowerSeries 
       | zero => rfl
       | succ d ih =>
         rw [show n + 1 + (d + 1) = n + 1 + d + 1 by omega, Finset.sum_range_succ, map_add (f := _), ih,
-          PowerSeries.coeff_X_pow_mul', if_neg (by omega), add_zero]
+          PowerSeries.coeff_X_pow_mul', ite_eq_right (by omega), add_zero]
     have := key (m - (n + 1))
     rw [show n + 1 + (m - (n + 1)) = m by omega] at this
     exact this.symm

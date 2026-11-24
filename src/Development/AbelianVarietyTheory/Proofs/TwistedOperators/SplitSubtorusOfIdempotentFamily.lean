@@ -279,7 +279,7 @@ theorem subtorusOfIdempotents : SubtorusOfIdempotents := by
       idemLin_mul_idem (idemFamR_idem hi R) (idemFamR_orth ho R)] at h1
     obtain ⟨k, l, hkl⟩ : ∃ k l, ε i k l ≠ 0 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact h.2.1 i (Matrix.ext hc)
     have h2 := congrFun (congrFun h1 k) l
     simp [idemFamR, idemFam, idemCoef, inclE, Algebra.TensorProduct.tmul_mul_tmul] at h2

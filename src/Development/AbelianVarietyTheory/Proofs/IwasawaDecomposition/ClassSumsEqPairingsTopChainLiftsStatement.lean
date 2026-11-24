@@ -576,12 +576,12 @@ theorem rieszProd_inner : ∀ (D : D7) (G : Type) [Group G] [Fintype G] (Pl0 T :
     intro g
     obtain ⟨w, hw⟩ := hw g
     have h1 := hI (fun τ => Fin (Module.finrank ℂ (R.MX.sm τ))) b w a
-    rw [Finset.sum_eq_single g (fun f _ hf => by rw [hw f, if_neg hf]; simp) (by simp), hw g, if_pos rfl,
+    rw [Finset.sum_eq_single g (fun f _ hf => by rw [hw f, ite_eq_right hf]; simp) (by simp), hw g, ite_eq_left rfl,
       map_one, one_mul] at h1
 
     rw [← h1, ← inner_conj_symm, ← ha w, hexp v, map_sum]
-    rw [Finset.sum_eq_single g (fun f _ hf => by rw [map_smul, hw f, if_neg hf]; simp) (by simp)]
-    rw [map_smul, hw g, if_pos rfl, smul_eq_mul, mul_one]
+    rw [Finset.sum_eq_single g (fun f _ hf => by rw [map_smul, hw f, ite_eq_right hf]; simp) (by simp)]
+    rw [map_smul, hw g, ite_eq_left rfl, smul_eq_mul, mul_one]
   have h2 := ha' a
 
   rw [← h2, hexp v', map_sum]
@@ -650,7 +650,7 @@ theorem exists_vec_prod_ne {D : D7} {V : HSp D} {S : D.what₂.Tau → SPar} (M 
   have hτ : ∀ τ, ∃ x : M.sm τ, x ≠ 0 := by
     intro τ
     by_contra hz
-    push_neg at hz
+    push Not at hz
     apply hpr
     have hs : ∀ s : SmT M, s = 0 := by
       intro s

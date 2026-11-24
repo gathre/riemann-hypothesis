@@ -551,7 +551,7 @@ theorem isoSub_summand_of_isInternal {Γ L : Type} [Group Γ] [Field L] {a n : �
   obtain ⟨w, hwW, hw0⟩ := (Submodule.ne_bot_iff W).1 hW.1
   obtain ⟨m, hm⟩ : ∃ m, P m w ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hw0
     have h0 : e.symm w = 0 := by
       ext k : 1

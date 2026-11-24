@@ -840,7 +840,7 @@ theorem exists_eq_const_mul {f e : (Fin g → ℂ) → ℂ} (hf : Differentiable
     ∃ c : ℂ, c ≠ 0 ∧ f = c • e := by
   obtain ⟨w₀, hw₀⟩ : ∃ w, e w ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact h0 (funext h)
   have hnear : ∀ᶠ w in 𝓝 w₀, e w ≠ 0 := he.continuous.continuousAt.eventually_ne hw₀
   have hd : ∀ᶠ w in 𝓝 w₀, DifferentiableAt ℂ (fun w => f w / e w) w :=
@@ -1066,7 +1066,7 @@ theorem linearIndependent_of_law (Λ : Submodule ℤ (Fin g → ℂ))
   intro c hc a
   obtain ⟨w, hw⟩ : ∃ w, e a w ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact he a (funext h)
   have key : ∀ w a, c a * e a w = 0 := by
     intro w
@@ -1119,7 +1119,7 @@ theorem tr_ne_zero {m : ℕ} (hm : 1 ≤ m) {θ : (Fin g → ℂ) → ℂ} (hθ 
   have hmc : (m : ℂ) ≠ 0 := by exact_mod_cast (show m ≠ 0 by omega)
   obtain ⟨x, hx⟩ : ∃ x, θ x ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hθ (funext h)
   intro h
   have h1 := congrFun h ((m : ℂ)⁻¹ • (x - r))

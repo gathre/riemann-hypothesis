@@ -299,7 +299,7 @@ theorem secKInf_moment_le {Z : Type} [NormedAddCommGroup Z] [NormedSpace ℝ Z] 
     have hg1 := one_le_htInf' (toGLInf (Matrix.of p.1))
     have hR : 0 ≤ R := by
       by_contra hR
-      push_neg at hR
+      push Not at hR
       nlinarith
     have habs : |R| = R := abs_of_nonneg hR
     have hval : (toGLInf (Matrix.of p.1) : Matrix (Fin n) (Fin n) (Cinf E)) = Matrix.of p.1 := val_toGLInf hu
@@ -317,7 +317,7 @@ theorem secKInf_moment_le {Z : Type} [NormedAddCommGroup Z] [NormedSpace ℝ Z] 
     set D := jacInf ((q⁻¹ : GL (Fin n) (Cinf E)) : Matrix (Fin n) (Fin n) (Cinf E)) with hDdef
     have hD0 : 0 ≤ D := Finset.prod_nonneg fun w _ => pow_nonneg (Complex.normSq_nonneg _) _
     have hK : ‖secKInf R σ₀ κ τ q p‖ = D * ‖κ p.2‖ := by
-      simp only [secKInf, if_pos (And.intro hu hle), norm_mul, Circle.norm_coe, mul_one, Complex.norm_real,
+      simp only [secKInf, ite_eq_left (And.intro hu hle), norm_mul, Circle.norm_coe, mul_one, Complex.norm_real,
         Real.norm_eq_abs]
       rw [abs_of_nonneg hD0]
     have hD : D ≤ ((((n.factorial : ℝ) * htInf q ^ n) ^ 2) ^ n) ^ Fintype.card (InfinitePlace E) :=
@@ -383,7 +383,7 @@ theorem secKInf_moment_le {Z : Type} [NormedAddCommGroup Z] [NormedSpace ℝ Z] 
           mul_le_mul (mul_le_mul_of_nonneg_right hD k0) hpow
             (pow_nonneg (mul_nonneg (htInf_pos' _).le (by positivity)) _) (mul_nonneg (hD0.trans hD) k0)
       _ = _ := by ring
-  · have : secKInf R σ₀ κ τ q p = 0 := by simp only [secKInf, if_neg hc]
+  · have : secKInf R σ₀ κ τ q p = 0 := by simp only [secKInf, ite_eq_right hc]
     rw [this, norm_zero, zero_mul]
     exact mul_nonneg (Set.indicator_nonneg (fun _ _ => hK0) _) (by positivity)
 

@@ -117,7 +117,7 @@ theorem relAmple_spread_subring (hM : M.IsLB) (hφ : IsPullback φ B.hom A₀.ho
     fun s => ?_
   obtain ⟨x, -, hxs⟩ : ∃ x ∈ c.support, Subring.inclusion h (r x) ∉ (s : PrimeSpectrum R₂).asIdeal := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have key : (∑ y ∈ c.support.attach, (⟨c y, hcR y y.2⟩ : R₂) * Subring.inclusion h (r y)) = 1 := by
       apply Subtype.ext
       rw [AddSubmonoidClass.coe_finsetSum, OneMemClass.coe_one, ← hc, Finsupp.sum]

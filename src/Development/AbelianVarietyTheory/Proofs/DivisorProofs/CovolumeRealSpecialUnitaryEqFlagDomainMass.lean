@@ -152,9 +152,9 @@ theorem exists_haar_lying_over : ∀ (E : Type) [Field E] [NumberField E] [IsCMF
   have htUc : Continuous tU := by
     refine continuous_pi fun τ => continuous_pi fun a => ?_
     by_cases ha : (a : ℕ) = 0
-    · simp only [tU, ha, if_true]
+    · simp only [tU, ha, ite_true]
       exact ((continuous_apply τ).comp hdCc).inv
-    · simp only [tU, ha, if_false]
+    · simp only [tU, ha, ite_false]
       exact continuous_const
   have hcTc : Continuous cT := by
     refine hιc.comp_continuous ?_ fun t => horthT t
@@ -169,10 +169,10 @@ theorem exists_haar_lying_over : ∀ (E : Type) [Field E] [NumberField E] [IsCMF
     have e3 : (mat (diagF X (tU g)) τ).det = ((M g.1 τ).det)⁻¹ := by
       show (Matrix.diagonal fun a => ((tU g τ a : Circle) : ℂ)).det = _
       rw [Matrix.det_diagonal, Finset.prod_eq_single (⟨0, hr⟩ : Fin r)]
-      · simp only [tU, if_true, Circle.coe_inv, hdC]
+      · simp only [tU, ite_true, Circle.coe_inv, hdC]
       · intro b _ hb
         have : (b : ℕ) ≠ 0 := fun h => hb (Fin.ext h)
-        simp only [tU, this, if_false, Circle.coe_one]
+        simp only [tU, this, ite_false, Circle.coe_one]
       · simp
     have hx0 := UnitaryFrames.det_ne_zero_of_isOrth X hx τ
     have hg0 : (M g.1 τ).det ≠ 0 := by

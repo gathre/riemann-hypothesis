@@ -188,7 +188,7 @@ theorem exists_coefAt_of_posDef (i : Fin D.R.m) (h : (Vc D i).IsPosDef) (σ : D.
     rw [h (tauE D τ)] at this
     exact GlobalTheory.DefiniteQuotient.posDef_of_signature this
   have hg : gramV D i = (Vc D i).gram := by
-    rw [gramV, GlobalTheory.StdFrame.neg_eq_false_of_posDef D i h, if_neg Bool.false_ne_true]
+    rw [gramV, GlobalTheory.StdFrame.neg_eq_false_of_posDef D i h, ite_eq_right Bool.false_ne_true]
   have H := exists_coef_round_at (Vc D i) hV (lamV D i) σ (Equiv.ofBijective _ hl.1).symm fun τ =>
     (congrArg (labE σ) ((Equiv.ofBijective _ hl.1).apply_symm_apply τ).symm).trans (hl.2 _)
   obtain ⟨c, c₁, h1, h2, h3, h4, h5⟩ := H

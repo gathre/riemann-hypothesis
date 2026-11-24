@@ -191,7 +191,7 @@ theorem weight_add (p : ℕ) [Fact p.Prime] (c : ℝ) (hc : 0 ≤ c) (x y : Witt
   simp only [WittVector.map_coeff, scaleCoeff, WittVector.coeff_mk] at h2
   have h3 := ((X + Y).coeff n).2 (p ^ n)
   change a (((weightRing a hb h0 h1 hm ha c hc).subtype ((X + Y).coeff n)).coeff _) ≤ _ at h3
-  rwa [h2, mul_comm, Polynomial.coeff_C_mul_X_pow, if_pos rfl] at h3
+  rwa [h2, mul_comm, Polynomial.coeff_C_mul_X_pow, ite_eq_left rfl] at h3
 
 include hb h0 h1 hm ha in
 theorem weight_add_trunc (p : ℕ) [Fact p.Prime] (c : ℝ) (hc : 0 ≤ c) (x y : WittVector p R)
@@ -203,7 +203,7 @@ theorem weight_add_trunc (p : ℕ) [Fact p.Prime] (c : ℝ) (hc : 0 ≤ c) (x y 
     intro z hz
     refine ⟨WittVector.mk p fun i => if i ≤ n then z.coeff i else 0, ?_, fun i => ?_⟩
     · ext i
-      simp only [coeff_truncate, if_pos (Nat.lt_succ_iff.1 i.2)]
+      simp only [coeff_truncate, ite_eq_left (Nat.lt_succ_iff.1 i.2)]
     · rw [WittVector.coeff_mk]
       split_ifs with h
       · exact hz i h

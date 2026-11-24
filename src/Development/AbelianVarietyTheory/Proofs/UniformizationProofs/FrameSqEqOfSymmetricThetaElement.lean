@@ -72,7 +72,7 @@ theorem exists_sval_ne_zero {R : Type} [CommRing R] [IsDomain R] {D : DegPre R} 
     (σ : LB.Sec (LB.LinComb D.P.L φ ε)) (hσ : ¬ ∀ j, σ.f j = 0) (z : (TF (R := R) F).left) {J}
     (hJ : Good D.P.L z J) : ∃ x : TF (R := R) F ⟶ D.P.A, sval σ (lift (𝟙 (TF (R := R) F)) x).left z J ≠ 0 := by
   by_contra H
-  push_neg at H
+  push Not at H
   have hsm := D.P.isAb.smooth
   let p : (DegPre.BF D F).left ⟶ Spec (CommRingCat.of F) := (fst (TF (R := R) F) D.P.A).left
   have hp : Smooth p := inferInstanceAs (Smooth (pullback.fst (TF (R := R) F).hom D.P.A.hom))

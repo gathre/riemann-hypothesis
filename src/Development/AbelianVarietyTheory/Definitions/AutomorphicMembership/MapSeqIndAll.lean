@@ -107,12 +107,12 @@ def latSeq : ℕ → HLat K
   | 0 => unitLat K (Module.finrank ℂ (W 0))
   | j + 1 => if h : j < m then HLat.ofCoord (M ⟨j, h⟩) (X ⟨j, h⟩) else unitLat K (Module.finrank ℂ (W (j + 1)))
 
-theorem latSeq_succ (i : Fin m) : latSeq M X W ((i : ℕ) + 1) = HLat.ofCoord (M i) (X i) := dif_pos i.2
+theorem latSeq_succ (i : Fin m) : latSeq M X W ((i : ℕ) + 1) = HLat.ofCoord (M i) (X i) := dite_eq_left i.2
 
 theorem latSeq_off {j : ℕ} (h : j = 0 ∨ m < j) : latSeq M X W j = unitLat K (Module.finrank ℂ (W j)) := by
   cases j with
   | zero => rfl
-  | succ j => exact dif_neg (by omega)
+  | succ j => exact dite_eq_right (by omega)
 
 variable {σ : K →+* ℂ} (f : ∀ i : Fin m, (Fin (d i) → K) →ₛₗ[σ] W ((i : ℕ) + 1))
 
@@ -123,13 +123,13 @@ def mapSeq : ∀ j, (latSeq M X W j).V →ₛₗ[σ] W j
     else (unitMap σ (W (j + 1))).comp (castV (latSeq_off M X W (Or.inr (Nat.lt_succ_of_le (Nat.le_of_not_lt h))))).toLinearMap
 
 theorem mapSeq_succ (i : Fin m) :
-    mapSeq M X W f ((i : ℕ) + 1) = (f i).comp (castV (latSeq_succ M X W i)).toLinearMap := dif_pos i.2
+    mapSeq M X W f ((i : ℕ) + 1) = (f i).comp (castV (latSeq_succ M X W i)).toLinearMap := dite_eq_left i.2
 
 theorem mapSeq_off {j : ℕ} (h : j = 0 ∨ m < j) :
     mapSeq M X W f j = (unitMap σ (W j)).comp (castV (latSeq_off M X W h)).toLinearMap := by
   cases j with
   | zero => rfl
-  | succ j => exact dif_neg (by omega)
+  | succ j => exact dite_eq_right (by omega)
 
 theorem castV_ind {H : Type} [AddCommGroup H] [Module ℂ H] (P : ∀ A : HLat K, (A.V →ₛₗ[σ] H) → Prop) {A B : HLat K} (h : A = B)
     {g : B.V →ₛₗ[σ] H} (hg : P B g) : P A (g.comp (castV h).toLinearMap) := by

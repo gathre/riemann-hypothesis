@@ -253,7 +253,7 @@ private theorem eq_of_mat_nmat_eq {r : ℕ} (X : Data E r) {z z' : V (nd X)}
   have hk : k = Fintype.equivFin (Ent X) ⟨τ, ⟨(a, c), hac⟩⟩ := by
     rw [← he]
     exact ((Fintype.equivFin (Ent X)).apply_symm_apply k).symm
-  simp only [mat, nmat, Matrix.of_apply, dif_pos hac] at h1
+  simp only [mat, nmat, Matrix.of_apply, dite_eq_left hac] at h1
   rw [hk]
   exact h1
 
@@ -497,7 +497,7 @@ theorem finMu_of_finite_covolume :
       exact isUStab_mul' (X.Γ_stab _ (X.Γ.inv_mem hδ)) hγ
     refine ⟨⟨γ * s, hδ⟩, σ s * w, Set.mem_iUnion₂.2 ⟨s, hsS, w, hw, rfl⟩, ?_⟩
     have hσ : ((σ s : H) : X.Ψ → GL (Fin r) ℂ) = embGL X.Ψ s⁻¹ := by
-      simp only [σ, dif_pos hsu]
+      simp only [σ, dite_eq_left hsu]
     apply Subtype.ext
     funext τ
     apply Units.ext

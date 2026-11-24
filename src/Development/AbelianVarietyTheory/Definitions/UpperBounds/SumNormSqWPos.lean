@@ -66,7 +66,7 @@ theorem Wdiv_of_mem (hx : x ∈ X.dom) :
       ENNReal.ofReal (∑ k, ‖Xa.w k x‖ ^ 2) ^ (-(1 / 2 : ℝ)) *
       ENNReal.ofReal (∑ k, ‖Fl.s k x‖ ^ 2) ^ (-((n : ℝ) - 1 / 2)) := by
   unfold Wdiv
-  rw [if_pos hx]
+  rw [ite_eq_left hx]
 
 theorem sum_normSq_pos {N : ℕ} {a : Fin N → ℂ} (h : ∃ k, a k ≠ 0) : 0 < ∑ k, ‖a k‖ ^ 2 := by
   obtain ⟨k, hk⟩ := h

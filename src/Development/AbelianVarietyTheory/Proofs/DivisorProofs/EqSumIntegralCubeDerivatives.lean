@@ -178,9 +178,9 @@ theorem _root_.GlobalTheory.CubeTaylor.eq_sum_integral_cube_derivatives : ∀ (G
       fun p => if p.2 then (l p.1).map Fin.castSucc else Fin.last N :: (l p.1).map Fin.castSucc,
       ?_, ?_⟩
     · rintro ⟨j, _ | _⟩
-      · simp only [Bool.false_eq_true, if_false]
+      · simp only [Bool.false_eq_true, ite_false]
         exact ((hκ j).comp hinit).mul (by fun_prop)
-      · simp only [if_true]
+      · simp only [ite_true]
         exact ((hκ j).comp hinit).mul continuous_const
     intro d S hS v hv
     have hS' : ∀ v ∈ S, ∀ i : Fin N, d (Fin.castSucc i) v ∈ S ∧
@@ -210,7 +210,7 @@ theorem _root_.GlobalTheory.CubeTaylor.eq_sum_integral_cube_derivatives : ∀ (G
       simp
     rw [Fintype.sum_prod_type]
     refine h1.trans (Finset.sum_congr rfl fun j _ => ?_)
-    simp only [Fintype.sum_bool, if_true, Bool.false_eq_true, if_false, List.foldr_cons, hfold]
+    simp only [Fintype.sum_bool, ite_true, Bool.false_eq_true, ite_false, List.foldr_cons, hfold]
     rw [integral_cube_succ_eq_iterated N s _ (hcF (fun t => κ j (Fin.init t) * ((1 / s : ℝ) : ℂ)) _
         (((hκ j).comp hinit).mul continuous_const)),
       integral_cube_succ_eq_iterated N s _

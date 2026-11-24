@@ -102,7 +102,7 @@ theorem UpperTheory.Gal.productCup_of_system.yKE_of :
     exact hc e
   have hloc : ∀ e : ↥B →ₐ[ℂ] ℂ, ¬ (∀ l, Val B e (r l) 0) → ∃ l, r l ≠ 0 ∧ (r l)⁻¹ ∈ loc B e := by
     intro e h
-    push_neg at h
+    push Not at h
     obtain ⟨l, hl⟩ := h
     obtain ⟨-, -, hval, hinv⟩ := hVB K' B e
     have hv := hval ⟨r l, hr l⟩

@@ -114,7 +114,7 @@ theorem exists_anti (σ : E →ₐ[F] E) (hσ : IsCMExt F E σ) (τ : E →+* �
   haveI := hσ.2.1
   have hnr : ∃ x, star (τ x) ≠ τ x := by
     by_contra h
-    push_neg at h
+    push Not at h
     refine (InfinitePlace.not_isReal_iff_isComplex.2 (IsTotallyComplex.isComplex (InfinitePlace.mk τ)))
       (InfinitePlace.isReal_mk_iff.2 (ComplexEmbedding.isReal_iff.2 (RingHom.ext fun x => ?_)))
     exact h x
@@ -351,13 +351,13 @@ theorem exists_central_line : ∀ (F E : Type) [Field F] [NumberField F] [Field 
     by_cases h : w = w₀
     · subst h
       have hc' : (c : ℂ) ≠ 0 := Complex.ofReal_ne_zero.2 him
-      rw [if_pos rfl, Function.update_self, Function.update_self, hτθ, Complex.exp_mul_I,
+      rw [ite_eq_left rfl, Function.update_self, Function.update_self, hτθ, Complex.exp_mul_I,
         show ((Real.sin t / c : ℝ) : ℂ) * ((c : ℂ) * Complex.I) = (Real.sin t : ℂ) * Complex.I by
           push_cast; field_simp]
       push_cast
       ring
     · have h' : (⟨w, hw w⟩ : {w : InfinitePlace F // w.IsReal}) ≠ i₀ := fun e => h (congrArg Subtype.val e)
-      rw [if_neg h, Function.update_of_ne h', Function.update_of_ne h']
+      rw [ite_eq_right h, Function.update_of_ne h', Function.update_of_ne h']
       simp
   have hvc : Continuous fun t => ((g t : GL β (AE F E)) : Matrix β β (AE F E)) := by
     simp only [hg]
@@ -379,7 +379,7 @@ theorem exists_central_line : ∀ (F E : Type) [Field F] [NumberField F] [Field 
     rw [hγ, Matrix.diagonal_map (map_zero _), toAdd_ofAdd, hpi t w]
     show _ = C w * NormedSpace.exp (t • (if w = w₀ then Complex.I • (1 : Mat R S) else 0))
     by_cases h : w = w₀
-    · rw [if_pos h, if_pos h]
+    · rw [ite_eq_left h, ite_eq_left h]
       have e : (t • (Complex.I • (1 : Mat R S))) = Matrix.diagonal (fun _ => (t : ℂ) * Complex.I) := by
         ext i j
         by_cases hij : i = j
@@ -388,7 +388,7 @@ theorem exists_central_line : ∀ (F E : Type) [Field F] [NumberField F] [Field 
       rw [e, Matrix.exp_diagonal]
       ext i j
       simp [Matrix.diagonal_mul, Matrix.mul_diagonal, Complex.exp_eq_exp_ℂ, mul_comm]
-    · rw [if_neg h, if_neg h, smul_zero, NormedSpace.exp_zero, Matrix.mul_one]
+    · rw [ite_eq_right h, ite_eq_right h, smul_zero, NormedSpace.exp_zero, Matrix.mul_one]
       rw [show Matrix.diagonal (fun _ : β => (1 : ℂ)) = 1 from rfl, Matrix.one_mul]
   · show algebraMap (AE F E) (Matrix β β (AE F E)) (Z E i₀ c θ t) = _
     exact Algebra.algebraMap_eq_smul_one _

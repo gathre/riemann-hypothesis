@@ -533,7 +533,7 @@ theorem deg_eq_card_ker_of_unram : ∀ (K : Type) [Field K] (A B : AbVar K) (f :
     congr 1
     exact Subsingleton.elim _ _
   rw [horig] at hcard
-  rw [deg, if_pos hiso, ← hcard]
+  rw [deg, ite_eq_left hiso, ← hcard]
   symm
   refine Nat.card_congr ?_
   exact

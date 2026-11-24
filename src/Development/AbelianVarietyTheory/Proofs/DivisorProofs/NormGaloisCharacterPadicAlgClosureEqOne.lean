@@ -50,7 +50,7 @@ namespace GlobalTheory.ExpFrame.CharUnit
 open NumberField Polynomial in
 private theorem le_one_of_forall_pow_le {a C : ℝ} (h : ∀ n : ℕ, a ^ n ≤ C) : a ≤ 1 := by
   by_contra ha
-  push_neg at ha
+  push Not at ha
   obtain ⟨n, hn⟩ := pow_unbounded_of_one_lt C ha
   exact absurd (h n) (not_le.mpr hn)
 
@@ -69,7 +69,7 @@ theorem _root_.GlobalTheory.ExpFrame.CharUnit.norm_eq_one_of_compact {Γ K : Typ
   have hpos : 0 < ‖((χ g : Kˣ) : K)‖ := norm_pos_iff.mpr (χ g).ne_zero
   have : 1 ≤ ‖((χ g : Kˣ) : K)‖ := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have := one_lt_inv₀ hpos |>.mpr hlt
     linarith
   linarith

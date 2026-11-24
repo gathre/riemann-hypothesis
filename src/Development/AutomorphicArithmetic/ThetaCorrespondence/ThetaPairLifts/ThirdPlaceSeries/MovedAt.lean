@@ -122,7 +122,7 @@ theorem QuadraticExtensionData.Reads.movedAt : ∀ {B : GlobalTheory.Mem.Base} {
         by_cases hcd : c = d
         · subst hcd
           simp
-        · rw [if_neg (fun h' => hcd ((finCongr _).injective h')), if_neg hcd]
+        · rw [ite_eq_right (fun h' => hcd ((finCongr _).injective h')), ite_eq_right hcd]
       exact congrArg _ hite
     have hkAm : (Formalism.L2.Theta.mt _ (J.A.kA ((J.G i).s + 1) β)).map (J.G i).q.pr =
         ((J.G i).FX ((J.G i).s + 1) le_rfl).β * g.val.toBlocks₁₁ * ((J.G i).FX ((J.G i).s + 1) le_rfl).γ := by

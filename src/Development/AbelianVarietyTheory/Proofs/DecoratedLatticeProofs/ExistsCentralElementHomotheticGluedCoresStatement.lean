@@ -110,7 +110,7 @@ theorem lattice_exists_scalar_bound_attained : ∀ (k : Type) [Field k] [Valuati
 
   have hex : ∃ x ∈ s, ∃ j, x j ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbot : L = ⊥ := by
       rw [← hs, Submodule.span_eq_bot]
       intro x hx
@@ -219,7 +219,7 @@ theorem no_pair_on_scaled_kernel : ∀ (k : Type) [Field k] [ValuativeRel k] [To
     intro a ha
     obtain ⟨d, hda, hdi⟩ : ∃ d, d ≠ a ∧ d ≠ i := by
       by_contra h
-      push_neg at h
+      push Not at h
       have hsub : (Finset.univ : Finset n) ⊆ {a, i} := fun d _ => by
         by_cases hd : d = a
         · simp [hd]
@@ -239,7 +239,7 @@ theorem no_pair_on_scaled_kernel : ∀ (k : Type) [Field k] [ValuativeRel k] [To
     exact hw0 ▸ hw
   obtain ⟨a, ha⟩ : ∃ a, a ≠ i := by
     by_contra h
-    push_neg at h
+    push Not at h
     have : Fintype.card n ≤ 1 := Fintype.card_le_one_iff.2 (fun x y => (h x).trans (h y).symm)
     omega
   have hzi : ∀ t : 𝒪[k], t ∈ IsLocalRing.maximalIdeal 𝒪[k] → P.HasVal (Pi.single i ((t : k) * c)) 0 := by
@@ -322,7 +322,7 @@ theorem latPair_hasVal_residue_of_transvections : ∀ (k : Type) [Field k] [Valu
     rw [hcoef]
     by_cases h : j = b
     · subst h; simp only [Pi.single_eq_same]; exact one_mem _
-    · simp only [Pi.single_apply, h, if_false]; exact zero_mem _)
+    · simp only [Pi.single_apply, h, ite_false]; exact zero_mem _)
   let v : n → 𝓀[k] := fun b => P.fn ⟨e b, hmem b⟩
   have hv : ∀ b, P.HasVal (e b) (v b) := fun b => P.hasVal_fn ⟨e b, hmem b⟩
   have hzero : ∀ a, a ≠ i → v a = 0 := by
@@ -415,7 +415,7 @@ theorem GlobalTheory.LatPairStab.stable_lattice_shape : ∀ (k : Type) [Field k]
   obtain ⟨x₀, hx₀, j, hj⟩ := hex
   obtain ⟨a, hai, haj⟩ : ∃ a, a ≠ i ∧ a ≠ j := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hsub : (Finset.univ : Finset n) ⊆ {i, j} := fun b _ => by
       by_cases hbi : b = i
       · simp [hbi]

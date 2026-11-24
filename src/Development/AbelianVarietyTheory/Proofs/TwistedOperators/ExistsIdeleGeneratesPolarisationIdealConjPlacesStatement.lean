@@ -138,7 +138,7 @@ theorem exists_gen_avoid {R K ι : Type} [CommRing R] [IsDedekindDomain R] [Fiel
     rcases Qs.eq_empty_or_nonempty with rfl | ⟨i0, hi0⟩
     · exact ⟨0, J.zero_mem, by simp⟩
     · by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hsub : (J : Set R) ⊆ ⋃ i ∈ (Qs : Set ι), (Q i : Set R) := by
         intro x hx
         obtain ⟨i, hi, hxi⟩ := hcon x hx
@@ -443,7 +443,7 @@ theorem adj_int_iff : ∀ (D : D7) (S T : HSp D), S.gram = 1 → ∀ (ΛT : Lt D
   · rintro ⟨hint, hred⟩ k j
     refine ⟨⟨_, hint k j⟩, GlobalTheory.LiftLevel.mem_idS hJ fun PP hPP => ?_, rfl⟩
     have h0 := congrFun (congrFun (hred PP hPP) k) j
-    simpa only [Matrix.zero_apply, Pi.zero_apply, dif_pos (hint k j)] using h0
+    simpa only [Matrix.zero_apply, Pi.zero_apply, dite_eq_left (hint k j)] using h0
   · intro h
     have hint : ∀ k j, adjA S T βS βT 1 x k j ∈ Formalism.L2.Herm.intAf D.host.F D.host.E := by
       intro k j
@@ -454,7 +454,7 @@ theorem adj_int_iff : ∀ (D : D7) (S T : HSp D), S.gram = 1 → ∀ (ΛT : Lt D
     funext k j
     obtain ⟨s, hsI, hs⟩ := h k j
     have hse : (⟨adjA S T βS βT 1 x k j, hint k j⟩ : Formalism.L2.Herm.intAf D.host.F D.host.E) = s := Subtype.ext hs.symm
-    simp only [Matrix.zero_apply, dif_pos (hint k j), hse]
+    simp only [Matrix.zero_apply, dite_eq_left (hint k j), hse]
     exact GlobalTheory.LiftLevel.resS_eq_zero hPP hsI
 
 end GlobalTheory.DualRed

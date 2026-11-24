@@ -218,12 +218,12 @@ theorem borel_extVec (D : D7) (θ : InfFam D) (V : HSp D) (S : D.what₂.Tau →
     by_cases ha : (a : ℕ) < V.rank - p
     · by_cases hc' : (c : ℕ) < V.rank - p
       · refine hB.2 _ _ (by rw [hsg, hsg]; simp [ha, hc']) ?_
-        rw [Fin.lt_def, revNeg_arr hp hε, revNeg_arr hp hε, if_pos ha, if_pos hc']
+        rw [Fin.lt_def, revNeg_arr hp hε, revNeg_arr hp hε, ite_eq_left ha, ite_eq_left hc']
         omega
       · exact hm _ _ (by rw [hsg]; simp [hc']) (by rw [hsg]; simp [ha])
     · have hc' : ¬ (c : ℕ) < V.rank - p := by omega
       refine hB.2 _ _ (by rw [hsg, hsg]; simp [ha, hc']) ?_
-      rw [Fin.lt_def, revNeg_arr hp hε, revNeg_arr hp hε, if_neg ha, if_neg hc']
+      rw [Fin.lt_def, revNeg_arr hp hε, revNeg_arr hp hε, ite_eq_right ha, ite_eq_right hc']
       omega
 
 end GlobalTheory.HolDict.VKill

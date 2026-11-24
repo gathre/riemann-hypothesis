@@ -210,7 +210,7 @@ private theorem flag_match {H k : Type} [Field k] (T : H → Matrix (Fin 3) (Fin
     (dg : ∀ g i, (Q.val * T g * (Q⁻¹).val) i i = D i g)
     (ord : ∀ g, Fr.ordProd T ψ g = 0) (b : Fin 3) : ∃ a, ∀ g, D b g = ψ a g := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   choose g hg using hne
   let U : Fin 3 → Matrix (Fin 3) (Fin 3) k := fun a => Q.val * (T (g a) - ψ a (g a) • 1) * (Q⁻¹).val
   have hQ : (Q⁻¹).val * Q.val = 1 := Units.inv_mul Q
@@ -515,7 +515,7 @@ theorem UpperTheory.V.Z.J.unlEnd3E :
     rfl
   have n5 : ∀ v i, ∀ g ∈ Φ.Iv v, (ν.ψ v i g).val =
       algebraMap c.O A (Chr.Psi l e (Chr.dirG ℚ Ω ψ) (k.j v g) ^ Fr.w 3 i).val := fun v i g hg => by
-    rw [n3 v i g hg, Fr.w, if_pos rfl]
+    rw [n3 v i g hg, Fr.w, ite_eq_left rfl]
     rfl
   have irr : ∀ U : Subgroup (G L Ω), IsOpen (U : Set (G L Ω)) → Af.IsIrr ((ρ'.comp (galEmb K L Ω)).comp U.subtype) := by
     intro U hUo

@@ -760,7 +760,7 @@ theorem integral_eq_zero_of_translates : GlobalTheory.Published.CuspRapidDecay �
     rw [← hg]; simp [hvv]
   obtain ⟨φ, hφ⟩ : ∃ φ : M.Vec, GlobalTheory.tprodInnerFun φ w ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hw (GlobalTheory.eq_zero_of_tprodInnerFun w hcon)
   have hφ' : (∑ j, c j * ∏ τ, ⟪((φ τ : M.sm τ) : M.H τ), (vv j τ : M.H τ)⟫_ℂ) ≠ 0 := by
     rw [hw'] at hφ
@@ -1068,7 +1068,7 @@ theorem exists_kf {T : Type} {L : LevCh D T} {sc : Consts} {G : GridData L sc} (
   obtain ⟨h, hh, hne⟩ : ∃ h ∈ GinfC (Yc D 0),
       ∫ g in vY.𝓕, y v (stabilizerEmbedding G.sp.dec0 g) * t w (g * h) ∂vY.μ ≠ 0 := by
     by_contra hn
-    push_neg at hn
+    push Not at hn
     exact h0 (GlobalTheory.T.integral_eq_zero_of_orthogonal_real_translates hCR GlobalTheory.Mem.VolFin.finVol D W.θ hθ (Yc D 0) _ M₀ _ _ t ht vY _ hF hB w hw hn w')
   have e1 := GlobalTheory.QPl.LastOrb.setIntegral_mul_right vY
     (fun g => y v (stabilizerEmbedding G.sp.dec0 (g * h⁻¹)) * t w g) (fun γ hγ g => by
@@ -1084,7 +1084,7 @@ theorem exists_kf {T : Type} {L : LevCh D T} {sc : Consts} {G : GridData L sc} (
     simp only [GlobalTheory.UnitaryEmbeddingProperties.unitaryEmbedding_mul] at hne
     exact hne
   by_contra hn
-  push_neg at hn
+  push Not at hn
   have key := GlobalTheory.T.period_eq_zero_of_vanishing_on_kFinite_values hCR hHC D W.θ hθ (G.V (.core 0)) _ MP _ _ y hy (GA D (Yc D 0)) (vY.μ.restrict vY.𝓕)
     (stabilizerEmbedding G.sp.dec0) (t w) (GlobalTheory.UnitaryEmbeddingProperties.continuous_unitaryEmbedding _).measurable
     (htw.integrableOn_fundamentalDomain hμ hfd) (fun a ha => hn a ha) v'

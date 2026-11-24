@@ -86,7 +86,7 @@ theorem aeval_tan [Fintype κ] [DecidableEq κ] (v : κ → S) (P : MvPolynomial
   induction P using MvPolynomial.induction_on with
   | C a =>
     have h : ∀ i, AddMonoidAlgebra.coeff (MvPolynomial.C a : MvPolynomial κ S) (Finsupp.single i 1) = 0 := fun i => by
-      rw [MvPolynomial.coeff_C, if_neg (Finsupp.single_ne_zero.2 one_ne_zero).symm]
+      rw [MvPolynomial.coeff_C, ite_eq_right (Finsupp.single_ne_zero.2 one_ne_zero).symm]
     simp [h]
   | add p q hp hq =>
     rw [map_add (f := _), hp, hq, map_add (f := _), map_add (f := _)]
@@ -100,9 +100,9 @@ theorem aeval_tan [Fintype κ] [DecidableEq κ] (v : κ → S) (P : MvPolynomial
       rw [MvPolynomial.coeff_mul_X']
       by_cases h : i = n
       · subst h
-        rw [if_pos (by simp), if_pos rfl, tsub_self, MvPolynomial.constantCoeff_eq]
-      · rw [if_neg (by simp [Ne.symm h]), if_neg h]
-    simp only [hc, ite_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true, map_mul,
+        rw [ite_eq_left (by simp), ite_eq_left rfl, tsub_self, MvPolynomial.constantCoeff_eq]
+      · rw [ite_eq_right (by simp [Ne.symm h]), ite_eq_right h]
+    simp only [hc, ite_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true, map_mul,
       MvPolynomial.constantCoeff_X, mul_zero, map_zero, zero_add]
     apply TrivSqZeroExt.ext <;> simp [Algebra.smul_def, TrivSqZeroExt.algebraMap_eq_inl, mul_comm]
 
@@ -140,7 +140,7 @@ theorem coeff_psTrunc' {ιt : Type} [Fintype ιt] [DecidableEq ιt] (m : ℕ) (f
   rw [psTrunc, MvPolynomial.coeff_sum, Finset.sum_eq_single e]
   · simp [MvPolynomial.coeff_monomial]
   · intro b _ hb
-    rw [MvPolynomial.coeff_monomial, if_neg hb]
+    rw [MvPolynomial.coeff_monomial, ite_eq_right hb]
   · intro h
     exact absurd hmem h
 
@@ -303,7 +303,7 @@ theorem Tv_act (a : 𝓞 E) (act : Fin d → MvPowerSeries (Fin 1 × Fin d) S)
       (Finsupp.single s 1) =
       MvPowerSeries.coeff (Finsupp.single s 1) (act p.2) := by
     intro s
-    rw [MvPolynomial.coeff_sub, MvPolynomial.coeff_C, if_neg (Finsupp.single_ne_zero.2 one_ne_zero).symm,
+    rw [MvPolynomial.coeff_sub, MvPolynomial.coeff_C, ite_eq_right (Finsupp.single_ne_zero.2 one_ne_zero).symm,
       sub_zero, coeff_psTrunc' 1 _ _ (by simp)]
   simp only [hco, Fintype.sum_prod_type, Fin.sum_univ_one]
   rfl

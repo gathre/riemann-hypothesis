@@ -297,7 +297,7 @@ theorem psi_Eel (hS : GoodCongruenceObjects D.nd r ρ π S) :
   · rw [Matrix.map_zero _ (map_zero _), Matrix.zero_mulVec]
     exact congrArg Prod.fst (h (v, 0))
   · have := congrFun (congrArg Prod.snd (h (0, fun _ => 1))) c
-    simp only [mul_one, if_neg hc] at this
+    simp only [mul_one, ite_eq_right hc] at this
     exact IsFractionRing.injective (D.nd.O i) (KK D.nd i) (this.trans (map_zero _).symm)
 
 theorem sum_blocks (hS : GoodCongruenceObjects D.nd r ρ π S)
@@ -368,7 +368,7 @@ theorem del_sq_smul (hS : GoodCongruenceObjects D.nd r ρ π S) (Xs : Set (D.nd.
   obtain ⟨m, f, g, hf, e⟩ := inR'_Eel hS
   have h := del_smul_sum hS Xs ψ hE hψ hf e hw
   have h0 := (sum_blocks hS e).2 ⟨0, D.R.t_odd.pos⟩
-  simp only [zero_add, if_true, mul_comm (f _ _)] at h0
+  simp only [zero_add, ite_true, mul_comm (f _ _)] at h0
   simp only [amitsur_d0_apply, smul_sub, Finset.sum_sub_distrib, Check.WKG_eq_matKO] at h
   rw [← matKO_sum, hM e, ← Finset.sum_smul, h0, ← zero_smul (D.nd.O i) (1 : Matrix (Fin k) (Fin k) (D.nd.O i)),
     Check.matKO_smul_one, zero_smul, smul_zero, zero_sub, neg_eq_zero, smul_smul] at h
@@ -401,7 +401,7 @@ theorem main : ∀ (D : D7) (i : D.nd.Loc) (r : D.nd.X i → (GE D.nd →* GL (F
     · simp only [(psi_scalar hS hf).2 c]
     · intro m f g e
       have h := (sum_blocks hS e).2 c
-      rw [if_neg hc] at h
+      rw [ite_eq_right hc] at h
       simp only [hχ, smul_smul]
       rw [← Finset.sum_smul]
       convert zero_smul (D.nd.O i) (1 : Matrix (Fin 1) (Fin 1) (D.nd.O i))

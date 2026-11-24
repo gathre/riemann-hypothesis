@@ -330,7 +330,7 @@ theorem eta_inf {η : (AE D)ˣ →* Circle} (hη : ∀ τ, HasInfExp D η τ (1 
   have e : n = 1 := by
     have : (n : ℚ) = 1 := by rw [hn]; norm_num
     exact_mod_cast this
-  rw [h θ hθ (z τ) (hz1 τ) (fun τ' h' => by rw [hz2, if_neg h']), hz2, if_pos rfl, e, zpow_one]
+  rw [h θ hθ (z τ) (hz1 τ) (fun τ' h' => by rw [hz2, ite_eq_right h']), hz2, ite_eq_left rfl, e, zpow_one]
 
 theorem eta_norm {η : (AE D)ˣ →* Circle} (hη : ResEta D η 1) (y : (AE D)ˣ) :
     η (y * Units.map (cA D).toMonoidHom y) = 1 := by

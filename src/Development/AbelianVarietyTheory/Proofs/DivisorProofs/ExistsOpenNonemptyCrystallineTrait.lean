@@ -60,7 +60,7 @@ theorem injective_of_charZero {o K : Type} [CommRing o] [IsDedekindDomain o] [Al
     (ψ : o →+* K) : Function.Injective ψ := by
   set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨a, ha, ha0⟩ := hne
   have hP : (RingHom.ker ψ).IsPrime := RingHom.ker_isPrime ψ
   have hbot : RingHom.ker ψ ≠ ⊥ := fun h => ha0 (by

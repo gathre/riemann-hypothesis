@@ -375,7 +375,7 @@ def mkAtT (he : A.eV = e)
   prk_smul i v c a y := by
     by_cases hi : i ≤ D.R.m
     · rw [prkH_eq A P hi, prkH_eq A P hi, toLk_smul, (P i hi).prk_smul]
-    · simp only [prkH, dif_neg hi, AddMonoidHom.zero_apply, smul_zero]
+    · simp only [prkH, dite_eq_right hi, AddMonoidHom.zero_apply, smul_zero]
   prk_ker i hi v c y := by
     rw [prkH_eq A P hi, (P i hi).prk_ker]
     exact (mem_smul_Lk A i hi v c y.1).symm

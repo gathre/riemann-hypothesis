@@ -686,7 +686,7 @@ theorem h1fZero_conjBy {l : ℕ} [Fact l.Prime] {F Ω : Type} [Field F] [NumberF
   have hf : ∀ X, f X = GG.ad m (PadicAlgCl l) (GG.ofGL h) X := fun X => rfl
   refine h1fZero_equiv _ _ f ?_ (fun g X => ?_) H
   · have : (f : _ → _) = fun X => h.val * X * (h⁻¹).val := funext fun X => by
-      rw [hf, GG.ad_apply, GG.adFun, if_pos (by rfl)]
+      rw [hf, GG.ad_apply, GG.adFun, ite_eq_left (by rfl)]
       rfl
     rw [this]
     fun_prop

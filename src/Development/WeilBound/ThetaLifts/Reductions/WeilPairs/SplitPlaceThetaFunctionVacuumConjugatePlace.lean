@@ -97,7 +97,7 @@ theorem exists_eigen_of_sep {Y V : Type} [AddCommGroup Y] [AddCommGroup V] [Modu
 
   have hne : ∃ χ ∈ X, wf χ ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     let Φ : (Y → ℂ) →ₗ[ℂ] V := ∑ a : Y ⧸ Q, (LinearMap.proj (Quotient.out a) : (Y → ℂ) →ₗ[ℂ] ℂ).smulRight (ρ (Quotient.out a) v)
     have hΦ : ∀ h, Φ h = wf h := fun h => by simp [Φ, wf]
     let M := Submodule.span ℂ X
@@ -256,7 +256,7 @@ theorem exists_vac_split : ∀ (F E : Type) [Field F] [NumberField F] [Field E] 
     ⟨0, X.zero_mem, fun q _ => _root_.GlobalTheory.SplitVacF.commF_zero_left _, by funext y; simp only [Pi.one_apply, _root_.GlobalTheory.SplitVacF.commF_zero_left]⟩
     (fun y hy => by
       have hy' : ¬ ∀ g ∈ G, commF σ JS JT ξ₀ B.ψ g (y : WOF F E nS nT) = 1 := hy
-      push_neg at hy'
+      push Not at hy'
       obtain ⟨g, hg, hne⟩ := hy'
       exact ⟨_, ⟨g, hGX' g hg, fun q hq => hq g hg, rfl⟩, hne⟩)
 
@@ -287,7 +287,7 @@ theorem exists_vac_split : ∀ (F E : Type) [Field F] [NumberField F] [Field E] 
       conv_rhs => rw [← h1]
       exact (GlobalTheory.WeilPartsF.heisOF_smul _ _ _).symm
     · right
-      push_neg at hyK
+      push Not at hyK
       obtain ⟨k, hk, hkf, hne⟩ := hyK
       refine ⟨k, ?_, hne⟩
       rw [heisOF_comm, _root_.GlobalTheory.SplitVacF.commF_half he' hk (X.neg_mem hxX), one_smul]

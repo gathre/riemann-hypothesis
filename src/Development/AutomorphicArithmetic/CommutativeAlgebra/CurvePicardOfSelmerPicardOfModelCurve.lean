@@ -757,7 +757,7 @@ theorem UpperTheory.finite_kummerSelmer_on_prime_stratum :
     rw [div_pow]
     field_simp
     linear_combination heq
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨i, m, hm, hnot⟩ := hall
     obtain ⟨hft, hded, hnf, hfr, hLB⟩ := hB i
     obtain ⟨hdedL, hnfL⟩ := hLB L
@@ -946,7 +946,7 @@ theorem UpperTheory.finite_kernel_powClasses_of_primitive_root :
   have hbb : ∀ a ∈ S, algebraMap K K' (a : K) = bb a ^ q := by
     intro a ha
     have ha' : ∃ b : K', algebraMap K K' (a : K) = b ^ q := ha
-    simp only [bb, dif_pos ha']
+    simp only [bb, dite_eq_left ha']
     exact ha'.choose_spec
   have hbb0 : ∀ a ∈ S, bb a ≠ 0 := by
     intro a ha h0
@@ -972,7 +972,7 @@ theorem UpperTheory.finite_kernel_powClasses_of_primitive_root :
   intro a ha
   have hex : ∃ a' ∈ S, sig a' = sig a := ⟨a, ha, rfl⟩
   have htS : rep (sig a) ∈ S ∧ sig (rep (sig a)) = sig a := by
-    simp only [rep, dif_pos hex]
+    simp only [rep, dite_eq_left hex]
     exact hex.choose_spec
   refine ⟨rep (sig a), Finset.mem_image.mpr ⟨sig a, hfin.mem_toFinset.mpr ⟨a, ha, rfl⟩, rfl⟩, ?_⟩
   set t := rep (sig a) with ht
@@ -1058,7 +1058,7 @@ theorem UpperTheory.finite_kummerSelmer_of_finite_extension :
   intro f hf
   obtain ⟨t', ht', u, hu⟩ := hT' (φ f) (himg f hf)
   have hex : ∃ f ∈ SelAll k K q, ∃ u : K'ˣ, φ f = t' * u ^ q := ⟨f, hf, u, hu⟩
-  have hg : g t' = hex.choose := dif_pos hex
+  have hg : g t' = hex.choose := dite_eq_left hex
   obtain ⟨_, u0, hu0⟩ := hex.choose_spec
   set f0 := hex.choose
   have hmem : f * f0⁻¹ ∈ {a : Kˣ | ∃ b : K', algebraMap K K' (a : K) = b ^ q} := by

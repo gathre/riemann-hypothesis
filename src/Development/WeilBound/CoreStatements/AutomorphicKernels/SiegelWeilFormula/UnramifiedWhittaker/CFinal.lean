@@ -516,7 +516,7 @@ theorem measure_eq_one_of_selfDual {V : Type} [AddCommGroup V] [TopologicalSpace
     · rw [Set.indicator_of_notMem (show y ∉ (L : Set V) from hy)]
       have hex : ∃ x₀ ∈ L, χ x₀ y ≠ 1 := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         exact hy ((hann y).1 hcon)
       obtain ⟨x₀, hx₀, hne⟩ := hex
       have htr : ∫ x, Φ (x₀ + x) * χ (x₀ + x) y ∂μ = ∫ x, Φ x * χ x y ∂μ :=
@@ -891,7 +891,7 @@ theorem not_mem_lev_one {ϖ a : R} (h : ¬ ϖ ∣ a) : a ∉ lev ϖ 1 := by
 theorem exists_trace_not_dvd {σ : R →+* R} {ϖ : R} {q : ℕ} {ε : ℤ} (h : IsUnrQuad R σ ϖ q ε) {c : R}
     (hc : ¬ ϖ ∣ c) : ∃ t : R, ¬ ϖ ∣ (t * c + σ (t * c)) := by
   by_contra hall
-  push_neg at hall
+  push Not at hall
   obtain ⟨u, ⟨d, hd⟩, -⟩ := h.basis
   have h1 : ϖ ∣ 1 * c + σ (1 * c) := hall 1
   have h2 : ϖ ∣ u * c + σ (u * c) := hall u
@@ -950,7 +950,7 @@ theorem exists_form_unit {σ : R →+* R} {ϖ : R} {q : ℕ} {ε : ℤ} (h : IsU
   · obtain ⟨a, ha⟩ := hd
     refine ⟨Pi.single a 1, key _ ?_⟩
     simpa [bf_single] using ha
-  · push_neg at hd hnd
+  · push Not at hd hnd
     obtain ⟨a, b, hab⟩ := hnd
     obtain ⟨t, ht⟩ := exists_trace_not_dvd h hab
     refine ⟨Pi.single a t + Pi.single b 1, key _ ?_⟩

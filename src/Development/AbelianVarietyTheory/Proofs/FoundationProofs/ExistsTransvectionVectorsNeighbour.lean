@@ -72,7 +72,7 @@ theorem exists_mul_notMem {P : Ideal (𝓞 K)} (hP0 : P ≠ ⊥) {θ : K}
     (h : ∀ p ∈ P, (p : K) * θ ∈ (algebraMap (𝓞 K) K).range) (hθ : θ ∉ (algebraMap (𝓞 K) K).range) :
     ∃ p ∈ P, ∃ a : 𝓞 K, a ∉ P ∧ (a : K) = (p : K) * θ := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hθ
   have hint : IsIntegral (𝓞 K) θ := by
     refine isIntegral_of_smul_mem_submodule (Submodule.map (Algebra.linearMap (𝓞 K) K) P) ?_
@@ -311,7 +311,7 @@ theorem exists_vectors : ∀ (D : D7) (n q : ℕ), q.Prime → ∀ P : Ideal (�
     rwa [hE_osmul_right, sgO_coe, conj_conj] at this
   obtain ⟨b₀, hb₀, hθ₀⟩ : ∃ b₀ ∈ B, ¬ IntE D (hE D b₀ x) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hxB ((hdual x).2 fun y hy => by
       have := (hcon y hy).conj
       rwa [conj_hE] at this)

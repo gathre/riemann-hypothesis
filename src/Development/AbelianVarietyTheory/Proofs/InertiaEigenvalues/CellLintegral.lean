@@ -378,9 +378,9 @@ theorem isCompact_unip_entries_mem :
     constructor
     · intro h
       refine ⟨fun i j hji => ?_, fun i => ?_, fun i j hij => ?_⟩
-      · have := h i trivial j trivial; rw [if_pos hji] at this; exact this
-      · have := h i trivial i trivial; rw [if_neg (lt_irrefl i), if_pos rfl] at this; exact this
-      · have := h i trivial j trivial; rw [if_neg (not_lt.2 hij.le), if_neg hij.ne] at this; exact this
+      · have := h i trivial j trivial; rw [ite_eq_left hji] at this; exact this
+      · have := h i trivial i trivial; rw [ite_eq_right (lt_irrefl i), ite_eq_left rfl] at this; exact this
+      · have := h i trivial j trivial; rw [ite_eq_right (not_lt.2 hij.le), ite_eq_right hij.ne] at this; exact this
     · rintro ⟨h0, h1, hc⟩ i - j -
       split_ifs with hji hij
       · exact h0 i j hji
@@ -870,8 +870,8 @@ variable {R : Type} [CommRing R] {n : ℕ} [TopologicalSpace R] [IsTopologicalRi
 theorem continuous_mat : Continuous (mat : (Pos n → R) → Matrix (Fin n) (Fin n) R) := by
   refine continuous_pi fun i => continuous_pi fun j => ?_
   by_cases h : i < j
-  · simp only [mat, dif_pos h]; exact continuous_apply _
-  · simp only [mat, dif_neg h]; exact continuous_const
+  · simp only [mat, dite_eq_left h]; exact continuous_apply _
+  · simp only [mat, dite_eq_right h]; exact continuous_const
 
 theorem continuous_coords : Continuous (coords : GlobalTheory.SmGL.unipB R (Fin n) → Pos n → R) :=
   continuous_pi fun p => (continuous_apply _).comp ((continuous_apply _).comp
@@ -964,10 +964,10 @@ theorem coords_mul_row (x y : Pos n → R) (ρ : ℕ) (hx : ∀ p : Pos n, ¬ (p
   obtain ⟨⟨a, b⟩, hab⟩ := q
   change (mat x * mat y) a b = _
   by_cases h : (a : ℕ) = ρ
-  · rw [dif_pos h, mat_mul_apply_row x y a b hab]
+  · rw [dite_eq_left h, mat_mul_apply_row x y a b hab]
     simp only [rowG]
     ring
-  · rw [dif_neg h, mat_mul_apply_other x y a b (fun p hp => hx p (by rw [hp]; exact h)), mat_lt y hab]
+  · rw [dite_eq_right h, mat_mul_apply_other x y a b (fun p hp => hx p (by rw [hp]; exact h)), mat_lt y hab]
 
 end GlobalTheory.UnipCoord
 
@@ -979,9 +979,9 @@ theorem measurable_rowG (x : Pos n → R) (ρ : ℕ) : Measurable (rowG x ρ) :=
   refine Measurable.of_eval fun q => ?_
   refine Measurable.const_add (Finset.measurable_sum _ fun k _ => ?_) _
   by_cases h : q.1.1.1 < k ∧ k < q.1.1.2
-  · simp only [dif_pos h]
+  · simp only [dite_eq_left h]
     exact (measurable_pi_apply _).const_mul _
-  · simp only [dif_neg h]
+  · simp only [dite_eq_right h]
     exact measurable_const
 
 def coordMeasure (μR : Measure R) : Measure (GlobalTheory.SmGL.unipB R (Fin n)) :=
@@ -1029,7 +1029,7 @@ theorem ofCoords_eq_mul (x : Pos n → R) (ρ : ℕ) (hx : ∀ p : Pos n, (p.1.1
           · rcases lt_trichotomy i k with hik | rfl | hik
             · rw [mat_lt _ hik]
               have : (i : ℕ) < ρ := hk' ▸ Fin.lt_def.1 hik
-              rw [if_neg hi, hx ⟨(i, k), hik⟩ this, zero_mul]
+              rw [ite_eq_right hi, hx ⟨(i, k), hik⟩ this, zero_mul]
             · exact absurd hk' hi
             · rw [mat_gt _ hik, zero_mul]
           · simp [hk']
@@ -1066,7 +1066,7 @@ theorem map_mul_ofCoords (μR : Measure R) [SigmaFinite μR] [μR.IsAddLeftInvar
     have ha := ih (fun p => if (p.1.1 : ℕ) = n - (m + 1) then 0 else x p) fun p hp => by
       by_cases h : (p.1.1 : ℕ) = n - (m + 1)
       · simp [h]
-      · simp only [h, if_false]; exact hx p (by omega)
+      · simp only [h, ite_false]; exact hx p (by omega)
     have hw := map_mul_row μR (fun p => if (p.1.1 : ℕ) = n - (m + 1) then x p else 0) (n - (m + 1))
       fun p hp => by simp [hp]
     rw [hsplit]

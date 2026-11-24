@@ -114,7 +114,7 @@ theorem posM_eq_of_support {ι : Type} [Fintype ι] {p : ι → Fin a × Fin a} 
     rw [Finset.sum_eq_single t]
     · simp [ht]
     · intro t' _ ht'
-      rw [if_neg]
+      rw [ite_eq_right]
       rintro ⟨e1, e2⟩
       exact ht' (hp (by rw [ht]; exact Prod.ext e1 e2))
     · simp
@@ -123,7 +123,7 @@ theorem posM_eq_of_support {ι : Type} [Fintype ι] {p : ι → Fin a × Fin a} 
       exact h (hM i k h1)
     rw [h0]
     refine Finset.sum_eq_zero fun t _ => ?_
-    rw [if_neg]
+    rw [ite_eq_right]
     rintro ⟨e1, e2⟩
     exact h ⟨t, Prod.ext e1 e2⟩
 
@@ -452,7 +452,7 @@ theorem dot_col {r m : ℕ} (hr : r ≤ m) (z : HiIx a r (m + 1) → Ad E) (y : 
     simp only [Function.comp, e, Sum.elim_inl]
   · have : (eLast a (m + 1) t : E) = 0 := by
       simp only [eLast]
-      rw [if_neg]
+      rw [ite_eq_right]
       omega
     simp [this]
 

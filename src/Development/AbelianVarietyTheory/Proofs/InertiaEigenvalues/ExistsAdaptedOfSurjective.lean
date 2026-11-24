@@ -185,7 +185,7 @@ theorem sum_conv {ι ι' : Type} [Fintype ι] [Fintype ι'] (k : ι → ℤ) (k'
   rw [Finset.sum_comm, Fintype.sum_prod_type]
   refine Finset.sum_congr rfl fun i _ => ?_
   simp only [ite_mul, one_mul, zero_mul]
-  rw [Finset.sum_ite_eq, if_pos (hS i)]
+  rw [Finset.sum_ite_eq, ite_eq_left (hS i)]
   exact Finset.sum_congr rfl fun j _ => if_congr (by omega) rfl rfl
 
 variable {l : ℕ} [Fact l.Prime] {P : LocPrime l} {AI : LocAinf l P} (T : LocTied l P AI)

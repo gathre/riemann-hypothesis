@@ -122,7 +122,7 @@ theorem exists_symRead : ∀ {D : D7} {L : SizeData₂ D} {hT : GatTies D} {Gi :
     · split_ifs with h
       · exact tame_step (pk W).toLevCh hlev (l PP).q PP.2 (l PP).idem h.1 h.2 (hμ j)
       · exact fun _ _ => rfl
-    · simp only [if_pos (And.intro h1 h2)]
+    · simp only [ite_eq_left (And.intro h1 h2)]
       exact hμ j
   choose S h1 h2 h3 using loc
   refine ⟨S, h1, h2, fun x => (hH x).trans ?_, fun x hx y hxy => ?_⟩

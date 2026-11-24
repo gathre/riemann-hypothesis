@@ -222,7 +222,7 @@ theorem lagrInt_eq_zero (hB : B.IsGood σ) (hS : IsHermND σ JS) (hT : IsHermND 
     (fun a b t => GlobalTheory.SplitVacF.commF_add_left a b t.1) L hL
     (fun x hx => by
       have hx' : ¬ ∀ g ∈ G, commF σ JS JT ξ₀ B.ψ g (x : WOF F E nS nT) = 1 := hx
-      push_neg at hx'
+      push Not at hx'
       obtain ⟨g, hg, hne⟩ := hx'
       exact ⟨g, fun l hl => hl g hg, hne⟩)
     (fun t => prof σ JS JT ξ₀ B.ψ ν 𝓕 f t) K hK hKs (fun t l hl => hUf t l (hG l hl))

@@ -498,7 +498,7 @@ theorem evalReps_surjective (Hv : P.Tup → Submodule O P.Xsp)
     intro i γ
     have h := isLatTup_smul C γ (hr.lat i)
     have e := hgam _ h
-    simp only [F, dif_pos h]
+    simp only [F, dite_eq_left h]
     generalize idx _ h = j at e ⊢
     generalize gam _ h = δ at e ⊢
     have e' : C.smul (δ⁻¹ * γ) (rep i) = rep j := by
@@ -506,7 +506,7 @@ theorem evalReps_surjective (Hv : P.Tup → Submodule O P.Xsp)
     obtain rfl := hr.inj _ _ _ e'
     obtain rfl : δ = γ := inv_mul_eq_one.1 (htriv _ _ (hr.lat i) e')
     rfl
-  refine ⟨⟨F, (mem_funMod_iff C Hv F).2 ⟨fun L hL => ?_, fun L hL => dif_neg hL, fun γ L => ?_⟩⟩, ?_⟩
+  refine ⟨⟨F, (mem_funMod_iff C Hv F).2 ⟨fun L hL => ?_, fun L hL => dite_eq_right hL, fun γ L => ?_⟩⟩, ?_⟩
   · obtain ⟨i, γ, rfl⟩ := hr.surj L hL
     rw [key, ← hact γ _ (hr.lat i)]
     exact Submodule.smul_mem _ _ ⟨_, (x i).2, rfl⟩
@@ -515,8 +515,8 @@ theorem evalReps_surjective (Hv : P.Tup → Submodule O P.Xsp)
       rw [← smul_mul, key, key, map_mul, Units.val_mul, mul_smul, actX_mul]
       congr 1
       exact (((C.actX γ).restrictScalars O).map_smul _ _).symm
-    · have h1 : F L = 0 := dif_neg hL
-      have h2 : F (C.smul γ L) = 0 := dif_neg (fun h => hL ((isLatTup_smul_iff C γ L).1 h))
+    · have h1 : F L = 0 := dite_eq_right hL
+      have h2 : F (C.smul γ L) = 0 := dite_eq_right (fun h => hL ((isLatTup_smul_iff C γ L).1 h))
       rw [h1, h2, map_zero, smul_zero]
   · funext i
     apply Subtype.ext
@@ -787,7 +787,7 @@ theorem card_ssIdx_natW {N m : ℕ} (h : m + 1 = N) (lam : Formalism.BasicNotion
   subst h
   have : nuOf l = lam.natW := by
     funext t
-    simp only [nuOf, Formalism.BasicNotions.DomWeight.natW, Formalism.BasicNotions.DomWeight.detShift, hl, dif_pos (Nat.succ_pos m)]
+    simp only [nuOf, Formalism.BasicNotions.DomWeight.natW, Formalism.BasicNotions.DomWeight.detShift, hl, dite_eq_left (Nat.succ_pos m)]
     rfl
   rw [this]
 

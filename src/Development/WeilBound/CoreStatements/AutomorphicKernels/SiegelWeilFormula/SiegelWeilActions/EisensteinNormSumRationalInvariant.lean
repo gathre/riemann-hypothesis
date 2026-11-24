@@ -84,7 +84,7 @@ theorem lagrangian_condition_mul_fixing {γ r : d.G}
   have e : ∀ i, inFrame d.b (γ * r) (Sum.inr i) (Sum.inl L.i₀) = inFrame d.b γ (Sum.inr i) (Sum.inl L.i₀) := by
     intro i
     rw [GlobalTheory.EisBL.DoubledParabolic.inFrame_mul, Matrix.mul_apply]
-    simp only [hx, Matrix.one_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    simp only [hx, Matrix.one_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   simp only [LagrangianCondition, e]
 
 theorem lagrangian_condition_stabiliser_iff {p g : d.G} (hp : p ∈ par2 σ d.Y) : LagrangianCondition L (p * g) ↔ LagrangianCondition L g := by
@@ -361,7 +361,7 @@ theorem heis' (h : Hyp L nb uM nb' w₁ cM δ) :
         simp only [Matrix.add_apply, Matrix.mul_apply, sum_split L, hz_uA_i0i0, hz_uA_i0em, unipotent_block_embedded_zero, hz_uA_emem,
           hz_D_i0i0, hz_D_i0em, diagonal_block_embedded_neg_conj, hz_D_emem, hz_aB_i0i0, hz_aB_i0em, centre_block_embedded_zero, hz_aB_emem, sB_i0i0,
           sB_i0em, siegel_block_embedded_row, sB_emem, Pi.add_apply, map_add, mul_one, one_mul, mul_zero, zero_mul, add_zero, zero_add,
-          mul_ite, ite_mul, Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, if_true, Finset.sum_const_zero]
+          mul_ite, ite_mul, Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, ite_true, Finset.sum_const_zero]
       rw [add_smul, add_smul, hZ]
       simp only [y, mul_neg, mul_add, neg_add, Finset.sum_neg_distrib, Finset.sum_add_distrib]
       ring
@@ -515,7 +515,7 @@ theorem nb_split (h : Hyp L nb uM nb' w₁ cM δ) (β : nA σ d.Y d.b) :
   ext i j
   rcases idx L i with rfl | ⟨k, rfl⟩ <;> rcases idx L j with rfl | ⟨l, rfl⟩ <;>
     simp only [Matrix.add_apply, sB_i0i0, sB_i0em, siegel_block_embedded_row, sB_emem, padB_apply_i0_eq_zero, pad_block_col_zero, padB_em, aB,
-      Matrix.single_apply, C4.prj_val, Matrix.submatrix_apply, pb, pa, eA_eq, fun k => (ComplexParameterFamilyContinuity.em_ne L k).symm, and_self, and_false, false_and, if_true, if_false, add_zero, zero_add]
+      Matrix.single_apply, C4.prj_val, Matrix.submatrix_apply, pb, pa, eA_eq, fun k => (ComplexParameterFamilyContinuity.em_ne L k).symm, and_self, and_false, false_and, ite_true, ite_false, add_zero, zero_add]
   · have hy : cA σ (β.1 L.i₀ L.i₀) = -(((R.ε : ℤ) : AE F E)) * β.1 L.i₀ L.i₀ := by
       have e := hcij L.i₀ L.i₀
       calc cA σ (β.1 L.i₀ L.i₀) = -(((R.ε : ℤ) : AE F E)) * -(((R.ε : ℤ) : AE F E) * cA σ (β.1 L.i₀ L.i₀)) := by

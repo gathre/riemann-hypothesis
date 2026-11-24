@@ -162,7 +162,7 @@ private lemma phla_kapW_cpt_eq_log_densF {x0 : _root_.ReciprocityTheory.ChartRes
     if h : k < r + 1 then Real.log ‖_root_.ReciprocityTheory.ChartRestriction.G.FD.dmin X.Gm (_root_.ReciprocityTheory.ChartRestriction.G.AR.Inst.cpt X x0 w) τ ⟨k, h⟩‖ else 0
   have hL : ∀ τ (i : Fin (r + 1)), Real.log ‖_root_.ReciprocityTheory.ChartRestriction.G.FD.dmin X.Gm (_root_.ReciprocityTheory.ChartRestriction.G.AR.Inst.cpt X x0 w) τ i‖ = L τ i := by
     intro τ i
-    simp only [L, dif_pos i.isLt, Fin.eta]
+    simp only [L, dite_eq_left i.isLt, Fin.eta]
   have hL0 : ∀ τ, L τ 0 = 0 := fun τ => by
     simp [L, hzero]
   have hLr : ∀ τ, L τ r = 0 := fun τ => by
@@ -286,7 +286,7 @@ theorem _root_.GlobalTheory.DivisionVolume.margin_iff (h0 : 0 < X.p0) (h1 : X.p0
       simp only [_root_.ReciprocityTheory.ChartRestriction.G.FD.sgn, _root_.GlobalTheory.CurvMargin.blockWt, Pi.sub_apply] at h
       by_cases hi : (i : ℕ) < X.p0
       · have hj : (j : ℕ) < X.p0 := by omega
-        simp only [hi, hj, if_true] at h
+        simp only [hi, hj, ite_true] at h
         norm_num at h
         simp only [Pi.sub_apply]
         have h' : ((la τ j - _root_.ReciprocityTheory.ChartRestriction.G.AR.Inst.kapW X τ j : ℤ) : ℝ) ≤ ((la τ i - _root_.ReciprocityTheory.ChartRestriction.G.AR.Inst.kapW X τ i : ℤ) : ℝ) := by
@@ -294,7 +294,7 @@ theorem _root_.GlobalTheory.DivisionVolume.margin_iff (h0 : 0 < X.p0) (h1 : X.p0
           linarith
         exact_mod_cast h'
       · have hj : ¬ (j : ℕ) < X.p0 := by omega
-        simp only [hi, hj, if_false] at h
+        simp only [hi, hj, ite_false] at h
         norm_num at h
         simp only [Pi.sub_apply]
         have h' : ((la τ j - _root_.ReciprocityTheory.ChartRestriction.G.AR.Inst.kapW X τ j : ℤ) : ℝ) ≤ ((la τ i - _root_.ReciprocityTheory.ChartRestriction.G.AR.Inst.kapW X τ i : ℤ) : ℝ) := by
@@ -307,7 +307,7 @@ theorem _root_.GlobalTheory.DivisionVolume.margin_iff (h0 : 0 < X.p0) (h1 : X.p0
       simp only [_root_.ReciprocityTheory.ChartRestriction.G.FD.sgn, _root_.GlobalTheory.CurvMargin.blockWt, Pi.sub_apply] at h
       have hi0' : (i0 : ℕ) < X.p0 := by omega
       have hi1' : ¬ (i1 : ℕ) < X.p0 := by omega
-      simp only [hi0', hi1', if_true, if_false] at h
+      simp only [hi0', hi1', ite_true, ite_false] at h
       norm_num at h
       simp only [Pi.sub_apply, Int.cast_sub]
       linarith

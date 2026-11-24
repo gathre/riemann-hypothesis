@@ -96,7 +96,7 @@ theorem exists_darboux_of_basis {R W κ : Type} [CommRing R] [Invertible (2 : R)
 
   simp only [map_sum, map_smul, LinearMap.sum_apply, LinearMap.smul_apply, Fintype.sum_sum_type, map_add (f := _),
   LinearMap.add_apply, h11, h22, e12, e21, smul_eq_mul, mul_zero, Finset.sum_const_zero, zero_add, add_zero,
-  mul_ite, Finset.sum_ite_eq', Finset.mem_univ, if_true, dotProduct, mul_one, mul_neg, Finset.sum_neg_distrib]
+  mul_ite, Finset.sum_ite_eq', Finset.mem_univ, ite_true, dotProduct, mul_one, mul_neg, Finset.sum_neg_distrib]
   rw [sub_eq_add_neg, add_comm]
   congr 1
   exact Finset.sum_congr rfl fun i _ => mul_comm _ _

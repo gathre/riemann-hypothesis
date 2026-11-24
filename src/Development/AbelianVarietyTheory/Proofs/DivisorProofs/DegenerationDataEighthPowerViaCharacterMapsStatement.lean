@@ -1657,7 +1657,7 @@ theorem exists_tens (R : Type) [CommRing R] [IsDomain R] [IsLocalRing R] (hR : B
   choose inc hinc iq using fun a => exists_vec q hq huniv fun b => if a = b then 1 else 0
   let rr' : Fin r → (G ⟶ G₀) := fun a => ∏ b, q b ^ Sm a b
   have hrr : ∀ a, IsMonHom (rr' a) := fun a => isMonHom_prod_zpow q hq _
-  have iq₁ : ∀ a, inc a ≫ q a = 𝟙 _ := fun a => by rw [iq, if_pos rfl, zpow_one]
+  have iq₁ : ∀ a, inc a ≫ q a = 𝟙 _ := fun a => by rw [iq, ite_eq_left rfl, zpow_one]
   have jr : ∀ a, j a ≫ rr' a = 𝟙 _ := fun a => by
     simp only [rr', comp_prod_zpow, jq, ← zpow_mul, prod_zpow_same, mul_comm (N _ _), SN]
     simp

@@ -84,12 +84,12 @@ theorem finsum_maximalSpectrum_ord_eq_sum {O B ι : Type*} [CommRing O] [CommRin
         finsum_mem_eq_of_bijOn MaximalSpectrum.asIdeal
           ⟨fun 𝔓 h => ⟨𝔓.isMaximal, h⟩, fun a _ b _ h => MaximalSpectrum.ext h,
             fun P hP => ⟨⟨P, hP.1⟩, hP.2, rfl⟩⟩
-          (fun 𝔓 _ => by simp only [ψ, dif_pos 𝔓.isMaximal])
+          (fun 𝔓 _ => by simp only [ψ, dite_eq_left 𝔓.isMaximal])
     _ = ∑ᶠ i ∈ (S : Set ι), ψ (c i) := (finsum_mem_eq_of_bijOn c hc fun _ _ => rfl).symm
     _ = ∑ i ∈ S, ψ (c i) := finsum_mem_coe_finset _ _
     _ = ∑ i ∈ S, m i := Finset.sum_congr rfl fun i hi => by
         have hmax : (c i).IsMaximal := (hc.mapsTo (Finset.mem_coe.mpr hi)).1
-        simp only [ψ, dif_pos hmax]
+        simp only [ψ, dite_eq_left hmax]
         exact hm i hi hmax.isPrime
 
 theorem ChartLength.proof (h₁ : IncIdealBelow.Statement) (h₂ : SpecFirstMemIncIdeal.Statement)

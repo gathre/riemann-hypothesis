@@ -215,11 +215,11 @@ theorem nonempty_linear_equiv_of_charpoly_eq (n : ℕ) : ∀ (V W : Type) [AddCo
       haveI : Subsingleton W :=
         Module.finrank_zero_iff.1 (finrank_eq_zero_of_hom (fun a => (h a).symm) h₂ h₁)
       exact ⟨LinearEquiv.ofSubsingleton V W⟩
-    · push_neg at h₂
+    · push Not at h₂
       obtain ⟨f, hf⟩ := h₂
       obtain ⟨e⟩ := step W V (by omega) (fun a => (h a).symm) f hf
       exact ⟨e.symm⟩
-  · push_neg at h₁
+  · push Not at h₁
     obtain ⟨f, hf⟩ := h₁
     exact step V W hn h f hf
 

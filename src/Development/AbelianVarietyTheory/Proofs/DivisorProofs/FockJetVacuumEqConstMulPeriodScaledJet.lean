@@ -122,7 +122,7 @@ theorem vacuum_real_ne_zero : ∀ {D : D7} {T : Type} {L : LevCh D T} {sc : Cons
   classical
   intro D T L sc G W U N σ h t j hj f hf
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hψ := hf.1
   have hS : IsSelfDualC (G.pS (.top t j)) (N.latS (.top t j)) :=
     N.selfDual (X := .top j) (show j ≤ D.R.m by omega)
@@ -689,7 +689,7 @@ theorem applyAt0_monomial (D : D7) {N N' : ℕ} (k : Formalism.MainNotions.GL3Th
     Formalism.MainNotions.GL3Theta.applyAt0 D (MvPolynomial.monomial k 1) G = (k.prod fun _ n => (n.factorial : ℂ)) * Formalism.MainNotions.TaylorLogMetric.taylor D G k := by
   classical
   unfold Formalism.MainNotions.GL3Theta.applyAt0
-  rw [MvPolynomial.support_monomial, if_neg one_ne_zero, Finset.sum_singleton, MvPolynomial.coeff_monomial, if_pos rfl,
+  rw [MvPolynomial.support_monomial, ite_eq_right one_ne_zero, Finset.sum_singleton, MvPolynomial.coeff_monomial, ite_eq_left rfl,
     one_mul]
 
 open Formalism.MainNotions.TaylorLogMetric in

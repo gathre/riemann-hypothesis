@@ -217,7 +217,7 @@ theorem irr_le_isotIn {D : D7} {n : ℕ} {A : Type} [AddCommGroup A] [Module ℂ
   obtain ⟨s₀, hs₀, hs₀0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hW0
   obtain ⟨l, hl⟩ : ∃ l : Module.Dual ℂ A, l s₀ ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hs₀0 ((Module.forall_dual_apply_eq_zero_iff ℂ s₀).1 hcon)
   let m : A →ₗ[ℂ] (GAf D.host.E n → ℂ) :=
     { toFun := fun a g => l (ρ g a)

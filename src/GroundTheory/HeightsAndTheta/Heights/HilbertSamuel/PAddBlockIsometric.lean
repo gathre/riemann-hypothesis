@@ -435,7 +435,7 @@ variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
 theorem divCycle_eq_zero_of_not {P W : Ideal (MRing ι)} (f : MRing ι)
     (h : ¬ (W.IsPrime ∧ IsRelevant W ∧ P ≤ W)) : divCycle P f W = 0 := by
   simp only [divCycle, Finsupp.ofSupportFinite_coe]
-  rw [if_neg]
+  rw [ite_eq_right]
   intro hW
   simp only [divSupp, Set.mem_ofPred_eq] at hW
   exact h ⟨hW.1.1.1, hW.2, le_sup_left.trans hW.1.1.2⟩
@@ -477,13 +477,13 @@ theorem divCycle_apply_eq_of_cross (P : Ideal (MRing ι)) {f g f' g' : MRing ι}
   · have hc' : W ∈ divSupp P g := by
       simp only [divSupp, Set.mem_ofPred_eq] at hc ⊢
       exact ⟨e2.mp (e1.mpr hc.1), hc.2⟩
-    rw [if_pos hc, if_pos hc', multAt, multAt, dite_eq_left hW, dite_eq_left hW]
+    rw [ite_eq_left hc, ite_eq_left hc', multAt, multAt, dite_eq_left hW, dite_eq_left hW]
     exact congrArg ENat.toNat (l1.symm.trans l2)
   · have hc' : W ∉ divSupp P g := by
       intro h
       simp only [divSupp, Set.mem_ofPred_eq] at hc h
       exact hc ⟨e1.mp (e2.mpr h.1), h.2⟩
-    rw [if_neg hc, if_neg hc']
+    rw [ite_eq_right hc, ite_eq_right hc']
 
 theorem divCycle_eq_of_forall_cross (P : Ideal (MRing ι)) {f g : MRing ι}
     (h : ∀ W : Ideal (MRing ι), W.IsPrime → IsRelevant W → P ≤ W →

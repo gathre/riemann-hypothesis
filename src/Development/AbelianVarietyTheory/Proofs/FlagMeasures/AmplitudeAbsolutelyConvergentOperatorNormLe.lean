@@ -660,13 +660,13 @@ theorem hpk_mulVec_e (v : Fin (2 * r + k + 1) → ℂ) (a : Fin r) : (Hpk k r *�
   simp only [Matrix.mulVec, dotProduct]
   rw [Finset.sum_eq_single (esI k r a)]
   · have : Hpk k r (eI k r a) (esI k r a) = 1 := by
-      unfold Hpk; rw [if_pos]; simp only [eI, esI]; omega
+      unfold Hpk; rw [ite_eq_left]; simp only [eI, esI]; omega
     rw [this, one_mul]
   · intro j _ hj
     have hj' : j.val ≠ 2 * r + k - a.val := fun h => hj (Fin.ext h)
     have : Hpk k r (eI k r a) j = 0 := by
       unfold Hpk
-      rw [if_neg, if_neg, if_neg] <;> simp only [eI] <;> omega
+      rw [ite_eq_right, ite_eq_right, ite_eq_right] <;> simp only [eI] <;> omega
     rw [this, zero_mul]
   · simp
 
@@ -693,7 +693,7 @@ theorem semidef (z y : Fin (2 * r + k + 1) → ℂ) (hz : inWb k r z) (hT : 0 < 
     (hy : ∀ a, herm (Hpk k r) y (fvec k r z a) = 0) : 0 ≤ (herm (Hpk k r) y y).re := by
   have hy1 : ∀ a, y (esI k r a) = 0 := fun a => by
     have := hy a.castSucc
-    simp only [fvec, Fin.val_castSucc, a.isLt, dif_pos, Fin.eta] at this
+    simp only [fvec, Fin.val_castSucc, a.isLt, dite_eq_left, Fin.eta] at this
     rwa [herm_e] at this
   have hy2 : herm (Hpk k r) y z = 0 := by
     have := hy (Fin.last r)

@@ -96,14 +96,14 @@ theorem lt_one_of_map (i : K →+* K') (hi : Continuous i) {x : K} (h : valuatio
     simpa [Function.comp_def, map_pow] using this
   obtain ⟨N, hN⟩ := (h1.eventually lt_one_mem_nhds).exists
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have : 1 ≤ valuation K' (i x ^ N) := by rw [map_pow]; exact one_le_pow₀ hc
   exact absurd hN (not_lt.2 this)
 
 theorem le_one_of_map (i : K →+* K') (hi : Continuous i) {y : K} (h : valuation K' (i y) ≤ 1) :
     valuation K y ≤ 1 := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have hy : y ≠ 0 := fun h0 => by simp [h0] at hc
   have h1 : valuation K y⁻¹ < 1 := by rw [map_inv₀]; exact inv_lt_one_of_one_lt₀ hc
   have h2 := lt_one_of_map i hi h1

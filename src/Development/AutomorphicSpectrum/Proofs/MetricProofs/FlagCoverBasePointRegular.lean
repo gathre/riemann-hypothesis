@@ -91,7 +91,7 @@ theorem isMultiHomog_rename_block {κ : K → K'} {v : (Σ k, ι k) → Σ k, ι
   · rw [Function.extend_apply' _ _ _ hk, Pi.zero_apply]
     apply Finset.sum_eq_zero
     intro p _
-    rw [if_neg (fun h => hk ⟨p.1, h⟩)]
+    rw [ite_eq_right (fun h => hk ⟨p.1, h⟩)]
 
 theorem mConeMap_rename {Ω : Type} [Field Ω] {κ : K → K'} {v : (Σ k, ι k) → Σ k, ι' k} (hb : IsBlockMap κ v)
     (y : (Σ k, ι' k) → Ω) (g : MRing ι) : mConeMap y (rename v g) = rename κ (mConeMap (y ∘ v) g) := by

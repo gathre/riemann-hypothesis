@@ -174,7 +174,7 @@ theorem UpperTheory.V.Ws.wtChar :
       exact (places ℚ Ω l A).2.2.2 hlA hgM
     · have hA' : ∃ p ∈ D.T, A.valuation (p : Ω) < 1 := by
         unfold Raw.Away at hA
-        push_neg at hA
+        push Not at hA
         exact hA
       obtain ⟨p, hpT, hpA⟩ := hA'
       have hpT' : p = l ∨ p ∈ D.Sb := by

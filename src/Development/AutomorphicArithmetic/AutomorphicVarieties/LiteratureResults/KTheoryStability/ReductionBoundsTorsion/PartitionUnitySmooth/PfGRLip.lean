@@ -224,7 +224,7 @@ private theorem pf_GRLip_lemma_6 (K Cm Ct c δ a b Q Q' lam lamD : ℝ) (S : Fin
           (le_trans (mul_le_mul_of_nonneg_left (by linarith [hba'.2]) h4.le) hj)
         rw [e1, e2, sub_self, abs_zero, zero_mul]
         positivity
-      · push_neg at hj
+      · push Not at hj
         have k1 : |r' j - r j| ≤ K * ((4:ℝ) ^ j * |b - a|) := by
           have := hKr j
           rwa [← mul_sub, abs_mul, abs_of_pos h4] at this

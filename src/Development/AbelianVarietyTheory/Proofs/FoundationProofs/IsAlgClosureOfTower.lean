@@ -155,7 +155,7 @@ theorem ent_piece (l j : ℕ) (hl : 0 < l) (i k : Fin 2) :
     exact h
   have hS : (((ofSL (ModularGroup.T ^ j) : GQ) : GL (Fin 2) ℚ) : Matrix (Fin 2) (Fin 2) ℚ) =
       ((ModularGroup.T ^ j : SL(2, ℤ)) : Matrix (Fin 2) (Fin 2) ℤ).map (Int.cast) := rfl
-  simp only [ent, toGQ, dif_pos hdet, Subgroup.coe_mul, Units.val_mul, hS, hT,
+  simp only [ent, toGQ, dite_eq_left hdet, Subgroup.coe_mul, Units.val_mul, hS, hT,
     Matrix.GeneralLinearGroup.mkOfDetNeZero]
   fin_cases i <;> fin_cases k <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
 

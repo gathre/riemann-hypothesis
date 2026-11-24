@@ -293,7 +293,7 @@ theorem det_traceGram_blockMatrix {E E' : Type} [Field E] [Field E'] [Algebra E 
       = blockDiagonal (fun _ : Fin n => D) * Λ * blockDiagonal (fun _ : Fin n => C) := by
     ext ⟨k, i⟩ ⟨l, j⟩
     simp only [Matrix.mul_apply, Fintype.sum_prod_type, blockDiagonal_apply, ite_mul, mul_ite, zero_mul,
-      mul_zero, Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, if_true, of_apply, hΛ]
+      mul_zero, Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, ite_true, of_apply, hΛ]
     rw [mul_assoc, htr]
     simp only [hrep, hC, Module.Basis.toMatrix_apply, Finset.mul_sum, Finset.sum_mul]
     rw [Finset.sum_comm]

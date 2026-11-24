@@ -94,7 +94,7 @@ theorem UpperTheory.ConvolutionTheory.Sph.normRam :
       exact hA (algebraMap (𝓞 K) (𝓞 M) x)
     have hmove : ∃ s ∈ Ine (F := K) A, ¬ UpperTheory.Gal.UnramifiedFromSplittingCriterion.Fixes M s := by
       by_contra hfix
-      push_neg at hfix
+      push Not at hfix
       obtain ⟨hlo, he⟩ := GlobalTheory.InertFixVal.ramificationIdx_eq_one A (w.under (𝓞 K)) w hAv hA hfix
       exact hram (Ideal.ramificationIdx_eq_one_iff.1 he)
     exact UpperTheory.Gal.UnramifiedFromSplittingCriterion.normRam K M Ω hp η hη A _ hAv hmove hu

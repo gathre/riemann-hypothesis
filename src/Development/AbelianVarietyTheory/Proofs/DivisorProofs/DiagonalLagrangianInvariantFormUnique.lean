@@ -82,7 +82,7 @@ theorem exists_lagrInt_ne_zero : ∀ (F E : Type) [Field F] [NumberField F] [Fie
     obtain ⟨i, rfl⟩ := finSumFinEquiv.surjective i
     rcases i with i | i <;> by_cases h : i = j <;>
       simp only [hC, hC₀, incM, diagCols, Matrix.submatrix_apply, Matrix.map_apply, Equiv.symm_apply_apply, id,
-        Matrix.fromRows_apply_inl, Matrix.fromRows_apply_inr, Matrix.one_apply, h, if_true, if_false, map_one, map_zero]
+        Matrix.fromRows_apply_inl, Matrix.fromRows_apply_inr, Matrix.one_apply, h, ite_true, ite_false, map_one, map_zero]
   let mC : WOF F E nS nT →ₗ[AF F] Matrix (Fin (nT + nT)) (Fin nS) (AF F ⊗[F] E) :=
     { toFun := fun u => C * u
       map_add' := fun u v => Matrix.mul_add _ _ _

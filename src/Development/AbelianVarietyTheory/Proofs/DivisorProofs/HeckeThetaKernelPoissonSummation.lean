@@ -810,12 +810,12 @@ theorem theta_poisson : ∀ (K : Type) [Field K] [NumberField K] [NumberField.Is
   have ha_half : ∀ l, a (half l) = A l := by
     intro l
     have h : ∃ l' : D, half l' = half l := ⟨l, rfl⟩
-    simp only [ha_def, dif_pos h]
+    simp only [ha_def, dite_eq_left h]
     rw [hhalf (Classical.choose_spec h)]
   have ha_zero : ∀ v, v ∉ Set.range half → a v = 0 := by
     intro v hv
     have h : ¬ ∃ l : D, half l = v := fun ⟨l, hl⟩ => hv ⟨l, hl⟩
-    simp only [ha_def, dif_neg h]
+    simp only [ha_def, dite_eq_right h]
   set B : ℝ := ‖cov⁻¹‖ * ∑ c : 𝓞 K ⧸ M, ‖F (Quotient.out c)‖ with hB
   have hB0 : 0 ≤ B := by positivity
   have hAB : ∀ l, ‖A l‖ ≤ B := by

@@ -79,8 +79,8 @@ theorem rowShift_X (σ : T) (i i' : Fin (r σ)) (t : C) (ℓ : Letter T r n) :
     · intro h
       exact ⟨ℓ.snd.2, keyL_inj (show keyL ℓ = keyL ⟨σ, (i, ℓ.snd.2)⟩ from h)⟩
   by_cases h : keyL ℓ = (σ, ↑i, ℓ.snd.2)
-  · rw [if_pos (key.mpr h), if_pos h]
-  · rw [if_neg (mt key.mp h), if_neg h]
+  · rw [ite_eq_left (key.mpr h), ite_eq_left h]
+  · rw [ite_eq_right (mt key.mp h), ite_eq_right h]
 
 end Atom
 

@@ -65,7 +65,7 @@ theorem rsTerm_zero (q : ℕ) {n : ℕ} (α β : Fin n → ℂ) (x : ℝ) : rsTe
     rw [← h, schurAt, schur_zero]; simp
   have hs' : schurAt (fun i => ((0 : Fin n → ℤ) i).toNat) β = 1 := by
     rw [← h, schurAt, schur_zero]; simp
-  rw [rsTerm, if_pos ⟨fun i => le_rfl, antitone_const⟩, hs, hs']
+  rw [rsTerm, ite_eq_left ⟨fun i => le_rfl, antitone_const⟩, hs, hs']
   simp
 
 variable {E : Type} [Field E] [NumberField E] [_root_.NumberField.IsTotallyComplex E] {m : ℕ}

@@ -167,7 +167,7 @@ theorem tri_solve {F : Type} [Field F] {N : ℕ} (T : Fin N → Fin N → F) (a 
     (h : ∀ l, i < l → ∑ j, a j * T j l = 0) : ∀ j, i < j → a j = 0 := by
   classical
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨j₀, hj₀, ha₀⟩ := hne
   let S := Finset.univ.filter (fun j => i < j ∧ a j ≠ 0)
   have hS : S.Nonempty := ⟨j₀, by simp [S, hj₀, ha₀]⟩
@@ -247,7 +247,7 @@ theorem repr_bc (bc : V →ₗ[Ω] V₁) (w : Module.Basis (Fin N) Ω V) (w₁ :
   · rw [map_smul, Module.Basis.repr_self, Finsupp.smul_apply, Finsupp.single_eq_same, smul_eq_mul,
       mul_one]
   · intro i _ hij
-    rw [map_smul, Module.Basis.repr_self, Finsupp.smul_apply, Finsupp.single_apply, if_neg hij,
+    rw [map_smul, Module.Basis.repr_self, Finsupp.smul_apply, Finsupp.single_apply, ite_eq_right hij,
       smul_zero]
   · intro hj
     exact absurd (Finset.mem_univ j) hj

@@ -135,7 +135,7 @@ theorem transform_indicator (hLo : IsOpen (L : Set V)) (y : V) :
       · simp [hx]
     rw [hfun, integral_indicator_const _ hLo.measurableSet]
     simp [Measure.real]
-  · rw [Set.indicator_apply, if_neg hy]
+  · rw [Set.indicator_apply, ite_eq_right hy]
     simp only [ann, Set.mem_setOf_eq, not_forall] at hy
     obtain ⟨x0, hx0, hne⟩ := hy
     set f : V → ℂ := fun x => (L : Set V).indicator (fun _ => (1 : ℂ)) x * χ x y with hf
@@ -205,7 +205,7 @@ theorem testEx_of_trivial (hχ : ∀ x y, χ x y = 1) (L : AddSubgroup V)
     refine ⟨fun _ => 1, continuous_const, HasCompactSupport.intro hLc (fun x hx => absurd (hL x) hx), ?_, ⟨0, one_ne_zero⟩⟩
     simp only [hχ, mul_one]
     exact integrable_const _
-  · push_neg at hL
+  · push Not at hL
     obtain ⟨t, ht⟩ := hL
     set g : V → ℂ := (L : Set V).indicator (fun _ => (1 : ℂ)) with hg
     have hcg : Continuous fun x => g (-t + x) := hind.comp' (continuous_const.add continuous_id)

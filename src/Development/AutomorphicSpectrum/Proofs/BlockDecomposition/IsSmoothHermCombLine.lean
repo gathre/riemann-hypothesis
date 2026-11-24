@@ -82,7 +82,7 @@ def combLine {κ : Type} [Fintype κ] (A : κ → HermLine ι) (a : κ → ℤ) 
   a := ∑ o, a o • (A o).a
   h z := if ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0 then ∏ o, (A o).h z ^ a o else 0
   pos z hz := by
-    rw [if_pos hz]
+    rw [ite_eq_left hz]
     exact Finset.prod_pos fun o _ => zpow_pos ((A o).pos z hz) _
   smul c z hc := by
     have hn : ∀ k, ‖c k‖ ≠ 0 := fun k => norm_ne_zero_iff.2 (hc k)
@@ -93,11 +93,11 @@ def combLine {κ : Type} [Fintype κ] (A : κ → HermLine ι) (a : κ → ℤ) 
     have hz : (∀ k, ∃ i, c k * z ⟨k, i⟩ ≠ 0) ↔ ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0 :=
       forall_congr' fun k => exists_congr fun i => by simp [hc k]
     by_cases h : ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0
-    · rw [if_pos (hz.2 h), if_pos h]
+    · rw [ite_eq_left (hz.2 h), ite_eq_left h]
       simp only [e, (A _).smul c z hc, mul_zpow, Finset.prod_mul_distrib]
       rw [Finset.prod_comm]
       simp only [Finset.prod_zpow]
-    · rw [if_neg (fun h' => h (hz.1 h')), if_neg h, mul_zero]
+    · rw [ite_eq_right (fun h' => h (hz.1 h')), ite_eq_right h, mul_zero]
 
 end Line
 
@@ -235,7 +235,7 @@ def Polar : Prop := ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k, Fintype
 
 theorem isSmoothHerm_combLine {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)] {κ : Type} [Fintype κ]
     {A : κ → HermLine ι} (h : ∀ o, IsSmoothHerm (A o)) (a : κ → ℤ) : IsSmoothHerm (combLine A a) := by
-  refine ContDiffOn.congr (f := fun z => ∏ o, (A o).h z ^ a o) ?_ fun z hz => if_pos hz
+  refine ContDiffOn.congr (f := fun z => ∏ o, (A o).h z ^ a o) ?_ fun z hz => ite_eq_left hz
   refine contDiffOn_prod fun o _ => ?_
   have hp : ∀ z ∈ {z : (Σ k, ι k) → ℂ | ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0}, (A o).h z ≠ 0 := fun z hz => ((A o).pos z hz).ne'
   cases a o with
@@ -280,7 +280,7 @@ theorem mixZ_of (h₁ : ExistsRead) (h₂ : ReadComb) (h₃ : PtDict) (h₄ : Co
     have e₂ := hH m n _ _ Rc (isSmoothHerm_combLine sA' a) X i h' H'' (genericPoint X) (D + 1)
       ((dim_closure_generic X).trans hX.dim_eq)
     rw [← e, e₂, cycVal]
-    exact if_pos hhor
+    exact ite_eq_left hhor
   have RN := h₂ m n ι M A RA nn
   have sB := isSmoothHerm_combLine sA nn
   have iso := isometric_comb_pull (fun j => M j) nn i rfl

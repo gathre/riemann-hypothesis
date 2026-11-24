@@ -955,7 +955,7 @@ theorem model (h : GlobalTheory.Published.KFiniteVectorsUnitary) {lam : Fin n �
       _ = _ := by rw [h2]; simp
   refine ⟨?_, fun X hX v => ?_, fun B hB hS => ?_⟩
   · by_contra hne
-    push_neg at hne
+    push Not at hne
     obtain ⟨x, hx⟩ := exists_ne (0 : H)
     obtain ⟨y, hy, hy'⟩ := hd.exists_mem_open isOpen_compl_singleton ⟨x, hx⟩
     exact hy' (congrArg Subtype.val (hne ⟨y, hy⟩))
@@ -1267,7 +1267,7 @@ theorem le_multiplicitySpan_cuspForm : _root_.GlobalTheory.FunPr.ThetaLocalInput
     intro τ
     obtain ⟨φ, hφ⟩ : ∃ φ : Module.Dual ℂ (GlobalTheory.IndefiniteRowSideFullHecke.FinitePartTypes.kFin (M.ε τ) (M.σ τ)), φ (p0 τ) ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hp0 τ ((Module.forall_dual_apply_eq_zero_iff ℂ (p0 τ)).1 h)
     exact ⟨(φ (p0 τ))⁻¹ • φ, by simp [hφ]⟩
   choose lam hlam using hl

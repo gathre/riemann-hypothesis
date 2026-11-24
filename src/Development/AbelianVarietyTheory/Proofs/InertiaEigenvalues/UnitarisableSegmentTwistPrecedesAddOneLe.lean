@@ -150,7 +150,7 @@ theorem add_one_le_of_precedes (k : Type) [Field k] [ValuativeRel k] [Topologica
     linear_combination hA' - hA
   have hlen : Δ.len < j + Δ'.len := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hnsub
     intro w hw
     obtain ⟨a, ha, rfl⟩ := Segment.mem_carrier.1 hw

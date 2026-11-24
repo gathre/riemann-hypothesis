@@ -673,7 +673,7 @@ private lemma core (p : ℕ) [Fact p.Prime] (k : Type) [Field k] [CharP k p] (C 
       by_cases h : i = j
       · subst h; simp [L, hφ1]
       · simp [L, h]
-    rw [Finset.sum_congr rfl step, Finset.sum_ite_eq' s j, if_pos hj, Ideal.Quotient.eq_zero_iff_mem] at h0
+    rw [Finset.sum_congr rfl step, Finset.sum_ite_eq' s j, ite_eq_left hj, Ideal.Quotient.eq_zero_iff_mem] at h0
     exact Ideal.mem_span_singleton.mp h0
 
 private lemma exact1 {R : Type} [CommRing R] (g a b : R) (h : ∀ x : R, g * x = 0 → ∃ u v, x = a * u + b * v)
@@ -927,7 +927,7 @@ theorem UpperTheory.Gal.Ord.lin :
     rfl
   · have hx₀ : ∃ x ∈ PrimitiveSubmodule o.A, hom o π.ε h₀ x ≠ 0 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact h2 ((Submodule.mem_dualAnnihilator _).2 hc)
     obtain ⟨x, hx, hne⟩ := hx₀
     rw [hom_apply] at hne

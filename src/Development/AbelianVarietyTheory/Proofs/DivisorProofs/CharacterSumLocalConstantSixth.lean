@@ -75,8 +75,8 @@ theorem phiT_add {ST SG SG' : Finset (HeightOneSpectrum (𝓞 E))} (d : Deco E a
     rwa [e] at h'
   unfold phiT
   by_cases h : ∀ P : ST, ∀ y ∈ d.at P.1, x y ∈ d'.at P.1 ∧ d'.f P (x y) = d.f P y
-  · rw [if_pos h, if_pos (hiff.2 h)]
-  · rw [if_neg h, if_neg (fun h' => h (hiff.1 h'))]
+  · rw [ite_eq_left h, ite_eq_left (hiff.2 h)]
+  · rw [ite_eq_right h, ite_eq_right (fun h' => h (hiff.1 h'))]
 
 theorem phiT_support {ST SG SG' : Finset (HeightOneSpectrum (𝓞 E))} (d : Deco E a ST SG) (d' : Deco E b ST SG')
     (x : HomE E a b) (hx : phiT K d d' x ≠ 0) : ∀ P ∈ ST, ∀ y ∈ d.at P, x y ∈ d'.at P := by

@@ -124,7 +124,7 @@ theorem exists_segre_eq_embL [Nonempty K] {p : ℕ} {Q : Ideal (MRing ι)} (hQ :
   rw [Fintype.prod_option, Finset.prod_mul_distrib, Finset.prod_ite_eq' Finset.univ k0]
   have h1 : u ⟨none, J none⟩ = c * v (J none) := hv (J none)
   rw [h1]
-  simp only [Finset.mem_univ, if_true]
+  simp only [Finset.mem_univ, ite_true]
   have h2 : ∀ k, basePart₂ u ⟨k, J (some k)⟩ = u ⟨some k, J (some k)⟩ := fun _ => rfl
   simp only [h2]
   ring
@@ -775,7 +775,7 @@ theorem twLine_smooth (p : ℕ) (A : HermLine ι) (hA : IsSmoothHerm A) :
   refine ContDiffOn.congr hE fun u hu => ?_
   change twH p A u = _
   have hu' : ∀ o, ∃ i, u ⟨o, i⟩ ≠ 0 := hu
-  rw [twH, if_pos hu']
+  rw [twH, ite_eq_left hu']
 
 theorem twLine_conj (p : ℕ) (A : HermLine ι) : IsConjInvariantH (twLine p A) := by
   intro u
@@ -783,14 +783,14 @@ theorem twLine_conj (p : ℕ) (A : HermLine ι) : IsConjInvariantH (twLine p A) 
   have hsame : (∀ o, ∃ i, (fun q => starRingEnd ℂ (u q)) ⟨o, i⟩ ≠ 0) ↔ ∀ o, ∃ i, u ⟨o, i⟩ ≠ 0 :=
     forall_congr' fun o => exists_congr fun i => by simp
   by_cases hu : ∀ o, ∃ i, u ⟨o, i⟩ ≠ 0
-  · rw [twH, twH, if_pos (hsame.mpr hu), if_pos hu, chi_conj]
+  · rw [twH, twH, ite_eq_left (hsame.mpr hu), ite_eq_left hu, chi_conj]
     have e1 : basePart₂ (fun q => starRingEnd ℂ (u q)) = fun q => starRingEnd ℂ (basePart₂ u q) := rfl
     have e2 : (fun q => starRingEnd ℂ (basePart₂ (fun q => starRingEnd ℂ (u q)) q)) = basePart₂ u := by
       funext q; simp [basePart₂]
     rw [e2, e1]
     congr 1
     ring
-  · rw [twH, twH, if_neg (fun h => hu (hsame.mp h)), if_neg hu]
+  · rw [twH, twH, ite_eq_right (fun h => hu (hsame.mp h)), ite_eq_right hu]
 
 theorem glue_block {z : (Σ k, ι k) → ℂ} (hz : ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0) {v : Fin 2 → ℂ}
     (hv : v 1 ≠ 0) : ∀ o, ∃ i, glue z v ⟨o, i⟩ ≠ 0 := by
@@ -804,7 +804,7 @@ theorem twLine_vPlus (p : ℕ) (hp : p ≠ 0) (A : HermLine ι) (z : (Σ k, ι k
   change twH p A _ = _
   have hv : vPlus p 1 ≠ 0 := by simp [vPlus]
   have ho : basePart₂ (glue z (vPlus p)) = z := rfl
-  rw [twH, if_pos (glue_block hz hv), chi_vPlus p hp, ho]
+  rw [twH, ite_eq_left (glue_block hz hv), chi_vPlus p hp, ho]
   simp only [one_mul, sub_self, zero_mul, add_zero]
   exact Real.exp_log (A.pos z hz)
 
@@ -813,7 +813,7 @@ theorem twLine_vMinus (p : ℕ) (hp : p ≠ 0) (A : HermLine ι) (z : (Σ k, ι 
   change twH p A _ = A.h fun q => starRingEnd ℂ (z q)
   have hv : vMinus p 1 ≠ 0 := by simp [vMinus]
   have ho : basePart₂ (glue z (vMinus p)) = z := rfl
-  rw [twH, if_pos (glue_block hz hv), chi_vMinus p hp, ho]
+  rw [twH, ite_eq_left (glue_block hz hv), chi_vMinus p hp, ho]
   simp only [zero_mul, sub_zero, one_mul, zero_add]
   exact Real.exp_log (A.pos _ fun k => conj_ne (hz k))
 
@@ -1010,9 +1010,9 @@ theorem sheet_of_twist_sheet {p e : ℕ} (hp : p ≠ 0) {Q : Ideal (MRing ι)} (
     · refine differentiableAt_pi.mpr fun q => ?_
       have hc : DifferentiableAt ℂ (c q.1) y' := by
         by_cases hk : q.1 = k0
-        · simp only [c, hk, if_true]
+        · simp only [c, hk, ite_true]
           exact differentiableAt_pi.mp hd _
-        · simp only [c, hk, if_false]
+        · simp only [c, hk, ite_false]
           exact differentiableAt_const _
       exact hc.mul (differentiableAt_pi.mp hd _)
     · refine mcPts_smul hQ (fun k => c k y') (fun k => ?_) (oldPart_mem hm')
@@ -1120,7 +1120,7 @@ theorem sum_single_none {K : Type} {ι : K → Type} [∀ k, Fintype (ι k)] (j 
     simp only [Option.elim_some]
     apply Finset.sum_eq_zero
     intro i _
-    rw [Finsupp.single_apply, if_neg]
+    rw [Finsupp.single_apply, ite_eq_right]
     intro h
     have h0 := congrArg (fun z : (o : Option K) × Tb ι o => z.1) h
     simp at h0
@@ -1253,10 +1253,10 @@ theorem twist_isPrime (K : Type) [Fintype K] (ι : K → Type) [∀ k, Fintype (
     exact congrArg (fun g => g f) this
   have hx : φ xN = Polynomial.C s * Polynomial.X := by
     simp only [φ, xN, AlgHom.toRingHom_eq_coe, RingHom.coe_coe, aeval_X]
-    exact if_pos rfl
+    exact ite_eq_left rfl
   have hy : φ yN = Polynomial.X := by
     simp only [φ, yN, AlgHom.toRingHom_eq_coe, RingHom.coe_coe, aeval_X]
-    exact if_neg (show ¬ ((1 : Fin 2) = 0) by decide)
+    exact ite_eq_right (show ¬ ((1 : Fin 2) = 0) by decide)
   have hCp : φ (C (p : ℤ)) = (p : Polynomial E) := by
     simp [φ]
   have hle : twist p W ≤ RingHom.ker φ := by
@@ -1623,7 +1623,7 @@ theorem isSectionOn_inv_one {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fin
   have : m = 0 := by
     by_contra h0
     classical
-    rw [MvPolynomial.mem_support_iff, MvPolynomial.coeff_one, if_neg (Ne.symm h0)] at hm
+    rw [MvPolynomial.mem_support_iff, MvPolynomial.coeff_one, ite_eq_right (Ne.symm h0)] at hm
     exact hm rfl
   simp [this]
 

@@ -77,7 +77,7 @@ theorem posM_col_mul {n : ℕ} (x : UnipotentBlockColumnIndex a n n → R) (M : 
   · subst hi
     rw [Matrix.single_mul_apply_same, h _ ht, Matrix.one_apply, Matrix.single_apply]
     by_cases hj : t.1.2 = j <;> simp [hj]
-  · rw [Matrix.single_mul_apply_of_ne _ _ _ _ _ hi, Matrix.single_apply, if_neg]
+  · rw [Matrix.single_mul_apply_of_ne _ _ _ _ _ hi, Matrix.single_apply, ite_eq_right]
     rintro ⟨e1, _⟩
     exact hi e1.symm
 
@@ -89,18 +89,18 @@ theorem sum_posM_col {n : ℕ} (x : UnipotentBlockColumnIndex a n n → R) :
   refine Finset.sum_congr rfl fun t _ => ?_
   have ht : ((t.1.2 : Fin a) : ℕ) = n := by have := t.2; omega
   by_cases h : (t.1.1 : ℕ) + 1 = n
-  · rw [if_pos h, Finset.sum_eq_single t.1]
+  · rw [ite_eq_left h, Finset.sum_eq_single t.1]
     · simp
     · intro p _ hp
-      rw [if_neg]
+      rw [ite_eq_right]
       rintro ⟨e1, e2⟩
       exact hp (Prod.ext e1.symm e2.symm)
     · intro hp
       exact absurd (Finset.mem_filter.2 ⟨Finset.mem_univ _, by omega⟩) hp
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     refine Finset.sum_eq_zero fun p hp => ?_
     have hp2 := (Finset.mem_filter.1 hp).2
-    rw [if_neg]
+    rw [ite_eq_right]
     rintro ⟨e1, e2⟩
     apply h
     rw [e1, ← ht, e2]
@@ -144,7 +144,7 @@ theorem whittakerLaw_upperUnipotent_identityColumns (ψ : AddChar (Ad E) ℂ) (f
       intro k hk j
       by_cases h : k = j
       · subst h; simp [hd]
-      · rw [Matrix.one_apply, if_neg h]
+      · rw [Matrix.one_apply, ite_eq_right h]
         rcases lt_or_gt_of_ne h with h' | h'
         · exact hc k j (by have : (k : ℕ) < j := h'; omega) h
         · exact ht k j h'

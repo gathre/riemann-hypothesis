@@ -828,12 +828,12 @@ theorem rational_coset_param : ∀ (F : Type) [Field F] [NumberField F] (ι : Ty
 
     simp only [emb, gM, EM, Matrix.mulVec, dotProduct, Matrix.smul_apply, Matrix.kroneckerMap_apply,
     Matrix.one_apply, Pi.add_apply, map_add, map_mul, map_sum, map_natCast, map_intCast,
-    Fintype.sum_prod_type, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true,
+    Fintype.sum_prod_type, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true,
     nsmul_eq_mul, Finset.mul_sum]
     congr 1
     rw [Finset.sum_eq_single i (fun j _ hj => by simp [Ne.symm hj]) (by simp)]
     refine Finset.sum_congr rfl fun v _ => ?_
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     ring
 
 end GlobalTheory.CompanionTheory.SW.ThW
@@ -1264,9 +1264,9 @@ theorem sb_eq_sum_coset_indicators :
     intro q
     by_cases hq : q = (x : V ⧸ L')
     · subst hq
-      rw [if_pos rfl, Set.indicator_of_mem (show x ∈ {y | y - ((x : V ⧸ L')).out ∈ L'} from (key _).2 rfl),
+      rw [ite_eq_left rfl, Set.indicator_of_mem (show x ∈ {y | y - ((x : V ⧸ L')).out ∈ L'} from (key _).2 rfl),
         hval, mul_one]
-    · rw [if_neg hq, Set.indicator_of_notMem (show x ∉ {y | y - q.out ∈ L'} from fun hx => hq ((key _).1 hx)),
+    · rw [ite_eq_right hq, Set.indicator_of_notMem (show x ∉ {y | y - q.out ∈ L'} from fun hx => hq ((key _).1 hx)),
         mul_zero]
   simp only [hterm, Finset.sum_ite_eq']
   split_ifs with hx

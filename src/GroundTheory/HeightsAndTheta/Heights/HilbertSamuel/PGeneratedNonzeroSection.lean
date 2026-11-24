@@ -114,8 +114,8 @@ theorem res_eq_of_faces {M : Type} [AddCommGroup M] [Module (MRingOver S ι) M] 
       (KH.cellRes S M _ I.1 (f ⟨_, hface a ha⟩) - KH.cellRes S M _ I.1 (f ⟨_, hface b hb⟩)) := by
     change (∑ k : K, ∑ i ∈ I.1 k, _ :
       KH.CechC S ι M 0 →ₗ[MRingOver S ι] LocalizedModule (KH.cellMon S I.1) M) f = _
-    rw [Finset.sum_eq_single k₀, Finset.sum_eq_add_of_mem a b ha hb hab, dif_pos (hface a ha),
-      dif_pos (hface b hb)]
+    rw [Finset.sum_eq_single k₀, Finset.sum_eq_add_of_mem a b ha hb hab, dite_eq_left (hface a ha),
+      dite_eq_left (hface b hb)]
     · rw [hsign, LinearMap.add_apply]
       change KH.faceSign I.1 k₀ a • (KH.cellRes S M _ I.1 (f _)) +
         (-KH.faceSign I.1 k₀ a) • (KH.cellRes S M _ I.1 (f _)) = _
@@ -125,7 +125,7 @@ theorem res_eq_of_faces {M : Type} [AddCommGroup M] [Module (MRingOver S ι) M] 
       have : i = a ∨ i = b := by rw [hI] at hi; simpa using hi
       tauto
     · intro l _ hl
-      refine Finset.sum_eq_zero fun i hi => dif_neg fun h => ?_
+      refine Finset.sum_eq_zero fun i hi => dite_eq_right fun h => ?_
       have := (h.1 l)
       rw [Function.update_self, ← Finset.card_pos, Finset.card_erase_of_mem hi, hother l hl] at this
       omega
@@ -330,7 +330,7 @@ def val (z : KH.CechC ℚ ι (MRingOver ℚ ι ⧸ KH.genIdeal y) 0) (c : ∀ k,
 
 theorem val_eq (z : KH.CechC ℚ ι (MRingOver ℚ ι ⧸ KH.genIdeal y) 0) {c : ∀ k, ι k}
     (hc : ∀ k, y ⟨k, c k⟩ ≠ 0) : val y z c = evHom y _ (nonzeroOn_chart y hc) (z (chartCell c)) :=
-  dif_pos hc
+  dite_eq_left hc
 
 theorem val_update (z : KH.CechC ℚ ι (MRingOver ℚ ι ⧸ KH.genIdeal y) 0)
     (hz : KH.cechD ℚ ι (MRingOver ℚ ι ⧸ KH.genIdeal y) 0 z = 0) (c : ∀ k, ι k) (hc : ∀ k, y ⟨k, c k⟩ ≠ 0)

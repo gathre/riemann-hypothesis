@@ -820,8 +820,8 @@ theorem exists_tateIsoO_of_period : ∀ (p : ℕ) [Fact p.Prime] (D : Datum p) (
   let ev : ℕ → D.La → (Over.mk (spMap j) ⟶ A) := fun n a =>
     if 0 < n ∧ n.Coprime p then π (e ((n : ℂ)⁻¹ • Q (f n a))) else 1
   have hev : ∀ n, 0 < n → n.Coprime p → ∀ a, ev n a = π (e ((n : ℂ)⁻¹ • Q (f n a))) :=
-    fun n hn hc a => if_pos ⟨hn, hc⟩
-  have hev' : ∀ n, ¬ (0 < n ∧ n.Coprime p) → ∀ a, ev n a = 1 := fun n h a => if_neg h
+    fun n hn hc a => ite_eq_left ⟨hn, hc⟩
+  have hev' : ∀ n, ¬ (0 < n ∧ n.Coprime p) → ∀ a, ev n a = 1 := fun n h a => ite_eq_right h
   refine ⟨{ ζ := fun n => Units.map j.toMonoidHom (GlobalTheory.PeriodTate.rt n (ν n))
             ζ_prim := fun n hn hc => (GlobalTheory.PeriodTate.rt_prim hn (hgen n hn hc).1).map_of_injective
               (Units.map_injective j.injective)
@@ -1244,13 +1244,13 @@ theorem lie_projectors : ∀ (p : ℕ) [Fact p.Prime] (D : Datum p) (R : Type) [
     intro i
     have h := hcoef (τ i)
     have h1 : τ i ∈ I := Finset.mem_image_of_mem _ (Finset.mem_univ _)
-    simp only [coef, h1, hτω i, hnJ (τ i) (hτω i), if_true, if_false] at h
+    simp only [coef, h1, hτω i, hnJ (τ i) (hτω i), ite_true, ite_false] at h
     linear_combination h
   have hzero : ∀ τ', τ' ∉ I → τ' (D.ω : D.F) = lam → E τ' = 0 := by
     intro τ' hI' hω'
     refine idem_eq_zero (hidem τ') ?_
     have h := hcoef τ'
-    simp only [coef, hI', hω', hnJ τ' hω', if_true, if_false] at h
+    simp only [coef, hI', hω', hnJ τ' hω', ite_true, ite_false] at h
     linear_combination h
   refine ⟨fun i => E (τ i), fun i => hidem _, hmτ, fun i c => ?_, fun i c => ?_, ?_⟩
   · rw [hΦ', hl, hτ]
@@ -1263,10 +1263,10 @@ theorem lie_projectors : ∀ (p : ℕ) [Fact p.Prime] (D : Datum p) (R : Type) [
     refine Finset.sum_congr rfl fun τ' _ => ?_
     by_cases hI' : τ' ∈ I
     · obtain ⟨i, _, rfl⟩ := Finset.mem_image.mp hI'
-      rw [if_pos hI', ← sub_smul, hτω i]
+      rw [ite_eq_left hI', ← sub_smul, hτω i]
       congr 1
       ring
-    · rw [if_neg hI', smul_zero]
+    · rw [ite_eq_right hI', smul_zero]
       by_cases hω' : τ' (D.ω : D.F) = lam
       · rw [hzero τ' hI' hω', smul_zero, smul_zero, sub_zero]
       · have hq : (τ' (D.ω : D.F) - lam) * (τ' (D.ω : D.F) - ((D.tr : ℂ) - lam)) = 0 := by

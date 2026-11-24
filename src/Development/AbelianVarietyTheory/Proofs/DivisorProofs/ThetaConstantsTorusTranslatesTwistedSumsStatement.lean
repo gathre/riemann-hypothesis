@@ -1154,8 +1154,8 @@ theorem twist_resid : ∀ (g n : ℕ) (F : SFam g n (zetaAway n)) (W : Matrix (F
     · subst h0
       have ha : a ∈ X₁.S.HH X₁.M z₁ := (GlobalTheory.T.dividingThetaConstants_generate_integral_torsion_labels g n F W Z i X₁ z₁ act x₀ hx₀ V ev Y m t δ 𝔪 a).2 h
       have h1 : eStd X₁.S.g _ τ a = 0 := hτ a ha
-      simp only [wt', if_pos rfl, h1, smul_zero]
-    · simp only [wt', if_neg h0]
+      simp only [wt', ite_eq_left rfl, h1, smul_zero]
+    · simp only [wt', ite_eq_right h0]
       exact hwt a mu h
   have hh : X₁.M.stalkHom z₁ (s * u * r) = algebraMap X₁.o₁ X₁.Ω₁ (X₁.S.ζ ^ e) * X₁.S.th (lab c + τ) / X₁.S.th x₀ := by
     rw [map_mul, map_mul, hs, hu, hr]

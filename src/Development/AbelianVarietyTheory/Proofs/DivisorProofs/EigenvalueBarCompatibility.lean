@@ -67,7 +67,7 @@ theorem inner_eq_integral {D : D7} {V : HSp D} {S : D.what₂.Tau → SPar} (M :
       simp
     · by_contra hn
       have := h z z
-      simp only [ipM, dif_neg hn, mul_zero] at this
+      simp only [ipM, dite_eq_right hn, mul_zero] at this
       exact hz (inner_self_eq_zero.1 this)
   obtain ⟨a, ha⟩ := hd x
   obtain ⟨b, hb⟩ := hd y

@@ -72,7 +72,7 @@ theorem exists_of_card_lt {r : ℕ} (S : Finset (Fin r)) {a b : ℕ}
     (h : (S.filter fun k => k.val < a).card < (S.filter fun k => k.val < b).card) :
     ∃ k ∈ S, a ≤ k.val ∧ k.val < b := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   refine absurd h (not_lt.2 (Finset.card_le_card fun k hk => ?_))
   simp only [Finset.mem_filter] at hk ⊢
   exact ⟨hk.1, not_le.1 fun h' => absurd hk.2 (not_lt.2 (hc k hk.1 h'))⟩

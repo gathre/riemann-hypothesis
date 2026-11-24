@@ -69,7 +69,7 @@ theorem eventually_isUnram : ∀ᶠ v : HeightOneSpectrum (𝓞 F) in cofinite, 
   refine Filter.eventually_cofinite.2 (hfin.subset fun v hv => ?_)
   simp only [Set.mem_setOf_eq] at hv
   rw [GlobalTheory.LFun.isUnram_iff] at hv
-  push_neg at hv
+  push Not at hv
   obtain ⟨P, hP, h1⟩ := hv
   refine ⟨P, ?_, hP⟩
   simp only [Set.mem_setOf_eq]

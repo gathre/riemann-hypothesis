@@ -463,8 +463,8 @@ theorem span_infRatF (hB : B.IsGood σ) :
       funext p
       show (B.emb p.2).1 (if (p.1.1, p.1.2) = q then e else 0) = if p.1 = q then (B.emb p.2).1 e else 0
       by_cases h : p.1 = q
-      · rw [if_pos h, if_pos (by rw [← h])]
-      · rw [if_neg h, if_neg (by intro h'; exact h (by rw [← h'])), map_zero]
+      · rw [ite_eq_left h, ite_eq_left (by rw [← h])]
+      · rw [ite_eq_right h, ite_eq_right (by intro h'; exact h (by rw [← h'])), map_zero]
     | zero =>
       convert V.zero_mem using 1
       funext p
@@ -481,7 +481,7 @@ theorem span_infRatF (hB : B.IsGood σ) :
   rintro v -
   have hv : v = ∑ q : Fin nT × Fin nS, (fun p : IxF F nS nT => if p.1 = q then v (q, p.2) else 0) := by
     funext p
-    rw [Finset.sum_apply, Finset.sum_ite_eq, if_pos (Finset.mem_univ _)]
+    rw [Finset.sum_apply, Finset.sum_ite_eq, ite_eq_left (Finset.mem_univ _)]
   rw [hv]
   exact V.sum_mem fun q _ => key q (fun w => v (q, w))
 

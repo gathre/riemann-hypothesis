@@ -103,7 +103,7 @@ theorem irred_of_charpoly_eq [IsAlgClosed k] (ρ ρ' : Γ →* GL (Fin a) k)
     W = ⊥ ∨ W = ⊤ := by
   classical
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨hb, ht⟩ := hne
   have hcp : ∀ α, (liftRep ρ α).charpoly = (liftRep ρ' α).charpoly :=
     GlobalTheory.charpoly_lift_eq_of_charpoly_eq a (matHom ρ) (matHom ρ') hc

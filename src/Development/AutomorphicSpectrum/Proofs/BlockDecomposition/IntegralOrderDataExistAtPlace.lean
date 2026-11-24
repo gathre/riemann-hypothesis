@@ -129,7 +129,7 @@ theorem detect_of_idem {K : Type} [CommRing K] (O : Subring K) (I : Finset K)
   obtain ⟨c, hc, i₀, hi₀⟩ := hX
   have hex : ∃ e ∈ I, e * c i₀ ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hi₀ (hsep _ h)
   obtain ⟨e, he, hne⟩ := hex
   have hmax : ∀ s : Finset (Fin n), s.Nonempty →
@@ -228,7 +228,7 @@ theorem field_total {k L : Type} [NontriviallyNormedField k] [IsUltrametricDist 
   by_cases h : spectralNorm k L x ≤ 1
   · exact Or.inl (key _ h)
   · refine Or.inr (key _ ?_)
-    push_neg at h
+    push Not at h
     have h0 : 0 ≤ spectralNorm k L x⁻¹ := spectralNorm_nonneg _
     nlinarith
 
@@ -299,7 +299,7 @@ theorem contract {K : Type} [CommRing K] [TopologicalSpace K] [IsTopologicalRing
   have hadd : μ T + μ ((O : Set K) \ T) = μ (O : Set K) := by
     rw [measure_add_diff hT.measurableSet.nullMeasurableSet, Set.union_eq_right.2 hsub]
   by_contra hge
-  push_neg at hge
+  push Not at hge
   have h2 : μ (O : Set K) ≤ μ T := by
     rw [hTdef, hall]
     calc μ (O : Set K) = 1 * μ (O : Set K) := (one_mul _).symm

@@ -159,8 +159,8 @@ theorem const_match1 (k r : ℕ) (TT : ℝ) (b s : ℕ) (hb : 1 ≤ b) (hs : 2 �
     have hn : TBB.nPt (k' + 1) (c + m + 1) TT (h ++ [(m + 1, x⁻¹), (1, x ^ (m + 1) * d0)]) =
         N * ‖x‖⁻¹ ^ (((m + 1) * (k' + m + 2)) * 2) * (Complex.normSq (x ^ (m + 1) * d0) - TT) ^ k' := by
       rw [TBB.nPt, hGG, hL, PBD.weight_product_append, PBD.weight_product_append, hind, hsz, hsz2, hsing, hsing]
-      rw [if_neg (show ¬(1 + c + (m + 1) - 1 = c + m + 1 + 1 ∧ m + 1 = 1) by omega),
-        if_pos (show 1 + (c + (m + 1)) + 1 - 1 = c + m + 1 + 1 ∧ 1 = 1 by omega),
+      rw [ite_eq_right (show ¬(1 + c + (m + 1) - 1 = c + m + 1 + 1 ∧ m + 1 = 1) by omega),
+        ite_eq_left (show 1 + (c + (m + 1)) + 1 - 1 = c + m + 1 + 1 ∧ 1 = 1 by omega),
         one_mul, norm_inv, show k' + 1 - 1 = k' by omega, ← zpow_natCast (‖x‖⁻¹)]
       congr 3
       simp only [C.Mlev]
@@ -177,7 +177,7 @@ theorem const_match1 (k r : ℕ) (TT : ℝ) (b s : ℕ) (hb : 1 ≤ b) (hs : 2 �
     have hn : TBB.nPt (k' + 1) (c + m + 1) TT (h ++ [(m + 2, u)]) =
         N * ‖u‖ ^ (((m + 2) * (k' + m + 1)) * 2) := by
       rw [TBB.nPt, PBD.weight_product_append, hind, hsz3, hsing,
-        if_neg (show ¬(1 + c + (m + 2) - 1 = c + m + 1 + 1 ∧ m + 2 = 1) by omega),
+        ite_eq_right (show ¬(1 + c + (m + 2) - 1 = c + m + 1 + 1 ∧ m + 2 = 1) by omega),
         one_mul, ← zpow_natCast (‖u‖)]
       congr 2
       simp only [C.Mlev]

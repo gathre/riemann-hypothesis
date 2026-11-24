@@ -100,7 +100,7 @@ lemma Sa_eq_tsum (ha0 : a 0 = 0) (x : ℝ) : Sa a x = ∑' n, a n * mxS n x := b
   have hx : (n : ℝ) ≤ x := by
     have hx0 : 0 ≤ x := by
       by_contra hneg
-      push_neg at hneg
+      push Not at hneg
       rw [Nat.floor_eq_zero.mpr (by linarith)] at hn
       omega
     exact (Nat.le_floor_iff hx0).mp hn.2
@@ -157,7 +157,7 @@ lemma summable_abs_a (K : ℝ) (hK : ∀ n : ℕ, |a n| ≤ K * vonMangoldt n) {
     simp [Real.zero_rpow (by linarith : -σ ≠ 0)]
   · have hΛ : 0 ≤ ArithmeticFunction.vonMangoldt n := ArithmeticFunction.vonMangoldt_nonneg
     have hnpos : (0 : ℝ) < n := by exact_mod_cast hn
-    rw [LSeries.norm_term_eq, if_neg hn.ne']
+    rw [LSeries.norm_term_eq, ite_eq_right hn.ne']
     simp only [Complex.ofReal_re, Complex.norm_real, Real.norm_of_nonneg hΛ]
     rw [div_eq_mul_inv, ← Real.rpow_neg hnpos.le]
     have hK' : |a n| ≤ |K| * ArithmeticFunction.vonMangoldt n :=

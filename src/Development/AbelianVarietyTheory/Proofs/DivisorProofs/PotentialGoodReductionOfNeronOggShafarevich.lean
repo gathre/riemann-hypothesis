@@ -312,7 +312,7 @@ theorem finite_image_of_map_eq_one_on_inf_finiteIndex :
   rintro _ ⟨σ, hσ, rfl⟩
   refine ⟨(σ : G ⧸ H), ?_⟩
   have h : ∃ τ ∈ I, (τ : G ⧸ H) = σ := ⟨σ, hσ, rfl⟩
-  simp only [f, dif_pos h]
+  simp only [f, dite_eq_left h]
   obtain ⟨hτI, hτ⟩ := h.choose_spec
   rw [QuotientGroup.eq] at hτ
   have h1 : ρ (h.choose⁻¹ * σ) = 1 := hρ _ (I.mul_mem (I.inv_mem hτI) hσ) hτ
@@ -430,7 +430,7 @@ theorem nonunit_of_pow {F : Type} [Field F] (A : ValuationSubring F) {m : ℕ} (
     (h : A.valuation (z ^ m) < 1) : A.valuation z < 1 := by
   rw [map_pow] at h
   by_contra h'
-  push_neg at h'
+  push Not at h'
   exact absurd h (not_lt.2 (one_le_pow₀ h'))
 
 end GlobalTheory.InertiaLift
@@ -742,7 +742,7 @@ theorem exists_finiteDimensional_galTate_eq_one : ∀ (K Ω : Type) [Field K] [F
     · exact ⟨∅, fun _ _ _ => hs⟩
     · have hex : ∃ (t : Tate l (ptOver K Ω ⟶ A)) (n : ℕ), (s t).lev n ≠ t.lev n := by
         by_contra h
-        push_neg at h
+        push Not at h
         exact hs (LinearMap.ext fun t => Tate.ext fun n => h t n)
       obtain ⟨t, n, htn⟩ := hex
       obtain ⟨F, hF⟩ := GlobalTheory.T.exists_finset_fixing_point_locallyFiniteType K Ω A hA (t.lev n)

@@ -609,7 +609,7 @@ theorem minpoly_eq_of_aeval_of_linearIndependent {L A : Type} [Field L] [Ring A]
   have hdvd : minpoly L y ∣ p := minpoly.dvd L y hy
   have hle : p.natDegree ≤ (minpoly L y).natDegree := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hsum := aeval_eq_sum_range' hlt y
     rw [minpoly.aeval, ← Fin.sum_univ_eq_sum_range (fun i => (minpoly L y).coeff i • y ^ i)] at hsum
     have hc := hind (fun i => (minpoly L y).coeff i) hsum.symm
@@ -867,7 +867,7 @@ theorem eq_zero_of_isNilpotent (n : ℕ) (x₀ : B) (hsep : (minpoly F x₀).Sep
     rw [Finset.sum_eq_single j] at this
     · simpa using this
     · intro b _ hb
-      rw [if_neg]
+      rw [ite_eq_right]
       exact fun h' => hb (Fin.ext h'.symm)
     · simp
   funext j

@@ -81,7 +81,7 @@ theorem mem_span_of_map_mem_span {L E ι : Type} [Field L] [Field E] [Fintype ι
     rwa [Ne, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
   obtain ⟨ψ, hψ⟩ : ∃ ψ : Module.Dual L ((ι → L) ⧸ Submodule.span L S), ψ ((Submodule.span L S).mkQ y) ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hq ((Module.forall_dual_apply_eq_zero_iff L _).1 hc)
   set l : (ι → L) →ₗ[L] L := ψ ∘ₗ (Submodule.span L S).mkQ with hl
   have hlS : ∀ s ∈ S, l s = 0 := by
@@ -126,7 +126,7 @@ theorem isIrrSub_of_endSpanned {Γ L : Type} [Group Γ] [Field L] {a : ℕ} (τ 
   have hx' : (⟨x, hle hx⟩ : W) ≠ 0 := fun h => hx0 (congrArg Subtype.val h)
   obtain ⟨φ, hφ⟩ : ∃ φ : Module.Dual L W, φ ⟨x, hle hx⟩ ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hx' ((Module.forall_dual_apply_eq_zero_iff L _).1 hc)
   obtain ⟨X, hX, hXw⟩ := hE (((φ ⟨x, hle hx⟩)⁻¹ • φ).smulRight (⟨u, hu⟩ : W))
   have h1 := hXw ⟨x, hle hx⟩
@@ -192,7 +192,7 @@ theorem absIrrSub_of_endSpanned {Γ L : Type} [Group Γ] [Field L] {a : ℕ} (τ
     obtain ⟨u, hu, hu0⟩ := (Submodule.ne_bot_iff U).1 h0
     obtain ⟨j, hj⟩ : ∃ j, u j ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hu0 (funext h)
     refine le_antisymm hU (Submodule.span_le.2 ?_)
     rintro _ ⟨w, hw, rfl⟩

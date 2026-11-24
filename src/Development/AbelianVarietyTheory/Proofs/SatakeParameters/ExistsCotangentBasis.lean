@@ -161,7 +161,7 @@ theorem GlobalTheory.CotDim.exists_cotangent_basis : ∀ (X : Scheme.{0}) (p : X
     RingHom.isStandardSmoothOfRelativeDimension_respectsIso _).1 h
   obtain ⟨t, hts, ht⟩ : ∃ t : Sec p U, t ∈ s ∧ e t ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : Ideal.span (↑s : Set Γ(X, U)) ≤ RingHom.ker (e : Γ(X, U) →+* ℂ) :=
       Ideal.span_le.2 fun t ht => hcon t ht
     have h1 : (1 : Γ(X, U)) ∈ RingHom.ker (e : Γ(X, U) →+* ℂ) := hle (by rw [hs]; exact Submodule.mem_top)

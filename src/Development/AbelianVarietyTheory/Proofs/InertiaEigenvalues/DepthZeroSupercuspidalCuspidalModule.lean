@@ -298,9 +298,9 @@ theorem isCuspidal_repK {π : Representation ℂ (GL (Fin n) ℚ_[g]) V} (hπ : 
     simp only [FiniteGL.twoBlocks] at hij
     by_cases hi : (i : ℕ) < a
     · by_cases hj : (j : ℕ) < a
-      · rw [← a2, if_pos hj, mul_one, sub_self]
+      · rw [← a2, ite_eq_left hj, mul_one, sub_self]
       · simp [hi, hj] at hij
-    · rw [← a1, if_neg hi, zero_mul]
+    · rw [← a1, ite_eq_right hi, zero_mul]
   by_contra hne
   obtain ⟨l, hl⟩ := exists_dual_frequently (fun m => (twKer π (KOne g n) 1).mkQ (π (dd hP m) v)) fun m h =>
     hne (eq_zero_of_mem_twKer hπ.1 hP m v hv' ((Submodule.Quotient.mk_eq_zero _).1 h))

@@ -725,7 +725,7 @@ theorem kappa_integral_at : ∀ (D : D7) (P : Pl D.host.E) (m n : ℕ) (U Y : Ma
   by_cases hmn : n ≤ m
   swap
   · exfalso
-    push_neg at hmn
+    push Not at hmn
     have h0 : (topL n (redM P U)).det = 0 := by
       apply Matrix.det_eq_zero_of_row_eq_zero ⟨m, hmn⟩
       intro j

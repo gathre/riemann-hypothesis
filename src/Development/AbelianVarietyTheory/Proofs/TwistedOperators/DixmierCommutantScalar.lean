@@ -103,7 +103,7 @@ theorem dixmier_commutant_scalar (ι V : Type) [AddCommGroup V] [Module ℂ V] (
     (hirr : ∀ N : Submodule ℂ V, (∀ i, ∀ x ∈ N, ρ i x ∈ N) → N = ⊥ ∨ N = ⊤)
     (T : Module.End ℂ V) (hT : ∀ i, T * ρ i = ρ i * T) : ∃ c : ℂ, T = c • 1 := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have hcomm : ∀ c : ℂ, ∀ i, (T - c • 1) * ρ i = ρ i * (T - c • 1) := by
     intro c i; rw [sub_mul, mul_sub, hT i, smul_mul_assoc, mul_smul_comm, one_mul, mul_one]
   have hinj : ∀ c : ℂ, Function.Injective ⇑(T - c • (1 : Module.End ℂ V)) := by
@@ -115,7 +115,7 @@ theorem dixmier_commutant_scalar (ι V : Type) [AddCommGroup V] [Module ℂ V] (
     · exact h
     · exact absurd (sub_eq_zero.mp (LinearMap.ker_eq_top.mp h)) (hne c)
   obtain ⟨v₀, hv₀⟩ : ∃ v : V, v ≠ 0 := by
-    by_contra h; push_neg at h
+    by_contra h; push Not at h
     exact hne 0 (LinearMap.ext fun v => (h _).trans (h _).symm)
   have hsurj : ∀ c : ℂ, Function.Surjective ⇑(T - c • (1 : Module.End ℂ V)) := by
     intro c

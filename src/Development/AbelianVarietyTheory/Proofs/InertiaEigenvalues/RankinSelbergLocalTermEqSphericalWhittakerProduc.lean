@@ -95,7 +95,7 @@ theorem localTerm_eq : ∀ (q : ℕ), 0 < q → ∀ (n : ℕ) (α β : Fin n →
     push_cast
     refine Finset.sum_congr rfl fun i _ => ?_
     exact_mod_cast (Int.toNat_of_nonneg (h0 i)).symm
-  rw [sphW, sphW, if_pos hl, if_pos hl, hc, hA, GlobalTheory.ZEul.rsTerm, if_pos ⟨h0, hv⟩, key2, map_mul,
+  rw [sphW, sphW, ite_eq_left hl, ite_eq_left hl, hc, hA, GlobalTheory.ZEul.rsTerm, ite_eq_left ⟨h0, hv⟩, key2, map_mul,
     Complex.conj_ofReal]
   calc _ = (((q : ℝ) ^ GlobalTheory.CellDec.wtS n v * (A * A) : ℝ) : ℂ) *
         (schurAt (fun i => (v i).toNat) α * conj (schurAt (fun i => (v i).toNat) β) *

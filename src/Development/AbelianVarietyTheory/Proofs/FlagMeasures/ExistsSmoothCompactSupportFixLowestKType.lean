@@ -150,7 +150,7 @@ theorem exists_conjInvariant_bump (n : ℕ) (ε : Fin n → Bool) (U : Set (UJ �
     apply hrV
     apply hball
     by_contra h
-    push_neg at h
+    push Not at h
     exact hg (Real.smoothTransition.zero_of_nonpos
       (div_nonpos_of_nonpos_of_nonneg (by linarith) hr2.le))
   · intro k hk y

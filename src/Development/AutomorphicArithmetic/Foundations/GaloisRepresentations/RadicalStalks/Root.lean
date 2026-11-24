@@ -273,7 +273,7 @@ private theorem exists_functional_ne_zero_projective {B M : Type} [CommRing B] [
     [Module.Projective B M] {m : M} (hm : m ≠ 0) : ∃ l : M →ₗ[B] B, l m ≠ 0 := by
   obtain ⟨s, hs⟩ := Module.projective_def'.mp (inferInstance : Module.Projective B M)
   by_contra hall
-  push_neg at hall
+  push Not at hall
   apply hm
   have h0 : s m = 0 := by
     ext a

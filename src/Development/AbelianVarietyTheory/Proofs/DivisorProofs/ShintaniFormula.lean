@@ -163,14 +163,14 @@ theorem det_zero {n : ℕ} (l : Fin n → ℕ) (hl : Antitone l) (J : Finset (Fi
     obtain ⟨a, b, h1, h2⟩ := hJ; exact ⟨a, b, h1, h2⟩
   simp only [Pi.add_apply] at hlt
   have hla := hl hab
-  have hA : a ∉ J := by intro h; simp only [h, if_true] at hlt; split_ifs at hlt <;> omega
-  have hB : b ∈ J := by by_contra h; simp only [h, if_false] at hlt; split_ifs at hlt <;> omega
-  have hE : l a = l b := by simp only [hA, hB, if_true, if_false] at hlt; omega
+  have hA : a ∉ J := by intro h; simp only [h, ite_true] at hlt; split_ifs at hlt <;> omega
+  have hB : b ∈ J := by by_contra h; simp only [h, ite_false] at hlt; split_ifs at hlt <;> omega
+  have hE : l a = l b := by simp only [hA, hB, ite_true, ite_false] at hlt; omega
   have hne : a ≠ b := by rintro rfl; exact hA hB
   obtain ⟨a', b', h1, h2, h3, h4⟩ :=
     adj l hl J ((b : ℕ) - a - 1) a b (by have : (a : ℕ) < b := lt_of_le_of_ne hab (fun h => hne (Fin.ext h)); omega) hE hA hB
   refine Matrix.det_zero_of_column_eq (i := a') (j := b') (fun h => by rw [h] at h1; omega) (fun i => ?_)
-  simp only [Matrix.of_apply, h3, h4, if_true, if_false]
+  simp only [Matrix.of_apply, h3, h4, ite_true, ite_false]
   congr 1
   have := b'.isLt
   omega
@@ -253,7 +253,7 @@ theorem pieri_recursion_zero (n : ℕ) (c : ℕ → ℂ) (D : (Fin n → ℕ) �
         rw [← hs]
         obtain ⟨i, hi⟩ : ∃ i, μ i ≠ 0 := by
           by_contra h
-          push_neg at h
+          push Not at h
           exact hz (funext h)
         exact Finset.sum_lt_sum (fun i _ => Nat.sub_le _ _)
           ⟨i, Finset.mem_univ _, by simp only [hl]; omega⟩
@@ -280,7 +280,7 @@ theorem pieri_recursion_zero (n : ℕ) (c : ℕ → ℂ) (D : (Fin n → ℕ) �
         · have hk' : μ k ≠ 0 := by simpa [hJ0] using hk
           have hki : k ≤ i := by
             by_contra h
-            push_neg at h
+            push Not at h
             have := hμ h.le
             omega
           have := hνa hki
@@ -586,11 +586,11 @@ theorem GlobalTheory.JSW.shintani_formula : ∀ (E : Type) [Field E] [NumberFiel
   let U : (Fin n → ℕ) → ℂ := fun m => if Antitone m then schurAt m (fun i => (α i : ℂ)) * W 1 else 0
   have hVU : V = U := by
     refine _root_.GlobalTheory.pieri_recursion_unique n (fun j => (Finset.univ.val.map fun i => (α i : ℂ)).esymm j) V U
-      (fun m hm => by simp only [V, hvan m hm, mul_zero]) (fun m hm => by simp only [U, if_neg hm])
+      (fun m hm => by simp only [V, hvan m hm, mul_zero]) (fun m hm => by simp only [U, ite_eq_right hm])
       (fun m hm j hj => hrec m hm j hj) (fun m hm j hj => ?_) ?_
     · have hp := congrArg (MvPolynomial.eval₂ (Int.castRingHom ℂ) (fun i => (α i : ℂ))) (_root_.GlobalTheory.JSW.esymm_mul_schur n m hm j hj)
       rw [MvPolynomial.eval₂_mul, hes, MvPolynomial.eval₂_sum] at hp
-      simp only [U, if_pos hm]
+      simp only [U, ite_eq_left hm]
       rw [← Finset.sum_filter, Finset.filter_filter, ← Finset.sum_mul, ← mul_assoc]
       simp only [schurAt]
       rw [hp]
@@ -604,7 +604,7 @@ theorem GlobalTheory.JSW.shintani_formula : ∀ (E : Type) [Field E] [NumberFiel
         rw [h0, schurAt, GlobalTheory.JSW.schur_zero, MvPolynomial.eval₂_one]
       have hU : U 0 = W 1 := by
         change (if Antitone (0 : Fin n → ℕ) then schurAt 0 (fun i => (α i : ℂ)) * W 1 else 0) = W 1
-        rw [if_pos ha0, hs, one_mul]
+        rw [ite_eq_left ha0, hs, one_mul]
       rw [hU]
       change _ * W _ = W 1
       rw [h1]
@@ -612,10 +612,10 @@ theorem GlobalTheory.JSW.shintani_formula : ∀ (E : Type) [Field E] [NumberFiel
   have hl := congrFun hVU l
   simp only [V, U] at hl
   by_cases ha : Antitone l
-  · rw [if_pos ha] at hl
+  · rw [ite_eq_left ha] at hl
     have hne : (qV E w : ℂ) ^ ((∑ k : Fin n, (((n : ℂ) - 1 - 2 * (k : ℕ)) * (((l) k : ℕ) : ℂ))) / 2) ≠ 0 := by
       rw [Complex.cpow_def_of_ne_zero hq]; exact Complex.exp_ne_zero _
-    rw [sphW, if_pos ha, neg_div, Complex.cpow_neg, mul_assoc, ← hl, ← mul_assoc, inv_mul_cancel₀ hne, one_mul]
+    rw [sphW, ite_eq_left ha, neg_div, Complex.cpow_neg, mul_assoc, ← hl, ← mul_assoc, inv_mul_cancel₀ hne, one_mul]
   · rw [hvan l ha, GlobalTheory.JSW.sphW_of_not_antitone _ _ ha, zero_mul]
 end -- clump:auto
 end -- clump:auto

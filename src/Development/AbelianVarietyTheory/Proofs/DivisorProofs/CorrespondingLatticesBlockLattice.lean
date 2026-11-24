@@ -58,7 +58,7 @@ theorem latCorr_blockLat : ∀ {k k' : Type} [Field k] [ValuativeRel k] [Topolog
     intro c
     by_cases hc : c ∈ P₂
     · have hc' : cD c ∈ P := (hP c).1 hc
-      simp only [blockUnits, if_pos hc, if_pos hc', Units.val_inv_eq_inv_val, Units.val_pow_eq_pow_val, map_inv₀,
+      simp only [blockUnits, ite_eq_left hc, ite_eq_left hc', Units.val_inv_eq_inv_val, Units.val_pow_eq_pow_val, map_inv₀,
         map_pow, hu]
     · have hc' : cD c ∉ P := fun h => hc ((hP c).2 h)
       simp [blockUnits, hc, hc']
