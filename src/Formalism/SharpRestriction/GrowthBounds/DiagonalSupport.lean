@@ -331,10 +331,13 @@ theorem pair_formula (hS : HidaSetting p n' W Qq O Kf ι σ j w) (φ : WF p n' �
         fockR (P : MvPolynomial (Fin n' × Fin (m + 1)) Kf) (Q : MvPolynomial (Fin n' × Fin (m + 1)) Kf)) := by
     unfold be
     rw [eF, eFv, map_smul, smul_eq_mul, TY_apply]
-  rw [hL, map_div₀, map_mul, map_pow, map_natCast, map_natCast, fock_eq_fockR, ← fockR_map,
-    subst_Lin hS φ hφ r hmat hh g hg F.1 F.2, subst_Lin hS φ hφ r 1 h1d gv hgv Fv.1 Fv.2, tsact_smul_left,
-    tsact_smul_right, fockR_Lin_dual _ _ hdual, flat_Ar r hr1 hr2 (vecE n') d (flW d) (isFlat_flW d), zpow_natCast,
-    p_eq hS]
+  have hadjoint := fockR_Lin_dual _ _ hdual
+  simp only [fockR] at hadjoint
+  rw [hL, map_div₀, map_mul, map_pow, map_natCast, map_natCast, fock_eq_fockR]
+  simp only [← FockPairing.pair_map]
+  rw [subst_Lin hS φ hφ r hmat hh g hg F.1 F.2, subst_Lin hS φ hφ r 1 h1d gv hgv Fv.1 Fv.2]
+  simp only [FockPairing.pair_smul_left, FockPairing.pair_smul_right]
+  rw [hadjoint, flat_Ar r hr1 hr2 (vecE n') d (flW d) (isFlat_flW d), zpow_natCast, p_eq hS]
   show _ = _ * (_ * (_ * fockR (P : MvPolynomial (Fin n' × Fin (m + 1)) Kf)
     (Q : MvPolynomial (Fin n' × Fin (m + 1)) Kf))) / _
   ring
@@ -549,8 +552,12 @@ theorem realAt_gen (hS : HidaSetting p n' W Qq O Kf ι σ j w) (φ : WF p n' ≃
       ring
     have e3 : kapR hS (fock SF Rr) = algebraMap O Kf w ^ (o + cP) *
         fockR (map (algebraMap O Kf) G0) (map (algebraMap O Kf) E) := by
-      rw [fock_eq_fockR, ← fockR_map, hG0', hE, tsact_smul_right]
-    rw [e2, hpf, e1, fock_eq_fockR, fockR_add_right, tsact_smul_right, ← fock_eq_fockR, ← fock_eq_fockR]
+      simp_rw [fock_eq_fockR, ← FockPairing.pair_map, hG0', hE, FockPairing.pair_smul_right]
+    rw [e2, hpf, e1, fock_eq_fockR, fockR_add_right]
+    simp only [FockPairing.pair_smul_right]
+    have pair_eq_fock (P Q : MvPolynomial (TV n' (m + 1)) (KK O)) :
+        FockPairing.pair P Q = fock P Q := rfl
+    simp only [pair_eq_fock]
     have e4 : kapR hS ((p : KK O) ^ κ * (algebraMap O (KK O) (w ^ o) * fock SF sig + fock SF Rr) /
         (((∏ s, (d s).factorial : ℕ) : ℕ) : KK O)) =
         algebraMap O Kf w ^ o * kapR hS ((p : KK O) ^ κ * fock SF sig / (((∏ s, (d s).factorial : ℕ) : ℕ) : KK O)) +

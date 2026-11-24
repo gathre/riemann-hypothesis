@@ -164,7 +164,7 @@ theorem formCoreGX_of (hB : FockRBilin) (hR : FockRRowAct) (hN : HWNorm) (hW : W
       simp [hw, h0]
     have hN1 : (N : K) = 1 := by
       rw [← hfN, hhw]
-      simp [fockR, MvPolynomial.support_one]
+      simp [fockR, FockPairing.pair, FockPairing.weight, MvPolynomial.support_one]
     refine ⟨fockR x y, ?_⟩
     rw [hBapp, hN1, inv_one, one_mul]
     exact (Top.fockRMap _ O K (algebraMap O K) x y).symm

@@ -192,12 +192,12 @@ theorem fock_pairing_highest_weight_proof : FockPairingHighestWeight := by
     (fun a b hab k hk => hw_kill hn ν G hG hGh a b hab k hk)
   have hHW := hwRowWeight K r n hn ν hν
   have h1 : fockR (hw K hn ν) F = fockR (hw K hn ν) G := by
-    unfold fockR
+    unfold fockR FockPairing.pair FockPairing.weight
     refine Finset.sum_congr rfl fun m hm => ?_
     rw [hGdef, coeff_weightedHomogeneousComponent, if_pos (hHW (mem_support_iff.mp hm))]
   have h2 : fockR (hw K hn ν) G = c * fockR (hw K hn ν) (hw K hn ν) := by
     rw [hc]
-    unfold fockR
+    unfold fockR FockPairing.pair FockPairing.weight
     rw [Finset.mul_sum]
     refine Finset.sum_congr rfl fun m _ => ?_
     rw [MvPolynomial.coeff_smul, smul_eq_mul]

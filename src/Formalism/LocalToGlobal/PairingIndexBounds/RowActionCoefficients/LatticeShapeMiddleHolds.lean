@@ -1347,15 +1347,14 @@ theorem dual_bases_holds : DualBases := by
     congrArg Subtype.val (Module.Basis.span_apply hli i)
   let Bf : LinearMap.BilinForm K W := LinearMap.mk₂ K (fun x y : W => fockR (x : MvPolynomial (Fin n × Fin n) K) y)
     (fun x x' y => by simp [fockR_add_left]) (fun a x y => by simp [fockR_smul_left])
-    (fun x y y' => by simp [fockR_add_right]) (fun a x y => by simp [fockR_smul_right])
+    (fun x y y' => by simp [FockPairing.pair_add_right]) (fun a x y => by simp [FockPairing.pair_smul_right])
   have hBf : ∀ x y : W, Bf x y = fockR (x : MvPolynomial (Fin n × Fin n) K) y := fun _ _ => rfl
   have hnd : Bf.Nondegenerate := by
     constructor
     · intro x hx
       apply Subtype.ext
       refine Top.nondegK K n n le_rfl ν hν x.1 (hWV ▸ x.2) fun P hP => ?_
-      rw [fockR_symm]
-      exact hx ⟨P, hWV ▸ hP⟩
+      exact (FockPairing.pair_comm P x.1).trans (hx ⟨P, hWV ▸ hP⟩)
     · intro y hy
       apply Subtype.ext
       exact Top.nondegK K n n le_rfl ν hν y.1 (hWV ▸ y.2) fun P hP => hy ⟨P, hWV ▸ hP⟩
@@ -1363,8 +1362,8 @@ theorem dual_bases_holds : DualBases := by
   have hd : ∀ i k, fockR (e i) (d k : MvPolynomial (Fin n × Fin n) K) = if i = k then 1 else 0 := by
     intro i k
     have h := LinearMap.BilinForm.apply_dualBasis_left hnd bW k i
-    rw [hBf, hbW, fockR_symm] at h
-    exact h
+    rw [hBf, hbW] at h
+    exact (FockPairing.pair_comm _ _).trans h
   refine ⟨Fin N, inferInstance, inferInstance, e, fun k => c • (d k : MvPolynomial (Fin n × Fin n) K),
     he, ?_, ?_, hspan⟩
   · intro k
@@ -1374,10 +1373,10 @@ theorem dual_bases_holds : DualBases := by
     show fockR P (c • (d k : MvPolynomial (Fin n × Fin n) K)) = _
     conv_lhs => rw [hrep P hP]
     rw [fockR_sum_left]
-    simp_rw [hsm, fockR_smul_left, fockR_smul_right, hd]
+    simp_rw [hsm, fockR_smul_left, FockPairing.pair_smul_right, hd]
     simp [hc]
   · intro i k
-    rw [fockR_smul_right, hd]
+    simp_rw [FockPairing.pair_smul_right, hd]
     split_ifs <;> simp
 
 end Formalism.L2.PairingIndexBounds.Ent

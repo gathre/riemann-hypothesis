@@ -49,7 +49,6 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Formalism.FockPairing
 
 @[expose] public section
 
@@ -64,53 +63,6 @@ open Formalism.GradedWeylDivisibility
 section general
 
 variable {σ R : Type*} [CommRing R]
-
-lemma tsact_eq_sum (f g : MvPolynomial σ R) (s : Finset (σ →₀ ℕ)) (h : f.support ⊆ s) :
-    fockR f g = ∑ m ∈ s, f.coeff m * g.coeff m * ((∏ k ∈ m.support, (m k).factorial : ℕ) : R) :=
-  FockPairing.pair_eq_sum f g s h
-
-lemma tsact_symm (f g : MvPolynomial σ R) : fockR f g = fockR g f :=
-  FockPairing.pair_comm f g
-
-lemma tsact_add_left (f f' g : MvPolynomial σ R) :
-    fockR (f + f') g = fockR f g + fockR f' g :=
-  FockPairing.pair_add_left f f' g
-
-lemma tsact_smul_left (c : R) (f g : MvPolynomial σ R) :
-    fockR (c • f) g = c * fockR f g :=
-  FockPairing.pair_smul_left c f g
-
-lemma tsact_zero_left (g : MvPolynomial σ R) : fockR (0 : MvPolynomial σ R) g = 0 :=
-  FockPairing.pair_zero_left g
-
-lemma tsact_sum_left {ι : Type*} (s : Finset ι) (F : ι → MvPolynomial σ R) (g : MvPolynomial σ R) :
-    fockR (∑ i ∈ s, F i) g = ∑ i ∈ s, fockR (F i) g :=
-  FockPairing.pair_sum_left s F g
-
-lemma tsact_sum_right {ι : Type*} (s : Finset ι) (F : ι → MvPolynomial σ R) (g : MvPolynomial σ R) :
-    fockR g (∑ i ∈ s, F i) = ∑ i ∈ s, fockR g (F i) :=
-  FockPairing.pair_sum_right s g F
-
-lemma tsact_smul_right (c : R) (f g : MvPolynomial σ R) :
-    fockR f (c • g) = c * fockR f g :=
-  FockPairing.pair_smul_right c f g
-
-lemma tsact_monomial_left (m : σ →₀ ℕ) (a : R) (h : MvPolynomial σ R) :
-    fockR (monomial m a) h = a * h.coeff m * ((∏ k ∈ m.support, (m k).factorial : ℕ) : R) :=
-  FockPairing.pair_monomial_left m a h
-
-lemma tsact_fact_eq (m : σ →₀ ℕ) (s : Finset σ) (h : m.support ⊆ s) :
-    ∏ k ∈ m.support, (m k).factorial = ∏ k ∈ s, (m k).factorial :=
-  FockPairing.weight_eq_prod m s h
-
-lemma tsact_fact_succ (m : σ →₀ ℕ) (v : σ) :
-    ∏ k ∈ (m + Finsupp.single v 1).support, ((m + Finsupp.single v 1 : σ →₀ ℕ) k).factorial
-      = (m v + 1) * ∏ k ∈ m.support, (m k).factorial :=
-  FockPairing.weight_add_single m v
-
-lemma tsact_X_mul (v : σ) (f h : MvPolynomial σ R) :
-    fockR (f * X v) h = fockR f (pderiv v h) :=
-  FockPairing.pair_mul_X v f h
 
 end general
 
@@ -163,20 +115,23 @@ end what₂
 
 theorem fock_pairing_row_action : FockRRowAct := by
   intro R _ r n g P
+  change ∀ Q, FockPairing.pair (rowAct R g P) Q = FockPairing.pair P (rowAct R g.transpose Q)
   induction P using MvPolynomial.induction_on with
   | C a =>
     intro Q
     have h1 : rowAct R g (C a : MvPolynomial (Fin r × Fin n) R) = C a := by simp [rowAct]
-    rw [h1, C_apply, tsact_monomial_left, tsact_monomial_left, tsact_coeff_zero]
+    rw [h1, C_apply, FockPairing.pair_monomial_left, FockPairing.pair_monomial_left, tsact_coeff_zero]
   | add p q hp hq =>
     intro Q
-    rw [map_add (f := _), tsact_add_left, tsact_add_left, hp, hq]
+    rw [map_add (f := _), FockPairing.pair_add_left, FockPairing.pair_add_left, hp, hq]
   | mul_X p v hp =>
     intro Q
-    rw [map_mul, tsact_rowAct_X, Finset.mul_sum, tsact_sum_left, tsact_X_mul, tsact_chain, tsact_sum_right]
+    rw [map_mul, tsact_rowAct_X, Finset.mul_sum, FockPairing.pair_sum_left,
+      FockPairing.pair_mul_X, tsact_chain, FockPairing.pair_sum_right]
     refine Finset.sum_congr rfl fun b _ => ?_
     have e : rowAct R g p * (C (g v.1 b) * X (b, v.2)) = g v.1 b • (rowAct R g p * X (b, v.2)) := by
       rw [smul_eq_C_mul]; ring
-    rw [e, tsact_smul_left, tsact_X_mul, hp, tsact_smul_right, Matrix.transpose_apply]
+    rw [e, FockPairing.pair_smul_left, FockPairing.pair_mul_X, hp,
+      FockPairing.pair_smul_right, Matrix.transpose_apply]
 
 end Formalism.L2.G.Model.TS
