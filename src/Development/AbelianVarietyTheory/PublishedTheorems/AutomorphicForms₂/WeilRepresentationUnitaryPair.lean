@@ -47,6 +47,14 @@ namespace GlobalTheory.Published
 
 attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
+/-- **Howe's Theorem on the Weil Representation for Unitary Dual Pairs**.
+
+Let $(G, G') = (U(V), U(W))$ be a reductive dual pair of unitary groups over a number field $F$,
+and let $\psi$ be a non-trivial additive character of $\mathbb{A}_F/F$. Then the Weil (oscillator)
+representation $\omega_\psi$ of the metaplectic cover decomposes to give a representation of
+$G(\mathbb{A}_F) \times G'(\mathbb{A}_F)$ on the Schwartz space $\mathcal{S}(V \otimes W)$.
+
+Reference: [howe1979]; [weil1964]. -/
 def WeilRepresentationUnitaryPair : Prop :=
   ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp D) (χS χT : (AE D)ˣ →* Circle),
     IsStdChar D ψ (-1) → IsHeckeChar D χS → IsHeckeChar D χT → ResEta D χS S.rank → ResEta D χT T.rank →
