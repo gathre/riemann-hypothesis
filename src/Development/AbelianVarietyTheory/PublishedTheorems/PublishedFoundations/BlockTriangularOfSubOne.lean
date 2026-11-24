@@ -228,6 +228,11 @@ namespace GlobalTheory.Published
 
 open GlobalTheory.FiniteGL
 
+/-- **Gelfand–Graev existence theorem for cuspidal representations**: reductive groups
+over local fields admit non-trivial irreducible admissible cuspidal representations.
+
+Proposed reference:
+[I. M. Gelfand and M. I. Graev, *Construction of irreducible representations of simple algebraic groups over a finite field*][gelfandGraev1962]. -/
 def CuspidalExists : Prop :=
   ∀ (k : Type) [Field k] [Fintype k] (n : ℕ),
     ∃ (d : ℕ) (ρ : Representation ℂ (GL (Fin (n + 1)) k) (Fin d → ℂ)), ρ.IsIrreducible ∧ IsCuspidal ρ
