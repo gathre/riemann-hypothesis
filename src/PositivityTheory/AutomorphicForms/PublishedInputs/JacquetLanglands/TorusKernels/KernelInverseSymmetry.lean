@@ -216,8 +216,8 @@ theorem main (hB1a : B1a) (hB : B1b) (hBc : B1c) (hE0a : E0a) (hKS : KapSum) (hA
         congr 1
         ring
   refine ⟨hsumm, ?_, ⟨cK k / nrm k p.1 * Bnd, fun y => (norm_tsum_le_tsum_norm (hsumm y)).trans (hbound y)⟩⟩
-  haveI := hcount
-  haveI := hborel
+  have := hcount
+  have := hborel
   obtain ⟨-, -, -, -, -, -, hjc, hqc, -⟩ := hB
   have hgc : ∀ g : GL (Fin 2) ℝ, Continuous fun z : P => g • z := fun g => (hB1a.2.2 g).1
   have hTm : ∀ γ : PG F, Measurable (T D k p γ) := fun γ => by

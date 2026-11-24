@@ -416,7 +416,7 @@ private theorem orient_core (hT : TraceType) (hS : HdSign) (A : Arith E) (n : �
         hJτ, Matrix.mulVec_diagonal]
     have hz : ∃ k, Th (fun τ : Phi A => (τ : E →+* ℂ)) (β : ℚ ⊗[ℤ] (Fin n → 𝓞 E) →ₗ[ℚ] Fin n → E) x k ≠ 0 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       apply hx
       apply cmType_trace_embedding_injective_of_linearEquiv hT A n β
       rw [map_zero]

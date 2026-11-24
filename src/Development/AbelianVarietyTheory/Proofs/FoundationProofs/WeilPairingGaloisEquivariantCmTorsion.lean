@@ -65,7 +65,7 @@ theorem exists_top_agree (M : IntermediateField ℚ ℂ) (ρ : M →ₐ[ℚ] ℂ
     (hM : ∀ x ∈ S, x ∈ M) :
     ∃ s : (⊤ : IntermediateField ℚ ℂ) →ₐ[ℚ] ℂ, ∀ x ∈ S, cj ⊤ s x = cj M ρ x := by
   have hle : IntermediateField.adjoin ℚ S ≤ M := IntermediateField.adjoin_le_iff.2 hM
-  haveI : Countable (IntermediateField.adjoin ℚ S) := by
+  have : Countable (IntermediateField.adjoin ℚ S) := by
     rw [← Cardinal.mk_le_aleph0_iff]
     refine (IntermediateField.cardinalMk_adjoin_le ℚ S).trans ?_
     have h1 : Cardinal.mk S ≤ Cardinal.aleph0 := Cardinal.le_aleph0_iff_set_countable.2 hS
@@ -221,7 +221,7 @@ theorem weil_top (D : D7) (cc : Ideal (𝓞 D.host.K)) (δ : ℂ) (hc : Crv D cc
     ⟨2 * m ^ 2, by positivity, by convert hb using 1; push_cast; field_simp⟩
     (Or.inr ⟨IntermediateField.mem_top, IntermediateField.mem_top⟩)
   have hx : StarPt ⊤ s Λ (a / m) (4 * m ^ 2 * t) := by
-    convert hmul (2 * (2 * m ^ 2)) _ _ ht using 1 <;> push_cast <;> field_simp <;> ring
+    convert hmul (2 * (2 * m ^ 2)) _ _ ht using 1 <;> push_cast <;> field_simp; ring
   have hy : StarPt ⊤ s Λ (b / m) (2 * u) := by
     convert hmul 2 _ _ hu using 1 <;> push_cast <;> field_simp
   have hν := (hun _ _ _ hx).1 haa
@@ -239,7 +239,7 @@ theorem weil_top (D : D7) (cc : Ideal (𝓞 D.host.K)) (δ : ℂ) (hc : Crv D cc
     (fun _ => IntermediateField.mem_top) 0
   have g2 := hgal (a / m + 2 * (m * b)) (4 * m ^ 2 * t + 2 * (2 * m ^ 2 * u)) (2 * m ^ 2) (by positivity)
     (by convert Λ.add_mem ha (natMul_mem (2 * m ^ 2) hb) using 1; push_cast; field_simp)
-    (by unfold Adp1; convert hadd _ _ _ _ ht hu using 1 <;> push_cast <;> field_simp <;> ring)
+    (by unfold Adp1; convert hadd _ _ _ _ ht hu using 1 <;> push_cast <;> field_simp; ring)
     (fun _ => IntermediateField.mem_top) 0
   rw [value_shift_sg L Λ hL _ hb, value_shift_sg L' _ hL' _ hl', cj_top_mul, g1] at g2
   rw [mul_right_cancel₀ (value_ne_zero L' _ hL' hx') g2]
@@ -254,8 +254,8 @@ theorem weilPairingGalois_all : ∀ D : D7, WeilPairingGaloisAlt D := by
   set Λ := lamOf D cc δ with hΛ
   let S : Set ℂ := (Set.range (fun k : D.host.K => D.host.φ₀ (k : D.host.E)) ∪
     {g2 Λ, g3 Λ, ee (gl3FieldFirst Λ a b), wpF Λ (a / m), wpD Λ (a / m), wpF Λ (b / m), wpD Λ (b / m)}) ∩ M
-  haveI : Countable D.host.K := by
-    haveI : Countable D.host.E := Countable.of_equiv _ (Module.finBasis ℚ D.host.E).equivFun.toEquiv.symm
+  have : Countable D.host.K := by
+    have : Countable D.host.E := Countable.of_equiv _ (Module.finBasis ℚ D.host.E).equivFun.toEquiv.symm
     infer_instance
   have hS : S.Countable :=
     ((Set.countable_range _).union (Set.toFinite _).countable).mono Set.inter_subset_left

@@ -1464,7 +1464,7 @@ theorem exists_poly_extension (g : ℕ) (A : Polynomial ℤ → Prop) (V : Polyn
 
 theorem relAmple_of_cls_eq {K : Type} [Field K] (P : Out.PolAV (Sp K)) {M N : LB P.A.left} (hM : M.IsLB) (hN : N.IsLB)
     (e : CechPic.cls M hM = CechPic.cls N hN) (h : Out.RelAmple P.A M) : Out.RelAmple P.A N := by
-  haveI : IsProper P.A.hom := P.isAb.proper
+  have : IsProper P.A.hom := P.isAb.proper
   rw [relAmple_iff_isAmpleLB_of_isAffine P.A hM] at h
   rw [relAmple_iff_isAmpleLB_of_isAffine P.A hN]
   exact h.of_lbIso hN ((CechPic.cls_eq_iff hN hM).1 e.symm)
@@ -1522,9 +1522,9 @@ theorem exists_vol_poly : Out.Laws → Out.Laws2 → ∀ (K : Type) [Field K] [I
   refine ⟨D, hD, hD', fun F => (hA F).mono fun t ht => ⟨ht, ?_⟩⟩
   have hf := (GlobalTheory.FormFinite.isFinite_and_surjective_of_formIs h₁ h₂ K P _ _ (hB _) ht (hform _)).1
   rw [mul_comm, emul, Over.comp_left] at hf
-  haveI : IsProper P.A.hom := P.isAb.proper
-  haveI : IsSeparated ((ev 2).left ≫ P.A.hom) := by rw [Over.w]; infer_instance
-  haveI : IsSeparated (ev 2).left := IsSeparated.of_comp _ P.A.hom
+  have : IsProper P.A.hom := P.isAb.proper
+  have : IsSeparated ((ev 2).left ≫ P.A.hom) := by rw [Over.w]; infer_instance
+  have : IsSeparated (ev 2).left := IsSeparated.of_comp _ P.A.hom
   exact IsFinite.of_comp _ (ev 2).left
 
 end GlobalTheory.VolPoly

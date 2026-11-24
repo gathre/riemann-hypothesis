@@ -328,7 +328,7 @@ lemma shortExact_map_sheafPullback {S : ShortComplex (X.Sheaf AddCommGrpCat.{u})
 lemma subsingleton_of_sheafPullback (V : Opens Y) (n : ℕ) (F : X.Sheaf AddCommGrpCat.{u})
     (h : Subsingleton (Sheaf.H'.{u} ((hj.sheafPullback AddCommGrpCat.{u}).obj F) (n + 1) V)) :
     Subsingleton (Sheaf.H'.{u} F (n + 1) (hj.functor.obj V)) := by
-  haveI : (hj.sheafPullback AddCommGrpCat.{u}).PreservesZeroMorphisms := ⟨fun _ _ ↦ rfl⟩
+  have : (hj.sheafPullback AddCommGrpCat.{u}).PreservesZeroMorphisms := ⟨fun _ _ ↦ rfl⟩
   induction n generalizing F with
   | zero =>
     have hS := Flasque.injectiveShortComplex_shortExact F
@@ -392,10 +392,10 @@ lemma subsingleton_top [IsAffine X] (n : ℕ)
     (fun B hB B' hB' ↦ IsAffineOpen.inf hB hB') ((toAbSheaf X).obj F) ⊤
     (isAffineOpen_top X).isCompact (Nat.le_add_left 1 n)
     (fun q hq hqn B hB ↦ ih q hq hqn F B hB) (cohOn.toH' F ⊤ (n + 1) α)
-  haveI : Finite 𝔘 := hfin
-  haveI (W : 𝔘) : IsAffine W.1 := h𝔘 W.2
+  have : Finite 𝔘 := hfin
+  have (W : 𝔘) : IsAffine W.1 := h𝔘 W.2
   let φ : F ⟶ ∏ᶜ (fun W : 𝔘 ↦ interModule F W.1) := Pi.lift fun W ↦ toInterModule F W.1
-  haveI : Mono φ := mono_lift_toInterModule F (fun W : 𝔘 ↦ W.1) (by
+  have : Mono φ := mono_lift_toInterModule F (fun W : 𝔘 ↦ W.1) (by
     rw [← sSup_eq_iSup', hsup])
   have hα : cohOn.map ℤ φ ⊤ (n + 1) α = 0 := by
     apply (cohOn.piEquiv ℤ ⊤ (n + 1) _).injective
@@ -426,7 +426,7 @@ theorem cohOn.subsingleton_of_isAffineOpen {X : Scheme.{u}} (F : X.Modules) [F.I
   induction n using Nat.strong_induction_on generalizing X with
   | _ n ih =>
     obtain ⟨n, rfl⟩ := Nat.exists_eq_add_one_of_ne_zero hn.ne'
-    haveI : IsAffine U := hU
+    have : IsAffine U := hU
     have h := subsingleton_of_restrict U.ι F ⊤ n
       (subsingleton_top n (fun q hq hqn G _ V hV ↦ ih q hqn G hV hq) (F.restrict U.ι))
     rwa [Scheme.Opens.ι_image_top] at h

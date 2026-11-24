@@ -92,7 +92,7 @@ theorem fibre_zero_of_one (σ : E →ₐ[F] E) (hCM : IsCMExt F E σ) {M : ℕ}
   have hempty : (gramR R σ J ⁻¹' {(hermOf R σ (blockOne (algebraMap F E t) T) hT').1} ∩
       {X | IsUnit (gramR R σ J X).det}) = ∅ := by
     ext Y
-    simp only [Set.mem_inter_iff, Set.mem_preimage, Set.mem_singleton_iff, Set.mem_setOf_eq,
+    simp only [Set.mem_inter_iff, Set.mem_preimage, Set.mem_singleton_iff, Set.mem_ofPred_eq,
       Set.mem_empty_iff_false, iff_false, not_and]
     intro hY _
     have h00 : hR R σ J (Y 0) (Y 0) = inclR R (algebraMap F E t) := by
@@ -122,8 +122,8 @@ namespace GlobalTheory.CompanionTheory.SW
 theorem swMeas_of_not_represented : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E), IsCMExt F E σ → ∀ (M : ℕ) (J : Matrix (Fin M) (Fin M) E), IsHermND σ J → ∀ t : F, t ≠ 0 → ∀ n : ℕ, n + 3 ≤ M → ∀ (T : Matrix (Fin n) (Fin n) E) (hT : ∀ a b, σ (T b a) = T a b), T.det ≠ 0 → ∀ (hT' : ∀ a b, σ (blockOne (algebraMap F E t) T b a) = blockOne (algebraMap F E t) T a b), (∀ x : Fin M → E, hE σ J x x ≠ algebraMap F E t) → SWMeas σ J (blockOne (algebraMap F E t) T) hT' := by
   intro F E _ _ _ _ _ σ hCM M J hJ t ht n hn T hT hdet hT' hne
   intro d b laminf lam hinf hv μ 𝓕 hμ h𝓕 minf m hminf hm
-  haveI : BorelSpace (Ainf F) := ⟨rfl⟩
-  haveI : ∀ v : HeightOneSpectrum (𝓞 F), BorelSpace (Fv F v) := fun _ => ⟨rfl⟩
+  have : BorelSpace (Ainf F) := ⟨rfl⟩
+  have : ∀ v : HeightOneSpectrum (𝓞 F), BorelSpace (Fv F v) := fun _ => ⟨rfl⟩
   have hLinf : IsLocR (Ainf F) := GlobalTheory.CompanionTheory.SW.isLocR_Ainf F hCM.1
   have hLv : ∀ v : HeightOneSpectrum (𝓞 F), IsLocR (Fv F v) := GlobalTheory.CompanionTheory.SW.LocFv.isLocR_Fv F
   have haarOf : ∀ (R : Type) [CommRing R] [Algebra F R] [TopologicalSpace R] [MeasurableSpace R]
@@ -149,12 +149,12 @@ theorem swMeas_of_not_represented : ∀ (F E : Type) [Field F] [NumberField F] [
   have hEul := hsw d b laminf lam hinf hv μ 𝓕 hμ h𝓕 minf1 m1 hminf1 hm1
   have hS1 : {X : Fin 1 → Fin M → E | gramE σ J X = T1} = ∅ := by
     ext X
-    simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+    simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
     intro hX
     exact hne (X 0) (congrFun (congrFun hX 0) 0)
   have hS : {X : Fin (n + 1) → Fin M → E | gramE σ J X = blockOne (algebraMap F E t) T} = ∅ := by
     ext X
-    simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+    simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
     intro hX
     apply hne (X 0)
     simpa [gramE, blockOne] using congrFun (congrFun hX 0) 0

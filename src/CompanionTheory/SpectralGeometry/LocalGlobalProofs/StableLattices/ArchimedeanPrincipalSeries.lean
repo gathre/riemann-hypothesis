@@ -75,10 +75,10 @@ theorem inner_rep {σ : K →* (H →L[ℂ] H)} (hiso : ∀ g v, ‖σ g v‖ = 
   (LinearIsometry.mk (σ k).toLinearMap (hiso k)).inner_map_map a b
 
 theorem rep_mul_apply (σ : K →* (H →L[ℂ] H)) (a b : K) (x : H) : σ (a * b) x = σ a (σ b x) := by
-  rw [map_mul, ContinuousLinearMap.mul_apply]
+  rw [map_mul, mul_apply_eq_comp]
 
 theorem rep_inv_apply (σ : K →* (H →L[ℂ] H)) (k : K) (x : H) : σ k (σ k⁻¹ x) = x := by
-  rw [← rep_mul_apply, mul_inv_cancel, map_one, ContinuousLinearMap.one_apply]
+  rw [← rep_mul_apply, mul_inv_cancel, map_one, one_apply_eq_self]
 
 theorem inner_rep_inv {σ : K →* (H →L[ℂ] H)} (hiso : ∀ g v, ‖σ g v‖ = ‖v‖) (k : K) (a b : H) :
     ⟪σ k⁻¹ a, b⟫_ℂ = ⟪a, σ k b⟫_ℂ := by
@@ -89,7 +89,7 @@ theorem schur_scalar (σ : K →* (H →L[ℂ] H)) (S : Submodule ℂ H) [Finite
     (hirr : ∀ T : Submodule ℂ H, T ≤ S → (∀ k, ∀ x ∈ T, σ k x ∈ T) → T = ⊥ ∨ T = S)
     (A : H →ₗ[ℂ] H) (hA : ∀ x ∈ S, A x ∈ S) (hc : ∀ k, ∀ x ∈ S, A (σ k x) = σ k (A x)) :
     ∃ c : ℂ, ∀ x ∈ S, A x = c • x := by
-  haveI : Nontrivial S := Submodule.nontrivial_iff_ne_bot.2 hS0
+  have : Nontrivial S := Submodule.nontrivial_iff_ne_bot.2 hS0
   obtain ⟨c, hc'⟩ := Module.End.exists_eigenvalue (A.restrict hA)
   obtain ⟨v, hv⟩ := hc'.exists_hasEigenvector
   have hv1 : A (v : H) = c • (v : H) := congrArg Subtype.val hv.apply_eq_smul
@@ -115,7 +115,7 @@ theorem exists_minimal_stable (σ : K →* (H →L[ℂ] H)) (S₀ : Submodule �
       ∀ T : Submodule ℂ H, T ≤ S → (∀ k, ∀ x ∈ T, σ k x ∈ T) → T = ⊥ ∨ T = S := by
   obtain ⟨S, ⟨hle, hne, hst⟩, hmin⟩ := (measure fun T : Submodule ℂ H => Module.finrank ℂ T).wf.has_min
     {T | T ≤ S₀ ∧ T ≠ ⊥ ∧ ∀ k, ∀ x ∈ T, σ k x ∈ T} ⟨S₀, le_rfl, h0, hS₀⟩
-  haveI : FiniteDimensional ℂ S := Submodule.finiteDimensional_of_le hle
+  have : FiniteDimensional ℂ S := Submodule.finiteDimensional_of_le hle
   refine ⟨S, inferInstance, hne, hst, fun T hT hTs => ?_⟩
   by_contra hcon
   push Not at hcon
@@ -223,7 +223,7 @@ theorem avg_idem (hiso : ∀ g v, ‖σ g v‖ = ‖v‖) (hc : ∀ v, Continuou
     refine integral_congr_ae (Filter.Eventually.of_forall fun k => ?_)
     show (d * ⟪σ k s, s⟫_ℂ) • σ k (B s) = B ((d * ⟪σ k s, s⟫_ℂ) • σ k s)
     rw [map_smul, rankOneAvg_comm μ hiso hc hB]
-  rw [ContinuousLinearMap.mul_apply, h1, map_smul, h2]
+  rw [mul_apply_eq_comp, h1, map_smul, h2]
 
 theorem avg_symm [μ.IsInvInvariant] (hiso : ∀ g v, ‖σ g v‖ = ‖v‖) (hc : ∀ v, Continuous fun x => σ x v) {s : H}
     {d : ℝ} {E : H →L[ℂ] H} (hE : ∀ u, E u = ∫ k, ((d : ℂ) * ⟪σ k s, s⟫_ℂ) • σ k u ∂μ) (u w : H) :
@@ -252,7 +252,7 @@ theorem rFin_coef {K : Type} [Group K] [TopologicalSpace K] {H : Type} [NormedAd
     rw [Submodule.coe_sum] at this
     exact this.symm
   show d * ⟪σ (x * k⁻¹) s, s⟫_ℂ = _
-  rw [map_mul, ContinuousLinearMap.mul_apply]
+  rw [map_mul, mul_apply_eq_comp]
   conv_lhs => rw [e1]
 
   simp only [map_sum, map_smul, sum_inner, inner_smul_left, Finset.mul_sum]
@@ -309,7 +309,7 @@ theorem exists_isPIProj_UJ {n : ℕ} (ε : Fin n → Bool) (H : Type) [NormedAdd
     (hc : ∀ v, Continuous fun g => ρ g v) : ∃ P, IsPIProj ρ P := by
   obtain ⟨U, hU, hiwa⟩ := iwasawa_decomposition_unitary_group n ε
   let μ : Measure (KG ε) := GlobalTheory.haarProb _
-  haveI : SecondCountableTopology (KG ε) := TopologicalSpace.Subtype.secondCountableTopology _
+  have : SecondCountableTopology (KG ε) := TopologicalSpace.Subtype.secondCountableTopology _
   obtain ⟨e, d, E, he, hfin, hE, h0, h1, h2⟩ := exists_projAvg (KG ε) μ H (ρ.comp (KG ε).subtype)
     (fun k u => hiso k u) (fun u => (hc u).comp continuous_subtype_val)
   choose st hst using fun g : UJ ε => exists_elt (conjTranspose_mem (m := toM g) g.2)

@@ -498,9 +498,9 @@ theorem UpperTheory.V.Ws.exists_noncommuting_images_in_finiteIndex_normal_subgro
       ∀ (Z : Subgroup G) [Z.Normal] (u : G), u ∈ Z → (∀ d : ℕ, 0 < d → (r u ^ d).charpoly.Separable) →
       ∀ N : Subgroup Z, N.Normal → N.FiniteIndex → ∃ g ∈ N, ∃ h ∈ N, r g * r h ≠ r h * r g := by
   intro K k B G _ _ _ _ _ r j φ χ hj hpoly hspan hst Z _ u huZ hsep N hN hfi
-  haveI := hN
+  have := hN
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hd0 : 0 < N.index := Nat.pos_of_ne_zero Subgroup.FiniteIndex.index_ne_zero
   let N' : Subgroup G := N.map Z.subtype
   have hcore : u ^ N.index ∈ N'.normalCore := by

@@ -101,7 +101,7 @@ private theorem sl2Core {V : Type} [AddCommGroup V] [Module ℂ V] (E G A B : Mo
       module
   have hex : ∃ k, v k = 0 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have hli : LinearIndependent ℂ v := by
       apply Module.End.eigenvectors_linearIndependent' A (fun k : ℕ => α - k)
       · intro i j hij

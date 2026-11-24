@@ -27,16 +27,16 @@ For independent verification or fetching Mathlib alone, use `lake exe mathlib/ca
 
 ## Publish a completed cache
 
-Publish a validated staging directory (for example the original submission's) from a separate host holding the upload credential:
+Publish a directory staged by `stage-completed-build.py`, with its module index and receipt, from a separate host holding the upload credential:
 
 ```bash
-python3 scripts/publish-lake-cache.py .lake/cache-staging \
-  --rev e50d09817ad81469f737e8f637561e6ccf86c670 --check-only
-python3 scripts/publish-lake-cache.py .lake/cache-staging \
-  --rev e50d09817ad81469f737e8f637561e6ccf86c670
+python3 scripts/publish-lake-cache.py STAGING --rev REV \
+  --module-manifest METADATA/modules.jsonl.gz --build-receipt METADATA/build-receipt.json --check-only
+python3 scripts/publish-lake-cache.py STAGING --rev REV \
+  --module-manifest METADATA/modules.jsonl.gz --build-receipt METADATA/build-receipt.json
 ```
 
-The publisher reads a mode-0600 account R2 token from `~/.riemann-hypothesis-tauceti-r2-token`, scoped to the dedicated bucket in the TauCeti account, and verifies the revision map through the anonymous endpoint. Never copy this credential to a proof-building machine. It rejects incomplete mappings, unexpected files, and links before upload. For a progressive upload, use `sync-cache-artifacts.py DIRECTORY --watch`; finalize with `publish-lake-cache.py DIRECTORY --rev REV --map-only-after-sync`, which checks every remote artifact's presence and size before publishing the map.
+The publisher reads a mode-0600 account R2 token from `~/.riemann-hypothesis-tauceti-r2-token`, scoped to the dedicated bucket in the TauCeti account, and verifies the revision map through the anonymous endpoint. Never copy this credential to a proof-building machine. It rejects incomplete mappings, unexpected files, and links before upload. For a progressive upload, use `sync-cache-artifacts.py DIRECTORY --watch`; finalize with the same `publish-lake-cache.py` command plus `--map-only-after-sync`, which checks every remote artifact's presence and size before publishing the map.
 
 ### Donor and other self-hosted build runners
 
@@ -51,4 +51,4 @@ The fragment security model is described in detail in [`scripts/rh-buildq/README
 
 The original published olean archive and Lake-extras mirrors remain in the separate Riemann Hypothesis Cloudflare account. Production native-cache downloads use the custom domain above; the `r2.dev` development URL throttles a full 175,187-artifact download.
 
-For future source revisions, successful community CI publishes a receipt, an immutable complete map and a matching module manifest under `ci/`. `lake exe cache get` consumes these through the matching-input lookup above. Failed CI builds can supply incremental producer caches, but the public client only restores a complete successful receipt. Manual publication from a completed stock Lake build remains available through `lake cache stage` and the original publisher, including `--platform x86_64-unknown-linux-gnu` for clients predating the portable-cache setting.
+For future source revisions, successful community CI publishes a receipt, an immutable complete map and a matching module manifest under `ci/`. `lake exe cache get` consumes these through the matching-input lookup above. Failed CI builds can supply incremental producer caches, but the public client only restores a complete successful receipt. Manual publication from a completed stock Lake build goes through `stage-completed-build.py` and the publisher above, including `--platform x86_64-unknown-linux-gnu` (with `--map-only-after-sync`) for clients predating the portable-cache setting.

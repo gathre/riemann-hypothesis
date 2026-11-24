@@ -28,15 +28,15 @@ The manual `mirror` job in CI downloads the archive again, compares it with comm
 byte for byte, and prints that list. The sections below on size, the static scan and the build
 describe the original 175,187 files, not the current tree.
 
-`lakefile.toml` is the original with two additions:
+`lakefile.toml` started as the original with two additions:
 
 - three lines at the top, which set `platformIndependent = true` for the build cache;
 - a marked block at the end, which registers the `Challenge` library, the `cache` executable and
   the cache server.
 
-CI checks that the original file sits unchanged between the two. Neither addition makes Lake
-treat an existing build as out of date; that was tested on a small Lean `v4.33.1` project, not
-on this one.
+Later pull requests have changed the original part between them too, so the `mirror` job no
+longer compares it with the archive. Neither addition makes Lake treat an existing build as out
+of date; that was tested on a small Lean `v4.33.1` project, not on this one.
 
 The build cache is described in [CACHE.md](CACHE.md). The steps in the README's "Checking it" do
 not use it.

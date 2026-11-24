@@ -933,7 +933,7 @@ namespace GlobalTheory
 theorem countable_addEquiv_of_free_finite (La : Type) [AddCommGroup La] [Module.Free ℤ La] [Module.Finite ℤ La] :
     Countable (La ≃+ La) := by
   let bas := Module.Free.chooseBasis ℤ La
-  haveI : Countable La := bas.equivFun.injective.countable
+  have : Countable La := bas.equivFun.injective.countable
   have hinj : Function.Injective (fun (gm : La ≃+ La) (i : Module.Free.ChooseBasisIndex ℤ La) => gm (bas i)) := by
     intro gm gm' h
     have h2 : gm.toAddMonoidHom.toIntLinearMap = gm'.toAddMonoidHom.toIntLinearMap :=
@@ -969,7 +969,7 @@ theorem goodClass_of_lattice_families : Out.Laws → Out.Laws2 → (∀ (S : Sch
     exact ⟨t, (hfam i).2.2.2.2.2.2.2.2.2.2 z hz t hu htp, hθ i z hz t hu⟩
   · obtain ⟨hfree, hfin, -⟩ := unimodular_symplectic_coordinates_and_lattice_rank.2 (La i) (EF i) g (Q i z) (Hm i z)
       ((hfam i).2.2.2.2.2.2.2.2.1 z hz).1
-    haveI := countable_addEquiv_of_free_finite (La i)
+    have := countable_addEquiv_of_free_finite (La i)
     have hc : (⋃ gm : La i ≃+ La i, {z' ∈ B i | ∃ h : (Fin g → ℂ) ≃ₗ[ℂ] (Fin g → ℂ),
         ∀ x, h (Q i z' x) = Q i z (gm x)}).Countable := by
       refine Set.countable_iUnion fun gm => Set.Subsingleton.countable ?_

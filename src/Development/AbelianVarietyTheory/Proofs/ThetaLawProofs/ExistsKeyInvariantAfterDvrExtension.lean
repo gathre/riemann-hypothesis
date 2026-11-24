@@ -253,11 +253,11 @@ namespace GlobalTheory.KaLift
 section Points
 
 theorem epi_spMap {k Ω : Type} [Field k] [Field Ω] (σ : k →+* Ω) : Epi (spMap σ) := by
-  letI := σ.toAlgebra
-  haveI : Flat (spMap σ) := by
+  let := σ.toAlgebra
+  have : Flat (spMap σ) := by
     rw [HasRingHomProperty.Spec_iff (P := @Flat)]
     exact RingHom.flat_algebraMap_iff.2 inferInstance
-  haveI : Surjective (spMap σ) := ⟨fun p => ⟨IsLocalRing.closedPoint Ω, Subsingleton.elim _ _⟩⟩
+  have : Surjective (spMap σ) := ⟨fun p => ⟨IsLocalRing.closedPoint Ω, Subsingleton.elim _ _⟩⟩
   exact Flat.epi_of_flat_of_surjective _
 
 theorem exists_finset_descend {O Ω : Type} [CommRing O] [Field Ω] {X : Scheme.{0}} (p : X ⟶ Sp O)
@@ -282,7 +282,7 @@ theorem exists_finset_descend {O Ω : Type} [CommRing O] [Field Ω] {X : Scheme.
     have : Spec.map (c ≫ g) = Spec.map (CommRingCat.ofHom r) := by
       rw [Spec.map_comp, hc, ← Category.assoc, hgq, hq]
     exact congrArg CommRingCat.Hom.hom (Spec.map_injective this)
-  letI := c.hom.toAlgebra
+  let := c.hom.toAlgebra
   obtain ⟨s, hs⟩ := hft.out
   refine ⟨s.image g.hom, fun k _ σ t ht hS => ?_⟩
   have hmem : ∀ b, g.hom b ∈ σ.range := fun b => by
@@ -300,7 +300,7 @@ theorem exists_finset_descend {O Ω : Type} [CommRing O] [Field Ω] {X : Scheme.
     rw [← Category.assoc, ← spMap_comp, hg']
     exact hgq
   refine ⟨spMap g' ≫ hU.fromSpec, h₁, ?_⟩
-  haveI := epi_spMap σ
+  have := epi_spMap σ
   rw [← cancel_epi (spMap σ), ← Category.assoc, h₁, hq, ← spMap_comp, ht]
 
 theorem eq_of_apply_eq {O k : Type} [CommRing O] [Field k] {X : Scheme.{0}} (p : X ⟶ Sp O) (t : O →+* k)
@@ -328,8 +328,8 @@ theorem eq_of_apply_eq {O k : Type} [CommRing O] [Field k] {X : Scheme.{0}} (p :
 theorem apply_closedPoint_eq {O : Type} [CommRing O] [IsLocalRing O] {X : Scheme.{0}} (p : X ⟶ Sp O) [IsSeparated p]
     (a b : Sp O ⟶ X) (ha : a ≫ p = 𝟙 _) (hb : b ≫ p = 𝟙 _) (y : Sp O) (h : a y = b y) :
     a (IsLocalRing.closedPoint O) = b (IsLocalRing.closedPoint O) := by
-  haveI : IsClosedImmersion (b ≫ p) := hb ▸ inferInstance
-  haveI : IsClosedImmersion b := IsClosedImmersion.of_comp b p
+  have : IsClosedImmersion (b ≫ p) := hb ▸ inferInstance
+  have : IsClosedImmersion b := IsClosedImmersion.of_comp b p
   have hs : a y ⤳ a (IsLocalRing.closedPoint O) := (IsLocalRing.specializes_closedPoint y).map a.continuous
   obtain ⟨z, hz⟩ := hs.mem_closed b.isClosedEmbedding.isClosed_range ⟨y, h.symm⟩
   have e₁ := congrArg (fun q => q z) hb
@@ -454,18 +454,18 @@ theorem etZ_descend {R R' : Type} [Field R] [Field R'] {x : KeyIn R} {x' : KeyIn
 theorem exists_kaVal_extension : Out.Laws → ∀ (O : Type) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] (Ω : Type) [Field Ω] [IsAlgClosed Ω] (r : O →+* Ω) (x : KeyIn O) (xk : KeyIn Ω) φ w (n l l' : ℕ) (al : ℕ → Matrix (Fin 4) (Fin 4) ℤ) (d : ℕ) (hg : xk.P.g = x.P.g) (s : Fin x.P.g → RR x n) (sk : Fin xk.P.g → RR xk n) (zk : Fin d → Pt xk) (chk : Fin d → xk.P.L.ι), RingHom.ker r = IsLocalRing.maximalIdeal O → admitted x.P.g n l l' al → IsUnit ((degProd x.P.g n l l' : ℕ) : O) → KeyVia xk x r φ w → (∀ i, SecVia xk x φ w (sk i) (s (i.cast hg))) → EtZ xk sk zk chk → ∃ (O' : Type) (_ : CommRing O') (_ : IsDomain O') (_ : IsDiscreteValuationRing O') (j : O →+* O') (r' : O' →+* Ω) (x' : KeyIn O') (φ' : _) (w' : _) (hg' : x'.P.g = x.P.g) (s' : Fin x'.P.g → RR x' n) (u : O'ˣ), Function.Injective j ∧ IsLocalHom j ∧ r'.comp j = r ∧ KeyVia x' x j φ' w' ∧ (∀ i, SecVia x' x φ' w' (s' i) (s (i.cast hg'))) ∧ KaVal x' n l l' al s' u := by
   intro laws O _ _ _ Ω _ _ r x xk φ w n l l' al d hg s sk zk chk hker hadm hN H hs E
   classical
-  haveI := x.P.isAb.smooth
-  haveI : LocallyOfFiniteType x.P.A.hom := inferInstance
+  have := x.P.isAb.smooth
+  have : LocallyOfFiniteType x.P.A.hom := inferInstance
   have hNΩ : ((degProd x.P.g n l l' : ℕ) : Ω) ≠ 0 := by
     have := (hN.map r).ne_zero
     rwa [map_natCast] at this
   have hN1 : 1 ≤ degProd x.P.g n l l' := Nat.pos_of_ne_zero fun h => hNΩ (by rw [h, Nat.cast_zero])
   obtain ⟨-, -, -, het, hcard⟩ := laws.mulN (Sp O) x.P _ hN1
-  haveI := het (by
+  have := het (by
     have := hN.map (Scheme.ΓSpecIso (CommRingCat.of O)).inv.hom
     rwa [map_natCast] at this)
   have hc := hcard Ω (spMap r) hNΩ
-  haveI := Nat.finite_of_card_ne_zero (hc.trans_ne (pow_ne_zero _ (Nat.one_le_iff_ne_zero.1 hN1)))
+  have := Nat.finite_of_card_ne_zero (hc.trans_ne (pow_ne_zero _ (Nat.one_le_iff_ne_zero.1 hN1)))
   let e := (Finite.equivFinOfCardEq hc).symm
   have hp : IsPullback φ xk.P.A.hom x.P.A.hom (spMap r) := H.choose_spec.choose_spec.choose_spec.1.1
   choose S₁ hS₁ using fun a => exists_finset_descend x.P.A.hom r ((zk a).left ≫ φ) (by
@@ -516,7 +516,7 @@ theorem exists_kaVal_extension : Out.Laws → ∀ (O : Type) [CommRing O] [IsDom
   obtain ⟨ch₂, E₂⟩ := etZ_descend hg₃ (s := s₂) z H₃
     (fun i => sec₃ n _ _ _ (hs₂ i) (sec₁ n _ _ _ (hs' (i.cast hg₂)) (hs (i.cast hg₃)))) hz E
   obtain ⟨z', ch', E'⟩ := GlobalTheory.T.exists_transversal_zeros_of_residue_zeros_of_isAdicComplete O' x' y φ₂ w₂ n d hg₂ s' s₂ z ch₂ H₂ hs₂ E₂
-  haveI := epi_spMap σ
+  have := epi_spMap σ
   have htor : ∀ b, q₂ b ≫ (Out.mulA x.P.A (degProd x.P.g n l l')).left =
       spMap (IsLocalRing.residue O') ≫ spMap j ≫ eSec x.P.A := fun b => by
     have e₁ : (e b).1 ≫ Out.mulA x.P.A (degProd x.P.g n l l') = 1 := by
@@ -526,7 +526,7 @@ theorem exists_kaVal_extension : Out.Laws → ∀ (O : Type) [CommRing O] [IsDom
     exact congrArg CommaMorphism.left e₁
   choose ξ hξ hξ' using fun b => exists_torsion_lift hG' H'.choose (degProd x.P.g n l l') (q₂ b) (htor b)
   have hdist : ∀ b b', b ≠ b' → ∀ p : Sp O', (ξ b).left p ≠ (ξ b').left p := fun b b' hb p hp' => hb (by
-    haveI := x'.P.isAb.proper
+    have := x'.P.isAb.proper
     have e₁ := apply_closedPoint_eq x'.P.A.hom (ξ b).left (ξ b').left (Over.w _) (Over.w _) p hp'
     have e₂ : spMap (IsLocalRing.residue O') (IsLocalRing.closedPoint _) = IsLocalRing.closedPoint O' :=
       IsLocalRing.comap_closedPoint (IsLocalRing.residue O')

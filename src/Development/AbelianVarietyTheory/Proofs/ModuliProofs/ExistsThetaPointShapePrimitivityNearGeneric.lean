@@ -180,13 +180,13 @@ theorem spread_prim {o : Type} [CommRing o] {g k : ℕ} {J : Type} {b : TBase o 
       IsUnit (φ f) → TMap t'' t' (spMap φ) → t''.Prim w w' := by
   obtain ⟨ψ, h, hb, -, ha⟩ := hm
   obtain ⟨h₁, h₂, h₃⟩ := hp
-  letI := t.ab.comm
-  letI := t'.ab.comm
-  haveI : IsProper t'.A.hom := t'.ab.proper
-  haveI : Smooth t'.A.hom := t'.ab.smooth
-  haveI : IsProper (t'.A ⊗ t'.A).hom := by
+  let := t.ab.comm
+  let := t'.ab.comm
+  have : IsProper t'.A.hom := t'.ab.proper
+  have : Smooth t'.A.hom := t'.ab.smooth
+  have : IsProper (t'.A ⊗ t'.A).hom := by
     rw [← Over.w (fst t'.A t'.A)]
-    haveI : IsProper (fst t'.A t'.A).left := inferInstanceAs (IsProper (pullback.fst t'.A.hom t'.A.hom))
+    have : IsProper (fst t'.A t'.A).left := inferInstanceAs (IsProper (pullback.fst t'.A.hom t'.A.hom))
     infer_instance
   obtain ⟨q₁, q₂⟩ := GlobalTheory.ExtUnique.spec_fractionRing R K
   have e₁ : t'.act w * t'.act w' = 𝟙 t'.A := by
@@ -199,7 +199,7 @@ theorem spread_prim {o : Type} [CommRing o] {g k : ℕ} {J : Type} {b : TBase o 
     (DVR.linComb_isLB _ t'.isLB _ _) h.1 ((prim_iff h t'.isLB t.isLB hb (ha w)).1 h₃)
   refine ⟨f₂ * f₃, mul_ne_zero hf₂ hf₃, fun R' _ φ s'' t'' hu ⟨ψ', h', hb', _, ha'⟩ => ?_⟩
   rw [map_mul] at hu
-  letI := t''.ab.comm
+  let := t''.ab.comm
   refine ⟨?_, (adj_iff h' t'.isLB t''.isLB hb' (ha' w) (ha' w')).2
     (H₂ R' φ (isUnit_of_mul_isUnit_left hu) (isPullback_sqMap h').w),
     (prim_iff h' t'.isLB t''.isLB hb' (ha' w)).2 (H₃ R' φ (isUnit_of_mul_isUnit_right hu) h'.1.w)⟩

@@ -1519,7 +1519,7 @@ theorem exists_hom_representatives {ν : Type} [Fintype ν] (k : ℕ) (hk : k �
     ∃ (r : ℕ) (s : Fin r → ((ν → ℤ) →+ (ν → ℤ))), (∀ i, P (s i)) ∧
       ∀ m, P m → ∃ i, ∀ x, ∃ y, m x = s i x + k • y := by
   classical
-  haveI : NeZero k := ⟨hk⟩
+  have : NeZero k := ⟨hk⟩
   obtain ⟨r, s, hs, hm⟩ := exists_representatives
     (fun (m : (ν → ℤ) →+ (ν → ℤ)) (p q : ν) => ((m (Pi.single p 1) q : ℤ) : ZMod k)) P
   refine ⟨r, s, hs, fun m hP => ?_⟩

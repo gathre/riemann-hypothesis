@@ -820,7 +820,7 @@ variable {p : ℕ} [Fact p.Prime]
 
 private theorem frob_of_mem (hk : (p : k) = 0) (A : Over (Sp k)) [GrpObj A] (hA : IsAbelianScheme A)
     (c : primDR A) (hc : c ∈ PrimitiveSubmodule A) : frobDR p k hk A c = 0 := by
-  letI : Algebra k k := (frobR p k hk).toAlgebra
+  let : Algebra k k := (frobR p k hk).toAlgebra
   obtain ⟨g, hg⟩ := GlobalTheory.AbVarRelDim.exists_relDim k A hA
   have hπ := isGrpPullback_pullback A (spMap (frobR p k hk))
   obtain ⟨F, hFm, hF⟩ := GlobalTheory.T.exists_relativeFrobenius_grpScheme_charP p k hk A _ _ hπ
@@ -877,8 +877,8 @@ theorem UpperTheory.Gal.Ord.lin :
       Lin p π (β.comp (b.t i)) (coh o) (PrimitiveSubmodule o.A) (frobDR p k hk o.A).toAddMonoidHom := by
   intro p _ D R _ b N hN hNp hm k _ _ hk β o i w f hw hn hf π
   obtain ⟨h1, ⟨h₀, h2, h3⟩, -⟩ := UpperTheory.Gal.Ord.lie p D R b N hN hNp hm k hk β o i w f hw hn hf π
-  haveI : CharP k p := (CharP.charP_iff_prime_eq_zero Fact.out).2 hk
-  letI := tensorModule (dp0 k) (𝟙 _) (o.act.toF D)
+  have : CharP k p := (CharP.charP_iff_prime_eq_zero Fact.out).2 hk
+  let := tensorModule (dp0 k) (𝟙 _) (o.act.toF D)
   have hP := GlobalTheory.CrysProj.hdR_projective D.F k o.A o.ab (o.act.toF D)
   obtain ⟨hG, hA⟩ := UpperTheory.Gal.Ord.proj p k (𝓞 D.F) w f π (HdR o.A)
   have hs : ∀ (c : 𝓞 D.F) (x : HdR o.A), ((1 : k) ⊗ₜ[ℤ] c) • x = (cohHom o c).dualMap x := fun c x ↦ by
@@ -911,9 +911,9 @@ theorem UpperTheory.Gal.Ord.lin :
     exact Module.finite_dual_iff k |>.1 hfd
   · change frobDR p k hk o.A (l • x) = l ^ p • frobDR p k hk o.A x
     rw [LinearMap.map_smulₛₗ, frobR_apply]
-  · haveI := o.act.hom (algebraMap (𝓞 D.F) D.O c)
+  · have := o.act.hom (algebraMap (𝓞 D.F) D.O c)
     exact GlobalTheory.AbDatum.frobDR_primPull p hk _ x
-  · haveI := o.act.hom (algebraMap (𝓞 D.F) D.O c)
+  · have := o.act.hom (algebraMap (𝓞 D.F) D.O c)
     exact (homMor (dp0 k) (𝟙 _) (o.act.act (algebraMap (𝓞 D.F) D.O c))).isMor.pullback1_mem_hodgeFiltration hx
   · refine sep o fun h ↦ ?_
     have e := (Submodule.mem_dualAnnihilator _).1 (h1 c h) x hx
@@ -927,7 +927,7 @@ theorem UpperTheory.Gal.Ord.lin :
     rfl
   · have hx₀ : ∃ x ∈ PrimitiveSubmodule o.A, hom o π.ε h₀ x ≠ 0 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact h2 ((Submodule.mem_dualAnnihilator _).2 hc)
     obtain ⟨x, hx, hne⟩ := hx₀
     rw [hom_apply] at hne

@@ -73,7 +73,7 @@ theorem UpperTheory.Mu.nuLe :
   have h2 : 2 ≤ H.condN := by
     have := Nat.le_of_dvd (Nat.pos_of_ne_zero H.condN_ne_zero) H.two_dvd_condN
     exact this
-  haveI : Fact (1 < H.condN) := ⟨by omega⟩
+  have : Fact (1 < H.condN) := ⟨by omega⟩
   intro k
   apply UpperTheory.Mu.hostApprox φ H l Ω 1 (map_one _) u _ k
   rw [hfac]

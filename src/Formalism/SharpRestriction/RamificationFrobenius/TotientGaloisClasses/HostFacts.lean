@@ -470,7 +470,7 @@ theorem conj_sqd : H.conj H.sqd = -H.sqd := by
 
 theorem hostEmb (ψ : H.E →+* ℂ) :
     Function.Bijective (fun σ : H.E ≃ₐ[ℚ] H.E => ψ.comp (σ : H.E →+* H.E)) := by
-  haveI := H.galois
+  have := H.galois
   have hinj : Function.Injective (fun σ : H.E ≃ₐ[ℚ] H.E => ψ.comp (σ : H.E →+* H.E)) := by
     intro σ τ h
     ext x

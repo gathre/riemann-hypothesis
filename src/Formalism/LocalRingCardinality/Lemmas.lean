@@ -1515,8 +1515,8 @@ theorem lenLoc_atT {L : SizeData₂ D} (hAtT : NuAtTDef D L) (u : D.what₂.Word
     (hw : D.what₂.places.resChar w = (D.mem u).A.T) :
     DV.lenLoc (D.plEq w) (L.NuLat u) (DV.MramL D u) =
       Module.length (LT.Ow D w) (↥(LT.Sram D u w) ⧸ (LT.Nlam D u w).comap (LT.Sram D u w).subtype) := by
-  haveI := D.intW_dvr w
-  haveI := D.intW_frac w
+  have := D.intW_dvr w
+  have := D.intW_frac w
   have hσ : ∀ x : D.what₂.LL, (D.plEq w).valuation D.what₂.LL x ≤ 1 ↔
       (RingHom.id D.what₂.LL) x ∈ Set.range (algebraMap (intW D.what₂.places w) D.what₂.LL) := by
     intro x

@@ -1126,12 +1126,12 @@ namespace GlobalTheory
 open ThetaDet in
 theorem thetaPt_determines : Out.Laws → ThetaPtDeterminesSt := by
   intro h g n k j N N' hn hodd hk hN hN' hb K _ _ hn0 P P' hg hg' ze lev lev' v hv hv'
-  haveI := P.isAb
-  haveI := P'.isAb
-  haveI : IsProper P.A.hom := IsAbelianScheme.proper
-  haveI : IsProper P'.A.hom := IsAbelianScheme.proper
-  haveI : AlgebraicGeometry.IsIntegral P.A.left := polAV_isIntegral_of_isAlgClosed K P
-  haveI : AlgebraicGeometry.IsIntegral P'.A.left := polAV_isIntegral_of_isAlgClosed K P'
+  have := P.isAb
+  have := P'.isAb
+  have : IsProper P.A.hom := IsAbelianScheme.proper
+  have : IsProper P'.A.hom := IsAbelianScheme.proper
+  have : AlgebraicGeometry.IsIntegral P.A.left := polAV_isIntegral_of_isAlgClosed K P
+  have : AlgebraicGeometry.IsIntegral P'.A.left := polAV_isIntegral_of_isAlgClosed K P'
   have hN'' : N' = n ^ j * n ^ k * n ^ k := by rw [hN', hN]; ring
   have hn3 : 3 ≤ n := by
     have h2 := hn.two_le
@@ -1151,7 +1151,7 @@ theorem thetaPt_determines : Out.Laws → ThetaPtDeterminesSt := by
     rintro h0
     rw [h0, Nat.cast_zero] at hK
     exact hK rfl
-  haveI : NeZero (N' ^ 2) := ⟨pow_ne_zero 2 hN'0⟩
+  have : NeZero (N' ^ 2) := ⟨pow_ne_zero 2 hN'0⟩
   have hoddN' : Odd N' := hv.1
   obtain ⟨s, θ, hs, hcrd, hθ, hass⟩ := ThetaDet.exists_embedding h hN hN'' h4 hK P hg lev hv
   obtain ⟨s', θ', hs', hcrd', hθ', hass'⟩ := ThetaDet.exists_embedding h hN hN'' h4 hK P' hg' lev' hv'
@@ -1182,7 +1182,7 @@ theorem thetaPt_determines : Out.Laws → ThetaPtDeterminesSt := by
     have e2 : (1 : Out.baseOver (Sp K) ⟶ P'.A) = η := Over.OverMorphism.ext rfl
     rw [e1, e2] at h0
     exact h0
-  haveI hmon : IsMonHom φ.hom := h.rigidity (Sp K) P.A P'.A P.isAb P'.isAb φ.hom hη
+  have hmon : IsMonHom φ.hom := h.rigidity (Sp K) P.A P'.A P.isAb P'.isAb φ.hom hη
   have hLBiso := T.lbIso_pull_of_hom_preserving_coordinates h K P P' N (n ^ k) _ s s' 0 θ θ' φ.hom
     (Nat.one_le_iff_ne_zero.2 (pow_ne_zero _ (by omega))) hmon
     (by simpa only [Set.mem_univ, iSup_pos] using hs.1) (fun F _ y w hw => hφ F y w hw) hθ hass hass'

@@ -138,8 +138,8 @@ def mapping(data):
     return publication.parse_map(data)
 
 
-def validate_record(record, *, allow_historical=False):
-    publication.identity_fields(record, toolchain=record.get("toolchain") if allow_historical else TOOLCHAIN)
+def validate_record(record):
+    publication.identity_fields(record, toolchain=TOOLCHAIN)
     if (record.get("repository") != REPO or
             record.get("input_fingerprint") != publication.fingerprint(record) or
             type(record.get("build_exit_code")) is not int or not 0 <= record["build_exit_code"] <= 255):
@@ -240,9 +240,10 @@ def restore_previous_cache(candidate, request, cache):
         if record_data is None:
             continue
         record = json.loads(record_data)
-        validate_record(record, allow_historical=True)
-        if record["toolchain"] != TOOLCHAIN:
+        # Skip other releases before validating: validation rejects a release that has left the allow-list.
+        if isinstance(record, dict) and record.get("toolchain") != TOOLCHAIN:
             continue
+        validate_record(record)
         map_key, manifest_key = record["map_key"], record["module_manifest_key"]
         data = get(BASE + "/" + map_key)
         module_data = get(BASE + "/" + manifest_key)
@@ -258,9 +259,7 @@ def restore_previous_cache(candidate, request, cache):
 
 
 def preparation_state(directory):
-    state = Path(directory).expanduser().resolve()
-    # Keep the deployed 4.33 cache warm; only later releases need a new namespace.
-    return state if TOOLCHAIN == "leanprover/lean4:v4.33.1" else state / settings.TOOLCHAIN_DIR
+    return Path(directory).expanduser().resolve() / settings.TOOLCHAIN_DIR
 
 
 def runner_checks():

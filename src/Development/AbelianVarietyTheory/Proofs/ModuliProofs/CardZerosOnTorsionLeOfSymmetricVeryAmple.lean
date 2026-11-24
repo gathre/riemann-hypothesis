@@ -110,8 +110,8 @@ theorem card_zeros_le_of_growth [IsAlgClosed K] [IsDomain R] (𝒜 : ℕ → Sub
       G.IsHomogeneous (n + e) ∧ y * x' i ^ n = aeval x' G := fun e y hy i => by
     obtain ⟨n, G, hG, h⟩ := hform e y hy i
     exact ⟨n, G, hG, Subtype.ext (by rw [hval, ← h]; rfl)⟩
-  haveI : Algebra.FiniteType K T := Algebra.FiniteType.adjoin_of_finite hSfin
-  haveI : Algebra.IsIntegral (Algebra.adjoin K (Set.range x')) T := ⟨fun y => by
+  have : Algebra.FiniteType K T := Algebra.FiniteType.adjoin_of_finite hSfin
+  have : Algebra.IsIntegral (Algebra.adjoin K (Set.range x')) T := ⟨fun y => by
     induction y using DirectSum.Decomposition.inductionOn ℬ with
     | zero => exact isIntegral_zero
     | @homogeneous e y =>
@@ -121,13 +121,13 @@ theorem card_zeros_le_of_growth [IsAlgClosed K] [IsDomain R] (𝒜 : ℕ → Sub
       rw [h, Algebra.adjoin_range_eq_range_aeval]
       exact ⟨G, rfl⟩
     | add a b ha hb => exact ha.add hb⟩
-  haveI : Algebra.FiniteType (Algebra.adjoin K (Set.range x')) T :=
+  have : Algebra.FiniteType (Algebra.adjoin K (Set.range x')) T :=
     Algebra.FiniteType.of_restrictScalars_finiteType K _ _
   have hdim : ringKrullDim T = (g + 1 : ℕ) :=
     ringKrullDim_cone ℬ hx' r i₀ hi₀ hr (fun n G hG => by
       rw [← hrel n G hG, ← hval]
       exact ⟨fun h => by rw [h]; rfl, fun h => Subtype.ext h⟩) g hC
-  haveI : Finite {p : Pt // p ∈ Z ∧ ev p s = 0} :=
+  have : Finite {p : Pt // p ∈ Z ∧ ev p s = 0} :=
     (hZ.subset (fun p hp => hp.1 : {p | p ∈ Z ∧ ev p s = 0} ⊆ Z)).to_subtype
   let E := (Finite.equivFin {p : Pt // p ∈ Z ∧ ev p s = 0}).symm
   refine graded_bezout_bound K T ℬ m g B d a x' s' (Set.range f') hg hx' Algebra.IsIntegral.finite hdim
@@ -198,7 +198,7 @@ theorem card_fibre_zeros_le_of_growth {K : Type} [Field K] [IsAlgClosed K] {X : 
       B ^ g * g.factorial * d * a ^ (g - 1) := by
   subst hU
   choose ev hev hevr using fun z => exists_ev p Φ ρ hL hρc hρ (pt z) (hpt z)
-  letI alg : ∀ i, Algebra K Γ(X, Out.nonzeroLocus (s i)) := fun i => (constHom p _).toAlgebra
+  let alg : ∀ i, Algebra K Γ(X, Out.nonzeroLocus (s i)) := fun i => (constHom p _).toAlgebra
   have hgen' : ∀ i, Function.Surjective (MvPolynomial.aeval (r i) : MvPolynomial (Fin m) K →ₐ[K] _) :=
     fun i f => by
       obtain ⟨F, hF⟩ := hgen i f

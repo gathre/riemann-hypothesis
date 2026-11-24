@@ -130,7 +130,7 @@ theorem sameOrbit_of_blocks {σ : Type} (blk : σ → Option K) {z z' : (Σ k, �
     · refine ⟨1, one_ne_zero, fun m => ?_⟩
       rw [one_mul]
       exact congrFun hb ⟨⟨k, hk⟩, m⟩
-    · push_neg at hk
+    · push Not at hk
       obtain ⟨p, hp⟩ := hk
       exact h p k hp
   choose a ha hm using h'

@@ -144,7 +144,7 @@ alias isIntegral_det := _root_.UpperTheory.Reformulated.B.Ybf4.isIntegral_det
 
 theorem eq_pm_one_of_unitary {R : Ranks} (H : Formalism.BasicNotions.Host R) :
     letI := H.cmStar; ∀ z : H.E, z ∈ unitary H.E → IsIntegral ℤ z → ∃ m : ℕ, 0 < m ∧ z ^ m = 1 := by
-  letI := H.cmStar
+  let := H.cmStar
   intro z hu hz
   have := H.isCMField_hostE
   obtain ⟨n, hn, hp⟩ := NumberField.Embeddings.pow_eq_one_of_norm_eq_one H.E ℂ hz (fun φ => by

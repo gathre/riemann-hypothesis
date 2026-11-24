@@ -83,14 +83,14 @@ theorem UpperTheory.linearForm_eq_mul_trace_of_twisted_invariant :
     simpa [smul_eq_mul] using h1
   have hJ : ∃ x, J x ≠ 0 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have hJ0 : J = 0 := LinearMap.ext hne
     rw [hJ0] at hE
     simp at hE
   obtain ⟨x₀, hx₀⟩ := hJ
   have hφ : ∃ φ : Module.Dual ℂ P, φ (J x₀) ≠ 0 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     exact hx₀ ((Module.forall_dual_apply_eq_zero_iff ℂ (J x₀)).1 hne)
   obtain ⟨φ, hφ⟩ := hφ
   obtain ⟨ξ₀, hξ₀⟩ : ∃ ξ₀ : P →ₗ[ℂ] ℂ, ξ₀ (J x₀) = 1 :=

@@ -127,12 +127,12 @@ theorem nonempty_secEquiv {K : Type} [CommRing K] {X : Scheme.{0}} (f : X ⟶ Sp
 
 theorem card_torsion_points : GlobalFnsSt → RigiditySt → (∀ (k : Type) [Field k] [IsAlgClosed k] (B : Over (Sp k)) [GrpObj B] (g n : ℕ), IsAbelianScheme B → SmoothOfRelativeDimension g B.hom → (n : k) ≠ 0 → Nat.card {x : (𝟙_ (Over (Sp k)) ⟶ B) // x ^ n = 1} = n ^ (2 * g)) := by
   intro hG _ k _ _ B _ g n hB hg hn
-  haveI := hB.comm
-  haveI := hB.smooth
-  haveI := hB.proper
-  haveI : GeometricallyIntegral B.hom :=
+  have := hB.comm
+  have := hB.smooth
+  have := hB.proper
+  have : GeometricallyIntegral B.hom :=
     GlobalTheory.forall_geometricallyIntegral_of_smooth_of_geometricallyConnected _ _ _ hB.smooth hB.geomConnected
-  haveI : IsIntegral B.left := GeometricallyIntegral.isIntegral_of_subsingleton B.hom
+  have : IsIntegral B.left := GeometricallyIntegral.isIntegral_of_subsingleton B.hom
   have hn0 : n ≠ 0 := by rintro rfl; exact hn Nat.cast_zero
   have hq : 1 ≤ n ^ 2 := Nat.one_le_iff_ne_zero.2 (pow_ne_zero _ hn0)
   have hproj := GlobalTheory.T.isProjectiveOverRingByCharts_abelian_variety k B hB
@@ -146,9 +146,9 @@ theorem card_torsion_points : GlobalFnsSt → RigiditySt → (∀ (k : Type) [Fi
     rw [Nat.cast_pow]
     exact h
   have hφ : (𝟙 B ^ n).left ≫ B.hom = B.hom := Over.w _
-  haveI : IsFinite (𝟙 B ^ n).left :=
+  have : IsFinite (𝟙 B ^ n).left :=
     GlobalTheory.T.isFinite_of_pull_veryAmple_iso_pow k _ _ B.hom _ H H m s (n ^ 2) hH hH inferInstance (by rw [hφ]; exact hs) hq hiso
-  haveI : Etale (𝟙 B ^ n).left := GrpTangent.etale_id_pow B (by
+  have : Etale (𝟙 B ^ n).left := GrpTangent.etale_id_pow B (by
     simpa using (Ne.isUnit hn).map (Scheme.ΓSpecIso (CommRingCat.of k)).inv.hom)
   have hcard := GlobalTheory.finrank_eq_card_kernel_points_of_etale k B hB (𝟙 B ^ n)
   have hc : Nat.card {x : (𝟙_ (Over (Sp k)) ⟶ B) // x ^ n = 1} =
@@ -159,7 +159,7 @@ theorem card_torsion_points : GlobalFnsSt → RigiditySt → (∀ (k : Type) [Fi
   have e := nonempty_secEquiv B.hom _ hφ hH (n ^ 2) hiso
   obtain ⟨a, ha⟩ := GlobalTheory.T.exists_shift_finrank_sec_pull_bounds k B.left B.left B.hom (𝟙 B ^ n).left H m s hH hs _ hcard hfin fun t => by
     obtain ⟨e⟩ := e t
-    haveI := hfin (n ^ 2 * t)
+    have := hfin (n ^ 2 * t)
     exact Module.Finite.equiv e
   rw [pow_mul]
   refine GlobalTheory.UU.degree_eq_pow_of_growth (fun t : ℕ => Module.finrank k (SecOnR B.hom (AbLaw.pw H t) ⊤)) g c C a _ (n ^ 2) hc1 hq

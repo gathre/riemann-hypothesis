@@ -76,7 +76,7 @@ theorem latV_compact_open_mass : ∀ (F E : Type) [Field F] [NumberField F] [Fie
     (Homeomorph.isOpen_preimage e).2 (isOpen_set_pi Set.finite_univ fun _ _ => hOo)
   have hlat : latV (M := M) (n := n) b v = Set.pi Set.univ fun _ => Set.pi Set.univ fun _ => B := by
     ext Y
-    simp only [latV, Set.mem_setOf_eq, Set.mem_pi, Set.mem_univ, true_implies, B, P, Set.mem_preimage]
+    simp only [latV, Set.mem_ofPred_eq, Set.mem_pi, Set.mem_univ, true_implies, B, P, Set.mem_preimage]
     rfl
   refine ⟨?_, ?_, ?_, ?_⟩
   · rw [hlat]
@@ -86,12 +86,12 @@ theorem latV_compact_open_mass : ∀ (F E : Type) [Field F] [NumberField F] [Fie
   · intro a i k
     simp
   · rintro lam ⟨hHaar, h1⟩
-    haveI : BorelSpace (Fv F v) := ⟨rfl⟩
-    haveI : BorelSpace (Fv F v ⊗[F] E) := ⟨rfl⟩
-    haveI : SecondCountableTopology (Fin d → Fv F v) := inferInstance
+    have : BorelSpace (Fv F v) := ⟨rfl⟩
+    have : BorelSpace (Fv F v ⊗[F] E) := ⟨rfl⟩
+    have : SecondCountableTopology (Fin d → Fv F v) := inferInstance
     have hme : MeasurableEmbedding f := e.measurableEmbedding
     have hsurj : Function.Surjective f := e.surjective
-    haveI : SigmaFinite (coordK (Fv F v) b lam) := by
+    have : SigmaFinite (coordK (Fv F v) b lam) := by
       refine SigmaFinite.of_map _ hme.measurable.aemeasurable (f := f) ?_
       change SigmaFinite (Measure.map f (Measure.comap f _))
       rw [hme.map_comap, hsurj.range_eq, Measure.restrict_univ]

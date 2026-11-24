@@ -118,7 +118,7 @@ theorem fIwasawa_Km_one : fIwasawaKm σ (1 : Matrix (Fin n) (Fin n) L) := by
   · subst h
     simp
   · rw [Matrix.one_apply_ne h, map_zero]
-    exact zero_le'
+    exact zero_le
 
 theorem fIwasawa_gram_un (M : Matrix (Fin n) (Fin n) L) (hM : fIwasawaUn σ M) (a b : Fin n) :
     ∑ j, σ (M (Fin.rev j) a) * M j b = if b = Fin.rev a then 1 else 0 := by

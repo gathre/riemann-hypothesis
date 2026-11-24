@@ -133,7 +133,7 @@ theorem pullUnit_spec {K : Type} [Field K] (σ : K →+* ℂ) {z : ℂ} (hz : z 
 
 theorem roots_of_isPrimitiveRoot {K : Type} [Field K] (σ : K →+* ℂ) {n : ℕ} (hn : n ≠ 0) {y : K}
     (hy : IsPrimitiveRoot y n) (z : ℂ) (hz : z ^ n = 1) : ∃ x, σ x = z := by
-  haveI : NeZero n := ⟨hn⟩
+  have : NeZero n := ⟨hn⟩
   obtain ⟨i, -, hi⟩ := (hy.map_of_injective σ.injective).eq_pow_of_pow_eq_one hz
   exact ⟨y ^ i, by rw [map_pow, hi]⟩
 
@@ -144,7 +144,7 @@ variable {K : Type} [Field K] (σ : K →+* ℂ) {p : ℕ} (hp : p.Prime)
 
 def omK (om : (ZMod p)ˣ →* ℂˣ) : (ZMod p)ˣ →* Kˣ :=
   (liftHom σ ((Units.coeHom ℂ).comp om) fun a => hr _ (by
-    haveI := Fact.mk hp
+    have := Fact.mk hp
     have h1 : a ^ (p - 1) = 1 := ZMod.units_pow_card_sub_one_eq_one p a
     rw [← map_pow, mul_comm, pow_mul, h1, one_pow, map_one])).toHomUnits
 
@@ -167,13 +167,13 @@ def psiK : AddChar (ZMod p) K :=
 
 theorem psiK_spec (b : ℤ) :
     σ (psiK σ hp hr (b : ZMod p)) = Complex.exp (2 * Real.pi * Complex.I * b / (p : ℂ)) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   rw [← ZMod.stdAddChar_coe]
   exact liftHom_spec σ _ _ (Multiplicative.ofAdd (b : ZMod p))
 
 theorem psiK_one : psiK σ hp hr 1 ≠ 1 := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI := Fact.mk hp
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have := Fact.mk hp
   intro h
   have h1 : σ (psiK σ hp hr 1) = ZMod.stdAddChar (1 : ZMod p) :=
     liftHom_spec σ _ _ (Multiplicative.ofAdd (1 : ZMod p))

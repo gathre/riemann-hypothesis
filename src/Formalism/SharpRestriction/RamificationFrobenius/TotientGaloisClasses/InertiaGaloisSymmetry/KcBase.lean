@@ -204,7 +204,7 @@ theorem ordinary : ∀ (p : ℕ) [Fact p.Prime] (P : Ideal (𝓞 H.E)) [P.IsPrim
       exact Subgroup.pow_mem _ hFm k
 
 theorem kc_conj_eq : haveI := C.cm; (IsCMField.complexConj H.E).restrictScalars ℚ = H.conj := by
-  haveI := C.cm
+  have := C.cm
   apply H.gal.injective
   rw [kc_gal_conj]
   let ψ : H.E →+* ℂ := (IsAlgClosed.lift : H.E →ₐ[ℚ] ℂ).toRingHom
@@ -212,7 +212,7 @@ theorem kc_conj_eq : haveI := C.cm; (IsCMField.complexConj H.E).restrictScalars 
 
 theorem kc_unr : haveI := C.cm; ∀ P : Ideal (𝓞 H.E), P.IsPrime → P ≠ ⊥ →
     ¬ ∀ x : 𝓞 H.E, IsCMField.complexConj H.E • x - x ∈ P := by
-  haveI := C.cm
+  have := C.cm
   intro P hP hne h
   apply C.unramEF P hP hne
   intro x

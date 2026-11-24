@@ -153,7 +153,7 @@ theorem chi_at_fibre : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Num
       X ∈ {X : Fin n → Fin M → R ⊗[F] E | IsUnit (gramR R σ J X).det} := by
     intro c X
     have hinv := (hact (n + 1)).2.2.2 (s y₀) (vec (u ⊗ₜ[F] (1 : E)) c X)
-    simp only [Uset, Set.mem_preimage, hinv, Set.mem_setOf_eq]
+    simp only [Uset, Set.mem_preimage, hinv, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨S, ⟨-, hSu⟩, hS⟩
       have := (hcoord c X S hS).2.2
@@ -163,14 +163,14 @@ theorem chi_at_fibre : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Num
       refine ⟨g (vec (u ⊗ₜ[F] (1 : E)) c X), ⟨?_, ?_⟩, (hg _).symm⟩
       · rw [h3.1]; exact hx
       · rw [h3.2.2]; exact hX
-  haveI := hBor n M
-  haveI := hBor (n + 1) (M + 1)
+  have := hBor n M
+  have := hBor (n + 1) (M + 1)
   have hUt : MeasurableSet (Unt σ R n) := hUo.measurableSet
   have hUd : MeasurableSet {X : Fin n → Fin M → R ⊗[F] E | IsUnit (gramR R σ J X).det} := by
     obtain ⟨g', hg'c, hg'⟩ := hliftn M J D.hJ
     have e : {X : Fin n → Fin M → R ⊗[F] E | IsUnit (gramR R σ J X).det} = g' ⁻¹' Unt σ R n := by
       ext X
-      simp only [Set.mem_setOf_eq, Set.mem_preimage, Unt, hg' X]
+      simp only [Set.mem_ofPred_eq, Set.mem_preimage, Unt, hg' X]
     rw [e]
     exact (hUo.preimage hg'c).measurableSet
   have hψ : ∀ c : Fin n → R ⊗[F] E, Measurable fun X : Fin n → Fin M → R ⊗[F] E =>

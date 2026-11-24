@@ -341,7 +341,7 @@ private theorem algClosure (K : IntermediateField ℚ Ω) : IsAlgClosure K Ω :=
 
 private theorem conj_of_agree [NumberField K] {A B : ValuationSubring Ω} (hA : A.valuation (l : Ω) < 1)
     (h : ∀ x ∈ K, x ∈ B ↔ x ∈ A) : ∃ g : G K Ω, ∀ x, g x ∈ B ↔ x ∈ A := by
-  haveI := algClosure K
+  have := algClosure K
   have hAT : A ≠ ⊤ := fun hT => ((places K Ω l A).2.1 hT).2 hA
   obtain ⟨v, hv⟩ := (places K Ω l A).1 hAT
   have hBv : IsPlaceOver B v := fun x => (val_agree h (SetLike.coe_mem (x : K))).trans (hv x)
@@ -355,7 +355,7 @@ private theorem differs [NumberField K] {A B B' : ValuationSubring Ω} (hA : A.v
     (hD : Dec (F := ℚ) A ≤ K.fixingSubgroup) (h : ∀ x ∈ K, x ∈ B ↔ x ∈ A) {σ : G ℚ Ω} (hσ : σ ∉ K.fixingSubgroup)
     (hB : ∀ x, σ x ∈ B ↔ x ∈ B') : ∃ x ∈ K, ¬ (x ∈ B' ↔ x ∈ A) := by
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨g, hg⟩ := conj_of_agree hA hne
   obtain ⟨g', hg'⟩ := conj_of_agree hA h
   set τ : G ℚ Ω := (resQ K g')⁻¹ * σ * resQ K g with hτ
@@ -385,9 +385,9 @@ private theorem differs [NumberField K] {A B B' : ValuationSubring Ω} (hA : A.v
 
 private theorem exists_lift [NumberField K] (hK : Module.finrank ℚ K = 2) :
     ∃ (σ : G ℚ Ω) (τ : K ≃+* K), σ ∉ K.fixingSubgroup ∧ IsLift τ σ.toRingEquiv := by
-  haveI : Algebra.IsQuadraticExtension ℚ K := ⟨hK⟩
+  have : Algebra.IsQuadraticExtension ℚ K := ⟨hK⟩
   have hc : Nat.card Gal(K/ℚ) = 2 := by rw [IsGalois.card_aut_eq_finrank, hK]
-  haveI : Nontrivial Gal(K/ℚ) := Finite.one_lt_card_iff_nontrivial.mp (by rw [hc]; norm_num)
+  have : Nontrivial Gal(K/ℚ) := Finite.one_lt_card_iff_nontrivial.mp (by rw [hc]; norm_num)
   obtain ⟨τ, hτ⟩ := exists_ne (1 : Gal(K/ℚ))
   let σ : G ℚ Ω := τ.liftNormal Ω
   have hlift : ∀ x : K, σ (x : Ω) = (τ x : Ω) := fun x => AlgEquiv.liftNormal_commutes τ Ω x
@@ -413,7 +413,7 @@ private theorem unit_div_near {a b : ℤ_[l]ˣ} (ha : ‖(a : ℤ_[l]) - 1‖ < 
 private theorem exists_open [NumberField K] (f : G K Ω → PadicAlgCl l) (hf : Continuous f) (h1 : f 1 = 1) {n : ℕ} (hn : 0 < n) :
     ∃ U : Subgroup (G K Ω), IsOpen (U : Set (G K Ω)) ∧ ∀ s ∈ U, f s ^ n = 1 → f s = 1 := by
   classical
-  haveI := algClosure K
+  have := algClosure K
   let F : Set (PadicAlgCl l) := {z | z ^ n = 1 ∧ z ≠ 1}
   have hF : F.Finite := by
     apply (Polynomial.nthRoots n (1 : PadicAlgCl l)).toFinset.finite_toSet.subset
@@ -446,7 +446,7 @@ private theorem padicInt_norm_units_mul_sub_one_lt_one {l : ℕ} [Fact l.Prime] 
 theorem UpperTheory.V.Ws.Tw.bt0 :
     ∀ (Ω : Type) [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] (l : ℕ) [Fact l.Prime], l ≠ 2 → ∀ (K : IntermediateField ℚ Ω) [NumberField K] [_root_.NumberField.IsTotallyComplex K], Module.finrank ℚ K = 2 → ∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 → Dec (F := ℚ) A ≤ K.fixingSubgroup → ∃ (t : G K Ω →* Multiplicative ℤ_[l]) (β : G K Ω →* (PadicAlgCl l)ˣ) (c₁ : Coef l), Continuous t ∧ t.ker ≤ β.ker ∧ Continuous β ∧ (∀ s, (β s : PadicAlgCl l) ∈ c₁.O ∧ ‖(β s : PadicAlgCl l) - 1‖ < 1) ∧ (∀ c ∉ K.fixingSubgroup, ∀ s s' : G K Ω, resQ K s' = c * resQ K s * c⁻¹ → t s * t s' = 1) ∧ (∀ c ∉ K.fixingSubgroup, ∀ s s' : G K Ω, resQ K s' = c * resQ K s * c⁻¹ → β s * β s' = 1) ∧ (∀ B : ValuationSubring Ω, ¬ B.valuation (l : Ω) < 1 → Ine (F := K) B ≤ t.ker) ∧ ∃ U : Subgroup (G K Ω), IsOpen (U : Set (G K Ω)) ∧ ∀ B : ValuationSubring Ω, (∀ x ∈ K, x ∈ B ↔ x ∈ A) → ∀ s ∈ U ⊓ Ine (F := K) B, (β s : PadicAlgCl l) ^ 2 = algebraMap ℤ_[l] (PadicAlgCl l) (cycZ K Ω l s : ℤ_[l]) := by
   intro Ω _ _ _ l _ hl K _ _ hK A hA hD
-  haveI := algClosure K
+  have := algClosure K
   obtain ⟨μ, n, hn, hμc, hμ1, hμconj, hμker⟩ := Tw.muChar Ω l hl K hK A hA hD
   obtain ⟨σ, τ, hσ, hlift⟩ := exists_lift hK
   have hσi : σ⁻¹ ∉ K.fixingSubgroup := fun h => hσ (by simpa using K.fixingSubgroup.inv_mem h)
@@ -515,7 +515,7 @@ theorem UpperTheory.V.Ws.Tw.bt0 :
     intro s hs
     have hdis : ∃ x ∈ K, ¬(x ∈ B ↔ x ∈ A) := by
       by_contra hne
-      push_neg at hne
+      push Not at hne
       exact hB ((val_agree hne (natCast_mem K l)).mpr hA)
     have h1 : μ s = 1 := hμker B hdis hs
     have h2 : cycZ K Ω l s = 1 := (places K Ω l B).2.2.2 hB hs

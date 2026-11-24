@@ -326,9 +326,9 @@ theorem exists_smul_eq_sum (D : Datum H) {I : Type} [Fintype I] (e : I → D.La)
     (hcard : Fintype.card I = D.p + D.q) (he : LinearIndependent (𝓞 E) e) (y : D.La) :
     ∃ (b : 𝓞 E) (c : I → 𝓞 E), b ≠ 0 ∧ b • y = ∑ n, c n • e n := by
   classical
-  haveI := D.fin
+  have := D.fin
   by_contra hno
-  push_neg at hno
+  push Not at hno
   set n := Fintype.card I with hn
   let eq := Fintype.equivFin I
   have hv : LinearIndependent (𝓞 E) (e ∘ eq.symm) := he.comp _ eq.symm.injective

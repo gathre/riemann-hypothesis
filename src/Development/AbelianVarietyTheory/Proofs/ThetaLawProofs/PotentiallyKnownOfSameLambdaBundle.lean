@@ -1436,11 +1436,11 @@ theorem known_of_point (hL : Out.Laws) (hT : ThetaUnifAV) {K F : Type} [Field K]
     exact LBIso.trans y'.P.isLB (LB.isLB_pull y.P.isLB _) (LB.isLB_pull z.P.isLB _) hi k.symm
 
 theorem epi_spMap {k Ω : Type} [Field k] [Field Ω] (σ : k →+* Ω) : Epi (spMap σ) := by
-  letI := σ.toAlgebra
-  haveI : Flat (spMap σ) := by
+  let := σ.toAlgebra
+  have : Flat (spMap σ) := by
     rw [HasRingHomProperty.Spec_iff (P := @Flat)]
     exact RingHom.flat_algebraMap_iff.2 inferInstance
-  haveI : Surjective (spMap σ) := ⟨fun p => ⟨IsLocalRing.closedPoint Ω, Subsingleton.elim _ _⟩⟩
+  have : Surjective (spMap σ) := ⟨fun p => ⟨IsLocalRing.closedPoint Ω, Subsingleton.elim _ _⟩⟩
   exact Flat.epi_of_flat_of_surjective _
 
 theorem exists_polPB {R R' : Type} [CommRing R] [CommRing R'] (P : Out.PolAV (Sp R)) (f : R →+* R') :
@@ -1506,13 +1506,13 @@ theorem potKnown_of_lamIs : Out.Laws → ThetaUnifAV → ∀ (K : Type) [Field K
   intro hL hT K _ _ y P e he hl hk
   let Ω := AlgebraicClosure K
   obtain ⟨p, X, ψ, w, hp, h₂, hψ, hw, hi⟩ := exists_point hL (algebraMap K Ω) y.P P e hl
-  haveI := y.P.isAb.smooth
-  haveI := P.isAb.proper
+  have := y.P.isAb.smooth
+  have := P.isAb.proper
   obtain ⟨K₁, p₁, hp₁, _⟩ : ∃ (K₁ : IntermediateField K Ω) (p₁ : Sp K₁ ⟶ y.P.A.left),
       spMap (algebraMap K₁ Ω) ≫ p₁ = p ∧ FiniteDimensional K K₁ := by
     obtain ⟨s, p₁, hp₁⟩ := exists_finset_point y.P.A.hom p hp
     exact ⟨_, p₁, hp₁, IntermediateField.finiteDimensional_adjoin fun x _ => Algebra.IsIntegral.isIntegral x⟩
-  haveI := epi_spMap (algebraMap K₁ Ω)
+  have := epi_spMap (algebraMap K₁ Ω)
   have c₁ : spMap (algebraMap K Ω) = spMap (algebraMap K₁ Ω) ≫ spMap (algebraMap K K₁) :=
     spMap_comp (algebraMap K K₁) (algebraMap K₁ Ω)
   have q₁ : p₁ ≫ y.P.A.hom = spMap (algebraMap K K₁) := by
@@ -1533,16 +1533,16 @@ theorem potKnown_of_lamIs : Out.Laws → ThetaUnifAV → ∀ (K : Type) [Field K
     IsPullback.of_right (by rw [π₁, ← c₁]; exact hψ) π₂ hψ₁
   have πw : π ≫ w₁ = w := (hw₁.comp π).unique hw (by rw [← Category.assoc, π₂, Category.assoc, hp₁])
     (by rw [← Category.assoc, π₁])
-  haveI : IsProper X₁.hom := MorphismProperty.of_isPullback (P := @IsProper) hψ₁ inferInstance
+  have : IsProper X₁.hom := MorphismProperty.of_isPullback (P := @IsProper) hψ₁ inferInstance
   obtain ⟨s', hs'⟩ := lbIso_descends_to_subfield_containing_finset K₁ Ω (algebraMap K₁ Ω) X₁ X π (P.L.pull ψ₁)
     (y.P.L.pull w₁) hπ inferInstance inferInstance (LB.isLB_pull P.isLB _) (LB.isLB_pull y.P.isLB _)
     ((lbIso_pull_both π P.isLB y.P.isLB).2 (by rw [π₁, πw]; exact hi))
   let K₂ := IntermediateField.adjoin K₁ (s' : Set Ω)
-  haveI : FiniteDimensional K₁ K₂ :=
+  have : FiniteDimensional K₁ K₂ :=
     IntermediateField.finiteDimensional_adjoin fun x _ =>
       (Algebra.IsIntegral.isIntegral (R := K) x).tower_top
-  haveI : NumberField K₁ := NumberField.of_module_finite K K₁
-  haveI : NumberField K₂ := NumberField.of_module_finite K₁ K₂
+  have : NumberField K₁ := NumberField.of_module_finite K K₁
+  have : NumberField K₂ := NumberField.of_module_finite K₁ K₂
   let X₂ : Over (Sp K₂) := Over.mk (pullback.snd X₁.hom (spMap (algebraMap K₁ K₂)))
   let χ : X₂.left ⟶ X₁.left := pullback.fst _ _
   have hχ : IsPullback χ X₂.hom X₁.hom (spMap (algebraMap K₁ K₂)) := IsPullback.of_hasPullback _ _

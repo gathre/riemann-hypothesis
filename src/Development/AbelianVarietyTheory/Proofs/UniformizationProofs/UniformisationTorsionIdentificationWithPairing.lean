@@ -153,8 +153,8 @@ theorem torsion_eq : LL → AllUF fun {R} _ _ {I} {D} {A} {G} _ _ U F _ _ => ∀
   refine ⟨f, fun p x => ⟨fun h => huniq p _ _ h (hf p), fun h => h ▸ hf p⟩, ?_,
     fun p p' => ⟨fun h => hinj p p' (f p) (hf p) (h ▸ hf p'), hwd p p'⟩, ?_,
     fun p p' z => GlobalTheory.T.weilQkIs_iff_commutatorPairing_torsion hL R I hI D A G hG U F k hk p p' _ _ (hf p) (hf p') z⟩
-  · haveI : CharZero (FractionRing R) := inferInstance
-    haveI : CharZero F := charZero_of_injective_algebraMap (algebraMap (FractionRing R) F).injective
+  · have : CharZero (FractionRing R) := inferInstance
+    have : CharZero F := charZero_of_injective_algebraMap (algebraMap (FractionRing R) F).injective
     have hA := (hL.1.mulN _ A k hk).2.2.2.2 F (jFK (R := R) F) (Nat.cast_ne_zero.2 (by omega))
     have hQ := GlobalTheory.T.card_quotient_kTorsion_pairs hL R I hI D F k hk
     have hd := GlobalTheory.T.unif_g_eq_rank_add_g hL R I hI D A G hG U
@@ -164,7 +164,7 @@ theorem torsion_eq : LL → AllUF fun {R} _ _ {I} {D} {A} {G} _ _ U F _ _ => ∀
       rintro ⟨p⟩ ⟨p'⟩ h
       have h' : f p = f p' := congrArg Subtype.val h
       exact Quot.sound (hinj p p' (f p) (hf p) (h' ▸ hf p'))
-    haveI : Finite {x : TFK (R := R) F ⟶ A.A // x ^ k = 1} :=
+    have : Finite {x : TFK (R := R) F ⟶ A.A // x ^ k = 1} :=
       Nat.finite_of_card_ne_zero (by rw [hA]; positivity)
     have hb : Function.Bijective φ := hφ.bijective_of_nat_card_le (by rw [hA, hQ, hd])
     intro x hx

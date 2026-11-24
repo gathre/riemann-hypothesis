@@ -239,7 +239,7 @@ theorem exists_comp_eq (hL : Laws) (a : D.P.A ⟶ D.P.A) [IsMonHom a] {ν : ℕ}
           (prod_neg _ _ (prod_kap (translPt D.P.A x) a ν h))).trans ?_
         rw [e]
         apply Additive.ofMul.injective
-        simp [Fin.prod_univ_succ, ofMul_mul, ofMul_inv, ofMul_zpow, ofMul_pow]
+        simp [Fin.prod_univ_succ, ofMul_mul, ofMul_inv, ofMul_pow]
         abel)
       (LB.mulGen D.P.L _ _ _ _ (LB.pullGen D.P.L _ _ κ (snd (TF (R := R) F) D.P.A).left)
         (LB.invGen D.P.L _ _ (LB.pullGen D.P.L _ _ κ (translPt D.P.A x).left)))

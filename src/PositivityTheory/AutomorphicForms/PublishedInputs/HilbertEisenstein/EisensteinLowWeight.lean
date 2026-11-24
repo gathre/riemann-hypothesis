@@ -343,11 +343,11 @@ def eps (v : InfinitePlace F) : GL (Fin 2) (UpperTheory.V.TR.Rinf F) where
   val_inv := by
     rw [Matrix.mul_fin_two, Matrix.one_fin_two]
     ext i j w
-    fin_cases i <;> fin_cases j <;> simp [atv] <;> split_ifs <;> simp
+    fin_cases i <;> fin_cases j <;> simp [atv]; split_ifs <;> simp
   inv_val := by
     rw [Matrix.mul_fin_two, Matrix.one_fin_two]
     ext i j w
-    fin_cases i <;> fin_cases j <;> simp [atv] <;> split_ifs <;> simp
+    fin_cases i <;> fin_cases j <;> simp [atv]; split_ifs <;> simp
 
 def XA (v : InfinitePlace F) : UpperTheory.V.TR.Lie F 2 :=
   UpperTheory.V.TR.toL (Matrix.single 0 0 (Pi.single v 1)) - UpperTheory.V.TR.toL (Matrix.single 1 1 (Pi.single v 1))

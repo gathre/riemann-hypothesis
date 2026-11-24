@@ -372,7 +372,7 @@ theorem sumL_last (g : Sp E n →ₗ[E] Sp E n) (t : E) (x : Sp E N) : sumL hN g
   rfl
 
 def sumE (g : Sp E n ≃ₗ[E] Sp E n) (t : Eˣ) : Sp E N ≃ₗ[E] Sp E N :=
-  LinearEquiv.ofLinear (sumL hN (g : Sp E n →ₗ[E] Sp E n) t) (sumL hN (g.symm : Sp E n →ₗ[E] Sp E n) (t⁻¹ : Eˣ))
+  LinearEquiv.ofLinearMap (sumL hN (g : Sp E n →ₗ[E] Sp E n) t) (sumL hN (g.symm : Sp E n →ₗ[E] Sp E n) (t⁻¹ : Eˣ))
     (LinearMap.ext fun x => ext_prH hN (by simp [prH_sumL]) (by simp [sumL_last]))
     (LinearMap.ext fun x => ext_prH hN (by simp [prH_sumL]) (by simp [sumL_last]))
 

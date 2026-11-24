@@ -954,7 +954,7 @@ omit [NumberField F] in
 theorem conj_root {c : Ω ≃+* Ω} (hc : IsCMConjOm F Ω c) {ζ : Ω} (hζ : IsPrimitiveRoot ζ (l ^ 1)) :
     c ζ = ζ ^ (-1 : ZMod (l ^ 1)).val := by
   have hl : l ^ 1 ≠ 0 := pow_ne_zero _ (Fact.out : l.Prime).ne_zero
-  haveI : NeZero (l ^ 1) := ⟨hl⟩
+  have : NeZero (l ^ 1) := ⟨hl⟩
   obtain ⟨j, hj⟩ := hc.1
   have h1 : c ζ * ζ = 1 := by
     apply j.injective
@@ -1001,7 +1001,7 @@ theorem tors_field (K : Type) [Field K] : Tors K K := fun b => ⟨1, fun x hx =>
 omit [TopologicalSpace K] [DiscreteTopology K] in
 theorem eps_eq (hK : IsRes i K) (g : GE N) : algebraMap (X.O0 i) K ((eps0 X i g : (X.O0 i)ˣ) : X.O0 i) =
     ((((cycMod D.host.E N.Om (X.l i) 1 g : (ZMod (X.l i ^ 1))ˣ) : ZMod (X.l i ^ 1)).val : ℕ) : K) := by
-  haveI : NeZero (X.l i ^ 1) := ⟨pow_ne_zero _ (Fact.out : (X.l i).Prime).ne_zero⟩
+  have : NeZero (X.l i ^ 1) := ⟨pow_ne_zero _ (Fact.out : (X.l i).Prime).ne_zero⟩
   set u : ℤ_[X.l i] := ((cycZ D.host.E N.Om (X.l i) g : ℤ_[X.l i]ˣ) : ℤ_[X.l i])
   change algebraMap (X.O0 i) K (algebraMap ℤ_[X.l i] (X.O0 i) u) = (((PadicInt.toZModPow 1 u).val : ℕ) : K)
   have h : u - (((PadicInt.toZModPow 1 u).val : ℕ) : ℤ_[X.l i]) ∈ RingHom.ker (PadicInt.toZModPow 1) := by
@@ -1037,7 +1037,7 @@ theorem red_dot (hρ : IsDual i s ρ) (g : GE N) (a b : Fin D.R.r → K) :
     Matrix.dotProduct_mulVec, Matrix.vecMul_transpose, Matrix.mulVec_mulVec, h4, Matrix.one_mulVec]
 
 theorem contAction_red (hK : IsRes i K) (hρ : ρ = Tgl i s ∨ IsDual i s ρ) : ContAction (red i K ρ) := by
-  haveI := isLocalHom_of_isRes hK
+  have := isLocalHom_of_isRes hK
   refine contAction_repOn (X.twistBaseCoefficientRing_isAdic i) ρ ?_ 1 (by rw [MonoidHom.ker_one]; exact isOpen_univ) (tors_field K)
   rcases hρ with rfl | hρ
   · simp_rw [Tgl_coe]; exact continuous_Tmat i s
@@ -1050,7 +1050,7 @@ def cupZ (hK : IsRes i K) (hρ : IsDual i s ρ) (lam : K →+ ZMod (X.l i ^ 1)) 
       ((x.2.1.comp continuous_fst).prodMk
         ((contAction_red hK (Or.inr hρ)).comp (continuous_fst.prodMk (y.2.1.comp continuous_snd)))),
     fun g h k => by
-      haveI : NeZero (X.l i ^ 1) := ⟨pow_ne_zero _ (Fact.out : (X.l i).Prime).ne_zero⟩
+      have : NeZero (X.l i ^ 1) := ⟨pow_ne_zero _ (Fact.out : (X.l i).Prime).ne_zero⟩
       dsimp only
       rw [charRep_apply, ← lam_natCast_mul, ← eps_eq hK, ← red_dot hρ, x.2.2 g h, y.2.2 h k, map_mul,
         Module.End.mul_apply]
@@ -1094,8 +1094,8 @@ theorem red_dual_of_resTriv (hK : IsRes i K) (hρ : IsDual i s ρ) {g : GE N} (h
 omit [TopologicalSpace K] [DiscreteTopology K] in
 theorem cycMod_of_resTriv (hK : IsRes i K) {g : GE N} (hg : ResTriv i s g) : cycMod D.host.E N.Om (X.l i) 1 g = 1 := by
   have hl : (X.l i).Prime := Fact.out
-  haveI : NeZero (X.l i ^ 1) := ⟨pow_ne_zero _ hl.ne_zero⟩
-  haveI : CharP K (X.l i ^ 1) := by
+  have : NeZero (X.l i ^ 1) := ⟨pow_ne_zero _ hl.ne_zero⟩
+  have : CharP K (X.l i ^ 1) := by
     rw [pow_one]; exact (CharP.charP_iff_prime_eq_zero hl).2 (l_eq_zero hK)
   have h := eps_eq hK g
   rw [eps_of_resTriv hK hg, ← Nat.cast_one, CharP.natCast_eq_natCast K (X.l i ^ 1),
@@ -1121,7 +1121,7 @@ theorem loc_eq_zero_of_subsingleton (hK : IsRes i K) (hρ : IsDual i s ρ) (lam 
     (x : Z1 (red i K (Tgl i s))) (y : Z1 (red i K ρ)) (v : PlE D.host)
     (h : Subsingleton (H1 ((red i K (Tgl i s)).comp (DecV N v).subtype))) :
     (Submodule.Quotient.mk (locZ (N.plOm.1 v) (cupZ hK hρ lam x y)) : H2 _) = 0 := by
-  haveI : NeZero (X.l i ^ 1) := ⟨pow_ne_zero _ (Fact.out : (X.l i).Prime).ne_zero⟩
+  have : NeZero (X.l i ^ 1) := ⟨pow_ne_zero _ (Fact.out : (X.l i).Prime).ne_zero⟩
   have h1 : (Submodule.Quotient.mk (restrictCocycles1 _ (DecV N v).subtype continuous_subtype_val x) :
     H1 ((red i K (Tgl i s)).comp (DecV N v).subtype)) = 0 := Subsingleton.elim _ _
   rw [Submodule.Quotient.mk_eq_zero] at h1 ⊢
@@ -1159,8 +1159,8 @@ theorem local_pair (hT : TameLocal) {bkP : BKPh X} (h : GalHyp bkP i s) (hK : Is
       inv _ (Submodule.Quotient.mk (locZ (moveVal X.cc (N.plOm.1 P)) (cupZ hK hρ lam x y))) =
         -((u : ZMod (X.l i ^ 1)) * lam (x.1 (cConj X γ) ⬝ᵥ y.1 (cConj X φ))) := by
   have hA := N.plOm.2 P
-  haveI : IsGalois D.host.E N.Om := {}
-  haveI : CompactSpace (DecV N P) := isCompact_iff_compactSpace.1 (isClosed_Dec _).isCompact
+  have : IsGalois D.host.E N.Om := {}
+  have : CompactSpace (DecV N P) := isCompact_iff_compactSpace.1 (isClosed_Dec _).isCompact
   have hcyc : ∀ g : DecV N P, cycMod D.host.E N.Om (X.l i) 1 g = 1 := fun g => cycMod_of_resTriv hK (hP g g.2)
   have hP' : ∀ g : DecV N P, ResTriv i s (cConj X g) := fun g =>
     _root_.GlobalTheory.ResTrivConj.resTriv_conj D N X i s h.2.2.1 g _ (cConj_apply X g) (hP g g.2)
@@ -1243,12 +1243,12 @@ theorem reciprocity : Cheb → PoitouTateTotallyComplex → CohDimTwo → TameLo
   intro _ hPT _ hT _ hLD _ _ _ _ _ D N X bkP i s h hF K _ _ _ _ hK ρ hρ M R P d φ φ' Q hM hpos hQ γ γ' hγ
   classical
   have hl : (X.l i).Prime := Fact.out
-  haveI : NeZero (X.l i ^ 1) := ⟨pow_ne_zero _ hl.ne_zero⟩
-  haveI : IsCMField D.host.E := D.host.isCMField_hostE
-  haveI : IsAlgClosed N.Om := IsAlgClosure.isAlgClosed D.host.E
-  haveI : CharZero N.Om := charZero_of_injective_algebraMap (algebraMap D.host.E N.Om).injective
-  haveI : NeZero ((X.l i : ℕ) : N.Om) := ⟨Nat.cast_ne_zero.mpr hl.ne_zero⟩
-  haveI := isLocalHom_of_isRes hK
+  have : NeZero (X.l i ^ 1) := ⟨pow_ne_zero _ hl.ne_zero⟩
+  have : IsCMField D.host.E := D.host.isCMField_hostE
+  have : IsAlgClosed N.Om := IsAlgClosure.isAlgClosed D.host.E
+  have : CharZero N.Om := charZero_of_injective_algebraMap (algebraMap D.host.E N.Om).injective
+  have : NeZero ((X.l i : ℕ) : N.Om) := ⟨Nat.cast_ne_zero.mpr hl.ne_zero⟩
+  have := isLocalHom_of_isRes hK
   obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot N.Om (X.l i ^ 1)
   obtain ⟨inv, hinv, hsum⟩ := _root_.GlobalTheory.sum_inv_eq_zero_of_unramified_cocycle hPT D.host.E N.Om (X.l i) ζ hζ
   obtain ⟨haux, -, hφ⟩ := id hpos
@@ -1263,9 +1263,9 @@ theorem reciprocity : Cheb → PoitouTateTotallyComplex → CohDimTwo → TameLo
   choose u hu using fun a : Fin R => local_pair hT h hK hρ hζ hinv (hS0 _ _ (over_refl (P (.inr a)))).1 (hq _)
     (hφ a).1 hM (d (.inr a)) (haux.2.2 _).1 (hγ a).1 (hγ a).2.1 (hφ a).2.1
   have hu0 : ∀ a, ((((u a : (ZMod (X.l i ^ 1))ˣ) : ZMod (X.l i ^ 1)).val : ℕ) : K) ≠ 0 := fun a e => by
-    haveI : CharP K (X.l i ^ 1) := by
+    have : CharP K (X.l i ^ 1) := by
       rw [pow_one]; exact (CharP.charP_iff_prime_eq_zero hl).2 (l_eq_zero hK)
-    haveI : Fact (1 < X.l i ^ 1) := ⟨by rw [pow_one]; exact hl.one_lt⟩
+    have : Fact (1 < X.l i ^ 1) := ⟨by rw [pow_one]; exact hl.one_lt⟩
     rw [CharP.cast_eq_zero_iff K (X.l i ^ 1), ← ZMod.natCast_eq_zero_iff, ZMod.natCast_zmod_val] at e
     exact (u a).ne_zero e
   refine ⟨fun a => Units.mk0 _ (hu0 a), fun x y hx hy => ?_⟩

@@ -94,8 +94,8 @@ variable {ε : Fin (2 * r + k + 1) → Bool} {μ μ' : Fin (2 * r + k + 1) → �
 
 private theorem ckOn_GV_of_mem_Wsp (hK : PI.KFinSmooth) (hS : CoefSmooth) {F : B.Mat k r → (Wq →L[ℂ] Wp)}
     (hF : F ∈ Wsp k r Wp Wq ε μ) : B.CkOn ⊤ (B.GV k r) F := by
-  letI : NormedAddCommGroup (B.Mat k r) := Matrix.normedAddCommGroup
-  letI : NormedSpace ℝ (B.Mat k r) := Matrix.normedSpace
+  let : NormedAddCommGroup (B.Mat k r) := Matrix.normedAddCommGroup
+  let : NormedSpace ℝ (B.Mat k r) := Matrix.normedSpace
   unfold Wsp at hF
   induction hF using Submodule.span_induction with
   | mem F hF =>
@@ -226,7 +226,7 @@ theorem op_expand (S : Wq →L[ℂ] Wp) :
     S = ∑ a, ∑ b, ⟪stdOrthonormalBasis ℂ Wp a, S (stdOrthonormalBasis ℂ Wq b)⟫_ℂ •
       (innerSL ℂ (stdOrthonormalBasis ℂ Wq b)).smulRight (stdOrthonormalBasis ℂ Wp a) := by
   ext v
-  simp only [ContinuousLinearMap.sum_apply, ContinuousLinearMap.smul_apply, ContinuousLinearMap.smulRight_apply,
+  simp only [_root_.sum_apply, _root_.smul_apply, ContinuousLinearMap.smulRight_apply,
     innerSL_apply_apply]
   conv_lhs => rw [← (stdOrthonormalBasis ℂ Wq).sum_repr' v]
 

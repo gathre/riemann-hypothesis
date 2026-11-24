@@ -100,7 +100,7 @@ namespace GlobalTheory.CompanionTheory.ThetaUniq
 
 theorem comb_of_basis : ∀ (V : Type) [NormedAddCommGroup V] [NormedSpace ℝ V] (ι : Type) [Fintype ι] (B : Module.Basis ι ℝ V) (T : SchwartzMap V ℂ →L[ℂ] ℂ), (∀ (i : ι) (f g : SchwartzMap V ℂ), (∀ x, g x = cexp (2 * π * I * (B.repr x i : ℝ)) * f x) → T g = T f) → (∀ (m : ι → ℤ) (f g : SchwartzMap V ℂ), (∀ x, g x = f (x + ∑ i, (m i : ℝ) • B i)) → T g = T f) → ∃ a : ℂ, ∀ f : SchwartzMap V ℂ, T f = a * ∑' m : ι → ℤ, f (∑ i, (m i : ℝ) • B i) := by
   intro V _ _ ι _ B T h1 h2
-  haveI : FiniteDimensional ℝ V := Module.Finite.of_basis B
+  have : FiniteDimensional ℝ V := Module.Finite.of_basis B
   let e := Fintype.equivFin ι
   let C := B.reindex e
   let Cc : V ≃L[ℝ] (Fin (Fintype.card ι) → ℝ) := C.equivFun.toContinuousLinearEquiv
@@ -595,7 +595,7 @@ theorem theta_unique : ∀ (F : Type) [Field F] [NumberField F] [LocallyCompactS
     obtain ⟨M', hM', h'⟩ := key Φ₀ hΦ₀
     rw [h _ (Nat.mul_pos hM hM') (dvd_mul_right _ _), h' _ (Nat.mul_pos hM hM') (dvd_mul_left _ _),
       mul_div_cancel_right₀ _ h0]
-  · push_neg at h0
+  · push Not at h0
     refine ⟨0, fun Φ hΦ => ?_⟩
     obtain ⟨M, hM, h⟩ := key Φ hΦ
     rw [h M hM dvd_rfl, h0 Φ hΦ, mul_zero, mul_zero]

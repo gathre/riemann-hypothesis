@@ -117,7 +117,7 @@ private theorem fixed_eq_range {n : ℕ} (τ : FDRep ℂ (Gn g n)) (hτ : IsCusp
     (hφ : ∀ (k : GL (Fin n) ℤ_[g]) (u : τ), φ (τ.ρ (GlobalTheory.GLp.red g n k) u) =
       σ.ρ (GeneralLinearGroup.map i.toRingHom (GlobalTheory.GLp.inc g n k)) (φ u)) :
     Function.Injective φ ∧ fixed σ.ρ (KOne (w.adicCompletion E) (Fin n)) = LinearMap.range φ := by
-  haveI hirr : Representation.IsIrreducible τ.ρ :=
+  have hirr : Representation.IsIrreducible τ.ρ :=
     GlobalTheory.SerOSys.ZSum.isIrreducible_of_simple τ (DiscreteGroups.sglob.DzType.Kon.simple_of_isIrr τ hτ.2.1)
   let U : Subrepresentation τ.ρ := ⟨LinearMap.ker φ, fun x v hv => by
     obtain ⟨k, rfl⟩ := GlobalTheory.GLp.Model.red_surjective n x
@@ -132,9 +132,9 @@ private theorem fixed_eq_range {n : ℕ} (τ : FDRep ℂ (Gn g n)) (hτ : IsCusp
       exact h0 (LinearMap.ker_eq_top.1 hk)
   obtain ⟨u0, hu0⟩ : ∃ u, φ u ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact h0 (LinearMap.ext hcon)
-  haveI : Nontrivial τ := ⟨⟨u0, 0, fun e => hu0 (by rw [e, map_zero])⟩⟩
+  have : Nontrivial τ := ⟨⟨u0, 0, fun e => hu0 (by rw [e, map_zero])⟩⟩
   have hT : PositivityTheory.Rg.DzCount.IsTypeMap (τ.ρ.comp (GeneralLinearGroup.map (n := Fin n) (resE i hi).toRingHom)) σ.ρ φ :=
     ⟨hinj, fun x v => by
       obtain ⟨κ, hκ⟩ := DiscreteGroups.sglob.DzIso.exists_of_mem_KO i hi x.2

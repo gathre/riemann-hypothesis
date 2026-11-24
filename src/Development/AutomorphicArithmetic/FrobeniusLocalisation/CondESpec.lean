@@ -92,7 +92,7 @@ theorem UpperTheory.HF.condE_spec :
     rw [H.imgOne_eq_bot_iff dvd_rfl]
     intro u hu
     have h1 : u = 1 := by
-      haveI : NeZero H.condN := ⟨hN0⟩
+      have : NeZero H.condN := ⟨hN0⟩
       apply Units.ext
       have h2 := (ZMod.natCast_eq_natCast_iff _ _ _).2 hu
       rw [ZMod.natCast_zmod_val, Nat.cast_one] at h2

@@ -61,7 +61,7 @@ def sphW (q : ℕ) {n : ℕ} (α : Fin n → ℂ) (l : Fin n → ℕ) : ℂ :=
   else 0
 
 theorem schur_zero (n : ℕ) : schur n (fun _ => 0) = 1 := by
-  rw [schur, Matrix.det_of_upperTriangular]
+  rw [schur, Matrix.det_of_isUpperTriangular]
   · simp
   · intro i j h
     have h' : (j : ℕ) < i := h

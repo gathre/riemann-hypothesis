@@ -62,7 +62,7 @@ theorem star_sgnIx {p q : ℕ} (a : Ix p q) : star (sgnIx a) = sgnIx a := by
 
 theorem Jm_eq_diagonal (p q : ℕ) : Jm p q = Matrix.diagonal sgnIx := by
   unfold Jm Formalism.UG.Jpq
-  ext (i | i) (j | j) <;> simp [sgnIx, Matrix.diagonal_apply, Matrix.one_apply] <;> split_ifs <;> simp
+  ext (i | i) (j | j) <;> simp [sgnIx, Matrix.diagonal_apply, Matrix.one_apply]; split_ifs <;> simp
 
 theorem adjZ_apply {p q : ℕ} (Z : Mat p q) (a b : Ix p q) :
     adjZ Z a b = sgnIx a * sgnIx b * star (Z b a) := by

@@ -88,7 +88,7 @@ private theorem tangent_of_form {κ B : Type} [Field κ] [CommRing B] [Algebra �
     ext <;> simp [h1]
   · intro x y
     rw [hf, hf, hf]
-    ext <;> simp [key] <;> ring
+    ext <;> simp [key]; ring
   · ext x
     simp [hf]
   · intro x
@@ -155,7 +155,7 @@ theorem UpperTheory.Gal.crystallineComparison.Mod.cotanOne_of :
     refine Ideal.add_mem _ (Ideal.mem_sup_left ?_) (Ideal.mem_sup_right h2)
     rw [Algebra.smul_def]
     exact Ideal.mul_mem_left _ _ (Ideal.mem_span_singleton_self t)
-  · push_neg at hex
+  · push Not at hex
     refine ⟨0, m.zero_mem, ?_⟩
     intro x hx
     exact Ideal.mem_sup_right (hkill x hx (hex x hx))

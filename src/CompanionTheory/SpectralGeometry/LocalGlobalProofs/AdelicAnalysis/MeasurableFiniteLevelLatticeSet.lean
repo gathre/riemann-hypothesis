@@ -74,7 +74,7 @@ theorem measurableSet_natMul_int : ∀ (F E : Type) [Field F] [NumberField F] [F
       (fun (X : Fin 1 → Fin M → AF F ⊗[F] E) (p : Fin 1) (i : Fin M) =>
         (N : AF F ⊗[F] E) * X p i) ⁻¹' intOff b ∅ := by
     ext X
-    simp only [Set.mem_setOf_eq, Set.mem_preimage, intOff, Finset.notMem_empty, not_false_eq_true,
+    simp only [Set.mem_ofPred_eq, Set.mem_preimage, intOff, Finset.notMem_empty, not_false_eq_true,
       forall_const]
     refine forall_congr' fun v => ?_
     have : projV v (projFin (fun (p : Fin 1) (i : Fin M) => (N : AF F ⊗[F] E) * X p i)) =

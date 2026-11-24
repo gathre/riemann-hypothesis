@@ -63,7 +63,7 @@ theorem eq_one_or_eq_of_ker {Γ : Type} [Group Γ] (η₀ η : Γ →* ℤˣ) (h
   right
   obtain ⟨t, ht⟩ : ∃ t, η t ≠ 1 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact h1 (MonoidHom.ext fun x => by simpa using hc x)
   have ht' : η t = -1 := (Int.units_eq_one_or _).resolve_left ht
   have h0t : η₀ t = -1 := by
@@ -97,7 +97,7 @@ private theorem exists_ne_zero_smul_mem_of_mem_span' {Γ k : Type} [Group Γ] [F
   obtain ⟨P, hP⟩ := _root_.GlobalTheory.QuadKernelConj.conj_on_ker_inf_ker Γ k n ρ₀ ρj η₀ η h0 hj htr
   have hs : ∃ s, η₀ s = 1 ∧ η s = -1 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have h4 : ∀ s, η₀ s = 1 → η s = 1 := fun s hs =>
       (Int.units_eq_one_or (η s)).resolve_right (hc s hs)
     rcases eq_one_or_eq_of_ker η₀ η h4 with h | h
@@ -124,12 +124,12 @@ theorem main : ∀ (Γ k : Type) [Group Γ] [TopologicalSpace Γ] [IsTopological
   choose ρe hρc hρs hρr using hext
   obtain ⟨i₀, hi₀⟩ : ∃ i, η i ≠ 1 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     obtain ⟨a, b, hab⟩ := exists_pair_ne ι
     exact hab (hinj ((hc a).trans (hc b).symm))
   obtain ⟨t, ht⟩ : ∃ t, η i₀ t = -1 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hi₀ (MonoidHom.ext fun x => by simpa using (Int.units_eq_one_or _).resolve_right (hc x))
   obtain ⟨B, hBdef⟩ : ∃ B : Set (Γ →* ℤˣ), B = {χ | ∃ X : Matrix (Fin n) (Fin n) k, X ≠ 0 ∧
       ∀ g, ((ρe i₀ g : GL (Fin n) k) : Matrix (Fin n) (Fin n) k) * X =
@@ -156,7 +156,7 @@ theorem main : ∀ (Γ k : Type) [Group Γ] [TopologicalSpace Γ] [IsTopological
     apply ((hB.union (Set.Finite.preimage (f := fun χ => χ * η i₀)
       (fun _ _ _ _ h => mul_right_cancel h) hB)).union (Set.toFinite {1, η i₀})).subset
     intro χ hχ
-    simp only [Set.mem_setOf_eq, not_and_or, not_not] at hχ
+    simp only [Set.mem_ofPred_eq, not_and_or, not_not] at hχ
     rcases hχ with h | h | h | h
     · exact Or.inl (Or.inl h)
     · exact Or.inl (Or.inr h)
@@ -170,7 +170,7 @@ theorem main : ∀ (Γ k : Type) [Group Γ] [TopologicalSpace Γ] [IsTopological
       (fun _ _ _ _ h => mul_left_cancel h) hB)).union (Set.Finite.preimage (f := fun χ => η j₁ * χ * η i₀)
       (fun _ _ _ _ h => mul_left_cancel (mul_right_cancel h)) hB)).subset
     intro χ hχ
-    simp only [Set.mem_setOf_eq] at hχ
+    simp only [Set.mem_ofPred_eq] at hχ
     by_cases h1 : (χ ∉ B ∧ χ * η i₀ ∉ B ∧ χ ≠ 1 ∧ χ ≠ η i₀)
     · by_cases h2 : η j₁ * χ ∉ B
       · have h3 : η j₁ * χ * η i₀ ∈ B := by

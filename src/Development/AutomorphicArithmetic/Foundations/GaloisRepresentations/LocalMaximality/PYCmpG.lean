@@ -167,8 +167,8 @@ private theorem pyc_local (hYC : YCols) (hFL : FixLoc) (k1 : K1) (k2 : KoszulBou
     refine ⟨Pi.single j 1, fun l => ?_, ?_⟩
     · by_cases hl : l = j
       · subst hl
-        simpa using one_mem _
-      · simpa [Pi.single_eq_of_ne hl] using zero_mem _
+        simp
+      · simp [Pi.single_eq_of_ne hl]
     · simp [Pi.single_apply]
   have hKr : KE (kos (sysY x j2 d).act (omB ℂ K' (loc (rB ℂ K' (xv x) {0}) e0.1) d)
       fun a => (sysY x j2 d).r n11 (sysY x j2 d).mu 0 0 (dj 0 a)) d :=
@@ -411,5 +411,5 @@ theorem UpperTheory.Gal.productCup_of_system.yCmpG_of :
     · have hz := pyc_colZ hSB (sysY x j2 d) (app n11 n) (gG x j2 z) hD (I := {i}) (J := {j}) (by simp) (by simp)
       refine (((hKE {i} {j} hI hJ).2.2.2 ?_ d).1) hz
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hij ⟨Finset.singleton_injective hcon.1, Finset.singleton_injective hcon.2⟩

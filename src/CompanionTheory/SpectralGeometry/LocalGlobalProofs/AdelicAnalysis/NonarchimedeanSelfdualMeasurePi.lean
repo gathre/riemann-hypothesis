@@ -491,7 +491,7 @@ theorem ball_le {a b : ℤ} (hab : a ≤ b) : (ball v a : Set (Fv F v)) ⊆ ball
 
 theorem exists_mem_ball (x : Fv F v) : ∃ m, x ∈ ball v m := by
   by_cases hx : Valued.v x = 0
-  · exact ⟨0, by rw [mem_ball, hx]; exact zero_le'⟩
+  · exact ⟨0, by rw [mem_ball, hx]; exact zero_le⟩
   · exact ⟨WithZero.log (Valued.v x), by rw [mem_ball, WithZero.exp_log hx]⟩
 
 theorem exists_ball_of_isCompact (K : Set (Fv F v)) (hK : IsCompact K) :
@@ -543,7 +543,7 @@ theorem ann_isCompact {χ : Fv F v → ℂ} (hc : Continuous χ) (h0 : χ 0 = 1)
   have hy0 : y ≠ 0 := fun h => hy (h ▸ h0)
   have hv : Valued.v y ≠ 0 := (Valuation.ne_zero_iff _).2 hy0
   have hcl : IsClosed {t | ∀ s ∈ L, χ (s * t) = 1} := by
-    simp only [Set.setOf_forall]
+    simp only [Set.ofPred_forall]
     exact isClosed_iInter fun s => isClosed_iInter fun _ =>
       isClosed_eq (hc.comp (continuous_const.mul continuous_id)) continuous_const
   refine (ball_isCompact (v := v) (WithZero.log (Valued.v y) - m)).of_isClosed_subset hcl ?_
@@ -551,7 +551,7 @@ theorem ann_isCompact {χ : Fv F v → ℂ} (hc : Continuous χ) (h0 : χ 0 = 1)
   by_contra hne
   have hlt : WithZero.exp (WithZero.log (Valued.v y) - m) < Valued.v t :=
     not_le.1 fun h => hne h
-  have hvt : Valued.v t ≠ 0 := (lt_of_le_of_lt zero_le' hlt).ne'
+  have hvt : Valued.v t ≠ 0 := (lt_of_le_of_lt zero_le hlt).ne'
   have ht0 : t ≠ 0 := (Valuation.ne_zero_iff _).1 hvt
   have hmem : y / t ∈ ball v m := by
     rw [mem_ball, map_div₀, div_le_iff₀ (zero_lt_iff.2 hvt)]
@@ -565,11 +565,11 @@ theorem ann_isCompact {χ : Fv F v → ℂ} (hc : Continuous χ) (h0 : χ 0 = 1)
 theorem selfDual_pi_v : ∀ (F : Type) [Field F] [NumberField F] (ψ : AddChar (AF F) ℂ), IsCharAF F ψ → ∀ (v : HeightOneSpectrum (𝓞 F)) (k : Measure (Fv F v)), SelfDual k (fun s t => psiV F ψ v (s * t)) → ∀ (ι : Type) [Fintype ι], SelfDual (Measure.pi fun _ : ι => k) (fun x y => psiV F ψ v (x ⬝ᵥ y)) := by
   intro F _ _ ψ hψ v k hk ι _
   obtain ⟨h1, h2, h3, h4, -⟩ := GlobalTheory.CompanionTheory.SW.LocFv.isLocR_Fv F v
-  haveI := h1
-  haveI := h2
-  haveI := h3
-  haveI := h4
-  haveI : BorelSpace (Fv F v) := ⟨rfl⟩
+  have := h1
+  have := h2
+  have := h3
+  have := h4
+  have : BorelSpace (Fv F v) := ⟨rfl⟩
   obtain ⟨hc, y, hy⟩ := (GlobalTheory.CompanionTheory.AdeleCharLocal.char_nontrivial_at_every_place F ψ hψ).1 v
   have ha := psiV_add ψ v
   have hn : ∀ x, ‖psiV F ψ v x‖ = 1 := fun x => hψ.2.1 _

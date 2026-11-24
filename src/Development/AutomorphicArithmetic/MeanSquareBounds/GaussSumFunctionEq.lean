@@ -1161,7 +1161,7 @@ theorem thinH :
   by_cases hqd : H.q ∣ N ∨ H.d ∣ N
   · exact hRB (Formalism.HC.PChar.mk N χ hprim) hχ (isReal_of_sq χ h2) hqd β
       (by have := min_le_right c₀s (1 / 400); linarith)
-  · push_neg at hqd
+  · push Not at hqd
     have hQ0 : H.QS ≠ 0 := (H.QS_pos).ne'
     have hsplitQ := Nat.ordProj_mul_ordCompl_eq_self H.QS 2
     have hprimes : ∀ p : ℕ, p.Prime → p ∣ N → p ∣ 8 * (H.QS / 2 ^ H.QS.factorization 2) ∨ p = H.q ∨ p = H.d := by

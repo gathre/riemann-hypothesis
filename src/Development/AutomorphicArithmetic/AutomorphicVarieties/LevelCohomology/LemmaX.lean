@@ -725,7 +725,7 @@ private theorem UpperTheory.V.X.prodX_nat {R : Type} [CommRing R] {f n : ℕ} (�
     rw [MulChar.map_nonunit _ hnu, zero_mul]
     have hc : ¬IsCoprime a (f : ℤ) ∨ ¬IsCoprime a ((2 ^ n : ℕ) : ℤ) := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       apply h
       push_cast at hc ⊢
       exact hc.1.mul_right hc.2
@@ -743,14 +743,14 @@ private theorem UpperTheory.V.X.genB_prodX {K : Type} [Field K] [CharZero K] {f 
     rw [h, hodd]
   have hN1 : f * 2 ^ n ≠ 1 := by
     intro h1
-    haveI : Subsingleton (ZMod (f * 2 ^ n)) := by
+    have : Subsingleton (ZMod (f * 2 ^ n)) := by
       rw [h1]
       infer_instance
     have e : (-1 : ZMod (f * 2 ^ n)) = 1 := Subsingleton.elim _ _
     rw [e, MulChar.map_one] at hneg
     norm_num at hneg
-  haveI : NeZero (f * 2 ^ n) := ⟨(Nat.mul_pos hf (by positivity)).ne'⟩
-  haveI : Nontrivial (ZMod (f * 2 ^ n)) := ZMod.nontrivial_iff.2 hN1
+  have : NeZero (f * 2 ^ n) := ⟨(Nat.mul_pos hf (by positivity)).ne'⟩
+  have : Nontrivial (ZMod (f * 2 ^ n)) := ZMod.nontrivial_iff.2 hN1
   have hsum : ∑ a, (prodX φ ξ) a = 0 := by
     refine MulChar.sum_eq_zero_of_ne_one (fun h1 => ?_)
     rw [h1, MulChar.one_apply isUnit_one.neg] at hneg
@@ -784,7 +784,7 @@ theorem UpperTheory.V.X.lemmaX :
   intro l _ d f n φ ξ hX
   obtain ⟨k, _, _, A, red, hA, hred⟩ := UpperTheory.exists_residue_map_padicAlgCl_integers l
   have hlp : l.Prime := Fact.out
-  haveI : ExpChar k l := ExpChar.prime hlp
+  have : ExpChar k l := ExpChar.prime hlp
   have hq1 : 1 < l ^ d := Nat.one_lt_pow hX.d_pos.ne' hlp.one_lt
   have hl2 : l ≠ 2 := by
     intro h
@@ -883,7 +883,7 @@ theorem UpperTheory.V.X.lemmaX :
   have hnorm2 : ‖((2 : ℕ) : PadicAlgCl l)‖ = 1 := by
     apply le_antisymm ((hA _).1 h2A)
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     apply h2k
     have h' := (hred ⟨_, h2A⟩).2 hlt
     have e2 : (⟨((2 : ℕ) : PadicAlgCl l), h2A⟩ : A) = ((2 : ℕ) : A) := Subtype.ext (map_natCast A.subtype 2).symm
@@ -899,7 +899,7 @@ theorem UpperTheory.V.X.lemmaX :
     have hprod : red ⟨_, hyA⟩ * red ⟨_, h2nA⟩ = 1 := by
       rw [← map_mul, ← map_one red]
       congr 1
-      exact Subtype.ext (by simp [hN0])
+      exact Subtype.ext (by simp [])
     have e2 : (⟨((2 ^ (m + e) : ℕ) : PadicAlgCl l), h2nA⟩ : A) = ((2 ^ (m + e) : ℕ) : A) :=
       Subtype.ext (map_natCast A.subtype _).symm
     rw [e2, map_natCast] at hprod
@@ -913,10 +913,10 @@ theorem UpperTheory.V.X.lemmaX :
       rw [hprod, ← hfrob, ← mul_pow, hprod, one_pow]
     exact mul_right_cancel₀ hne0 h'
   have hφB : ∀ a : ℕ, φ (a : ZMod f) ∈ B := fun a => fixB _ (hφq _)
-  haveI : NeZero (2 ^ (m + e)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (m + e)) := ⟨by positivity⟩
   have hcop : f.Coprime (2 ^ (m + e)) := Nat.Coprime.pow_right _ (Nat.coprime_two_right.2 hX.f_odd)
   obtain ⟨g, c, hgB, hcB, hshift, hsumid⟩ := lx_partial (K := PadicAlgCl l) f (2 ^ (m + e)) hX.f_odd.pos hcop
-    (fun a => φ (a : ZMod f)) (fun a => by simp [Nat.cast_add, ZMod.natCast_self]) B hφB hinvN
+    (fun a => φ (a : ZMod f)) (fun a => by simp [Nat.cast_add]) B hφB hinvN
   have hxi1 := UpperTheory.primitive_two_pow_character_one_add_half_eq_neg_one (PadicAlgCl l) (m + e) (by omega) ξ hX.prim2
   have hξsum : ∑ u, ξ u = 0 := by
     refine MulChar.sum_eq_zero_of_ne_one (fun h1 => ?_)
@@ -1004,7 +1004,7 @@ theorem UpperTheory.V.X.lemmaX :
     rfl
   apply le_antisymm ((hA _).1 hSA)
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   exact hcore (hred_sum ▸ (hred ⟨_, hSA⟩).2 hlt)
 end -- clump:auto
 end -- clump:auto

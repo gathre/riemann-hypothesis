@@ -294,7 +294,7 @@ theorem form_mon_mem (S : Finset (Fin d)) {a : ℕ} (c₀ : Gam n d) (c : Fin a 
           omega
         · have := Finset.single_le_sum (f := fun i => tdeg (c i)) (fun i _ => hnn i) (Finset.mem_univ k)
           omega
-    · push_neg at hz
+    · push Not at hz
       obtain ⟨k, hk⟩ := hz
       rw [Finset.prod_eq_zero (Finset.mem_univ k) hk, zero_smul]
       exact Submodule.zero_mem _

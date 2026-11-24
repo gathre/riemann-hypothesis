@@ -108,9 +108,9 @@ lemma cases3 {P : Fin (2 * r + k + 1) → Prop} (h1 : ∀ a, P (eI k r a)) (h2 :
   · have e : i = eI k r ⟨i.val, h⟩ := Fin.ext rfl
     rw [e]; exact h1 _
   · rcases Nat.lt_or_ge (r + k) i.val with h' | h'
-    · have e : i = esI k r ⟨2 * r + k - i.val, by omega⟩ := Fin.ext (by simp only [esI_val, Fin.val_mk]; omega)
+    · have e : i = esI k r ⟨2 * r + k - i.val, by omega⟩ := Fin.ext (by simp only [esI_val]; omega)
       rw [e]; exact h3 _
-    · have e : i = wI k r ⟨i.val - r, by omega⟩ := Fin.ext (by simp only [wI_val, Fin.val_mk]; omega)
+    · have e : i = wI k r ⟨i.val - r, by omega⟩ := Fin.ext (by simp only [wI_val]; omega)
       rw [e]; exact h2 _
 
 lemma piI_eI (a : Fin r) : piI k r (eI k r a) = esI k r a := Fin.ext (by
@@ -207,8 +207,8 @@ lemma Hpk_ss (a b : Fin r) : Hpk k r (esI k r a) (esI k r b) = 0 := by
 variable (Bm : Matrix (Fin r) (Fin (k + 1)) ℂ) (S : Matrix (Fin r) (Fin r) ℂ)
 
 lemma eI_back (a : Fin r) (h) : (⟨(eI k r a).val, h⟩ : Fin r) = a := Fin.ext rfl
-lemma wI_back (j : Fin (k + 1)) (h) : (⟨(wI k r j).val - r, h⟩ : Fin (k + 1)) = j := Fin.ext (by simp only [Fin.val_mk, wI_val]; omega)
-lemma esI_back (b : Fin r) (h) : (⟨2 * r + k - (esI k r b).val, h⟩ : Fin r) = b := Fin.ext (by simp only [Fin.val_mk, esI_val]; have := b.isLt; omega)
+lemma wI_back (j : Fin (k + 1)) (h) : (⟨(wI k r j).val - r, h⟩ : Fin (k + 1)) = j := Fin.ext (by simp only [wI_val]; omega)
+lemma esI_back (b : Fin r) (h) : (⟨2 * r + k - (esI k r b).val, h⟩ : Fin r) = b := Fin.ext (by simp only [esI_val]; have := b.isLt; omega)
 
 lemma nb_ee (a b : Fin r) : unipotentBlockMatrix k r Bm S (eI k r a) (eI k r b) = if a = b then 1 else 0 := by
   simp (disch := (simp only [eI_val]; omega)) only
@@ -298,7 +298,7 @@ theorem nb_UH (hS : Sᴴ = -S) : unipotentBlockMatrix k r Bm S ∈ UH (Hpk k r) 
     | exact aux1 _ _
     | exact aux2 _ _
     | (rw [mid_sum]; linear_combination cm_skew Bm S hS _ _)
-    | (split_ifs <;> simp_all; done)
+    | (split_ifs <;> simp_all)
 
 lemma inWb_eI {z : Fin (2 * r + k + 1) → ℂ} (hz : inWb k r z) (a : Fin r) : z (eI k r a) = 0 := hz _ (Or.inl (by rw [eI_val]; exact a.isLt))
 lemma inWb_esI {z : Fin (2 * r + k + 1) → ℂ} (hz : inWb k r z) (a : Fin r) : z (esI k r a) = 0 := hz _ (Or.inr (by rw [esI_val]; have := a.isLt; omega))

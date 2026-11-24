@@ -72,7 +72,7 @@ theorem minorIJ_one_diag {R : Type} [CommRing R] {N : ℕ} (J : Finset (Fin N)) 
 theorem exists_isUnit_of_sum {R : Type} [CommRing R] [IsLocalRing R] {ι : Type} (s : Finset ι)
     (f : ι → R) (h : IsUnit (∑ a ∈ s, f a)) : ∃ a ∈ s, IsUnit (f a) := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have : ∑ a ∈ s, f a ∈ IsLocalRing.maximalIdeal R :=
     Ideal.sum_mem _ fun a ha => (IsLocalRing.mem_maximalIdeal _).2 (hc a ha)
   exact (IsLocalRing.mem_maximalIdeal _).1 this h

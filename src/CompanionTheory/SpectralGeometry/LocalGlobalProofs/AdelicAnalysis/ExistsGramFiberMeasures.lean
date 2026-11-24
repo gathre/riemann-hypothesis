@@ -974,7 +974,7 @@ theorem exists_gramFib : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [N
   have hKu := _root_.GlobalTheory.CompanionTheory.SW.KUnits.units_val_isOpenEmbedding F E σ hCM R hR
   obtain ⟨hXlc, hXsc, hXt2, hXb, hlift⟩ := GlobalTheory.CompanionTheory.SW.HermTop.herm_top F E σ hCM R n
   obtain ⟨g, hg, hgf⟩ := hlift M J hJ
-  haveI := hKb n M
+  have := hKb n M
   have hinj : Function.Injective (Subtype.val : HermR R σ n → Matrix (Fin n) (Fin n) (R ⊗[F] E)) :=
     Subtype.val_injective
   have hBo : IsOpen {S : HermR R σ n | IsUnit (S : Matrix (Fin n) (Fin n) (R ⊗[F] E)).det} := by
@@ -984,7 +984,7 @@ theorem exists_gramFib : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [N
         (fun S : HermR R σ n => (S : Matrix (Fin n) (Fin n) (R ⊗[F] E)).det) ⁻¹'
           Set.range (Units.val : (R ⊗[F] E)ˣ → R ⊗[F] E) := by
       ext S
-      simp only [Set.mem_setOf_eq, Set.mem_preimage, Set.mem_range]
+      simp only [Set.mem_ofPred_eq, Set.mem_preimage, Set.mem_range]
       rfl
     rw [this]
     exact hKu.isOpen_range.preimage hc
@@ -1001,7 +1001,7 @@ theorem exists_gramFib : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [N
     have hU : {X | IsUnit (gramR R σ J X).det} =
         g ⁻¹' {S | IsUnit (S : Matrix (Fin n) (Fin n) (R ⊗[F] E)).det} := by
       ext X
-      simp only [Set.mem_setOf_eq, Set.mem_preimage, hgf X]
+      simp only [Set.mem_ofPred_eq, Set.mem_preimage, hgf X]
     unfold IsGramFib
     rw [hU]
     exact hfib

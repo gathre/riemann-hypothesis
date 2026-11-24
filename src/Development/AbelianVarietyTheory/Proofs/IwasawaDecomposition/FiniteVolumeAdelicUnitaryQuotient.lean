@@ -488,14 +488,14 @@ noncomputable def ratPt (R : Type) [CommRing R] [Algebra F R] (σ : E →ₐ[F] 
 theorem topGroup_HA [FiniteDimensional F E] (R : Type) [CommRing R] [Algebra F R] [TopologicalSpace R]
     [IsTopologicalRing R] (σ : E →ₐ[F] E) {M : ℕ} (J : Matrix (Fin M) (Fin M) E) :
     IsTopologicalGroup (HA R σ J) := by
-  haveI : IsModuleTopology R (R ⊗[F] E) := ⟨rfl⟩
-  haveI : IsTopologicalRing (R ⊗[F] E) := IsModuleTopology.isTopologicalRing R _
+  have : IsModuleTopology R (R ⊗[F] E) := ⟨rfl⟩
+  have : IsTopologicalRing (R ⊗[F] E) := IsModuleTopology.isTopologicalRing R _
   exact inferInstanceAs (IsTopologicalGroup (HR R σ J))
 
 theorem countable_HFinIn [Countable E] (R : Type) [CommRing R] [Algebra F R] (σ : E →ₐ[F] E) {M : ℕ}
     (J : Matrix (Fin M) (Fin M) E) : Countable (HFinIn R σ J) := by
-  haveI : Countable (Matrix (Fin M) (Fin M) E) := inferInstanceAs (Countable (Fin M → Fin M → E))
-  haveI : Countable (GL (Fin M) E) := Units.val_injective.countable
+  have : Countable (Matrix (Fin M) (Fin M) E) := inferInstanceAs (Countable (Fin M → Fin M → E))
+  have : Countable (GL (Fin M) E) := Units.val_injective.countable
   refine Function.Surjective.countable
     (f := fun γ : Formalism.UG.UJ (σ : E →+* E) J => (⟨ratPt R σ J γ, γ.1, γ.2, rfl⟩ : HFinIn R σ J)) ?_
   rintro ⟨g, γ, hγ, h⟩
@@ -549,22 +549,22 @@ end Rat
 theorem finVol : FiniteVolume₂ := by
   intro F E _ _ _ _ _ σ hCM M J hJ μ hμ 𝓕 h𝓕
   classical
-  haveI := topGroup_HA (AF F) σ J
-  haveI := topGroup_HA (Ainf F) σ J
-  haveI := topGroup_HA (Af F) σ J
-  haveI : BorelSpace (HA (AF F) σ J) := ⟨rfl⟩
-  haveI : BorelSpace (HA (Ainf F) σ J) := ⟨rfl⟩
-  haveI : BorelSpace (HA (Af F) σ J) := ⟨rfl⟩
-  haveI := GlobalTheory.AdelicUnitaryTop.locallyCompact_finiteAdele F
-  haveI := GlobalTheory.AdelicUnitaryTop.secondCountable_finiteAdele F
-  haveI := GlobalTheory.AdelicUnitaryTop.t2Space_finiteAdeleRing_of_numberField F
-  haveI := GlobalTheory.AdelicUnitaryTop.secondCountable_infiniteAdele F
-  haveI := GlobalTheory.AdelicUnitaryTop.t2Space_infiniteAdeleRing_of_numberField_field F
+  have := topGroup_HA (AF F) σ J
+  have := topGroup_HA (Ainf F) σ J
+  have := topGroup_HA (Af F) σ J
+  have : BorelSpace (HA (AF F) σ J) := ⟨rfl⟩
+  have : BorelSpace (HA (Ainf F) σ J) := ⟨rfl⟩
+  have : BorelSpace (HA (Af F) σ J) := ⟨rfl⟩
+  have := GlobalTheory.AdelicUnitaryTop.locallyCompact_finiteAdele F
+  have := GlobalTheory.AdelicUnitaryTop.secondCountable_finiteAdele F
+  have := GlobalTheory.AdelicUnitaryTop.t2Space_finiteAdeleRing_of_numberField F
+  have := GlobalTheory.AdelicUnitaryTop.secondCountable_infiniteAdele F
+  have := GlobalTheory.AdelicUnitaryTop.t2Space_infiniteAdeleRing_of_numberField_field F
   obtain ⟨_, _, -⟩ := GlobalTheory.AdelicUnitaryTop.lcsc_HA (Ainf F) σ M J
   obtain ⟨_, _, -⟩ := GlobalTheory.AdelicUnitaryTop.lcsc_HA (Af F) σ M J
-  haveI : Countable E := (Module.finBasis ℚ E).equivFun.injective.countable
+  have : Countable E := (Module.finBasis ℚ E).equivFun.injective.countable
   let Γ : Subgroup (HA (AF F) σ J) := HFinIn (AF F) σ J
-  haveI : Countable Γ := countable_HFinIn (AF F) σ J
+  have : Countable Γ := countable_HFinIn (AF F) σ J
   obtain ⟨e, he⟩ := GlobalTheory.Mem.VolSplit.exists_adelic_split F E σ M J
   have herat : ∀ γ, e (ratPt (AF F) σ J γ) = (ratPt (Ainf F) σ J γ, ratPt (Af F) σ J γ) := by
     intro γ

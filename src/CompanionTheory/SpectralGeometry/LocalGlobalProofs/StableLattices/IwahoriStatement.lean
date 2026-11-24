@@ -1242,7 +1242,7 @@ theorem stIwahori : StIwahori := by
     (fun a a' h1 h2 h3 => (isUpper_rev_iff P a').1 (_root_.GlobalTheory.CompanionTheory.Iwahori.UpInv.isUpper_inv _ P hP a a' h1 h2 ((isUpper_rev_iff P a).2 h3)))
     a (1 + ya) b (1 + yb) ia1 ia2 ib1 ib2 hup hlo hk2 hk3
   let A : V ≃ₗ[L] V := LinearEquiv.ofLinear a (1 + ya) ia1 ia2
-  let B : V ≃ₗ[L] V := LinearEquiv.ofLinear b (1 + yb) ib1 ib2
+  let B : V ≃ₗ[L] V := LinearEquiv.ofLinearMap b (1 + yb) ib1 ib2
   have isoOf : ∀ (g : V ≃ₗ[L] V), st (g.toLinearMap) * g.toLinearMap = 1 → IsIso h g := fun g hg x y => by
     have := hst g.toLinearMap x (g y)
     simp only [LinearEquiv.coe_coe] at this

@@ -420,11 +420,11 @@ theorem isSquare_mul_of_near {x y : v.adicCompletion F} (hx : Valued.v x = 1) (h
     (hx4 : Valued.v (x - 1) ≤ Valued.v (4 : v.adicCompletion F))
     (hy4 : Valued.v (y - 1) ≤ Valued.v (4 : v.adicCompletion F))
     (hx' : ¬ IsSquare x) (hy' : ¬ IsSquare y) : IsSquare (x * y) := by
-  haveI : CharZero (v.adicCompletion F) :=
+  have : CharZero (v.adicCompletion F) :=
     charZero_of_injective_algebraMap (algebraMap F (v.adicCompletion F)).injective
   rcases (map_two_le (Valued.v : Valuation (v.adicCompletion F) ℤᵐ⁰)).eq_or_lt with h2 | h2
   · exact GlobalTheory.QNorm.isSquare_mul_of_nonsquare_units F v h2 x y hx hy hx' hy'
-  haveI := GlobalTheory.SelfDualGenus.finite_residueField_adicCompletionIntegers v
+  have := GlobalTheory.SelfDualGenus.finite_residueField_adicCompletionIntegers v
   have hres : ∀ z : v.adicCompletionIntegers F,
       residue (v.adicCompletionIntegers F) z = 0 ↔ Valued.v (z : v.adicCompletion F) < 1 := by
     intro z
@@ -476,7 +476,7 @@ theorem isSquare_mul_of_near {x y : v.adicCompletion F} (hx : Valued.v x = 1) (h
 
 theorem nm_mul_adicCompletion {d x y : v.adicCompletion F} (hd : d ≠ 0) (hx0 : x ≠ 0) (hy0 : y ≠ 0)
     (hx : ¬ Nm d x) (hy : ¬ Nm d y) : Nm d (x * y) := by
-  haveI : CharZero (v.adicCompletion F) :=
+  have : CharZero (v.adicCompletion F) :=
     charZero_of_injective_algebraMap (algebraMap F (v.adicCompletion F)).injective
   obtain ⟨⟨π, -, hπ⟩, -⟩ := GlobalTheory.QNorm.exists_uniformizer_and_residue_representatives F v
   have hres := GlobalTheory.QNorm.exists_sub_sq_lt_one_of_two_lt_one F v

@@ -112,9 +112,9 @@ lemma wt_cont (g : SL(2, ℤ)) : Continuous (fun τ : ℍ => g • τ) :=
 
 theorem wt_exists : ∀ L : ℕ, 0 < L → ∃ ρ, Wt L ρ := by
   intro L hL
-  haveI : NeZero L := ⟨hL.ne'⟩
-  haveI := wt_countable
-  haveI hfin : Finite (SL(2, ℤ) ⧸ Gamma0 L) := Subgroup.finite_quotient_of_finiteIndex
+  have : NeZero L := ⟨hL.ne'⟩
+  have := wt_countable
+  have hfin : Finite (SL(2, ℤ) ⧸ Gamma0 L) := Subgroup.finite_quotient_of_finiteIndex
   set S : Finset SL(2, ℤ) := (Set.finite_range (fun q : SL(2, ℤ) ⧸ Gamma0 L => q.out)).toFinset with hS
   have hcov : ∀ g : SL(2, ℤ), ∃ s ∈ S, ∃ γ ∈ Gamma0 L, g = s * γ := by
     intro g
@@ -151,10 +151,10 @@ theorem wt_exists : ∀ L : ℕ, 0 < L → ∃ ρ, Wt L ρ := by
     rw [tsum_eq_sum (s := (hKfin τ).toFinset)]
     · rw [Finset.card_eq_sum_ones, Nat.cast_sum]
       refine Finset.sum_congr rfl fun γ hγ => ?_
-      simp only [Set.Finite.mem_toFinset, Set.mem_setOf_eq] at hγ
+      simp only [Set.Finite.mem_toFinset, Set.mem_ofPred_eq] at hγ
       rw [Set.indicator_of_mem hγ]; simp
     · intro γ hγ
-      simp only [Set.Finite.mem_toFinset, Set.mem_setOf_eq] at hγ
+      simp only [Set.Finite.mem_toFinset, Set.mem_ofPred_eq] at hγ
       rw [Set.indicator_of_notMem hγ]
   have hNinv : ∀ (γ : Gamma0 L) τ, N ((γ : SL(2, ℤ)) • τ) = N τ := by
     intro γ τ
@@ -168,7 +168,7 @@ theorem wt_exists : ∀ L : ℕ, 0 < L → ∃ ρ, Wt L ρ := by
   · intro τ
     have hz : ∀ γ ∉ (hKfin τ).toFinset, ρ ((γ : SL(2, ℤ)) • τ) = 0 := by
       intro γ hγ
-      simp only [Set.Finite.mem_toFinset, Set.mem_setOf_eq] at hγ
+      simp only [Set.Finite.mem_toFinset, Set.mem_ofPred_eq] at hγ
       simp only [ρ]; rw [Set.indicator_of_notMem hγ]
     have hpos : 0 < (hKfin τ).toFinset.card := by
       obtain ⟨γ, hγ⟩ := hKne τ
@@ -180,7 +180,7 @@ theorem wt_exists : ∀ L : ℕ, 0 < L → ∃ ρ, Wt L ρ := by
         field_simp
       · intro γ hγ
         have hγ' : (γ : SL(2, ℤ)) • τ ∈ K := by
-          simp only [Set.Finite.mem_toFinset, Set.mem_setOf_eq] at hγ; exact hγ
+          simp only [Set.Finite.mem_toFinset, Set.mem_ofPred_eq] at hγ; exact hγ
         simp only [ρ]
         rw [Set.indicator_of_mem hγ', hNinv, hNcard]
         simp

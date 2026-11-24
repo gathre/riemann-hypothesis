@@ -540,7 +540,7 @@ theorem UpperTheory.exists_whittaker_heckeEigenvalues_at_split_place :
   · rintro ⟨h, hh⟩
     obtain ⟨h₁, hh₁⟩ : ∃ h₁, φ h₁ ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply hh
       simp [Wo, hcon]
     set c : ℂ := ((χ.val v : ℂˣ) : ℂ) with hc

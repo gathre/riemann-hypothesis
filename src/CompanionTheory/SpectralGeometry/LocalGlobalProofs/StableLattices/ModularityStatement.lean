@@ -85,12 +85,12 @@ theorem finite_fib [∀ x : X, Finite (MulAction.stabilizer Γ x)] (x y : X) :
     · intro a b hab
       apply Subtype.ext
       simpa using congrArg Subtype.val hab
-  · haveI := not_nonempty_iff.1 hne
+  · have := not_nonempty_iff.1 hne
     infer_instance
 
 theorem cnt_self_pos [∀ x : X, Finite (MulAction.stabilizer Γ x)] (x : X) : 0 < cnt Γ x x := by
-  haveI := finite_fib (Γ := Γ) x x
-  haveI : Nonempty {γ : Γ // γ • x = x} := ⟨⟨1, one_smul _ _⟩⟩
+  have := finite_fib (Γ := Γ) x x
+  have : Nonempty {γ : Γ // γ • x = x} := ⟨⟨1, one_smul _ _⟩⟩
   exact Nat.card_pos
 
 theorem support_finite [∀ x : X, Finite (MulAction.stabilizer Γ x)] (f : X →₀ ℂ) (x : X) :
@@ -100,7 +100,7 @@ theorem support_finite [∀ x : X, Finite (MulAction.stabilizer Γ x)] (f : X �
   · intro z _
     exact Set.finite_coe_iff.1 (finite_fib (Γ := Γ) x z)
   · intro γ hγ
-    simp only [Set.mem_iUnion, Set.mem_setOf_eq]
+    simp only [Set.mem_iUnion, Set.mem_ofPred_eq]
     exact ⟨γ • x, by simpa using hγ, rfl⟩
 
 theorem finsum_eq [∀ x : X, Finite (MulAction.stabilizer Γ x)] (f : X →₀ ℂ) (x : X) :

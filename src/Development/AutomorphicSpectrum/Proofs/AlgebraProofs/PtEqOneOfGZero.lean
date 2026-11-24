@@ -1035,7 +1035,7 @@ theorem exists_cp (p : ℕ) [hp : Fact p.Prime] {C : Type} [Field C] [IsAlgClose
   obtain ⟨c, hc⟩ := IsAlgClosed.exists_pow_nat_eq (p : C) h1
   have hle : v c ≤ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have : 1 < v c ^ (p - 1) := one_lt_pow₀ h h1.ne'
     rw [← map_pow, hc] at this
     exact absurd hpv (not_lt.2 this.le)
@@ -1072,15 +1072,15 @@ theorem torsFun_one_eq {p : ℕ} [Fact p.Prime] {C : Type} [Field C] {R : Type} 
 
 theorem main : HodgeTateDatumStatement := by
   intro p _ C _ _ _ v R _ _ hv hp hcomp _ P
-  haveI : IsLocalRing R := isLocal_of_integers hv
-  haveI : IsDomain R := hv.hom_inj.isDomain (algebraMap R C)
-  haveI : Fact ¬IsUnit (p : R) := ⟨fun hu => by
+  have : IsLocalRing R := isLocal_of_integers hv
+  have : IsDomain R := hv.hom_inj.isDomain (algebraMap R C)
+  have : Fact ¬IsUnit (p : R) := ⟨fun hu => by
     have h1 := hv.one_of_isUnit hu
     rw [map_natCast] at h1
     rw [h1] at hp
     exact lt_irrefl _ hp⟩
-  haveI : IsAdicComplete (Ideal.span {(p : R)}) R := hcomp
-  haveI : IsCommMonObj P.A := P.isAb.comm
+  have : IsAdicComplete (Ideal.span {(p : R)}) R := hcomp
+  have : IsCommMonObj P.A := P.isAb.comm
   have hT : Nonempty (TorsRep P.A p) :=
     GlobalTheory.T.abelian_scheme_torsion_representation R p (Fact.out : p.Prime).one_le P.A P.L P.isAb P.isLB P.ample
   refine ⟨hT, ?_⟩

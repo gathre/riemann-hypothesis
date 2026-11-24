@@ -95,7 +95,7 @@ theorem exists_conj_of_algHom {B : Type} [CommRing B] [IsLocalRing B] {r : ℕ}
     simp at h2
   obtain ⟨a, b, hab⟩ : ∃ a b, IsUnit (θ (Matrix.single i0 i0 (1 : B)) a b) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hne
     have he : θ (Matrix.single i0 i0 (1 : B)) * θ (Matrix.single i0 i0 1) =
         θ (Matrix.single i0 i0 1) := by

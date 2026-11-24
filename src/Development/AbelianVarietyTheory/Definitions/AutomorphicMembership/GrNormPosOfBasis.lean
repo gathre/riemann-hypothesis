@@ -215,7 +215,7 @@ theorem grNorm_tri (hu : ∀ k, IsTanAtG t x (u k)) {d : Fin m → C} (hd : ∀ 
   let A : Matrix (Fin m) (Fin m) C := fun j i => a i j
   have hA : A.BlockTriangular id := fun j k hk => h2 k j hk
   have hdet : IsUnit A.det := by
-    rw [Matrix.det_of_upperTriangular hA]
+    rw [Matrix.det_of_isUpperTriangular hA]
     exact (Finset.prod_ne_zero_iff.2 fun k _ => (h1 k).trans_ne (hd k)).isUnit
   let _ := Matrix.invertibleOfIsUnitDet A hdet
   have hn : ‖d i‖ ≠ 0 := norm_ne_zero_iff.2 (hd i)

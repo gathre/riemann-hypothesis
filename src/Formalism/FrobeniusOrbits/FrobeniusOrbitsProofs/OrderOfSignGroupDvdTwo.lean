@@ -82,7 +82,7 @@ open Misc Galois
 
 theorem hostEmb : HostEmb := by
   intro e q d hqd L _ _ ζ a b hL φ₀
-  haveI := Galois.isGalois_hostE hqd hL
+  have := Galois.isGalois_hostE hqd hL
   have inj : Function.Injective
       (fun σ : hostE ζ a b ≃ₐ[ℚ] hostE ζ a b => φ₀.comp (σ : hostE ζ a b →+* hostE ζ a b)) := by
     intro σ τ h

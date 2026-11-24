@@ -226,7 +226,7 @@ theorem kfin (hB : B1b) (k : InfinitePlace F → ℕ) (f : X (InfinitePlace F) �
     (hrel : Rel k f φ.1) : FiniteDimensional ℂ (Submodule.span ℂ (Set.range fun r => TR.cptRep F 2 r φ)) := by
   classical
   let T := Submodule.span ℂ (Set.range fun S : Set (InfinitePlace F) => TR.rt F 2 (TR.infGL F 2 (eS S)) φ)
-  haveI : FiniteDimensional ℂ T := FiniteDimensional.span_of_finite ℂ (Set.finite_range _)
+  have : FiniteDimensional ℂ T := FiniteDimensional.span_of_finite ℂ (Set.finite_range _)
   refine Submodule.finiteDimensional_of_le (S₂ := T) (Submodule.span_le.2 ?_)
   rintro _ ⟨r, rfl⟩
   have e : TR.cptRep F 2 r φ = TR.rt F 2 (TR.infGL F 2 (Unitary.toUnits r)) φ := rfl

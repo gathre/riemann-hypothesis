@@ -85,10 +85,10 @@ theorem root_pow_eq_one {K : Type} [Field K] [Fintype K] {P : K[X]} (hmon : P.Mo
   have hx0 : x ≠ 0 := by
     rintro rfl
     exact hX (hmin.trans (minpoly.zero K _))
-  haveI : FiniteDimensional K (IntermediateField.adjoin K {x}) :=
+  have : FiniteDimensional K (IntermediateField.adjoin K {x}) :=
     IntermediateField.adjoin.finiteDimensional hint
-  haveI : Finite (IntermediateField.adjoin K {x}) := Module.finite_of_finite K
-  letI := Fintype.ofFinite (IntermediateField.adjoin K {x})
+  have : Finite (IntermediateField.adjoin K {x}) := Module.finite_of_finite K
+  let := Fintype.ofFinite (IntermediateField.adjoin K {x})
   have hcard : Fintype.card (IntermediateField.adjoin K {x}) = Fintype.card K ^ P.natDegree := by
     rw [← hfr]; exact Module.card_eq_pow_finrank
   have hy : IntermediateField.AdjoinSimple.gen K x ≠ 0 := by
@@ -125,7 +125,7 @@ theorem exists_cuspidal_label : ∀ (K : Type) [Field K] [Fintype K] [DecidableE
     (minpoly.eq_of_irreducible_of_monic hirr hw hmon).symm
   have hprim : IsPrimitiveRoot (C.gen d) (Fintype.card K ^ d - 1) := by
     rw [← C.gen_order d hd]; exact IsPrimitiveRoot.orderOf _
-  haveI : NeZero (Fintype.card K ^ d - 1) := ⟨by omega⟩
+  have : NeZero (Fintype.card K ^ d - 1) := ⟨by omega⟩
   obtain ⟨k, -, hkx⟩ := hprim.eq_pow_of_pow_eq_one (hroot x₀ hx₀)
   have hreg := _root_.GlobalTheory.CuspGL.exponent_regular_of_natDegree_minpoly_pow K d k (C.gen d) hd (by rw [hcard]; exact C.gen_order d hd)
     (by rw [hkx, hminP x₀ hx₀, hdeg])

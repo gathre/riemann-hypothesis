@@ -503,7 +503,7 @@ theorem isThetaPt_uth (hG : GlobalFnsSt) {m : ℕ} (hm : Odd m) (hF : (m : F) �
   have : Subsingleton (TF (R := R) F).left := inferInstanceAs (Subsingleton (PrimeSpectrum F))
   obtain ⟨h, hh⟩ := GlobalLift.exists_section (T := TF (R := R) F) (V := ⊤) (p := p) trivial
   have hi : overResι (T := TF (R := R) F) ⊤ ≫ h = 𝟙 _ := by
-    haveI : Mono (overResι (T := TF (R := R) F) ⊤) :=
+    have : Mono (overResι (T := TF (R := R) F) ⊤) :=
       Over.mono_of_mono_left _ (hk := inferInstanceAs (Mono (⊤ : (TF (R := R) F).left.Opens).ι))
     rw [← cancel_mono (overResι (T := TF (R := R) F) ⊤), Category.assoc, hh, Category.comp_id, Category.id_comp]
   have H := isCoordPt_uth ν hG hm hF hb 1

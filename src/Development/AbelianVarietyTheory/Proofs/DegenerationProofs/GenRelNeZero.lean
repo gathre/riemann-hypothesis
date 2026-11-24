@@ -615,7 +615,7 @@ theorem exists_equiv (hG : GlobalFnsSt) {x : 𝓞 E} (hx : x ∈ l.Mb.map (H.bar
     letI := H.starRing
     ∃ q₁ q₂ : QkPt P F l.M, IsTransport a w₁ e₁ uF (qkSmul a.bimult hG a.oa x p) q₁ ∧
       IsTransport a w₂ e₂ uF (qkSmul a.bimult hG a.oa x p) q₂ ∧ QkPt.Equiv P F q₁ q₂ := by
-  letI := H.starRing
+  let := H.starRing
   have h₀ : 0 < l.M := lt_of_lt_of_le three_pos l.three_le
   have h₁ : l.M ∣ l.M' := Nat.dvd_lcm_left _ _
   obtain ⟨r, z, hr, hz⟩ := hrz
@@ -635,7 +635,7 @@ theorem exists_equiv (hG : GlobalFnsSt) {x : 𝓞 E} (hx : x ∈ l.Mb.map (H.bar
 
 theorem lattice_congr (hL : Laws) (hM : (l.M : F) ≠ 0) (y : a.D₀.X) :
     ∃ z, e₁.trans e₂.symm y = y + l.M • z := by
-  letI := H.starRing
+  let := H.starRing
   have h₀ : l.M ≠ 0 := (lt_of_lt_of_le three_pos l.three_le).ne'
   have : NeZero (l.M : F) := ⟨hM⟩
   obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot F l.M
@@ -676,7 +676,7 @@ theorem lattice_eq (hL : Laws) (hM : (l.M : F) ≠ 0)
   exact e₂.symm_apply_eq.1 hy
 
 theorem map_eq [IsNoetherianRing R] (hL : Laws) (hM : (l.M : F) ≠ 0) : φ₁ = φ₂ := by
-  letI := H.starRing
+  let := H.starRing
   have h₀ : l.M ≠ 0 := (lt_of_lt_of_le three_pos l.three_le).ne'
   obtain ⟨p₁, g₁, -, a₁, -, -⟩ := id W₁
   obtain ⟨p₂, g₂, -, a₂, -, -⟩ := id W₂
@@ -722,7 +722,7 @@ theorem rigid : Laws → Laws2 → ∀ (E : Type) [Field E] [NumberField E] [IsC
   let g : O' →+* F := ((algebraMap (FractionRing R) F).comp (algebraMap R (FractionRing R))).comp f
   have hg : Function.Injective g :=
     ((algebraMap (FractionRing R) F).injective.comp (IsFractionRing.injective R _)).comp hf
-  letI : Algebra (FractionRing O') F := (IsFractionRing.lift (K := FractionRing O') hg).toAlgebra
+  let : Algebra (FractionRing O') F := (IsFractionRing.lift (K := FractionRing O') hg).toAlgebra
   have hF : ∀ x, algebraMap (FractionRing O') F (algebraMap O' _ x) =
       algebraMap (FractionRing R) F (algebraMap R _ (f x)) :=
     fun x => IsFractionRing.lift_algebraMap (K := FractionRing O') hg x

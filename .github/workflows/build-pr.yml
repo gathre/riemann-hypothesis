@@ -35,12 +35,6 @@ on:
         description: Pull request whose proposed merge result should be built
         type: number
         required: true
-      runner_pool:
-        description: Full-build pool (small hosts use quick-check mode)
-        type: choice
-        default: rh-build
-        options:
-          - rh-build
       fragment_commit:
         description: "Fragment: commit SHA, or 'SHA BASE HEAD DATE PR' for an rh-buildq PR merge"
         type: string

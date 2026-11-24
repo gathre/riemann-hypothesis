@@ -64,7 +64,7 @@ theorem exists_plk_ne_zero : ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k
   intro K _ ι _ Φ _ y Ψ _ _ N j M n BM p k₀ l x₀ z hp hx hz hO
   obtain ⟨h, a, hb, -, ha, hpl, hzk⟩ := _root_.GlobalTheory.CompanionTheory.Ar.PB.StepW.FlagPoint.main K ι Φ y Ψ N j M n BM p k₀ l x₀ z hp hx hz hO
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hmin : ∀ I, minorIJ h I (stepCols N j p.2) = 0 := fun I => by
     by_cases hI : IsStepRows N j p.2 I
     · have e := hpl I hI

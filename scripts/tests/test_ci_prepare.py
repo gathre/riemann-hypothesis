@@ -37,28 +37,26 @@ def record(identity):
 
 
 class PreparationTests(unittest.TestCase):
-    def test_existing_433_state_remains_warm_and_436_is_isolated(self):
+    def test_each_release_has_its_own_state_directory(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory).resolve()
+            # The 4.33.1 jobs kept their state at the top level; no later release reads it.
             baseline = root / "baseline"
             baseline.mkdir()
-            marker = baseline / "already-downloaded"
-            marker.write_text("verified cache")
-            for release in ("leanprover/lean4:v4.33.1", "leanprover/lean4:v4.36.0"):
-                with self.subTest(release=release), patch.object(prep, "TOOLCHAIN", release), \
+            (baseline / "already-downloaded").write_text("verified cache")
+            states = []
+            for release in ("leanprover/lean4:v4.36.0", "leanprover/lean4:v4.37.0-rc1"):
+                with self.subTest(release=release), \
                         patch.object(prep.settings, "TOOLCHAIN_DIR", release.replace("/", "--").replace(":", "---")):
                     state = prep.preparation_state(root)
-                    if release.endswith(":v4.33.1"):
-                        self.assertEqual(state, root)
-                        self.assertEqual((state / "baseline/already-downloaded").read_text(), "verified cache")
-                    else:
-                        self.assertTrue(state.is_relative_to(root))
-                        self.assertNotEqual(state, root)
-                        self.assertFalse((state / "baseline/already-downloaded").exists())
+                    self.assertEqual(state.parent, root)
+                    self.assertFalse((state / "baseline/already-downloaded").exists())
+                    states.append(state)
+            self.assertNotEqual(states[0], states[1])
 
     def test_other_approved_toolchain_ancestor_is_skipped_without_fetching_its_artifacts(self):
-        for active, historical in (("leanprover/lean4:v4.33.1", "leanprover/lean4:v4.36.0"),
-                                   ("leanprover/lean4:v4.36.0", "leanprover/lean4:v4.33.1")):
+        for active, historical in (("leanprover/lean4:v4.36.0", "leanprover/lean4:v4.37.0-rc1"),
+                                   ("leanprover/lean4:v4.37.0-rc1", "leanprover/lean4:v4.36.0")):
             with self.subTest(active=active), patch.object(prep, "TOOLCHAIN", active), \
                     patch.object(prep.publication.transport, "TOOLCHAIN", active), \
                     self.cache_history() as (root, request, commits):
@@ -82,6 +80,30 @@ class PreparationTests(unittest.TestCase):
                 self.assertNotIn(prep.BASE + "/" + record["map_key"], calls)
                 self.assertNotIn(prep.BASE + "/" + record["module_manifest_key"], calls)
                 self.assertEqual(prep.publication.transport.TOOLCHAIN, active)
+
+    def test_ancestor_from_a_release_off_the_allow_list_is_skipped_not_rejected(self):
+        retired = "leanprover/lean4:v4.33.1"
+        with self.assertRaises(ValueError):
+            prep.settings.for_toolchain(retired)
+        with self.cache_history() as (root, request, commits):
+            responses, expected = self.published_cache(commits["main"], "CurrentRelease", "1")
+            old, _ = self.published_cache(commits["head"], "RetiredRelease", "2", 137)
+            url = prep.BASE + "/ci/revisions/" + commits["head"] + ".json"
+            record = json.loads(old[url])
+            record["toolchain"] = retired
+            record["input_fingerprint"] = prep.publication.fingerprint(record)
+            responses[url] = json.dumps(record).encode()
+            calls = []
+            def get(url, **kwargs):
+                calls.append(url)
+                return responses.get(url)
+            cache = root / "cache"
+            cache.mkdir()
+            with patch.object(prep, "get", side_effect=get), patch.object(prep, "downloads"), \
+                    redirect_stdout(io.StringIO()):
+                selected = prep.restore_previous_cache(root, request, cache)
+            self.assertEqual(selected.read_bytes(), expected)
+            self.assertNotIn(prep.BASE + "/" + record["map_key"], calls)
 
     @contextmanager
     def cache_history(self):

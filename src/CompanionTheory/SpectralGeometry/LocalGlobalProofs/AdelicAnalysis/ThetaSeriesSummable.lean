@@ -137,7 +137,7 @@ theorem exists_quad_lower {ι : Type} [Fintype ι] [DecidableEq ι] (P g : Matri
   have hs : ‖v‖⁻¹ • v ∈ Metric.sphere (0 : ι → ℝ) 1 := by
     simp [norm_smul, hn]
   have h3 := hmin hs
-  simp only [Set.mem_setOf_eq, Matrix.mulVec_smul, dotProduct_smul, smul_dotProduct, smul_eq_mul] at h3
+  simp only [Set.mem_ofPred_eq, Matrix.mulVec_smul, dotProduct_smul, smul_dotProduct, smul_eq_mul] at h3
   have h4 : ‖v‖ ^ 2 * (‖v‖⁻¹ * (‖v‖⁻¹ * ((g *ᵥ v) ⬝ᵥ (P *ᵥ (g *ᵥ v))))) =
       (g *ᵥ v) ⬝ᵥ (P *ᵥ (g *ᵥ v)) := by
     field_simp

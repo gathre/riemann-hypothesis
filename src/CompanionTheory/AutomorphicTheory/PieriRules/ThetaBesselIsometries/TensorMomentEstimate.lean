@@ -269,7 +269,7 @@ open scoped InnerProductSpace ENNReal
 namespace CompanionTheory.FamilyDerivativeExpansion.Kap
 
 theorem mul_mem_GG {k r : ℕ} {g h : Mx k r} (hg : g ∈ GG k r) (hh : h ∈ GG k r) : g * h ∈ GG k r := by
-  simp only [GG, Formalism.QuantumDeterminants.UH, Set.mem_setOf_eq] at hg hh ⊢
+  simp only [GG, Formalism.QuantumDeterminants.UH, Set.mem_ofPred_eq] at hg hh ⊢
   rw [Matrix.conjTranspose_mul]
   calc hᴴ * gᴴ * Formalism.QuantumDeterminants.Hpk k r * (g * h) = hᴴ * (gᴴ * Formalism.QuantumDeterminants.Hpk k r * g) * h := by
         simp only [Matrix.mul_assoc]
@@ -278,8 +278,8 @@ theorem mul_mem_GG {k r : ℕ} {g h : Mx k r} (hg : g ∈ GG k r) (hh : h ∈ GG
 theorem ae_pair {k r : ℕ} {U V : Set (Mx k r)} {μ ν : Measure (Formalism.QuantumDeterminants.Mt k r)}
     (hμ : PI.BesselPeriodGGP.IsHaarOn U μ) (hν : PI.BesselPeriodGGP.IsHaarOn V ν) :
     ∀ᵐ p ∂(μ.prod ν), Matrix.of p.1 ∈ U ∧ Matrix.of p.2 ∈ V := by
-  haveI := hμ.1
-  haveI := hν.1
+  have := hμ.1
+  have := hν.1
   have h1 : ∀ᵐ x ∂μ, Matrix.of x ∈ U := ae_iff.2 hμ.2.2.1
   have h2 : ∀ᵐ x ∂ν, Matrix.of x ∈ V := ae_iff.2 hν.2.2.1
   exact (Measure.quasiMeasurePreserving_fst.ae h1).and (Measure.quasiMeasurePreserving_snd.ae h2)
@@ -337,7 +337,7 @@ theorem kappa_dual : HypsG → ∀ (k r : ℕ) (ι κ : Type) [Fintype ι] [Deci
         refine ⟨star ((ep I : ℂ) * ⟪lI y, l (ev Γ R om (fun c => io I c y))⟫_ℂ / ⟪lI y, lI y⟫_ℂ), fun v hv => ?_⟩
         refine ext_inner_right ℂ fun ξ => ?_
         have h4 := congrArg (fun T : Wp →L[ℂ] Wp => ⟪lI y, T ξ⟫_ℂ) (key y hy v hv)
-        simp only [ContinuousLinearMap.smul_apply, ContinuousLinearMap.smulRight_apply, innerSL_apply_apply,
+        simp only [_root_.smul_apply, ContinuousLinearMap.smulRight_apply, innerSL_apply_apply,
           inner_smul_right] at h4
         rw [inner_smul_left, starRingEnd_apply, star_star, div_mul_eq_mul_div, eq_div_iff hyy]
         linear_combination (-(ep I : ℂ)) * h4 - (⟪lI (∑ c, pr I c (tm R om v c)), ξ⟫_ℂ * ⟪lI y, lI y⟫_ℂ) * hep
@@ -357,7 +357,7 @@ theorem kappa_dual : HypsG → ∀ (k r : ℕ) (ι κ : Type) [Fintype ι] [Deci
   have h3 := key y hy v hvTK
   rw [hκ v (hTKsm v hvTK)] at h3
   have h4 := congrArg (fun T : Wp →L[ℂ] Wp => T (l v)) h3
-  simp only [ContinuousLinearMap.smul_apply, ContinuousLinearMap.smulRight_apply, innerSL_apply_apply,
+  simp only [_root_.smul_apply, ContinuousLinearMap.smulRight_apply, innerSL_apply_apply,
     inner_smul_left] at h4
   have hne : ⟪l v, l v⟫_ℂ ≠ 0 := inner_self_ne_zero.2 hv0
   apply smul_right_injective Wp hne

@@ -452,7 +452,7 @@ theorem mem_vanIdeal_pull {H : LB X} {H' : LB X'} (hH : H.IsLB) {β : X' ⟶ X} 
 theorem component_mem_span (S : Set (MvPolynomial σ R)) (hS : ∀ F ∈ S, ∃ t, F.IsHomogeneous t) :
     ∀ F ∈ Ideal.span S, ∀ t, homogeneousComponent t F ∈ Ideal.span S := by
   intro F hF t
-  letI := MvPolynomial.gradedAlgebra (σ := σ) (R := R)
+  let := MvPolynomial.gradedAlgebra (σ := σ) (R := R)
   have h := Ideal.homogeneous_span (homogeneousSubmodule σ R) S (fun F hF => hS F hF) t hF
   rwa [show (DirectSum.decompose (homogeneousSubmodule σ R) F t : MvPolynomial σ R) = homogeneousComponent t F from
     decomposition.decompose'_apply F t] at h
@@ -462,8 +462,8 @@ theorem exists_form_limit [Finite σ] (a : R) [IsAdicComplete (Ideal.span {a}) R
     (h₃ : ∀ e F, F.IsHomogeneous t → F ∈ K e → ∃ G, G.IsHomogeneous t ∧ F - C (a ^ (e + 1)) * G ∈ K (e + 1))
     (e : ℕ) (F : MvPolynomial σ R) (hF : F.IsHomogeneous t) (h : F ∈ K e) :
     ∃ F₁ G : MvPolynomial σ R, F₁.IsHomogeneous t ∧ (∀ e', F₁ ∈ K e') ∧ F - F₁ = C (a ^ (e + 1)) * G := by
-  haveI : Module.Finite R (homogeneousSubmodule σ R t) := Module.Finite.iff_fg.mpr (homogeneousSubmodule_fg _ _ _)
-  haveI := GlobalTheory.isPrecomplete_of_finite (Ideal.span {a}) (homogeneousSubmodule σ R t)
+  have : Module.Finite R (homogeneousSubmodule σ R t) := Module.Finite.iff_fg.mpr (homogeneousSubmodule_fg _ _ _)
+  have := GlobalTheory.isPrecomplete_of_finite (Ideal.span {a}) (homogeneousSubmodule σ R t)
   obtain ⟨x', y, hx', hy⟩ := GlobalTheory.Unif.exists_limit_of_successive_corrections R a (homogeneousSubmodule σ R t)
     (fun e => ((K e).restrictScalars R).comap (homogeneousSubmodule σ R t).subtype)
     (fun e x hx => h₁ e x.1 x.2 hx)
@@ -487,7 +487,7 @@ open GlobalTheory.Unif.PolyStep GlobalTheory.Unif.FormalEmb in
 theorem GlobalTheory.Unif.exists_projective_of_formal_embedding : ∀ (V : Type) [CommRing V] [IsDomain V] [IsDiscreteValuationRing V] [IsAdicComplete (IsLocalRing.maximalIdeal V) V] (Y : ∀ e : ℕ, Over (Spec (CommRingCat.of (V ⧸ (IsLocalRing.maximalIdeal V) ^ (e + 1))))) (β : ∀ e, (Y e).left ⟶ (Y (e + 1)).left), (∀ e, IsPullback (β e) (Y e).hom (Y (e + 1)).hom (thickTrans V (IsLocalRing.maximalIdeal V) e)) → (∀ e, Flat (Y e).hom) → ∀ (H : ∀ e, LB (Y e).left) (v : ∀ e, LB.Iso (H e) ((H (e + 1)).pull (β e))), (∀ e, (H e).IsLB ∧ (v e).IsGen) → ∀ (n : ℕ) (s : ∀ e, Fin (n + 1) → LB.Sec (H e)), (∀ e, (∀ j, (∀ z (k : (H (e + 1)).ι) (k' : (H e).ι), (β e) z ∈ (H (e + 1)).U k → z ∈ (H e).U k' → gs (β e) z _ ((s (e + 1) j).f k) = (Geo.Tor.gw (v e) (𝟙 _) z k k').val * gs (𝟙 _) z _ ((s e j).f k')))) → VeryAmpleBy (Y 0).hom (H 0) (s 0) → ∃ (B : Over (Spec (CommRingCat.of V))) (H' : LB B.left) (s' : Fin (n + 1) → LB.Sec H') (b : ∀ e, (Y e).left ⟶ B.left) (w : ∀ e, LB.Iso (H e) (H'.pull (b e))), H'.IsLB ∧ VeryAmpleBy B.hom H' s' ∧ (∀ e, IsPullback (b e) (Y e).hom B.hom (thick V (IsLocalRing.maximalIdeal V) e)) ∧ (∀ e, β e ≫ b (e + 1) = b e) ∧ (∀ e, (w e).IsGen ∧ (∀ j, (∀ z (k : (H').ι) (k' : (H e).ι), (b e) z ∈ (H').U k → z ∈ (H e).U k' → gs (b e) z _ ((s' j).f k) = (Geo.Tor.gw (w e) (𝟙 _) z k k').val * gs (𝟙 _) z _ ((s e j).f k')))) ∧ ∀ (t : ℕ) (F : MvPolynomial (Fin (n + 1)) V), F.IsHomogeneous t → (∀ e, (∀ k : (H e).ι, MvPolynomial.eval₂Hom (cst ((Y (e)).hom ≫ thick V (IsLocalRing.maximalIdeal V) (e)) ((H e).U k)) (fun j => (s e j).f k) (F) = 0)) → (∀ k : (H').ι, MvPolynomial.eval₂Hom (cst (B.hom) ((H').U k)) (fun j => (s' j).f k) (F) = 0) := by
   intro V _ _ _ _ Y β hβ hflat H v hH n s hs hva
   obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible V
-  haveI : IsAdicComplete (Ideal.span {ϖ}) V := hϖ.maximalIdeal_eq ▸ inferInstance
+  have : IsAdicComplete (Ideal.span {ϖ}) V := hϖ.maximalIdeal_eq ▸ inferInstance
   have hVA : ∀ e, VeryAmpleBy (Y e).hom (H e) (s e) := by
     rintro (_ | e)
     · exact hva

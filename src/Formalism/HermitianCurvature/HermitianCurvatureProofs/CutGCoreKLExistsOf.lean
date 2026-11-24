@@ -227,7 +227,7 @@ theorem lie_existence_of_iso_group : KLExistsOf := by
     apply Subtype.ext
     funext j
     exact congrArg Subtype.val (congrFun h j)
-  letI : Fintype {M : Fin n → ℤ // Box L' M} := Fintype.ofFinite _
+  let : Fintype {M : Fin n → ℤ // Box L' M} := Fintype.ofFinite _
 
   obtain ⟨hgl', hint', hS'⟩ := side hz' hT' hπ' hanti' hrel' he'W he'z he'e hFr1
   obtain ⟨hgl, -, hS⟩ := side hz hT hπ hanti hrel hfW hfz hff hFr2

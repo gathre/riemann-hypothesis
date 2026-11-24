@@ -664,7 +664,7 @@ theorem hcompl_conj (P : Ideal (𝓞 K)) :
   unfold hcompl
   congr 1
   ext s
-  rw [Set.mem_setOf_eq, Set.mem_setOf_eq, key, key, mem_conj, mem_conj, cj_cj]
+  rw [Set.mem_ofPred_eq, Set.mem_ofPred_eq, key, key, mem_conj, mem_conj, cj_cj]
   exact and_comm
 
 theorem conj_ne (hK : IsCMUnram K) {T : ℕ} (hT : T.Prime) {P : Ideal (𝓞 K)} (hP : P.IsMaximal)
@@ -674,7 +674,7 @@ theorem conj_ne (hK : IsCMUnram K) {T : ℕ} (hT : T.Prime) {P : Ideal (𝓞 K)}
   have ht' : t = _root_.GlobalTheory.Mass.SplitOver.cj θ := genusCovol_hinj (by rw [locBasic_sigma_spec, ht])
   have hc : Nat.card (𝓞 K ⧸ P) = T := by rw [← hN, Ideal.absNorm_apply, Submodule.cardQuot_apply]
   have : Finite (𝓞 K ⧸ P) := Nat.finite_of_card_ne_zero (hc ▸ hT.ne_zero)
-  letI := Fintype.ofFinite (𝓞 K ⧸ P)
+  let := Fintype.ofFinite (𝓞 K ⧸ P)
   let φ := ZMod.ringEquivOfPrime (𝓞 K ⧸ P) hT (by rw [← hc, Nat.card_eq_fintype_card])
   obtain ⟨z, hz⟩ := φ.surjective (Ideal.Quotient.mk P θ)
   obtain ⟨n, rfl⟩ := ZMod.intCast_surjective z

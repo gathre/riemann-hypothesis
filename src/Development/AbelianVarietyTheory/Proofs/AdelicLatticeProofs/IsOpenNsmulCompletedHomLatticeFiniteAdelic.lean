@@ -78,7 +78,7 @@ theorem isOpen_of_nhds {G G' : Type} [AddCommGroup G] [TopologicalSpace G] [IsTo
 
 theorem isOpen_intAf (F : Type) [Field F] [NumberField F] : IsOpen (intAf F) :=
   RestrictedProduct.isOpen_forall_mem (A := fun v : HeightOneSpectrum (𝓞 F) => (v.adicCompletionIntegers F : Set (v.adicCompletion F)))
-    fun v => Valued.isOpen_valuationSubring _
+    fun _v => Valued.isOpen_valuationSubring _
 
 theorem zero_mem_intAf (F : Type) [Field F] [NumberField F] : (0 : Af F) ∈ intAf F :=
   fun v => zero_mem (v.adicCompletionIntegers F)

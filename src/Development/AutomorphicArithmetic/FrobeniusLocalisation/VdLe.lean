@@ -105,7 +105,7 @@ theorem UpperTheory.HF.vd_le :
     rw [hE] at hbot hdvd
     split_ifs with hje
     · exact intCast_mul_mul_mul_eq_of_mul_eq hl hje.le (hdvd hje.le)
-    · push_neg at hje
+    · push Not at hje
       rw [hbot.2 hje, Subgroup.card_bot]
       simp
   have hsum := Finset.sum_le_sum hcard

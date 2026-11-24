@@ -248,8 +248,8 @@ theorem IsGram.rk_deg {ι κ : Type} [Fintype ι] [DecidableEq ι] [Fintype κ] 
   obtain ⟨h1, h2, -⟩ := Formalism.HN.plLat K V ι b X (fun v => (h v).1) L hL
   obtain ⟨h1', h2', -⟩ := Formalism.HN.plLat K V κ b' X' (fun v => (h' v).1) L hL
   refine ⟨h2.trans h2'.symm, ?_⟩
-  haveI := h1.2
-  haveI := h1'.2
+  have := h1.2
+  have := h1'.2
   unfold Formalism.HN.deg Formalism.F.deg
   rw [Formalism.HN.QuotientRealization.covol_eq_of_norm_eq ((Formalism.HermitianLatticesTheory.realize b X).comp L.toAddSubgroup.subtype)
     ((Formalism.HermitianLatticesTheory.realize b' X').comp L.toAddSubgroup.subtype) (Formalism.HN.zl (Formalism.HermitianLatticesTheory.realize b X) L)
@@ -297,7 +297,7 @@ theorem slopeMax_slopeMin_eq {ι : Type} [Fintype ι] [DecidableEq ι] {b : Basi
     (Formalism.HN.plLat K V _ _ _ (fun v => (h' v).1) L hL).1
     (fun M hM => by
       have hM' : M.FG := by
-        haveI : IsNoetherian (𝓞 K) L := isNoetherian_of_fg_of_noetherian L hL
+        have : IsNoetherian (𝓞 K) L := isNoetherian_of_fg_of_noetherian L hL
         exact isNoetherian_submodule.1 inferInstance M hM
       simpa using IsGram.rk_deg h' h hM')).2.1 h0
   rw [slopeMax_sq, slopeMin_sq, dif_pos h.hasGram, dif_pos h.hasGram]
@@ -315,7 +315,7 @@ theorem deg_bot (N : (K →+* ℂ) → V → ℝ) : deg N (⊥ : Submodule (𝓞
 theorem slope_sq_line [_root_.NumberField.IsTotallyComplex K] (x : K) (hx : x ≠ 0) :
     slope_sq (fun (σ : K →+* ℂ) (y : K) => ‖σ y‖) (Submodule.span (𝓞 K) {x}) =
       -((1 / (Formalism.HN.nPl K : ℝ)) * ∑ v : InfinitePlace K, 2 * Real.log (v x)) := by
-  letI : StarRing K := starRingOfComm
+  let : StarRing K := starRingOfComm
   have hn : ∀ v y, Formalism.HermitianLatticesTheory.normAt (Basis.singleton Unit K) (fun _ : InfinitePlace K => (1 : Matrix Unit Unit ℂ)) v y =
       ‖v.embedding y‖ := fun v y => by
     simp [Formalism.HermitianLatticesTheory.normAt, Formalism.HermitianLatticesTheory.cnorm, Formalism.HermitianLatticesTheory.fcoord, Formalism.HermitianLatticesTheory.vecAt]
@@ -763,7 +763,7 @@ theorem muPart_univ : muPart V dict Set.univ = muQ1 V := by
   rw [muPart, this, ProbabilityTheory.cond_univ]
 
 theorem muPart_univ_le (A : Set (Σ k, Frame (X k).Ψ r)) : muPart V dict A Set.univ ≤ 1 := by
-  haveI : IsZeroOrProbabilityMeasure (muPart V dict A) := by unfold muPart; infer_instance
+  have : IsZeroOrProbabilityMeasure (muPart V dict A) := by unfold muPart; infer_instance
   exact prob_le_one
 
 variable (μ : Measure (AutQ V))

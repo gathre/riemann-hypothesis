@@ -119,7 +119,7 @@ theorem exists_flags_of_point : ∀ (K : Type) [Fintype K] (ι : K → Type) [�
         show z₁ ⟨some k, m⟩ = 1 * FC.flagPt M (BM.F l) β h ⟨k, m⟩
         rw [one_mul]
         exact e1.trans e2.symm
-      · push_neg at hk
+      · push Not at hk
         obtain ⟨p, hp⟩ := hk
         obtain ⟨e, he, w⟩ := f1.2.2 p k hp
         refine ⟨e, he, fun m => ?_⟩

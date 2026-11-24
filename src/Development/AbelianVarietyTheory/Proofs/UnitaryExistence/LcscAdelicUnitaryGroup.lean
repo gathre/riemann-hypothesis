@@ -399,7 +399,7 @@ theorem secondCountable_restrictedProduct {ι : Type} [Countable ι] (R : ι →
   have hsc : ∀ T : Finset ι, SecondCountableTopology (Πʳ i, [R i, A i]_[𝓟 ((T : Set ι)ᶜ)]) :=
     fun T => RestrictedProduct.isEmbedding_coe_of_principal.secondCountableTopology
   have he := fun T : Finset ι => RestrictedProduct.isOpenEmbedding_inclusion_principal hA (hS T)
-  haveI : ∀ T : Finset ι, SecondCountableTopology
+  have : ∀ T : Finset ι, SecondCountableTopology
       (Set.range (RestrictedProduct.inclusion R A (hS T))) := fun T =>
     (he T).isEmbedding.toHomeomorph.symm.secondCountableTopology
   refine TopologicalSpace.secondCountableTopology_of_countable_cover
@@ -430,10 +430,10 @@ theorem compactSpace_adicCompletionIntegers (v : HeightOneSpectrum (𝓞 F)) :
   Valued.integer.properSpace_iff_compactSpace_integer.1 (properSpace_adicCompletion F v)
 
 theorem countable_heightOneSpectrum : Countable (HeightOneSpectrum (𝓞 F)) := by
-  haveI : Countable (𝓞 F) := by
-    haveI : Countable F := (Module.finBasis ℚ F).equivFun.injective.countable
+  have : Countable (𝓞 F) := by
+    have : Countable F := (Module.finBasis ℚ F).equivFun.injective.countable
     exact RingOfIntegers.coe_injective.countable
-  haveI : Countable (Ideal (𝓞 F)) := by
+  have : Countable (Ideal (𝓞 F)) := by
     refine Function.Surjective.countable
       (f := fun s : Finset (𝓞 F) => Ideal.span (s : Set (𝓞 F))) ?_
     intro I
@@ -442,17 +442,17 @@ theorem countable_heightOneSpectrum : Countable (HeightOneSpectrum (𝓞 F)) := 
       fun a b h => HeightOneSpectrum.ext h
 
 theorem locallyCompact_finiteAdele : LocallyCompactSpace (FiniteAdeleRing (𝓞 F) F) := by
-  haveI : Fact (∀ v : HeightOneSpectrum (𝓞 F),
+  have : Fact (∀ v : HeightOneSpectrum (𝓞 F),
       IsOpen (v.adicCompletionIntegers F : Set (v.adicCompletion F))) :=
     ⟨fun _ ↦ Valued.isOpen_valuationSubring _⟩
-  haveI := properSpace_adicCompletion F
+  have := properSpace_adicCompletion F
   exact RestrictedProduct.locallyCompactSpace_of_addGroup
     (fun v : HeightOneSpectrum (𝓞 F) => v.adicCompletion F)
     (.of_forall fun v => isCompact_iff_compactSpace.2 (compactSpace_adicCompletionIntegers F v))
 
 theorem secondCountable_finiteAdele : SecondCountableTopology (FiniteAdeleRing (𝓞 F) F) := by
-  haveI := properSpace_adicCompletion F
-  haveI := countable_heightOneSpectrum F
+  have := properSpace_adicCompletion F
+  have := countable_heightOneSpectrum F
   exact secondCountable_restrictedProduct (fun v : HeightOneSpectrum (𝓞 F) => v.adicCompletion F)
     (fun v => (v.adicCompletionIntegers F : Set (v.adicCompletion F)))
     fun _ ↦ Valued.isOpen_valuationSubring _
@@ -462,7 +462,7 @@ theorem t2Space_finiteAdeleRing_of_numberField : T2Space (FiniteAdeleRing (𝓞 
     [v.adicCompletion F, v.adicCompletionIntegers F]))
 
 theorem secondCountable_infiniteAdele : SecondCountableTopology (InfiniteAdeleRing F) := by
-  haveI : ∀ v : InfinitePlace F, SecondCountableTopology v.Completion := fun v =>
+  have : ∀ v : InfinitePlace F, SecondCountableTopology v.Completion := fun v =>
     (InfinitePlace.Completion.isometry_extensionEmbedding v).isEmbedding.secondCountableTopology
   exact inferInstanceAs (SecondCountableTopology (∀ v : InfinitePlace F, v.Completion))
 
@@ -492,16 +492,16 @@ variable {F E : Type} [Field F] [Field E] [Algebra F E] [FiniteDimensional F E]
 
 theorem nonempty_homeomorph :
     Nonempty (R ⊗[F] E ≃ₜ (Fin (Module.finrank F E) → R)) := by
-  haveI : IsModuleTopology R (R ⊗[F] E) := ⟨rfl⟩
-  haveI : IsTopologicalRing (R ⊗[F] E) := IsModuleTopology.isTopologicalRing R _
+  have : IsModuleTopology R (R ⊗[F] E) := ⟨rfl⟩
+  have : IsTopologicalRing (R ⊗[F] E) := IsModuleTopology.isTopologicalRing R _
   let e := (Algebra.TensorProduct.basis R (Module.finBasis F E)).equivFun
   exact ⟨{ e.toEquiv with
     continuous_toFun := IsModuleTopology.continuous_of_linearMap e.toLinearMap
     continuous_invFun := IsModuleTopology.continuous_of_linearMap e.symm.toLinearMap }⟩
 
 theorem continuous_sigR (σ : E →ₐ[F] E) : Continuous (sigR R σ) := by
-  haveI : IsModuleTopology R (R ⊗[F] E) := ⟨rfl⟩
-  haveI : IsTopologicalRing (R ⊗[F] E) := IsModuleTopology.isTopologicalRing R _
+  have : IsModuleTopology R (R ⊗[F] E) := ⟨rfl⟩
+  have : IsTopologicalRing (R ⊗[F] E) := IsModuleTopology.isTopologicalRing R _
   exact IsModuleTopology.continuous_of_linearMap
     (Algebra.TensorProduct.map (AlgHom.id R R) σ).toLinearMap
 
@@ -514,9 +514,9 @@ end Tensor
 
 theorem lcsc_adelicUnitary : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (M : ℕ) (J : Matrix (Fin M) (Fin M) E), LocallyCompactSpace (HA (AF F) σ J) ∧ SecondCountableTopology (HA (AF F) σ J) ∧ T2Space (HA (AF F) σ J) := by
   intro F E _ _ _ _ _ σ M J
-  haveI := locallyCompact_adele F
-  haveI := secondCountable_adele F
-  haveI := t2Space_adeleRing_numberField F
+  have := locallyCompact_adele F
+  have := secondCountable_adele F
+  have := t2Space_adeleRing_numberField F
   exact lcsc_HA (AF F) σ M J
 
 end GlobalTheory.AdelicUnitaryTop

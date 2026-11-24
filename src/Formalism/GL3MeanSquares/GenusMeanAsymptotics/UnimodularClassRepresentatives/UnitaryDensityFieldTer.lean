@@ -206,13 +206,13 @@ theorem nkCount_eq_cnt (hK : Formalism.HermitianLatticesTheory.IsCMUnram K) (hF 
     funext i
     rw [← hlift x i, ← hlift x' i, Ideal.Quotient.eq]
     exact hd i
-  haveI : Fact (IsFixF K F) := ⟨hF⟩
-  haveI : Finite (Fin (finrank K V) → AQ K 𝔭 k) := vectorCountBounds.finite_vec h𝔭 k
+  have : Fact (IsFixF K F) := ⟨hF⟩
+  have : Finite (Fin (finrank K V) → AQ K 𝔭 k) := vectorCountBounds.finite_vec h𝔭 k
   have hcard : Nat.card (↥L ⧸ ((extP K 𝔭) ^ k • ⊤ : Submodule (𝓞 K) ↥L)) =
       Nat.card (Fin (finrank K V) → AQ K 𝔭 k) := by
     rw [MeanB.card_quot_extP hK hF hL h𝔭 k, vectorCountBounds.card_vec hK h𝔭 k, Fintype.card_fin]
     ring_nf
-  haveI : Finite (↥L ⧸ ((extP K 𝔭) ^ k • ⊤ : Submodule (𝓞 K) ↥L)) :=
+  have : Finite (↥L ⧸ ((extP K 𝔭) ^ k • ⊤ : Submodule (𝓞 K) ↥L)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact Nat.card_pos.ne')
   have hbij : Function.Bijective Φ := hinj.bijective_of_nat_card_le hcard.le
   have hsum : ∀ x, Ideal.Quotient.mk (extP K 𝔭 ^ k) (∑ i, conjO K (lift x i) * lift x i * g i) =

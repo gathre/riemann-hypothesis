@@ -73,7 +73,7 @@ theorem UpperTheory.V.Af.Rs.rowBij :
     UpperTheory.V.Af.Rs.RowBij := by
   refine ⟨fun γ => ModularGroup.bottom_row_coprime γ, ?_⟩
   intro z x
-  obtain ⟨g, -, hg⟩ := ModularGroup.bottom_row_surj (R := ℤ) (Set.mem_setOf_eq ▸ x.2 : x.1 ∈ _)
+  obtain ⟨g, -, hg⟩ := ModularGroup.bottom_row_surj (R := ℤ) (Set.mem_ofPred_eq ▸ x.2 : x.1 ∈ _)
   have hrow : UpperTheory.V.Af.Rs.row g = x.1 := hg
   refine ⟨ModularGroup.T ^ (-⌊(g • z).re⌋) * g, ⟨?_, ?_⟩, ?_⟩
   · rw [UpperTheory.V.Af.Rs.row_T_zpow_mul, hrow]

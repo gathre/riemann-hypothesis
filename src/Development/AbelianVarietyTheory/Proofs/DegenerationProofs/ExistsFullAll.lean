@@ -388,7 +388,7 @@ theorem exists_iso (hL : Laws) (h₁ : ThetaPtDeterminesSt) (h₂ : EndDetermine
       o.I.ζ ((n ^ J) ^ 2) = o'.I.ζ ((n ^ J) ^ 2) → o.Theta (n ^ J) v → o'.Theta (n ^ J) v →
       ∃ φ : o.P.A ≅ o'.P.A, IsPolIso o.P o'.P φ ∧
         (letI := H.starRing; ∀ x, o.oa.act x ≫ φ.hom = φ.hom ≫ o'.oa.act x) := by
-  letI := H.starRing
+  let := H.starRing
   obtain ⟨bas, hbas⟩ := GlobalTheory.ZM.exists_isSympBasis E H D
   generalize Module.finrank ℚ E / 2 * (D.p + D.q) = g at bas hbas
   choose cn hcn using exists_starNormLE_of_isCMField E (fun a => H.bar_eq a)
@@ -400,8 +400,8 @@ theorem exists_iso (hL : Laws) (h₁ : ThetaPtDeterminesSt) (h₂ : EndDetermine
   have hp : 0 < n ^ (j + 4) := pow_pos hn.pos _
   set M := (n ^ (j + 4)) ^ 2 with hM
   have hM0 : 0 < M := pow_pos hp _
-  haveI : NeZero M := ⟨hM0.ne'⟩
-  haveI := o.charZero
+  have : NeZero M := ⟨hM0.ne'⟩
+  have := o.charZero
   obtain ⟨hg, lev, hb, hl⟩ := GlobalTheory.T.exists_level_of_full' hL E H D g bas hbas K o M hM0
   have Q := GlobalTheory.T.exists_level_of_full' hL E H D g bas hbas K o' M hM0
   rw [← hζ] at Q
@@ -418,7 +418,7 @@ theorem exists_iso (hL : Laws) (h₁ : ThetaPtDeterminesSt) (h₂ : EndDetermine
   obtain ⟨φ, hφ, hφb⟩ := h₁ g n 2 j _ (n ^ (j + 4)) hn ho le_rfl rfl (by ring) (lt_of_le_of_lt (Nat.le_add_right _ _) hB) K
     (Nat.cast_ne_zero.2 hn.pos.ne') o.P o'.P hg hg' _ lev lev' (fun a => fnOf (v (lab a)))
     (e ▸ isThetaPt_comp hv lab) (e' ▸ isThetaPt_comp hv' lab)
-  haveI := hφ.1
+  have := hφ.1
   have hev : ∀ a, o.I.ev M a ≫ φ.hom = o'.I.ev M a := fun a => by
     obtain ⟨c, rfl⟩ := bas.surjective a
     rw [← hl, ← hl', ThetaPtDet.levelPoint_eq, ThetaPtDet.levelPoint_eq, ThetaPtDet.linComb_comp]

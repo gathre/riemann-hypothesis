@@ -75,7 +75,7 @@ theorem UpperTheory.GL.dataField :
       (IsArithFrobAt ℤ σ P ↔ (toE φ (H.gal σ)).toAdd - (arith H.toHostRaw).frob p ∈ (arith H.toHostRaw).inertia p) := by
   intro φ H p _ P _ _ σ
   have hp : p.Prime := Fact.out
-  haveI : NeZero H.condN := ⟨(Nat.mul_pos (Nat.mul_pos H.QS_pos H.hyp.1.pos) H.hyp.2.1.pos).ne'⟩
+  have : NeZero H.condN := ⟨(Nat.mul_pos (Nat.mul_pos H.QS_pos H.hyp.1.pos) H.hyp.2.1.pos).ne'⟩
   constructor
   · rw [H.der.inertia p P σ, UpperTheory.GL.df_inertia]
     simp only [_root_.Formalism.LFunctionChainParameters.LHost.mem_localUnits_iff]

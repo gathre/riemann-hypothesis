@@ -263,8 +263,8 @@ theorem exists_norm (hK : IsCMUnram K) {p : HeightOneSpectrum (𝓞 K)}
   have hle : p.asIdeal ≤ p.asIdeal.comap σ := by
     rw [← locBasic_conj_eq inj _root_.Formalism.HermitianLatticesTheory.star_algebraMap_ringOfIntegers_mem_range, hc]
   have := p.isMaximal
-  letI : Field (𝓞 K ⧸ p.asIdeal) := Ideal.Quotient.field _
-  haveI : Finite (𝓞 K ⧸ p.asIdeal) := Ideal.finiteQuotientOfFreeOfNeBot _ p.ne_bot
+  let : Field (𝓞 K ⧸ p.asIdeal) := Ideal.Quotient.field _
+  have : Finite (𝓞 K ⧸ p.asIdeal) := Ideal.finiteQuotientOfFreeOfNeBot _ p.ne_bot
   let τ := Ideal.quotientMap p.asIdeal σ hle
   have hτ : ∀ r, τ (Ideal.Quotient.mk _ r) = Ideal.Quotient.mk _ (σ r) := fun r => rfl
   have σσ : ∀ r, σ (σ r) = r := fun r => inj (by rw [hσ, hσ, star_star])

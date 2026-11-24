@@ -64,8 +64,8 @@ namespace GlobalTheory.ArcPointDescent
 theorem exists_embedding {A₀ A F : Type} [CommRing A₀] [IsDomain A₀] [CommRing A] [IsDomain A] [Field F] [IsAlgClosed F]
     (α : A₀ →+* A) (hα : Function.Injective α) (hf : α.Finite) (ω : A₀ →+* F) (hω : Function.Injective ω) :
     ∃ ψ : A →+* F, Function.Injective ψ ∧ ∀ r, ψ (α r) = ω r := by
-  letI := α.toAlgebra
-  letI := ω.toAlgebra
+  let := α.toAlgebra
+  let := ω.toAlgebra
   have : Module.Finite A₀ A := hf
   have : FaithfulSMul A₀ A := (faithfulSMul_iff_algebraMap_injective _ _).2 hα
   have : FaithfulSMul A₀ F := (faithfulSMul_iff_algebraMap_injective _ _).2 hω
@@ -86,7 +86,7 @@ theorem exists_finset {V F R A : Type} [CommRing V] [CommRing F] [Algebra V F] [
     (g : R →+* A) (hg : g.Finite) (φ : R →+* V) (ψ : A →+* F) (h : ∀ r, ψ (g r) = algebraMap V F (φ r)) :
     ∃ s : Finset F, (∀ x ∈ s, IsIntegral V x) ∧ ∀ W : Subalgebra V F, (∀ x ∈ s, x ∈ W) → ∀ a, ψ a ∈ W := by
   classical
-  letI := g.toAlgebra
+  let := g.toAlgebra
   have : Module.Finite R A := hg
   obtain ⟨t, ht⟩ := Module.Finite.fg_top (R := R) (M := A)
   refine ⟨t.image ψ, fun x hx => ?_, fun W hW a => ?_⟩
@@ -352,9 +352,9 @@ theorem point_descends : Laws → Laws2 → Laws3 → Laws4 → Laws5 → Laws6 
     rw [← Category.assoc, ← spMap_comp]
     refine point_eq h1 h2 h3 h4 h5 hg h hV φ φi hu _ _ (fun r => ?_) hka'
     rw [RingHom.comp_apply, ← hgam, hs, hgam, hka']
-  letI := gam.toAlgebra
-  letI := ka.toAlgebra
-  letI := (ka.comp gam).toAlgebra
+  let := gam.toAlgebra
+  let := ka.toAlgebra
+  let := (ka.comp gam).toAlgebra
   have : IsScalarTower (FractionRing (PowerSeries O')) (FractionRing R₁) F := .of_algebraMap_eq' rfl
   obtain ⟨⟨y, hy, -⟩, -⟩ := (GlobalTheory.FixedPoint.defined_over_of_fixed (K₀ := FractionRing (PowerSeries O'))
     (K₁ := FractionRing R₁) (L := F)).2 _ y₁ fun s => inv s fun x => s.commutes x

@@ -285,7 +285,7 @@ theorem frame_perm {δ : L} (hδ : δ ≠ 0) {h : V → V → L} (hh : IsHerm s 
     obtain ⟨a, b, w, hw, rfl⟩ := hF.2.2.2.2.2 x
     rw [LinearMap.comp_apply, permMap_apply hδ hh hF _ a b hw, permMap_apply hδ hh hF _ _ _ hw]
     simp
-  let P : V ≃ₗ[L] V := LinearEquiv.ofLinear (permMap hh δ e f σ) (permMap hh δ e f σ.symm) (hinv σ)
+  let P : V ≃ₗ[L] V := LinearEquiv.ofLinearMap (permMap hh δ e f σ) (permMap hh δ e f σ.symm) (hinv σ)
     (by simpa using hinv σ.symm)
   have hP : ∀ x, P x = permMap hh δ e f σ x := fun _ => rfl
   have he : ∀ j, e j = ∑ i, (Pi.single j (1 : L) : Fin l → L) i • e i + ∑ i, (0 : Fin l → L) i • f i + 0 := fun j => by

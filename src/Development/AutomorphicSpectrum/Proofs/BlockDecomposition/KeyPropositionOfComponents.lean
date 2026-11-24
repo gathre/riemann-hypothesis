@@ -124,7 +124,7 @@ theorem lop_add (Y : Matrix (Fin n) (Fin n) ℂ) {F G : Matrix (Fin n) (Fin n) �
       ((differentiableAt_of_mem_OmF hF hz).hasFDerivAt.add
         (differentiableAt_of_mem_OmF hG hz).hasFDerivAt).fderiv
     rw [e]
-    simp only [ContinuousLinearMap.add_apply]
+    simp only [_root_.add_apply]
     ring
   · simp [lop, if_neg hz]
 
@@ -349,8 +349,8 @@ theorem toL2_zero_eq_zero (ε : Fin n → Bool) : toL2 ε (0 : Matrix (Fin n) (F
 theorem key_of_steps : LowAlg → HolFacts → EquivSection → RhoRep → ActEquiv → RhoTorus → TorW → Transfer →
     Exhaust → BetaWeight → PositivityTheory.RgDs.Key := by
   intro hLow hHol hSec hRho hAct _ _ hTr hEx hBeta n ε lam T μ hHC hMu hP S hfd hle hK
-  haveI := hfd
-  haveI : CompleteSpace S := FiniteDimensional.complete ℂ S
+  have := hfd
+  have : CompleteSpace S := FiniteDimensional.complete ℂ S
   obtain ⟨m, s, hs1, hs2⟩ := exists_section hSec hRho hAct hEx hP S hle hK
   have hwt : ∀ (η : Fin n → ℝ) (x : S),
       Formalism.MainNotions.S.IsWtOn (Formalism.REAL.Kset ε) (rreg ε) η (x : L2 ε) →
@@ -369,7 +369,7 @@ theorem key_of_steps : LowAlg → HolFacts → EquivSection → RhoRep → ActEq
   refine ⟨Matrix (Fin n) (Fin n) ℂ → ℂ, inferInstance, inferInstance, betaLin T μ m ∘ₗ s, PhiO μ, ?_, ?_, ?_⟩
   · intro S' hS' hK' hne
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨v, hv, hv0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hne
     apply hv0
     let x : S := ⟨v, hS' hv⟩

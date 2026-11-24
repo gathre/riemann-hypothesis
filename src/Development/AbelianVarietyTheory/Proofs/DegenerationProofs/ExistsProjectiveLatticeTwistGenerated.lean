@@ -83,7 +83,7 @@ theorem _root_.GlobalTheory.ZH.RatModel.exists_isCl_of_isProjOver (h : _root_.Re
     ∃ (n : ℕ) (t : Fin (n + 1) → Ω), M.IsCl t := by
   unfold _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.IsProjOver at h
   obtain ⟨N, π, hπ, hcomm⟩ := h
-  haveI := hπ
+  have := hπ
   have hx : (M.pt ≫ π) ≫ _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.PSpace.str o N = _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.spMap (algebraMap o Ω) := by
     rw [Category.assoc, hcomm, M.pt_s]
   have hsub : ∀ p q : _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Sp Ω, p = q := by
@@ -228,7 +228,7 @@ theorem _root_.GlobalTheory.ZH.RatModel.exists_isCl_lat_eq_span : ∀ (o Ω : Ty
   have hu_inv : ∀ z z', z' ∈ M.Z.basicOpen (fz z) → (u z)⁻¹ ∈ M.O z' :=
     fun z z' h => ((hu_unit z z' ((M.Z.basicOpen_le (fz z)) h)).1 h).2
 
-  haveI := M.noetherianSpace_of_isNoetherianRing
+  have := M.noetherianSpace_of_isNoetherianRing
   obtain ⟨F, hF⟩ := isCompact_univ.elim_finite_subcover (fun z => (M.Z.basicOpen (fz z) : Set M.Z))
     (fun z => (M.Z.basicOpen (fz z)).isOpen) (fun x _ => Set.mem_iUnion.2 ⟨x, hzmem x⟩)
   have hcover : ∀ z : M.Z, ∃ z₀ ∈ F, z ∈ M.Z.basicOpen (fz z₀) := by

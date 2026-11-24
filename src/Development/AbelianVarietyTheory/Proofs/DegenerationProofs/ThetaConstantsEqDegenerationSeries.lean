@@ -79,7 +79,7 @@ open GlobalTheory.UT GlobalTheory.UT.SymFrame ReciprocityTheory.ChartRestriction
 theorem hasSum_of_sumF {R : Type} [CommRing R] [IsDomain R] [IsNoetherianRing R] {I : Ideal R} {C : Type} [NormedField C]
     [IsUltrametricDist C] [Algebra (FractionRing R) C] (hC : CExt R I C) {Ix : Type} {x : Ix → C} {s : C}
     (h : SumF I C x s) : HasSum x s := by
-  letI : Module R C := Module.compHom C (algebraMap R (FractionRing R))
+  let : Module R C := Module.compHom C (algebraMap R (FractionRing R))
   let φ : R →+* C := (algebraMap (FractionRing R) C).comp (algebraMap R _)
   have hφ : ∀ (a : R) (y : C), a • y = φ a * y := fun a y => Algebra.smul_def (algebraMap R (FractionRing R) a) y
   have bd : ∀ {E : Type} [AddCommGroup E] [Module R E] (f : E →+ C), (∀ (a : R) y, f (a • y) = φ a * f y) →
@@ -366,7 +366,7 @@ theorem isThetaPt_of_data (P : PolAV S) [Subsingleton T.left] {k : ℕ} {I : Typ
   refine ⟨ho, hu, fun p => ⟨⊤, trivial, ?_⟩⟩
   obtain ⟨h, hh⟩ := GlobalLift.exists_section (T := T) (V := ⊤) (p := p) trivial
   have hi : overResι (T := T) ⊤ ≫ h = 𝟙 _ := by
-    haveI : Mono (overResι (T := T) ⊤) := Over.mono_of_mono_left _ (hk := inferInstanceAs (Mono (⊤ : T.left.Opens).ι))
+    have : Mono (overResι (T := T) ⊤) := Over.mono_of_mono_left _ (hk := inferInstanceAs (Mono (⊤ : T.left.Opens).ι))
     rw [← cancel_mono (overResι (T := T) ⊤), Category.assoc, hh, Category.comp_id, Category.id_comp]
   exact ThetaCoord.isThetaPtOver_pull P ⟨th, s₁, α, τ, U, s₂, w, u, H⟩ _ h hi
 

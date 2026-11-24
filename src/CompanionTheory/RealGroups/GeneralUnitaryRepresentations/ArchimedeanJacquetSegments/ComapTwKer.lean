@@ -163,10 +163,10 @@ theorem E_val_zero {n : ℕ} (g : GL (Fin n) k) (i l : Fin (n + 1)) :
   | last =>
     induction l using Fin.lastCases with
     | last => simp [glEmbMat]
-    | cast l => simp [glEmbMat, Matrix.one_apply, (Fin.castSucc_ne_last l).symm]
+    | cast l => simp [glEmbMat, (Fin.castSucc_ne_last l).symm]
   | cast i =>
     induction l using Fin.lastCases with
-    | last => simp [glEmbMat, Matrix.one_apply, Fin.castSucc_ne_last]
+    | last => simp [glEmbMat, Fin.castSucc_ne_last]
     | cast l => simp [glEmbMat]
 
 theorem E_val_succ {n j : ℕ} (g : GL (Fin n) k)
@@ -183,12 +183,12 @@ theorem E_val_succ {n j : ℕ} (g : GL (Fin n) k)
     have : ¬ ((n + j + 1 : ℕ) < n) := by omega
     induction l using Fin.lastCases with
     | last => simp [glEmbMat, this]
-    | cast l => simp [glEmbMat, Matrix.one_apply, (Fin.castSucc_ne_last l).symm, this]
+    | cast l => simp [glEmbMat, (Fin.castSucc_ne_last l).symm, this]
   | cast i =>
     induction l using Fin.lastCases with
     | last =>
       have : ¬ ((n + j + 1 : ℕ) < n) := by omega
-      simp [glEmbMat, Matrix.one_apply, Fin.castSucc_ne_last, this]
+      simp [glEmbMat, Fin.castSucc_ne_last, this]
     | cast l =>
       simp only [glEmbMat, Fin.lastCases_castSucc]
       rw [ih i l]
@@ -212,7 +212,7 @@ theorem stdSum_inj {n t N : ℕ} (h : n + t = N) {a b : Fin n ⊕ Fin t} : stdSu
 
 theorem one_std {n t N : ℕ} (h : n + t = N) (a b : Fin n ⊕ Fin t) :
     (1 : Matrix (Fin N) (Fin N) k) (stdSum h a) (stdSum h b) = (1 : Matrix (Fin n ⊕ Fin t) (Fin n ⊕ Fin t) k) a b := by
-  simp [Matrix.one_apply, stdSum_inj]
+  simp [Matrix.one_apply]
 
 theorem E_eq {n j : ℕ} (g : GL (Fin n) k) :
     ((E k j g : Mir k (n + j)) : GL (Fin (n + j + 1)) k) =
@@ -356,7 +356,7 @@ theorem ker_Q' (ψ : AddChar k Circle) {n t N : ℕ} (h : n + t = N) {V : Type} 
         · rfl
         · rfl
         · simp only [fromBlocks_apply₂₂]
-          exact hw1 a b (by rw [Fin.lt_iff_val_lt_val] at hli ⊢; simp at hli; omega)
+          exact hw1 a b (by rw [Fin.lt_def] at hli ⊢; simp at hli; omega)
       · obtain ⟨a, rfl⟩ := (stdSum h).surjective i
         rw [hent]
         rcases a with a | a
@@ -405,10 +405,10 @@ theorem ker_Q' (ψ : AddChar k Circle) {n t N : ℕ} (h : n + t = N) {V : Type} 
     let D : Matrix (Fin t) (Fin t) k := fun x y =>
       ((u : GL (Fin N) k) : Matrix (Fin N) (Fin N) k) (stdSum h (Sum.inr x)) (stdSum h (Sum.inr y))
     have hDl : ∀ x y, y < x → D x y = 0 := fun x y hxy =>
-      hu1 _ _ (by rw [Fin.lt_iff_val_lt_val]; simp; exact hxy)
+      hu1 _ _ (by rw [Fin.lt_def]; simp; exact hxy)
     have hDd : ∀ x, D x x = 1 := fun x => hu2 _
     have hdet : D.det = 1 := by
-      rw [Matrix.det_of_upperTriangular (fun x y hxy => hDl x y hxy)]
+      rw [Matrix.det_of_isUpperTriangular (fun x y hxy => hDl x y hxy)]
       simp [hDd]
     have hD : IsUnit D := (Matrix.isUnit_iff_isUnit_det D).2 (by rw [hdet]; exact isUnit_one)
     let Dg : GL (Fin t) k := hD.unit

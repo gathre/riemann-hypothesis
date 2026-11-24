@@ -116,7 +116,7 @@ theorem gamma1_char_elementary : ∀ (k M : ℕ) (χ : DirichletCharacter ℂ M)
     (∀ f : ModularForm (Gamma1 M) (k : ℤ), HasChar k χ f → qs (coef f) = ⇑f ∧ MF k M (ch χ) (coef f)) ∧
     ∀ f : CuspForm (Gamma1 M) (k : ℤ), HasChar k χ f → qs (coef f) = ⇑f ∧ CF k M (ch χ) (coef f) := by
   intro k M χ hM
-  haveI : NeZero M := ⟨hM.ne'⟩
+  have : NeZero M := ⟨hM.ne'⟩
   refine ⟨fun f hf => mf_of_mfc χ f hf, fun f hf => ?_⟩
   obtain ⟨hq, hmf⟩ := mf_of_mfc χ f hf
   refine ⟨hq, hmf, ?_⟩

@@ -65,7 +65,7 @@ variable {φ : Frame} (H : HostRaw φ)
 def EQ : Fld := ⨆ j : H.E →ₐ[ℚ] Qb, j.fieldRange
 
 def FI : IntermediateField ℚ H.E := H.F.toIntermediateField fun x => by
-  simpa using SubfieldClass.ratCast_mem H.F x
+  simp
 
 def FQ : Fld := ⨆ j : H.E →ₐ[ℚ] Qb, H.FI.map j
 

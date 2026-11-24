@@ -106,17 +106,17 @@ theorem mem_iff (y : I.L) :
 
 private lemma charP_residue_of_card_eq_prime {p : ℕ} (hp : p.Prime) (hcard : Nat.card (𝓞 I.E ⧸ w.asIdeal) = p) :
     CharP (𝓞 I.E ⧸ w.asIdeal) p := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (𝓞 I.E ⧸ w.asIdeal) := Nat.finite_of_card_ne_zero (by rw [hcard]; exact hp.ne_zero)
-  letI := Fintype.ofFinite (𝓞 I.E ⧸ w.asIdeal)
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (𝓞 I.E ⧸ w.asIdeal) := Nat.finite_of_card_ne_zero (by rw [hcard]; exact hp.ne_zero)
+  let := Fintype.ofFinite (𝓞 I.E ⧸ w.asIdeal)
   exact charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card, hcard])
 
 theorem int_surj {p : ℕ} (hp : p.Prime) (hcard : Nat.card (𝓞 I.E ⧸ w.asIdeal) = p)
     (κ : 𝓞 I.E ⧸ w.asIdeal) : ∃ c : ℤ, (c : 𝓞 I.E ⧸ w.asIdeal) = κ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := charP_residue_of_card_eq_prime I w hp hcard
-  haveI : Finite (𝓞 I.E ⧸ w.asIdeal) := Nat.finite_of_card_ne_zero (by rw [hcard]; exact hp.ne_zero)
-  letI := Fintype.ofFinite (𝓞 I.E ⧸ w.asIdeal)
+  have : Fact p.Prime := ⟨hp⟩
+  have := charP_residue_of_card_eq_prime I w hp hcard
+  have : Finite (𝓞 I.E ⧸ w.asIdeal) := Nat.finite_of_card_ne_zero (by rw [hcard]; exact hp.ne_zero)
+  let := Fintype.ofFinite (𝓞 I.E ⧸ w.asIdeal)
   have hinj : Function.Injective (ZMod.castHom (dvd_refl p) (𝓞 I.E ⧸ w.asIdeal)) :=
     (ZMod.castHom (dvd_refl p) (𝓞 I.E ⧸ w.asIdeal)).injective
   have hbij := (Fintype.bijective_iff_injective_and_card _).mpr
@@ -127,7 +127,7 @@ theorem int_surj {p : ℕ} (hp : p.Prime) (hcard : Nat.card (𝓞 I.E ⧸ w.asId
 
 theorem int_mem_iff {p : ℕ} (hp : p.Prime) (hcard : Nat.card (𝓞 I.E ⧸ w.asIdeal) = p) (c : ℤ) :
     (c : 𝓞 I.E) ∈ w.asIdeal ↔ (p : ℤ) ∣ c := by
-  haveI := charP_residue_of_card_eq_prime I w hp hcard
+  have := charP_residue_of_card_eq_prime I w hp hcard
   rw [← Ideal.Quotient.eq_zero_iff_mem, map_intCast, CharP.intCast_eq_zero_iff _ p]
 
 theorem natCast_mem {p : ℕ} (hp : p.Prime) (hcard : Nat.card (𝓞 I.E ⧸ w.asIdeal) = p) :
@@ -414,7 +414,7 @@ theorem val_sub {p : ℕ} (hp : p.Prime) (hcard : Nat.card (𝓞 I.E ⧸ w.asIde
     {z : Fin I.n → I.E} (hz : z ∈ I.L) (c : ℤ) :
     ((((c : ZMod p)).val : ℕ) : I.E ⊗[I.F] Af I.F) • iv I z - (c : I.E ⊗[I.F] Af I.F) • iv I z ∈
       lamAf (F := I.F) (wLat0 I w) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hd : (p : ℤ) ∣ ((c : ZMod p).val : ℤ) - c := by
     rw [← ZMod.intCast_zmod_eq_zero_iff_dvd]
     simp

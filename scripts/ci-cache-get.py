@@ -33,7 +33,6 @@ import urllib.request
 
 PUBLIC_BASE = "https://rh-cache.taucetiproject.org"
 REPOSITORY = "leanprover-community/riemann-hypothesis"
-BOOTSTRAP = "e50d09817ad81469f737e8f637561e6ccf86c670"
 FIELDS = ("source_tree", "build_roots", "lakefile_sha256", "manifest_sha256", "toolchain")
 SHA40 = re.compile(r"[0-9a-f]{40}\Z")
 SHA256 = re.compile(r"[0-9a-f]{64}\Z")
@@ -213,8 +212,6 @@ def find_record(root, identity, ancestor_limit=100, fetcher=fetch):
                     return record
         elif same != 1:
             raise ValueError("could not compare ancestor build inputs")
-        if revision == BOOTSTRAP:
-            break
     return None
 
 

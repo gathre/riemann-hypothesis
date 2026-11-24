@@ -203,8 +203,8 @@ theorem exists_fg_submodulePowSat_gammaStar_locus [QCoh.IsFiniteQC F] (hL : L.Is
       K.FG ∧ submodulePowSat (MvPolynomial.X i) K = ⊤ := by
   have := isFiniteQC_twist (F := F) (isLB_lbZPow hL 0)
   have := QCoh.finite_sections (twistZ F L 0) ha
-  letI := (ratioEval R x i).toAlgebra
-  letI : Module (MvPolynomial ι R) Γ(twistZ F L 0, nonzeroLocus (x i)) :=
+  let := (ratioEval R x i).toAlgebra
+  let : Module (MvPolynomial ι R) Γ(twistZ F L 0, nonzeroLocus (x i)) :=
     Module.compHom _ (ratioEval R x i)
   have : IsScalarTower (MvPolynomial ι R) Γ(X, nonzeroLocus (x i))
       Γ(twistZ F L 0, nonzeroLocus (x i)) := ⟨fun p a b => mul_smul _ a b⟩
@@ -299,7 +299,7 @@ theorem exists_fg_cech_iso_grCech :
   have := VeryAmpleCharts.compactSpace_of_finite_cover _ hc ha
   have := VeryAmpleCharts.quasiSeparatedSpace_of_cover hL x hc ha
   obtain ⟨M, hM, hM', e⟩ := exists_fg_isHomogeneous_submodulePowSat R x F hL hc ha hf
-  letI := grSubDecomposition _ hM'
+  let := grSubDecomposition _ hM'
   have h₁ (i : ι) (m : M) (hm : M.subtype m = 0) :
       ∃ k : ℕ, (MvPolynomial.X i : MvPolynomial ι R) ^ k • m = 0 :=
     ⟨0, by rw [show m = 0 from Subtype.ext hm, smul_zero]⟩
@@ -328,9 +328,9 @@ variable [IsNoetherianRing R]
 theorem finite_coh_twistZ (n : ℤ) (p : ℕ) : Module.Finite R (coh (twistZ F L n) p) := by
   classical
   have := Fintype.ofFinite ι
-  letI := linearOrderOfSTO (WellOrderingRel (α := ι))
+  let := linearOrderOfSTO (WellOrderingRel (α := ι))
   obtain ⟨M, hM, hM', e⟩ := exists_fg_coh_equiv_grH R x F hL hc ha hf
-  letI := grSubDecomposition _ hM'
+  let := grSubDecomposition _ hM'
   have : Module.Finite R (grH ι (grSub (gammaGrading R x F ⊤) M) n p) :=
     finite_grCech_homology ι R M _ (Module.Finite.iff_fg.2 hM) n p
   exact (e n p).elim Module.Finite.equiv
@@ -339,9 +339,9 @@ theorem eventually_subsingleton_coh_twistZ :
     ∀ᶠ n : ℤ in atTop, ∀ p, 0 < p → Subsingleton (coh (twistZ F L n) p) := by
   classical
   have := Fintype.ofFinite ι
-  letI := linearOrderOfSTO (WellOrderingRel (α := ι))
+  let := linearOrderOfSTO (WellOrderingRel (α := ι))
   obtain ⟨M, hM, hM', e⟩ := exists_fg_coh_equiv_grH R x F hL hc ha hf
-  letI := grSubDecomposition _ hM'
+  let := grSubDecomposition _ hM'
   obtain ⟨n₀, h⟩ := cubeComplex_grCube_exactAt_of_finite ι R M
     (grSub (gammaGrading R x F ⊤) M) (Module.Finite.iff_fg.2 hM)
   refine eventually_atTop.2 ⟨n₀, fun n hn p hp => ?_⟩

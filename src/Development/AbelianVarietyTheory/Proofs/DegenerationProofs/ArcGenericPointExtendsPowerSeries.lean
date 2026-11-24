@@ -202,8 +202,8 @@ theorem spMap_jK {R R' : Type} [CommRing R] [IsDomain R] [CommRing R'] [IsDomain
 theorem finite_fractionRing {R R₁ : Type} [CommRing R] [IsDomain R] [CommRing R₁] [IsDomain R₁] {g : R →+* R₁}
     {gam : FractionRing R →+* FractionRing R₁} (h : ∀ r, gam (algebraMap R _ r) = algebraMap R₁ _ (g r))
     (hg : g.Finite) : gam.Finite := by
-  letI := g.toAlgebra
-  letI := gam.toAlgebra
+  let := g.toAlgebra
+  let := gam.toAlgebra
   have : Module.Finite R R₁ := hg
   have : IsScalarTower R (FractionRing R) (FractionRing R₁) := IsScalarTower.of_algebraMap_eq fun r => (h r).symm
   have : FaithfulSMul R R₁ := (faithfulSMul_iff_algebraMap_injective R R₁).2 fun a b e =>
@@ -219,8 +219,8 @@ theorem exists_normalisation (R : Type) [CommRing R] [IsDomain R] [IsLocalRing R
     ∃ (R₂ : Type) (_ : CommRing R₂) (_ : IsDomain R₂) (_ : IsLocalRing R₂) (_ : IsNoetherianRing R₂)
       (_ : IsIntegrallyClosed R₂) (_ : CharZero R₂) (g₂ : R₁ →+* R₂) (f : L →+* FractionRing R₂),
       (∀ r, (f.comp σ) (algebraMap R₁ _ r) = algebraMap R₂ _ (g₂ r)) ∧ (g₂.comp g).IsIntegral := by
-  letI := (σ.comp gam).toAlgebra
-  letI := ((σ.comp gam).comp (algebraMap R (FractionRing R))).toAlgebra
+  let := (σ.comp gam).toAlgebra
+  let := ((σ.comp gam).comp (algebraMap R (FractionRing R))).toAlgebra
   have : IsScalarTower R (FractionRing R) L := IsScalarTower.of_algebraMap_eq fun _ => rfl
   have : FiniteDimensional (FractionRing R) L := hσ.comp (finite_fractionRing h hg)
   obtain ⟨h₁, h₂, h₃, h₄, h₅⟩ := GlobalTheory.integralClosure_finite_local_of_isAdicComplete R hc L
@@ -247,7 +247,7 @@ theorem exists_normalisation (R : Type) [CommRing R] [IsDomain R] [IsLocalRing R
 theorem arcBase_complete {O' : Type} [CommRing O'] [IsDomain O'] {ϖ : O'} (h : ArcBase O' ϖ) :
     ∃ _ : IsLocalRing O', IsPrincipalIdealRing O' ∧ IsAdicComplete (IsLocalRing.maximalIdeal O') O' := by
   rcases h with ⟨hF, -⟩ | ⟨hD, hi, hc⟩
-  · letI := hF.toField
+  · let := hF.toField
     refine ⟨inferInstance, inferInstance, ?_⟩
     rw [IsLocalRing.maximalIdeal_eq_bot]
     infer_instance

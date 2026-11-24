@@ -599,7 +599,7 @@ theorem exists_modif (hK : ReciprocityTheory.ChartRestriction.G.Geo.ResK.ResKSta
   obtain ⟨S, hS, hJ⟩ := R.homog
   obtain ⟨f, hfS, hfP⟩ : ∃ f ∈ S, f ∉ ptIdeal (i (genericPoint X)) := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact R.nondeg (hJ ▸ Ideal.span_le.2 h)
   obtain ⟨a, ha⟩ := hS f hfS
   have hfJ : f ∈ J := hJ ▸ Ideal.subset_span hfS
@@ -667,7 +667,7 @@ theorem integrableOn_of_modif {X : Scheme.{0}} [IsIntegral X] {q : X ⟶ Sp ℤ}
     have e : {y | y ∈ ptsIn q σ (W l) ∧ ev q σ (W l) (d l) y = 0} =
         ptsIn q σ (W l) \ (ptsIn q σ (W l) ∩ ev q σ (W l) (d l) ⁻¹' {0}ᶜ) := by
       ext y
-      simp only [Set.mem_setOf_eq, Set.mem_diff, Set.mem_inter_iff, Set.mem_preimage, Set.mem_compl_iff,
+      simp only [Set.mem_ofPred_eq, Set.mem_sdiff, Set.mem_inter_iff, Set.mem_preimage, Set.mem_compl_iff,
         Set.mem_singleton_iff, not_and, not_not]
       exact ⟨fun h => ⟨h.1, fun _ => h.2⟩, fun h => ⟨h.1, h.2 h.1⟩⟩
     rw [e]
@@ -684,7 +684,7 @@ theorem integrableOn_of_modif {X : Scheme.{0}} [IsIntegral X] {q : X ⟶ Sp ℤ}
   have hcovK : ∀ x, ∃ j, ∃ u ∈ (A.chart j) '' tsupport (Pt.χ j), (A.chart j).symm u = x := fun x => by
     obtain ⟨j, hj⟩ : ∃ j, Pt.χ j x ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       have := Pt.sum_eq_one x
       simp [h] at this
     have hx : x ∈ tsupport (Pt.χ j) := subset_tsupport _ hj
@@ -709,7 +709,7 @@ theorem integrableOn_of_modif {X : Scheme.{0}} [IsIntegral X] {q : X ⟶ Sp ℤ}
   have hc : ContinuousOn (F ∘ (A.chart j).symm) (A.chart j).target :=
     hF.comp_continuousOn (A.chart j).continuousOn_symm
   have hsub : (A.chart j) '' tsupport (Pt.χ j) \ (F ∘ (A.chart j).symm) ⁻¹' Z' ⊆ (A.chart j).target :=
-    Set.diff_subset.trans (hKK j).2
+    Set.sdiff_subset.trans (hKK j).2
   have hm₀ : AEMeasurable (F ∘ (A.chart j).symm)
       (volume.restrict ((A.chart j) '' tsupport (Pt.χ j) \ (F ∘ (A.chart j).symm) ⁻¹' Z')) :=
     (hc.aemeasurable hT).mono_measure (Measure.restrict_mono hsub le_rfl)

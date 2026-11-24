@@ -467,7 +467,7 @@ theorem sumF_comb {R : Type} [CommRing R] [IsDomain R] {I : Ideal R} (hR : AdmBa
   classical
   induction S using Finset.induction_on with
   | empty =>
-    letI : Module R F := Module.compHom F (algebraMap R (FractionRing R))
+    let : Module R F := Module.compHom F (algebraMap R (FractionRing R))
     refine ⟨⊥, Submodule.fg_bot, Submodule.zero_mem _, fun i => ?_, fun n => ⟨∅, fun T _ => ?_⟩⟩
     · simp only [Finset.sum_empty]; exact Submodule.zero_mem _
     · simp only [Finset.sum_empty, Finset.sum_const_zero, sub_zero]; exact Submodule.zero_mem _

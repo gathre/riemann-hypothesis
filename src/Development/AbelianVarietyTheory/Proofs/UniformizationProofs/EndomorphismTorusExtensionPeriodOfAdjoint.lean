@@ -106,8 +106,8 @@ theorem eq_of_torsion_chars {X F : Type} [AddCommGroup X] [Module.Free ℤ X] [F
   have hd : a - b ≠ 0 := sub_ne_zero.2 hne
   obtain ⟨φ, hφ⟩ := Module.Projective.exists_dual_ne_zero ℤ hd
   let k : ℕ := (φ (a - b)).natAbs + 1
-  haveI : NeZero k := ⟨Nat.succ_ne_zero _⟩
-  haveI : NeZero (k : F) := ⟨Nat.cast_ne_zero.2 (Nat.succ_ne_zero _)⟩
+  have : NeZero k := ⟨Nat.succ_ne_zero _⟩
+  have : NeZero (k : F) := ⟨Nat.cast_ne_zero.2 (Nat.succ_ne_zero _)⟩
   obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot F k
   let u : Fˣ := (hζ.isUnit (NeZero.ne k)).unit
   have hu : IsPrimitiveRoot u k := hζ.isUnit_unit (NeZero.ne k)
@@ -137,9 +137,9 @@ theorem weilQkIs_swap {k : ℕ} {p p' : QkPt D F k} {z : Fˣ} (h : WeilQkIs D F 
 theorem main : LL → TwistBCSpanStatement → TWM.VRatioGtStatement → TWStatement → UUStatement → AllUV fun {V} _ _ _ {ϖ} hϖ {D} Q {F} _ _ {v} hv {A} {G} _ _ U => ∀ E E' : EndU U.toUnifPre, Function.Injective E.h → Function.Injective E'.h → LBIso (cubeLB G ![fst G G ≫ E.aG, snd G G] U.LG.L) (cubeLB G ![fst G G, snd G G ≫ E'.aG] U.LG.L) → ∀ y (g g' : GtPtF D.toPre F), GtPtF.IsIota y g → E.Act g g' → GtPtF.IsIota (E'.h y) g' := by
   intro hL h₁ h₂ h₃ h₄ V _ _ _ _ hc ϖ hϖ D Q hQ F _ _ _ v hv A G _ _ hG U E E' hE hE' hadj y g g' hg hgg'
   have hA : AdmBase V (maximalIdeal V) := ⟨inferInstance, inferInstance, inferInstance, hc⟩
-  haveI : CharZero (FractionRing V) := charZero_of_injective_algebraMap (IsFractionRing.injective V (FractionRing V))
-  haveI : CharZero F := charZero_of_injective_algebraMap (algebraMap (FractionRing V) F).injective
-  letI := gtGroup D.toPre F
+  have : CharZero (FractionRing V) := charZero_of_injective_algebraMap (IsFractionRing.injective V (FractionRing V))
+  have : CharZero F := charZero_of_injective_algebraMap (algebraMap (FractionRing V) F).injective
+  let := gtGroup D.toPre F
   have hB := D.tau_bimult
   have inj := GlobalTheory.IotaInj.main hL V _ hA D F
   have dv := (gt_onto_divisible_kernel hL V _ hA D F).2.1

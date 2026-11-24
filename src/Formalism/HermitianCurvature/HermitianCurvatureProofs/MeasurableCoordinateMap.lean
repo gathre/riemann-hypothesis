@@ -509,14 +509,14 @@ variable {μ0 μ0' : Measure (Mt k r)} (hμ0 : B.IsHaarOn (C2.N0set k r S.z) μ0
 include hμ0 hμ0' in
 theorem ae_good : ∀ᵐ q ∂(nuR S w μ0 μ0'), Matrix.of q.1.1 ∈ UWset k r S.z ∧ Matrix.of q.1.2.2 ∈ C2.N0set k r S.z ∧
     Matrix.of q.2.1 ∈ UWset k r S.z' ∧ Matrix.of q.2.2.2 ∈ C2.N0set k r S.z' := by
-  haveI : IsFiniteMeasureOnCompacts S.μW := ⟨fun K hK => S.haarW.finite_compact K hK⟩
-  haveI : IsFiniteMeasureOnCompacts S.μW' := ⟨fun K hK => S.haarW'.finite_compact K hK⟩
-  haveI : IsFiniteMeasureOnCompacts μ0 := ⟨fun K hK => hμ0.finite_compact K hK⟩
-  haveI : IsFiniteMeasureOnCompacts μ0' := ⟨fun K hK => hμ0'.finite_compact K hK⟩
-  haveI t1 : SFinite S.μW := inferInstance
-  haveI t2 : SFinite μ0 := inferInstance
-  haveI t5 : SFinite S.μW' := inferInstance
-  haveI t6 : SFinite μ0' := inferInstance
+  have : IsFiniteMeasureOnCompacts S.μW := ⟨fun K hK => S.haarW.finite_compact K hK⟩
+  have : IsFiniteMeasureOnCompacts S.μW' := ⟨fun K hK => S.haarW'.finite_compact K hK⟩
+  have : IsFiniteMeasureOnCompacts μ0 := ⟨fun K hK => hμ0.finite_compact K hK⟩
+  have : IsFiniteMeasureOnCompacts μ0' := ⟨fun K hK => hμ0'.finite_compact K hK⟩
+  have t1 : SFinite S.μW := inferInstance
+  have t2 : SFinite μ0 := inferInstance
+  have t5 : SFinite S.μW' := inferInstance
+  have t6 : SFinite μ0' := inferInstance
   have hW : ∀ᵐ a ∂S.μW, Matrix.of a ∈ UWset k r S.z :=
     ae_iff.2 S.haarW.conc
   have hW' : ∀ᵐ a ∂S.μW', Matrix.of a ∈ UWset k r S.z' :=
@@ -681,15 +681,15 @@ theorem orb_int [CompleteSpace Wp] {c1 c2 : NNReal} (hc1 : 0 < c1) (hc2 : 0 < c2
     Integrable (fun q => D.orbIntegrand S γ F (Xi0 S w q)) (nuR S w μ0 μ0') ∧
       ∫ p, θ p • D.orbIntegrand S γ F p ∂S.μSS =
         ((c1 * c2 : NNReal) : ℝ) • ∫ q, D.orbIntegrand S γ F (Xi0 S w q) ∂(nuR S w μ0 μ0') := by
-  haveI : IsFiniteMeasureOnCompacts S.μW := ⟨fun K hK => S.haarW.finite_compact K hK⟩
-  haveI : IsFiniteMeasureOnCompacts S.μW' := ⟨fun K hK => S.haarW'.finite_compact K hK⟩
-  haveI : IsFiniteMeasureOnCompacts μ0 := ⟨fun K hK => hμ0.finite_compact K hK⟩
-  haveI : IsFiniteMeasureOnCompacts μ0' := ⟨fun K hK => hμ0'.finite_compact K hK⟩
-  haveI t1 : SFinite S.μW := inferInstance
-  haveI t2 : SFinite μ0 := inferInstance
-  haveI t5 : SFinite S.μW' := inferInstance
-  haveI t6 : SFinite μ0' := inferInstance
-  haveI t7 : SFinite (nuR S w μ0 μ0') := by unfold nuR; infer_instance
+  have : IsFiniteMeasureOnCompacts S.μW := ⟨fun K hK => S.haarW.finite_compact K hK⟩
+  have : IsFiniteMeasureOnCompacts S.μW' := ⟨fun K hK => S.haarW'.finite_compact K hK⟩
+  have : IsFiniteMeasureOnCompacts μ0 := ⟨fun K hK => hμ0.finite_compact K hK⟩
+  have : IsFiniteMeasureOnCompacts μ0' := ⟨fun K hK => hμ0'.finite_compact K hK⟩
+  have t1 : SFinite S.μW := inferInstance
+  have t2 : SFinite μ0 := inferInstance
+  have t5 : SFinite S.μW' := inferInstance
+  have t6 : SFinite μ0' := inferInstance
+  have t7 : SFinite (nuR S w μ0 μ0') := by unfold nuR; infer_instance
   have hz : C2.StdZ k r S.z := ⟨S.z_mem, S.T_pos⟩
   have hz' : C2.StdZ k r S.z' := ⟨S.z'_mem, S.T'_pos⟩
 

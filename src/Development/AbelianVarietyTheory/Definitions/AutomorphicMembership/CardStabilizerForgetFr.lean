@@ -212,13 +212,13 @@ theorem levRed_lam {P : HeightOneSpectrum (𝓞 E)} (l : Lev (𝓞 E ⧸ P.asIde
     (levRed P l).lam k = l.lam ⟨redGL n P k.1, k.2⟩ := rfl
 
 instance levRed_finiteIndex (P : HeightOneSpectrum (𝓞 E)) (l : Lev (𝓞 E ⧸ P.asIdeal) K n) : (levRed P l).H.FiniteIndex := by
-  haveI : Finite (𝓞 E ⧸ P.asIdeal) := Ideal.finiteQuotientOfFreeOfNeBot _ P.ne_bot
-  haveI : (redGL (E := E) n P).ker.FiniteIndex := Subgroup.finiteIndex_ker _
+  have : Finite (𝓞 E ⧸ P.asIdeal) := Ideal.finiteQuotientOfFreeOfNeBot _ P.ne_bot
+  have : (redGL (E := E) n P).ker.FiniteIndex := Subgroup.finiteIndex_ker _
   exact Subgroup.finiteIndex_of_le (H := (redGL (E := E) n P).ker) (Subgroup.ker_le_comap _ _)
 
 theorem levRed_root (P : HeightOneSpectrum (𝓞 E)) (l : Lev (𝓞 E ⧸ P.asIdeal) K n) :
     ∃ m : ℕ, 0 < m ∧ ∀ k, (levRed P l).lam k ^ m = 1 := by
-  haveI : Finite (𝓞 E ⧸ P.asIdeal) := Ideal.finiteQuotientOfFreeOfNeBot _ P.ne_bot
+  have : Finite (𝓞 E ⧸ P.asIdeal) := Ideal.finiteQuotientOfFreeOfNeBot _ P.ne_bot
   have h : ∀ a : l.H, l.lam a ^ Nat.card l.H = 1 := fun a => by rw [← map_pow, pow_card_eq_one', map_one]
   exact ⟨Nat.card l.H, Nat.card_pos, fun k => h ⟨redGL n P k.1, k.2⟩⟩
 
@@ -235,7 +235,7 @@ theorem redGL_surjective (P : HeightOneSpectrum (𝓞 E)) : Function.Surjective 
   intro A
   rcases Nat.eq_zero_or_pos n with rfl | hn
   · exact ⟨1, Units.ext (Matrix.ext fun i _ => i.elim0)⟩
-  haveI : NeZero n := ⟨hn.ne'⟩
+  have : NeZero n := ⟨hn.ne'⟩
   classical
   obtain ⟨k, hk⟩ := exists_redGL_eq (n := n) (Q := {P})
     (Function.update 1 ⟨P, Finset.mem_singleton_self P⟩ A) ⟨P, Finset.mem_singleton_self P⟩

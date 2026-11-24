@@ -89,7 +89,7 @@ theorem map_actW_fibre : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [N
     exact hop.preimage (Continuous.matrix_det continuous_subtype_val)
   have hU : {X | IsUnit (gramR R σ J X).det} = g ⁻¹' B := by
     ext X
-    simp only [Set.mem_setOf_eq, Set.mem_preimage, B, hgf]
+    simp only [Set.mem_ofPred_eq, Set.mem_preimage, B, hgf]
   have hm' : Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.IsFibreFamily μ (gramR R σ J) Subtype.val (g ⁻¹' B) ν B m := by
     rw [← hU]
     exact hm

@@ -548,10 +548,10 @@ theorem finiteRing_sq_sub_mul_sq_eq_of_card (t : Tower s) (a : t.Alg) (F : Type)
 
 theorem torsion_lift : (∀ (k : Type) [Field k] [IsAlgClosed k] (B : Over (Sp k)) [GrpObj B] (g n : ℕ), IsAbelianScheme B → SmoothOfRelativeDimension g B.hom → (n : k) ≠ 0 → Nat.card {x : (𝟙_ (Over (Sp k)) ⟶ B) // x ^ n = 1} = n ^ (2 * g)) → AllSet fun {V} _ _ _ {A} {G} _ _ s => ∀ (t : Tower s) (a : t.Alg) (F : Type) [Field F] [IsAlgClosed F] [Algebra (FractionRing V) F] [Algebra.IsAlgebraic (FractionRing V) F] (N : ℕ), 1 ≤ N → ∃ (W : Type) (_ : CommRing W) (_ : IsLocalRing W) (_ : Algebra V W) (φ : W →+* F), Function.Injective φ ∧ φ.comp (algebraMap V W) = (algebraMap (FractionRing V) F).comp (algebraMap V (FractionRing V)) ∧ IsAdicComplete ((IsLocalRing.maximalIdeal V).map (algebraMap V W)) W ∧ IsLocalHom (algebraMap V W) ∧ (∀ z : F, z ^ N = 1 → z ∈ φ.range) ∧ ∀ x : TF (R := V) F ⟶ a.B, x ^ N = 1 → ∃ (y : Over.mk (Spec.map (CommRingCat.ofHom (algebraMap V W))) ⟶ G) (b : Over.mk (Spec.map (CommRingCat.ofHom (algebraMap V W))) ⟶ a.B), y ^ N = 1 ∧ (∀ (e : ℕ) (Z : Scheme.{0}) (r : Z ⟶ Spec (CommRingCat.of W)) (xe : Z ⟶ (thickObj V (IsLocalRing.maximalIdeal V) e G).left), xe ≫ (fstG _ e G).left = r ≫ (y).left → xe ≫ (t.l e).Q.q.left ≫ a.b e = r ≫ (b).left) ∧ (Spec.map (CommRingCat.ofHom φ)) ≫ b.left = x.left := by
   intro hcard V _ _ _ A G _ _ s t a F _ _ _ _ N hN
-  letI : Algebra V F := ((algebraMap (FractionRing V) F).comp (algebraMap V (FractionRing V))).toAlgebra
-  haveI : IsScalarTower V (FractionRing V) F := IsScalarTower.of_algebraMap_eq' rfl
+  let : Algebra V F := ((algebraMap (FractionRing V) F).comp (algebraMap V (FractionRing V))).toAlgebra
+  have : IsScalarTower V (FractionRing V) F := IsScalarTower.of_algebraMap_eq' rfl
   have hch : CharZero V := s.cdvr.2.2
-  haveI : CharZero F := charZero_of_injective_ringHom (f := algebraMap V F)
+  have : CharZero F := charZero_of_injective_ringHom (f := algebraMap V F)
     ((algebraMap (FractionRing V) F).injective.comp (IsFractionRing.injective V _))
   obtain ⟨g, hg⟩ := GlobalTheory.AbelianDim.exists_relDim V a.B a.isAb
   have hn := GlobalTheory.card_torsion_geometricPoint_of_field hcard _ a.B a.isAb g hg F (TF (R := V) F).hom N

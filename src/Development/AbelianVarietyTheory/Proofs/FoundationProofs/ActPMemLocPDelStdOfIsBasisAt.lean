@@ -227,7 +227,7 @@ theorem sqAct_mem_locP (w : HeightOneSpectrum (𝓞 K)) {n : ℕ} (lam : DomWeig
     sqAct K n lam g f ∈ Formalism.HermitianLatticesTheory.localization₂ w.asIdeal ((delSq (𝓞 K) n lam).map (toK K _)) := by
   obtain ⟨g₀, hu, e0⟩ := exists_lift w g h
   obtain ⟨f₀, hf₀, rfl⟩ := hf
-  haveI := isLocalRing_locRing w
+  have := isLocalRing_locRing w
   have h1 := map_mem_weyl (algebraMap (𝓞 K) (locRing w)) lam.natW hf₀
   have h2 := GlobalTheory.TestLat.weyl_rowAct_mem_of_isUnit_det (locRing w) n lam.natW (natW_antitone lam) g₀ᵀ (by rwa [Matrix.det_transpose]) _ h1
   have h3 := map_weyl_mem_locP w lam.natW h2

@@ -154,8 +154,8 @@ theorem fT_mem {A : AddSubgroup (Matrix (Fin n) (Fin r) E)} {α : Af F}
 
 omit [NumberField E] in
 theorem continuous_fT (y : Matrix (Fin n) (Fin r) E) : Continuous fun α : Af F => fT F α y := by
-  haveI : IsModuleTopology (AF F) (AF F ⊗[F] E) := ⟨rfl⟩
-  haveI : ContinuousSMul (AF F) (AF F ⊗[F] E) := IsModuleTopology.toContinuousSMul _ _
+  have : IsModuleTopology (AF F) (AF F ⊗[F] E) := ⟨rfl⟩
+  have : ContinuousSMul (AF F) (AF F ⊗[F] E) := IsModuleTopology.toContinuousSMul _ _
   refine continuous_matrix fun a k => ?_
   have : (fun α => fT F α y a k) = fun α => pairA F 0 α • ((1 : AF F) ⊗ₜ[F] y k a) := by
     funext α
@@ -187,7 +187,7 @@ def co (p : Fin r × Fin n × Fin d) : Matrix (Fin r) (Fin n) (AF F ⊗[F] E) �
   map_add' x y := by rw [Matrix.add_apply, LinearMap.map_add (f := _), map_add (f := _)]
 
 theorem continuous_co (p : Fin r × Fin n × Fin d) : Continuous (co b p) := by
-  haveI : IsModuleTopology (AF F) (AF F ⊗[F] E) := ⟨rfl⟩
+  have : IsModuleTopology (AF F) (AF F ⊗[F] E) := ⟨rfl⟩
   have h1 : Continuous ((Algebra.TensorProduct.basis (AF F) b).coord p.2.2) :=
     IsModuleTopology.continuous_of_linearMap _
   have h2 : Continuous (sndA F) := continuous_snd
@@ -286,8 +286,8 @@ theorem exists_gen (hfg : A.toIntSubmodule.FG) : ∃ (m : ℕ) (x : Fin m → Ma
 omit [NumberField E] in
 theorem isCompact_hatG (hfg : A.toIntSubmodule.FG) :
     IsCompact (hatG F A : Set (Matrix (Fin r) (Fin n) (AF F ⊗[F] E))) := by
-  haveI : IsModuleTopology (AF F) (AF F ⊗[F] E) := ⟨rfl⟩
-  haveI : ContinuousAdd (AF F ⊗[F] E) := IsModuleTopology.toContinuousAdd (AF F) _
+  have : IsModuleTopology (AF F) (AF F ⊗[F] E) := ⟨rfl⟩
+  have : ContinuousAdd (AF F ⊗[F] E) := IsModuleTopology.toContinuousAdd (AF F) _
   obtain ⟨m, x, hx⟩ := exists_gen (F := F) hfg
   have hI : IsCompact (intAf F) := GlobalTheory.AdeleCocompact.isCompact_integral F
   have hg : Continuous fun c : Fin m → Af F => ∑ k, fT F (c k) (x k) :=
@@ -330,7 +330,7 @@ theorem exists_mod (hO : ∀ c : 𝓞 F, ∀ y ∈ A, (c : F) • y ∈ A) {N : 
 
 theorem exists_rat (hden : ∀ y, ∃ N : ℕ, 0 < N ∧ N • y ∈ A) {u : Matrix (Fin r) (Fin n) (AF F ⊗[F] E)}
     (hu : u.map (infG F E) = 0) : ∃ y, u - fT F 1 y ∈ hatG F A := by
-  haveI : Module.Finite F E := Module.Finite.of_restrictScalars_finite ℚ F E
+  have : Module.Finite F E := Module.Finite.of_restrictScalars_finite ℚ F E
   let b := Module.finBasis F E
   obtain ⟨N, hN, hA⟩ := exists_common A (sgl b) fun p => hden _
   choose x a ha hx using fun p => (GlobalTheory.AdLat.strong_approximation_mod_nat F N hN).1 (co b p u)
@@ -344,9 +344,9 @@ theorem exists_rat (hden : ∀ y, ∃ N : ℕ, 0 < N ∧ N • y ∈ A) {u : Mat
 
 theorem isOpen_nsmul (hden : ∀ y, ∃ N : ℕ, 0 < N ∧ N • y ∈ A) {N : ℕ} (hN : 0 < N) :
     IsOpen {w : Matrix (Fin r) (Fin n) (AF F ⊗[F] E) | ∃ u ∈ hatG F A, (w - N • u).map (finG F E) = 0} := by
-  haveI : Module.Finite F E := Module.Finite.of_restrictScalars_finite ℚ F E
-  haveI : IsModuleTopology (AF F) (AF F ⊗[F] E) := ⟨rfl⟩
-  haveI : IsTopologicalAddGroup (AF F ⊗[F] E) := IsModuleTopology.topologicalAddGroup (AF F) _
+  have : Module.Finite F E := Module.Finite.of_restrictScalars_finite ℚ F E
+  have : IsModuleTopology (AF F) (AF F ⊗[F] E) := ⟨rfl⟩
+  have : IsTopologicalAddGroup (AF F ⊗[F] E) := IsModuleTopology.topologicalAddGroup (AF F) _
   let b := Module.finBasis F E
   obtain ⟨M, hM, hA⟩ := exists_common A (sgl b) fun p => hden _
   refine GlobalTheory.LatOpen.isOpen_of_nhds ((finG F E).toAddMonoidHom.mapMatrix (m := Fin r) (n := Fin n)) _ N
@@ -364,7 +364,7 @@ theorem isOpen_nsmul (hden : ∀ y, ∃ N : ℕ, 0 < N ∧ N • y ∈ A) {N : �
 
 theorem mem_of_fT_mem (hO : ∀ c : 𝓞 F, ∀ y ∈ A, (c : F) • y ∈ A) (hfg : A.toIntSubmodule.FG)
     (hden : ∀ y, ∃ N : ℕ, 0 < N ∧ N • y ∈ A) {y} (hy : fT F 1 y ∈ hatG F A) : y ∈ A := by
-  haveI : Module.Finite F E := Module.Finite.of_restrictScalars_finite ℚ F E
+  have : Module.Finite F E := Module.Finite.of_restrictScalars_finite ℚ F E
   let b := Module.finBasis F E
   obtain ⟨M, hM, hA⟩ := exists_common A (sgl b) fun p => hden _
   obtain ⟨N, hN, hU⟩ := exists_nsmul_mem_open hfg (⨅ p, (intG F).comap (co b p)) (by

@@ -642,7 +642,7 @@ theorem same_rel (hL : Laws) (h2 : Laws2) (h4 : Laws4) (h5 : Laws5) (h6 : Laws6)
     (hz₂ : z ≫ (fstG I e W.t.G).left ≫ W.t.G.hom = z' ≫ (fstG I e W'.t.G).left ≫ W'.t.G.hom) :
     z ≫ (W.P.U.gt e).pG.left ≫ W.φ = z' ≫ (W'.P.U.gt e).pG.left ≫ W'.φ ∧
       ∀ s, TorPt (W.P.U.gt e) z W.e s ↔ TorPt (W'.P.U.gt e) z' W'.e s := by
-  letI := H.starRing
+  let := H.starRing
   have hs := specOf_id R
   have hQ := qkPullExists hL.globalFns
   have hfi : Function.Injective f := (injective_iff_map_eq_zero f).2 fun x hx => by
@@ -824,8 +824,8 @@ theorem split_of_galois (hL : Laws) (h2 : Laws2) (h3 : Laws3) (h4 : Laws4) (h5 :
         ∀ τ : (R ⧸ I ^ (0 + 1)) ≃ₐ[k] (R ⧸ I ^ (0 + 1)), ∃ σ : R ≃+* R, (∀ x, σ (g x) = g x) ∧
           ∀ x, Ideal.Quotient.mk _ (σ x) = τ (Ideal.Quotient.mk _ x)) :
     ∃ S : SplitExt (Sp k), S.IsGt ((Over.pullback (spMap p)).obj t.G) := by
-  letI := Ideal.Quotient.field (I ^ (0 + 1))
-  letI := α.toAlgebra
+  let := Ideal.Quotient.field (I ^ (0 + 1))
+  let := α.toAlgebra
   obtain ⟨hfin, hgal, haut⟩ := hG
   obtain ⟨n, hn⟩ := sabCancel pullCubCancel E H _ _ _ _ _ _ _ _ m W.m
   have sq : thick R I 0 ≫ spMap g = spMap α ≫ spMap p :=
@@ -928,12 +928,12 @@ theorem splitOver_of_hasArcData : Laws → Laws2 → Laws3 → Laws4 → Laws5 �
   have sq : spMap gam ≫ jK V = jK R ≫ spMap (j.comp g) :=
     (spMap_comp _ gam).symm.trans ((congrArg spMap (RingHom.ext hgam)).trans (spMap_comp (j.comp g) _))
   have hp : IsLocalRing.maximalIdeal R ^ (0 + 1) = IsLocalRing.maximalIdeal R := pow_one _
-  haveI : (IsLocalRing.maximalIdeal R ^ (0 + 1)).IsMaximal := by rw [hp]; infer_instance
-  letI := Ideal.Quotient.field (IsLocalRing.maximalIdeal V)
-  letI := Ideal.Quotient.field (IsLocalRing.maximalIdeal R ^ (0 + 1))
+  have : (IsLocalRing.maximalIdeal R ^ (0 + 1)).IsMaximal := by rw [hp]; infer_instance
+  let := Ideal.Quotient.field (IsLocalRing.maximalIdeal V)
+  let := Ideal.Quotient.field (IsLocalRing.maximalIdeal R ^ (0 + 1))
   let α : V ⧸ IsLocalRing.maximalIdeal V →+* R ⧸ IsLocalRing.maximalIdeal R ^ (0 + 1) :=
     Ideal.quotientMap _ (j.comp g) (by rw [hp]; exact Ideal.map_le_iff_le_comap.1 hgI)
-  letI := α.toAlgebra
+  let := α.toAlgebra
   have hG' := hG (V ⧸ IsLocalRing.maximalIdeal V) (R ⧸ IsLocalRing.maximalIdeal R ^ (0 + 1)) (Ideal.Quotient.mk _)
     (Ideal.Quotient.mk _) Ideal.Quotient.mk_surjective Ideal.Quotient.mk_surjective (fun _ => rfl)
   exact split_of_galois hL h2 h3 h4 h5 h6 aR rfl f u χ t m (j.comp g) (fun x hx => (hf x hx).map _)

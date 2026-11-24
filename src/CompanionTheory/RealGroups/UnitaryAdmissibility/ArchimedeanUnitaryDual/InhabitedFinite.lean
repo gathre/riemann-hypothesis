@@ -150,13 +150,13 @@ def UG {L : Type} [CommRing L] {n : ℕ} (s : L →+* L) (J : Matrix (Fin n) (Fi
   carrier := {g | (g.1.map s).transpose * J * g.1 = J}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq, Units.val_mul, Matrix.map_mul, Matrix.transpose_mul] at *
+    simp only [Set.mem_ofPred_eq, Units.val_mul, Matrix.map_mul, Matrix.transpose_mul] at *
     calc _ = (b.1.map s).transpose * ((a.1.map s).transpose * J * a.1) * b.1 := by simp only [Matrix.mul_assoc]
       _ = J := by rw [ha, hb]
   one_mem' := by simp
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     have h1 : ((a⁻¹).1.map s).transpose * (a.1.map s).transpose = 1 := by
       rw [← Matrix.transpose_mul, ← Matrix.map_mul]; simp
     calc _ = ((a⁻¹).1.map s).transpose * ((a.1.map s).transpose * J * a.1) * (a⁻¹).1 := by rw [ha]

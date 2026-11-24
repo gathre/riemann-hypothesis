@@ -193,7 +193,7 @@ theorem repr_natCast_mul (a : ℕ) (y : Fv F v ⊗[F] E) (k : Fin d) :
 theorem mem_dilSet {a : ℕ} {X : Fin 1 → Fin M → Fv F v ⊗[F] E} :
     X ∈ dilSet b v a ↔ ∀ p i k, (a : Fv F v) * (Algebra.TensorProduct.basis (Fv F v) b).repr (X p i) k ∈
       v.adicCompletionIntegers F := by
-  simp only [dilSet, latV, Set.mem_setOf_eq, repr_natCast_mul]
+  simp only [dilSet, latV, Set.mem_ofPred_eq, repr_natCast_mul]
 
 theorem dilSet_mono (a t : ℕ) : (dilSet b v a : Set (Fin 1 → Fin M → Fv F v ⊗[F] E)) ⊆ dilSet b v (a * t) := by
   intro X hX
@@ -226,10 +226,10 @@ theorem dilSet_unit {a : ℕ} (h : (a : 𝓞 F) ∉ v.asIdeal) :
     simpa using this
   ext X
   rw [mem_dilSet]
-  simp only [latV, Set.mem_setOf_eq, HeightOneSpectrum.mem_adicCompletionIntegers, map_mul, hv, one_mul]
+  simp only [latV, Set.mem_ofPred_eq, HeightOneSpectrum.mem_adicCompletionIntegers, map_mul, hv, one_mul]
 
 theorem measurable_latV : MeasurableSet (latV b v : Set (Fin 1 → Fin M → Fv F v ⊗[F] E)) := by
-  haveI : IsModuleTopology (Fv F v) (Fv F v ⊗[F] E) := ⟨rfl⟩
+  have : IsModuleTopology (Fv F v) (Fv F v ⊗[F] E) := ⟨rfl⟩
   haveI : BorelSpace (Fv F v ⊗[F] E) := ⟨rfl⟩
   haveI : BorelSpace (Fv F v) := ⟨rfl⟩
   have hc : ∀ k : Fin d, Continuous fun y : Fv F v ⊗[F] E => (Algebra.TensorProduct.basis (Fv F v) b).repr y k := by

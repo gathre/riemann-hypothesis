@@ -201,7 +201,7 @@ private theorem coc_zero {O : Type} [CommRing O] [IsLocalRing O] {G Γ ι : Type
       ring
     · intro _ h
       exact absurd h (by norm_num)
-  haveI : Subsingleton (F.selmerCohomologyQuotient (-2)) := hX
+  have : Subsingleton (F.selmerCohomologyQuotient (-2)) := hX
   have hq : (Submodule.Quotient.mk (⟨X, hmemZ⟩ : F.selmerCocycles (-2)) : F.selmerCohomologyQuotient (-2)) = 0 := Subsingleton.elim _ _
   rw [Submodule.Quotient.mk_eq_zero, Submodule.mem_comap] at hq
   obtain ⟨m, hm⟩ := (mem_coboundaries1 _ _).mp hq
@@ -437,7 +437,7 @@ private theorem ent_zero {O A : Type} [CommRing O] [IsLocalRing O] [CommRing A] 
       rw [e]
       exact h21 _ hgc
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨g', hg'⟩ := hne
   obtain ⟨g0, hg0⟩ := exists_dvd (fun g => (r g).mat 2 0)
   have hx : (r g0).mat 2 0 ≠ 0 := by

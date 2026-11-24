@@ -878,7 +878,7 @@ theorem snc_params : ∀ (K : Type) [Fintype K] (J : K → Type) [∀ k, Fintype
   choose A hAa using fun l => hpoly (aa l) (ha l)
   obtain ⟨l, hl0⟩ : ∃ l, eval (ReciprocityTheory.AnForm.R.affCoord c w) (map (algebraMap ℚ ℂ) (F l)) ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 : aeval u (∑ l, A l * F l - 1) = (0 : Ω) := by
 
       simp only [map_sub, map_sum, map_mul, hF, hAa, hsum, map_one, sub_self]
@@ -918,8 +918,8 @@ theorem snc_params : ∀ (K : Type) [Fintype K] (J : K → Type) [∀ k, Fintype
     have h1 : ψ fS = θ (map (algebraMap ℚ ℂ) (F l)) := h _ _ (hF l).symm
     rw [← h1, ← map_pow, ← map_mul]
     exact h _ _ (by simpa [fS] using hZ i)
-  haveI : IsLocalRing (locRing I pt) := by subst hI hpt; assumption
-  haveI : IsNoetherianRing (locRing I pt) := by subst hI hpt; assumption
+  have : IsLocalRing (locRing I pt) := by subst hI hpt; assumption
+  have : IsNoetherianRing (locRing I pt) := by subst hI hpt; assumption
   have hev : ∀ g, eval pt (renR (Σ k, J k) g) = eval (ReciprocityTheory.AnForm.R.affCoord c w) g := by
     intro g
     rw [hpt]

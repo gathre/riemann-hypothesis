@@ -866,7 +866,7 @@ theorem Xa_succ (F : FlagD H r) (a : Fin r) :
   rw [← Submodule.span_union, ← Set.image_singleton (f := fun b : Fin r => F.e b.castSucc), ← Set.image_union]
   congr 2
   ext b
-  simp only [Set.mem_setOf_eq, Set.mem_union, Set.mem_singleton_iff, Fin.ext_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_union, Set.mem_singleton_iff, Fin.ext_iff]
   omega
 
 
@@ -896,7 +896,7 @@ theorem idx_flag (F : FlagD H r) (Λ : Submodule (𝓞 K) V) (y : Fin r → V) (
       rw [← Set.image_singleton, ← Set.image_union]
       congr 1
       ext b
-      simp only [Set.mem_setOf_eq, Set.mem_union, Set.mem_singleton_iff, Fin.ext_iff, ha]
+      simp only [Set.mem_ofPred_eq, Set.mem_union, Set.mem_singleton_iff, Fin.ext_iff, ha]
       omega
     have hX : F.Xa (l + 1) = F.Xa l ⊔ Submodule.span K {F.e a.castSucc} := Xa_succ F a
     have hea : F.e a.castSucc - y a ∈ F.Xa l := he a
@@ -1019,7 +1019,7 @@ theorem exists_unitri (F : FlagD H r) (y : Fin r → V) (he : ∀ a, F.e a.castS
       exact ⟨c • m, fun b hb => by simp [hm b hb], by simp [Finset.smul_sum, smul_smul]⟩
   choose m h1 h2 using hc
   refine ⟨1 - Matrix.of m, ?_, fun a => ?_⟩
-  · rw [Matrix.det_of_lowerTriangular (1 - Matrix.of m) (fun a b hab => ?_)]
+  · rw [Matrix.det_of_isLowerTriangular (1 - Matrix.of m) (fun a b hab => ?_)]
     · simp [fun a => h1 a a le_rfl]
     · have hab : a < b := hab
       simp [h1 a b hab.le, Matrix.one_apply_ne hab.ne]

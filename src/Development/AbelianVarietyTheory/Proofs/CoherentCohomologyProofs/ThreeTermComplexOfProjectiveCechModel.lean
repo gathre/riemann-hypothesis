@@ -367,8 +367,8 @@ open PerfOfModel
 theorem perf_of_projective_model :
     ∀ (R : Type) [CommRing R] (Y : Scheme.{0}) (f : Y ⟶ Spec (CommRingCat.of R)) (M : LB Y) (κ : Type) [LinearOrder κ] [Fintype κ] (D : κ → Y.Opens) (K : CochainComplex (ModuleCat.{0} R) ℕ) (φ : K ⟶ cechLB f M D), M.IsLB → ⨆ i, D i = ⊤ → (∀ I : Finset κ, I.Nonempty → IsAffineOpen (⨅ i ∈ I, D i)) → ((∀ p, Module.Finite R (K.X p) ∧ Module.Projective R (K.X p)) ∧ ∀ (R' : Type) [CommRing R'] [Algebra R R'], QuasiIso (((ModuleCat.extendScalars.{0, 0, 0} (algebraMap R R')).mapHomologicalComplex _).map φ)) → Nonempty (Perf f M) := by
   intro R _ Y f M κ _ _ D K φ hM hc hD ⟨hK, hq⟩
-  haveI := fun p => (hK p).1
-  haveI := fun p => (hK p).2
+  have := fun p => (hK p).1
+  have := fun p => (hK p).2
   obtain ⟨a, b, c, D₀, D₁, u, hcomp, hmat⟩ := exists_matrices_of_projective_complex R (K.X 0)
     (K.X 1) (K.X 2) (K.d 0 1).hom (K.d 1 2).hom
     (LinearMap.ext fun x => cochain_d_d_apply K 0 1 2 x)
@@ -389,7 +389,7 @@ theorem perf_of_projective_model :
     obtain ⟨j, hj⟩ := TopologicalSpace.Opens.mem_iSup.1 (hM.cover.ge (Set.mem_univ y))
     exact TopologicalSpace.Opens.mem_iSup.2 ⟨i, TopologicalSpace.Opens.mem_iSup.2 ⟨j, hi, hj⟩⟩
   · intro R' _ g Y' π f' H
-    letI := g.toAlgebra
+    let := g.toAlgebra
     have B := ((termMap_bijOn hM H hD).comp
       (bijOn_ker_and_exact_of_quasiIso_baseChange R R' K _ φ (hq R')).1).comp (hmat R').1
     let S := CechOne.secKerEquiv (M.pull π) f' (iSup_preimage π hc)
@@ -410,7 +410,7 @@ theorem perf_of_projective_model :
     rw [← hv, CechOne.secKerEquiv_val]
     exact (rs_rs inf_le_right hle _).symm
   · intro R' _ g Y' π f' H h1
-    letI := g.toAlgebra
+    let := g.toAlgebra
     refine (hmat R').2 ((bijOn_ker_and_exact_of_quasiIso_baseChange R R' K _ φ (hq R')).2
       (exact_baseChange hM H hD ?_))
     rw [cechLB_d f' _ _ 0, cechLB_d f' _ _ 1]

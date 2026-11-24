@@ -265,7 +265,7 @@ theorem pivot_pos (j : ℕ) (h : Matrix (Fin N) (Fin N) ℂ) (hu : IsUnit h.det)
       gramOf (sigForm N j) h i m = if i = m then ((sigForm N j i : ℝ) : ℂ) else 0) :
     0 < (gramOf (sigForm N j) h k k).re := by
   by_contra hle
-  push_neg at hle
+  push Not at hle
   have hdneg : ∀ a : Fin N, (a : ℕ) < N - j → sigForm N j a = -1 := fun a ha => by
     simp [sigForm, ha]
   have hdpos : ∀ a : Fin N, N - j ≤ (a : ℕ) → sigForm N j a = 1 := fun a ha => by
@@ -426,7 +426,7 @@ theorem exists_unitary_translate_flag :
       simp [gramOf]
     rw [h2] at h1
     exact h1.symm
-  · haveI := invertibleOfIsUnitDet c hcu
+  · have := invertibleOfIsUnitDet c hcu
     exact blockTriangular_inv_of_blockTriangular hc
   · rw [Matrix.mul_inv_rev, Matrix.mul_assoc, nonsing_inv_mul g hg.1, Matrix.mul_one]
 

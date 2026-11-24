@@ -62,7 +62,7 @@ theorem jm_const (n : ℕ) (s : Bool) :
 
 theorem kset_const (n : ℕ) (s : Bool) : Formalism.REAL.Kset (fun _ : Fin n => s) = UJset (fun _ : Fin n => s) := by
   ext g
-  simp only [Formalism.REAL.Kset, UJset, Formalism.REAL.inUJ, jm_const, Set.mem_setOf_eq, Matrix.mem_unitaryGroup_iff',
+  simp only [Formalism.REAL.Kset, UJset, Formalism.REAL.inUJ, jm_const, Set.mem_ofPred_eq, Matrix.mem_unitaryGroup_iff',
     Matrix.star_eq_conjTranspose]
   cases s <;> simp
 

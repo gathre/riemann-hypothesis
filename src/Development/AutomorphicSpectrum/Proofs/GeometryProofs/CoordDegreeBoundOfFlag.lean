@@ -152,7 +152,7 @@ theorem inv_nat_reg {X : Scheme.{0}} {Ω : Type} [Field Ω] {ξ : Sp Ω ⟶ X} {
   have hu : IsUnit ((m : X.presheaf.stalk (centre z))) := by
     have hv : IsUnit (valMap z (m : X.presheaf.stalk (centre z))) := by
       rw [map_natCast]; exact (Nat.cast_ne_zero.2 hm.ne').isUnit
-    haveI := isLocalHom_valMap z
+    have := isLocalHom_valMap z
     exact isUnit_of_map_unit (valMap z) _ hv
   obtain ⟨g, hg⟩ := hu.exists_right_inv
   have h1 : (m : Ω) * genMap ξ ⟨centre z, h⟩ g = 1 := by
@@ -283,7 +283,7 @@ theorem pick : ∀ (X : Scheme.{0}) (Ω : Type) [Field Ω] (ξ : Sp Ω ⟶ X) (K
   obtain ⟨s, ⟨e, he, ve, hve, hsv⟩, hs0⟩ : ∃ s, (∃ e ∈ flagStep Ω b₀ (i + 1), ∃ v : epsAt zL ⟶ G,
       M.ValAt zL e v ∧ (v.left ≫ (𝟙 G.left) = ReciprocityTheory.ChartRestriction.G.Geo.Tor.spMap (GlobalTheory.CompanionTheory.Ar.dualMap (algebraMap (𝓞 L) L)) ≫ (MB.pt s).left)) ∧ s ∉ F.F i.castSucc := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hle : F.F i.succ ≤ F.F i.castSucc := by
       intro x hx
       obtain ⟨c, hc₁, hcx⟩ := (hsub₁ x).1 hx

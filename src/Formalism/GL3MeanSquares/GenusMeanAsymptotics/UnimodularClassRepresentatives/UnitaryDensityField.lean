@@ -332,7 +332,7 @@ theorem card_AQ (hK : Formalism.HermitianLatticesTheory.IsCMUnram K) (hF : IsFix
 theorem card_split {X : Type*} [Finite X] (p r : X → Prop) :
     Nat.card {x // r x} = Nat.card {x // ¬ p x ∧ r x} + Nat.card {x // p x ∧ r x} := by
   classical
-  haveI := Fintype.ofFinite X
+  have := Fintype.ofFinite X
   simp only [Nat.card_eq_fintype_card, Fintype.card_subtype]
   rw [← Finset.card_union_of_disjoint]
   · congr 1
@@ -345,7 +345,7 @@ theorem card_split {X : Type*} [Finite X] (p r : X → Prop) :
 
 theorem cnt_eq_add (hF : IsFixF K F) {𝔭 : Ideal (𝓞 F)} (h𝔭 : 𝔭.IsMaximal) (k M : ℕ) (n : 𝓞 K) :
     cnt hF 𝔭 k M n = cntP hF 𝔭 k M n + cntI hF 𝔭 k M n := by
-  haveI := finite_AQ (K := K) h𝔭 k
+  have := finite_AQ (K := K) h𝔭 k
   unfold cnt cntP cntI
   exact card_split (fun x : Fin M → AQ K 𝔭 k => ∀ i, InQ 𝔭 k (x i)) _
 

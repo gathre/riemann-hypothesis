@@ -129,7 +129,7 @@ theorem detect_of_idem {K : Type} [CommRing K] (O : Subring K) (I : Finset K)
   obtain ⟨c, hc, i₀, hi₀⟩ := hX
   have hex : ∃ e ∈ I, e * c i₀ ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hi₀ (hsep _ h)
   obtain ⟨e, he, hne⟩ := hex
   have hmax : ∀ s : Finset (Fin n), s.Nonempty →
@@ -212,7 +212,7 @@ theorem line_tot {k K : Type} [Field k] [CommRing K] [Algebra k K] (A : Valuatio
 theorem field_total {k L : Type} [NontriviallyNormedField k] [IsUltrametricDist k] [CompleteSpace k] [Field L]
     [Algebra k L] [FiniteDimensional k L] (A : ValuationSubring k) (hA : ∀ x : k, ‖x‖ ≤ 1 ↔ x ∈ A) [Algebra A L]
     [IsScalarTower A k L] (x : L) (hx : x ≠ 0) : IsIntegral A x ∨ IsIntegral A x⁻¹ := by
-  haveI : Algebra.IsAlgebraic k L := Algebra.IsAlgebraic.of_finite k L
+  have : Algebra.IsAlgebraic k L := Algebra.IsAlgebraic.of_finite k L
   have key : ∀ y : L, spectralNorm k L y ≤ 1 → IsIntegral A y := by
     intro y hy
     have hyi : IsIntegral k y := Algebra.IsIntegral.isIntegral y
@@ -228,7 +228,7 @@ theorem field_total {k L : Type} [NontriviallyNormedField k] [IsUltrametricDist 
   by_cases h : spectralNorm k L x ≤ 1
   · exact Or.inl (key _ h)
   · refine Or.inr (key _ ?_)
-    push_neg at h
+    push Not at h
     have h0 : 0 ≤ spectralNorm k L x⁻¹ := spectralNorm_nonneg _
     nlinarith
 
@@ -260,7 +260,7 @@ theorem contract {K : Type} [CommRing K] [TopologicalSpace K] [IsTopologicalRing
   have c1 : Continuous φ := continuous_const.mul continuous_id
   have c2 : Continuous φ.symm := continuous_const.mul continuous_id
   let h : K ≃ₜ K := { φ.toEquiv with continuous_toFun := c1, continuous_invFun := c2 }
-  haveI hH : (μ.map φ).IsAddHaarMeasure := φ.isAddHaarMeasure_map μ c1 c2
+  have hH : (μ.map φ).IsAddHaarMeasure := φ.isAddHaarMeasure_map μ c1 c2
   have hν := Measure.isAddLeftInvariant_eq_smul (μ.map φ) μ
   set c := Measure.addHaarScalarFactor (μ.map φ) μ with hcdef
   have hall : ∀ Y : Set K, μ ((fun x => (t : K) * x) '' Y) = c * μ Y := by
@@ -299,7 +299,7 @@ theorem contract {K : Type} [CommRing K] [TopologicalSpace K] [IsTopologicalRing
   have hadd : μ T + μ ((O : Set K) \ T) = μ (O : Set K) := by
     rw [measure_add_diff hT.measurableSet.nullMeasurableSet, Set.union_eq_right.2 hsub]
   by_contra hge
-  push_neg at hge
+  push Not at hge
   have h2 : μ (O : Set K) ≤ μ T := by
     rw [hTdef, hall]
     calc μ (O : Set K) = 1 * μ (O : Set K) := (one_mul _).symm
@@ -362,12 +362,12 @@ theorem exists_idems (σ : E →ₐ[F] E) (hσ : IsCMExt F E σ) (v : HeightOneS
         e * x = z * (e * y) ∨ e * y = z * (e * x)) ∧
       (∀ x : Fv F v ⊗[F] E, (∀ e ∈ I, e * x = 0) → x = 0) := by
   classical
-  letI nf : NontriviallyNormedField (Fv F v) :=
+  let nf : NontriviallyNormedField (Fv F v) :=
     Valued.toNontriviallyNormedField (Fv F v) (WithZero (Multiplicative ℤ))
-  haveI pf : ProperSpace (Fv F v) := Formalism.BasicNotions.Examples₂.LocF.proper v
-  haveI uf : IsUltrametricDist (Fv F v) := inferInstanceAs (@IsUltrametricDist (v.adicCompletion F)
+  have pf : ProperSpace (Fv F v) := Formalism.BasicNotions.Examples₂.LocF.proper v
+  have uf : IsUltrametricDist (Fv F v) := inferInstanceAs (@IsUltrametricDist (v.adicCompletion F)
       (Valued.toNormedField (v.adicCompletion F) (WithZero (Multiplicative ℤ))).toDist)
-  haveI : FiniteDimensional F E := Module.finite_of_finrank_eq_succ hσ.2.2.1
+  have : FiniteDimensional F E := Module.finite_of_finrank_eq_succ hσ.2.2.1
   have hnorm : ∀ x : Fv F v, ‖x‖ ≤ 1 ↔ x ∈ v.adicCompletionIntegers F :=
     PositivityTheory.UnitarySelfGeneration.Mend.specInt_norm_le_one_iff_mem F v
   by_cases hs : Nonempty (E →ₐ[F] Fv F v)
@@ -460,8 +460,8 @@ theorem exists_idems (σ : E →ₐ[F] E) (hσ : IsCMExt F E σ) (v : HeightOneS
         _ = 0 := by rw [add_mul, h1, h2, add_zero]
   · have hf : IsField (Fv F v ⊗[F] E) :=
       GlobalTheory.CompanionTheory.DictLoc.isField_tensor_of_no_algHom hσ.2.2.1 (not_nonempty_iff.1 hs)
-    letI fK : Field (Fv F v ⊗[F] E) := hf.toField
-    haveI : FiniteDimensional (Fv F v) (Fv F v ⊗[F] E) := inferInstance
+    let fK : Field (Fv F v ⊗[F] E) := hf.toField
+    have : FiniteDimensional (Fv F v) (Fv F v ⊗[F] E) := inferInstance
     refine ⟨{1}, ?_, ?_, ?_, ?_⟩
     · intro e he
       rw [Finset.mem_singleton] at he
@@ -488,7 +488,7 @@ theorem exists_idems (σ : E →ₐ[F] E) (hσ : IsCMExt F E σ) (v : HeightOneS
 
 theorem exists_unif (v : HeightOneSpectrum (𝓞 F)) :
     ∃ w : Fv F v, w ≠ 0 ∧ w ∈ v.adicCompletionIntegers F ∧ Tendsto (fun j : ℕ => w ^ j) atTop (𝓝 0) := by
-  letI nf : NontriviallyNormedField (Fv F v) :=
+  let nf : NontriviallyNormedField (Fv F v) :=
     Valued.toNontriviallyNormedField (Fv F v) (WithZero (Multiplicative ℤ))
   obtain ⟨w, h0, h1⟩ := NormedField.exists_norm_lt_one (Fv F v)
   exact ⟨w, norm_pos_iff.1 h0, (PositivityTheory.UnitarySelfGeneration.Mend.specInt_norm_le_one_iff_mem F v w).1 h1.le,
@@ -512,23 +512,23 @@ theorem GlobalTheory.CompanionTheory.AvgFree.exists_ordData : ∀ (F E : Type) [
   intro F E _ _ _ _ _ σ hσ d b v lv hlv
   classical
   obtain ⟨r1, r2, r3, r4, -⟩ := GlobalTheory.CompanionTheory.SW.LocFv.isLocR_Fv F v
-  haveI := r1
-  haveI := r2
-  haveI := r3
-  haveI := r4
-  haveI : BorelSpace (Fv F v) := ⟨rfl⟩
+  have := r1
+  have := r2
+  have := r3
+  have := r4
+  have : BorelSpace (Fv F v) := ⟨rfl⟩
   obtain ⟨a1, a2, a3, a4, -, -, -, -, -, -⟩ := GlobalTheory.CompanionTheory.SW.TopK.topTens_props F E σ hσ (Fv F v)
-  haveI := a1
-  haveI := a2
-  haveI := a3
-  haveI := a4
-  haveI : BorelSpace (Fv F v ⊗[F] E) := ⟨rfl⟩
-  haveI := hlv.1
-  haveI : (GlobalTheory.CompanionTheory.SW.coordK (Fv F v) b lv).IsAddHaarMeasure :=
+  have := a1
+  have := a2
+  have := a3
+  have := a4
+  have : BorelSpace (Fv F v ⊗[F] E) := ⟨rfl⟩
+  have := hlv.1
+  have : (GlobalTheory.CompanionTheory.SW.coordK (Fv F v) b lv).IsAddHaarMeasure :=
     (GlobalTheory.CompanionTheory.SW.coord_measures_haar F E σ hσ (Fv F v) d b lv hlv.1).1
-  haveI : FiniteDimensional F E := Module.finite_of_finrank_eq_succ hσ.2.2.1
-  haveI : IsModuleTopology (Fv F v) (Fv F v ⊗[F] E) := ⟨rfl⟩
-  haveI : ContinuousSMul (Fv F v) (Fv F v ⊗[F] E) := IsModuleTopology.toContinuousSMul (Fv F v) _
+  have : FiniteDimensional F E := Module.finite_of_finrank_eq_succ hσ.2.2.1
+  have : IsModuleTopology (Fv F v) (Fv F v ⊗[F] E) := ⟨rfl⟩
+  have : ContinuousSMul (Fv F v) (Fv F v ⊗[F] E) := IsModuleTopology.toContinuousSMul (Fv F v) _
   obtain ⟨hOc, hOo⟩ := GlobalTheory.CompletedOrder.isCompact_isOpen_integralClosure F E σ hσ v
   obtain ⟨I, h1, h2, h3, h4⟩ := GlobalTheory.CompanionTheory.AvgFree.Ord.exists_idems σ hσ v
   obtain ⟨w, hw0, hwA, hwt⟩ := GlobalTheory.CompanionTheory.AvgFree.Ord.exists_unif (F := F) v

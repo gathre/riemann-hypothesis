@@ -169,7 +169,7 @@ theorem theta_inv : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Number
     have e : ∀ (h : HA (AF F) σ J) (X : {X | gramE σ J X = T}), Set.indicator
         {X : Fin n → Fin M → AF F ⊗[F] E | gramR (AF F) σ J X = T.map (inclR (AF F))}ᶜ (1 : (Fin n → Fin M → AF F ⊗[F] E) → ℝ≥0∞)
         (actW (AF F) σ J h⁻¹ (ratTup (AF F) X.1)) = 0 := fun h X =>
-      Set.indicator_of_notMem (Set.notMem_compl_iff.2 (by rw [Set.mem_setOf_eq, ag, hrat, X.2])) _
+      Set.indicator_of_notMem (Set.notMem_compl_iff.2 (by rw [Set.mem_ofPred_eq, ag, hrat, X.2])) _
     simp [e]
 
 end CompanionTheory.PlacePermOperatorBicommutantSpan

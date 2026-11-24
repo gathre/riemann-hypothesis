@@ -488,8 +488,8 @@ private theorem exc (hn : 0 < n) (hr : Module.finrank (ZMod g) K = n) (e : ℕ)
       ∑ j ∈ range n, ((θ (z ^ g ^ j) : ℂˣ) : ℂ) = ∑ j ∈ range n, ((θ' (z ^ g ^ j) : ℂˣ) : ℂ)) :
     ∃ j < n, θ' = θ ^ g ^ j := by
   classical
-  haveI := fin_of hn hr
-  letI : Fintype Kˣ := Fintype.ofFinite Kˣ
+  have := fin_of hn hr
+  let : Fintype Kˣ := Fintype.ofFinite Kˣ
   by_contra hne
   have hdisj := disj_cj hn hr θ θ' hne
   obtain ⟨D, hD1, hD2, -⟩ := exists_D (K := K) (g := g) hn hr
@@ -536,15 +536,15 @@ private theorem main (hn : 0 < n) (hr : Module.finrank (ZMod g) K = n) (θ : Kˣ
         ∑ j ∈ range n, ((θ (z ^ g ^ j) : ℂˣ) : ℂ) = ∑ j ∈ range n, ((θ' (z ^ g ^ j) : ℂˣ) : ℂ)) →
       ∃ j < n, θ' = θ ^ g ^ j := by
   classical
-  haveI := fin_of hn hr
-  letI : Fintype Kˣ := Fintype.ofFinite Kˣ
+  have := fin_of hn hr
+  let : Fintype Kˣ := Fintype.ofFinite Kˣ
   have hg2 : 2 ≤ g := (Fact.out : g.Prime).two_le
   have hcard := card_unitsK (K := K) (g := g) hn hr
   obtain ⟨D, hD1, hD2, hDb⟩ := exists_D (K := K) (g := g) hn hr
   have hA := card_cj hθ
   refine ⟨?_, ?_⟩
   · by_contra hno
-    push_neg at hno
+    push Not at hno
     have hdif : ∀ z ∉ D, dif (cj g n θ) ∅ z = 0 := by
       intro z hz
       unfold dif
@@ -566,13 +566,13 @@ private theorem main (hn : 0 < n) (hr : Module.finrank (ZMod g) K = n) (θ : Kˣ
         have h1 := Nat.le_of_mem_primeFactors hp
         have h2 := Nat.dvd_of_mem_primeFactors hp
         have h3 := (Nat.prime_of_mem_primeFactors hp).two_le
-        interval_cases p <;> revert h2 <;> decide
+        interval_cases p; revert h2; decide
       · refine exc hn hr 2 ?_ pairCheck_three_two θ θ' hθ hθ' hs
         intro p hp
         have h1 := Nat.le_of_mem_primeFactors hp
         have h2 := Nat.dvd_of_mem_primeFactors hp
         have h3 := (Nat.prime_of_mem_primeFactors hp).two_le
-        interval_cases p <;> revert h2 <;> decide
+        interval_cases p; revert h2; decide
       · refine exc hn hr 3 ?_ pairCheck_two_four θ θ' hθ hθ' hs
         intro p hp
         have h1 := Nat.le_of_mem_primeFactors hp

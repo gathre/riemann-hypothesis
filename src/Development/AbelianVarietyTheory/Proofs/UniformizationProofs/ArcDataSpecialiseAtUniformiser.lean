@@ -1100,8 +1100,8 @@ theorem level_specialises (hL : Laws) (hL₂ : Laws2) (hT : TwistBaseChangeState
       (algebraMap (FractionRing (PowerSeries F')) _).comp (algebraMap (PowerSeries F') _),
       (algebraMap (FractionRing (PowerSeries F')) (AlgebraicClosure (FractionRing (PowerSeries F')))).injective.comp
         (IsFractionRing.injective (PowerSeries F') (FractionRing (PowerSeries F')))⟩
-  letI : Algebra (FractionRing R) F := (IsFractionRing.lift (g := ιF.comp σ) (hιF.comp hσ)).toAlgebra
-  letI : Algebra (FractionRing O') F := ((ιF.comp κ).comp (algebraMap (FractionRing O') F')).toAlgebra
+  let : Algebra (FractionRing R) F := (IsFractionRing.lift (g := ιF.comp σ) (hιF.comp hσ)).toAlgebra
+  let : Algebra (FractionRing O') F := ((ιF.comp κ).comp (algebraMap (FractionRing O') F')).toAlgebra
   have hRF : ∀ r, algebraMap (FractionRing R) F (algebraMap R _ r) = ιF (σ r) := fun r =>
     IsFractionRing.lift_algebraMap _ r
   have hF : ∀ x, algebraMap (FractionRing O') F (algebraMap O' _ x) =
@@ -1212,7 +1212,7 @@ theorem specialise (hL : Laws) (hL₂ : Laws2) (hT : TwistBaseChangeStatement) (
       Function.Injective σ ∧ (∀ x, σ (f x) = PowerSeries.C (i (g (f x)))) ∧
       ∀ r, PowerSeries.constantCoeff (σ r) = i (g r)) :
     Nonempty (ArcWit Y a I' (g.comp f) (g u) (spMap g ≫ χ)) := by
-  letI := H.starRing
+  let := H.starRing
   obtain ⟨PP', cub, sym, adj, prim, m₁, hm₁⟩ := sabPull CubePf.cubePull (spMap g) W.t
   let t' : SAB H (Sp R') := ⟨(Over.pullback (spMap g)).obj W.t.G, IsSemiAbelian.pullback _ W.t.G W.t.semi,
     OAct.pullback _ W.t.G W.t.act, PP', cub, sym, adj, prim⟩

@@ -93,6 +93,29 @@ class Comparisons(unittest.TestCase):
         result = self.against("rename", lambda root: (root / "b.txt").rename(root / "moved.txt"))
         self.assertEqual((result.kind, result.shared), ("clean", [b"b.txt"]))
 
+    def test_conflicting_edit_follows_a_rename(self):
+        def move(root):
+            (root / "b.txt").rename(root / "moved.txt")
+            edit("moved.txt", 2, "theirs")(root)
+
+        moved = self.repo.branch("rename-conflict", move)
+        for ours, theirs in ((self.ours, moved), (moved, self.ours)):
+            with self.subTest(ours=ours):
+                result = conflicts.compare(self.repo.root, self.repo.base, ours, theirs)
+                self.assertEqual((result.kind, result.conflicts), ("conflict", [b"moved.txt"]))
+
+    def test_edited_rename_against_a_delete_is_a_conflict(self):
+        def move(root):
+            (root / "b.txt").rename(root / "moved.txt")
+            edit("moved.txt", 2, "theirs")(root)
+
+        moved = self.repo.branch("rename-against-delete", move)
+        deleted = self.repo.branch("delete-renamed", lambda root: (root / "b.txt").unlink())
+        for ours, theirs in ((deleted, moved), (moved, deleted)):
+            with self.subTest(ours=ours):
+                result = conflicts.compare(self.repo.root, self.repo.base, ours, theirs)
+                self.assertEqual((result.kind, result.conflicts), ("conflict", [b"moved.txt"]))
+
     def test_exact_rename_is_still_followed_on_large_pull_requests(self):
         result = self.against("rename-large", lambda root: (root / "b.txt").rename(root / "moved2.txt"), rename_limit=0)
         self.assertEqual((result.kind, result.shared), ("clean", [b"b.txt"]))
@@ -151,6 +174,14 @@ class LaterForks(unittest.TestCase):
     def test_shared_file_that_merges_is_clean_despite_a_conflict_with_main(self):
         result = self.against("other-line-later", edit("a.txt", 18, "theirs"))
         self.assertEqual((result.kind, result.shared, result.conflicts), ("clean", [b"a.txt"], []))
+
+    def test_renamed_conflict_is_reported_without_the_conflict_with_main(self):
+        def move(root):
+            (root / "a.txt").rename(root / "moved.txt")
+            edit("moved.txt", 2, "theirs")(root)
+
+        result = self.against("rename-later", move)
+        self.assertEqual((result.kind, result.conflicts), ("conflict", [b"moved.txt"]))
 
 
 class ImportHeaders(unittest.TestCase):

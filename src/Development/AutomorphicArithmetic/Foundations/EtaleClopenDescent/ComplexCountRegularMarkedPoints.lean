@@ -1196,7 +1196,7 @@ theorem cxSumAtM_orbit :
     rw [Function.mem_support] at ho
     obtain ⟨y, hy⟩ : ∃ y, cxM w x t hx Kf f K' f' (Quotient.out o) y ≠ 0 := by
       by_contra hne
-      push_neg at hne
+      push Not at hne
       apply ho
       simp [hne]
     unfold cxM cxF at hy
@@ -1532,7 +1532,7 @@ theorem markSumC_regroup (ha : G.a = 1) (hv : sigPosH (G.gram_herm v) = 1) (w : 
     have hps := right_ne_zero_of_mul hW'
     unfold pointSum at hps
     have hps' := mt finsum_eq_zero_of_forall_eq_zero hps
-    push_neg at hps'
+    push Not at hps'
     obtain ⟨qq, hqq⟩ := hps'
     have hfne := left_ne_zero_of_mul (right_ne_zero_of_mul hqq)
     have hrg := minpoly_of_regAf_of_fixL p G v hv (Quot.out i).β (Quot.out i).sym (Quot.out i).trivR _ _

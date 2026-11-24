@@ -82,7 +82,7 @@ theorem exists_finite_factor {p : ℕ} [Fact p.Prime] {V : Type} [CommRing V] {X
   obtain ⟨U, hU, ψ', hψ'⟩ := exists_affineOpen_factor_of_isLocalRing x
   let A : Type := Γ(X, U)
   let i : Sp A ⟶ X := hU.fromSpec
-  haveI : IsOpenImmersion i := hU.isOpenImmersion_fromSpec
+  have : IsOpenImmersion i := hU.isOpenImmersion_fromSpec
   let ψ : A →+* PadicAlgCl p := ψ'.hom
   have hψ : spMap ψ ≫ i = x := hψ'
   obtain ⟨α, hα⟩ : ∃ α : V →+* A, spMap α = i ≫ s := by
@@ -94,10 +94,10 @@ theorem exists_finite_factor {p : ℕ} [Fact p.Prime] {V : Type} [CommRing V] {X
   have hψα : ψ.comp α = φ := by
     refine congrArg CommRingCat.Hom.hom (Spec.map_injective (?_ : spMap _ = spMap _))
     rw [← spMap_comp_spMap, hα, ← Category.assoc, hψ, hx]
-  letI := α.toAlgebra
+  let := α.toAlgebra
   obtain ⟨t, ht⟩ := Algebra.FiniteType.out (self := hft)
-  haveI : Finite (ψ '' (t : Set A)) := (t.finite_toSet.image _).to_subtype
-  haveI : FiniteDimensional ℚ_[p] (IntermediateField.adjoin ℚ_[p] (ψ '' (t : Set A))) :=
+  have : Finite (ψ '' (t : Set A)) := (t.finite_toSet.image _).to_subtype
+  have : FiniteDimensional ℚ_[p] (IntermediateField.adjoin ℚ_[p] (ψ '' (t : Set A))) :=
     IntermediateField.finiteDimensional_adjoin fun x _ => Algebra.IsIntegral.isIntegral x
   let K : IntermediateField ℚ_[p] (PadicAlgCl p) := K₀ ⊔ IntermediateField.adjoin ℚ_[p] (ψ '' (t : Set A))
   have hk : K₀ ≤ K := le_sup_left
@@ -135,8 +135,8 @@ open MultInt
 theorem exists_int_pow : GlobalTheory.UT.LL → ∀ (o Ω : Type) [CommRing o] [Field Ω] [Algebra o Ω] [ArithBase o Ω] (S : ThetaSys o Ω) (ρ : S.Real) (p : ℕ) [Fact p.Prime] (y₀ : S.R →+* PadicAlgCl p) (u : ρ.UTest p y₀) (a : u.PtC), ∃ k : ℕ, 1 ≤ k ∧ u.Int (a ^ k) := by
   intro _ o Ω _ _ _ _ S ρ p _ y₀ u a
   obtain ⟨-, -, -, K₀, hK₀, hr⟩ := GlobalTheory.T.testField_finite_over_padic o Ω S ρ p y₀ u
-  haveI := u.semi.smooth
-  haveI := u.semi.separated
+  have := u.semi.smooth
+  have := u.semi.separated
   let θ : FractionRing u.V →+* PadicAlgCl p := algebraMap _ _
   let α : u.V →+* FractionRing u.V := algebraMap _ _
   have hθ : ∀ v, θ v ∈ K₀ := fun v => show θ v ∈ (K₀ : Set _) from hr ▸ ⟨v, rfl⟩
@@ -165,8 +165,8 @@ theorem exists_int_pow : GlobalTheory.UT.LL → ∀ (o Ω : Type) [CommRing o] [
     rw [← Over.w u.U.gen.inv] at this
     exact this
   let G' := (Over.pullback (spMap ψ)).obj u.G
-  haveI : LocallyOfFiniteType G'.hom := inferInstanceAs (LocallyOfFiniteType (pullback.snd u.G.hom (spMap ψ)))
-  haveI : IsSeparated G'.hom := inferInstanceAs (IsSeparated (pullback.snd u.G.hom (spMap ψ)))
+  have : LocallyOfFiniteType G'.hom := inferInstanceAs (LocallyOfFiniteType (pullback.snd u.G.hom (spMap ψ)))
+  have : IsSeparated G'.hom := inferInstanceAs (IsSeparated (pullback.snd u.G.hom (spMap ψ)))
   let a' : Over.mk (spMap χ) ⟶ G' := Over.homMk (pullback.lift x (spMap χ) hxG) (pullback.lift_snd _ _ _)
   obtain ⟨k, hk, g, hg⟩ := _root_.GlobalTheory.IntegralPower.exists_pow_integral p K G' (isProjOver_snd_snd u.G.hom α β ψ χ hc hp) a'
   let a₀ : Over.mk (spMap χ ≫ spMap ψ) ⟶ u.G := Over.homMk x hxG

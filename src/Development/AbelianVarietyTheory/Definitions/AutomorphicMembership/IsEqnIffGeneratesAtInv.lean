@@ -536,7 +536,7 @@ theorem Eff.eq_zero (h : D.Eff) (h' : (-D).Eff) : D = 0 := by
 def supp (D : CartierDiv X) : Closeds X where
   carrier := {x | ¬ D.IsEqn x 1}
   isClosed' := isOpen_compl_iff.1 (isOpen_iff_forall_mem_open.2 fun x hx =>
-    have ⟨U, hU, h⟩ := IsEqn.exists_nhds (not_not.1 hx)
+    have ⟨U, hU, h⟩ := IsEqn.exists_nhds (x := x) (not_not.1 hx)
     ⟨U, fun y hy => not_not.2 (h y hy), U.isOpen, hU⟩)
 
 theorem IsEqn.mem_supp_iff (h : D.IsEqn x g) : x ∈ D.supp ↔ ¬ UnitAt x g := by

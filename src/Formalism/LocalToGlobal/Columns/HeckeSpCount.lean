@@ -112,9 +112,9 @@ theorem hcnt_card_mul (i : ℕ) (hi : i ≤ finrank K V) :
         ∏ j : Fin i, (Fintype.card K ^ i - Fintype.card K ^ (j : ℕ)) =
       ∏ j : Fin i, (Fintype.card K ^ finrank K V - Fintype.card K ^ (j : ℕ)) := by
   classical
-  haveI : Finite (Submodule K V) :=
+  have : Finite (Submodule K V) :=
     Finite.of_injective (fun U : Submodule K V => (U : Set V)) SetLike.coe_injective
-  haveI : Fintype {U : Submodule K V // finrank K U = i} := Fintype.ofFinite _
+  have : Fintype {U : Submodule K V // finrank K U = i} := Fintype.ofFinite _
   let f : {s : Fin i → V // LinearIndependent K s} → {U : Submodule K V // finrank K U = i} :=
     fun s => ⟨Submodule.span K (Set.range s.1), by rw [finrank_span_eq_card s.2, Fintype.card_fin]⟩
   have hfib : ∀ U : {U : Submodule K V // finrank K U = i},
@@ -150,8 +150,8 @@ theorem card_subspaces_finrank (i : ℕ) :
 
 theorem card_subspaces_cofinrank (i : ℕ) :
     Nat.card {W : Submodule K V // finrank K (V ⧸ W) = i} = gaussBin (Fintype.card K) (finrank K V) i := by
-  haveI : FiniteDimensional K V := Module.Finite.of_finite
-  haveI : Finite (Module.Dual K V) := Module.finite_of_finite K
+  have : FiniteDimensional K V := Module.Finite.of_finite
+  have : Finite (Module.Dual K V) := Module.finite_of_finite K
   have hW : ∀ W : Submodule K V, finrank K (V ⧸ W) = finrank K W.dualAnnihilator := fun W => by
     rw [← (Submodule.dualQuotEquivDualAnnihilator W).finrank_eq, Subspace.dual_finrank_eq]
   have e : {W : Submodule K V // finrank K (V ⧸ W) = i} ≃
@@ -262,7 +262,7 @@ theorem card_quot_iso {R k V : Type} [CommRing R] [Field k] [Fintype k] [Algebra
     Nat.card {W : Submodule R V // Nonempty ((V ⧸ W) ≃ₗ[R] (Fin i → k))} =
       gaussBin (Fintype.card k) (finrank k V) i := by
   classical
-  haveI : FiniteDimensional k V := Module.Finite.of_finite
+  have : FiniteDimensional k V := Module.Finite.of_finite
   have key : ∀ W' : Submodule k V,
       Nonempty ((V ⧸ W'.restrictScalars R) ≃ₗ[R] (Fin i → k)) ↔ finrank k (V ⧸ W') = i := by
     intro W'

@@ -297,7 +297,7 @@ theorem nu_eq_zero_of_qd (l : ℕ) [Fact l.Prime] (h : l = H.q ∨ l = H.d) : nu
 theorem nu_eq_zero_of_not_dvd (l : ℕ) [Fact l.Prime] (h : ¬ l ∣ H.QS) : nuOf l (cyc l H.E Ω) (R.t * R.r) = 0 := by
   by_cases hqd : l = H.q ∨ l = H.d
   · exact nu_eq_zero_of_qd H Ω l hqd
-  · push_neg at hqd
+  · push Not at hqd
     have hle := nuLe _ H.toHostRaw l Ω (R.t * R.r) (tr_odd R) hqd.1 hqd.2
     rw [if_neg h, Nat.factorization_eq_zero_of_not_dvd h] at hle
     omega
@@ -315,7 +315,7 @@ theorem sum_nu_le (ν : ℕ → ℝ) (hν : ∀ (l : ℕ) [Fact l.Prime], ν l =
   have hμ : ∀ (l : ℕ) [Fact l.Prime], μ l = nuOf l (cyc l H.E Ω) (R.t * R.r) := fun l hl => dif_pos hl.out
   refine le_of_eq_of_le (Finset.sum_congr rfl fun l hl => ?_)
     (nuSum _ H.toHostRaw Ω _ (tr_odd R) (half_not_dvd H (Or.inl rfl)) (half_not_dvd H (Or.inr rfl)) μ hμ S hS)
-  haveI := Fact.mk (hS l hl)
+  have := Fact.mk (hS l hl)
   rw [hν l, hμ l]
 
 theorem budget_le : Real.log (H.QS : ℝ) + Real.log ((R.t * R.r : ℕ) : ℝ) ≤

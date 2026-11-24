@@ -414,11 +414,11 @@ theorem exists_mul_isIntegral_chart {o Ω : Type} [CommRing o] [Field Ω] [Algeb
     | algebraMap a => exact Subfield.subset_closure (Or.inl ⟨a, rfl⟩)
     | add x y _ _ hx hy => exact add_mem hx hy
     | mul x y _ _ hx hy => exact mul_mem hx hy
-  letI : Algebra A K := (A.val.toRingHom.codRestrict K fun y => hAK y y.2).toAlgebra
-  haveI : IsScalarTower A K Ω := IsScalarTower.of_algebraMap_eq fun _ => rfl
-  haveI : FaithfulSMul A K := (faithfulSMul_iff_algebraMap_injective A K).2 fun a b h =>
+  let : Algebra A K := (A.val.toRingHom.codRestrict K fun y => hAK y y.2).toAlgebra
+  have : IsScalarTower A K Ω := IsScalarTower.of_algebraMap_eq fun _ => rfl
+  have : FaithfulSMul A K := (faithfulSMul_iff_algebraMap_injective A K).2 fun a b h =>
     Subtype.ext (congrArg (fun c : K => (c : Ω)) h)
-  haveI : IsFractionRing A K := by
+  have : IsFractionRing A K := by
     refine IsFractionRing.of_field _ _ fun c => ?_
     obtain ⟨y, hy, w, hw, hc⟩ := Subfield.mem_closure_iff.mp (hK c.2)
     have hAA : Subring.closure (A : Set Ω) = A.toSubring := Subring.closure_eq A.toSubring

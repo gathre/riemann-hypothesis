@@ -1788,18 +1788,18 @@ theorem split_generic : ∀ (R : Type) [CommRing R] [IsDomain R] [IsNoetherianRi
   obtain ⟨a, j, b, hb, hj, hU⟩ := exists_open G C c Sg hd hs
   let R' := Localization.Away b
   have hle : Submonoid.powers b ≤ nonZeroDivisors R := powers_le_nonZeroDivisors_of_noZeroDivisors hb
-  haveI : IsDomain R' := IsLocalization.isDomain_localization hle
-  haveI : IsNoetherianRing R' := IsLocalization.isNoetherianRing (Submonoid.powers b) R' inferInstance
+  have : IsDomain R' := IsLocalization.isDomain_localization hle
+  have : IsNoetherianRing R' := IsLocalization.isNoetherianRing (Submonoid.powers b) R' inferInstance
   let u : Sp R' ⟶ Sp R := spMap (algebraMap R R')
-  haveI : IsOpenImmersion u := IsOpenImmersion.of_isLocalization b
+  have : IsOpenImmersion u := IsOpenImmersion.of_isLocalization b
   have hu : Set.range u = (PrimeSpectrum.basicOpen b : Set (PrimeSpectrum R)) := PrimeSpectrum.localization_away_comap_range R' b
   let G' : Over (Sp R') := (Over.pullback u).obj G
   let π : G'.left ⟶ G.left := pullback.fst G.hom u
   have hp : IsGrpPullback G' G u π := isGrpPullback_pullback G u
-  haveI : IsAffineHom π := MorphismProperty.of_isPullback (P := @IsAffineHom) hp.1.flip inferInstance
-  haveI : Smooth G'.hom := inferInstanceAs (Smooth (pullback.snd G.hom u))
-  haveI : IsSeparated G'.hom := inferInstanceAs (IsSeparated (pullback.snd G.hom u))
-  haveI : QuasiCompact G'.hom := inferInstanceAs (QuasiCompact (pullback.snd G.hom u))
+  have : IsAffineHom π := MorphismProperty.of_isPullback (P := @IsAffineHom) hp.1.flip inferInstance
+  have : Smooth G'.hom := inferInstanceAs (Smooth (pullback.snd G.hom u))
+  have : IsSeparated G'.hom := inferInstanceAs (IsSeparated (pullback.snd G.hom u))
+  have : QuasiCompact G'.hom := inferInstanceAs (QuasiCompact (pullback.snd G.hom u))
   have hd' : Dense (u ⁻¹' Sg) := hd.preimage u.isOpenEmbedding.isOpenMap
   have hs' : (C.pull π).SplitOn c (u ⁻¹' Sg) := by
     intro x hx
@@ -1809,7 +1809,7 @@ theorem split_generic : ∀ (R : Type) [CommRing R] [IsDomain R] [IsNoetherianRi
       rintro _ rfl
       exact ⟨x, rfl⟩
     obtain ⟨t', ht'⟩ : ∃ t', t' ≫ u = t := ⟨_, IsOpenImmersion.lift_fac u t hr⟩
-    haveI : IsAffineHom (pullback.fst G'.hom t') :=
+    have : IsAffineHom (pullback.fst G'.hom t') :=
       MorphismProperty.of_isPullback (P := @IsAffineHom) (IsPullback.of_hasPullback _ _).flip inferInstance
     refine ⟨K, inferInstance, t', this, ?_, ?_⟩
     · have h1 : ∀ y, t' y = x := fun y => u.isOpenEmbedding.injective (by
@@ -1832,7 +1832,7 @@ theorem split_generic : ∀ (R : Type) [CommRing R] [IsDomain R] [IsNoetherianRi
       change π (eSec G' x) ∈ G.left.basicOpen (C.r a (j n))
       rw [he]
       exact (hU _ (hb' x)).2 n
-  haveI : IsAffineHom (pullback.fst G'.hom (Out.jK R')) :=
+  have : IsAffineHom (pullback.fst G'.hom (Out.jK R')) :=
     MorphismProperty.of_isPullback (P := @IsAffineHom) (IsPullback.of_hasPullback _ _).flip inferInstance
   have h := _root_.GlobalTheory.ZJ.Charts.split_generic_of_based R' G' (C.pull π) d c _ hd' hs' a j hB
   have hun : IsUnit (algebraMap R (FractionRing R) b) :=

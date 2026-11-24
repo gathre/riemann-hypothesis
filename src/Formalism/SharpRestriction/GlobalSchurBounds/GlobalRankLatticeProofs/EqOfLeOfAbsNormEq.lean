@@ -275,8 +275,8 @@ theorem cases_K (σ : H.E ≃ₐ[ℚ] H.E) :
 theorem bE_mem : H.sqd ∈ H.K := IntermediateField.mem_adjoin_simple_self ℚ H.sqd
 
 theorem isGalK : IsGalois ℚ H.K := by
-  haveI : IsGalois ℚ H.E := H.galois
-  haveI hn : (IntermediateField.fixingSubgroup H.K).Normal := by
+  have : IsGalois ℚ H.E := H.galois
+  have hn : (IntermediateField.fixingSubgroup H.K).Normal := by
     constructor
     intro n hn g
     have hc : g * n * g⁻¹ = n := H.gal.injective (by
