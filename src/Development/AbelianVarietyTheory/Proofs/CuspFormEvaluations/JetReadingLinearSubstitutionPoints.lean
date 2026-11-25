@@ -178,7 +178,6 @@ theorem jetPt_clm {Y : Scheme.{0}} {N N' : ℕ} (e : (Fin N → ℂ) → (Sp ℂ
   refine jetPt_precompD _ _ hol hol' (by show e (T 0) = e 0; rw [map_zero]) m _ fun U hU f => ?_
   exact (jetOf_comp_anLin m (contDiffAt_val _ hol hU f) T).symm
 
-set_option backward.isDefEq.respectTransparency false in
 theorem spMap_closedPoint {R R' : Type} [CommRing R] [CommRing R'] [IsLocalRing R] [IsLocalRing R'] (f : R →+* R')
     (hf : IsLocalHom f) : spMap f (IsLocalRing.closedPoint R') = IsLocalRing.closedPoint R :=
   IsLocalRing.comap_closedPoint f
