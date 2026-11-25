@@ -53,7 +53,6 @@ import Mathlib.Tactic.ReduceModChar
 open CategoryTheory Limits AlgebraicGeometry
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
 
-set_option backward.isDefEq.respectTransparency false
 
 namespace GlobalTheory.GenSpread
 
