@@ -119,7 +119,6 @@ theorem cst_eq {W : Type} [CommRing W] {H : Scheme.{0}} (p : H ⟶ Sp W) (U : H.
     Out.resTop U (Out.scal p a) = cst p U a := rfl
 
 
-set_option backward.isDefEq.respectTransparency false in
 theorem eq_zero_of_cst_mul {W : Type} [CommRing W] [IsDomain W] {H : Scheme.{0}} (p : H ⟶ Sp W)
     [Flat p] (V : H.Opens) {r : W} (hr : r ≠ 0) (a : Γ(H, V)) (h : cst p V r * a = 0) :
     a = 0 := by
