@@ -55,21 +55,6 @@ open scoped Formalism.Per NNReal
 
 namespace GlobalTheory.BSP
 
-private theorem TopBasis.c_mem_of_mem_map_pow {S A : Type} [CommRing S] [CommRing A] {s : S →+* A} {I : Ideal S} {ι : Type}
-    (tb : TopBasis s I ι) (m : ℕ) (j : ι) {y : A} (hy : y ∈ (I ^ m).map s) : tb.c j y ∈ I ^ m := by
-  suffices h : ∀ r : A, tb.c j (r * y) ∈ I ^ m by simpa using h 1
-  refine Submodule.span_induction (p := fun y _ => ∀ r : A, tb.c j (r * y) ∈ I ^ m) ?_ ?_ ?_ ?_ hy
-  · rintro _ ⟨a, ha, rfl⟩ r
-    rw [mul_comm, tb.c_mul]
-    exact Ideal.mul_mem_right _ _ ha
-  · intro r; simp
-  · intro x y _ _ hx hy r
-    rw [mul_add, map_add (f := _)]
-    exact Ideal.add_mem _ (hx r) (hy r)
-  · intro a x _ hx r
-    rw [smul_eq_mul, ← mul_assoc]
-    exact hx (r * a)
-
 theorem TopBasis.basis_mod_pow : ∀ (S A : Type) [CommRing S] [CommRing A] (s : S →+* A) (I : Ideal S) (ι : Type)
     (tb : TopBasis s I ι) (m : ℕ), letI := (Ideal.quotientMap ((I ^ m).map s) s Ideal.le_comap_map).toAlgebra;
     ∃ b : Module.Basis ι (S ⧸ I ^ m) (A ⧸ (I ^ m).map s), ∀ i, b i = Ideal.Quotient.mk _ (tb.b i) := by
