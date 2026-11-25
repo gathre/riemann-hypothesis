@@ -114,7 +114,6 @@ noncomputable section
 namespace GlobalTheory.TorusQuotientGlue
 
 
-set_option backward.isDefEq.respectTransparency false in
 theorem exists_glue (Y : Scheme.{0}) (𝒰 : Set Y.Opens)
     (hbas : ∀ U ∈ 𝒰, ∀ V ∈ 𝒰, ∀ x : Y, x ∈ U → x ∈ V → ∃ W ∈ 𝒰, x ∈ W ∧ W ≤ U ∧ W ≤ V)
     (hc : ∀ x : Y, ∃ U : 𝒰, x ∈ U.1) (F : 𝒰 ⥤ Scheme.{0})
