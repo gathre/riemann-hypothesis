@@ -62,7 +62,6 @@ theorem pt_str (c : R →+* A) (v : Fin (N + 1) → A)
   ext1
   exact RingHom.ext fun r => MvPolynomial.eval₂Hom_C c v r
 
-set_option backward.isDefEq.respectTransparency false in
 theorem secCoord_iff {σ : Type} (e : σ ≃ Fin (N + 1)) (φ : Y ⟶ PSpace R N) (c : R →+* A) (x : Sp A ⟶ Y)
     (hx : (x ≫ φ) ≫ PSpace.str R N = spMap c) (v : σ → A) :
     SecCoord ((O1 R N).pull φ) (fun a => Cartier.secPull (coord R N (e a)) φ) x v ↔
