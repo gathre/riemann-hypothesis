@@ -307,7 +307,7 @@ theorem exists_isSympl (X : DataX E r) :
     rw [hβ]
     linear_combination (-σ) * h'' + φ v * hσ2
   have hinj : Function.Injective β := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro x hx
     refine (Module.forall_dual_apply_eq_zero_iff ℤ x).1 fun φ => ?_
     obtain ⟨u, rfl⟩ := hsurj φ
