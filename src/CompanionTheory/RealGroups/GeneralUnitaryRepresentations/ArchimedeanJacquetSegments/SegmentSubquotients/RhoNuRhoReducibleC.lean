@@ -824,7 +824,7 @@ theorem conjDual (k : Type) [Field k] [ValuativeRel k] [TopologicalSpace k] [IsN
     ext x
     rw [hφ, contra_apply, hφ, key]
   have hinj : Function.Injective φ := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro v hv
     by_contra hne
     have h1 := hpos v hne
