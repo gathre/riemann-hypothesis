@@ -65,12 +65,6 @@ private def Loc (Q : Type) [NormedAddCommGroup Q] [NormedSpace ℝ Q] {V : Type}
 
 variable {V : Type} [NormedAddCommGroup V] [NormedSpace ℝ V] {H : P → α → V} {x : P} {y : α}
 
-private theorem Loc.cont (h : Loc Q H x y) : ContinuousAt (fun p : P × α => H p.1 p.2) (x, y) := by
-  obtain ⟨h, A, hA, hh, e⟩ := h
-  refine ContinuousAt.congr ?_ (EventuallyEq.symm e)
-  exact ContinuousAt.comp (f := fun p : P × α => (p.1, A p.2)) hh.continuousAt
-    (continuousAt_fst.prodMk (ContinuousAt.comp (f := Prod.snd) hA continuousAt_snd))
-
 private theorem Loc.diff (h : Loc Q H x y) : DifferentiableAt ℝ (fun x => H x y) x := by
   obtain ⟨h, A, -, hh, e⟩ := h
   have e' : (fun x => H x y) =ᶠ[𝓝 x] fun x => h (x, A y) :=
