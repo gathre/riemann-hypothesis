@@ -152,9 +152,6 @@ private structure Good (H : Subgroup SL(2, ℤ)) (k : ℤ) (F : ℍ → ℂ) : P
 
 variable {H : Subgroup SL(2, ℤ)} {k : ℤ} {F G : ℍ → ℂ}
 
-private theorem Good.cont (hF : Good H k F) (hG : Good H k G) : Continuous (petersson k F G) :=
-  petersson_continuous k hF.hol.continuous hG.hol.continuous
-
 private theorem Good.pbd (hF : Good H k F) (hG : Good H k G) : ∃ C : ℝ, ∀ z, ‖petersson k F G z‖ ≤ C := by
   obtain ⟨A, hA⟩ := hF.bd
   obtain ⟨B, hB⟩ := hG.bd
