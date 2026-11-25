@@ -671,23 +671,6 @@ section -- clump:auto
 
 open IsLocalRing Filter Formalism.MainNotions.V.Pf.V2.Calc UpperTheory.V.Alg UpperTheory.V.Alg.M
 
-private theorem UpperTheory.V.Alg.M.fin_gen {O A K : Type} [CommRing O] [CommRing A] [Algebra O A]
-    (𝒜 : ℤ → Submodule O A) [GradedAlgebra 𝒜] [Field K] [Algebra O K] (ξ : A →ₐ[O] K) (j : ℤ) (s : Finset A)
-    (hs : Submodule.span (𝒜 0) (s : Set A) = oz 𝒜 j) (h : ∃ f ∈ 𝒜 j, ξ f ≠ 0) : ∃ f ∈ s, ξ f ≠ 0 := by
-  obtain ⟨f, hf, hξ⟩ := h
-  by_contra hne
-  push_neg at hne
-  have hf' : f ∈ Submodule.span (𝒜 0) (s : Set A) := by
-    rw [hs]
-    exact (mem_oz 𝒜).2 hf
-  apply hξ
-  clear hξ hf
-  induction hf' using Submodule.span_induction with
-  | mem y hy => exact hne y hy
-  | zero => exact map_zero ξ
-  | add y z _ _ hy hz => rw [map_add (f := _), hy, hz, add_zero]
-  | smul a y _ hy => rw [Algebra.smul_def, map_mul, hy, mul_zero]
-
 private theorem UpperTheory.V.Alg.M.fin_act {O A K : Type} [CommRing O] [CommRing A] [Algebra O A]
     (𝒜 : ℤ → Submodule O A) [GradedAlgebra 𝒜] [Field K] [Algebra O K] (t : Kˣ) (ξ : A →ₐ[O] K) {j : ℤ} {a : A}
     (ha : a ∈ 𝒜 j) : act 𝒜 (tz t) ξ a = ((t ^ j : Kˣ) : K) * ξ a := act_of_mem 𝒜 _ ξ ha
