@@ -396,12 +396,6 @@ section -- clump:auto
 open UpperTheory.V.Cj.A UpperTheory.V.Lit UpperTheory.V.Lit.Dr
 open scoped ContDiff
 
-private def UpperTheory.V.Cj.A.idxEquiv (Γ J : Type) : Γ × J ≃ Idx Γ J where
-  toFun x := ⟨x.1, x.2⟩
-  invFun i := (i.g, i.j)
-  left_inv _ := rfl
-  right_inv _ := rfl
-
 theorem UpperTheory.V.Cj.A.partProd :
     PartProd := by
   intro Γ V S J _ _ _ d G u hu ψ hψs hψf hψ1
