@@ -54,7 +54,6 @@ noncomputable section
 
 namespace GlobalTheory.GenSpread
 
-set_option backward.isDefEq.respectTransparency false
 
 section Bundles
 
