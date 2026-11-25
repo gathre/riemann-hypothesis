@@ -94,13 +94,6 @@ open scoped RealInnerProductSpace
 variable {E : Type} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
   [MeasurableSpace E] [BorelSpace E]
 
-private lemma UpperTheory.Reformulated.B.Yzb9.map_T (T : E ≃L[ℝ] E) :
-    Measure.map T (volume : Measure E) =
-      ENNReal.ofReal |(LinearMap.det (T.toLinearEquiv : E →ₗ[ℝ] E))⁻¹| • (volume : Measure E) := by
-  have hd : LinearMap.det (T.toLinearEquiv : E →ₗ[ℝ] E) ≠ 0 :=
-    (LinearEquiv.isUnit_det' T.toLinearEquiv).ne_zero
-  exact Measure.map_linearMap_addHaar_eq_smul_addHaar volume hd
-
 private lemma UpperTheory.Reformulated.B.Yzb9.integrable_comp_continuousLinearEquiv_iff (T : E ≃L[ℝ] E) (g : E → ℂ) :
     Integrable (fun v => g (T v)) ↔ Integrable g := by
   have hd : LinearMap.det (T.toLinearEquiv : E →ₗ[ℝ] E) ≠ 0 :=
