@@ -159,10 +159,6 @@ private lemma mul_LtLe (hv : ∀ a b, v (a * b) = v a + v b) {w w' : ℚ} {f g :
 private def Lead (v : κˣ → ℚ) (f : ℕ → κ) (β : κˣ) : Prop :=
   ∃ c : κ, c ≠ 0 ∧ ∃ g ∈ Lt v (v β), f = c • ch β + g
 
-private lemma Lead.le {f : ℕ → κ} {β : κˣ} (h : Lead v f β) : f ∈ Le v (v β) := by
-  obtain ⟨c, -, g, hg, rfl⟩ := h
-  exact add_mem (Submodule.smul_mem _ _ (ch_Le le_rfl)) (Lt_le_Le _ hg)
-
 private lemma Lead.add {f g : ℕ → κ} {β : κˣ} (h : Lead v f β) (hg : g ∈ Lt v (v β)) : Lead v (f + g) β := by
   obtain ⟨c, hc, g', hg', rfl⟩ := h
   exact ⟨c, hc, g' + g, add_mem hg' hg, by rw [add_assoc]⟩
