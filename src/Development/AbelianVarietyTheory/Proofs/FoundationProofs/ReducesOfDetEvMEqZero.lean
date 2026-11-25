@@ -99,9 +99,6 @@ private lemma good_of_hasSum {G : ℍ → ℂ} {c : ℕ → ℂ}
   · have h1 : im (w + 1) ≤ 0 := by simpa using hw
     simp [ofComplex_apply_of_im_nonpos h1, ofComplex_apply_of_im_nonpos (not_lt.mp hw)]
 
-private lemma Good.mul {G H : ℍ → ℂ} (hG : Good G) (hH : Good H) : Good (G * H) :=
-  ⟨hG.1.mul hH.1, hG.2.1.mul hH.2.1, hG.2.2.mul hH.2.2⟩
-
 private lemma Good.smul {G : ℍ → ℂ} (hG : Good G) (a : ℂ) : Good (a • G) :=
   ⟨hG.1.smul a, hG.2.1.const_smul a, hG.2.2.smul a⟩
 
