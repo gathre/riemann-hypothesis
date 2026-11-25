@@ -61,11 +61,25 @@ noncomputable section
 
 namespace UpperTheory.ChernClassOfTrivializedBundle
 
+private theorem loc_bind {U : Scheme.{0}} {P Q : ∀ V : Scheme.{0}, (V ⟶ U) → Prop} (h : Loc U P)
+    (hPQ : ∀ (V : Scheme.{0}) (g : V ⟶ U), P V g → Loc V fun W k => Q W (k ≫ g)) : Loc U Q := by
+  unfold Loc at h hPQ ⊢
+  obtain ⟨S, hS, hP⟩ := h
+  have hc : ∀ (V : Scheme.{0}) (g : V ⟶ U), S.arrows g → ∃ T ∈ Scheme.etaleTopology V,
+      ∀ (W : Scheme.{0}) (k : W ⟶ V), T.arrows k → Q W (k ≫ g) := fun V g hg => hPQ V g (hP V g hg)
+  choose T hT hTQ using hc
+  refine ⟨Sieve.bind S.arrows (fun V g hg => T V g hg), Scheme.etaleTopology.bind_covering hS (fun V g hg => hT V g hg), ?_⟩
+  rintro W _ ⟨V, k, g, hg, hk, rfl⟩
+  exact hTQ V g hg W k hk
+
 section Res
 variable {R : Type} [CommRing R] {F G : Shv R}
 
 private theorem smap_neg (φ : F ⟶ G) {U : Scheme.{0}} (a : Sec F U) :
     Sec.map φ (-a) = - Sec.map φ a := map_neg (φ.hom.app (op U)).hom a
+
+private theorem sep {U : Scheme.{0}} {a b : Sec F U} (h : Loc U fun _ g => Sec.res g a = Sec.res g b) : a = b :=
+  (_root_.GlobalTheory.EtC.sec_ext_glue R F U).1 a b h
 
 private theorem glue {U : Scheme.{0}} (P : ∀ (V : Scheme.{0}) (_ : V ⟶ U), Sec F V → Prop)
     (hex : Loc U fun V g => ∃ a, P V g a)
@@ -121,8 +135,7 @@ private theorem K_pow {U : Scheme.{0}} (ζ : Prim q Γ(U, ⊤)) (Z : (Γ(U, ⊤)
 
 private theorem tau_loc {U : Scheme.{0}} (hq : IsUnit (q : Γ(U, ⊤))) (u : (Γ(U, ⊤))ˣ) (hu : u ^ q = 1) :
     Loc U fun V g => ∃ τ : Sec ((II q).X 0) V, dd q τ = 0 ∧ ∀ v, kumT q V (ur g u * v) = kumT q V v + τ := by
-  refine ClsSpec.loc_trans (ClsSpec.loc_mono
-    ((GlobalTheory.T.etaleLocal_primitiveRoot_and_roots_of_unity q U).1 hq) fun V g hζ => ?_)
+  refine loc_bind ((GlobalTheory.T.etaleLocal_primitiveRoot_and_roots_of_unity q U).1 hq) fun V g hζ => ?_
   obtain ⟨ζ⟩ := hζ
   have hu' : (↑(ur g u) : Γ(V, ⊤)) ^ q = 1 := by
     rw [← Units.val_pow_eq_pow_val, ← map_pow, hu, map_one, Units.val_one]
@@ -223,14 +236,14 @@ private theorem roots {U : Scheme.{0}} (hq : IsUnit (q : Γ(U, ⊤))) (s : (Γ(U
     Loc U fun V g => ∃ a : (Γ(V, ⊤))ˣ, a ^ q = ur g s := (GlobalTheory.T.etaleLocal_primitiveRoot_and_roots_of_unity q U).2.2.2 hq s
 
 private theorem roots2 {U : Scheme.{0}} (hq : IsUnit (q : Γ(U, ⊤))) (s t : (Γ(U, ⊤))ˣ) :
-    Loc U fun V g => ∃ a b : (Γ(V, ⊤))ˣ, a ^ q = ur g s ∧ b ^ q = ur g t :=
-  ClsSpec.loc_mono (ClsSpec.loc_and (roots hq s) (roots hq t))
-    fun _ _ ⟨⟨a, ha⟩, b, hb⟩ => ⟨a, b, ha, hb⟩
+    Loc U fun V g => ∃ a b : (Γ(V, ⊤))ˣ, a ^ q = ur g s ∧ b ^ q = ur g t := by
+  refine loc_bind (roots hq s) fun V g ⟨a, ha⟩ => _root_.GlobalTheory.TwSec.loc_mono (roots (unit_res g hq) (ur g t)) fun W k ⟨b, hb⟩ => ?_
+  exact ⟨ur k a, b, by rw [← map_pow, ha, ur_comp], by rw [hb, ur_comp]⟩
 
 private theorem roots3 {U : Scheme.{0}} (hq : IsUnit (q : Γ(U, ⊤))) (s t r : (Γ(U, ⊤))ˣ) :
-    Loc U fun V g => ∃ a b c : (Γ(V, ⊤))ˣ, a ^ q = ur g s ∧ b ^ q = ur g t ∧ c ^ q = ur g r :=
-  ClsSpec.loc_mono (ClsSpec.loc_and (roots2 hq s t) (roots hq r))
-    fun _ _ ⟨⟨a, b, ha, hb⟩, c, hc⟩ => ⟨a, b, c, ha, hb, hc⟩
+    Loc U fun V g => ∃ a b c : (Γ(V, ⊤))ˣ, a ^ q = ur g s ∧ b ^ q = ur g t ∧ c ^ q = ur g r := by
+  refine loc_bind (roots2 hq s t) fun V g ⟨a, b, ha, hb⟩ => _root_.GlobalTheory.TwSec.loc_mono (roots (unit_res g hq) (ur g r)) fun W k ⟨c, hc⟩ => ?_
+  exact ⟨ur k a, ur k b, c, by rw [← map_pow, ha, ur_comp], by rw [← map_pow, hb, ur_comp], by rw [hc, ur_comp]⟩
 
 private def Dd (q : ℕ) [NeZero q] {U : Scheme.{0}} (s : (Γ(U, ⊤))ˣ) : Sec ((II q).X 1) U :=
   pick fun D => ∀ (V : Scheme.{0}) (g : V ⟶ U) (v : (Γ(V, ⊤))ˣ), v ^ q = ur g s → Sec.res g D = dd q (kumT q V v)
@@ -271,6 +284,11 @@ private theorem Dd_nat {V U : Scheme.{0}} (g : V ⟶ U) (hq : IsUnit (q : Γ(U, 
   show Sec.res k (Sec.res g (Dd q s)) = Sec.res k (Dd q (ur g s))
   rw [← _root_.GlobalTheory.TwSec.res_comp, Dd_spec hq s W (k ≫ g) w (by rw [hw, ur_comp]), Dd_spec (unit_res g hq) (ur g s) W k w hw]
 
+private theorem dd_dd {U : Scheme.{0}} (a : Sec ((II q).X 0) U) : Sec.map ((II q).d 1 2) (dd q a) = 0 := by
+  show (((II q).d 0 1 ≫ (II q).d 1 2).hom.app (op U)).hom a = 0
+  rw [HomologicalComplex.d_comp_d]
+  rfl
+
 private theorem Dd_closed {U : Scheme.{0}} (hq : IsUnit (q : Γ(U, ⊤))) (s : (Γ(U, ⊤))ˣ) :
     Sec.map ((II q).d 1 2) (Dd q s) = 0 := by
   apply _root_.GlobalTheory.EtC.ClsSpec.sep
@@ -278,7 +296,7 @@ private theorem Dd_closed {U : Scheme.{0}} (hq : IsUnit (q : Γ(U, ⊤))) (s : (
   obtain ⟨v, hv⟩ := hv
   show Sec.res g (Sec.map _ (Dd q s)) = Sec.res g 0
   rw [← _root_.GlobalTheory.EtC.exactIff_map_res, _root_.GlobalTheory.TwSec.res_zero, Dd_spec hq s V g v hv]
-  exact ClsSpec.d_d (II q) 0 1 2 _
+  exact dd_dd _
 
 private def Ph (q : ℕ) [NeZero q] {U : Scheme.{0}} (s t : (Γ(U, ⊤))ˣ) : Sec ((II q).X 0) U :=
   pick fun D => ∀ (V : Scheme.{0}) (g : V ⟶ U) (a b : (Γ(V, ⊤))ˣ), a ^ q = ur g s → b ^ q = ur g t →
@@ -321,6 +339,46 @@ private theorem Ph_nat {V U : Scheme.{0}} (g : V ⟶ U) (hq : IsUnit (q : Γ(U, 
   rw [← _root_.GlobalTheory.TwSec.res_comp, Ph_spec hq s t W (k ≫ g) a b (by rw [ha, ur_comp]) (by rw [hb, ur_comp]),
     Ph_spec (unit_res g hq) (ur g s) (ur g t) W k a b ha hb]
 
+section Line
+variable {X : Spc} (L : X ⟶ ofCat (glCat 1))
+
+private theorem face_res {p : ℕ} {V U : Scheme.{0}} (g : V ⟶ U) (x : Sx X (p + 1) U) (i : Fin (p + 2)) :
+    (x.res g).face i = (x.face i).res g := NatTrans.naturality_apply (SimplicialObject.δ X i) g.op x
+
+private theorem face_face {p : ℕ} {U : Scheme.{0}} (x : Sx X (p + 2) U) (i i' : Fin (p + 2)) (j j' : Fin (p + 3))
+    (h : SimplexCategory.δ i ≫ SimplexCategory.δ j = SimplexCategory.δ i' ≫ SimplexCategory.δ j') :
+    (x.face j).face i = (x.face j').face i' := by
+  have e : SimplicialObject.δ X j ≫ SimplicialObject.δ X i = SimplicialObject.δ X j' ≫ SimplicialObject.δ X i' := by
+    simp only [SimplicialObject.δ, ← X.map_comp, ← op_comp, h]
+  exact ConcreteCategory.congr_hom (congr_app e (op U)) x
+
+private theorem sub0 {U : Scheme.{0}} (x : Sx X 2 U) : x.sub 0 1 (by omega) = x.face 2 := by
+  have e : SimplexCategory.subinterval (n := 2) 0 1 (by omega) = SimplexCategory.δ (n := 1) 2 := by
+    ext i; fin_cases i <;> rfl
+  simp only [Sx.sub, Sx.face, SimplicialObject.δ, e]
+
+private theorem sub1 {U : Scheme.{0}} (x : Sx X 2 U) : x.sub 1 1 (by omega) = x.face 0 := by
+  have e : SimplexCategory.subinterval (n := 2) 1 1 (by omega) = SimplexCategory.δ (n := 1) 0 := by
+    ext i; fin_cases i <;> rfl
+  simp only [Sx.sub, Sx.face, SimplicialObject.δ, e]
+
+private theorem glDet_map {A B : CommRingCat.{0}} (f : A ⟶ B) (m : GL (Fin 1) A) :
+    Matrix.GeneralLinearGroup.det (Matrix.GeneralLinearGroup.map f.hom m) =
+      Units.map f.hom.toMonoidHom (Matrix.GeneralLinearGroup.det m) := by
+  ext
+  simp [Matrix.GeneralLinearGroup.det]
+
+private theorem lineUnit_res {V U : Scheme.{0}} (g : V ⟶ U) (x : Sx X 1 U) :
+    lineUnit L (x.res g) = ur g (lineUnit L x) := by
+  have hn := NatTrans.naturality_apply (L.app (op (SimplexCategory.mk 1))) g.op x
+  unfold lineUnit Sx.res
+  rw [hn]
+  have hm : ∀ y : Sx (ofCat (glCat 1)) 1 U, glMat (ConcreteCategory.hom (((ofCat (glCat 1)).obj (op (SimplexCategory.mk 1))).map g.op) y) =
+      Matrix.GeneralLinearGroup.map g.appTop.hom (glMat y) := fun y => rfl
+  rw [hm, glDet_map]
+
+end Line
+
 section Main
 variable {X : Spc}
 
@@ -360,7 +418,7 @@ private theorem main (L : X ⟶ ofCat (glCat 1)) (w : ∀ T : Scheme.{0}, Sx X 0
   have hA1 : ∀ (V U : Scheme.{0}) (g : V ⟶ U) (x : Sx X 1 U), Sec.res g (A1 U x) = A1 V (x.res g) := by
     intro V U g x
     show Sec.res g (Ph q (lineUnit L x) (w U (x.face 0))) = Ph q (lineUnit L (x.res g)) (w V ((x.res g).face 0))
-    rw [Ph_nat g (hI U ⟨x.face 0⟩), ClsSpec.lineUnit_res, ← ClsSpec.face_res, hwn]
+    rw [Ph_nat g (hI U ⟨x.face 0⟩), lineUnit_res, face_res, hwn]
   obtain ⟨β, hβ⟩ := GlobalTheory.T.exists_cochain_ev_eq_of_natural' (ZMod q) (I := II q) (n := 1) (fam A0 A1) (fam_nat A0 A1 hA0 hA1)
   have hf0 : ∀ (U : Scheme.{0}) (x : Sx X 0 U) (h : -((0 : ℕ) : ℤ) + 1 = 1), fam A0 A1 0 1 h U x = A0 U x :=
     fun _ _ _ => rfl
@@ -385,8 +443,8 @@ private theorem main (L : X ⟶ ofCat (glCat 1)) (w : ∀ T : Scheme.{0}, Sx X 0
     show Sec.res g _ = Sec.res g _
     rw [hnat, hnat]
     have hV := unit_res g hU
-    have hv' : v ^ q = lineUnit L (x.res g) := by rw [ClsSpec.lineUnit_res, hv]
-    have ha' : a ^ q = w V ((x.res g).face 0) := by rw [← ClsSpec.face_res, hwn, ha]
+    have hv' : v ^ q = lineUnit L (x.res g) := by rw [lineUnit_res, hv]
+    have ha' : a ^ q = w V ((x.res g).face 0) := by rw [face_res, hwn, ha]
     have hb' : (v * a) ^ q = w V ((x.res g).face 1) := by rw [← hwc, mul_pow, hv', ha']
     rw [(hd V).2 0 0 1 (by omega) (by omega) (x.res g), h1 V (x.res g) v hv', hsign, one_smul, Fin.sum_univ_two]
     simp only [hβ, hf0, hf1, A0, A1, Fin.val_zero, Fin.val_one, pow_zero, pow_one, one_smul, neg_smul]
@@ -402,24 +460,20 @@ private theorem main (L : X ⟶ ofCat (glCat 1)) (w : ∀ T : Scheme.{0}, Sx X 0
     show Sec.res g _ = Sec.res g _
     rw [hnat, hnat]
     have hV := unit_res g hU
-    have hα' : α ^ q = lineUnit L ((x.res g).face 2) := by
-      rw [← ClsSpec.face_res, ClsSpec.lineUnit_res, hα]
-    have hb' : b ^ q = lineUnit L ((x.res g).face 0) := by
-      rw [← ClsSpec.face_res, ClsSpec.lineUnit_res, hb]
-    have hc' : c ^ q = w V (((x.res g).face 0).face 0) := by
-      rw [← ClsSpec.face_res, ← ClsSpec.face_res, hwn, hc]
+    have hα' : α ^ q = lineUnit L ((x.res g).face 2) := by rw [face_res, lineUnit_res, hα]
+    have hb' : b ^ q = lineUnit L ((x.res g).face 0) := by rw [face_res, lineUnit_res, hb]
+    have hc' : c ^ q = w V (((x.res g).face 0).face 0) := by rw [face_res, face_res, hwn, hc]
     have e1 : ((x.res g).face 1).face 0 = ((x.res g).face 0).face 0 :=
-      ClsSpec.face_face _ 1 0 0 0 (by ext i; fin_cases i; rfl)
+      face_face _ 0 0 1 0 (by ext i; fin_cases i; rfl)
     have e2 : ((x.res g).face 2).face 0 = ((x.res g).face 0).face 1 :=
-      ClsSpec.face_face _ 2 0 0 1 (by ext i; fin_cases i; rfl)
+      face_face _ 0 1 2 0 (by ext i; fin_cases i; rfl)
     have hαb : (α * b) ^ q = lineUnit L ((x.res g).face 1) := by rw [_root_.GlobalTheory.EtC.ClsSpec.lineUnit_face, mul_pow, hα', hb']
     have hbc : (b * c) ^ q = w V (((x.res g).face 2).face 0) := by rw [e2, ← hwc, mul_pow, hb', hc']
     have hc1 : c ^ q = w V (((x.res g).face 1).face 0) := by rw [e1, hc']
     have hz : ∀ (φ : (II q).X (-1) ⟶ (II q).X 0), Sec.map φ (0 : Sec _ V) = 0 :=
       fun φ => map_zero (φ.hom.app (op V)).hom
-    rw [(hd V).2 1 (-1) 0 (by omega) (by omega) (x.res g),
-      h2 V (x.res g) α b (by rw [ClsSpec.sub_zero_one, hα'])
-      (by rw [ClsSpec.sub_one_one, hb']), hsign, one_smul, Fin.sum_univ_three]
+    rw [(hd V).2 1 (-1) 0 (by omega) (by omega) (x.res g), h2 V (x.res g) α b (by rw [sub0, hα'])
+      (by rw [sub1, hb']), hsign, one_smul, Fin.sum_univ_three]
     simp only [hβ, hf1, hf2, hz, A1, zero_add, Fin.val_zero, Fin.val_one, Fin.val_two, pow_zero, pow_one,
       neg_one_sq, one_smul, neg_smul]
     rw [Ph_root hV hb' hc', Ph_root hV hαb hc1, Ph_root hV hα' hbc]
