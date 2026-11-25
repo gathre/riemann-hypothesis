@@ -223,7 +223,6 @@ theorem isLocalizedModule_resBasicOpen [F.IsQuasicoherent] (hU : IsAffineOpen U)
   (isQuasicoherent_restrict_fromSpec_iff F hU).mp inferInstance f
 
 
-set_option backward.isDefEq.respectTransparency false in
 theorem nonempty_presentation_Spec {R : CommRingCat.{u}} (M : (Spec R).Modules)
     [M.IsQuasicoherent] : Nonempty M.Presentation := by
   have hIso : IsIso M.fromTildeΓ := Scheme.Modules.isIso_fromTildeΓ_of_isQuasicoherent M
