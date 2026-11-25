@@ -300,7 +300,6 @@ section SpecCase
 variable {R S : CommRingCat.{u}} (φ : R ⟶ S)
 
 
-set_option backward.isDefEq.respectTransparency false in
 def pushforwardSpecΓIso :
     moduleSpecΓFunctor (R := S) ⋙ ModuleCat.restrictScalars φ.hom ≅
       Scheme.Modules.pushforward (Spec.map φ) ⋙ moduleSpecΓFunctor (R := R) :=
