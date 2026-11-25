@@ -1238,7 +1238,7 @@ theorem fg_of_selfDual (H : Sesq V) (Λ : AddSubgroup V) (hc : Countable Λ) (h�
         rw [hint _ (x + y).2 _ e.2, hint _ x.2 _ e.2, hint _ y.2 _ e.2]
         simp [altE_add_left'] }
   have hg : Function.Injective g := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    rw [injective_iff_map_eq_zero]
     intro x hx
     have h0 : ∀ e ∈ b, altE H (x : V) e = 0 := fun e he => by
       have h2 : ⌊altE H (x : V) e⌋ = 0 := congrFun hx ⟨e, he⟩
