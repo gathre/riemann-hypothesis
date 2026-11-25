@@ -43,18 +43,6 @@ import Mathlib.Topology.Sheaves.Init
 
 open NumberField Matrix GlobalTheory.CuspRep GroundTheory.Automorphic GroundTheory.Automorphic.AutomorphicForm UpperTheory.V UpperTheory.V.Fb
 
-private theorem UpperTheory.V.Fb.norm_term_le {E : Type*} [NormedField E] {n : ℕ} (g : GL (Fin n) E)
-    (σ : Equiv.Perm (Fin n)) :
-    ‖Equiv.Perm.sign σ • ∏ i, (g : Matrix (Fin n) (Fin n) E) (σ i) i‖ ≤ locHeight g ^ n := by
-  have h : ‖∏ i, (g : Matrix (Fin n) (Fin n) E) (σ i) i‖ ≤ locHeight g ^ n := by
-    rw [norm_prod]
-    calc ∏ i, ‖(g : Matrix (Fin n) (Fin n) E) (σ i) i‖ ≤ ∏ _i : Fin n, locHeight g :=
-          Finset.prod_le_prod₀ (fun _ _ => norm_nonneg _) fun i _ => norm_apply_le_locHeight g _ _
-      _ = locHeight g ^ n := by simp
-  rcases Int.units_eq_one_or (Equiv.Perm.sign σ) with e | e <;> rw [e]
-  · rwa [one_smul]
-  · rwa [Units.neg_smul, one_smul, norm_neg]
-
 private theorem UpperTheory.V.Fb.norm_det_le_arch {E : Type*} [NormedField E] {n : ℕ} (g : GL (Fin n) E) :
     ‖(g : Matrix (Fin n) (Fin n) E).det‖ ≤ n.factorial * locHeight g ^ n := by
   rw [Matrix.det_apply]
