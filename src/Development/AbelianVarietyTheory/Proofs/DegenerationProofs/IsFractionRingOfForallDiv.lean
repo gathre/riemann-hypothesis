@@ -289,7 +289,6 @@ noncomputable section
 
 namespace GlobalTheory.GenSpread.ClosedFac
 
-set_option backward.isDefEq.respectTransparency false
 
 variable {R : Type} [CommRing R]
 
