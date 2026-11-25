@@ -545,13 +545,6 @@ section
 variable {n : ℕ} {A ι : Type} [CommRing A] [Fintype ι] [DecidableEq ι] (E : ι → Type) [∀ i, Ring (E i)]
   [∀ i, Algebra A (E i)]
 
-private theorem UpperTheory.V.CA.prod_piRight_apply (S : Type) [CommRing S] [Algebra A S] (y : S ⊗[A] (∀ i, E i)) (i : ι) :
-    Algebra.TensorProduct.piRight A S S E y i =
-      Algebra.TensorProduct.map (AlgHom.id S S) (Pi.evalAlgHom A E i) y := by
-  induction y with
-  | tmul s y => simp
-  | add a b ha hb => simp only [map_add (f := _), Pi.add_apply, ha, hb]
-
 private theorem UpperTheory.V.CA.prod_piRight_map (S T : Type) [CommRing S] [Algebra A S] [CommRing T] [Algebra A T]
     (f : S →ₐ[A] T) (y : S ⊗[A] (∀ i, E i)) (i : ι) :
     Algebra.TensorProduct.piRight A T T E (Algebra.TensorProduct.map f (AlgHom.id A _) y) i =
