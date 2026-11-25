@@ -66,7 +66,6 @@ noncomputable section
 
 namespace GlobalTheory.GenSpread
 
-set_option backward.isDefEq.respectTransparency false
 
 theorem map_linComb_pts {S S' : Scheme.{0}} {G : Over S} {G' : Over S'} [GrpObj G] [GrpObj G'] {T : Over S}
     {T' : Over S'} (ρ : (T' ⟶ G') →* (T ⟶ G)) {n : ℕ} (x : Fin n → (T' ⟶ G')) (a : Fin n → ℕ) :
