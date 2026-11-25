@@ -73,7 +73,6 @@ local notation "OO" p:max => (Valuation.valuationSubring (Valued.v : Valuation (
 local notation "cPt" p:max => (IsLocalRing.closedPoint (OO p) : Sp (OO p))
 local notation "gPt" p:max => spMap (ValuationSubring.subtype (OO p))
 
-set_option backward.isDefEq.respectTransparency false
 
 namespace GlobalTheory
 
