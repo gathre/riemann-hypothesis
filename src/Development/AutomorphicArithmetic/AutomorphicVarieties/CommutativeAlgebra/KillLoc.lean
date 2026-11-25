@@ -90,10 +90,6 @@ private theorem MC_iff {f : Γ → Matrix ι ι R} : MC I f ↔ ∀ a b, AdicCon
     ext a b
     exact hy a b
 
-private theorem MC.mul {f g : Γ → Matrix ι ι R} (hf : MC I f) (hg : MC I g) : MC I fun x => f x * g x := fun n => by
-  simp only [map_mul]
-  exact (hf n).mul (hg n)
-
 private theorem MC.sub {f g : Γ → Matrix ι ι R} (hf : MC I f) (hg : MC I g) : MC I fun x => f x - g x := fun n => by
   simp only [map_sub]
   exact (hf n).sub (hg n)
