@@ -206,7 +206,7 @@ theorem δ_surjective_of_subsingleton (n : ℕ) (U : C)
 
 theorem δ_injective_of_subsingleton (n : ℕ) (U : C)
     (h : Subsingleton (Sheaf.H'.{w'} S.X₂ n U)) : Function.Injective (δ.{w'} hS n U) := by
-  set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+  rw [injective_iff_map_eq_zero]
   intro x hx
   obtain ⟨y, rfl⟩ := ((exact₃ hS n U) x).1 hx
   rw [Subsingleton.elim y 0, map_zero]
