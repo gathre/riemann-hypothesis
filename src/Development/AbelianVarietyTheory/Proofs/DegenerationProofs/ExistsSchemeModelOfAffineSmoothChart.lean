@@ -52,7 +52,6 @@ open GlobalTheory.SS
 
 namespace GlobalTheory.ChartModel
 
-set_option backward.isDefEq.respectTransparency false
 
 noncomputable def twoCover {X U V : Scheme.{0}} (u : U ⟶ X) (v : V ⟶ X) [IsOpenImmersion u] [IsOpenImmersion v]
     (hc : ∀ x : X, x ∈ Set.range u ∨ x ∈ Set.range v) : X.OpenCover :=
