@@ -55,7 +55,6 @@ open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.S
 open GlobalTheory.ZH ReciprocityTheory.ChartRestriction.G.Out Classical
 attribute [local instance] Over.cartesianMonoidalCategory
 
-set_option backward.isDefEq.respectTransparency false
 
 namespace GlobalTheory.GenericExtend
 
