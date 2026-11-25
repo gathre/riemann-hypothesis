@@ -362,7 +362,6 @@ theorem card_fibre_le (ST SG : Finset (HeightOneSpectrum (𝓞 E))) (N : Submodu
   rw [Finset.prod_coe_sort ST (fun P => Ideal.absNorm P.asIdeal ^ n),
     Finset.prod_coe_sort SG (fun P => Ideal.absNorm P.asIdeal ^ (n ^ 2))]
 
-set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in
 theorem card_classes_le : ∀ (X : Fields), X.Ok → ∀ (n : ℕ) (ST SG : Finset (HeightOneSpectrum (𝓞 X.E))), Finite (MulAction.orbitRel.Quotient ((⊤ : Subgroup (UF X.E n)).prod (⊥ : Subgroup (GLG (E := X.E) (n := n) (SG := SG)))) (DecoSet (E := X.E) (n := n) (ST := ST) (SG := SG))) ∧ (Nat.card (MulAction.orbitRel.Quotient ((⊤ : Subgroup (UF X.E n)).prod (⊥ : Subgroup (GLG (E := X.E) (n := n) (SG := SG)))) (DecoSet (E := X.E) (n := n) (ST := ST) (SG := SG))) : ℝ) ≤ (3 * ((Module.finrank ℚ X.E : ℝ) ^ 2 * (n : ℝ) ^ 4 * (|(discr X.E : ℝ)| ^ ((1 : ℝ) / (Module.finrank ℚ X.E : ℝ))) ^ 2)) ^ (3 * Module.finrank ℚ X.E * n ^ 2) * (∏ P ∈ ST, (Ideal.absNorm P.asIdeal : ℝ) ^ n) * ∏ w ∈ SG, (Ideal.absNorm w.asIdeal : ℝ) ^ (n ^ 2) := by
   intro X hX n ST SG
   classical
