@@ -110,7 +110,7 @@ theorem bijective_algebraMap_of_subsingleton_algHom {R A : Type*} [CommRing R] [
       ∃ σ : A →ₐ[R] L, RingHom.ker σ = Q := by
     intro Q hQ hQ0
     have hinj : Function.Injective (algebraMap R (A ⧸ Q)) := by
-      set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+      rw [injective_iff_map_eq_zero]
       intro r hr
       have : r ∈ Q.comap (algebraMap R A) := by
         rw [Ideal.mem_comap, ← Ideal.Quotient.eq_zero_iff_mem]
