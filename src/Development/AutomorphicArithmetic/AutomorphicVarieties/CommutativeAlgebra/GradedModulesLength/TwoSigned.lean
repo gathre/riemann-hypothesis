@@ -99,25 +99,6 @@ section -- clump:auto
 
 open IsLocalRing Filter Formalism.MainNotions.V.Pf.V2.Calc UpperTheory.V.Alg UpperTheory.V.Alg.M
 
-private theorem UpperTheory.V.Alg.M.kill_comp {B ι M : Type} [CommRing B] [AddCommGroup M] [Module B M]
-    {G H : ι → Submodule B M} (hle : ∀ i, G i ≤ H i) (hind : iSupIndep H) (i : ι) {x : M}
-    (hx : x ∈ H i) (hx' : x ∈ ⨆ j, G j) : x ∈ G i := by
-  classical
-  have h2 : (⨆ j, G j) ≤ G i ⊔ ⨆ (j) (_ : j ≠ i), G j := iSup_le fun j => by
-    by_cases h : j = i
-    · subst h; exact le_sup_left
-    · exact le_sup_of_le_right (le_iSup₂_of_le j h le_rfl)
-  obtain ⟨g, hg, y, hy, rfl⟩ := Submodule.mem_sup.1 (h2 hx')
-  have h2 : y ∈ ⨆ (j) (_ : j ≠ i), H j := (iSup₂_mono fun j _ => hle j) hy
-  have h3 : y ∈ H i := by
-    have := (H i).sub_mem hx (hle i hg)
-    simpa using this
-  have h4 : y = 0 := by
-    have := (hind i).le_bot ⟨h3, h2⟩
-    simpa using this
-  rw [h4, add_zero]
-  exact hg
-
 theorem UpperTheory.V.Alg.M.kill_holds :
     ∀ (k : ℕ) (X : HidaSetting k) (F : X.Mod), F.IsGr X.𝒜 → ∀ (J J' : Ideal X.B) (n : ℕ),
       (J.map (algebraMap X.B X.R) * Irr X.𝒜) ^ n ≤ F.Ann ⊔ J'.map (algebraMap X.B X.R) →
