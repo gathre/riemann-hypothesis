@@ -308,7 +308,6 @@ open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj Alg
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
 open GlobalTheory.ZH GlobalTheory.ZH.FrameNorm
 
-set_option backward.isDefEq.respectTransparency false
 
 noncomputable section
 namespace GlobalTheory.ZH.FrameNorm
