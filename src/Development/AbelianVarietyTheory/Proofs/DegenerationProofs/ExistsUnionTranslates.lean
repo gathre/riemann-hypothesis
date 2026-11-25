@@ -84,7 +84,6 @@ open GlobalTheory.SS
 
 namespace GlobalTheory.SS.GlueCompat
 
-set_option backward.isDefEq.respectTransparency false
 
 noncomputable def coverTwo {X U V : Scheme.{0}} (u : U ⟶ X) (v : V ⟶ X) [IsOpenImmersion u] [IsOpenImmersion v]
     (hc : ∀ x : X, x ∈ Set.range u ∨ x ∈ Set.range v) : X.OpenCover :=
