@@ -186,11 +186,6 @@ private def el {S : Type} [CommRing S] (c : G → S) : MonoidAlgebra S G := ∑ 
 private theorem el_coeff {S : Type} [CommRing S] (c : G → S) (g : G) : (el c).coeff g = c g := by
   simp [el, Finsupp.single_apply]
 
-private theorem PRep.el {D : GDet n A G} {P : MvPolynomial G A} (h : PRep D P) {S : Type} [CommRing S] [Algebra A S]
-    (c : G → S) : D.D S (el c) = MvPolynomial.aeval c P := by
-  rw [h]
-  simp only [el_coeff]
-
 private theorem ex_rep (D : GDet n A G) : ∃ P, PRep D P := by
   refine ⟨D.D (MvPolynomial G A) (el MvPolynomial.X), ?_⟩
   intro S _ _ y
