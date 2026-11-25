@@ -57,7 +57,6 @@ open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.S
 
 namespace GlobalTheory.GlueModels
 
-set_option backward.isDefEq.respectTransparency false
 
 theorem exists_glue {X U V W Y : Scheme.{0}} {u : U ⟶ X} {v : V ⟶ X} {p : W ⟶ U} {q : W ⟶ V}
     [IsOpenImmersion u] [IsOpenImmersion v] (h : IsPullback p q u v)
