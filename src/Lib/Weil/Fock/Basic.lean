@@ -116,6 +116,7 @@ def holomorphicCoord : (ι → ℂ) →L[ℝ] ι → ℂ :=
   (1 +
     mulVecBilin ℝ ℝ (posProj ε) * ((starL' ℝ).toLinearEquiv.toLinearMap - 1)).toContinuousLinearMap
 
+/-- Characterization of the holomorphic coordinate map on index components. -/
 lemma holomorphicCoord_eq : holomorphicCoord ε x = fun i : ι ↦
   if ε i = 1 then star x i else x i := by
   aesop (add simp [holomorphicCoord, posProj]) (add simp mulVec_diagonal)
@@ -172,10 +173,12 @@ namespace New.Fock
 
 variable {ι : Type*} [Fintype ι] [DecidableEq ι] {ε : ι → ℤˣ} (u : USign ε)
 
+/-- The positive projection operator `posProj ε` is idempotent under matrix multiplication. -/
 lemma posProj_mul_posProj : posProj ε * posProj ε = posProj ε := by
   simp [posProj]
 
 omit [Fintype ι] in
+/-- The positive projection operator `posProj ε` is self-adjoint under conjugate transpose. -/
 lemma conjTranspose_posProj : (posProj ε)ᴴ = posProj ε := by
   simp [posProj]
 
