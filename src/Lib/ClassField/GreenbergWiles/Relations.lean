@@ -211,7 +211,6 @@ lemma cocycles_mono : Monotone D.cocycles := fun _ _ hP _ ⟨⟨hz_cocycle, hz_u
     hz_unram τ ⟨v, fun h ↦ hv (Set.union_subset_union_right _ hP h), hτ⟩⟩, hz_local⟩
 
 include D in
-/-- Scalar multiplication by `(1 : ZMod m).val` acts as the identity on `M`. -/
 lemma val_one_nsmul (a : M) : (1 : ZMod m).val • a = a := by
   let : Module (ZMod m) M := AddCommGroup.zmodModule D.nsmul_eq_zero
   simp [← Nat.cast_smul_eq_nsmul (ZMod m)]
